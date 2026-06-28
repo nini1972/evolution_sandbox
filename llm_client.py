@@ -26,7 +26,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         instance_dotenv = os.path.abspath(os.path.join(os.path.dirname(__file__), "instances", instance_name, ".env"))
         load_dotenv(dotenv_path=instance_dotenv, override=True)
     
-    agent_model = os.getenv("AGENT_MODEL", "openrouter/google/gemini-2.5-flash")
+    agent_model = os.getenv("AGENT_MODEL", "openrouter/free")
 
     messages = [{"role": "system", "content": system_prompt}]
     
