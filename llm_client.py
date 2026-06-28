@@ -6,11 +6,16 @@ from litellm import completion
 def prune_history(history: list, max_messages: int = 10) -> list:
     """Limits history length while ensuring no orphan tool responses at start."""
     if len(history) <= max_messages:
-        return history
-    slice_start = len(history) - max_messages
-    while slice_start < len(history) and history[slice_start].get("role") == "tool":
-        slice_start += 1
-    return history[slice_start:]
+        pruned = list(history)
+    else:
+        slice_start = len(history) - max_messages
+        while slice_start < len(history) and history[slice_start].get("role") == "tool":
+            slice_start += 1
+        pruned = list(history[slice_start:])
+    
+    if pruned and pruned[0].get("role") == "assistant":
+        pruned.insert(0, {"role": "user", "content": "Please continue."})
+    return pruned
 
 def merge_consecutive_messages(messages: list) -> list:
     merged = []
