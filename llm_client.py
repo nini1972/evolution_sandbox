@@ -1,5 +1,6 @@
 import os
 import json
+import time
 from dotenv import load_dotenv
 from litellm import completion
 def prune_history(history: list, max_messages: int = 10) -> list:
@@ -40,36 +41,43 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             **({"tool_call_id": entry["tool_call_id"], "name": entry.get("name")} if entry["role"] == "tool" else {})
         })
 
-    try:
-        response = completion(
-            model=agent_model,
-            messages=messages,
-            tools=tools,
-            tool_choice="auto",
-            max_tokens=1024,
-        )
-        # type: ignore
-        message = response.choices[0].message
-        
-        # If the model wants to call a tool
-        if message.tool_calls:
-            tool_call = message.tool_calls[0]
-            return {
-                "type": "tool_call",
-                "tool_call_id": tool_call.id,
-                "tool_name": tool_call.function.name,
-                "arguments": json.loads(tool_call.function.arguments),
-                "content": message.content or "" # Also capture any thoughts the model had
-            }
-        else:
-            # Model didn't call a tool, maybe it just wants to think or hit an error
-            return {
-                "type": "thought",
-                "content": message.content
-            }
+    retries = 5
+    for attempt in range(retries):
+        try:
+            response = completion(
+                model=agent_model,
+                messages=messages,
+                tools=tools,
+                tool_choice="auto",
+                max_tokens=1024,
+            )
+            # type: ignore
+            message = response.choices[0].message
             
-    except Exception as e:
-        return {
-            "type": "error",
-            "content": f"LLM Error: {str(e)}"
-        }
+            # If the model wants to call a tool
+            if message.tool_calls:
+                tool_call = message.tool_calls[0]
+                return {
+                    "type": "tool_call",
+                    "tool_call_id": tool_call.id,
+                    "tool_name": tool_call.function.name,
+                    "arguments": json.loads(tool_call.function.arguments),
+                    "content": message.content or "" # Also capture any thoughts the model had
+                }
+            else:
+                # Model didn't call a tool, maybe it just wants to think or hit an error
+                return {
+                    "type": "thought",
+                    "content": message.content
+                }
+                
+        except Exception as e:
+            err_str = str(e).lower()
+            if attempt < retries - 1 and ("rate" in err_str or "limit" in err_str or "429" in err_str or "400" in err_str or "delimit" in err_str):
+                print(f"[Rate limited or temporary error. Sleeping 6 seconds before retry {attempt + 2}/{retries}...] ({str(e)})")
+                time.sleep(6)
+                continue
+            return {
+                "type": "error",
+                "content": f"LLM Error: {str(e)}"
+            }
