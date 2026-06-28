@@ -2,7 +2,7 @@ import os
 import json
 from dotenv import load_dotenv
 from litellm import completion
-def prune_history(history: list, max_messages: int = 30) -> list:
+def prune_history(history: list, max_messages: int = 10) -> list:
     """Limits history length while ensuring no orphan tool responses at start."""
     if len(history) <= max_messages:
         return history
