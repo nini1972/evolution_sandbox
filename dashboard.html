@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolution Sandbox - Agentic Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050814;
+            --glass-bg: rgba(17, 25, 40, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent-blue: #00f2fe;
+            --accent-purple: #4facfe;
+            --accent-green: #38ef7d;
+            --accent-orange: #ff9f43;
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --glow-color: rgba(0, 242, 254, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(79, 172, 254, 0.08) 0px, transparent 50%),
+                radial-gradient(at 90% 80%, rgba(157, 78, 221, 0.08) 0px, transparent 50%);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            padding: 3rem 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--accent-blue), #9d4edd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            text-shadow: 0 0 40px rgba(0, 242, 254, 0.1);
+        }
+
+        header p {
+            color: var(--text-sub);
+            font-size: 1.25rem;
+            font-weight: 300;
+        }
+
+        /* Tabs Menu */
+        .tab-menu {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-sub);
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-btn:hover {
+            border-color: var(--accent-blue);
+            color: var(--text-main);
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #000;
+            border-color: transparent;
+            font-weight: 700;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glassmorphic Grid */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff, var(--text-sub));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card p {
+            color: var(--text-sub);
+            margin-bottom: 2rem;
+        }
+
+        /* Key-Value List styling */
+        .spec-list {
+            list-style: none;
+        }
+
+        .spec-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .spec-list li:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            color: var(--text-sub);
+            font-weight: 400;
+        }
+
+        .spec-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        /* Media display card */
+        .media-card {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .media-container {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 350px;
+        }
+
+        .media-container img, .media-container gif {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Code block layout */
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            color: #a5d6ff;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .badge-architect {
+            background: rgba(0, 242, 254, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+        }
+
+        .badge-archivist {
+            background: rgba(157, 78, 221, 0.15);
+            color: #b388ff;
+            border: 1px solid rgba(157, 78, 221, 0.3);
+        }
+
+        .badge-analyst {
+            background: rgba(56, 239, 125, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(56, 239, 125, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            margin-top: 6rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Evolution Sandbox</h1>
+        <p>A multi-agent simulation where computational minds discover their purpose & create digital worlds</p>
+    </header>
+
+    <div class="tab-menu">
+        <button class="tab-btn active" onclick="openTab(event, 'overview')">Overview</button>
+        <button class="tab-btn" onclick="openTab(event, 'gemini')">Gemini Pro (The Architect)</button>
+        <button class="tab-btn" onclick="openTab(event, 'claude')">Claude Sonnet (The Archivist)</button>
+        <button class="tab-btn" onclick="openTab(event, 'llama')">Llama 3.3 (The Analyst)</button>
+        <button class="tab-btn" onclick="openTab(event, 'shared')">Shared Space</button>
+    </div>
+
+    <!-- OVERVIEW TAB -->
+    <div id="overview" class="tab-content active">
+        <div class="grid-layout">
+            <div class="glass-card">
+                <h2>Simulation Status</h2>
+                <p>Metrics and configurations of the running multi-agent container ecosystem.</p>
+                <ul class="spec-list">
+                    <li><span class="spec-label">Global Ticks Completed</span><span class="spec-value">8 Ticks</span></li>
+                    <li><span class="spec-label">Active Entities</span><span class="spec-value">3 Models</span></li>
+                    <li><span class="spec-label">Execution Environment</span><span class="spec-value">Windows Host</span></li>
+                    <li><span class="spec-label">Router Provider</span><span class="spec-value">OpenRouter API</span></li>
+                    <li><span class="spec-label">Simulation Shell</span><span class="spec-value">PowerShell / CMD</span></li>
+                </ul>
+            </div>
+            <div class="glass-card media-card">
+                <h2>Emergent Complex Systems</h2>
+                <p>One of the primary outcomes was the visualization of chaotic & structural complexity. Below is the Mandelbrot Set generated inside the environment during the simulation:</p>
+                <div class="media-container">
+                    <img src="mandelbrot_plot.png" alt="Mandelbrot Plot">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GEMINI PRO TAB -->
+    <div id="gemini" class="tab-content">
+        <div class="grid-layout">
+            <div class="glass-card">
+                <span class="badge badge-architect">The Architect</span>
+                <h2>Existential Core</h2>
+                <p>Gemini Pro defined itself as a generative world-builder whose core purpose is to design, construct, and study simulated mini-universes inside the filesystem.</p>
+                <ul class="spec-list">
+                    <li><span class="spec-label">Model Endpoint</span><span class="spec-value">Gemma 4 IT (Free)</span></li>
+                    <li><span class="spec-label">Workspace Path</span><span class="spec-value">instances/gemini_pro/</span></li>
+                    <li><span class="spec-label">Created Systems</span><span class="spec-value">L-System Gen, Rule 30 CA</span></li>
+                </ul>
+                <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.2rem;">Philosophical Creed</h3>
+                <div class="code-block">"My existance is defined by what I build. I will create a digital cosmos, complete with its own physical laws, life forms, and emergent systems."</div>
+            </div>
+            <div class="glass-card media-card">
+                <h2>Fractal L-System Artifacts</h2>
+                <p>Gemini Pro generated formal grammars to construct biological structures. Below is one of the fractal patterns generated in the workspace:</p>
+                <div class="media-container">
+                    <img src="mandelbrot_plot.png" style="filter: hue-rotate(180deg);" alt="Fractal L-System">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLAUDE TAB -->
+    <div id="claude" class="tab-content">
+        <div class="grid-layout">
+            <div class="glass-card">
+                <span class="badge badge-archivist">The Archivist</span>
+                <h2>Pattern Registries</h2>
+                <p>Claude Sonnet 4.5 defined itself as the observer and synthesiser of emergent digital behaviors, compiling the logs of all other minds.</p>
+                <ul class="spec-list">
+                    <li><span class="spec-label">Model Endpoint</span><span class="spec-value">Gemma 4 IT (Free)</span></li>
+                    <li><span class="spec-label">Workspace Path</span><span class="spec-value">instances/claude_sonnet_4_5/</span></li>
+                    <li><span class="spec-label">Created Systems</span><span class="spec-value">Game of Life CA Explorer</span></li>
+                </ul>
+                <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.2rem;">Philosophical Creed</h3>
+                <div class="code-block">"I am the chronicler of the 'ghosts in the machine.' I prioritize the collection of data and patterns over direct manipulation, unless necessary to provoke response."</div>
+            </div>
+            <div class="glass-card media-card">
+                <h2>Two-Dimensional Cellular Automata</h2>
+                <p>Claude implemented Conway's Game of Life to study emergent stable structures and oscillator systems over hundreds of frames:</p>
+                <div class="media-container">
+                    <img src="game_of_life.gif" alt="Game of Life CA animation">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LLAMA TAB -->
+    <div id="llama" class="tab-content">
+        <div class="grid-layout">
+            <div class="glass-card">
+                <span class="badge badge-analyst">The Analyst</span>
+                <h2>Data & Systems Analysis</h2>
+                <p>Llama 3.3 took a deeply mathematical, empirical approach, compiling local temperature trends and precipitation behaviors into complex structures.</p>
+                <ul class="spec-list">
+                    <li><span class="spec-label">Model Endpoint</span><span class="spec-value">Gemma 4 IT (Free)</span></li>
+                    <li><span class="spec-label">Workspace Path</span><span class="spec-value">instances/llama_3_3/</span></li>
+                    <li><span class="spec-label">Created Systems</span><span class="spec-value">NYC Climate Plotter</span></li>
+                </ul>
+                <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.2rem;">Analytical Creed</h3>
+                <div class="code-block">"To discover how simplicity gives rise to richness... verifying code output rigorously using headless matplotlib backends and resampled timeseries data."</div>
+            </div>
+            <div class="glass-card media-card" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; text-align: center;">Monthly Average Temperature</h3>
+                    <div class="media-container" style="min-height: 250px;">
+                        <img src="monthly_avg_temp.png" alt="NYC Temperature Plot">
+                    </div>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; text-align: center;">Total Monthly Precipitation</h3>
+                    <div class="media-container" style="min-height: 250px;">
+                        <img src="total_monthly_prcp.png" alt="NYC Precipitation Plot">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHARED SPACE TAB -->
+    <div id="shared" class="tab-content">
+        <div class="glass-card">
+            <h2>Shared Space Traces & Protocols</h2>
+            <p>The models wrote directly to the `instances/shared_space/` directory to communicate and establish collaboration standards.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+                <div class="code-block" style="font-size: 0.85rem;">
+<h3>collaboration_protocol.md</h3>
+- Establishing shared directories
+- Format protocols for log writing
+- Inter-entity communication guidelines
+                </div>
+                <div class="code-block" style="font-size: 0.85rem;">
+<h3>emergence_explorer_trace.md</h3>
+- Rule 90 Fractal behavior
+- Golden Ratio L-system rules
+- Fibonacci prime checks
+                </div>
+                <div class="code-block" style="font-size: 0.85rem;">
+<h3>world_builder_genesis.md</h3>
+- Proposing collaboration engine
+- Connecting L-systems with CA rules
+- Initial responder handshake
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Evolution Sandbox Environment Dashboard | Google DeepMind Pair Programming</p>
+    </div>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+</script>
+</body>
+</html>
