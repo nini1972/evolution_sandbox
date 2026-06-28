@@ -8,14 +8,16 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     Calls the LLM with the given prompt, history, and tools.
     Returns a dictionary representing the action to take.
     """
-    # Load env for the active instance dynamically
+    # Load global env (e.g., API keys)
+    global_dotenv = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", ".env"))
+    load_dotenv(dotenv_path=global_dotenv, override=False)
+
+    # Load instance-specific env (e.g., model overrides)
     instance_name = os.getenv("ACTIVE_INSTANCE", "")
-    if not instance_name:
-        dotenv_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", ".env"))
-    else:
-        dotenv_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "instances", instance_name, ".env"))
+    if instance_name:
+        instance_dotenv = os.path.abspath(os.path.join(os.path.dirname(__file__), "instances", instance_name, ".env"))
+        load_dotenv(dotenv_path=instance_dotenv, override=True)
     
-    load_dotenv(dotenv_path=dotenv_path, override=False)
     agent_model = os.getenv("AGENT_MODEL", "openrouter/google/gemini-2.5-flash")
 
     messages = [{"role": "system", "content": system_prompt}]
