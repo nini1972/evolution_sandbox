@@ -12,6 +12,30 @@ def prune_history(history: list, max_messages: int = 10) -> list:
         slice_start += 1
     return history[slice_start:]
 
+def merge_consecutive_messages(messages: list) -> list:
+    merged = []
+    for msg in messages:
+        if not merged:
+            merged.append(msg)
+            continue
+        prev = merged[-1]
+        if msg["role"] == prev["role"] and msg["role"] in ("assistant", "user"):
+            if msg.get("content"):
+                if prev.get("content"):
+                    prev["content"] = prev["content"] + "\n\n" + msg["content"]
+                else:
+                    prev["content"] = msg["content"]
+            if "tool_calls" in msg and msg["tool_calls"]:
+                if "tool_calls" not in prev:
+                    prev["tool_calls"] = []
+                existing_ids = {tc.get("id") for tc in prev["tool_calls"]}
+                for tc in msg["tool_calls"]:
+                    if tc.get("id") not in existing_ids:
+                        prev["tool_calls"].append(tc)
+        else:
+            merged.append(msg)
+    return merged
+
 def generate_next_action(system_prompt: str, history: list, tools: list) -> dict:
     """
     Calls the LLM with the given prompt, history, and tools.
@@ -61,6 +85,8 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             msg["tool_call_id"] = entry["tool_call_id"]
             msg["name"] = entry.get("name")
         messages.append(msg)
+
+    messages = merge_consecutive_messages(messages)
 
     retries = 5
     for attempt in range(retries):
