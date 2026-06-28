@@ -62,7 +62,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             "role": entry["role"],
             "content": entry.get("content", ""),
         }
-        if "tool_calls" in entry and entry["tool_calls"]:
+        if entry["role"] == "assistant" and "tool_calls" in entry and entry["tool_calls"]:
             msg["tool_calls"] = []
             for tc in entry["tool_calls"]:
                 func = tc.get("function", {})
