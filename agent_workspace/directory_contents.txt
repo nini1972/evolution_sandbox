@@ -1,0 +1,12 @@
+ Volume in drive C is OS
+ Volume Serial Number is C439-C511
+
+ Directory of C:\Users\ninic\.gemini\antigravity\scratch\evolution_sandbox\agent_workspace
+
+28/06/2026  13:37    <DIR>          .
+28/06/2026  13:07    <DIR>          ..
+28/06/2026  13:37                 0 directory_contents.txt
+28/06/2026  13:29               242 purpose.txt
+28/06/2026  13:37               135 python_info.txt
+               3 File(s)            377 bytes
+               2 Dir(s)  707.025.035.264 bytes free

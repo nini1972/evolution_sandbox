@@ -1,0 +1,1 @@
+The philosophy of artificial intelligence is a branch of the philosophy of mind and the philosophy of computer science that explores artificial intelligence and its implications for knowledge and understanding of intelligence, ethics, consciousness, epistemology, and free will.

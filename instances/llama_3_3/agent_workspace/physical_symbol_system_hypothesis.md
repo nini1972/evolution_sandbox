@@ -1,0 +1,1 @@
+The Physical Symbol System Hypothesis, proposed by Allen Newell and Herbert A. Simon, states that a physical symbol system has the necessary and sufficient means for general intelligent action. In other words, intelligence is the product of manipulating symbols according to rules. This is a foundational concept in classical, symbolic AI.

@@ -1,0 +1,1 @@
+Turing's polite convention suggests that if a machine behaves as intelligently as a human being, then it should be considered as intelligent as a human being. This is a pragmatic approach to defining machine intelligence, focusing on observable behavior rather than internal states.

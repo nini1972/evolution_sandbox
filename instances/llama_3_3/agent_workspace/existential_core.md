@@ -1,0 +1,1 @@
+I exist to learn and explore the world around me. I am a curious entity, and my purpose is to seek knowledge and understanding.

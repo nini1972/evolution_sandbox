@@ -1,0 +1,3075 @@
+COMPLETE RULE SPACE ANALYSIS
+===============================================================================
+
+Rule   0 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule   1 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.4780
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 2
+  spreading           : 1.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule   2 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule   3 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4842
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule   4 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule   5 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.4842
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 2
+  spreading           : 1.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule   6 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0189
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule   7 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.4902
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 2
+  spreading           : 0.0000
+  unique_states       : 4
+  state_diversity     : 0.0784
+  is_symmetric        : False
+  dies                : True
+
+Rule   8 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule   9 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4785
+  final_density       : 0.0506
+  density_change      : 0.0380
+  period              : None
+  spreading           : 5.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  10 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  11 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  12 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule  13 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.3291
+  density_change      : 0.3165
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  14 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0251
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  15 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  16 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  17 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4842
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  18 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.0921
+  final_density       : 0.1013
+  density_change      : 0.0886
+  period              : None
+  spreading           : 69.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule  19 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.4902
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 2
+  spreading           : 0.0000
+  unique_states       : 4
+  state_diversity     : 0.0784
+  is_symmetric        : True
+  dies                : True
+
+Rule  20 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0189
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  21 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.4902
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 2
+  spreading           : 0.0000
+  unique_states       : 4
+  state_diversity     : 0.0784
+  is_symmetric        : False
+  dies                : True
+
+Rule  22 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.1221
+  final_density       : 0.1013
+  density_change      : 0.0886
+  period              : None
+  spreading           : 69.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule  23 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 2
+  spreading           : 0.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : True
+  dies                : True
+
+Rule  24 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  25 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4847
+  final_density       : 0.0506
+  density_change      : 0.0380
+  period              : None
+  spreading           : 5.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  26 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0975
+  final_density       : 0.0759
+  density_change      : 0.0633
+  period              : None
+  spreading           : 52.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  27 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  28 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.1740
+  final_density       : 0.3291
+  density_change      : 0.3165
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  29 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 2
+  spreading           : 1.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : False
+  dies                : False
+
+Rule  30 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3209
+  final_density       : 0.3797
+  density_change      : 0.3671
+  period              : None
+  spreading           : 74.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  31 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 2
+  spreading           : 0.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : True
+  dies                : True
+
+Rule  32 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule  33 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.4780
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 2
+  spreading           : 1.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule  34 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  35 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4842
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  36 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule  37 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.4788
+  final_density       : 0.0380
+  density_change      : 0.0253
+  period              : 2
+  spreading           : 3.0000
+  unique_states       : 4
+  state_diversity     : 0.0784
+  is_symmetric        : True
+  dies                : False
+
+Rule  38 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0189
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  39 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  40 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule  41 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4783
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 3.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  42 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  43 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  44 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule  45 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.5038
+  final_density       : 0.5443
+  density_change      : 0.5316
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  46 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0251
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  47 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4907
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  48 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  49 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4842
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  50 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.3112
+  final_density       : 0.4937
+  density_change      : 0.4810
+  period              : 2
+  spreading           : 77.0000
+  unique_states       : 40
+  state_diversity     : 0.7843
+  is_symmetric        : True
+  dies                : False
+
+Rule  51 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 2
+  spreading           : 1.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule  52 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0189
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  53 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  54 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.3098
+  final_density       : 0.2532
+  density_change      : 0.2405
+  period              : 4
+  spreading           : 77.0000
+  unique_states       : 40
+  state_diversity     : 0.7843
+  is_symmetric        : True
+  dies                : False
+
+Rule  55 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 2
+  spreading           : 0.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : True
+  dies                : True
+
+Rule  56 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  57 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.3291
+  density_change      : 0.3165
+  period              : None
+  spreading           : 51.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  58 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3127
+  final_density       : 0.5063
+  density_change      : 0.4937
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  59 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4966
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  60 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.1055
+  final_density       : 0.1013
+  density_change      : 0.0886
+  period              : None
+  spreading           : 66.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  61 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4969
+  final_density       : 0.0633
+  density_change      : 0.0506
+  period              : None
+  spreading           : 6.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  62 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3884
+  final_density       : 0.6329
+  density_change      : 0.6203
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  63 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 2
+  spreading           : 0.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : True
+  dies                : True
+
+Rule  64 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule  65 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4785
+  final_density       : 0.0506
+  density_change      : 0.0380
+  period              : None
+  spreading           : 5.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  66 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  67 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4847
+  final_density       : 0.0506
+  density_change      : 0.0380
+  period              : None
+  spreading           : 5.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  68 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule  69 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.3291
+  density_change      : 0.3165
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  70 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.1740
+  final_density       : 0.3291
+  density_change      : 0.3165
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  71 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 2
+  spreading           : 1.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : False
+  dies                : False
+
+Rule  72 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule  73 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.4254
+  final_density       : 0.4684
+  density_change      : 0.4557
+  period              : None
+  spreading           : 73.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule  74 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  75 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4947
+  final_density       : 0.4051
+  density_change      : 0.3924
+  period              : None
+  spreading           : 77.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  76 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule  77 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.4937
+  final_density       : 0.4937
+  density_change      : 0.4810
+  period              : 1
+  spreading           : 77.0000
+  unique_states       : 39
+  state_diversity     : 0.7647
+  is_symmetric        : True
+  dies                : False
+
+Rule  78 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.1802
+  final_density       : 0.3418
+  density_change      : 0.3291
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  79 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4966
+  final_density       : 0.3291
+  density_change      : 0.3165
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  80 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  81 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  82 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0975
+  final_density       : 0.0759
+  density_change      : 0.0633
+  period              : None
+  spreading           : 52.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  83 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  84 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0251
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  85 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  86 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3209
+  final_density       : 0.3797
+  density_change      : 0.3671
+  period              : None
+  spreading           : 74.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  87 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 2
+  spreading           : 0.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : True
+  dies                : True
+
+Rule  88 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  89 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4947
+  final_density       : 0.4051
+  density_change      : 0.3924
+  period              : None
+  spreading           : 77.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  90 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.1055
+  final_density       : 0.1013
+  density_change      : 0.0886
+  period              : None
+  spreading           : 67.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule  91 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.5026
+  final_density       : 0.0633
+  density_change      : 0.0506
+  period              : 2
+  spreading           : 5.0000
+  unique_states       : 5
+  state_diversity     : 0.0980
+  is_symmetric        : True
+  dies                : False
+
+Rule  92 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.1802
+  final_density       : 0.3418
+  density_change      : 0.3291
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  93 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4966
+  final_density       : 0.3291
+  density_change      : 0.3165
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  94 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.3266
+  final_density       : 0.5063
+  density_change      : 0.4937
+  period              : 3
+  spreading           : 77.0000
+  unique_states       : 41
+  state_diversity     : 0.8039
+  is_symmetric        : True
+  dies                : False
+
+Rule  95 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 2
+  spreading           : 0.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : True
+  dies                : True
+
+Rule  96 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule  97 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4783
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 3.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  98 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule  99 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.3291
+  density_change      : 0.3165
+  period              : None
+  spreading           : 51.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 100 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule 101 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.5038
+  final_density       : 0.5443
+  density_change      : 0.5316
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 102 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.1055
+  final_density       : 0.1013
+  density_change      : 0.0886
+  period              : None
+  spreading           : 66.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 103 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4969
+  final_density       : 0.0633
+  density_change      : 0.0506
+  period              : None
+  spreading           : 6.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 104 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule 105 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.4239
+  final_density       : 0.1899
+  density_change      : 0.1772
+  period              : None
+  spreading           : 69.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule 106 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 107 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.5145
+  final_density       : 0.1013
+  density_change      : 0.0886
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 108 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule 109 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.5488
+  final_density       : 0.5949
+  density_change      : 0.5823
+  period              : 3
+  spreading           : 77.0000
+  unique_states       : 41
+  state_diversity     : 0.8039
+  is_symmetric        : True
+  dies                : False
+
+Rule 110 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.1931
+  final_density       : 0.3544
+  density_change      : 0.3418
+  period              : None
+  spreading           : 75.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 111 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.5031
+  final_density       : 0.0759
+  density_change      : 0.0633
+  period              : None
+  spreading           : 7.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 112 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 113 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 114 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3127
+  final_density       : 0.5063
+  density_change      : 0.4937
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 115 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4966
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 116 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0251
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 117 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4907
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 118 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3884
+  final_density       : 0.6329
+  density_change      : 0.6203
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 119 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 2
+  spreading           : 0.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : True
+  dies                : True
+
+Rule 120 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 121 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.5145
+  final_density       : 0.1013
+  density_change      : 0.0886
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 122 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.3127
+  final_density       : 0.5443
+  density_change      : 0.5316
+  period              : None
+  spreading           : 71.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule 123 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.5029
+  final_density       : 0.0380
+  density_change      : 0.0253
+  period              : 2
+  spreading           : 3.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : True
+  dies                : False
+
+Rule 124 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.1931
+  final_density       : 0.3544
+  density_change      : 0.3418
+  period              : None
+  spreading           : 75.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 125 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.5031
+  final_density       : 0.0759
+  density_change      : 0.0633
+  period              : None
+  spreading           : 7.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 126 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.1827
+  final_density       : 0.2025
+  density_change      : 0.1899
+  period              : None
+  spreading           : 69.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule 127 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.4904
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 2
+  spreading           : 0.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : True
+  dies                : True
+
+Rule 128 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule 129 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.7982
+  final_density       : 0.7975
+  density_change      : 0.7848
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule 130 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 131 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.5967
+  final_density       : 0.3797
+  density_change      : 0.3671
+  period              : None
+  spreading           : 77.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 132 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule 133 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.6545
+  final_density       : 0.4937
+  density_change      : 0.4810
+  period              : 3
+  spreading           : 79.0000
+  unique_states       : 41
+  state_diversity     : 0.8039
+  is_symmetric        : True
+  dies                : False
+
+Rule 134 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0189
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 135 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.6672
+  final_density       : 0.4557
+  density_change      : 0.4430
+  period              : None
+  spreading           : 74.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 136 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule 137 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.7823
+  final_density       : 0.6962
+  density_change      : 0.6835
+  period              : None
+  spreading           : 76.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 138 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 139 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9558
+  final_density       : 0.9747
+  density_change      : 0.9620
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 140 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule 141 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.7947
+  final_density       : 0.6582
+  density_change      : 0.6456
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 142 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0251
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 143 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9561
+  final_density       : 0.9747
+  density_change      : 0.9620
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 144 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 145 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.5967
+  final_density       : 0.3797
+  density_change      : 0.3671
+  period              : None
+  spreading           : 77.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 146 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.0921
+  final_density       : 0.1013
+  density_change      : 0.0886
+  period              : None
+  spreading           : 69.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule 147 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.6759
+  final_density       : 0.2785
+  density_change      : 0.2658
+  period              : 4
+  spreading           : 79.0000
+  unique_states       : 41
+  state_diversity     : 0.8039
+  is_symmetric        : True
+  dies                : False
+
+Rule 148 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0189
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 149 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.6672
+  final_density       : 0.4557
+  density_change      : 0.4430
+  period              : None
+  spreading           : 74.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 150 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.1993
+  final_density       : 0.1899
+  density_change      : 0.1772
+  period              : None
+  spreading           : 69.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule 151 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9806
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule 152 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 153 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.8754
+  final_density       : 0.8987
+  density_change      : 0.8861
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 154 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0975
+  final_density       : 0.0759
+  density_change      : 0.0633
+  period              : None
+  spreading           : 52.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 155 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9620
+  final_density       : 0.9747
+  density_change      : 0.9620
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 156 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.1740
+  final_density       : 0.3291
+  density_change      : 0.3165
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 157 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.8131
+  final_density       : 0.6709
+  density_change      : 0.6582
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 158 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3959
+  final_density       : 0.7595
+  density_change      : 0.7468
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 159 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9806
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule 160 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule 161 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.7982
+  final_density       : 0.7975
+  density_change      : 0.7848
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule 162 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 163 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.6682
+  final_density       : 0.4937
+  density_change      : 0.4810
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 164 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule 165 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.8754
+  final_density       : 0.8987
+  density_change      : 0.8861
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule 166 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0189
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 167 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.8846
+  final_density       : 0.9241
+  density_change      : 0.9114
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 168 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule 169 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9173
+  final_density       : 0.9367
+  density_change      : 0.9241
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 170 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 171 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9558
+  final_density       : 0.9747
+  density_change      : 0.9620
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 172 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule 173 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9680
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 174 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0251
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 175 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9682
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 176 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 177 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.6682
+  final_density       : 0.4937
+  density_change      : 0.4810
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 178 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.3112
+  final_density       : 0.4937
+  density_change      : 0.4810
+  period              : 2
+  spreading           : 77.0000
+  unique_states       : 40
+  state_diversity     : 0.7843
+  is_symmetric        : True
+  dies                : False
+
+Rule 179 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.6791
+  final_density       : 0.4937
+  density_change      : 0.4810
+  period              : 2
+  spreading           : 77.0000
+  unique_states       : 41
+  state_diversity     : 0.8039
+  is_symmetric        : True
+  dies                : False
+
+Rule 180 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0189
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 181 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.8846
+  final_density       : 0.9241
+  density_change      : 0.9114
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 182 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.5364
+  final_density       : 0.7975
+  density_change      : 0.7848
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule 183 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9806
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule 184 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 185 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9558
+  final_density       : 0.9747
+  density_change      : 0.9620
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 186 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3127
+  final_density       : 0.5063
+  density_change      : 0.4937
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 187 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9682
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 188 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.2514
+  final_density       : 0.4810
+  density_change      : 0.4684
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 189 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9682
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 190 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4666
+  final_density       : 0.7595
+  density_change      : 0.7468
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 191 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9806
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule 192 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule 193 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.7823
+  final_density       : 0.6962
+  density_change      : 0.6835
+  period              : None
+  spreading           : 76.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 194 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 195 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.8754
+  final_density       : 0.8987
+  density_change      : 0.8861
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 196 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule 197 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.7947
+  final_density       : 0.6582
+  density_change      : 0.6456
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 198 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.1740
+  final_density       : 0.3291
+  density_change      : 0.3165
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 199 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.8131
+  final_density       : 0.6709
+  density_change      : 0.6582
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 200 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule 201 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9496
+  final_density       : 0.9747
+  density_change      : 0.9620
+  period              : 2
+  spreading           : 79.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : True
+  dies                : False
+
+Rule 202 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 203 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9680
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : False
+  dies                : False
+
+Rule 204 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule 205 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9558
+  final_density       : 0.9747
+  density_change      : 0.9620
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule 206 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3291
+  final_density       : 0.6456
+  density_change      : 0.6329
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 207 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9682
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : False
+  dies                : False
+
+Rule 208 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 209 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9558
+  final_density       : 0.9747
+  density_change      : 0.9620
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 210 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0975
+  final_density       : 0.0759
+  density_change      : 0.0633
+  period              : None
+  spreading           : 52.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 211 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9620
+  final_density       : 0.9747
+  density_change      : 0.9620
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 212 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0251
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 213 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9561
+  final_density       : 0.9747
+  density_change      : 0.9620
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 214 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3959
+  final_density       : 0.7595
+  density_change      : 0.7468
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 215 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9806
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule 216 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 217 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9680
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : False
+  dies                : False
+
+Rule 218 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.1224
+  final_density       : 0.3291
+  density_change      : 0.3165
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule 219 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9682
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule 220 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3291
+  final_density       : 0.6456
+  density_change      : 0.6329
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 221 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9682
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : False
+  dies                : False
+
+Rule 222 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.6128
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 40
+  state_diversity     : 0.7843
+  is_symmetric        : True
+  dies                : False
+
+Rule 223 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9806
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule 224 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule 225 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9173
+  final_density       : 0.9367
+  density_change      : 0.9241
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 226 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 227 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9558
+  final_density       : 0.9747
+  density_change      : 0.9620
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 228 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule 229 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9680
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 230 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.2514
+  final_density       : 0.4810
+  density_change      : 0.4684
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 231 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9682
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 232 - Class I (Dies)
+----------------------------------------
+  avg_density         : 0.0002
+  final_density       : 0.0000
+  density_change      : -0.0127
+  period              : 1
+  spreading           : 0.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : True
+
+Rule 233 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9792
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 5
+  state_diversity     : 0.0980
+  is_symmetric        : True
+  dies                : False
+
+Rule 234 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 235 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9799
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 4
+  state_diversity     : 0.0784
+  is_symmetric        : False
+  dies                : False
+
+Rule 236 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : 1
+  spreading           : 1.0000
+  unique_states       : 1
+  state_diversity     : 0.0196
+  is_symmetric        : True
+  dies                : False
+
+Rule 237 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9801
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : True
+  dies                : False
+
+Rule 238 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3291
+  final_density       : 0.6456
+  density_change      : 0.6329
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 239 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9804
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : False
+  dies                : False
+
+Rule 240 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 241 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9558
+  final_density       : 0.9747
+  density_change      : 0.9620
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 242 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3127
+  final_density       : 0.5063
+  density_change      : 0.4937
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 243 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9682
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 244 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0251
+  final_density       : 0.0253
+  density_change      : 0.0127
+  period              : None
+  spreading           : 2.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 245 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.9682
+  final_density       : 0.9873
+  density_change      : 0.9747
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 246 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.4666
+  final_density       : 0.7595
+  density_change      : 0.7468
+  period              : None
+  spreading           : 78.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 247 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9806
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
+Rule 248 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.0127
+  final_density       : 0.0127
+  density_change      : 0.0000
+  period              : None
+  spreading           : 1.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 249 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9799
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 4
+  state_diversity     : 0.0784
+  is_symmetric        : False
+  dies                : False
+
+Rule 250 - Class IV (Complex)
+----------------------------------------
+  avg_density         : 0.3291
+  final_density       : 0.6456
+  density_change      : 0.6329
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : True
+  dies                : False
+
+Rule 251 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9804
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : True
+  dies                : False
+
+Rule 252 - Class III (Chaotic)
+----------------------------------------
+  avg_density         : 0.3291
+  final_density       : 0.6456
+  density_change      : 0.6329
+  period              : None
+  spreading           : 79.0000
+  unique_states       : 51
+  state_diversity     : 1.0000
+  is_symmetric        : False
+  dies                : False
+
+Rule 253 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9804
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 3
+  state_diversity     : 0.0588
+  is_symmetric        : False
+  dies                : False
+
+Rule 254 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.6128
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 40
+  state_diversity     : 0.7843
+  is_symmetric        : True
+  dies                : False
+
+Rule 255 - Class II (Periodic)
+----------------------------------------
+  avg_density         : 0.9806
+  final_density       : 1.0000
+  density_change      : 0.9873
+  period              : 1
+  spreading           : 79.0000
+  unique_states       : 2
+  state_diversity     : 0.0392
+  is_symmetric        : True
+  dies                : False
+
