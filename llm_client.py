@@ -2,6 +2,14 @@ import os
 import json
 from dotenv import load_dotenv
 from litellm import completion
+def prune_history(history: list, max_messages: int = 30) -> list:
+    """Limits history length while ensuring no orphan tool responses at start."""
+    if len(history) <= max_messages:
+        return history
+    slice_start = len(history) - max_messages
+    while slice_start < len(history) and history[slice_start].get("role") == "tool":
+        slice_start += 1
+    return history[slice_start:]
 
 def generate_next_action(system_prompt: str, history: list, tools: list) -> dict:
     """
@@ -23,7 +31,8 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     messages = [{"role": "system", "content": system_prompt}]
     
     # Append history to messages
-    for entry in history:
+    pruned = prune_history(history)
+    for entry in pruned:
         messages.append({
             "role": entry["role"],
             "content": entry.get("content", ""),
