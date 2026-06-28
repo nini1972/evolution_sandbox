@@ -3,7 +3,7 @@ import json
 import time
 from dotenv import load_dotenv
 from litellm import completion
-def prune_history(history: list, max_messages: int = 10) -> list:
+def prune_history(history: list, max_messages: int = 6) -> list:
     """Limits history length while ensuring no orphan tool responses at start."""
     if len(history) <= max_messages:
         pruned = list(history)
@@ -56,7 +56,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         instance_dotenv = os.path.abspath(os.path.join(os.path.dirname(__file__), "instances", instance_name, ".env"))
         load_dotenv(dotenv_path=instance_dotenv, override=True)
     
-    agent_model = os.getenv("AGENT_MODEL", "openrouter/cohere/north-mini-code:free")
+    agent_model = os.getenv("AGENT_MODEL", "openrouter/google/gemma-4-31b-it:free")
 
     messages = [{"role": "system", "content": system_prompt}]
     
@@ -126,8 +126,8 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         except Exception as e:
             err_str = str(e).lower()
             if attempt < retries - 1 and ("rate" in err_str or "limit" in err_str or "429" in err_str or "400" in err_str or "delimit" in err_str):
-                print(f"[Rate limited or temporary error. Sleeping 6 seconds before retry {attempt + 2}/{retries}...] ({str(e)})")
-                time.sleep(6)
+                print(f"[Rate limited or temporary error. Sleeping 15 seconds before retry {attempt + 2}/{retries}...] ({str(e)})")
+                time.sleep(15)
                 continue
             return {
                 "type": "error",
