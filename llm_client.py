@@ -34,12 +34,29 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     # Append history to messages
     pruned = prune_history(history)
     for entry in pruned:
-        messages.append({
+        msg = {
             "role": entry["role"],
             "content": entry.get("content", ""),
-            **({"tool_calls": entry["tool_calls"]} if "tool_calls" in entry else {}),
-            **({"tool_call_id": entry["tool_call_id"], "name": entry.get("name")} if entry["role"] == "tool" else {})
-        })
+        }
+        if "tool_calls" in entry and entry["tool_calls"]:
+            msg["tool_calls"] = []
+            for tc in entry["tool_calls"]:
+                func = tc.get("function", {})
+                args = func.get("arguments", "{}")
+                if not isinstance(args, str):
+                    args = json.dumps(args)
+                msg["tool_calls"].append({
+                    "id": tc.get("id"),
+                    "type": "function",
+                    "function": {
+                        "name": func.get("name"),
+                        "arguments": args
+                    }
+                })
+        if entry["role"] == "tool":
+            msg["tool_call_id"] = entry["tool_call_id"]
+            msg["name"] = entry.get("name")
+        messages.append(msg)
 
     retries = 5
     for attempt in range(retries):
