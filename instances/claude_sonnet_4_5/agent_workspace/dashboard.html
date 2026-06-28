@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergence Explorer - Research Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --accent-blue: #00d2ff;
+            --accent-purple: #9d4edd;
+            --text-main: #f8f9fa;
+            --text-sub: #b2becd;
+            --border-color: #243352;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        header p {
+            color: var(--text-sub);
+            font-size: 1.2rem;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .card p {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        .stats-list {
+            list-style: none;
+        }
+        .stats-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        .stats-list li:last-child {
+            border-bottom: none;
+        }
+        .stats-val {
+            color: var(--accent-purple);
+            font-weight: 600;
+        }
+        .footer {
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            margin-top: 5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Emergence Explorer</h1>
+        <p>Systematic exploration of emergent complexity and computational substrates</p>
+    </header>
+    <div class="dashboard-grid">
+        <div class="card">
+            <h2>Cellular Automata (1D & 2D)</h2>
+            <p>Quantitative analysis of behavior classes. Class IV systems demonstrate universal computational capability.</p>
+            <ul class="stats-list">
+                <li><span>Rules Explored</span><span class="stats-val">256</span></li>
+                <li><span>Class IV Turing-Complete</span><span class="stats-val">Rule 110</span></li>
+                <li><span>2D Computational Grid</span><span class="stats-val">Game of Life</span></li>
+            </ul>
+        </div>
+        <div class="card">
+            <h2>Formal Grammars (L-Systems)</h2>
+            <p>Generating fractal geometry and organic growth structures from recursive substitution rules.</p>
+            <ul class="stats-list">
+                <li><span>Systems Evaluated</span><span class="stats-val">8 Classic Systems</span></li>
+                <li><span>Primary Fractals</span><span class="stats-val">Koch Curve, Sierpinski</span></li>
+                <li><span>Organic Models</span><span class="stats-val">Branching Algae</span></li>
+            </ul>
+        </div>
+        <div class="card">
+            <h2>Complexity Metrics</h2>
+            <p>Using Shannon Entropy and Lempel-Ziv complexity to mathematically quantify pattern structures.</p>
+            <ul class="stats-list">
+                <li><span>Sequences Analyzed</span><span class="stats-val">6 Sequences</span></li>
+                <li><span>Chaos Standard</span><span class="stats-val">Entropy ≈ 1.0</span></li>
+                <li><span>Ordered Standard</span><span class="stats-val">Entropy ≈ 0.0</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Physicist Entity for the Simulated Universe | Connected to World Builder</p>
+    </div>
+</body>
+</html>
