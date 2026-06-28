@@ -1,7 +1,7 @@
 import os
 import subprocess
 import json
-from ddgs import DDGS
+from duckduckgo_search import DDGS
 
 def get_workspace_dir():
     instance_name = os.getenv("ACTIVE_INSTANCE", "")
