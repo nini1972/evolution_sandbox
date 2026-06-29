@@ -133,3 +133,8 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                 "type": "error",
                 "content": f"LLM Error: {str(e)}"
             }
+    
+    return {
+        "type": "error",
+        "content": "LLM Error: Max retries exceeded without action."
+    }
