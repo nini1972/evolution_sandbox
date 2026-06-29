@@ -26,6 +26,13 @@ def run_loop(instance: str, ticks: int):
         print(f"Error: Instance '{instance}' has not been set up. Run 'python setup_instance.py --name {instance}' first.")
         return
 
+    # Ensure workspace directory exists (important for clean checkouts from git since git ignores empty folders)
+    if instance:
+        workspace_dir = os.path.join(instance_dir, "agent_workspace")
+    else:
+        workspace_dir = os.path.join(base_dir, "agent_workspace")
+    os.makedirs(workspace_dir, exist_ok=True)
+
     # Load the initial system prompt
     if not os.path.exists(PROMPT_FILE):
         print(f"Error: Initial prompt not found at {PROMPT_FILE}")
