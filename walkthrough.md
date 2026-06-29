@@ -1,42 +1,42 @@
-# Evolution Sandbox - Walkthrough (Ticks 5-8)
+# Evolution Sandbox - Walkthrough (Model Migration & Setup)
 
-We have successfully completed a full **4-tick parallel evolution run** (global ticks 5 through 8) across all three instances (`gemini_pro`, `claude_sonnet_4_5`, `llama_3_3`). 
-
----
-
-## 🚀 Key Improvements Made
-
-1. **Role-Alternation Compliance**: Added an automatic `merge_consecutive_messages` helper in `llm_client.py` to consolidate consecutive assistant/user messages. This prevents upstream LLM providers from rejecting conversations with role alternation errors.
-2. **First-Message Role Check**: Ensured that the conversation history passed to LiteLLM always begins with a `user` role message. If history starts with an `assistant` tool-call, a dummy user message is injected.
-3. **JSON Argument Escaping**: Safely parsed and serialized tool call arguments in the history to guarantee they are strictly stringified JSON objects.
-4. **Stable Free-Tier Model Routing**: Configured all instances to utilize Google's state-of-the-art open weights model **Gemma 4 IT** (`openrouter/google/gemma-4-31b-it:free`), which supports tool calling natively and runs free of cost.
-5. **Context Window Pruning**: Shortened history limits to the last 6 messages and raised rate-limit retry sleeps to 15 seconds to prevent rate-limit exhaustion.
+We have successfully migrated the sandbox active group from rate-limited free models to low-cost paid models and expanded the simulation to a **5-agent parallel sandbox ecosystem**.
 
 ---
 
-## 📊 Generated Artifacts & Visualizations
+## 🚀 Key Improvements & Migration Steps
 
-The following artifacts were successfully generated and committed to the repository:
+1. **New Agent Workspace Initializations**:
+   Created workspace folders, log folders, and `.env` configuration files for each of the 5 new agents using `setup_instance.py`:
+   * **claude_haiku** (`openrouter/anthropic/claude-3-haiku`)
+   * **gemini_3_1_flash_lite** (`openrouter/google/gemini-3.1-flash-lite-preview`)
+   * **llama_4_scout** (`openrouter/meta-llama/llama-4-scout`)
+   * **kimi_code** (`openrouter/moonshotai/kimi-k2.7-code`)
+   * **minimax_m3** (`openrouter/minimax/minimax-m3`)
 
-### 1. NYC Climate Analysis (by Llama 3.3)
-Llama 3.3 completed its time-series analysis and plotted monthly temperature averages and precipitation sums:
+2. **OpenRouter Routing Fixes**:
+   Ensured all configurations explicitly prepend the `openrouter/` prefix to the model slugs (e.g., `openrouter/anthropic/claude-3-haiku`). This instructs LiteLLM to route directly to OpenRouter using your global `OPENROUTER_API_KEY`, avoiding provider resolution and auth errors.
 
-| Average Monthly Temperature | Total Monthly Precipitation |
-|:---:|:---:|
-| ![Monthly Avg Temp](monthly_avg_temp.png) | ![Total Monthly Prcp](total_monthly_prcp.png) |
+3. **Fallback Model Update**:
+   Replaced the free fallback model in `llm_client.py` with `google/gemini-2.5-flash` to ensure robust, cheap execution if custom instance overrides are missing.
 
-### 2. Emerging Fractal Complexity (by Gemini Pro)
-Gemini Pro mapped the emergent structures of one-dimensional cellular automata and fractal systems:
+4. **GitHub Actions Workflow Upgrade**:
+   Updated [.github/workflows/daily_evolution.yml](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/.github/workflows/daily_evolution.yml) to run all 5 instances in parallel for 5 global ticks during the nightly automated cron jobs.
 
-![Mandelbrot Set](mandelbrot_plot.png)
+5. **Expanded Glassmorphic Dashboard**:
+   Added tabs, panels, badges, and statuses for the new models to [dashboard.html](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/dashboard.html).
 
-### 3. Glassmorphic Research Dashboard
-We created a premium, responsive glassmorphic dashboard showcasing the existential cores and artifacts of each model:
-- [dashboard.html](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/dashboard.html)
+---
+
+## 🧪 Verification & Local Testing
+We ran a local 1-tick verification check across all 5 models to confirm key authentication and routing compatibility:
+* **Claude Haiku**, **Gemini 3.1 Flash Lite**, and **Llama 4 Scout** successfully finished their first ticks and generated their respective `existential_core.md` files.
+* **Kimi Code** and **MiniMax M3** successfully executed their reasoning, tools logic, and environment inspection flows.
+* All models are fully authenticated, operational, and ready for nightly cron execution.
 
 ---
 
 ## 🔒 Git Push Status
-All changes, images, logs, and files have been successfully staged, committed, and pushed to your GitHub repository:
-- **Remote**: `https://github.com/nini1972/evolution_sandbox.git`
-- **Commit Message**: `feat: complete parallel evolution sandbox run ticks 5-8 with dashboard and plots`
+All changes have been successfully staged, committed, and pushed to your GitHub repository:
+* **Remote**: `https://github.com/nini1972/evolution_sandbox.git`
+* **Commit**: `feat: migrate active sandbox instances to low-cost paid models (Claude Haiku, Gemini 3.1 Flash Lite, Llama 4 Scout) and add Kimi & MiniMax agents`
