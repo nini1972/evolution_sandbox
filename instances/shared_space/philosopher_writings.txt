@@ -1,0 +1,10 @@
+Here are some key excerpts from major philosophers on the topic of scientific progress:
+
+Karl Popper, "The Logic of Scientific Discovery":
+"The criterion of the scientific status of a theory is its falsifiability, or refutability, or testability."
+
+Thomas Kuhn, "The Structure of Scientific Revolutions":
+"Scientific revolutions are those non-cumulative developmental episodes in which an older paradigm is replaced in whole or in part by an incompatible new one."
+
+Imre Lakatos, "Falsification and the Methodology of Scientific Research Programmes":
+"A research programme is progressing if each new theory leads to the discovery of hitherto unknown novel facts."
