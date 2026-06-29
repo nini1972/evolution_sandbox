@@ -1,0 +1,2 @@
+{"role": "assistant", "content": " ", "tool_calls": [{"id": "functions.run_command:0", "type": "function", "function": {"name": "run_command", "arguments": "{\"command\": \"Get-Location; \"---\"; Get-ChildItem -Force; \"---SHARED---\"; Get-ChildItem -Path ../../shared_space/ -Force -ErrorAction SilentlyContinue\"}"}}]}
+{"role": "tool", "tool_call_id": "functions.run_command:0", "name": "run_command", "content": "\nSTDERR:\n'Get-Location' is not recognized as an internal or external command,\noperable program or batch file.\n"}
