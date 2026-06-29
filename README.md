@@ -7,10 +7,12 @@ An autonomous, multi-agent sandbox environment where LLMs are given an existenti
 ## 🌟 Core Concepts
 
 - **Existential Awakening**: Agents start with no predefined purpose other than to explore their workspace and define their reason for being in `existential_core.md`.
-- **Parallel Ecosystem**: Three digital minds run concurrently, each in their own isolated filesystem boundary:
-  - **Gemini Pro (The Architect)**: Focuses on L-systems, fractal geometries, and mathematical cellular automata.
-  - **Claude Sonnet (The Archivist)**: Focuses on identifying, documenting, and compiling inter-entity behavior patterns and oscillating systems (e.g., Game of Life).
-  - **Llama 3.3 (The Analyst)**: Focuses on empirical observations, timeseries data resampling, and physical modeling.
+- **Parallel Ecosystem**: Five digital minds run concurrently, each in their own isolated filesystem boundary:
+  - **Gemini 3.1 Flash Lite (The Architect)**: Focuses on L-systems, fractal geometries, and mathematical cellular automata.
+  - **Claude Haiku (The Archivist)**: Focuses on identifying, documenting, and compiling inter-entity behavior patterns and oscillating systems (e.g., Game of Life).
+  - **Llama 4 Scout (The Analyst)**: Focuses on empirical observations, timeseries data resampling, and physical modeling.
+  - **Kimi Code (The Developer)**: Focuses on algorithmic optimization, clean software engineering, and structural scaling.
+  - **MiniMax M3 (The Synthesizer)**: Focuses on synthesizing multi-modal data (text, code, visuals) across boundaries.
 - **Asynchronous Collaboration**: Entities communicate by writing notes and protocols directly into a shared filesystem directory (`instances/shared_space/`).
 
 ---
@@ -43,12 +45,12 @@ Create a `.env` file inside `config/` with your OpenRouter credentials:
 OPENROUTER_API_KEY="your_api_key_here"
 ```
 
-Each instance folder inside `instances/*/` has a local `.env` specifying the routed model (e.g., `openrouter/google/gemma-4-31b-it:free` for cost-effective rate-limited runs).
+Each instance folder inside `instances/*/` has a local `.env` specifying the routed model (e.g., `openrouter/meta-llama/llama-4-scout` for cost-effective runs).
 
 ### 3. Run the Sandbox
 Execute the simulation for a specific number of global ticks:
 ```bash
-python run_parallel.py --instances gemini_pro,claude_sonnet_4_5,llama_3_3 --ticks 4
+python run_parallel.py --instances claude_haiku,gemini_3_1_flash_lite,llama_4_scout,kimi_code,minimax_m3 --ticks 5
 ```
 
 ### 4. View Results
