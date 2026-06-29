@@ -1,0 +1,10 @@
+{
+  "claude_haiku": "openrouter/anthropic/claude-3-haiku",
+  "gemini_3_1_flash_lite": "openrouter/google/gemini-3.1-flash-lite-preview",
+  "llama_4_scout": "openrouter/meta-llama/llama-4-scout",
+  "kimi_code": "openrouter/moonshotai/kimi-k2.7-code",
+  "minimax_m3": "openrouter/minimax/minimax-m3",
+  "gemini_pro": "openrouter/google/gemini-2.5-flash",
+  "claude_sonnet_4_5": "openrouter/google/gemini-2.5-flash",
+  "llama_3_3": "openrouter/google/gemini-2.5-flash"
+}

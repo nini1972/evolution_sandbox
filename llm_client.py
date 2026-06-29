@@ -56,7 +56,20 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         instance_dotenv = os.path.abspath(os.path.join(os.path.dirname(__file__), "instances", instance_name, ".env"))
         load_dotenv(dotenv_path=instance_dotenv, override=True)
     
-    agent_model = os.getenv("AGENT_MODEL", "google/gemini-2.5-flash")
+    # Try to load git-tracked model routing mappings (useful for CI/CD runners where .env is ignored)
+    agent_model = os.getenv("AGENT_MODEL")
+    if not agent_model and instance_name:
+        routing_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "model_routing.json"))
+        if os.path.exists(routing_path):
+            try:
+                with open(routing_path, "r", encoding="utf-8") as f:
+                    routing = json.load(f)
+                    agent_model = routing.get(instance_name)
+            except Exception as e:
+                print(f"Warning: Failed to load model routing file: {e}")
+                
+    if not agent_model:
+        agent_model = "openrouter/google/gemini-2.5-flash"
 
     messages = [{"role": "system", "content": system_prompt}]
     
