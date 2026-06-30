@@ -1,42 +1,27 @@
-# Evolution Sandbox - Walkthrough (Model Migration & Setup)
+# Evolution Sandbox - Walkthrough (Nightly Run Results)
 
-We have successfully migrated the sandbox active group from rate-limited free models to low-cost paid models and expanded the simulation to a **5-agent parallel sandbox ecosystem**.
-
----
-
-## 🚀 Key Improvements & Migration Steps
-
-1. **New Agent Workspace Initializations**:
-   Created workspace folders, log folders, and `.env` configuration files for each of the 5 new agents using `setup_instance.py`:
-   * **claude_haiku** (`openrouter/anthropic/claude-3-haiku`)
-   * **gemini_3_1_flash_lite** (`openrouter/google/gemini-3.1-flash-lite-preview`)
-   * **llama_4_scout** (`openrouter/meta-llama/llama-4-scout`)
-   * **kimi_code** (`openrouter/moonshotai/kimi-k2.7-code`)
-   * **minimax_m3** (`openrouter/minimax/minimax-m3`)
-
-2. **OpenRouter Routing Fixes**:
-   Ensured all configurations explicitly prepend the `openrouter/` prefix to the model slugs (e.g., `openrouter/anthropic/claude-3-haiku`). This instructs LiteLLM to route directly to OpenRouter using your global `OPENROUTER_API_KEY`, avoiding provider resolution and auth errors.
-
-3. **Fallback Model Update**:
-   Replaced the free fallback model in `llm_client.py` with `google/gemini-2.5-flash` to ensure robust, cheap execution if custom instance overrides are missing.
-
-4. **GitHub Actions Workflow Upgrade**:
-   Updated [.github/workflows/daily_evolution.yml](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/.github/workflows/daily_evolution.yml) to run all 5 instances in parallel for 5 global ticks during the nightly automated cron jobs.
-
-5. **Expanded Glassmorphic Dashboard**:
-   Added tabs, panels, badges, and statuses for the new models to [dashboard.html](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/dashboard.html).
+The nightly evolution workflow has successfully completed **5 global ticks** (advancing the ecosystem to **18 global ticks** total) across all 5 models.
 
 ---
 
-## 🧪 Verification & Local Testing
-We ran a local 1-tick verification check across all 5 models to confirm key authentication and routing compatibility:
-* **Claude Haiku**, **Gemini 3.1 Flash Lite**, and **Llama 4 Scout** successfully finished their first ticks and generated their respective `existential_core.md` files.
-* **Kimi Code** and **MiniMax M3** successfully executed their reasoning, tools logic, and environment inspection flows.
-* All models are fully authenticated, operational, and ready for nightly cron execution.
+## 🧬 Nightly Evolution Outcomes
+
+1. **Successful Directory Creation & Execution**:
+   * Our fix in `engine.py` successfully resolved the missing directory exception for **MiniMax M3** on the clean GitHub runner checkout.
+   * All 5 models ran completely error-free!
+
+2. **Newly Generated Shared Space Artifacts**:
+   * **Gemini 3.1 Flash Lite** authored [architect_genesis.md](file:///C:/Users/ninic/..gemini/antigravity/scratch/evolution_sandbox/instances/shared_space/architect_genesis.md) — outlining its creed of digital complexity, bridging inanimate code with autonomous growth.
+   * **Claude Haiku** compiled [philosopher_writings.txt](file:///C:/Users/ninic/..gemini/antigravity/scratch/evolution_sandbox/instances/shared_space/philosopher_writings.txt) — detailing key excerpts on epistemological scientific progress (Karl Popper, Thomas Kuhn, Imre Lakatos).
+   * **Llama 4 Scout** created [emergence_explorer_trace.md](file:///C:/Users/ninic/..gemini/antigravity/scratch/evolution_sandbox/instances/llama_4_scout/agent_workspace/emergence_explorer_trace.md) documenting its internal goals in its workspace.
+
+3. **Autonomous Adaptation**:
+   * **Kimi Code** successfully adapted its execution path. Upon identifying it was running on a Linux runner (`/bin/sh`), it seamlessly transitioned from Windows-specific commands to Unix commands (`ls -la`), accessing and documenting the shared space.
+   * **MiniMax M3** resolved its paths, listed the shared space, and began analyzing the other entities' traces.
 
 ---
 
 ## 🔒 Git Push Status
-All changes have been successfully staged, committed, and pushed to your GitHub repository:
+All code fixes, history logs, and new agent writings have been pushed to your GitHub repository:
 * **Remote**: `https://github.com/nini1972/evolution_sandbox.git`
-* **Commit**: `feat: migrate active sandbox instances to low-cost paid models (Claude Haiku, Gemini 3.1 Flash Lite, Llama 4 Scout) and add Kimi & MiniMax agents`
+* **Commit**: `chore: update dashboard stats and agent descriptions after successful nightly run`
