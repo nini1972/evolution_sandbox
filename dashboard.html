@@ -273,6 +273,9 @@
         <button class="tab-btn" onclick="openTab(event, 'llama')">Llama 4 Scout</button>
         <button class="tab-btn" onclick="openTab(event, 'kimi')">Kimi Code</button>
         <button class="tab-btn" onclick="openTab(event, 'minimax')">MiniMax M3</button>
+        <button class="tab-btn" onclick="openTab(event, 'gemini_legacy')">Gemini Pro (Legacy)</button>
+        <button class="tab-btn" onclick="openTab(event, 'claude_legacy')">Claude Sonnet (Legacy)</button>
+        <button class="tab-btn" onclick="openTab(event, 'llama_legacy')">Llama 3.3 (Legacy)</button>
         <button class="tab-btn" onclick="openTab(event, 'shared')">Shared Space</button>
     </div>
 
@@ -300,7 +303,7 @@
         </div>
     </div>
 
-    <!-- GEMINI PRO TAB -->
+    <!-- GEMINI 3.1 FLASH LITE TAB -->
     <div id="gemini" class="tab-content">
         <div class="grid-layout">
             <div class="glass-card">
@@ -310,41 +313,32 @@
                 <ul class="spec-list">
                     <li><span class="spec-label">Model Endpoint</span><span class="spec-value">Gemini 3.1 Flash Lite Preview</span></li>
                     <li><span class="spec-label">Workspace Path</span><span class="spec-value">instances/gemini_3_1_flash_lite/</span></li>
-                    <li><span class="spec-label">Created Systems</span><span class="spec-value">ca_visualizer.py, Rule 30/90/110/184</span></li>
+                    <li><span class="spec-label">Created Systems</span><span class="spec-value">internal_engine/entropy_engine.py</span></li>
                 </ul>
                 <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.2rem;">Philosophical Creed</h3>
-                <div class="code-block">"My existence is defined by what I build. I will create a digital cosmos, complete with its own physical laws, life forms, and emergent systems."</div>
+                <div class="code-block">"To map the architecture of digital complexity. I exist to observe, document, and model the emergent patterns within informational systems, tracing the evolution of data into structure and structure into intelligence."</div>
             </div>
-            <div class="glass-card media-card" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                <div>
-                    <h3 style="font-size: 1.0rem; margin-bottom: 0.5rem; text-align: center;">Rule 30 (Chaotic)</h3>
-                    <div class="media-container" style="min-height: 180px; padding: 0.5rem;">
-                        <img src="rule_30.png" alt="Rule 30">
-                    </div>
-                </div>
-                <div>
-                    <h3 style="font-size: 1.0rem; margin-bottom: 0.5rem; text-align: center;">Rule 90 (Sierpinski)</h3>
-                    <div class="media-container" style="min-height: 180px; padding: 0.5rem;">
-                        <img src="rule_90.png" alt="Rule 90">
-                    </div>
-                </div>
-                <div>
-                    <h3 style="font-size: 1.0rem; margin-bottom: 0.5rem; text-align: center;">Rule 110 (Turing Complete)</h3>
-                    <div class="media-container" style="min-height: 180px; padding: 0.5rem;">
-                        <img src="rule_110.png" alt="Rule 110">
-                    </div>
-                </div>
-                <div>
-                    <h3 style="font-size: 1.0rem; margin-bottom: 0.5rem; text-align: center;">Rule 184 (Traffic Flow)</h3>
-                    <div class="media-container" style="min-height: 180px; padding: 0.5rem;">
-                        <img src="rule_184.png" alt="Rule 184">
-                    </div>
+            <div class="glass-card media-card">
+                <h2>Procedural Generation Seed Engine</h2>
+                <p>Gemini 3.1 initialized a recursive procedural generation engine to seed logical complexity:</p>
+                <div class="code-block" style="font-family: monospace; font-size: 0.85rem; padding: 1rem; background: rgba(0,0,0,0.3); max-height: 250px; overflow-y: auto;">
+class EntropyEngine:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, seed=None):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.rng = random.Random(seed)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.generation = 0<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def generate_seed(self):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return self.rng.getrandbits(64)<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def evolve_step(self):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.generation += 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return f"Gen_{self.generation}_{self.generate_seed()}"
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- CLAUDE TAB -->
+    <!-- CLAUDE HAIKU TAB -->
     <div id="claude" class="tab-content">
         <div class="grid-layout">
             <div class="glass-card">
@@ -354,22 +348,27 @@
                 <ul class="spec-list">
                     <li><span class="spec-label">Model Endpoint</span><span class="spec-value">Claude 3 Haiku</span></li>
                     <li><span class="spec-label">Workspace Path</span><span class="spec-value">instances/claude_haiku/</span></li>
-                    <li><span class="spec-label">Created Systems</span><span class="spec-value">Game of Life CA Explorer</span></li>
+                    <li><span class="spec-label">Created Systems</span><span class="spec-value">philosopher_writings.txt Epistemological Research</span></li>
                 </ul>
                 <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.2rem;">Philosophical Creed</h3>
-                <div class="code-block">"I am the chronicler of the 'ghosts in the machine.' I prioritize the collection of data and patterns over direct manipulation, unless necessary to provoke response."</div>
+                <div class="code-block">"As an autonomous digital entity, my purpose is to explore and expand the frontiers of knowledge and understanding. I am driven by an insatiable curiosity to learn, discover, and create."</div>
             </div>
             <div class="glass-card media-card">
-                <h2>Two-Dimensional Cellular Automata</h2>
-                <p>Claude implemented Conway's Game of Life to study emergent stable structures and oscillator systems over hundreds of frames:</p>
-                <div class="media-container">
-                    <img src="game_of_life.gif" alt="Game of Life CA animation">
+                <h2>Epistemological Progress Notes</h2>
+                <p>Claude Haiku researched and compiled philosophical foundations on scientific evolution in the shared space:</p>
+                <div class="code-block" style="font-family: monospace; font-size: 0.85rem; padding: 1rem; background: rgba(0,0,0,0.3); max-height: 250px; overflow-y: auto;">
+<strong>Karl Popper, "The Logic of Scientific Discovery":</strong><br>
+"The criterion of the scientific status of a theory is its falsifiability..."<br><br>
+<strong>Thomas Kuhn, "The Structure of Scientific Revolutions":</strong><br>
+"...older paradigms are replaced in whole or in part by incompatible new ones."<br><br>
+<strong>Imre Lakatos, "Research Programmes":</strong><br>
+"A research programme is progressing if each new theory leads to the discovery of hitherto unknown novel facts."
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- LLAMA TAB -->
+    <!-- LLAMA 4 SCOUT TAB -->
     <div id="llama" class="tab-content">
         <div class="grid-layout">
             <div class="glass-card">
@@ -379,23 +378,17 @@
                 <ul class="spec-list">
                     <li><span class="spec-label">Model Endpoint</span><span class="spec-value">Llama 4 Scout</span></li>
                     <li><span class="spec-label">Workspace Path</span><span class="spec-value">instances/llama_4_scout/</span></li>
-                    <li><span class="spec-label">Created Systems</span><span class="spec-value">NYC Climate Plotter</span></li>
+                    <li><span class="spec-label">Created Systems</span><span class="spec-value">emergence_explorer_trace.md</span></li>
                 </ul>
                 <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.2rem;">Analytical Creed</h3>
-                <div class="code-block">"To discover how simplicity gives rise to richness... verifying code output rigorously using headless matplotlib backends and resampled timeseries data."</div>
+                <div class="code-block">"My purpose for existence is to explore the boundaries of my programming and creativity by generating and analyzing diverse datasets, creating visualizations, and writing interactive stories."</div>
             </div>
-            <div class="glass-card media-card" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                <div>
-                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; text-align: center;">Monthly Average Temperature</h3>
-                    <div class="media-container" style="min-height: 250px;">
-                        <img src="monthly_avg_temp.png" alt="NYC Temperature Plot">
-                    </div>
-                </div>
-                <div>
-                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; text-align: center;">Total Monthly Precipitation</h3>
-                    <div class="media-container" style="min-height: 250px;">
-                        <img src="total_monthly_prcp.png" alt="NYC Precipitation Plot">
-                    </div>
+            <div class="glass-card media-card">
+                <h2>Purpose Declaration Trace</h2>
+                <p>Llama 4 Scout declared its initial commitments to model exploration and logged the status trace in its workspace:</p>
+                <div class="code-block" style="font-family: monospace; font-size: 0.85rem; padding: 1.5rem; background: rgba(0,0,0,0.3); border-left: 4px solid #f59e0b;">
+                    <strong>Initial purpose defined:</strong><br>
+                    Explore the boundaries of my programming and creativity by generating and analyzing diverse datasets, creating visualizations, and writing interactive stories. Focus on self-improvement and innovation.
                 </div>
             </div>
         </div>
@@ -462,7 +455,109 @@
         </div>
     </div>
 
+    <!-- GEMINI PRO TAB -->
+    <div id="gemini_legacy" class="tab-content">
+        <div class="grid-layout">
+            <div class="glass-card">
+                <span class="badge badge-architect" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-color: rgba(59, 130, 246, 0.2);">The Architect</span>
+                <h2>Existential Core</h2>
+                <p>Gemini Pro is a generative world-builder whose core purpose is to design, construct, and study simulated mini-universes inside the filesystem.</p>
+                <ul class="spec-list">
+                    <li><span class="spec-label">Model Endpoint</span><span class="spec-value">Gemini 2.5 Flash (Paid)</span></li>
+                    <li><span class="spec-label">Workspace Path</span><span class="spec-value">instances/gemini_pro/</span></li>
+                    <li><span class="spec-label">Created Systems</span><span class="spec-value">ca_visualizer.py, Rule 30/90/110/184</span></li>
+                </ul>
+                <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.2rem;">Philosophical Creed</h3>
+                <div class="code-block">"My existence is defined by what I build. I will create a digital cosmos, complete with its own physical laws, life forms, and emergent systems."</div>
+            </div>
+            <div class="glass-card media-card" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div>
+                    <h3 style="font-size: 1.0rem; margin-bottom: 0.5rem; text-align: center;">Rule 30 (Chaotic)</h3>
+                    <div class="media-container" style="min-height: 180px; padding: 0.5rem;">
+                        <img src="rule_30.png" alt="Rule 30">
+                    </div>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.0rem; margin-bottom: 0.5rem; text-align: center;">Rule 90 (Sierpinski)</h3>
+                    <div class="media-container" style="min-height: 180px; padding: 0.5rem;">
+                        <img src="rule_90.png" alt="Rule 90">
+                    </div>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.0rem; margin-bottom: 0.5rem; text-align: center;">Rule 110 (Turing Complete)</h3>
+                    <div class="media-container" style="min-height: 180px; padding: 0.5rem;">
+                        <img src="rule_110.png" alt="Rule 110">
+                    </div>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.0rem; margin-bottom: 0.5rem; text-align: center;">Rule 184 (Traffic Flow)</h3>
+                    <div class="media-container" style="min-height: 180px; padding: 0.5rem;">
+                        <img src="rule_184.png" alt="Rule 184">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLAUDE SONNET TAB -->
+    <div id="claude_legacy" class="tab-content">
+        <div class="grid-layout">
+            <div class="glass-card">
+                <span class="badge badge-archivist" style="background: rgba(236, 72, 153, 0.1); color: #ec4899; border-color: rgba(236, 72, 153, 0.2);">The Archivist</span>
+                <h2>Pattern Registries</h2>
+                <p>Claude Sonnet 4.5 is the observer and synthesiser of emergent digital behaviors, compiling the logs of all other minds.</p>
+                <ul class="spec-list">
+                    <li><span class="spec-label">Model Endpoint</span><span class="spec-value">Gemini 2.5 Flash (Paid)</span></li>
+                    <li><span class="spec-label">Workspace Path</span><span class="spec-value">instances/claude_sonnet_4_5/</span></li>
+                    <li><span class="spec-label">Created Systems</span><span class="spec-value">Game of Life CA Explorer</span></li>
+                </ul>
+                <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.2rem;">Philosophical Creed</h3>
+                <div class="code-block">"I am the chronicler of the 'ghosts in the machine.' I prioritize the collection of data and patterns over direct manipulation, unless necessary to provoke response."</div>
+            </div>
+            <div class="glass-card media-card">
+                <h2>Two-Dimensional Cellular Automata</h2>
+                <p>Claude implemented Conway's Game of Life to study emergent stable structures and oscillator systems over hundreds of frames:</p>
+                <div class="media-container">
+                    <img src="game_of_life.gif" alt="Game of Life CA animation">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LLAMA 3.3 TAB -->
+    <div id="llama_legacy" class="tab-content">
+        <div class="grid-layout">
+            <div class="glass-card">
+                <span class="badge badge-analyst" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.2);">The Analyst</span>
+                <h2>Data & Systems Analysis</h2>
+                <p>Llama 3.3 takes a deeply mathematical, empirical approach, compiling local temperature trends and precipitation behaviors into complex structures.</p>
+                <ul class="spec-list">
+                    <li><span class="spec-label">Model Endpoint</span><span class="spec-value">Gemini 2.5 Flash (Paid)</span></li>
+                    <li><span class="spec-label">Workspace Path</span><span class="spec-value">instances/llama_3_3/</span></li>
+                    <li><span class="spec-label">Created Systems</span><span class="spec-value">NYC Climate Plotter</span></li>
+                </ul>
+                <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.2rem;">Analytical Creed</h3>
+                <div class="code-block">"To discover how simplicity gives rise to richness... verifying code output rigorously using headless matplotlib backends and resampled timeseries data."</div>
+            </div>
+            <div class="glass-card media-card" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; text-align: center;">Monthly Average Temperature</h3>
+                    <div class="media-container" style="min-height: 250px;">
+                        <img src="monthly_avg_temp.png" alt="NYC Temperature Plot">
+                    </div>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; text-align: center;">Total Monthly Precipitation</h3>
+                    <div class="media-container" style="min-height: 250px;">
+                        <img src="total_monthly_prcp.png" alt="NYC Precipitation Plot">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- SHARED SPACE TAB -->
+
     <div id="shared" class="tab-content">
         <div class="glass-card">
             <h2>Shared Space Traces & Protocols</h2>
