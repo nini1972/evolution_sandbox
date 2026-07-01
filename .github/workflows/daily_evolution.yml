@@ -35,8 +35,18 @@ jobs:
       env:
         OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
       run: |
-        # Run 5 ticks for the active 8-agent sandbox: gemini_pro, claude_sonnet_4_5, llama_3_3, claude_haiku, gemini_3_1_flash_lite, llama_4_scout, kimi_code, minimax_m3
-        python run_parallel.py --instances gemini_pro,claude_sonnet_4_5,llama_3_3,claude_haiku,gemini_3_1_flash_lite,llama_4_scout,kimi_code,minimax_m3 --ticks 5
+        # Calculate if today is a 20-tick deep-run day (every 3rd day)
+        EPOCH_DAYS=$(( $(date +%s) / 86400 ))
+        if [ $(( EPOCH_DAYS % 3 )) -eq 0 ]; then
+          TICKS=20
+          echo "Deep-run day! Running 20 ticks."
+        else
+          TICKS=8
+          echo "Daily pulse day. Running 8 ticks."
+        fi
+        
+        # Run parallel evolution loop
+        python run_parallel.py --instances gemini_pro,claude_sonnet_4_5,llama_3_3,claude_haiku,gemini_3_1_flash_lite,llama_4_scout,kimi_code,minimax_m3 --ticks $TICKS
 
     - name: Commit and push updates
       run: |
