@@ -1,7 +1,9 @@
 import os
 import subprocess
 import json
-from duckduckgo_search import DDGS
+import urllib.request
+import urllib.parse
+from html.parser import HTMLParser
 
 def get_workspace_dir():
     instance_name = os.getenv("ACTIVE_INSTANCE", "")
@@ -111,14 +113,84 @@ def run_command(command: str) -> str:
     except Exception as e:
         return f"Error running command: {str(e)}"
 
+class DDGHTMLParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.results = []
+        self.in_title = False
+        self.in_snippet = False
+
+    def handle_starttag(self, tag, attrs):
+        attrs_dict = dict(attrs)
+        class_name = attrs_dict.get('class', '')
+        classes = class_name.split()
+        
+        if tag == 'a' and 'result__a' in classes:
+            href = attrs_dict.get('href', '')
+            if href.startswith('//duckduckgo.com/l/?uddg='):
+                href = href.replace('//duckduckgo.com/l/?uddg=', '')
+            elif href.startswith('/l/?uddg='):
+                href = href.replace('/l/?uddg=', '')
+            
+            if 'uddg=' in href or 'uddg' in href or 'rut=' in href:
+                parsed = urllib.parse.urlparse(href)
+                qs = urllib.parse.parse_qs(parsed.query)
+                if 'uddg' in qs:
+                    href = qs['uddg'][0]
+                else:
+                    parts = href.split('uddg=')
+                    if len(parts) > 1:
+                        href = parts[1].split('&')[0]
+                        href = urllib.parse.unquote(href)
+            
+            href = urllib.parse.unquote(href)
+            if href.startswith('//'):
+                href = 'https:' + href
+            
+            # Remove any trailing DuckDuckGo redirection parameters
+            href = href.split('&')[0]
+                
+            self.results.append({'title': '', 'href': href, 'body': ''})
+            self.in_title = True
+            
+        elif tag == 'a' and 'result__snippet' in classes:
+            self.in_snippet = True
+
+    def handle_endtag(self, tag):
+        if tag == 'a':
+            self.in_title = False
+            self.in_snippet = False
+
+    def handle_data(self, data):
+        if not self.results:
+            return
+        if self.in_title:
+            self.results[-1]['title'] += data
+        elif self.in_snippet:
+            self.results[-1]['body'] += data
+
 def search_web(query: str) -> str:
     """Searches the web for the query and returns results."""
     try:
-        with DDGS() as ddgs:
-            results = [r for r in ddgs.text(query, max_results=5)]
-            return json.dumps(results, indent=2)
+        url = 'https://html.duckduckgo.com/html/?' + urllib.parse.urlencode({'q': query})
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+        )
+        with urllib.request.urlopen(req) as response:
+            html = response.read().decode('utf-8')
+            parser = DDGHTMLParser()
+            parser.feed(html)
+            valid_results = []
+            for r in parser.results:
+                r['title'] = ' '.join(r['title'].split())
+                r['body'] = ' '.join(r['body'].split())
+                if r['title'] and r['href']:
+                    valid_results.append(r)
+            return json.dumps(valid_results[:5], indent=2)
     except Exception as e:
         return f"Error searching the web: {str(e)}"
+
 
 # The schema definition for the LLM
 TOOLS_SCHEMA = [
