@@ -54,6 +54,15 @@ def run_loop(instance: str, ticks: int):
             print(action["content"])
             break
             
+        elif action["type"] == "json_error":
+            print(f"JSON Parsing Error: {action['content']}")
+            append_to_history({
+                "role": "user",
+                "content": f"JSON Parsing Error: {action['content']}. Please ensure you format the tool call arguments as valid JSON. If you are writing text/code containing double quotes, you must escape them (e.g., use \\\" or use single quotes)."
+            })
+            continue
+
+            
         elif action["type"] == "thought":
             print(f"Agent Thought:\n{action['content']}")
             append_to_history({

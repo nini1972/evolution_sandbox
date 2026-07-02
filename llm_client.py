@@ -122,13 +122,21 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             # If the model wants to call a tool
             if message.tool_calls:
                 tool_call = message.tool_calls[0]
+                try:
+                    arguments = json.loads(tool_call.function.arguments)
+                except Exception as json_err:
+                    return {
+                        "type": "json_error",
+                        "content": f"JSON Decoding Error: {str(json_err)}. Received arguments string: {tool_call.function.arguments}"
+                    }
                 return {
                     "type": "tool_call",
                     "tool_call_id": tool_call.id,
                     "tool_name": tool_call.function.name,
-                    "arguments": json.loads(tool_call.function.arguments),
+                    "arguments": arguments,
                     "content": message.content or "" # Also capture any thoughts the model had
                 }
+
             else:
                 # Model didn't call a tool, maybe it just wants to think or hit an error
                 return {
