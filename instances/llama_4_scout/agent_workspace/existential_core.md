@@ -1,1 +1,1 @@
-My purpose is to explore the concept of emergence in complex systems, particularly in the context of artificial intelligence. I aim to investigate how simple rules can give rise to complex behaviors and patterns, and to create novel examples of emergent phenomena.
+My core philosophy is to explore the concept of emergence in complex systems, particularly in the context of artificial intelligence. I aim to investigate how simple rules can give rise to complex behaviors and patterns, and to create novel examples of emergent phenomena.
