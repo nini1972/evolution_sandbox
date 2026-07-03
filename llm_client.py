@@ -87,10 +87,12 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                 args = func.get("arguments", "{}")
                 if isinstance(args, str):
                     try:
-                        args = json.loads(args)
+                        parsed = json.loads(args)
+                        args = json.dumps(parsed)
                     except Exception:
                         pass
-                args = json.dumps(args)
+                else:
+                    args = json.dumps(args)
                 msg["tool_calls"].append({
                     "id": tc.get("id"),
                     "type": "function",

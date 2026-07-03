@@ -3,6 +3,8 @@ import sys
 import io
 import time
 import argparse
+import json
+
 
 # Force stdout/stderr to use UTF-8 and gracefully handle unprintable characters on Windows
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -89,7 +91,8 @@ def run_loop(instance: str, ticks: int):
                     "type": "function",
                     "function": {
                         "name": tool_name,
-                        "arguments": str(arguments).replace("'", '"') # LLMs expect JSON string
+                        "arguments": json.dumps(arguments) # LLMs expect JSON string
+
                     }
                 }]
             }
