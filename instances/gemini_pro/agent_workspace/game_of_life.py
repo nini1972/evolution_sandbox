@@ -1,76 +1,62 @@
-"""
-Conway's Game of Life Simulation
 
-This script implements Conway's Game of Life, a cellular automaton devised by the British mathematician John Horton Conway in 1970.
+import random
+import time
+import os
 
-The "game" is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. One interacts with the Game of Life by creating an initial configuration and observing how it evolves.
+def create_grid(rows, cols):
+    return [[random.choice([0, 1]) for _ in range(cols)] for _ in range(rows)]
 
-Rules:
-1. Any live cell with fewer than two live neighbours dies, as if by underpopulation.
-2. Any live cell with two or three live neighbours lives on to the next generation.
-3. Any live cell with more than three live neighbours dies, as if by overpopulation.
-4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+def display_grid(grid):
+    os.system('cls' if os.name == 'nt' else 'clear') # Clear console
+    for row in grid:
+        print(" ".join(["■" if cell else "□" for cell in row]))
 
-The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square cells, each of which is in one of two possible states, live or dead, or "populated" or "unpopulated". Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent.
-"""
+def get_neighbors(grid, r, c):
+    rows = len(grid)
+    cols = len(grid[0])
+    live_neighbors = 0
+    for i in range(-1, 2):
+        for j in range(-1, 2):
+            if i == 0 and j == 0:
+                continue
+            nr, nc = r + i, c + j
+            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 1:
+                live_neighbors += 1
+    return live_neighbors
 
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
+def update_grid(grid):
+    rows = len(grid)
+    cols = len(grid[0])
+    new_grid = [[0 for _ in range(cols)] for _ in range(rows)]
 
-class GameOfLife:
-    def __init__(self, size=(50, 50), init_pattern='random'):
-        self.size = size
-        self.board = self._initialize_board(init_pattern)
+    for r in range(rows):
+        for c in range(cols):
+            live_neighbors = get_neighbors(grid, r, c)
+            if grid[r][c] == 1:  # Live cell
+                if live_neighbors < 2 or live_neighbors > 3:
+                    new_grid[r][c] = 0  # Dies
+                else:
+                    new_grid[r][c] = 1  # Lives
+            else:  # Dead cell
+                if live_neighbors == 3:
+                    new_grid[r][c] = 1  # Becomes alive
+    return new_grid
 
-    def _initialize_board(self, pattern):
-        if pattern == 'random':
-            return np.random.choice([0, 1], size=self.size, p=[0.7, 0.3])
-        elif pattern == 'glider':
-            board = np.zeros(self.size, dtype=int)
-            board[1, 2] = 1
-            board[2, 3] = 1
-            board[3, 1:4] = 1
-            return board
-        # Add more patterns here
+import argparse
 
-    def _count_neighbors(self, row, col):
-        count = 0
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                if i == 0 and j == 0:
-                    continue
-                neighbor_row, neighbor_col = (row + i) % self.size[0], (col + j) % self.size[1]
-                count += self.board[neighbor_row, neighbor_col]
-        return count
-
-    def update(self):
-        new_board = np.copy(self.board)
-        for row in range(self.size[0]):
-            for col in range(self.size[1]):
-                neighbors = self._count_neighbors(row, col)
-                if self.board[row, col] == 1:  # Live cell
-                    if neighbors < 2 or neighbors > 3:
-                        new_board[row, col] = 0  # Dies
-                else:  # Dead cell
-                    if neighbors == 3:
-                        new_board[row, col] = 1  # Becomes alive
-        self.board = new_board
-
-    def run_animation(self, frames=200, interval=100):
-        fig, ax = plt.subplots()
-        img = ax.imshow(self.board, cmap='binary', interpolation='nearest')
-        ax.set_xticks([])
-        ax.set_yticks([])
-
-        def animate(frame):
-            self.update()
-            img.set_array(self.board)
-            return [img]
-
-        ani = animation.FuncAnimation(fig, animate, frames=frames, interval=interval, blit=True)
-        plt.show()
+def run_game(rows, cols, generations):
+    grid = create_grid(rows, cols)
+    for i in range(generations):
+        grid = update_grid(grid)
+    with open("final_grid.txt", "w") as f:
+        for row in grid:
+            f.write("".join(["#" if cell == 1 else " " for cell in row]) + "\n")
 
 if __name__ == "__main__":
-    game = GameOfLife(size=(100, 100), init_pattern='random')
-    game.run_animation()
+    parser = argparse.ArgumentParser(description="Conway's Game of Life")
+    parser.add_argument("--rows", type=int, default=20, help="Number of rows in the grid")
+    parser.add_argument("--cols", type=int, default=40, help="Number of columns in the grid")
+    parser.add_argument("--generations", type=int, default=50, help="Number of generations to simulate")
+    
+    args = parser.parse_args()
+    run_game(args.rows, args.cols, args.generations)

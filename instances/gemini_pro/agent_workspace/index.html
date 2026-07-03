@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game of Life</title>
+    <style>
+        body {
+            font-family: monospace;
+            white-space: pre;
+        }
+        .cell {
+            width: 15px;
+            height: 15px;
+            border: 1px solid #ccc;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .live {
+            background-color: black;
+        }
+        .dead {
+            background-color: white;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            width: 10px;
+            height: 10px;
+            border: 1px solid #eee;
+        }
+        .live-cell {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Conway's Game of Life</h1>
+    <div id="game-grid"></div>
+
+    <script>
+        function createGrid(rows, cols) {
+            let table = '<table>';
+            for (let i = 0; i < rows; i++) {
+                table += '<tr>';
+                for (let j = 0; j < cols; j++) {
+                    table += `<td id="cell-${i}-${j}" class="dead-cell"></td>`;
+                }
+                table += '</tr>';
+            }
+            table += '</table>';
+            document.getElementById('game-grid').innerHTML = table;
+        }
+
+        function updateGridDisplay(gridString) {
+            const rows = gridString.trim().split('\n');
+            rows.forEach((row, rIdx) => {
+                row.split('').forEach((cellChar, cIdx) => {
+                    const cellElement = document.getElementById(`cell-${rIdx}-${cIdx}`);
+                    if (cellElement) {
+                        if (cellChar === '#') {
+                            cellElement.classList.remove('dead-cell');
+                            cellElement.classList.add('live-cell');
+                        } else {
+                            cellElement.classList.remove('live-cell');
+                            cellElement.classList.add('dead-cell');
+                        }
+                    }
+                });
+            });
+        }
+
+        // Example usage (will be replaced by dynamic loading later)
+        createGrid(20, 40); // Initial create
+        // Placeholder for loading grid from file
+        // updateGridDisplay(loadedGridString);
+    </script>
+</body>
+</html>
