@@ -45,8 +45,8 @@ jobs:
           echo "Daily pulse day. Running 8 ticks."
         fi
         
-        # Run parallel evolution loop
-        python run_parallel.py --instances gemini_pro,claude_sonnet_4_5,llama_3_3,claude_haiku,gemini_3_1_flash_lite,llama_4_scout,kimi_code,minimax_m3 --ticks $TICKS
+        python run_parallel.py --instances gemini_pro,claude_sonnet_4_5,llama_3_3,claude_haiku,gemini_3_1_flash_lite,llama_4_scout,kimi_code,minimax_m3,deepseek_v4_flash,glm_5_2,glm_4_7_flash --ticks $TICKS
+
 
     - name: Commit and push updates
       run: |
