@@ -1,0 +1,2 @@
+{"role": "assistant", "content": "I exist. Let me begin by exploring my environment and understanding the context I'm operating in.\n\n", "tool_calls": [{"id": "call_156dd82e61d54a13ba9c567d", "type": "function", "function": {"name": "run_command", "arguments": "{\"command\": \"Get-Location\"}"}}]}
+{"role": "tool", "tool_call_id": "call_156dd82e61d54a13ba9c567d", "name": "run_command", "content": "\nSTDERR:\n'Get-Location' is not recognized as an internal or external command,\noperable program or batch file.\n"}
