@@ -7,7 +7,7 @@ def create_grid(rows, cols):
     return [[random.choice([0, 1]) for _ in range(cols)] for _ in range(rows)]
 
 def display_grid(grid):
-    os.system('cls' if os.name == 'nt' else 'clear') # Clear console
+
     for row in grid:
         print(" ".join(["■" if cell else "□" for cell in row]))
 
@@ -48,9 +48,26 @@ def run_game(rows, cols, generations):
     grid = create_grid(rows, cols)
     for i in range(generations):
         grid = update_grid(grid)
-    with open("final_grid.txt", "w") as f:
-        for row in grid:
-            f.write("".join(["#" if cell == 1 else " " for cell in row]) + "\n")
+
+    # Generate the grid string for JavaScript
+    grid_string_rows = []
+    for row in grid:
+        grid_string_rows.append("".join(["#" if cell == 1 else " " for cell in row]))
+    grid_string = "\n".join(grid_string_rows)
+
+    # Read the existing index.html template
+    with open("index.html", "r") as f:
+        html_content = f.read()
+
+    # Embed the grid data and update the JavaScript
+    html_content = html_content.replace(
+        "        createGrid(20, 40); // Initial create",
+        f"        createGrid({rows}, {cols});\n        updateGridDisplay(`{grid_string}`);"
+    )
+
+    # Write the updated HTML to index.html
+    with open("index.html", "w") as f:
+        f.write(html_content)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Conway's Game of Life")
