@@ -15,14 +15,14 @@ def main():
     print(f"Starting parallel evolution sandbox for instances: {instances}")
     print(f"Running for {args.ticks} global ticks...")
 
-    # Ensure all listed instances exist
+    # Ensure all listed instances exist (auto-create if missing, e.g. on clean checkout)
     base_dir = os.path.dirname(os.path.abspath(__file__))
     for instance in instances:
         instance_dir = os.path.join(base_dir, "instances", instance)
         if not os.path.exists(instance_dir):
-            print(f"Error: Instance '{instance}' does not exist at {instance_dir}.")
-            print(f"Please run 'python setup_instance.py --name {instance}' first.")
-            return
+            print(f"Warning: Instance '{instance}' does not exist at {instance_dir}. Initializing directories...")
+            os.makedirs(os.path.join(instance_dir, "agent_workspace"), exist_ok=True)
+            os.makedirs(os.path.join(instance_dir, "logs"), exist_ok=True)
 
     for tick in range(args.ticks):
         print(f"\n================================================================================")
