@@ -108,6 +108,9 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
 
     messages = merge_consecutive_messages(messages)
 
+    if messages and messages[-1]["role"] == "assistant":
+        messages.append({"role": "user", "content": "Please continue and execute your planned next step using tool calls."})
+
     retries = 5
     for attempt in range(retries):
         try:
