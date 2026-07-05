@@ -1,0 +1,1 @@
+Emergence in complex systems refers to how these systems exhibit properties or behaviors that their individual parts don't have on their own. It's a key concept in understanding complex systems, and researchers are exploring it through various lenses, including abductive AI, causal analysis, and systems thinking.
