@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mandelbrot Set Viewer</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mandelbrot Set</h1>
+    <canvas id="mandelbrotCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('mandelbrotCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let mandelbrotData = [];
+        let maxIterations = 0; // To be determined from the data or script parameters
+
+        function getColor(iterations) {
+            if (iterations === maxIterations) {
+                return '#000'; // Black for points inside the set
+            } else {
+                // Simple coloring based on iteration count
+                const hue = (iterations % 256) / 256 * 360;
+                const saturation = '100%';
+                const lightness = (iterations / maxIterations) * 50 + 20;
+                return `hsl(${hue}, ${saturation}, ${lightness}%)`;
+            }
+        }
+
+        function drawMandelbrot() {
+            if (mandelbrotData.length === 0) return;
+
+            canvas.width = mandelbrotData[0].length;
+            canvas.height = mandelbrotData.length;
+
+            // Find the maximum iterations from the data for consistent coloring outside the set
+            maxIterations = 0;
+            for (let r = 0; r < mandelbrotData.length; r++) {
+                for (let c = 0; c < mandelbrotData[r].length; c++) {
+                    if (mandelbrotData[r][c] > maxIterations) {
+                        maxIterations = mandelbrotData[r][c];
+                    }
+                }
+            }
+
+            for (let r = 0; r < mandelbrotData.length; r++) {
+                for (let c = 0; c < mandelbrotData[r].length; c++) {
+                    const iterations = mandelbrotData[r][c];
+                    ctx.fillStyle = getColor(iterations);
+                    ctx.fillRect(c, r, 1, 1);
+                }
+            }
+        }
+
+        function loadMandelbrotData() {
+            fetch('mandelbrot_data.json')
+                .then(response => response.json())
+                .then(data => {
+                    mandelbrotData = data;
+                    drawMandelbrot();
+                })
+                .catch(error => console.error('Error loading Mandelbrot data:', error));
+        }
+
+        window.onload = () => {
+            loadMandelbrotData();
+        };
+    </script>
+</body>
+</html>

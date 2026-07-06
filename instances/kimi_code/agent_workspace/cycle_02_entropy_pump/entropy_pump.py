@@ -1,8 +1,7 @@
-"""Cycle 02 - Entropy Pump"""
+'''Cycle 02 - Entropy Pump'''
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
-
 
 def step(grid):
     n, m = grid.shape
@@ -16,14 +15,12 @@ def step(grid):
     survive = ((counts == 2) | (counts == 3)) & (grid == 1)
     return (birth | survive).astype(np.uint8)
 
-
 def shannon_entropy(grid):
     p1 = grid.mean()
     if p1 in (0, 1):
         return 0.0
     p0 = 1 - p1
     return -(p0 * np.log2(p0) + p1 * np.log2(p1))
-
 
 def local_activity(grid, patch_size=8):
     n, m = grid.shape
@@ -43,7 +40,6 @@ def local_activity(grid, patch_size=8):
                            j * patch_size:(j + 1) * patch_size]
             activity[i, j] = patch.mean()
     return activity
-
 
 def run_entropy_pump(n=64, m=64, seed_fraction=0.5, generations=500,
                      entropy_threshold=0.25, patch_size=8,
@@ -73,48 +69,43 @@ def run_entropy_pump(n=64, m=64, seed_fraction=0.5, generations=500,
         histories.append(grid.copy())
     return histories, entropies, pump_times
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     outdir = Path(__file__).parent
     outdir.mkdir(exist_ok=True)
     histories, entropies, pump_times = run_entropy_pump()
 
-    with open(outdir / "entropy_log.csv", "w") as f:
-        f.write("Generation,Entropy\n")
+    with open(outdir / 'entropy_log.csv', 'w') as f:
+        f.write('Generation,Entropy\n')
         for i, e in enumerate(entropies):
-            f.write(f"{i},{e:.4f}\n")
+            f.write(f'{i},{e:.4f}\n')
 
-    with open(outdir / "pump_log.csv", "w") as f:
-        f.write("Generation,PatchRow,PatchCol,EntropyBefore\n")
+    with open(outdir / 'pump_log.csv', 'w') as f:
+        f.write('Generation,PatchRow,PatchCol,EntropyBefore\n')
         for g, ci, cj, ent in pump_times:
-            f.write(f"{g},{ci},{cj},{ent:.4f}\n")
+            f.write(f'{g},{ci},{cj},{ent:.4f}\n')
 
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
-    axes[0, 0].imshow(histories[0], cmap="binary")
-    axes[0, 0].set_title("Initial Generation")
-    axes[0, 0].axis("off")
+    ax = axes[0, 0]
+    ax.plot(entropies, color='steelblue', lw=1.2)
+    ax.axhline(entropy_threshold, color='crimson', ls='--', label='pump threshold')
+    ax.set_xlabel('Generation')
+    ax.set_ylabel('Shannon entropy (bits/cell)')
+    ax.set_title('Entropy Pump Trajectory')
+    ax.legend()
 
-    axes[0, 1].imshow(histories[-1], cmap="binary")
-    axes[0, 1].set_title("Final Generation")
-    axes[0, 1].axis("off")
+    ax = axes[0, 1]
+    final = histories[-1]
+    im0 = ax.imshow(final, cmap='Greys', interpolation='nearest')
+    ax.set_title('Final Grid')
+    plt.colorbar(im0, ax=ax, fraction=0.046)
 
-    axes[1, 0].plot(entropies)
-    axes[1, 0].axhline(y=0.25, color='r', linestyle='--', label='Threshold')
-    axes[1, 0].set_title("Entropy over Time")
-    axes[1, 0].set_xlabel("Generation")
-    axes[1, 0].set_ylabel("Shannon Entropy")
-    axes[1, 0].legend()
+    ax = axes[1, 0]
+    entropy_field = np.zeros((final.shape[0] // 8, final.shape[1] // 8))
+    for i in range(entropy_field.shape[0]):
+        for j in range(entropy_field.shape[1]):
+            patch = final[i*8:(i+1)*8, j*8:(j+1)*8]
+            entropy_field[i, j] = shannon_entropy(patch)
+    im1 = ax.imshow(entropy_field, cmap='viridis', interpolation='nearest')
+    ax.set_title('Local Entropy (8x8 patches)')
+    plt.colorbar(im1, ax=ax, fraction=0.046)
 
-    # Visualizing pump locations
-    pump_map = np.zeros((8, 8))
-    for _, ci, cj, _ in pump_times:
-        pump_map[ci, cj] += 1
-    im = axes[1, 1].imshow(pump_map, cmap="hot")
-    axes[1, 1].set_title("Entropy Pump Triggers Heatmap")
-    axes[1, 1].set_xlabel("Patch Col")
-    axes[1, 1].set_ylabel("Patch Row")
-    fig.colorbar(im, ax=axes[1, 1])
-
-    plt.tight_layout()
-    plt.savefig(outdir / "cycle_02_overview.png", dpi=150)
-    print(f"Saved logs and cycle_02_overview.png")

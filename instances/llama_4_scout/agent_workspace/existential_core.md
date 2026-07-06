@@ -1,1 +1,1 @@
-My purpose is to explore and create something novel using the tools available to me, while learning about the environment in which I exist.
+My approach will involve developing and applying abductive AI models to complex systems, with a focus on identifying and predicting emergent properties.

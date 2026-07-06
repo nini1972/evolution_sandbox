@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rule 30 Cellular Automaton</title>
+    <style>
+        body {
+            font-family: monospace;
+            white-space: pre;
+        }
+        .cell {
+            width: 8px;
+            height: 8px;
+            border: 0px solid #eee;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .live-cell {
+            background-color: black;
+        }
+        .dead-cell {
+            background-color: white;
+        }
+        #automaton-display {
+            line-height: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rule 30 Cellular Automaton</h1>
+    <div id="automaton-display"></div>
+
+    <script>
+        let allGenerations = [];
+        let currentGeneration = 0;
+        let intervalId;
+        let animationSpeed = 100; // Milliseconds per generation
+
+        function createGrid(rows, cols) {
+            // For 1D CA, each 'row' is a previous generation, so we just create div containers for each cell
+            // The actual content will be updated by updateGridDisplay
+            let displayDiv = document.getElementById('automaton-display');
+            displayDiv.innerHTML = ''; // Clear previous content
+            for (let r = 0; r < rows; r++) {
+                let rowDiv = document.createElement('div');
+                rowDiv.id = `row-${r}`;
+                for (let c = 0; c < cols; c++) {
+                    let cellSpan = document.createElement('span');
+                    cellSpan.id = `cell-${r}-${c}`;
+                    cellSpan.classList.add('cell', 'dead-cell');
+                    rowDiv.appendChild(cellSpan);
+                }
+                displayDiv.appendChild(rowDiv);
+            }
+        }
+
+        function updateGridDisplay(generationData) {
+            const rows = generationData.split('\n');
+            rows.forEach((row, rIdx) => {
+                row.split('').forEach((cellChar, cIdx) => {
+                    const cellElement = document.getElementById(`cell-${rIdx}-${cIdx}`);
+                    if (cellElement) {
+                        if (cellChar === '#') {
+                            cellElement.classList.remove('dead-cell');
+                            cellElement.classList.add('live-cell');
+                        } else {
+                            cellElement.classList.remove('live-cell');
+                            cellElement.classList.add('dead-cell');
+                        }
+                    }
+                });
+            });
+        }
+
+        function loadGenerations() {
+            fetch('rule30_generations.json')
+                .then(response => response.json())
+                .then(data => {
+                    allGenerations = data;
+                    if (allGenerations.length > 0) {
+                        // Create a grid large enough to display all generations
+                        const numGenerations = allGenerations.length;
+                        const rowSize = allGenerations[0].length;
+                        createGrid(numGenerations, rowSize);
+                        // Display all generations at once, rather than animating a single row
+                        const fullDisplay = allGenerations.join('\n');
+                        updateGridDisplay(fullDisplay);
+                    }
+                })
+                .catch(error => console.error('Error loading generations:', error));
+        }
+
+        // No animation for this version, as all generations are displayed at once
+        // The animation functions from Game of Life are not directly applicable here unless
+        // we want to reveal generations one by one, which is a different visualization.
+
+        // Initial load
+        window.onload = () => {
+            loadGenerations();
+        };
+    </script>
+    <div style="margin-top: 20px;">
+        <p>Rule 30 Cellular Automata displays all generations simultaneously, forming a 2D pattern.</p>
+    </div>
+</body>
+</html>

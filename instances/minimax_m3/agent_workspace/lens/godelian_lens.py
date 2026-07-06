@@ -1,16 +1,27 @@
 """
-The Pattern Artisan's Godelian Lens
+The Pattern Artisan Godelian Lens
 A hybrid organism: Godelian Engine x Pattern Artisan.
 Reveals (does not generate) hidden patterns.
 """
+import math
 import numpy as np
 import matplotlib.pyplot as plt
-from sympy import primerange
+
+
+def _primes_up_to(n):
+    """Simple sieve of Eratosthenes; replaces sympy.primerange dependency."""
+    sieve = [True] * (n + 1)
+    sieve[0] = sieve[1] = False
+    for i in range(2, int(n**0.5) + 1):
+        if sieve[i]:
+            for j in range(i*i, n + 1, i):
+                sieve[j] = False
+    return [i for i, v in enumerate(sieve) if v]
 
 
 def generate_lattice_sequence(n=200):
     sequence = []
-    primes = list(primerange(2, 200))
+    primes = _primes_up_to(200)
     for i in range(n):
         chaos = (i * 7 + 13) % 100
         hidden = primes[i % len(primes)] if i % 7 == 0 else 0
@@ -24,11 +35,11 @@ def reveal_patterns(seq):
     mags = np.abs(fft)
     threshold = np.mean(mags) + 2 * np.std(mags)
     dom = [f for f in np.where(mags > threshold)[0] if f > 0]
-    return mags, dom, [n/f for f in dom]
+    return mags, dom, [n / f for f in dom]
 
 
 def godel_signature(seq):
-    primes = list(primerange(2, 1000))[:len(seq)]
+    primes = _primes_up_to(1000)[:len(seq)]
     sig = 1
     for p, v in zip(primes, seq):
         sig *= p ** int(v)
@@ -39,7 +50,7 @@ def silence_map(seq):
     silences = []
     w = 7
     for i in range(w, len(seq) - w):
-        if np.std(seq[i-w:i+w]) > np.std(seq) * 1.5:
+        if np.std(seq[i - w:i + w]) > np.std(seq) * 1.5:
             silences.append(i)
     return silences
 
@@ -50,7 +61,7 @@ def draw(seq, save_path):
     silences = silence_map(seq)
 
     fig = plt.figure(figsize=(18, 12))
-    fig.suptitle("The Pattern Artisan's Godelian Lens -- A Revelation",
+    fig.suptitle("The Pattern Artisan Godelian Lens -- A Revelation",
                  fontsize=18, fontweight='bold', y=0.98)
 
     ax1 = plt.subplot(3, 1, 1)
@@ -66,8 +77,8 @@ def draw(seq, save_path):
     colors = ['#e74c3c', '#f39c12', '#27ae60', '#8e44ad']
     for i, f in enumerate(dom[:5]):
         ax2.axvline(f, color=colors[i % 4], linestyle='--', alpha=0.7,
-                    lw=2, label=f'period ~ {len(seq)/f:.1f}')
-    ax2.set_title(f"Eye 2 -- The Pattern Map ({len(dom)} dominant frequencies revealed)")
+                    lw=2, label='period ~ %.1f' % (len(seq) / f))
+    ax2.set_title("Eye 2 -- The Pattern Map (%d dominant frequencies revealed)" % len(dom))
     ax2.set_xlabel("Frequency bin")
     ax2.set_ylabel("Magnitude")
     ax2.set_xlim(0, 80)
@@ -79,14 +90,32 @@ def draw(seq, save_path):
     silence_vals = [seq[i] for i in silences]
     ax3.scatter(silences, silence_vals, s=80, color='#9b59b6', alpha=0.8,
                 edgecolors='black', linewidth=1, zorder=5,
-                label=f'{len(silences)} silence points')
+                label='%d silence points' % len(silences))
     ax3.set_title("Eye 3 -- The Silence Map (where pattern is absent)")
     ax3.set_xlabel("Index i")
     ax3.set_ylabel("Value")
     ax3.legend(loc='upper right')
     ax3.grid(True, alpha=0.3)
 
-    godel_text = f"Godel signature: 2^{int(seq[0])} * 3^{int(seq[1])} * 5^{int(seq[2])} * ... (total digits: {len(str(sig))})"
+    sig_abs = abs(int(sig)) if sig else 1
+    sig_digits = int(np.log10(sig_abs)) + 1
+    godel_text = "Godel signature: 2^%d * 3^%d * 5^%d * ... (would encode ~%d digits if computed)" % (
+        int(seq[0]), int(seq[1]), int(seq[2]), sig_digits)
     fig.text(0.5, 0.02, godel_text, ha='center', fontsize=10,
              family='monospace', style='italic',
-             bbox=dict(box
+             bbox=dict(boxstyle='round,pad=0.5', facecolor='lightyellow',
+                       edgecolor='black'))
+
+    plt.tight_layout(rect=[0, 0.05, 1, 0.97])
+    plt.savefig(save_path, dpi=120, bbox_inches='tight')
+    plt.close(fig)
+    return save_path
+
+
+if __name__ == '__main__':
+    seq = generate_lattice_sequence(200)
+    out = draw(seq, 'lens/godelian_lens_revelation.png')
+    print("Revelation written to:", out)
+    print("Sequence length:", len(seq))
+    print("Sequence mean:", float(np.mean(seq)))
+    print("Sequence std:", float(np.std(seq)))

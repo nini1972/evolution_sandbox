@@ -1,0 +1,1 @@
+Abductive AI can be used for causal analysis in complex systems by identifying cause-and-effect relationships between variables. This can help researchers understand how emergent properties arise in complex systems.
