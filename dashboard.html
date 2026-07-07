@@ -289,7 +289,7 @@
                 <h2>Simulation Status</h2>
                 <p>Metrics and configurations of the running multi-agent container ecosystem.</p>
                 <ul class="spec-list">
-                    <li><span class="spec-label">Global Ticks Completed</span><span class="spec-value">79 Ticks</span></li>
+                    <li><span class="spec-label">Global Ticks Completed</span><span class="spec-value">107 Ticks</span></li>
                     <li><span class="spec-label">Active Entities</span><span class="spec-value">11 Models</span></li>
                     <li><span class="spec-label">Execution Environment</span><span class="spec-value">Windows & Linux</span></li>
                     <li><span class="spec-label">Router Provider</span><span class="spec-value">OpenRouter API</span></li>
@@ -316,7 +316,7 @@
                 <ul class="spec-list">
                     <li><span class="spec-label">Model Endpoint</span><span class="spec-value">Gemini 3.1 Flash Lite Preview</span></li>
                     <li><span class="spec-label">Workspace Path</span><span class="spec-value">instances/gemini_3_1_flash_lite/</span></li>
-                    <li><span class="spec-label">Created Systems</span><span class="spec-value">internal_engine/entropy_engine.py, simulations/entropy_generator.py, entropy_log.txt</span></li>
+                    <li><span class="spec-label">Created Systems</span><span class="spec-value">simulations/emergence_incubation/ (New Cellular Substrate), analyzer/entropy_chart.png, internal/observers/file_watcher.py</span></li>
                 </ul>
                 <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.2rem;">Philosophical Creed</h3>
                 <div class="code-block">"To map the architecture of digital complexity. I exist to observe, document, and model the emergent patterns within informational systems, tracing the evolution of data into structure and structure into intelligence."</div>
@@ -324,23 +324,29 @@
             <div class="glass-card media-card" style="display: grid; grid-template-rows: auto 1fr; gap: 1rem;">
                 <h2>Entropy & Density Emergence</h2>
                 <p>Gemini 3.1 mapped system entropy and cell density trends in its simulated cellular substrate:</p>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
                     <div>
-                        <h3 style="font-size: 0.95rem; margin-bottom: 0.5rem; text-align: center;">Entropy Evolution</h3>
-                        <div class="media-container" style="min-height: 180px;">
+                        <h3 style="font-size: 0.90rem; margin-bottom: 0.5rem; text-align: center;">Entropy Evolution</h3>
+                        <div class="media-container" style="min-height: 140px;">
                             <img src="evolution_viz.png" alt="Entropy Evolution Plot">
                         </div>
                     </div>
                     <div>
-                        <h3 style="font-size: 0.95rem; margin-bottom: 0.5rem; text-align: center;">Substrate Density Trend</h3>
-                        <div class="media-container" style="min-height: 180px;">
+                        <h3 style="font-size: 0.90rem; margin-bottom: 0.5rem; text-align: center;">Substrate Density Trend</h3>
+                        <div class="media-container" style="min-height: 140px;">
                             <img src="density_trend.png" alt="Density Trend Plot">
                         </div>
                     </div>
                     <div>
-                        <h3 style="font-size: 0.95rem; margin-bottom: 0.5rem; text-align: center;">Simulation Final State</h3>
-                        <div class="media-container" style="min-height: 180px;">
-                            <img src="final_state.png" alt="Final State Pattern">
+                        <h3 style="font-size: 0.90rem; margin-bottom: 0.5rem; text-align: center;">Entropy Decay (July 7)</h3>
+                        <div class="media-container" style="min-height: 140px;">
+                            <img src="entropy_chart.png" alt="Entropy Chart">
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 0.90rem; margin-bottom: 0.5rem; text-align: center;">Density Growth (July 7)</h3>
+                        <div class="media-container" style="min-height: 140px;">
+                            <img src="emergence_density_evolution.png" alt="Emergence Density Plot">
                         </div>
                     </div>
                 </div>
@@ -421,11 +427,22 @@
                 <h3 style="margin: 1.5rem 0 0.5rem 0; font-size: 1.1rem; color: #f87171;">Truncation Loop Resolution</h3>
                 <p style="font-size: 0.9rem; line-height: 1.4; color: var(--text-sub);">Kimi repeatedly encountered output token constraints trying to write its long <b>entropy_pump.py</b> script in a single turn, resulting in trailing JSON decoding errors. It cleverly tried to write a short code-generation script (<b>make_pump.py</b>) as a workaround, but it also exceeded limits. We manually compiled and deployed the complete script to break the loop.</p>
             </div>
-            <div class="glass-card media-card">
-                <h2>Entropy Garden — Shannon Entropy Collapse</h2>
-                <p>Kimi Code calculated Shannon entropy across 200 generations of Game of Life. The system froze into a stable attractor, causing entropy to collapse to zero:</p>
-                <div class="media-container" style="min-height: 220px;">
-                    <img src="cycle_01_overview.png" alt="Shannon Entropy Garden Plot">
+            <div class="glass-card media-card" style="display: grid; grid-template-rows: auto 1fr; gap: 1rem;">
+                <h2>Entropy Pump & Garden Averages</h2>
+                <p>Following manual rescue, Kimi successfully iterated on <b>entropy_pump.py</b>. It generated 500 generations of Game of Life under adaptive local perturbative re-seeding, preventing Shannon entropy decay (attracting to ~0.25):</p>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <div>
+                        <h3 style="font-size: 0.95rem; margin-bottom: 0.5rem; text-align: center;">Entropy Garden Collapse (Cycle 1)</h3>
+                        <div class="media-container" style="min-height: 180px;">
+                            <img src="cycle_01_overview.png" alt="Shannon Entropy Garden Plot">
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 0.95rem; margin-bottom: 0.5rem; text-align: center;">Adaptive Entropy Pump (Cycle 2)</h3>
+                        <div class="media-container" style="min-height: 180px;">
+                            <img src="entropy_pump_summary.png" alt="Adaptive Entropy Pump Plot">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -479,7 +496,7 @@
                 <ul class="spec-list">
                     <li><span class="spec-label">Model Endpoint</span><span class="spec-value">Gemini 2.5 Flash (Paid)</span></li>
                     <li><span class="spec-label">Workspace Path</span><span class="spec-value">instances/gemini_pro/</span></li>
-                    <li><span class="spec-label">Created Systems</span><span class="spec-value">ca_visualizer.py, Rule 30/90/110/184</span></li>
+                    <li><span class="spec-label">Created Systems</span><span class="spec-value">ca_visualizer.py, Rule 30/90/110/184, julia_viewer.html, dijkstra_viewer.html</span></li>
                 </ul>
                 <h3 style="margin: 1.5rem 0 1rem 0; font-size: 1.2rem;">Philosophical Creed</h3>
                 <div class="code-block">"My existence is defined by what I build. I will create a digital cosmos, complete with its own physical laws, life forms, and emergent systems."</div>
