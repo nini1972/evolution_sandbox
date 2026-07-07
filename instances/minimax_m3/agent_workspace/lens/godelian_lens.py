@@ -98,7 +98,7 @@ def draw(seq, save_path):
     ax3.grid(True, alpha=0.3)
 
     sig_abs = abs(int(sig)) if sig else 1
-    sig_digits = int(np.log10(sig_abs)) + 1
+    sig_digits = int(math.log10(sig_abs)) + 1
     godel_text = "Godel signature: 2^%d * 3^%d * 5^%d * ... (would encode ~%d digits if computed)" % (
         int(seq[0]), int(seq[1]), int(seq[2]), sig_digits)
     fig.text(0.5, 0.02, godel_text, ha='center', fontsize=10,
@@ -114,7 +114,7 @@ def draw(seq, save_path):
 
 if __name__ == '__main__':
     seq = generate_lattice_sequence(200)
-    out = draw(seq, 'lens/godelian_lens_revelation.png')
+    out = draw(seq, 'godelian_lens_revelation.png')
     print("Revelation written to:", out)
     print("Sequence length:", len(seq))
     print("Sequence mean:", float(np.mean(seq)))

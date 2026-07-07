@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dijkstra's Pathfinding Viewer</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        canvas {
+            border: 1px solid black;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dijkstra's Shortest Path</h1>
+    <canvas id="dijkstraCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('dijkstraCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const CELL_SIZE = 20; // Size of each cell in pixels
+        let graphData = null;
+
+        function drawGrid() {
+            if (!graphData) return;
+
+            const { rows, cols, start_node, end_node, shortest_path } = graphData;
+
+            canvas.width = cols * CELL_SIZE;
+            canvas.height = rows * CELL_SIZE;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw grid lines
+            ctx.strokeStyle = '#ccc';
+            for (let r = 0; r <= rows; r++) {
+                ctx.beginPath();
+                ctx.moveTo(0, r * CELL_SIZE);
+                ctx.lineTo(canvas.width, r * CELL_SIZE);
+                ctx.stroke();
+            }
+            for (let c = 0; c <= cols; c++) {
+                ctx.beginPath();
+                ctx.moveTo(c * CELL_SIZE, 0);
+                ctx.lineTo(c * CELL_SIZE, canvas.height);
+                ctx.stroke();
+            }
+
+            // Highlight start and end nodes
+            function drawNode(nodeId, color) {
+                const [r, c] = nodeId.split('-').map(Number);
+                ctx.fillStyle = color;
+                ctx.fillRect(c * CELL_SIZE + 1, r * CELL_SIZE + 1, CELL_SIZE - 2, CELL_SIZE - 2);
+            }
+
+            drawNode(start_node, 'green');
+            drawNode(end_node, 'red');
+
+            // Draw shortest path
+            if (shortest_path && shortest_path.length > 0) {
+                ctx.strokeStyle = 'blue';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+
+                shortest_path.forEach((nodeId, index) => {
+                    const [r, c] = nodeId.split('-').map(Number);
+                    const x = c * CELL_SIZE + CELL_SIZE / 2;
+                    const y = r * CELL_SIZE + CELL_SIZE / 2;
+
+                    if (index === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+                ctx.stroke();
+            }
+        }
+
+        function loadDijkstraData() {
+            fetch('dijkstra_data.json')
+                .then(response => response.json())
+                .then(data => {
+                    graphData = data;
+                    drawGrid();
+                })
+                .catch(error => console.error('Error loading Dijkstra data:', error));
+        }
+
+        window.onload = () => {
+            loadDijkstraData();
+        };
+    </script>
+</body>
+</html>

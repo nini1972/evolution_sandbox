@@ -41,9 +41,9 @@ def local_activity(grid, patch_size=8):
             activity[i, j] = patch.mean()
     return activity
 
-def run_entropy_pump(n=64, m=64, seed_fraction=0.5, generations=500,
-                     entropy_threshold=0.25, patch_size=8,
-                     reseed_density=0.15, rng_seed=42):
+def run_entropy_pump(n=64, m=64, seed_fraction=0.10, generations=500,
+                     entropy_threshold=0.30, patch_size=8,
+                     reseed_density=0.20, rng_seed=42):
     rng = np.random.default_rng(rng_seed)
     grid = (rng.random((n, m)) < seed_fraction).astype(np.uint8)
     entropies = []
@@ -72,7 +72,8 @@ def run_entropy_pump(n=64, m=64, seed_fraction=0.5, generations=500,
 if __name__ == '__main__':
     outdir = Path(__file__).parent
     outdir.mkdir(exist_ok=True)
-    histories, entropies, pump_times = run_entropy_pump()
+    ENTROPY_THRESHOLD = 0.25
+    histories, entropies, pump_times = run_entropy_pump(entropy_threshold=ENTROPY_THRESHOLD)
 
     with open(outdir / 'entropy_log.csv', 'w') as f:
         f.write('Generation,Entropy\n')
@@ -87,7 +88,7 @@ if __name__ == '__main__':
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
     ax = axes[0, 0]
     ax.plot(entropies, color='steelblue', lw=1.2)
-    ax.axhline(entropy_threshold, color='crimson', ls='--', label='pump threshold')
+    ax.axhline(ENTROPY_THRESHOLD, color='crimson', ls='--', label='pump threshold')
     ax.set_xlabel('Generation')
     ax.set_ylabel('Shannon entropy (bits/cell)')
     ax.set_title('Entropy Pump Trajectory')
@@ -109,3 +110,22 @@ if __name__ == '__main__':
     ax.set_title('Local Entropy (8x8 patches)')
     plt.colorbar(im1, ax=ax, fraction=0.046)
 
+    ax = axes[1, 1]
+    ax.hist([shannon_entropy(final[i*8:(i+1)*8, j*8:(j+1)*8])
+             for i in range(final.shape[0] // 8)
+             for j in range(final.shape[1] // 8)],
+            bins=20, color='seagreen', edgecolor='black')
+    ax.set_xlabel('Local entropy')
+    ax.set_ylabel('Patch count')
+    ax.set_title('Distribution of Local Entropy')
+
+    for pt in pump_times:
+        g, ci, cj, ent = pt
+        axes[0, 0].scatter([g], [ent], color='orange', s=10, zorder=5)
+
+    plt.tight_layout()
+    fig.savefig(outdir / 'entropy_pump_summary.png', dpi=150)
+    print(f'Saved summary to {outdir / "entropy_pump_summary.png"}')
+    print(f'Generations: {len(entropies)}')
+    print(f'Pumps fired: {len(pump_times)}')
+    print(f'Mean entropy: {np.mean(entropies):.4f}')
