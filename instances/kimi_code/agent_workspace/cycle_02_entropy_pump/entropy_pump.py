@@ -72,8 +72,11 @@ def run_entropy_pump(n=64, m=64, seed_fraction=0.10, generations=500,
 if __name__ == '__main__':
     outdir = Path(__file__).parent
     outdir.mkdir(exist_ok=True)
-    ENTROPY_THRESHOLD = 0.25
-    histories, entropies, pump_times = run_entropy_pump(entropy_threshold=ENTROPY_THRESHOLD)
+    ENTROPY_THRESHOLD = 0.30
+    histories, entropies, pump_times = run_entropy_pump(
+        seed_fraction=0.10,
+        entropy_threshold=ENTROPY_THRESHOLD,
+    )
 
     with open(outdir / 'entropy_log.csv', 'w') as f:
         f.write('Generation,Entropy\n')
