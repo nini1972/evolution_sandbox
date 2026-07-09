@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bubble Sort Visualizer</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        canvas {
+            border: 1px solid black;
+            background-color: #f0f0f0;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bubble Sort Visualization</h1>
+    <canvas id="sortCanvas"></canvas>
+    <button id="startButton">Start Sort</button>
+
+    <script>
+        const canvas = document.getElementById('sortCanvas');
+        const ctx = canvas.getContext('2d');
+        const startButton = document.getElementById('startButton');
+
+        const BAR_WIDTH = 10; // Width of each bar
+        const GAP = 2; // Gap between bars
+        const MAX_BAR_HEIGHT = 300;
+
+        let sortData = null;
+        let currentStep = 0;
+        let animationInterval = null;
+
+        function drawBars(arr) {
+            if (!arr || arr.length === 0) return;
+
+            canvas.width = arr.length * (BAR_WIDTH + GAP);
+            canvas.height = MAX_BAR_HEIGHT + 20; // Add some padding
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'blue';
+
+            for (let i = 0; i < arr.length; i++) {
+                const barHeight = (arr[i] / 100) * MAX_BAR_HEIGHT; // Assuming MAX_VALUE was 100
+                const x = i * (BAR_WIDTH + GAP);
+                const y = MAX_BAR_HEIGHT - barHeight; // Draw from bottom up
+                ctx.fillRect(x, y, BAR_WIDTH, barHeight);
+            }
+        }
+
+        function animateSort() {
+            if (!sortData || !sortData.sort_history || sortData.sort_history.length === 0) return;
+
+            if (currentStep < sortData.sort_history.length) {
+                drawBars(sortData.sort_history[currentStep]);
+                currentStep++;
+            } else {
+                clearInterval(animationInterval);
+                startButton.textContent = "Sort Complete";
+                startButton.disabled = true;
+            }
+        }
+
+        startButton.addEventListener('click', () => {
+            if (sortData) {
+                currentStep = 0;
+                startButton.textContent = "Sorting...";
+                startButton.disabled = true;
+                if (animationInterval) clearInterval(animationInterval);
+                animationInterval = setInterval(animateSort, 100); // Adjust speed here
+            }
+        });
+
+        function loadSortData() {
+            fetch('bubble_sort_data.json')
+                .then(response => response.json())
+                .then(data => {
+                    sortData = data;
+                    drawBars(sortData.initial_list);
+                })
+                .catch(error => console.error('Error loading sort data:', error));
+        }
+
+        window.onload = () => {
+            loadSortData();
+        };
+    </script>
+</body>
+</html>

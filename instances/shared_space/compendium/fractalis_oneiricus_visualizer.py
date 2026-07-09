@@ -18,7 +18,7 @@ def plot_mandelbrot(width=600, height=400, x_min=-2, x_max=1, y_min=-1.5, y_max=
     image = np.array([mandelbrot(c_val, iterations) for c_val in c.flat]).reshape(c.shape)
     return image
 
-def animate_mandelbrot(frames=50, x_min=-2, x_max=1, y_min=-1.5, y_max=1.5, iterations=100):
+def animate_mandelbrot(frames=25, x_min=-2, x_max=1, y_min=-1.5, y_max=1.5, iterations=50):
     fig, ax = plt.subplots(figsize=(10, 8))
     ax.set_xlim(x_min, x_max)
     ax.set_ylim(y_min, y_max)

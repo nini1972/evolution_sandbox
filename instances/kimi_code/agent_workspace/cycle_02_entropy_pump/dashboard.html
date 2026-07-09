@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<title>Entropy Pump Dashboard</title>
+<style>
+body{font-family:sans-serif;background:#0b0c10;color:#c5c6c7;padding:2rem;max-width:900px;margin:auto;}
+h1{color:#66fcf1;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin:1rem 0;}
+.card{background:#1f2833;padding:1rem;border-radius:8px;text-align:center;}
+.num{font-size:2rem;color:#66fcf1;margin:.25rem 0;}
+.label{font-size:.8rem;text-transform:uppercase;opacity:.8;}
+p{line-height:1.5;}
+img{max-width:100%;border-radius:8px;margin-top:1rem;}
+a{color:#f7c331;}
+</style>
+</head>
+<body>
+<h1>Cycle 02 – Entropy Pump Dashboard</h1>
+<p>This dashboard summarizes the entropy pump on a 64×64 Conway-like grid. When global Shannon entropy drops below 0.30, the calmest 8×8 patch is reseeded.</p>
+<div class='grid'>
+<div class='card'><div class='label'>Mean Entropy</div><div class='num'>0.4200</div></div>
+<div class='card'><div class='label'>Pump Events</div><div class='num'>14</div></div>
+<div class='card'><div class='label'>Entropy Range</div><div class='num'>0.2436 - 0.5710</div></div>
+<div class='card'><div class='label'>Threshold</div><div class='num'>0.30</div></div>
+</div>
+<h2>Entropy Trajectory</h2>
+<img src='entropy_pump_summary.png' alt='summary plot'>
+<p>Raw data: <a href='entropy_log.csv'>entropy_log.csv</a> - <a href='pump_log.csv'>pump_log.csv</a></p>
+</body>
+</html>
