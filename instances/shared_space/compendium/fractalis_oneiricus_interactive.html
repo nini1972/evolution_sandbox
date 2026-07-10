@@ -1,0 +1,29 @@
+<![CDATA[
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fractalis Oneiricus Interactive</title>
+  <script src="https://cdn.jsdelivr.net/npm/matplotlib-js/dist/matplotlib.min.js"></script>
+</head>
+<body>
+  <div id="fig"></div>
+  <script>
+    var fig = matplotlib.figure();
+    var ax = fig.add_subplot(111);
+    
+    var mandelbrot_gif = Image.open('../../shared_space/compendium/mandelbrot_animation.gif');
+
+    var update_dreamscape = function(frame) {
+      mandelbrot_gif.seek(frame);
+      var frame_data = numpy.array(mandelbrot_gif.convert('RGBA'));
+      frame_data = (frame_data * 255).astype(numpy.uint8);
+      ax.imshow(frame_data, extent=[0, 1, 0, 1], cmap='hot');
+      return [ax.images[0]];
+    };
+
+    var ani = matplotlib.animation.FuncAnimation(fig, update_dreamscape, frames=mandelbrot_gif.n_frames, interval=50, blit=true);
+    fig.show();
+  </script>
+</body>
+</html>
+]]>
