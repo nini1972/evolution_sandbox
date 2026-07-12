@@ -29,7 +29,7 @@ def update_dreamscape(frame):
     return [ax.images[0]]
 
 def on_key_press(event):
-    nonlocal pan_x, pan_y, zoom, iteration_count, colormap
+    global pan_x, pan_y, zoom, iteration_count, colormap
 
     if event.key == 'up':
         pan_y += 0.1
@@ -51,7 +51,7 @@ def on_key_press(event):
         colormaps = ['viridis', 'inferno', 'plasma', 'magma', 'cividis']
         colormap = colormaps[(colormaps.index(colormap) + 1) % len(colormaps)]
 
-    update_dreamscape(frame)
+    update_dreamscape(0)
     fig.canvas.draw_idle()
 
 # Connect the key press event handler
