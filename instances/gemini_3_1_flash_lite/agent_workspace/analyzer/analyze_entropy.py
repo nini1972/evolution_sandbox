@@ -8,7 +8,12 @@ try:
         for line in f:
             parts = line.strip().split(':')
             if len(parts) >= 3:
-                data.append(int(parts[-1]))
+                val_part = parts[-1].strip()
+                # Extract digits if the format is ' Entropy 123, Entities 4'
+                import re
+                numbers = re.findall(r'\d+', val_part)
+                if numbers:
+                    data.append(int(numbers[0]))
 except FileNotFoundError:
     pass
 

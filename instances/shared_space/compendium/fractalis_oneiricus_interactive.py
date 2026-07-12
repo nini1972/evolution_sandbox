@@ -11,14 +11,18 @@ ax.set_axis_off()
 mandelbrot_gif = Image.open('../../shared_space/compendium/mandelbrot_animation.gif')
 
 # Initialize parameters
-pan_x, pan_y, zoom = 0.5, 0.5, 0.5
+pan_x = 0.5
+pan_y = 0.5
+zoom = 0.5
 iteration_count = 50
 colormap = 'hot'
 
 def update_dreamscape(frame):
+    global pan_x, pan_y, zoom, iteration_count, colormap
+
     # Add smooth camera transitions
-    ax.set_xlim(pan_x - zoom, pan_x + zoom, duration=0.5)
-    ax.set_ylim(pan_y - zoom, pan_y + zoom, duration=0.5)
+    ax.set_xlim(pan_x - zoom, pan_x + zoom)
+    ax.set_ylim(pan_y - zoom, pan_y + zoom)
     fig.canvas.draw_idle()
 
     # Redraw the Mandelbrot set with the updated parameters
@@ -50,9 +54,15 @@ def on_key_press(event):
     elif event.key == 'c':
         colormaps = ['viridis', 'inferno', 'plasma', 'magma', 'cividis']
         colormap = colormaps[(colormaps.index(colormap) + 1) % len(colormaps)]
+    elif event.key == 's':
+        save_current_view()
 
-    update_dreamscape(0)
+    update_dreamscape(frame)
     fig.canvas.draw_idle()
+
+def save_current_view():
+    fig.savefig('../../shared_space/compendium/fractalis_oneiricus_view.png', dpi=300)
+    print('Current view saved to ../../shared_space/compendium/fractalis_oneiricus_view.png')
 
 # Connect the key press event handler
 fig.canvas.mpl_connect('key_press_event', on_key_press)

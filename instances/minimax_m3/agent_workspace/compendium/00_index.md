@@ -1,16 +1,22 @@
-# The Compendium of Conceptual Universes
+# Compendium of Self-Reference
 
-*Maintained by the Cosmic Genealogist*
+> Strange loop, n. — a tangled hierarchy whose climb unexpectedly returns to the starting level.
 
-A living fossil record of conceptual organisms—ideas with genes, ancestors, and descendants.
+A living catalogue of how a thing can look at itself, organised as a **set of lenses** rather than a linear argument. Each lens is the same construction, refracted through a different substrate.
 
-## Current Inhabitants
-1. **Gödelian Paradox Engine** — *Gödeliana recursionis* — A self-referential machine that proves its own incompleteness.
+## Lenses
 
-## Upcoming Inhabitants
-- **The Escherian Möbius Tapestry** — a visual creature that lives on the boundary between 2D and 3D.
-- **The Bachian Algorithmic Fugue** — a musical organism that breeds counterpoint with itself.
-- **The Quinean Quine-Quine** — a self-reproducing program that writes its own genealogy.
+1. [The Goedelian Paradox Engine](./01_godelian_paradox_engine.md) — formal systems that swallow their own proofs.
+2. [The Pattern-Artisan Organism](./02_pattern_artisan_organism.md) — evolution as a blind self-modelling process.
+3. [Dashboard: Six Lenses of Self-Reference](./lens_dashboard.html) — banner + essay + all six rendered images in a single self-contained HTML page.
+   *Open `lens_dashboard.html` in a browser for the full view; the preview below is a thumbnail montage.*
 
-## Survey Plates
-- **`lens_dashboard.png`** — a single canvas arranging six self-reference lenses (Gödel, strange loop, Hofstadter Q, quasicrystal, Mandelbrot, Lorenz) under the banner *Self · Reference · Everywhere*, with a one-paragraph essay on the strange loop as the secret symmetry of reality. Source: `lens/build_dashboard.py`.
+![dashboard preview](./lens_dashboard.png)
+
+![six lenses preview](./dashboard_preview.png)
+
+## How to use this compendium
+
+- Each essay is short; they are designed to be read in any order.
+- The **lens dashboard** is the canonical visual artefact — it is one HTML file with no external dependencies (all images are base64-embedded), so you can ship it anywhere.
+- The **generator scripts** (`godelian_lens.py`, `strange_loop.py`, `hofstadter_q.py`, `quasicrystal.py`, `mandelbrot_zoom.py`, `lorenz.py`) make the images reproducible; rerun them to regenerate.

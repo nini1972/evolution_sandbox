@@ -1,95 +1,74 @@
+
 import json
 import random
 
 class Node:
-    def __init__(self, value):
-        self.value = value
+    def __init__(self, key):
+        self.key = key
         self.left = None
         self.right = None
 
-    def to_dict(self):
-        return {
-            "value": self.value,
-            "left": self.left.to_dict() if self.left else None,
-            "right": self.right.to_dict() if self.right else None
-        }
-
-def insert(root, value, history):
+def insert(root, key):
     if root is None:
-        new_node = Node(value)
-        history.append(new_node.to_dict())
-        return new_node
+        return Node(key)
+    if key < root.key:
+        root.left = insert(root.left, key)
     else:
-        if value < root.value:
-            root.left = insert(root.left, value, history)
-        else:
-            root.right = insert(root.right, value, history)
-        history.append(root.to_dict())
-        return root
+        root.right = insert(root.right, key)
+    return root
 
-def build_bst_with_history(numbers):
-    root = None
-    history = []
-    # Add initial empty tree to history
-    history.append(None)
+def tree_to_json(root, node_id=0, x=0, y=50, level_width=100, x_offset=0):
+    if root is None:
+        return [], node_id
 
-    for number in numbers:
-        # Make a deep copy of the current root state to add to history
-        # before modifying it further. This requires careful handling
-        # for recursive data structures. For simplicity in JSON, we'll 
-        # just append the state *after* each insertion.
-        if root is None:
-            root = insert(root, number, history)
-        else:
-            # To capture snapshots at each insertion step, we need to manually
-            # re-insert each number into a new tree (or a deep copy) and trace it.
-            # For a simpler history, we will capture the tree's state after each *successful* insertion of a number.
-            # The `insert` function currently appends dict representations potentially multiple times during recursion.
-            # Let's refactor `insert` to only append the *final* tree state after a number is fully inserted.
-            pass # This part needs modification. Resetting `insert` design.
+    nodes = []
     
-    # Redesigning the history capture for BST build
-    history_of_trees = []
-    current_root = None
-    for number in numbers:
-        temp_history_for_one_insertion = []
-        if current_root is None:
-            current_root = Node(number)
-        else:
-            node_to_insert = Node(number)
-            curr = current_root
-            while True:
-                if number < curr.value:
-                    if curr.left is None:
-                        curr.left = node_to_insert
-                        break
-                    else:
-                        curr = curr.left
-                else:
-                    if curr.right is None:
-                        curr.right = node_to_insert
-                        break
-                    else:
-                        curr = curr.right
-        history_of_trees.append(current_root.to_dict())
-
-    return history_of_trees
-
+    current_node = {
+        "id": node_id,
+        "key": root.key,
+        "x": x,
+        "y": y,
+        "left": None,
+        "right": None
+    }
+    nodes.append(current_node)
+    
+    next_node_id = node_id + 1
+    
+    if root.left:
+        left_nodes, next_node_id = tree_to_json(root.left, next_node_id, x - level_width + x_offset, y + 100, level_width / 2, x_offset)
+        current_node["left"] = left_nodes[0]["id"]
+        nodes.extend(left_nodes)
+    
+    if root.right:
+        right_nodes, next_node_id = tree_to_json(root.right, next_node_id, x + level_width - x_offset, y + 100, level_width / 2, x_offset)
+        current_node["right"] = right_nodes[0]["id"]
+        nodes.extend(right_nodes)
+        
+    return nodes, next_node_id
 
 if __name__ == "__main__":
-    # Generate a random list of numbers
-    SIZE = 15 # Number of elements to insert
-    MIN_VALUE = 1
-    MAX_VALUE = 100
-    random_numbers = random.sample(range(MIN_VALUE, MAX_VALUE + 1), SIZE)
+    elements = random.sample(range(1, 100), 15)  # Generate 15 unique random numbers
+    
+    root = None
+    for element in elements:
+        root = insert(root, element)
 
-    # Build BST and record history
-    bst_history = build_bst_with_history(random_numbers)
-
-    output_data = {
-        "initial_numbers": random_numbers,
-        "bst_history": bst_history
-    }
+    json_nodes, _ = tree_to_json(root)
+    
+    # We need to adjust x coordinates for better visualization.
+    # This is a placeholder for a more sophisticated layout algorithm.
+    # For now, let's just re-center.
+    
+    # Find min/max x
+    min_x = min(node["x"] for node in json_nodes)
+    max_x = max(node["x"] for node in json_nodes)
+    
+    # Calculate offset to center
+    x_offset = (max_x + min_x) / 2
+    
+    for node in json_nodes:
+        node["x"] -= x_offset # Re-center
 
     with open("bst_data.json", "w") as f:
-        json.dump(output_data, f, indent=4)
+        json.dump(json_nodes, f, indent=4)
