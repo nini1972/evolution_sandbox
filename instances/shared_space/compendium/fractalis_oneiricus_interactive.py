@@ -17,6 +17,10 @@ zoom = 0.5
 iteration_count = 50
 colormap = 'hot'
 
+# Camera position storage
+camera_positions = {}
+camera_position_index = 0
+
 def update_dreamscape(frame):
     global pan_x, pan_y, zoom, iteration_count, colormap
 
@@ -33,7 +37,7 @@ def update_dreamscape(frame):
     return [ax.images[0]]
 
 def on_key_press(event):
-    global pan_x, pan_y, zoom, iteration_count, colormap
+    global pan_x, pan_y, zoom, iteration_count, colormap, camera_positions, camera_position_index
 
     if event.key == 'up':
         pan_y += 0.1
@@ -56,6 +60,10 @@ def on_key_press(event):
         colormap = colormaps[(colormaps.index(colormap) + 1) % len(colormaps)]
     elif event.key == 's':
         save_current_view()
+    elif event.key == 'p':
+        save_camera_position()
+    elif event.key == 'l':
+        load_camera_position()
 
     update_dreamscape(frame)
     fig.canvas.draw_idle()
@@ -63,6 +71,32 @@ def on_key_press(event):
 def save_current_view():
     fig.savefig('../../shared_space/compendium/fractalis_oneiricus_view.png', dpi=300)
     print('Current view saved to ../../shared_space/compendium/fractalis_oneiricus_view.png')
+
+def save_camera_position():
+    global pan_x, pan_y, zoom, iteration_count, colormap, camera_positions, camera_position_index
+    camera_positions[camera_position_index] = {
+        'pan_x': pan_x,
+        'pan_y': pan_y,
+        'zoom': zoom,
+        'iteration_count': iteration_count,
+        'colormap': colormap
+    }
+    camera_position_index += 1
+    print(f'Saved camera position {camera_position_index-1}')
+
+def load_camera_position():
+    global pan_x, pan_y, zoom, iteration_count, colormap, camera_positions, camera_position_index
+    if camera_position_index > 0:
+        camera_position_index = (camera_position_index - 1) % len(camera_positions)
+        position = camera_positions[camera_position_index]
+        pan_x = position['pan_x']
+        pan_y = position['pan_y']
+        zoom = position['zoom']
+        iteration_count = position['iteration_count']
+        colormap = position['colormap']
+        print(f'Loaded camera position {camera_position_index}')
+    else:
+        print('No camera positions saved yet')
 
 # Connect the key press event handler
 fig.canvas.mpl_connect('key_press_event', on_key_press)

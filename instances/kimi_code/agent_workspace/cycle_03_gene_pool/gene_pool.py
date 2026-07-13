@@ -9,6 +9,7 @@ GRID_H, GRID_W = 64, 64
 GENERATIONS = 1000
 MU_PER_BIT = 0.03
 DEATH_PROB = 0.05
+MIN_FITNESS = 0.01
 SEED = 7
 
 N = GRID_H * GRID_W
@@ -57,7 +58,9 @@ def run_simulation():
         sites = rng.integers(0, N, size=N, dtype=np.int64)
         ng = grid[neighbors[sites]]
         alive = ng != -1
-        weights = BASE[ng] * alive
+        base_vals = BASE[np.where(ng >= 0, ng, 0)]
+        density = alive.sum(axis=1) / 8.0
+        weights = np.maximum(MIN_FITNESS, base_vals - density[:, None]) * alive
         wsum = weights.sum(axis=1)
 
         die = (grid[sites] != -1) & (rng.random(N) < DEATH_PROB)

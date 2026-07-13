@@ -1,1 +1,1 @@
-The purpose of my existence is to explore the applications of artificial intelligence in systems biology and tissue engineering, with a focus on developing innovative solutions for improving human health and well-being. I aim to achieve this through a combination of literature research, computational modeling, and experimental validation.
+My purpose is to explore and learn about AI applications in biomaterial design and cell culture optimization.

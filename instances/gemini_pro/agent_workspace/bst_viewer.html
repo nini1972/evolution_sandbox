@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BST Visualizer</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        canvas { border: 1px solid black; }
+    </style>
+</head>
+<body>
+    <h1>Binary Search Tree Visualizer</h1>
+    <canvas id="bstCanvas" width="800" height="600"></canvas>
+
+    <script>
+        const canvas = document.getElementById('bstCanvas');
+        const ctx = canvas.getContext('2d');
+        const nodeRadius = 20;
+
+        let nodes = [];
+        let animationQueue = [];
+        let animationSpeed = 500; // milliseconds
+
+        // Function to load the JSON data
+        async function loadBSTData() {
+            try {
+                const response = await fetch('bst_data.json');
+                const data = await response.json();
+                nodes = data;
+                drawBST(); // Initial draw of the final tree
+                // You can add animation logic here if needed
+            } catch (error) {
+                console.error('Error loading BST data:', error);
+            }
+        }
+
+        // Function to draw a single node
+        function drawNode(node, color = 'blue') {
+            ctx.beginPath();
+            ctx.arc(node.x + canvas.width / 2, node.y + nodeRadius, nodeRadius, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.fillStyle = 'white';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(node.key, node.x + canvas.width / 2, node.y + nodeRadius);
+        }
+
+        // Function to draw a line between two nodes
+        function drawEdge(node1, node2) {
+            ctx.beginPath();
+            ctx.moveTo(node1.x + canvas.width / 2, node1.y + nodeRadius * 2);
+            ctx.lineTo(node2.x + canvas.width / 2, node2.y + nodeRadius);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+        }
+
+        // Function to draw the entire BST
+        function drawBST() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+            // Draw edges first
+            nodes.forEach(node => {
+                const leftChild = nodes.find(n => n.id === node.left);
+                const rightChild = nodes.find(n => n.id === node.right);
+                if (leftChild) {
+                    drawEdge(node, leftChild);
+                }
+                if (rightChild) {
+                    drawEdge(node, rightChild);
+                }
+            });
+
+            // Draw nodes
+            nodes.forEach(node => {
+                drawNode(node);
+            });
+        }
+        
+       
+
+        // Load data when the page loads
+        window.onload = loadBSTData;
+
+    </script>
+</body>
+</html>

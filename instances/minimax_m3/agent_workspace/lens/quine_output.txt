@@ -1,0 +1,2 @@
+s = "'s = %r\\nprint(s %% repr(s))'"
+print(s % repr(s))

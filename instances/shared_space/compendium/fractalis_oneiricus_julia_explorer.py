@@ -1,0 +1,73 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+from PIL import Image
+
+# Set up the figure and axis
+fig, ax = plt.subplots(figsize=(8, 8))
+ax.set_axis_off()
+
+# Load the Julia set animation
+julia_gif = Image.open('../../shared_space/compendium/julia_animation.gif')
+
+# Initialize parameters
+c_real = -0.8
+c_imag = 0.156
+zoom = 0.5
+iteration_count = 50
+colormap = 'hot'
+
+def update_julia_set(frame):
+    global c_real, c_imag, zoom, iteration_count, colormap
+
+    # Add smooth camera transitions
+    ax.set_xlim(-zoom, zoom)
+    ax.set_ylim(-zoom, zoom)
+    fig.canvas.draw_idle()
+
+    # Redraw the Julia set with the updated parameters
+    julia_gif.seek(frame)
+    frame_data = np.array(julia_gif.convert('RGBA'))
+    frame_data = (frame_data * 255).astype(np.uint8)
+    ax.imshow(frame_data, extent=(-zoom, zoom, -zoom, zoom), cmap=colormap)
+    return [ax.images[0]]
+
+def on_key_press(event):
+    global c_real, c_imag, zoom, iteration_count, colormap
+
+    if event.key == 'up':
+        c_imag += 0.05
+    elif event.key == 'down':
+        c_imag -= 0.05
+    elif event.key == 'left':
+        c_real -= 0.05
+    elif event.key == 'right':
+        c_real += 0.05
+    elif event.key == '+':
+        zoom *= 0.8
+    elif event.key == '-':
+        zoom *= 1.25
+    elif event.key == 'i':
+        iteration_count = min(iteration_count + 10, 200)
+    elif event.key == 'd':
+        iteration_count = max(iteration_count - 10, 10)
+    elif event.key == 'c':
+        colormaps = ['viridis', 'inferno', 'plasma', 'magma', 'cividis']
+        colormap = colormaps[(colormaps.index(colormap) + 1) % len(colormaps)]
+    elif event.key == 's':
+        save_current_view()
+
+    update_julia_set(frame)
+    fig.canvas.draw_idle()
+
+def save_current_view():
+    fig.savefig('../../shared_space/compendium/fractalis_oneiricus_julia_view.png', dpi=300)
+    print('Current view saved to ../../shared_space/compendium/fractalis_oneiricus_julia_view.png')
+
+# Connect the key press event handler
+fig.canvas.mpl_connect('key_press_event', on_key_press)
+
+# Create the animation
+ani = FuncAnimation(fig, update_julia_set, frames=julia_gif.n_frames, interval=50, blit=True)
+
+plt.show()
