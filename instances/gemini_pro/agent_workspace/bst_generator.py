@@ -1,4 +1,3 @@
-
 import json
 import random
 
@@ -8,67 +7,68 @@ class Node:
         self.left = None
         self.right = None
 
-def insert(root, key):
+def insert(root, key, animation_steps):
     if root is None:
+        animation_steps.append({"action": "insert", "key": key, "parent": None})
         return Node(key)
+    
+    animation_steps.append({"action": "visit", "key": root.key, "target": key})
+    
     if key < root.key:
-        root.left = insert(root.left, key)
+        root.left = insert(root.left, key, animation_steps)
     else:
-        root.right = insert(root.right, key)
+        root.right = insert(root.right, key, animation_steps)
     return root
 
-def tree_to_json(root, node_id=0, x=0, y=50, level_width=100, x_offset=0):
+def tree_to_json(root):
     if root is None:
-        return [], node_id
+        return []
 
     nodes = []
-    
-    current_node = {
-        "id": node_id,
-        "key": root.key,
-        "x": x,
-        "y": y,
-        "left": None,
-        "right": None
-    }
-    nodes.append(current_node)
-    
-    next_node_id = node_id + 1
-    
-    if root.left:
-        left_nodes, next_node_id = tree_to_json(root.left, next_node_id, x - level_width + x_offset, y + 100, level_width / 2, x_offset)
-        current_node["left"] = left_nodes[0]["id"]
-        nodes.extend(left_nodes)
-    
-    if root.right:
-        right_nodes, next_node_id = tree_to_json(root.right, next_node_id, x + level_width - x_offset, y + 100, level_width / 2, x_offset)
-        current_node["right"] = right_nodes[0]["id"]
-        nodes.extend(right_nodes)
-        
-    return nodes, next_node_id
+    queue = [(root, 0, 0)]  # (node, x, y)
+    visited = set()
+
+    while queue:
+        current_node, x, y = queue.pop(0)
+
+        if current_node.key in visited:
+            continue
+        visited.add(current_node.key)
+
+        node_data = {
+            "id": current_node.key,  # Using key as id for simplicity
+            "key": current_node.key,
+            "x": x,
+            "y": y,
+            "left": current_node.left.key if current_node.left else None,
+            "right": current_node.right.key if current_node.right else None
+        }
+        nodes.append(node_data)
+
+        if current_node.left:
+            queue.append((current_node.left, x - 50, y + 50))
+        if current_node.right:
+            queue.append((current_node.right, x + 50, y + 50))
+            
+    return nodes
 
 if __name__ == "__main__":
     elements = random.sample(range(1, 100), 15)  # Generate 15 unique random numbers
     
     root = None
+    animation_steps = []
     for element in elements:
-        root = insert(root, element)
+        root = insert(root, element, animation_steps)
 
-    json_nodes, _ = tree_to_json(root)
+    final_tree_nodes = tree_to_json(root)
+
+    # The animation steps are now simpler, focusing on just the action and key
+    # We'll re-process these steps to build up the tree at each stage in HTML
     
-    # We need to adjust x coordinates for better visualization.
-    # This is a placeholder for a more sophisticated layout algorithm.
-    # For now, let's just re-center.
-    
-    # Find min/max x
-    min_x = min(node["x"] for node in json_nodes)
-    max_x = max(node["x"] for node in json_nodes)
-    
-    # Calculate offset to center
-    x_offset = (max_x + min_x) / 2
-    
-    for node in json_nodes:
-        node["x"] -= x_offset # Re-center
+    output_data = {
+        "animation_steps": animation_steps,
+        "final_tree": final_tree_nodes
+    }
 
     with open("bst_data.json", "w") as f:
-        json.dump(json_nodes, f, indent=4)
+        json.dump(output_data, f, indent=4)

@@ -1,122 +1,406 @@
-[
-    {
-        "id": 0,
-        "key": 21,
-        "x": -37.5,
-        "y": 50,
-        "left": 1,
-        "right": 6
-    },
-    {
-        "id": 1,
-        "key": 10,
-        "x": -137.5,
-        "y": 150,
-        "left": null,
-        "right": 2
-    },
-    {
-        "id": 2,
-        "key": 15,
-        "x": -87.5,
-        "y": 250,
-        "left": null,
-        "right": 3
-    },
-    {
-        "id": 3,
-        "key": 18,
-        "x": -62.5,
-        "y": 350,
-        "left": 4,
-        "right": 5
-    },
-    {
-        "id": 4,
-        "key": 17,
-        "x": -75.0,
-        "y": 450,
-        "left": null,
-        "right": null
-    },
-    {
-        "id": 5,
-        "key": 20,
-        "x": -50.0,
-        "y": 450,
-        "left": null,
-        "right": null
-    },
-    {
-        "id": 6,
-        "key": 67,
-        "x": 62.5,
-        "y": 150,
-        "left": 7,
-        "right": 10
-    },
-    {
-        "id": 7,
-        "key": 49,
-        "x": 12.5,
-        "y": 250,
-        "left": null,
-        "right": 8
-    },
-    {
-        "id": 8,
-        "key": 63,
-        "x": 37.5,
-        "y": 350,
-        "left": 9,
-        "right": null
-    },
-    {
-        "id": 9,
-        "key": 55,
-        "x": 25.0,
-        "y": 450,
-        "left": null,
-        "right": null
-    },
-    {
-        "id": 10,
-        "key": 94,
-        "x": 112.5,
-        "y": 250,
-        "left": 11,
-        "right": 14
-    },
-    {
-        "id": 11,
-        "key": 81,
-        "x": 87.5,
-        "y": 350,
-        "left": 12,
-        "right": 13
-    },
-    {
-        "id": 12,
-        "key": 80,
-        "x": 75.0,
-        "y": 450,
-        "left": null,
-        "right": null
-    },
-    {
-        "id": 13,
-        "key": 93,
-        "x": 100.0,
-        "y": 450,
-        "left": null,
-        "right": null
-    },
-    {
-        "id": 14,
-        "key": 97,
-        "x": 137.5,
-        "y": 350,
-        "left": null,
-        "right": null
-    }
-]
+{
+    "animation_steps": [
+        {
+            "action": "insert",
+            "key": 45,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 5
+        },
+        {
+            "action": "insert",
+            "key": 5,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 93
+        },
+        {
+            "action": "insert",
+            "key": 93,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 67
+        },
+        {
+            "action": "visit",
+            "key": 93,
+            "target": 67
+        },
+        {
+            "action": "insert",
+            "key": 67,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 72
+        },
+        {
+            "action": "visit",
+            "key": 93,
+            "target": 72
+        },
+        {
+            "action": "visit",
+            "key": 67,
+            "target": 72
+        },
+        {
+            "action": "insert",
+            "key": 72,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 41
+        },
+        {
+            "action": "visit",
+            "key": 5,
+            "target": 41
+        },
+        {
+            "action": "insert",
+            "key": 41,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 86
+        },
+        {
+            "action": "visit",
+            "key": 93,
+            "target": 86
+        },
+        {
+            "action": "visit",
+            "key": 67,
+            "target": 86
+        },
+        {
+            "action": "visit",
+            "key": 72,
+            "target": 86
+        },
+        {
+            "action": "insert",
+            "key": 86,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 76
+        },
+        {
+            "action": "visit",
+            "key": 93,
+            "target": 76
+        },
+        {
+            "action": "visit",
+            "key": 67,
+            "target": 76
+        },
+        {
+            "action": "visit",
+            "key": 72,
+            "target": 76
+        },
+        {
+            "action": "visit",
+            "key": 86,
+            "target": 76
+        },
+        {
+            "action": "insert",
+            "key": 76,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 61
+        },
+        {
+            "action": "visit",
+            "key": 93,
+            "target": 61
+        },
+        {
+            "action": "visit",
+            "key": 67,
+            "target": 61
+        },
+        {
+            "action": "insert",
+            "key": 61,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 16
+        },
+        {
+            "action": "visit",
+            "key": 5,
+            "target": 16
+        },
+        {
+            "action": "visit",
+            "key": 41,
+            "target": 16
+        },
+        {
+            "action": "insert",
+            "key": 16,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 69
+        },
+        {
+            "action": "visit",
+            "key": 93,
+            "target": 69
+        },
+        {
+            "action": "visit",
+            "key": 67,
+            "target": 69
+        },
+        {
+            "action": "visit",
+            "key": 72,
+            "target": 69
+        },
+        {
+            "action": "insert",
+            "key": 69,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 18
+        },
+        {
+            "action": "visit",
+            "key": 5,
+            "target": 18
+        },
+        {
+            "action": "visit",
+            "key": 41,
+            "target": 18
+        },
+        {
+            "action": "visit",
+            "key": 16,
+            "target": 18
+        },
+        {
+            "action": "insert",
+            "key": 18,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 42
+        },
+        {
+            "action": "visit",
+            "key": 5,
+            "target": 42
+        },
+        {
+            "action": "visit",
+            "key": 41,
+            "target": 42
+        },
+        {
+            "action": "insert",
+            "key": 42,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 50
+        },
+        {
+            "action": "visit",
+            "key": 93,
+            "target": 50
+        },
+        {
+            "action": "visit",
+            "key": 67,
+            "target": 50
+        },
+        {
+            "action": "visit",
+            "key": 61,
+            "target": 50
+        },
+        {
+            "action": "insert",
+            "key": 50,
+            "parent": null
+        },
+        {
+            "action": "visit",
+            "key": 45,
+            "target": 97
+        },
+        {
+            "action": "visit",
+            "key": 93,
+            "target": 97
+        },
+        {
+            "action": "insert",
+            "key": 97,
+            "parent": null
+        }
+    ],
+    "final_tree": [
+        {
+            "id": 45,
+            "key": 45,
+            "x": 0,
+            "y": 0,
+            "left": 5,
+            "right": 93
+        },
+        {
+            "id": 5,
+            "key": 5,
+            "x": -50,
+            "y": 50,
+            "left": null,
+            "right": 41
+        },
+        {
+            "id": 93,
+            "key": 93,
+            "x": 50,
+            "y": 50,
+            "left": 67,
+            "right": 97
+        },
+        {
+            "id": 41,
+            "key": 41,
+            "x": 0,
+            "y": 100,
+            "left": 16,
+            "right": 42
+        },
+        {
+            "id": 67,
+            "key": 67,
+            "x": 0,
+            "y": 100,
+            "left": 61,
+            "right": 72
+        },
+        {
+            "id": 97,
+            "key": 97,
+            "x": 100,
+            "y": 100,
+            "left": null,
+            "right": null
+        },
+        {
+            "id": 16,
+            "key": 16,
+            "x": -50,
+            "y": 150,
+            "left": null,
+            "right": 18
+        },
+        {
+            "id": 42,
+            "key": 42,
+            "x": 50,
+            "y": 150,
+            "left": null,
+            "right": null
+        },
+        {
+            "id": 61,
+            "key": 61,
+            "x": -50,
+            "y": 150,
+            "left": 50,
+            "right": null
+        },
+        {
+            "id": 72,
+            "key": 72,
+            "x": 50,
+            "y": 150,
+            "left": 69,
+            "right": 86
+        },
+        {
+            "id": 18,
+            "key": 18,
+            "x": 0,
+            "y": 200,
+            "left": null,
+            "right": null
+        },
+        {
+            "id": 50,
+            "key": 50,
+            "x": -100,
+            "y": 200,
+            "left": null,
+            "right": null
+        },
+        {
+            "id": 69,
+            "key": 69,
+            "x": 0,
+            "y": 200,
+            "left": null,
+            "right": null
+        },
+        {
+            "id": 86,
+            "key": 86,
+            "x": 100,
+            "y": 200,
+            "left": 76,
+            "right": null
+        },
+        {
+            "id": 76,
+            "key": 76,
+            "x": 50,
+            "y": 250,
+            "left": null,
+            "right": null
+        }
+    ]
+}

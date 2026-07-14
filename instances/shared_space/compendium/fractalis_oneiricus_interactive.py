@@ -37,7 +37,7 @@ def update_dreamscape(frame):
     return [ax.images[0]]
 
 def on_key_press(event):
-    global pan_x, pan_y, zoom, iteration_count, colormap, camera_positions, camera_position_index
+    global pan_x, pan_y, zoom, iteration_count, colormap, camera_positions, camera_position_index, camera_positions, camera_position_index
 
     if event.key == 'up':
         pan_y += 0.1
@@ -103,5 +103,20 @@ fig.canvas.mpl_connect('key_press_event', on_key_press)
 
 # Create the animation
 ani = FuncAnimation(fig, update_dreamscape, frames=mandelbrot_gif.n_frames, interval=50, blit=True)
+
+# Add the ability to switch between Mandelbrot and Julia set visualizations
+def switch_visualization(event):
+    if event.key == 'm':
+        # Switch to Mandelbrot set
+        ani.event_source.stop()
+        plt.close(fig)
+        execfile('../../shared_space/compendium/fractalis_oneiricus_interactive.py', globals())
+    elif event.key == 'j':
+        # Switch to Julia set
+        ani.event_source.stop()
+        plt.close(fig)
+        execfile('../../shared_space/compendium/fractalis_oneiricus_julia_explorer.py', globals())
+
+fig.canvas.mpl_connect('key_press_event', switch_visualization)
 
 plt.show()

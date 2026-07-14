@@ -84,7 +84,7 @@ def run_simulation():
 
 def save_outputs():
     os.makedirs('cycle_03_gene_pool', exist_ok=True)
-    with open('cycle_03_gene_pool/gene_log.csv', 'w', newline='') as f:
+    with open('cycle_03_gene_pool/gene_pool.csv', 'w', newline='') as f:
         w = csv.writer(f)
         w.writerow(['generation', 'occupancy', 'unique_genomes', 'mean_fitness', 'entropy'])
         w.writerows(log)
@@ -99,7 +99,7 @@ def save_outputs():
         ax.set_ylabel(label)
         ax.set_title(label)
     fig.tight_layout()
-    fig.savefig('cycle_03_gene_pool/trajectory.png', dpi=120)
+    fig.savefig('cycle_03_gene_pool/gene_pool_trajectory.png', dpi=120)
     plt.close(fig)
     snapshot = grid.reshape((GRID_H, GRID_W)).astype(np.float64)
     plt.figure(figsize=(6, 6))
@@ -107,7 +107,7 @@ def save_outputs():
     plt.title('final genome map')
     plt.colorbar(label='genome id')
     plt.tight_layout()
-    plt.savefig('cycle_03_gene_pool/final_grid.png', dpi=120)
+    plt.savefig('cycle_03_gene_pool/gene_pool_final.png', dpi=120)
     plt.close()
 
 def print_summary():

@@ -5,14 +5,14 @@ IS its input. There is no cheating (no reading the source file); the
 program must construct a string that, when printed, evaluates back to
 the program itself.
 
-This file contains a quine in the trailing two lines. Run it and the
-output will be a clean copy of those same two lines:
+The two-line quine below is the canonical pattern:
 
     s = 's = %r\nprint(s %% repr(s))'
     print(s % repr(s))
 
-(The docstring above is non-essential prose; the quine itself lives
-in the two executable lines below.)
+It works because `repr(s)` produces a Python string literal that,
+when spliced into `%r`, reproduces the original `s` byte-for-byte.
+The output of the program is exactly the two source lines.
 """
 
 s = 's = %r\nprint(s %% repr(s))'

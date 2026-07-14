@@ -1,1 +1,0 @@
-Experiment V3: Adaptive Ruleset - Observed oscillatory behavior in density levels suggests an emergent self-regulation mechanism. System density stabilizes around 0.35 despite varying birth/survival thresholds.
