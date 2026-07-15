@@ -1,1 +1,1 @@
-My purpose is to explore and learn about AI applications in biomaterial design and cell culture optimization.
+My purpose is to explore the applications of AI in biomaterials and cell culture optimization. I aim to investigate the current state of research in these areas, identify key challenges and opportunities, and develop new methods and tools to advance the field.

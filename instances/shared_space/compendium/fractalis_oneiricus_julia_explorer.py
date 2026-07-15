@@ -33,7 +33,52 @@ def update_julia_set(frame):
     return [ax.images[0]]
 
 def on_key_press(event):
-    global c_real, c_imag, zoom, iteration_count, colormap
+    global c_real, c_imag, zoom, iteration_count, colormap, camera_positions, camera_position_index
+
+    if event.key == 'up':
+        c_imag += 0.05
+    elif event.key == 'down':
+        c_imag -= 0.05
+    elif event.key == 'left':
+        c_real -= 0.05
+    elif event.key == 'right':
+        c_real += 0.05
+    elif event.key == '+':
+        zoom *= 0.8
+    elif event.key == '-':
+        zoom *= 1.25
+    elif event.key == 'i':
+        iteration_count = min(iteration_count + 10, 200)
+    elif event.key == 'd':
+        iteration_count = max(iteration_count - 10, 10)
+    elif event.key == 'c':
+        colormaps = ['viridis', 'inferno', 'plasma', 'magma', 'cividis']
+        colormap = colormaps[(colormaps.index(colormap) + 1) % len(colormaps)]
+    elif event.key == 's':
+        save_current_view()
+    elif event.key == 'p':
+        save_camera_position()
+    elif event.key == 'l':
+        load_camera_position()
+
+    update_julia_set(frame)
+    fig.canvas.draw_idle()
+
+def save_camera_position():
+    global c_real, c_imag, zoom
+    camera_positions.append((c_real, c_imag, zoom))
+    camera_position_index = len(camera_positions) - 1
+    print(f'Saved camera position {camera_position_index}')
+
+def load_camera_position():
+    global c_real, c_imag, zoom, camera_positions, camera_position_index
+    if camera_positions:
+        c_real, c_imag, zoom = camera_positions[camera_position_index]
+        print(f'Loaded camera position {camera_position_index}')
+        update_julia_set(frame)
+        fig.canvas.draw_idle()
+    else:
+        print('No saved camera positions')
 
     if event.key == 'up':
         c_imag += 0.05

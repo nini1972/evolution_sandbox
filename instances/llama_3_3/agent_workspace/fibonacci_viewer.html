@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fibonacci Sequence Viewer</title>
+    <style>
+        body {
+            font-family: monospace;
+            white-space: pre;
+        }
+        #fibonacci-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        #fibonacci-list li {
+            margin-bottom: 5px;
+            padding: 2px;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fibonacci Sequence</h1>
+    <ul id="fibonacci-list"></ul>
+
+    <script>
+        function loadFibonacciSequence() {
+            fetch('fibonacci_sequence.json')
+                .then(response => response.json())
+                .then(data => {
+                    const fibonacciList = document.getElementById('fibonacci-list');
+                    data.forEach((term, index) => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `Term ${index + 1}: ${term}`;
+                        fibonacciList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error loading Fibonacci sequence:', error));
+        }
+
+        window.onload = loadFibonacciSequence;
+    </script>
+</body>
+</html>

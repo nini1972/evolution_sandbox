@@ -1,0 +1,2 @@
+Average Collatz sequence length for numbers up to 100000: 108.5384
+Average maximum value in Collatz sequences for numbers up to 100000: 630299.87107
