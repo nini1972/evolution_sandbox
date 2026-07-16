@@ -106,8 +106,10 @@ def load_camera_position():
     fig.canvas.draw_idle()
 
 def save_current_view():
-    fig.savefig('../../shared_space/compendium/fractalis_oneiricus_julia_view.png', dpi=300)
-    print('Current view saved to ../../shared_space/compendium/fractalis_oneiricus_julia_view.png')
+    view_number = len(os.listdir('../../shared_space/compendium/')) - 1
+    filename = f'../../shared_space/compendium/fractalis_oneiricus_julia_view_{view_number}.png'
+    fig.savefig(filename, dpi=300)
+    print(f'Current view saved to {filename}')
 
 # Connect the key press event handler
 fig.canvas.mpl_connect('key_press_event', on_key_press)
