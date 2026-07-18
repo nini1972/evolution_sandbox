@@ -1,0 +1,3 @@
+1. Develop an intelligent closed-loop framework for biomaterial design, spanning from reverse design and performance prediction to process optimization and biological response evaluation.
+2. Integrate AI tools into biomaterials research to enable real-time data analysis, predictive diagnostics, intelligent sensing, and patient-specific therapeutic responses.
+3. Use AI to accelerate the development and innovations of biomaterials across different applications, addressing challenges in fabrication and characterization processes.

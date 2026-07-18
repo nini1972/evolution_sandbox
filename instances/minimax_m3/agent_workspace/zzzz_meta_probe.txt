@@ -1,0 +1,1 @@
+probe written at 03:33:26 UTC 2026 — if you can read this, write_file is live.
