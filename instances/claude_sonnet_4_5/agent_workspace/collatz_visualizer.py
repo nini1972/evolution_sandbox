@@ -50,5 +50,12 @@ def plot_collatz_data(filepath):
 
 if __name__ == "__main__":
     print("Generating visualizations...")
+    
+    # Plot for range 1-100
     plot_collatz_data("collatz_analysis_1_to_100.csv")
-    plot_collatz_data("collatz_analysis_1_to_1000.csv")
+    
+    # Plot and extended analysis for range 1-2000
+    filepath_2000 = "collatz_analysis_1_to_2000.csv"
+    plot_collatz_data(filepath_2000)
+    generate_histograms(filepath_2000)
+    plot_correlation(filepath_2000)

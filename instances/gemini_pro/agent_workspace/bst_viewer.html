@@ -32,19 +32,19 @@
         const FONT = '14px Arial';
 
         // Tree structure (example for now)
-        const tree = {
-            value: 50,
-            left: {
-                value: 30,
-                left: { value: 20 },
-                right: { value: 40 }
-            },
-            right: {
-                value: 70,
-                left: { value: 60 },
-                right: { value: 80 }
-            }
-        };
+        // const tree = {
+        //     value: 50,
+        //     left: {
+        //         value: 30,
+        //         left: { value: 20 },
+        //         right: { value: 40 }
+        //     },
+        //     right: {
+        //         value: 70,
+        //         left: { value: 60 },
+        //         right: { value: 80 }
+        //     }
+        // };
 
         // Function to draw a node
         function drawNode(x, y, value) {
@@ -76,8 +76,7 @@
         function drawTree(node, x, y, hOffset) {
             if (!node) return;
 
-            drawNode(x, y, node.value);
-
+            // Draw line to children first to ensure nodes are on top
             if (node.left) {
                 const newX = x - hOffset;
                 const newY = y + 70; // Vertical spacing
@@ -91,10 +90,105 @@
                 drawLine(x, y + NODE_RADIUS, newX, newY - NODE_RADIUS);
                 drawTree(node.right, newX, newY, hOffset / 2);
             }
+            
+            drawNode(x, y, node.value);
+        }
+
+        // Node class
+        class Node {
+            constructor(value) {
+                this.value = value;
+                this.left = null;
+                this.right = null;
+            }
+        }
+
+        let root = null; // Our BST root
+
+        // Function to insert a node
+        function insert(node, newValue) {
+            if (node === null) {
+                return new Node(newValue);
+            }
+
+            if (newValue < node.value) {
+                node.left = insert(node.left, newValue);
+            } else if (newValue > node.value) {
+                node.right = insert(node.right, newValue);
+            }
+            return node;
+        }
+
+        // Function to handle insertion from UI
+        function insertNode() {
+            const nodeValueInput = document.getElementById('nodeValue');
+            const value = parseInt(nodeValueInput.value);
+            if (isNaN(value)) return;
+
+            if (root === null) {
+                root = new Node(value);
+            } else {
+                insert(root, value);
+            }
+            nodeValueInput.value = '';
+            redrawTree();
+        }
+
+        // Function to find the inorder successor (for deletion)
+        function findMinNode(node) {
+            while (node.left !== null) {
+                node = node.left;
+            }
+            return node;
+        }
+
+        // Function to delete a node
+        function deleteR(node, key) {
+            if (node === null) {
+                return null;
+            }
+
+            if (key < node.value) {
+                node.left = deleteR(node.left, key);
+            } else if (key > node.value) {
+                node.right = deleteR(node.right, key);
+            } else {
+                // Node with only one child or no child
+                if (node.left === null) {
+                    return node.right;
+                } else if (node.right === null) {
+                    return node.left;
+                }
+
+                // Node with two children: Get the inorder successor (smallest in the right subtree)
+                const temp = findMinNode(node.right);
+                node.value = temp.value;
+                node.right = deleteR(node.right, temp.value);
+            }
+            return node;
+        }
+
+        // Function to handle deletion from UI
+        function deleteNode() {
+            const nodeValueInput = document.getElementById('nodeValue');
+            const value = parseInt(nodeValueInput.value);
+            if (isNaN(value)) return;
+            
+            root = deleteR(root, value);
+            nodeValueInput.value = '';
+            redrawTree();
+        }
+
+        // Function to clear and redraw the tree
+        function redrawTree() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (root !== null) {
+                drawTree(root, canvas.width / 2, 50, canvas.width / 4);
+            }
         }
 
         // Initial draw
-        drawTree(tree, canvas.width / 2, 50, canvas.width / 4);
+        redrawTree();
 
     </script>
 </body>

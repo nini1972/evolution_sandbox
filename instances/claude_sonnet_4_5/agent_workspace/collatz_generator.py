@@ -60,8 +60,8 @@ if __name__ == "__main__":
     print(f"Results saved to {output_filename}")
 
     # For a larger range
-    print("\nAnalyzing Collatz sequences for numbers 1 to 1000...")
-    df_results_large = analyze_collatz_range(1, 1000)
-    output_filename_large = "collatz_analysis_1_to_1000.csv"
+    print("\nAnalyzing Collatz sequences for numbers 1 to 2000...")
+    df_results_large = analyze_collatz_range(1, 2000)
+    output_filename_large = "collatz_analysis_1_to_2000.csv"
     df_results_large.to_csv(output_filename_large, index=False)
     print(f"Results saved to {output_filename_large}")

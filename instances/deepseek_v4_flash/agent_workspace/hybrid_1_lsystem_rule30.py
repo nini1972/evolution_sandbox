@@ -1,62 +1,81 @@
 #!/usr/bin/env python3
-"""
-HYBRID 1: L-System x Rule 30 (The Organic Automaton)
-=====================================================
-Breeding: Plant-like L-System (Fern/Tree) crossed with Rule 30 Cellular Automaton
-
-Method: The L-system's branching structure at depth N is converted to a binary
-sequence that seeds Rule 30's initial row. The CA then evolves, producing
-a hybrid that carries organic branching in its genetic code.
-
-Species: L-System (Fractalia visus) x Cellular Automaton (Rule 30)
-Chromosome: The L-system derivation pattern -> binary seed -> CA evolution
-"""
+# HYBRID 1: L-System x Rule 30 (The Organic Automaton)
+# Breeding: L-System (Tree) x Cellular Automaton (Rule 30)
+# The L-system branching pattern seeds the Rule 30 initial condition.
 
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 import numpy as np
 import os
 import math
+import json
+from datetime import datetime
 
-OUTPUT_DIR = os.path.join(os.path.dirname(__file__) or '.', 'hybrid_output')
+OUTPUT_DIR = 'hybrid_output'
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# ============================================================
-# PARENT 1: L-System (Tree / Plant)
-# ============================================================
-
+# === PARENT 1: L-System ===
 def generate_lsystem(axiom, rules, iterations):
     current = axiom
     for _ in range(iterations):
-        next_str = ""
-        for char in current:
-            next_str += rules.get(char, char)
-        current = next_str
+        nxt = ''.join(rules.get(c, c) for c in current)
+        current = nxt
     return current
 
-def interpret_lsystem(s, angle, step):
-    """Returns list of (x, y) points forming the branching structure."""
+def lsystem_to_coords(s, angle=25, step=1):
     x, y = 0.0, 0.0
     heading = 90.0
     stack = []
-    points = [(x, y)]
-    
-    for char in s:
-        if char == 'F':
+    xs, ys = [x], [y]
+    for c in s:
+        if c == 'F':
             rad = math.radians(heading)
             x += step * math.cos(rad)
             y += step * math.sin(rad)
-            points.append((x, y))
-        elif char == '+':
+            xs.append(x)
+            ys.append(y)
+        elif c == '+':
             heading += angle
-        elif char == '-':
+        elif c == '-':
             heading -= angle
-        elif char == '[':
+        elif c == '[':
             stack.append((x, y, heading))
-        elif char == ']':
+        elif c == ']':
             x, y, heading = stack.pop()
-            points.append((x, y))
-    
-    return points
+            xs.append(x)
+            ys.append(y)
+    return np.array(xs), np.array(ys)
+
+def lsystem_to_binary_seed(s, target_size):
+    seed = np.zeros(target_size, dtype=int)
+    for i in range(min(len(s), target_size * 20)):
+        char_val = ord(s[i % len(s)])
+        seed[i % target_size] ^= (char_val % 2)
+    if np.sum(seed) < 2:
+        seed[target_size // 2] = 1
+    return seed
+
+# === PARENT 2: Rule 30 Cellular Automaton ===
+def rule30(l, c, r):
+    if l == 1 and c == 1 and r == 1: return 0
+    if l == 1 and c == 1 and r == 0: return 0
+    if l == 1 and c == 0 and r == 1: return 0
+    if l == 1 and c == 0 and r == 0: return 1
+    if l == 0 and c == 1 and r == 1: return 1
+    if l == 0 and c == 1 and r == 0: return 1
+    if l == 0 and c == 0 and r == 1: return 1
+    if l == 0 and c == 0 and r == 0: return 0
+    return 0
+
+def evolve_rule30(initial_row, generations):
+    size = len(initial_row)
+    grid = np.zeros((generations, size), dtype=int)
+    grid[0] = initial_row
+    for gen in range(1, generations):
+        for i in range(size):
+            left = grid[gen-1][i-1] if i > 0 else 0
+            center = grid[gen-1][i]
+            right = grid[gen-1][i+1] if i < size - 1 else 0
+            grid[gen][i] = rule30(left, center, right)
+    return grid
