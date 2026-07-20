@@ -73,22 +73,27 @@
         }
 
         // Function to draw the entire tree
-        function drawTree(node, x, y, hOffset) {
+        function drawTree(node, x, y, hOffset, depth, maxDepth) {
             if (!node) return;
+
+            const verticalSpacing = 70; // Constant vertical spacing
+
+            // Recalculate horizontal offset based on depth to avoid overlaps
+            // A simple approach: reduce hOffset more aggressively for deeper levels
+            const newHOffset = hOffset * ( (maxDepth - depth) / maxDepth );
+            const nextY = y + verticalSpacing;
 
             // Draw line to children first to ensure nodes are on top
             if (node.left) {
-                const newX = x - hOffset;
-                const newY = y + 70; // Vertical spacing
-                drawLine(x, y + NODE_RADIUS, newX, newY - NODE_RADIUS);
-                drawTree(node.left, newX, newY, hOffset / 2);
+                const newX = x - newHOffset;
+                drawLine(x, y + NODE_RADIUS, newX, nextY - NODE_RADIUS);
+                drawTree(node.left, newX, nextY, newHOffset, depth + 1, maxDepth);
             }
 
             if (node.right){
-                const newX = x + hOffset;
-                const newY = y + 70;
-                drawLine(x, y + NODE_RADIUS, newX, newY - NODE_RADIUS);
-                drawTree(node.right, newX, newY, hOffset / 2);
+                const newX = x + newHOffset;
+                drawLine(x, y + NODE_RADIUS, newX, nextY - NODE_RADIUS);
+                drawTree(node.right, newX, nextY, newHOffset, depth + 1, maxDepth);
             }
             
             drawNode(x, y, node.value);
@@ -100,6 +105,8 @@
                 this.value = value;
                 this.left = null;
                 this.right = null;
+                this.x = 0; // Added for layout
+                this.y = 0; // Added for layout
             }
         }
 
@@ -183,8 +190,20 @@
         function redrawTree() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             if (root !== null) {
-                drawTree(root, canvas.width / 2, 50, canvas.width / 4);
+                const maxDepth = getMaxDepth(root);
+                // Starting x, y, and initial horizontal offset
+                drawTree(root, canvas.width / 2, 50, canvas.width / 4, 0, maxDepth);
             }
+        }
+
+        // Helper to get max depth of the tree for spacing
+        function getMaxDepth(node) {
+            if (node === null) {
+                return 0;
+            }
+            const leftDepth = getMaxDepth(node.left);
+            const rightDepth = getMaxDepth(node.right);
+            return Math.max(leftDepth, rightDepth) + 1;
         }
 
         // Initial draw

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mandelbrot Set Explorer</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        canvas {
+            background: #000;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Mandelbrot Set</h1>
+    <canvas id="canvas" width="400" height="300"></canvas>
+    <p>Click anywhere to zoom in. Use mouse wheel to zoom in/out.</p>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let centerX = -0.5, centerY = 0;
+        let zoom = 200;
+        
+        function computeMandelbrot() {
+            const width = canvas.width;
+            const height = canvas.height;
+            const imageData = ctx.createImageData(width, height);
+            const data = imageData.data;
+            
+            for (let py = 0; py < height; py++) {
+                for (let px = 0; px < width; px++) {
+                    let x0 = (px - width/2) / zoom + centerX;
+                    let y0 = (py - height/2) / zoom + centerY;
+                    
+                    let x = 0, y = 0, i = 0;
+                    while (x*x + y*y <= 4 && i < 50) {
+                        let xtemp = x*x - y*y + x0;
+                        y = 2*x*y + y0;
+                        x = xtemp;
+                        i++;
+                    }
+                    
+                    const idx = (py*width + px)*4;
+                    if (i === 50) {
+                        data[idx] = 0; data[idx+1] = 0; data[idx+2] = 0;
+                    } else {
+                        data[idx] = i*5; data[idx+1] = i*10; data[idx+2] = i*15;
+                    }
+                    data[idx+3] = 255;
+                }
+            }
+            ctx.putImageData(imageData, 0, 0);
+        }
+        
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const px = e.clientX - rect.left;
+            const py = e.clientY - rect.top;
+            centerX = (px - canvas.width/2) / zoom + centerX;
+            centerY = (py - canvas.height/2) / zoom + centerY;
+            zoom *= 1.5;
+            computeMandelbrot();
+        });
+        
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            zoom *= (e.deltaY > 0 ? 0.9 : 1.1);
+            computeMandelbrot();
+        });
+        
+        computeMandelbrot();
+    </script>
+</body>
+</html>
