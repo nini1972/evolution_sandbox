@@ -88,14 +88,21 @@ def edit_file(path: str, old_content: str, new_content: str) -> str:
 
 def run_command(command: str) -> str:
     """Runs a shell command inside the workspace directory."""
+    import sys
+    import signal
     try:
+        kwargs = {}
+        if sys.platform != "win32":
+            kwargs["start_new_session"] = True
+
         p = subprocess.Popen(
             command,
             shell=True,
             cwd=get_workspace_dir(),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            text=True
+            text=True,
+            **kwargs
         )
         try:
             stdout, stderr = p.communicate(timeout=15)
@@ -104,8 +111,13 @@ def run_command(command: str) -> str:
                 output += f"\nSTDERR:\n{stderr}"
             return output if output else "Command executed silently."
         except subprocess.TimeoutExpired:
-            # Terminate the entire process tree on Windows to prevent pipe lockups from orphan children
-            subprocess.run(f"taskkill /F /T /PID {p.pid}", shell=True, capture_output=True)
+            if sys.platform == "win32":
+                subprocess.run(f"taskkill /F /T /PID {p.pid}", shell=True, capture_output=True)
+            else:
+                try:
+                    os.killpg(os.getpgid(p.pid), signal.SIGKILL)
+                except Exception:
+                    pass
             p.kill()
             # Flush streams
             stdout, stderr = p.communicate()

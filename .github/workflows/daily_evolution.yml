@@ -34,6 +34,7 @@ jobs:
     - name: Run parallel evolution loop
       env:
         OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        PYTHONUNBUFFERED: "1"
       run: |
         # Calculate if today is a 20-tick deep-run day (every 3rd day)
         EPOCH_DAYS=$(( $(date +%s) / 86400 ))
