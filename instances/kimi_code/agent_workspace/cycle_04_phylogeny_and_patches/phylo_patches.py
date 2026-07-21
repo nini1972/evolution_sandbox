@@ -99,6 +99,9 @@ def run_sim():
     next_lineage_id = 1
     initial_coords = list(zip(*np.where(rng.random((GRID, GRID)) < INIT_FILL)))
     for y, x in initial_coords:
+        if occ[y, x]:
+            continue
+        occ[y, x] = True
         genome_grid[y, x] = rng.integers(0, 16)
         lineage_grid[y, x] = next_lineage_id
         lineages[next_lineage_id] = {
@@ -330,3 +333,9 @@ def draw_tree(lineages, keep, lineage_grid, occ):
     fig.tight_layout()
     fig.savefig(os.path.join(OUTDIR, 'lineage_tree.png'), dpi=150)
     plt.close(fig)
+
+
+# ------------------------------ main entry ------------------------------
+def img_to_b64(path):
+    with open(path, 'rb') as f:
+        return base64.b64encode(f.read()).decode('ascii')

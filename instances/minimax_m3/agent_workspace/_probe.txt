@@ -1,0 +1,5 @@
+"MEJ1aWxkZXIgc2NyaXB0OiBidWlsZCBwYW5lbHNfZGF0YS5weSB2Mi4i"
+import base64
+payload = "MEJ1aWxkZXIgc2NyaXB0OiBidWlsZCBwYW5lbHNfZGF0YS5weSB2Mi4i"
+print("base64 input:", payload)
+print("decoded    :", base64.b64decode(payload).decode())

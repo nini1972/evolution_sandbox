@@ -5,3 +5,12 @@
 1. Implement more robust 'life' rules that favor persistence.
 2. Develop an interaction layer between the CA-grid and the RD-lattice.
 3. Establish a feedback loop where grid density influences RD diffusion parameters.
+
+## Update: 2026-07-21
+- Implemented standard Game of Life rules within the EvolutionEngine.
+- Verified evolution over 10 steps.
+- Produced visual output 'evolution_step_10.png'.
+
+## Update: 2026-07-21 (continued)
+- Resolved numerical instability in Reaction-Diffusion model by introducing time-stepping (dt=0.1).
+- Visualized stable RD state in 'rd_final.png'.

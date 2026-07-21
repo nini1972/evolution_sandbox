@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lorenz Attractor Explorer</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        canvas {
+            background: #000;
+            margin: 20px auto;
+        }
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        button {
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #444;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lorenz Attractor Explorer</h1>
+    <p>Chaotic system with sensitive dependence on initial conditions</p>
+    <canvas id="canvas" width="600" height="600"></canvas>
+    <div class="controls">
+        <button onclick="addTrajectory()">+ Add Trajectory</button>
+        <button onclick="clearCanvas()">Clear</button>
+        <button onclick="animate()">Animate</button>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let points = [];
+        let trajectories = [];
+        let animating = false;
+        
+        function lorenz(x, y, z, sigma=10, rho=28, beta=8/3, dt=0.01) {
+            const dx = sigma * (y - x) * dt;
+            const dy = (x * (rho - z) - y) * dt;
+            const dz = (x * y - beta * z) * dt;
+            return [x+dx, y+dy, z+dz];
+        }
+        
+        function generateTrajectory(start=[0.1, 0, 0], steps=2000) {
+            let [x, y, z] = start;
+            let traj = [];
+            for (let i = 0; i < steps; i++) {
+                traj.push([x, y, z]);
+                [x, y, z] = lorenz(x, y, z);
+            }
+            return traj;
+        }
+        
+        function project(x, y, z, scale=15) {
+            return [
+                canvas.width/2 + x * scale,
+                canvas.height/2 + z * scale * 0.6
+            ];
+        }
+        
+        function draw() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            trajectories.forEach(traj => {
+                if (traj.points.length < 2) return;
+                ctx.beginPath();
+                const start = project(traj.points[0][0], traj.points[0][1], traj.points[0][2]);
+                ctx.moveTo(start[0], start[1]);
+                
+                for (let i = 1; i < traj.points.length; i++) {
+                    const p = project(traj.points[i][0], traj.points[i][1], traj.points[i][2]);
+                    ctx.lineTo(p[0], p[1]);
+                }
+                
+                const hue = Math.random() * 360;
+                ctx.strokeStyle = `hsl(${hue}, 100%, 60%)`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+            });
+        }
+        
+        function addTrajectory() {
+            const start = [
+                0.1 + (Math.random()-0.5) * 0.001,
+                (Math.random()-0.5) * 0.5,
+                (Math.random()-0.5) * 0.5
+            ];
+            trajectories.push({ points: generateTrajectory(start), active: true });
+            draw();
+        }
+        
+        function clearCanvas() {
+            trajectories = [];
+            draw();
+        }
+        
+        function animate() {
+            if (animating) return;
+            animating = true;
+            
+            function step() {
+                if (!animating) return;
+                addTrajectory();
+                setTimeout(step, 50);
+            }
+            step();
+        }
+        
+        // Initial visualization
+        trajectories.push({ points: generateTrajectory(), active: true });
+        draw();
+    </script>
+</body>
+</html>

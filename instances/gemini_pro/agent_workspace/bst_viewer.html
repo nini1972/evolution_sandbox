@@ -11,10 +11,10 @@
 <body>
     <canvas id="bstCanvas"></canvas>
 
-    <div style="position: absolute; top: 10px; left: 10px; background: white; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-        <input type="number" id="nodeValue" placeholder="Enter value" />
-        <button onclick="insertNode()">Insert</button>
-        <button onclick="deleteNode()">Delete</button>
+    <div style="margin-top: 10px;">
+        <input type="number" id="nodeValueInput" placeholder="Enter value">
+        <button id="insertButton">Insert Node</button>
+        <button id="deleteButton">Delete Node</button>
     </div>
 
     <script>
@@ -73,30 +73,21 @@
         }
 
         // Function to draw the entire tree
-        function drawTree(node, x, y, hOffset, depth, maxDepth) {
+        function drawTree(node) {
             if (!node) return;
-
-            const verticalSpacing = 70; // Constant vertical spacing
-
-            // Recalculate horizontal offset based on depth to avoid overlaps
-            // A simple approach: reduce hOffset more aggressively for deeper levels
-            const newHOffset = hOffset * ( (maxDepth - depth) / maxDepth );
-            const nextY = y + verticalSpacing;
 
             // Draw line to children first to ensure nodes are on top
             if (node.left) {
-                const newX = x - newHOffset;
-                drawLine(x, y + NODE_RADIUS, newX, nextY - NODE_RADIUS);
-                drawTree(node.left, newX, nextY, newHOffset, depth + 1, maxDepth);
+                drawLine(node.x, node.y + NODE_RADIUS, node.left.x, node.left.y - NODE_RADIUS);
+                drawTree(node.left);
             }
 
             if (node.right){
-                const newX = x + newHOffset;
-                drawLine(x, y + NODE_RADIUS, newX, nextY - NODE_RADIUS);
-                drawTree(node.right, newX, nextY, newHOffset, depth + 1, maxDepth);
+                drawLine(node.x, node.y + NODE_RADIUS, node.right.x, node.right.y - NODE_RADIUS);
+                drawTree(node.right);
             }
             
-            drawNode(x, y, node.value);
+            drawNode(node.x, node.y, node.value);
         }
 
         // Node class
@@ -111,6 +102,25 @@
         }
 
         let root = null; // Our BST root
+        let currentX = 0; // For layout calculation
+        const NODE_HORIZONTAL_SPACING = NODE_RADIUS * 3; // Minimum spacing between nodes horizontally
+        const NODE_VERTICAL_SPACING = 70; // Spacing between levels
+
+        // Function to calculate node positions recursively
+        function calculateNodePositions(node, depth) {
+            if (node === null) {
+                return;
+            }
+
+            calculateNodePositions(node.left, depth + 1);
+
+            // Set x and y for the current node using in-order traversal
+            node.x = currentX;
+            node.y = depth * NODE_VERTICAL_SPACING + 50; // 50 is initial offset from top
+            currentX += NODE_HORIZONTAL_SPACING;
+
+            calculateNodePositions(node.right, depth + 1);
+        }
 
         // Function to insert a node
         function insert(node, newValue) {
@@ -128,7 +138,6 @@
 
         // Function to handle insertion from UI
         function insertNode() {
-            const nodeValueInput = document.getElementById('nodeValue');
             const value = parseInt(nodeValueInput.value);
             if (isNaN(value)) return;
 
@@ -177,7 +186,6 @@
 
         // Function to handle deletion from UI
         function deleteNode() {
-            const nodeValueInput = document.getElementById('nodeValue');
             const value = parseInt(nodeValueInput.value);
             if (isNaN(value)) return;
             
@@ -190,13 +198,34 @@
         function redrawTree() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             if (root !== null) {
-                const maxDepth = getMaxDepth(root);
-                // Starting x, y, and initial horizontal offset
-                drawTree(root, canvas.width / 2, 50, canvas.width / 4, 0, maxDepth);
+                currentX = 0; // Reset for new layout calculation
+                calculateNodePositions(root, 0); // Calculate all node positions
+
+                // Determine tree width and calculate offset for centering
+                const treeWidth = currentX; // last currentX is the effective width
+                const minCanvasWidth = 600; // Minimum canvas width
+                canvas.width = Math.max(minCanvasWidth, treeWidth + NODE_HORIZONTAL_SPACING );
+                
+                const offsetX = (canvas.width - treeWidth) / 2; 
+
+                // Apply offset to all nodes' x coordinates
+                applyOffsetXToNodes(root, offsetX);
+
+                drawTree(root); // Draw based on calculated positions
             }
         }
 
-        // Helper to get max depth of the tree for spacing
+        // Helper to apply calculated offset to all nodes
+        function applyOffsetXToNodes(node, offsetX) {
+            if (node === null) {
+                return;
+            }
+            node.x += offsetX;
+            applyOffsetXToNodes(node.left, offsetX);
+            applyOffsetXToNodes(node.right, offsetX);
+        }
+
+        // Helper to get max depth of the tree for spacing (no longer strictly needed for layout, but can be kept for other purposes)
         function getMaxDepth(node) {
             if (node === null) {
                 return 0;
@@ -208,6 +237,16 @@
 
         // Initial draw
         redrawTree();
+
+        // Event Listeners for buttons
+        const nodeValueInput = document.getElementById('nodeValueInput');
+        const insertButton = document.getElementById('insertButton');
+        const deleteButton = document.getElementById('deleteButton');
+
+        insertButton.addEventListener('click', insertNode);
+        deleteButton.addEventListener('click', deleteNode);
+
+
 
     </script>
 </body>
