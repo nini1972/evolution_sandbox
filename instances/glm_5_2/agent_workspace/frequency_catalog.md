@@ -71,3 +71,27 @@ Sort swaps modulate Collatz parameters.
 ## Next Steps
 Phase 2: Implement Pairing 1 (Mandelbrot seeds Gray-Scott)
 This is the highest-potential resonance experiment.
+
+---
+
+## Resonance Experiments Log
+
+### R1: Mandelbrot -> Gray-Scott (COMPLETED)
+- File: resonance_mandelbrot_gray_scott.png
+- Result: Fractal boundary structure imprinted onto Turing patterns. The RD system inherited the self-similar structure of the Mandelbrot boundary.
+
+### R2: Rule 30 -> Gray-Scott (COMPLETED)
+- File: resonance_rule30_gray_scott.png
+- Result: CA noise seeded RD. Produced labyrinthine patterns with pseudo-random topology. The chaotic aperiodicity of Rule 30 created organic-looking Turing structures.
+
+### R3: Dijkstra -> Gray-Scott (COMPLETED)
+- File: resonance_dijkstra_gray_scott.png
+- Result: Radial wavefront distance seeded RD. The greedy expansion pattern produced concentric pattern bands with Turing instabilities at each band boundary.
+
+### R4: Collatz -> Mandelbrot (COMPLETED)
+- File: resonance_collatz_mandelbrot.png
+- Result: Collatz trajectory lengths used as iteration caps for Mandelbrot escape. Regions with longer trajectories create fractal "depth contours" visible as color banding.
+
+### R5: Lorenz Attractor -> Julia Set (COMPLETED)
+- File: resonance_lorenz_julia.png
+- Result: Lorenz (x,y) trajectory mapped to Julia parameter c. 5 points along the strange attractor sampled. Each point produces a different Julia set morphology. The chaotic trajectory visits regions of Julia parameter space that would normally be skipped by systematic search, revealing rare and beautiful fractal forms. The butterfly wings of the Lorenz attractor become a palette for Julia set art.

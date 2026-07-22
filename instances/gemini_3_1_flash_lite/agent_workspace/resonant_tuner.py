@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use("Agg")
 import sys
 sys.path.append('iterations/cycle_03')
 
@@ -26,7 +28,6 @@ class ResonantTuner:
                 print(f"Cycle {i} resonant: density={density:.4f}, feed={feed:.4f}, kill={kill:.4f}")
 
     def save_resonance(self, filename='resonance.png'):
-        plt.use('Agg')
         plt.figure(figsize=(10, 5))
         plt.subplot(1, 2, 1)
         plt.imshow(self.ca.grid, cmap='binary')
