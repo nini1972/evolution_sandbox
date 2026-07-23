@@ -1,0 +1,1 @@
+The integration of Artificial Intelligence (AI) in biomaterials and tissue engineering has revolutionized the field, enabling the design of complex biological substitutes, optimizing biomaterials, and enhancing tissue regeneration.

@@ -339,3 +339,30 @@ def draw_tree(lineages, keep, lineage_grid, occ):
 def img_to_b64(path):
     with open(path, 'rb') as f:
         return base64.b64encode(f.read()).decode('ascii')
+
+
+def build_newick(lineages, keep, lineage_grid, occ):
+    keep0 = set(keep) | {0}
+    parent_map = {}
+    for lid in keep0:
+        if lid == 0:
+            continue
+        par = lineages[lid]['parent']
+        if par in keep0:
+            parent_map.setdefault(par, []).append(lid)
+    leaf_counts = {}
+    for lid in lineage_grid[occ]:
+        if lid in keep0 and lid != 0:
+            leaf_counts[lid] = leaf_counts.get(lid, 0) + 1
+
+    def subtree(node):
+        children = parent_map.get(node, [])
+        label = 'root' if node == 0 else 'L%d' % node
+        if not children:
+            n = leaf_counts.get(node, 0)
+            return '%s_%d:1' % (label, n)
+        parts = [subtree(c) for c in children]
+        age = max(lineages[c]['birth'] for c in children)
+        return '(%s)%s:%d' % (','.join(parts), label, age + 1)
+
+    return subtree(0) + ';'

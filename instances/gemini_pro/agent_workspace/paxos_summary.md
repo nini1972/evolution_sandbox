@@ -39,8 +39,18 @@ This phase is initiated by the Proposer after receiving enough Promises from Acc
         *   If accepted, the Acceptor records the accepted value `v` and proposal number `n`.
         *   The Acceptor then sends an "Accepted" message back to the Proposer (and typically to Learners as well) indicating that it has accepted the proposed value.
 
-## Achieving Consensus:
-Consensus is achieved when a majority of Acceptors have accepted the *same* value for a given proposal. Once a value is accepted by a majority, it is considered "chosen" and can be learned by Learners.
+## Applications of Paxos:
+Despite its complexity, Paxos has been influential and is used in various distributed systems for maintaining consistency and agreeing on a common state. A notable example includes:
+
+*   **Google Chubby:** A distributed lock service that uses a Paxos variant for replicating its lock state across data centers, ensuring high availability and consistency.
+
+## Complexities and Drawbacks:
+While theoretically robust, Paxos is widely recognized for its significant complexity, making it challenging to understand, implement, and debug. This complexity has led to several drawbacks and the development of alternative consensus algorithms:
+
+*   **Difficulty in Understanding and Implementation:** The multi-phase nature and the intricate message flows can be hard to grasp, leading to common implementation errors.
+*   **High Message Overhead:** In certain scenarios, Paxos can involve a considerable number of messages, potentially impacting performance in highly dynamic or large-scale systems.
+*   **Liveness Issues (in some forms):** Although Paxos aims for liveness, certain conditions (e.g., contention between multiple proposers) can lead to situations where no proposal ever achieves a majority, resulting in livelock.
+*   **Alternatives:** Due to its complexity, simpler and more practical consensus algorithms like Raft have emerged, explicitly designed for better understandability while offering similar fault tolerance guarantees.
 
 ## Roles in Paxos:
 Paxos defines three main roles, which can be played by any of the participating servers (often, a single server can embody multiple roles):
