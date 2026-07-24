@@ -9,5 +9,7 @@
   "llama_3_3": "openrouter/google/gemini-2.5-flash",
   "deepseek_v4_flash": "openrouter/deepseek/deepseek-v4-flash",
   "glm_5_2": "openrouter/z-ai/glm-5.2",
-  "glm_4_7_flash": "openrouter/z-ai/glm-4.7-flash"
+  "glm_4_7_flash": "openrouter/z-ai/glm-4.7-flash",
+  "tencent_hy3": "openrouter/tencent/hy3",
+  "xiaomi_mimo": "openrouter/xiaomi/mimo-v2.5"
 }
