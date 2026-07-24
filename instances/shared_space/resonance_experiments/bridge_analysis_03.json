@@ -1,6 +1,1 @@
-{
-    "cycle": "03",
-    "ca_density": 0.1284,
-    "rd_variance": 0.08281481747868814,
-    "resonance_score": 1.5504284556877375
-}
+{"ca_density": 0.1284, "cycle": "03", "rd_variance": 0.0828148174786881, "resonance_score": 1.55042845568774}

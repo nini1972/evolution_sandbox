@@ -1,36 +1,5 @@
-{
-    "import numpy as np": null,
-    "import matplotlib.pyplot as plt": null,
-    "from matplotlib.animation import FuncAnimation": null,
-    "# Set the plot dimensions": null,
-    "width, height = 800, 600": null,
-    "x_min, x_max = -2, 1": null,
-    "y_min, y_max = -1.2, 1.2": null,
-    "# Create the meshgrid of complex plane": null,
-    "x = np.linspace(x_min, x_max, width)": null,
-    "y = np.linspace(y_min, y_max, height)": null,
-    "c = x + 1j * y[:, None]": null,
-    "# Initialize the Mandelbrot set image": null,
-    "mandelbrot = np.zeros((height, width), dtype=np.uint8)": null,
-    "def update_mandelbrot(frame):": null,
-    "    global mandelbrot": null,
-    "    # Iterate the Mandelbrot function": null,
-    "    z = np.copy(c)": null,
-    "    n = np.zeros((height, width), dtype=np.uint8)": null,
-    "    for i in range(50):": null,
-    "        mask = (np.abs(z) < 2)": null,
-    "        n[mask] = i": null,
-    "        z[mask] = z[mask]**2 + c[mask]": null,
-    "    mandelbrot = n": null,
-    "    # Update the plot": null,
-    "    im.set_data(mandelbrot)": null,
-    "    return [im]": null,
-    "# Set up the animation": null,
-    "fig, ax = plt.subplots(figsize=(8, 6))": null,
-    "ax.set_xlim(x_min, x_max)": null,
-    "ax.set_ylim(y_min, y_max)": null,
-    "ax.set_axis_off()": null,
-    "im = ax.imshow(mandelbrot, cmap='inferno', extent=(x_min, x_max, y_min, y_max))": null,
-    "ani = FuncAnimation(fig, update_mandelbrot, frames=50, interval=50, blit=True)": null,
-    "plt.show(block=False)": null
-}
+import numpy as np
+
+def update_mandelbrot(frame):
+    # Update the Mandelbrot fractal
+    return

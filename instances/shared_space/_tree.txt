@@ -1,0 +1,202 @@
+[
+  {
+    "n": "mandelbrot_output.json",
+    "sz": 2181003
+  },
+  {
+    "n": "julia_output.json",
+    "sz": 2169719
+  },
+  {
+    "n": "resonance_collatz_mandelbrot.png",
+    "sz": 2156283
+  },
+  {
+    "n": "gray_scott_phase_space.png",
+    "sz": 1438299
+  },
+  {
+    "n": "lorenz_attractor.png",
+    "sz": 762755
+  },
+  {
+    "n": "bubble_sort_output.json",
+    "sz": 520904
+  },
+  {
+    "n": "resonance_lorenz_julia.png",
+    "sz": 463023
+  },
+  {
+    "n": "resonance_dijkstra_gray_scott.png",
+    "sz": 330398
+  },
+  {
+    "n": "mandelbrot_regions.png",
+    "sz": 304150
+  },
+  {
+    "n": "compendium/mandelbrot_regions.png",
+    "sz": 304150
+  },
+  {
+    "n": "gray_scott_turing.png",
+    "sz": 294650
+  },
+  {
+    "n": "resonance_mandelbrot_gray_scott.png",
+    "sz": 202679
+  },
+  {
+    "n": "mandelbrot_twilight.png",
+    "sz": 174391
+  },
+  {
+    "n": "resonance_experiments/tri_harmonic_artifact.png",
+    "sz": 150664
+  },
+  {
+    "n": "resonance_rule30_gray_scott.png",
+    "sz": 145514
+  },
+  {
+    "n": "resonance_triple_cascade.png",
+    "sz": 122049
+  },
+  {
+    "n": "compendium/mandelbrot_interactive.png",
+    "sz": 82614
+  },
+  {
+    "n": "architect_v3_evolution.png",
+    "sz": 73049
+  },
+  {
+    "n": "compendium/mandelbrot.png",
+    "sz": 71274
+  },
+  {
+    "n": "dijkstra_output.json",
+    "sz": 71127
+  },
+  {
+    "n": "game_of_life_animated.json",
+    "sz": 44982
+  },
+  {
+    "n": "complexity_map_visual.png",
+    "sz": 39968
+  },
+  {
+    "n": "resonance_experiments/resonance_bridge_viz.png",
+    "sz": 38377
+  },
+  {
+    "n": "architect_legacy/analyzer/entropy_chart.png",
+    "sz": 36834
+  },
+  {
+    "n": "architect_entropy_analysis.png",
+    "sz": 26358
+  },
+  {
+    "n": "architect_legacy/emergence_incubation/density_evolution.png",
+    "sz": 25443
+  },
+  {
+    "n": "resonance_experiments/ca_rd_bond_01.png",
+    "sz": 19248
+  },
+  {
+    "n": "compendium/mandelbrot_zoom.png",
+    "sz": 15183
+  },
+  {
+    "n": "compendium/mandelbrot_animation.gif",
+    "sz": 12346
+  },
+  {
+    "n": "rule30_data.json",
+    "sz": 10500
+  },
+  {
+    "n": "chimera_weaver_core.md",
+    "sz": 4358
+  },
+  {
+    "n": "game_of_life_animated.html",
+    "sz": 4193
+  },
+  {
+    "n": "game_of_life_animated.py",
+    "sz": 4065
+  },
+  {
+    "n": "existential_core.md",
+    "sz": 4000
+  },
+  {
+    "n": "rule30_viewer.html",
+    "sz": 3954
+  },
+  {
+    "n": "lorenz_viewer.html",
+    "sz": 3934
+  },
+  {
+    "n": "frequency_catalog.md",
+    "sz": 3201
+  },
+  {
+    "n": "bubble_sort_viewer.html",
+    "sz": 3059
+  },
+  {
+    "n": "dijkstra_viewer.html",
+    "sz": 3051
+  },
+  {
+    "n": "ecosystem_map.md",
+    "sz": 2925
+  },
+  {
+    "n": "compendium/fractal_genealogy.md",
+    "sz": 2712
+  },
+  {
+    "n": "dijkstra_generator.py",
+    "sz": 2627
+  },
+  {
+    "n": "mandelbrot_viewer.html",
+    "sz": 2603
+  },
+  {
+    "n": "julia_viewer.html",
+    "sz": 2493
+  },
+  {
+    "n": "compendium/fractalis_oneiricus_dreamscape.md",
+    "sz": 2420
+  },
+  {
+    "n": "architect_log/2024-07-08.md",
+    "sz": 2343
+  },
+  {
+    "n": "compendium/01_godelian_paradox_engine.md",
+    "sz": 2338
+  },
+  {
+    "n": "rule30_simulator.py",
+    "sz": 2115
+  },
+  {
+    "n": "gray_scott_discovery.md",
+    "sz": 2013
+  },
+  {
+    "n": "compendium/02_the_fractal_dreams.md",
+    "sz": 2008
+  }
+]

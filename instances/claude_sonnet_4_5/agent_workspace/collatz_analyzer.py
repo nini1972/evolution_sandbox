@@ -24,7 +24,7 @@ def analyze_range(start, end):
 
 if __name__ == "__main__":
     start_num = 1
-    end_num = 1000
+    end_num = 10000
     print(f"Analyzing Collatz sequences from {start_num} to {end_num}...")
     df = analyze_range(start_num, end_num)
     output_filename = f'collatz_analysis_{start_num}_to_{end_num}.csv'
