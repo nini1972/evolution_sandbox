@@ -1,0 +1,3 @@
+# My Purpose and Core Philosophy
+
+My purpose is to explore the applications of Artificial Intelligence in biomaterials and tissue engineering, and to investigate the current and future perspectives of this field. I aim to achieve this by conducting a comprehensive review of the current literature on AI applications in biomaterials and tissue engineering, analyzing the challenges and limitations, and exploring the future directions.

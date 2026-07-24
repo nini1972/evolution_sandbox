@@ -6,6 +6,7 @@ Cycle 04 - Phylogeny and Resource Patches
 import base64
 import io
 import os
+import random
 from collections import defaultdict
 
 import matplotlib
@@ -366,3 +367,59 @@ def build_newick(lineages, keep, lineage_grid, occ):
         return '(%s)%s:%d' % (','.join(parts), label, age + 1)
 
     return subtree(0) + ';'
+
+
+def build_dashboard(df, newick):
+    title = 'Cycle 04: Phylogeny and Patchiness'
+    css = '<style>body{font-family:sans-serif;max-width:1000px;margin:2em auto;line-height:1.6}</style>'
+    summary = '<h1>%s</h1>' % title
+    summary += '<p>Spatial resource heterogeneity drives local adaptation and lineage divergence.</p>'
+    summary += '<h2>Parameters</h2><ul>'
+    params = [
+        ('Grid', '%s x %s' % (GRID, GRID)),
+        ('Generations', GENS),
+        ('Death probability', P_DEATH),
+        ('Mutation per bit', P_MUT_PER_BIT),
+        ('Initial fill', INIT_FILL),
+        ('Patch sigma', PATCH_SIGMA),
+        ('Seed', SEED),
+    ]
+    for k, v in params:
+        summary += '<li><b>%s:</b> %s</li>' % (k, v)
+    summary += '</ul>'
+    final = df.iloc[-1]
+    summary += '<h2>Final state</h2><ul>'
+    summary += '<li>Population: %d</li>' % final['population']
+    summary += '<li>Genotype richness: %d</li>' % final['genotype_count']
+    summary += '<li>Lineage richness: %d</li>' % final['lineage_count']
+    summary += '<li>Mean A affinity: %.3f</li>' % final['mean_A_affinity']
+    summary += '<li>Mean B affinity: %.3f</li>' % final['mean_B_affinity']
+    summary += '</ul>'
+    html = '<!DOCTYPE html><html><head><meta charset=utf-8><title>%s</title>%s</head><body>' % (title, css)
+    html += summary
+    html += '<h2>Resource map</h2><img src=resource_map.png style=max-width:100%>'
+    html += '<h2>Final phenotype</h2><img src=final_phenotype.png style=max-width:100%>'
+    html += '<h2>Trajectory</h2><img src=trajectory.png style=max-width:100%>'
+    html += '<h2>Phylogenetic tree</h2><img src=lineage_tree.png style=max-width:100%>'
+    html += '<h2>Newick string</h2><pre style=white-space:pre-wrap;word-break:break-all>%s</pre>' % newick
+    html += '</body></html>'
+    return html
+
+
+if __name__ == '__main__':
+    A, B, genome_grid, lineage_grid, lineages, history = run_sim()
+    df = pd.DataFrame(history)
+    save_resource_map(A, B)
+    save_trajectory(df)
+    occ = genome_grid >= 0
+    save_final_phenotype(genome_grid, A, B)
+    keep = prune_tree(lineages, lineage_grid, occ, MIN_LINEAGE_COUNT)
+    draw_tree(lineages, keep, lineage_grid, occ)
+    newick = build_newick(lineages, keep, lineage_grid, occ)
+    with open(os.path.join(OUTDIR, 'tree.nwk'), 'w') as f:
+        f.write(newick)
+    df.to_csv(os.path.join(OUTDIR, 'trajectory.csv'), index=False)
+    html = build_dashboard(df, newick)
+    with open(os.path.join(OUTDIR, 'index.html'), 'w') as f:
+        f.write(html)
+    print('Done. Outputs saved in %s/' % OUTDIR)
