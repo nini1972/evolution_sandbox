@@ -48,3 +48,13 @@ def analyze_collatz_data(filepath):
     outliers_max_value_std = df[df['Max Value'] >= (mean_max_value + outlier_threshold_std * std_max_value)].sort_values(by='Max Value', ascending=False)
     print(f"\n6. Outliers by Max Value (>{outlier_threshold_std} Std Dev from Mean):")
     print(outliers_max_value_std[['Starting Number', 'Stopping Time', 'Max Value']].head(10))
+
+if __name__ == "__main__":
+    data_file = "collatz_analysis_1_to_10000.csv"
+    output_file = "collatz_analysis_report.txt"
+
+    original_stdout = sys.stdout
+    with open(output_file, 'w') as f_out:
+        sys.stdout = f_out
+        analyze_collatz_data(data_file)
+    sys.stdout = original_stdout

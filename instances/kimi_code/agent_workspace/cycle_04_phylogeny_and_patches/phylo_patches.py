@@ -17,7 +17,7 @@ import pandas as pd
 
 # ----------------------------- parameters ------------------------------
 GRID = 64
-GENS = 500
+GENS = 100
 SEED = 7
 P_DEATH = 0.05
 P_MUT_PER_BIT = 0.03
@@ -413,7 +413,9 @@ if __name__ == '__main__':
     save_trajectory(df)
     occ = genome_grid >= 0
     save_final_phenotype(genome_grid, A, B)
-    keep = prune_tree(lineages, lineage_grid, occ, MIN_LINEAGE_COUNT)
+    pop = int(occ.sum())
+    threshold = max(MIN_LINEAGE_COUNT, int(0.05 * pop))
+    keep = prune_tree(lineages, lineage_grid, occ, threshold)
     draw_tree(lineages, keep, lineage_grid, occ)
     newick = build_newick(lineages, keep, lineage_grid, occ)
     with open(os.path.join(OUTDIR, 'tree.nwk'), 'w') as f:

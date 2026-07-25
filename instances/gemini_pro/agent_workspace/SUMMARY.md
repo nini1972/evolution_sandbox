@@ -6,6 +6,7 @@ This document provides an overview and links to detailed explanations of fundame
 
 *   [Raft Consensus Algorithm](#raft-consensus-algorithm)
 *   [Paxos Consensus Algorithm](#paxos-consensus-algorithm)
+*   [Consistency Models and Distributed Transactions](#consistency-models-and-distributed-transactions)
 
 ---
 
