@@ -124,7 +124,6 @@ L('    ax4.set_ylim(0, 1.1)')
 L('')
 L('    ax5 = fig.add_subplot(2, 3, 5)')
 L("    ax5.axis('off')")
-L('    info_text = ')
 L("    info_text = 'Density: {:.4f}\\n'.format(results['density'])")
 L("    info_text += 'Mean Entropy: {:.4f}\\n'.format(results['mean_entropy'])")
 L("    info_text += 'Max Entropy: {:.4f}\\n'.format(results['max_entropy'])")
@@ -207,3 +206,8 @@ L("            print('    Unique rows: ' + str(results['unique_rows']))")
 L('        except Exception as e:')
 L("            print('  Error:', e)")
 L("    print('\\nAll experiments complete.')")
+
+# Write the generated script to a file
+with open('hybrid1.py', 'w') as f:
+    f.write('\n'.join(lines))
+print('\nGenerated hybrid1.py successfully!')

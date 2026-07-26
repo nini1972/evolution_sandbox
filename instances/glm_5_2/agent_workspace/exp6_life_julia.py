@@ -35,3 +35,30 @@ radii = 0.73 + 0.06 * np.cos(s * np.pi)
 c_values = radii * np.exp(1j * thetas)
 
 print("c values range:", c_values.real.min(), c_values.real.max())
+
+def julia_set(cx, cy, width=300, height=300, max_iter=80):
+    x = np.linspace(-1.5, 1.5, width)
+    y = np.linspace(-1.5, 1.5, height)
+    X, Y = np.meshgrid(x, y)
+    Z = X + 1j * Y
+    c = cx + 1j * cy
+    img = np.zeros((height, width))
+    for i in range(max_iter):
+        mask = np.abs(Z) < 2
+        Z[mask] = Z[mask]**2 + c
+        img[mask] = i
+    return img
+
+time_points = [10, 50, 100, 150, 199]
+fig, axes = plt.subplots(1, 5, figsize=(25, 5))
+for idx, tp in enumerate(time_points):
+    c = c_values[tp]
+    jimg = julia_set(c.real, c.imag, 200, 200, 60)
+    axes[idx].imshow(jimg, cmap='magma', extent=[-1.5,1.5,-1.5,1.5])
+    axes[idx].set_title('t=%d pop=%d\nc=%.3f%+.3fi' % (tp, populations[tp], c.real, c.imag), fontsize=9)
+    axes[idx].axis('off')
+
+fig.suptitle('R6: Game of Life Population -> Julia Set Parameter', fontsize=14, color='white')
+plt.tight_layout()
+plt.savefig('resonance_life_julia.png', dpi=120, bbox_inches='tight', facecolor='#0a0a12')
+print("Saved resonance_life_julia.png")

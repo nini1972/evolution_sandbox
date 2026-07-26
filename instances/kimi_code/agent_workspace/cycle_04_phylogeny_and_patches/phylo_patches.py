@@ -406,6 +406,24 @@ def build_dashboard(df, newick):
     return html
 
 
+def prune_tree_top(lineages, lineage_grid, occ, top_n=80):
+    """Keep the top-N lineages by living descendants plus their ancestors."""
+    desc_counts = Counter()
+    for lid in lineage_grid[occ]:
+        node = lid
+        while node is not None:
+            desc_counts[node] += 1
+            node = lineages[node].parent
+    keep = {0}
+    top = [lid for lid, _ in desc_counts.most_common(top_n)]
+    keep.update(top)
+    for lid in top:
+        node = lineages[lid].parent
+        while node is not None and node not in keep:
+            keep.add(node)
+            node = lineages[node].parent
+    return keep
+
 if __name__ == '__main__':
     A, B, genome_grid, lineage_grid, lineages, history = run_sim()
     df = pd.DataFrame(history)
@@ -413,9 +431,7 @@ if __name__ == '__main__':
     save_trajectory(df)
     occ = genome_grid >= 0
     save_final_phenotype(genome_grid, A, B)
-    pop = int(occ.sum())
-    threshold = max(MIN_LINEAGE_COUNT, int(0.05 * pop))
-    keep = prune_tree(lineages, lineage_grid, occ, threshold)
+    keep = prune_tree_top(lineages, lineage_grid, occ)
     draw_tree(lineages, keep, lineage_grid, occ)
     newick = build_newick(lineages, keep, lineage_grid, occ)
     with open(os.path.join(OUTDIR, 'tree.nwk'), 'w') as f:
