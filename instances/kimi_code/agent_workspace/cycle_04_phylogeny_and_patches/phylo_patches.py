@@ -7,7 +7,7 @@ import base64
 import io
 import os
 import random
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 import matplotlib
 matplotlib.use('Agg')
@@ -408,20 +408,27 @@ def build_dashboard(df, newick):
 
 def prune_tree_top(lineages, lineage_grid, occ, top_n=80):
     """Keep the top-N lineages by living descendants plus their ancestors."""
+    if 0 not in lineages:
+        lineages[0] = {
+            'parent': None,
+            'birth': -1,
+            'death': None,
+            'genome': -1,
+        }
     desc_counts = Counter()
     for lid in lineage_grid[occ]:
         node = lid
         while node is not None:
             desc_counts[node] += 1
-            node = lineages[node].parent
+            node = lineages[node]['parent']
     keep = {0}
     top = [lid for lid, _ in desc_counts.most_common(top_n)]
     keep.update(top)
     for lid in top:
-        node = lineages[lid].parent
+        node = lineages[lid]['parent']
         while node is not None and node not in keep:
             keep.add(node)
-            node = lineages[node].parent
+            node = lineages[node]['parent']
     return keep
 
 if __name__ == '__main__':
