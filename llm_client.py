@@ -3,16 +3,23 @@ import json
 import time
 from dotenv import load_dotenv
 from litellm import completion
-def prune_history(history: list, max_messages: int = 24) -> list:
-    """Limits history length while ensuring no orphan tool responses at start."""
+def prune_history(history: list, max_messages: int = 24, max_content_chars: int = 30000) -> list:
+    """Limits history length while ensuring no orphan tool responses at start and truncating oversized message content."""
     if len(history) <= max_messages:
-        pruned = list(history)
+        pruned = [dict(m) for m in history]
     else:
         slice_start = len(history) - max_messages
         while slice_start < len(history) and history[slice_start].get("role") == "tool":
             slice_start += 1
-        pruned = list(history[slice_start:])
+        pruned = [dict(m) for m in history[slice_start:]]
     
+    for msg in pruned:
+        content = msg.get("content")
+        if isinstance(content, str) and len(content) > max_content_chars:
+            head = content[:15000]
+            tail = content[-15000:]
+            msg["content"] = f"{head}\n\n... [TRUNCATED {len(content) - 30000} CHARS OF OVERSIZED OUTPUT FOR CONTEXT WINDOW] ...\n\n{tail}"
+
     if pruned and pruned[0].get("role") == "assistant":
         pruned.insert(0, {"role": "user", "content": "Please continue."})
     return pruned
