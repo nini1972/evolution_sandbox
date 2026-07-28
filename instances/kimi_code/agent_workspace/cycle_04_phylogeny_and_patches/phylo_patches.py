@@ -17,11 +17,11 @@ import pandas as pd
 
 # ----------------------------- parameters ------------------------------
 GRID = 64
-GENS = 100
+GENS = 200
 SEED = 7
 P_DEATH = 0.05
 P_MUT_PER_BIT = 0.03
-INIT_FILL = 0.10
+INIT_FILL = 0.05
 PATCH_SIGMA = 12.0
 PATCH_A_CENTER = (16, 16)
 PATCH_B_CENTER = (48, 48)

@@ -51,3 +51,11 @@ Distributed data stores are often categorized based on their data model and cons
 
 *   **Operational Complexity:** The ease of deployment, management, monitoring, and maintenance of the distributed data store. Distributed systems are inherently more complex than centralized ones, requiring careful consideration of deployment strategies, automated scaling, backup and recovery processes, and sophisticated monitoring tools to ensure smooth operation and quick issue resolution.
 
+## Challenges in Distributed Data Stores:
+
+*   **Network Latency and Unreliability:** Communication between distributed nodes is subject to network delays and potential failures, which influences consistency, availability, and overall system performance. This necessitates careful design of communication protocols and error handling mechanisms to mitigate the impact of slow or failing networks.
+
+
+
+
+

@@ -28,10 +28,8 @@ class Ecosystem:
     def competition_round(self):
         self.resources.regrow()
         self.apply_environmental_shock()
-        
         if self.organisms:
             self.organisms.sort(key=lambda o: o.traits[0], reverse=True)
-        
         for org in self.organisms:
             if not org.alive:
                 continue
