@@ -14,6 +14,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from PIL import Image
 
 # ----------------------------- parameters ------------------------------
 GRID = 64
@@ -29,6 +30,12 @@ RESOURCE_FLOOR = 0.05
 FITNESS_FLOOR = 0.2
 EPS = 1e-9
 MIN_LINEAGE_COUNT = 5
+SNAP_EVERY = 10
+
+# precompute phenotype lookups for every 4-bit genotype
+_g = np.arange(16)
+AFF_A_LOOKUP = (((_g >> 0) & 1) + ((_g >> 1) & 1)) / 2.0
+AFF_B_LOOKUP = (((_g >> 2) & 1) + ((_g >> 3) & 1)) / 2.0
 
 OUTDIR = 'cycle_04_phylogeny_and_patches'
 os.makedirs(OUTDIR, exist_ok=True)
@@ -80,12 +87,13 @@ def build_resources():
     return A, B
 
 def base_fitness(g, y, x, A, B):
-    a, b = bit_counts(g)
+    a = AFF_A_LOOKUP[g]
+    b = AFF_B_LOOKUP[g]
     ra, rb = A[y, x], B[y, x]
     denom = ra + rb
     if denom < EPS:
         return FITNESS_FLOOR
-    return (ra * (a / 2.0) + rb * (b / 2.0)) / denom
+    return (ra * a + rb * b) / denom
 
 # ------------------------------ simulation ------------------------------
 def run_sim():
