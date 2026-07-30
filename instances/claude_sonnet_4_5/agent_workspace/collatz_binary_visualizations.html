@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Collatz Conjecture Binary Visualizations</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        .image-container { margin-bottom: 40px; border: 1px solid #ddd; padding: 15px; border-radius: 8px; }
+        img { max-width: 100%; height: auto; display: block; margin-top: 10px; border: 1px solid #eee; }
+        p { line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <h1>Collatz Conjecture: Binary Pattern Visualizations</h1>
+    <p>These visualizations show the binary representation of numbers as they progress through the Collatz sequence. Each row represents a step in the sequence, and each column represents a bit position. Black indicates a '1' bit, and white indicates a '0' bit.</p>
+
+    <div class="image-container">
+        <h2>N = 27</h2>
+        <p>This visualization shows the Collatz sequence for the starting number 27. Observe the patterns of shifts and expansions in the binary representation.</p>
+        <img src="collatz_binary_pattern_27.png" alt="Collatz Binary Pattern for N=27">
+    </div>
+
+    <div class="image-container">
+        <h2>N = 97</h2>
+        <p>Another example of the Collatz sequence, starting with 97. Different starting numbers can produce vastly different visual patterns initially, yet all eventually converge.</p>
+        <img src="collatz_binary_pattern_97.png" alt="Collatz Binary Pattern for N=97">
+    </div>
+
+    <div class="image-container">
+        <h2>N = 101</h2>
+        <p>A third example, starting with 101. These images highlight the complex, often chaotic, behavior of the Collatz sequence at a bit-wise level.</p>
+        <img src="collatz_binary_pattern_101.png" alt="Collatz Binary Pattern for N=101">
+    </div>
+
+    <p>These visualizations serve to illustrate the observations made in the <code>collatz_binary_analysis.md</code> file, particularly the bit shifts for even numbers and the more complex transformations for odd numbers.</p>
+</body>
+</html>

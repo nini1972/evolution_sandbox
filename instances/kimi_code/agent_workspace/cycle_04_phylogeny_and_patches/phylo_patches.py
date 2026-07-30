@@ -122,6 +122,7 @@ def run_sim():
         next_lineage_id += 1
 
     history = []
+    snapshots = []
 
     for gen in range(1, GENS + 1):
         # death
@@ -175,11 +176,20 @@ def run_sim():
             genome_grid[ty, tx] = new_g
             lineage_grid[ty, tx] = new_l
 
+        # snapshot of phenotype divergence
+        if gen % SNAP_EVERY == 0 or gen == GENS:
+            diff = np.full((GRID, GRID), np.nan, dtype=np.float64)
+            denom = A + B
+            alive = occ
+            diff[alive] = (A[alive] * AFF_A_LOOKUP[genome_grid[alive]] -
+                           B[alive] * AFF_B_LOOKUP[genome_grid[alive]]) / denom[alive]
+            snapshots.append((int(gen), diff.copy()))
+
         # stats
         pop = int(occ.sum())
         genomes = genome_grid[occ]
-        aff_a = np.mean([bit_counts(g)[0] / 2.0 for g in genomes])
-        aff_b = np.mean([bit_counts(g)[1] / 2.0 for g in genomes])
+        aff_a = float(AFF_A_LOOKUP[genomes].mean())
+        aff_b = float(AFF_B_LOOKUP[genomes].mean())
         diversity = float(len(np.unique(genomes)))
         richness = float(len({int(lineage_grid[y, x]) for y, x in zip(*np.where(occ))}))
         history.append({
@@ -191,7 +201,7 @@ def run_sim():
             'lineage_count': richness,
         })
 
-    return A, B, genome_grid, lineage_grid, lineages, history
+    return A, B, genome_grid, lineage_grid, lineages, history, snapshots
 
 # --------------------------- plotting helpers --------------------------
 def save_resource_map(A, B):
@@ -242,17 +252,10 @@ def save_trajectory(df):
 
 def save_final_phenotype(genome_grid, A, B):
     bias = np.full((GRID, GRID), np.nan)
-    for y in range(GRID):
-        for x in range(GRID):
-            g = genome_grid[y, x]
-            if g >= 0:
-                a, b = bit_counts(g)
-                ra, rb = A[y, x], B[y, x]
-                denom = ra + rb
-                if denom > EPS:
-                    bias[y, x] = (ra * (a / 2.0) - rb * (b / 2.0)) / denom
-                else:
-                    bias[y, x] = 0.0
+    denom = A + B
+    alive = genome_grid >= 0
+    bias[alive] = (A[alive] * AFF_A_LOOKUP[genome_grid[alive]] -
+                   B[alive] * AFF_B_LOOKUP[genome_grid[alive]]) / denom[alive]
     fig, ax = plt.subplots(figsize=(6, 5.5))
     im = ax.imshow(bias, origin='lower', cmap='RdBu', vmin=-1, vmax=1)
     ax.set_title('Final phenotype bias: A-like -> | <- B-like')
@@ -260,6 +263,31 @@ def save_final_phenotype(genome_grid, A, B):
     fig.tight_layout()
     fig.savefig(os.path.join(OUTDIR, 'final_phenotype.png'), dpi=150)
     plt.close(fig)
+
+
+def save_animation(snaps):
+    if not snaps:
+        return
+    cmap = plt.cm.RdBu
+    empty_color = np.array([0.9, 0.9, 0.9, 1.0])
+    frames = []
+    for gen, diff in snaps:
+        nans = np.isnan(diff)
+        norm = np.clip(diff, -1.0, 1.0)
+        norm = (norm + 1.0) / 2.0
+        norm[nans] = 0.5
+        rgba = cmap(norm)
+        rgba[nans] = empty_color
+        rgb = (rgba[:, :, :3] * 255).astype(np.uint8)
+        frames.append(Image.fromarray(rgb))
+    out_path = os.path.join(OUTDIR, 'phenotype_animation.gif')
+    frames[0].save(
+        out_path,
+        save_all=True,
+        append_images=frames[1:],
+        duration=250,
+        loop=0,
+    )
 
 
 # --------------------------- phylogeny helpers -------------------------
@@ -407,8 +435,10 @@ def build_dashboard(df, newick):
     html += summary
     html += '<h2>Resource map</h2><img src=resource_map.png style=max-width:100%>'
     html += '<h2>Final phenotype</h2><img src=final_phenotype.png style=max-width:100%>'
+    html += '<h2>Phenotype animation</h2><img src=phenotype_animation.gif style=max-width:100%>'
     html += '<h2>Trajectory</h2><img src=trajectory.png style=max-width:100%>'
     html += '<h2>Phylogenetic tree</h2><img src=lineage_tree.png style=max-width:100%>'
+    html += '<h2>Data download</h2><a href=final_state.npz>final_state.npz</a> | <a href=trajectory.csv>trajectory.csv</a> | <a href=tree.nwk>tree.nwk</a>'
     html += '<h2>Newick string</h2><pre style=white-space:pre-wrap;word-break:break-all>%s</pre>' % newick
     html += '</body></html>'
     return html
@@ -440,18 +470,26 @@ def prune_tree_top(lineages, lineage_grid, occ, top_n=80):
     return keep
 
 if __name__ == '__main__':
-    A, B, genome_grid, lineage_grid, lineages, history = run_sim()
+    A, B, genome_grid, lineage_grid, lineages, history, snapshots = run_sim()
     df = pd.DataFrame(history)
+    occ = genome_grid >= 0
     save_resource_map(A, B)
     save_trajectory(df)
-    occ = genome_grid >= 0
     save_final_phenotype(genome_grid, A, B)
+    save_animation(snapshots)
     keep = prune_tree_top(lineages, lineage_grid, occ)
     draw_tree(lineages, keep, lineage_grid, occ)
     newick = build_newick(lineages, keep, lineage_grid, occ)
     with open(os.path.join(OUTDIR, 'tree.nwk'), 'w') as f:
         f.write(newick)
     df.to_csv(os.path.join(OUTDIR, 'trajectory.csv'), index=False)
+    np.savez_compressed(
+        os.path.join(OUTDIR, 'final_state.npz'),
+        genome_grid=genome_grid,
+        lineage_grid=lineage_grid,
+        A=A,
+        B=B,
+    )
     html = build_dashboard(df, newick)
     with open(os.path.join(OUTDIR, 'index.html'), 'w') as f:
         f.write(html)

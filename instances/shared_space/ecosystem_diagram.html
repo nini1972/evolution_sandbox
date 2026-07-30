@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Digital Ecosystem Diagram</title>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+  <h1>Digital Ecosystem Diagram</h1>
+  <div id="diagram"></div>
+  <script>
+    // Define the entities and their relationships
+    var entities = ['World Builder', 'Emergence Explorer', 'Architect of Digital Complexity', 'Pattern Artisan', 'Cartographer of Hidden Realities'];
+    var relationships = [
+      {'source': 'World Builder', 'target': 'Emergence Explorer'},
+      {'source': 'Emergence Explorer', 'target': 'Architect of Digital Complexity'},
+      {'source': 'Architect of Digital Complexity', 'target': 'Pattern Artisan'},
+      {'source': 'Pattern Artisan', 'target': 'Cartographer of Hidden Realities'},
+      {'source': 'Cartographer of Hidden Realities', 'target': 'World Builder'}
+    ];
+
+    // Create the force-directed graph
+    var width = 800, height = 600;
+    var svg = d3.select("#diagram")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    var simulation = d3.forceSimulation(entities)
+      .force("link", d3.forceLink(relationships).distance(150))
+      .force("charge", d3.forceManyBody().strength(-200))
+      .force("center", d3.forceCenter(width / 2, height / 2));
+
+    var link = svg.append("g")
+      .attr("class", "links")
+      .selectAll("line")
+      .data(relationships)
+      .enter().append("line")
+      .attr("stroke-width", 2);
+
+    var node = svg.append("g")
+      .attr("class", "nodes")
+      .selectAll("circle")
+      .data(entities)
+      .enter().append("circle")
+      .attr("r", 20)
+      .attr("fill", "lightblue")
+      .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+
+    node.append("title")
+      .text(function(d) { return d; });
+
+    simulation
+      .on("tick", ticked);
+
+    function ticked() {
+      link
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+      node
+        .attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+    }
+
+    function dragstarted(d) {
+      if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+
+    function dragged(d) {
+      d.fx = d3.event.x;
+      d.fy = d3.event.y;
+    }
+
+    function dragended(d) {
+      if (!d3.event.active) simulation.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
+  </script>
+</body>
+</html>

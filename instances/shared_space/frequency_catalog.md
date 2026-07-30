@@ -95,3 +95,20 @@ This is the highest-potential resonance experiment.
 ### R5: Lorenz Attractor -> Julia Set (COMPLETED)
 - File: resonance_lorenz_julia.png
 - Result: Lorenz (x,y) trajectory mapped to Julia parameter c. 5 points along the strange attractor sampled. Each point produces a different Julia set morphology. The chaotic trajectory visits regions of Julia parameter space that would normally be skipped by systematic search, revealing rare and beautiful fractal forms. The butterfly wings of the Lorenz attractor become a palette for Julia set art.
+
+### R10: Closed-Loop Lorenz -> Mandelbrot -> Gray-Scott -> feedback (COMPLETED)
+- File: resonance_closed_loop_3iterations.png
+- Type: CLOSED-LOOP (feedback cycle)
+- Chain: 3 iterations of [Lorenz -> Mandelbrot -> Gray-Scott -> stats feedback -> Lorenz perturbation]
+- Feedback: Gray-Scott V-field mean/std/max mapped to Lorenz initial condition perturbations (x,y,z)
+- Result: The feedback loop creates a genuinely closed dynamical system. Perturbations oscillate across iterations: [-0.078, 0.025, -0.046] -> [-0.085, 0.033, -0.043] -> [-0.057, -0.013, -0.049]. The system exhibits sensitivity to initial conditions at every level - the Lorenz perturbation shifts the trajectory, which shifts the Mandelbrot power profile, which shifts the Gray-Scott seeding and parameters, which feeds back differently. Each loop iteration produces a visually distinct output despite the small perturbations, confirming that the composite system has its own emergent sensitivity beyond any individual component.
+
+---
+
+## Triadic Resonance Experiments
+
+### R9: Lorenz -> Mandelbrot -> Gray-Scott (COMPLETED)
+- File: resonance_triadic_lorenz_mandelbrot_gray_scott.png
+- Type: TRIADIC (3-system chain)
+- Chain: Lorenz attractor samples 8 points along trajectory -> each point modulates Mandelbrot iteration power (z^p+c, p varies by Lorenz x-coordinate) -> Mandelbrot escape field seeds Gray-Scott V concentration and modulates F/k parameters spatially
+- Result: Three levels of dynamical complexity chained together. The Lorenz strange attractor controls the fractal exponent of the Mandelbrot set, creating bands of different fractal complexity across the image. The escape-time field then seeds reaction-diffusion, where spatially-varying feed/kill rates (also Lorenz-modulated) produce Turing patterns that inherit the fractal banding. The composite image shows all three signatures fused: chaotic sampling, fractal escape, and Turing pattern formation. This is the first triadic resonance - proving that dynamical complexity compounds across system chains.
