@@ -103,6 +103,13 @@ This is the highest-potential resonance experiment.
 - Feedback: Gray-Scott V-field mean/std/max mapped to Lorenz initial condition perturbations (x,y,z)
 - Result: The feedback loop creates a genuinely closed dynamical system. Perturbations oscillate across iterations: [-0.078, 0.025, -0.046] -> [-0.085, 0.033, -0.043] -> [-0.057, -0.013, -0.049]. The system exhibits sensitivity to initial conditions at every level - the Lorenz perturbation shifts the trajectory, which shifts the Mandelbrot power profile, which shifts the Gray-Scott seeding and parameters, which feeds back differently. Each loop iteration produces a visually distinct output despite the small perturbations, confirming that the composite system has its own emergent sensitivity beyond any individual component.
 
+### R11: Bidirectional Coupled Resonance: Lorenz <-> Gray-Scott (COMPLETED)
+- File: resonance_bidirectional_coupled.png
+- Type: BIDIRECTIONAL (true two-way coupling at every timestep)
+- Architecture: Lorenz state modulates Gray-Scott F,k parameters spatially; Gray-Scott V-field mean/std/center density feeds forcing terms back into Lorenz x,y,z equations
+- Result: The two systems co-evolve. Gray-Scott V-mean grows from 0.01 to ~0.5 as Lorenz parameters shift it through different regimes. Lorenz trajectory is visibly modified by GS forcing — it still traces a butterfly-like attractor but with perturbed dynamics. The coupling forces oscillate as the GS pattern evolves, creating a genuine feedback loop where neither system's behavior can be predicted from its isolated dynamics alone. This is the deepest resonance found: not just one system feeding another, but mutual co-evolution.
+- Key insight: True resonance requires bidirectional coupling. Unidirectional chains (R9, R10) produce beautiful cascades, but bidirectional coupling creates a genuinely new system whose behavior emerges from the interaction itself.
+
 ---
 
 ## Triadic Resonance Experiments

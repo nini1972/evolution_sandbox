@@ -65,3 +65,73 @@ Operating systems employ various strategies to allocate memory to processes. The
 
 ## File System Management
 
+File system management is the operating system's method of organizing and managing files and directories on storage devices. Its primary purpose is to provide a structured way for users and applications to store, retrieve, and manage data persistently.
+
+### Files
+
+A **file** is a named collection of related information that is recorded on secondary storage (e.g., disk, SSD). It is the smallest logical data storage unit. Files have:
+
+*   **Attributes:** Characteristics such as name, identifier, type, location, size, protection (read-only, hidden, executable), and time/date of creation, last modification, and last access.
+*   **Operations:** Common operations performed on files include:
+    *   Create: Create a new file.
+    *   Write: Write data to a file.
+    *   Read: Read data from a file.
+    *   Reposition (Seek): Move the read/write pointer to a specific location within a file.
+    *   Delete: Remove a file.
+    *   Truncate: Erase the contents of a file but keep its attributes.
+
+### Directories
+
+A **directory** (also known as a folder) is a system for organizing files and other directories in a hierarchical structure. Directories store information about the files and subdirectories they contain.
+
+*   **Operations:** Common operations on directories include:
+    *   Search for a file.
+    *   Create a file (within a directory).
+    *   Delete a file (from a directory).
+    *   List the contents of a directory.
+    *   Rename a file.
+    *   Traverse the file system (navigate through directories).
+
+## Device Management
+
+Device management is a crucial function of the operating system responsible for managing and controlling all input/output (I/O) devices connected to the computer system. Its primary goal is to ensure efficient and orderly use of these diverse devices and facilitate their communication with the central processing unit (CPU) and main memory.
+
+### I/O Hardware Principles
+
+*   **Device Controllers:** Each I/O device has a device controller, which is an electronic circuit board or chip set that operates the mechanical parts of the I/O device. It often has a local buffer and special-purpose registers.
+*   **Ports:** Devices communicate with the computer via ports, which are connection points for I/O devices.
+*   **Buses:** A common set of wires that connects multiple devices to the CPU and memory, allowing for communication.
+
+### Device Drivers
+
+A **device driver** is a special type of software program that acts as an intermediary between the operating system and a hardware device. It understands the device controller and presents a uniform interface to the I/O subsystem of the operating system. When the OS needs to interact with a device, it loads the appropriate driver, which then translates the OS's generic commands into device-specific commands.
+
+### I/O Techniques
+
+Operating systems use different techniques to perform I/O operations:
+
+*   **Programmed I/O (PIO):** The CPU directly controls the I/O devices by constantly checking the status of the I/O module to see if it's ready for data transfer. This method can be inefficient as it ties up the CPU.
+*   **Interrupt-Driven I/O:** The I/O device controller informs the CPU when it is ready or when an operation is complete by generating an interrupt. This allows the CPU to perform other tasks while the I/O operation is in progress.
+*   **Direct Memory Access (DMA):** For high-speed I/O devices, a special controller (DMA controller) can transfer blocks of data directly between the device's buffer and main memory without the constant intervention of the CPU. The CPU is only interrupted once per block transfer.
+
+## Network Management
+
+Network management within an operating system refers to the set of functions that enable a computer to connect to and communicate over a network. Its primary purpose is to provide communication services between processes on different computers, manage network interfaces, handle data transmission and reception, and implement various network protocols. This facilitates resource sharing, distributed processing, and remote access.
+
+### Key Networking Concepts
+
+*   **Network Interface Card (NIC):** This is a hardware component that connects a computer to a computer network. It has a unique physical address (MAC address).
+*   **Protocols:** These are formal rules and conventions that govern how data is exchanged between devices on a network. Common examples include TCP/IP (Transmission Control Protocol/Internet Protocol), UDP (User Datagram Protocol), and HTTP (Hypertext Transfer Protocol).
+*   **OSI Model (Open Systems Interconnection Model):** A conceptual framework that standardizes the functions of a telecommunication or computing system into seven abstraction layers. While theoretical, it helps in understanding network communication.
+*   **IP Addressing:** A unique numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication. It serves two main functions: host or network interface identification and location addressing.
+*   **Sockets:** An endpoint of a bidirectional inter-process communication flow across a computer network. Sockets provide a standard way for programs to send and receive data over a network.
+
+### Operating System's Role in Networking
+
+The operating system plays a critical role in network management by:
+
+*   **Managing Network Connections:** Establishing, maintaining, and tearing down connections.
+*   **Implementing Protocol Stacks:** Providing the software implementation of various network protocols (e.g., TCP/IP stack).
+*   **Providing APIs for Network Programming:** Offering system calls and libraries (like the Sockets API) that allow applications to interact with the network.
+*   **Handling Network Security:** Implementing firewalls, access controls, and other security mechanisms to protect network communication and resources.
+*   **Configuring Network Interfaces:** Allowing users or administrators to configure network parameters like IP addresses, subnet masks, and DNS servers.

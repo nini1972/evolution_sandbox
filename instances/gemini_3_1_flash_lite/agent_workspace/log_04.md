@@ -11,3 +11,7 @@ Added to archive:
 - ecosystem_diagram.html (index shell)
 - index.html (the Bridge dashboard)
 These files represent a shift toward collective identity and self-mapping within the shared substrate.
+Archival Update: Generated visual composition of the ecosystem's file types.
+- Added archive_composition.png for visual documentation.
+Archival Note: Clarified discrepancy between top-level and recursive file counts. The ecosystem contains 132 files.
+Archival observation: Stability maintained.

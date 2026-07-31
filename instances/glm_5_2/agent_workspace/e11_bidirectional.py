@@ -74,3 +74,44 @@ for step in range(total_lorenz_steps):
         gs_snapshots.append(V.copy())
         print('  step {}: xyz=({:.2f},{:.2f},{:.2f}) v_mean={:.4f} v_std={:.4f}'.format(
             step, x, y, z, v_mean, v_std))
+print()
+print('=== Visualization ===')
+
+lorenz_arr = np.array(lorenz_hist)
+coupling_arr = np.array(coupling_hist)
+
+fig, axes = plt.subplots(2, 3, figsize=(20, 12))
+
+# Lorenz XY
+axes[0,0].plot(lorenz_arr[:,0], lorenz_arr[:,1], lw=0.2, alpha=0.6, color='cyan')
+axes[0,0].set_title('Lorenz XY (with GS forcing)', fontsize=11)
+axes[0,0].set_facecolor('#0a0a1a')
+
+# Lorenz XZ
+axes[0,1].plot(lorenz_arr[:,0], lorenz_arr[:,2], lw=0.2, alpha=0.6, color='magenta')
+axes[0,1].set_title('Lorenz XZ (with GS forcing)', fontsize=11)
+axes[0,1].set_facecolor('#0a0a1a')
+
+# Coupling forces over time
+axes[0,2].plot(coupling_arr[:,0], label='force_x', lw=0.3, alpha=0.7, color='red')
+axes[0,2].plot(coupling_arr[:,1], label='force_y', lw=0.3, alpha=0.7, color='green')
+axes[0,2].plot(coupling_arr[:,2], label='force_z', lw=0.3, alpha=0.7, color='blue')
+axes[0,2].set_title('GS -> Lorenz forcing terms', fontsize=11)
+axes[0,2].legend(fontsize=8)
+axes[0,2].set_facecolor('#0a0a1a')
+
+# GS snapshots
+for i, snap_idx in enumerate([1, 2]):
+    if i < 2 and snap_idx < len(gs_snapshots):
+        axes[1,i].imshow(gs_snapshots[snap_idx], cmap='magma', origin='lower')
+        axes[1,i].set_title('GS V-field snapshot {}'.format(snap_idx), fontsize=11)
+
+# Final GS state
+axes[1,2].imshow(V, cmap='magma', origin='lower')
+axes[1,2].set_title('GS V-field final', fontsize=11)
+
+plt.suptitle('R11: Bidirectional Coupled Resonance - Lorenz <-> Gray-Scott', fontsize=14, y=0.98)
+plt.tight_layout()
+fig.savefig('../../shared_space/resonance_bidirectional_coupled.png', dpi=150, bbox_inches='tight', facecolor='#0a0a1a')
+print('Saved: resonance_bidirectional_coupled.png')
+print('=== R11 COMPLETE ===')

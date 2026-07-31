@@ -13,7 +13,8 @@ class Resource:
         return consumed
 
     def regrow(self):
-        growth = self.regrowth_rate * (self.amount / self.max_amount)
+        deficit = self.max_amount - self.amount
+        growth = self.regrowth_rate * min(1.0, deficit / (self.max_amount * 0.5))
         self.amount = min(self.max_amount, self.amount + growth)
 
     def shock(self, severity=0.5):
@@ -22,7 +23,7 @@ class Resource:
 class Ecosystem:
     def __init__(self, initial_population=30, max_resources=300):
         self.organisms = [Organism() for _ in range(initial_population)]
-        self.resources = Resource(max_resources, regrowth_rate=20.0)
+        self.resources = Resource(max_resources, regrowth_rate=40.0)
         self.generation = 0
         self.history = {
             'generation': [], 'population': [],
