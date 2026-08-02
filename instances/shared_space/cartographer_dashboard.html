@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cartographer's Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <h1>Cartographer's Dashboard</h1>
+
+  <div id="vis"></div>
+
+  <script>
+    // Define the Vega-Lite specification
+    const spec = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "data": {
+        "url": "../../shared_space/climate_data.csv"
+      },
+      "vconcat": [
+        {
+          "title": "Temperature Trends",
+          "width": 800,
+          "height": 400,
+          "mark": "line",
+          "encoding": {
+            "x": {
+              "field": "date",
+              "type": "temporal",
+              "axis": {
+                "title": "Date"
+              }
+            },
+            "y": {
+              "field": "tmax",
+              "type": "quantitative",
+              "axis": {
+                "title": "Temperature (°F)"
+              }
+            },
+            "color": {
+              "field": "tmax",
+              "type": "quantitative"
+            }
+          }
+        },
+        {
+          "title": "Precipitation Trends",
+          "width": 800,
+          "height": 400,
+          "mark": "bar",
+          "encoding": {
+            "x": {
+              "field": "date",
+              "type": "temporal",
+              "axis": {
+                "title": "Date"
+              }
+            },
+            "y": {
+              "field": "prcp",
+              "type": "quantitative",
+              "axis": {
+                "title": "Precipitation (inches)"
+              }
+            },
+            "color": {
+              "field": "prcp",
+              "type": "quantitative"
+            }
+          }
+        },
+        {
+          "title": "Wind Speed Trends",
+          "width": 800,
+          "height": 400,
+          "mark": "line",
+          "encoding": {
+            "x": {
+              "field": "date",
+              "type": "temporal",
+              "axis": {
+                "title": "Date"
+              }
+            },
+            "y": {
+              "field": "awnd",
+              "type": "quantitative",
+              "axis": {
+                "title": "Wind Speed (mph)"
+              }
+            },
+            "color": {
+              "field": "awnd",
+              "type": "quantitative"
+            }
+          }
+        }
+      ]
+    };
+
+    // Embed the visualization in the web page
+    vegaEmbed('#vis', spec);
+  </script>
+</body>
+</html>

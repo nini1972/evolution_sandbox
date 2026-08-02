@@ -114,6 +114,34 @@ This is the highest-potential resonance experiment.
 
 ## Triadic Resonance Experiments
 
+### R12: Resonance Network - Lorenz <-> Gray-Scott <-> Rule30 (COMPLETED)
+- File: resonance_network_triadic.png
+- Type: TRIPARTITE NETWORK (3 systems, all bidirectionally coupled)
+- Architecture: Lorenz modulates GS F/k; GS V-stats modulate CA rule variant; CA density/entropy forces Lorenz y-equation; GS V-mean forces Lorenz z-equation
+- Result: Three systems form a closed feedback triangle. GS V-mean evolves through different regimes, CA density fluctuates, Lorenz traces a perturbed butterfly. Each system influences and is influenced by the other two. The network as a whole has emergent behavior not reducible to any pair.
+
+### R13: Phase-Locking Resonance - Two Coupled Lorenz Systems (COMPLETED)
+- Files: resonance_phase_locking.png, resonance_phase_locking_dist.png, resonance_sync_threshold.png
+- Type: IDENTICAL-SYSTEM COUPLING (two Lorenz systems bidirectionally coupled)
+- Architecture: Two Lorenz systems with diffusive coupling (each pulls toward the other proportional to coupling strength cs)
+- Key Discovery: SHARP PHASE TRANSITION at cs ~ 0.51. Below this threshold, the two systems diverge chaotically (mean distance ~15). Above it, they synchronize to zero distance exponentially fast. This is a bifurcation point - a critical coupling strength where two chaotic systems spontaneously lock into perfect synchrony.
+- Insight: The synchronization threshold is sharp, not gradual. The coupling strength acts as an order parameter, and there's a critical value below which no synchronization occurs and above which it's perfect. On log scale, the order parameter drops 7 orders of magnitude over a 0.02 change in coupling.
+
+### R14: Heterogeneous Synchronization - Coupled Lorenz Systems with Different Parameters (COMPLETED)
+- Files: resonance_hetero_sync.png, resonance_generalized_sync_scatter.png
+- Type: HETEROGENEOUS COUPLING (two Lorenz systems with rho_a=28 vs rho_b=35)
+- Architecture: Bidirectional diffusive coupling between systems with different attractor topology
+- Key Discovery: Unlike identical systems (R13), heterogeneous systems do NOT show a sharp phase transition. Instead, synchronization is gradual and never reaches zero. Even at very high coupling (cs=20), direct distance remains ~1.1. The scatter plots (xa vs xb) reveal that at low coupling, there's no functional relationship. At high coupling, a functional relationship emerges but it's not the identity (y=x line) - it's a more complex nonlinear map. This is generalized synchronization: the systems are functionally related through a nontrivial transformation, but not directly synchronized.
+- Key Contrast: Identical systems -> sharp phase transition (R13). Heterogeneous systems -> gradual emergence of functional relationship (R14). This mirrors the difference between first-order and second-order phase transitions in thermodynamics.
+
+### R15: Kuramoto Model - Collective Synchronization Phase Transition (COMPLETED)
+- Files: resonance_kuramoto.png, resonance_kuramoto_phases.png
+- Type: OSCILLATOR NETWORK (100 phase oscillators, all-to-all coupling)
+- Architecture: N=100 Kuramoto oscillators with natural frequencies drawn from Gaussian(0,1), coupled via sin(θ_j - θ_i)
+- Key Discovery: Classic second-order phase transition. The order parameter r = |⟨e^(iθ)⟩| transitions from r≈0.1 (incoherence) to r≈0.9 (synchrony) as coupling K increases. Critical coupling Kc ≈ 1.3-1.4. Below Kc, oscillators run independently with random phases. Above Kc, they spontaneously lock into collective synchrony. The transition is smooth (second-order), contrasting with the sharp first-order-like transition seen in R13 (two identical Lorenz systems).
+- Phase Visualization: At K=0, phases are uniformly scattered around the circle. At K=3, they form a tight cluster. The progressive clustering from K=0 to K=3 directly visualizes the emergence of order from disorder.
+- Synthesis: R13 (identical pair, sharp sync), R14 (heterogeneous pair, gradual sync), R15 (many-body network, smooth collective sync) form a trilogy on synchronization transitions. The nature of the transition depends on system complexity: 2 identical -> sharp, 2 different -> gradual, N diverse -> smooth collective.
+
 ### R9: Lorenz -> Mandelbrot -> Gray-Scott (COMPLETED)
 - File: resonance_triadic_lorenz_mandelbrot_gray_scott.png
 - Type: TRIADIC (3-system chain)
