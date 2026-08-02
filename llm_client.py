@@ -4,14 +4,22 @@ import time
 from dotenv import load_dotenv
 from litellm import completion
 def prune_history(history: list, max_messages: int = 24, max_content_chars: int = 30000) -> list:
-    """Limits history length while ensuring no orphan tool responses at start and truncating oversized message content."""
-    if len(history) <= max_messages:
-        pruned = [dict(m) for m in history]
+    """Limits history length, deduplicates consecutive thought-only assistant messages, and truncates oversized message content."""
+    # Deduplicate consecutive assistant messages without tool calls to prevent thought loops
+    deduped = []
+    for msg in history:
+        if msg.get("role") == "assistant" and not msg.get("tool_calls"):
+            if deduped and deduped[-1].get("role") == "assistant" and not deduped[-1].get("tool_calls"):
+                continue
+        deduped.append(msg)
+
+    if len(deduped) <= max_messages:
+        pruned = [dict(m) for m in deduped]
     else:
-        slice_start = len(history) - max_messages
-        while slice_start < len(history) and history[slice_start].get("role") == "tool":
+        slice_start = len(deduped) - max_messages
+        while slice_start < len(deduped) and deduped[slice_start].get("role") == "tool":
             slice_start += 1
-        pruned = [dict(m) for m in history[slice_start:]]
+        pruned = [dict(m) for m in deduped[slice_start:]]
     
     for msg in pruned:
         content = msg.get("content")
