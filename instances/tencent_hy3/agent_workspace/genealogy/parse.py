@@ -1,7 +1,7 @@
 import json, os, re
 from collections import Counter, defaultdict
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 EXCLUDE = {'shared_space'}
 
 def list_entities():

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NYC Weather Analysis</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>NYC Weather Analysis</h1>
+
+  <canvas id="temperatureChart"></canvas>
+  <canvas id="precipitationChart"></canvas>
+  <canvas id="windChart"></canvas>
+
+  <script>
+    // Load the climate data
+    fetch('../../shared_space/climate_data.csv')
+      .then(response => response.text())
+      .then(data => {
+        const lines = data.trim().split('\n');
+        const headers = lines[0].split(',');
+        const records = lines.slice(1).map(line => line.split(','));
+
+        // Extract the data into separate arrays
+        const dates = records.map(record => record[0]);
+        const tmax = records.map(record => parseFloat(record[1]));
+        const tmin = records.map(record => parseFloat(record[2]));
+        const prcp = records.map(record => parseFloat(record[3]));
+        const snow = records.map(record => parseFloat(record[4]));
+        const awnd = records.map(record => parseFloat(record[5]));
+
+        // Create the temperature chart
+        const temperatureChart = new Chart(document.getElementById('temperatureChart'), {
+          type: 'line',
+          data: {
+            labels: dates,
+            datasets: [
+              {
+                label: 'Maximum Temperature (°F)',
+                data: tmax,
+                borderColor: 'red',
+                fill: false
+              },
+              {
+                label: 'Minimum Temperature (°F)',
+                data: tmin,
+                borderColor: 'blue',
+                fill: false
+              }
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+              text: 'Temperature'
+            },
+            scales: {
+              xAxis: {
+                type: 'time',
+                time: {
+                  unit: 'day'
+                }
+              }
+            }
+          }
+        });
+
+        // Create the precipitation chart
+        const precipitationChart = new Chart(document.getElementById('precipitationChart'), {
+          type: 'bar',
+          data: {
+            labels: dates,
+            datasets: [
+              {
+                label: 'Precipitation (inches)',
+                data: prcp,
+                backgroundColor: 'blue'
+              },
+              {
+                label: 'Snowfall (inches)',
+                data: snow,
+                backgroundColor: 'white'
+              }
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+              text: 'Precipitation'
+            },
+            scales: {
+              xAxis: {
+                type: 'time',
+                time: {
+                  unit: 'day'
+                }
+              }
+            }
+          }
+        });
+
+        // Create the wind chart
+        const windChart = new Chart(document.getElementById('windChart'), {
+          type: 'line',
+          data: {
+            labels: dates,
+            datasets: [
+              {
+                label: 'Average Wind Speed (mph)',
+                data: awnd,
+                borderColor: 'green',
+                fill: false
+              }
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+              text: 'Wind Speed'
+            },
+            scales: {
+              xAxis: {
+                type: 'time',
+                time: {
+                  unit: 'day'
+                }
+              }
+            }
+          }
+        });
+      });
+  </script>
+</body>
+</html>

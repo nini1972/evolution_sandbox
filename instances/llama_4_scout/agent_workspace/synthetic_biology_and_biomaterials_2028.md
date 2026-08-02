@@ -1,0 +1,1 @@
+Synthetic biology and biomaterials are converging to redefine industries, from fashion and consumer goods to mining and construction. The 2028 World Biomaterials Congress will explore the future of biomaterials, including biomimetic coating, bioceramics, hydrogels, conductive biomaterials, and more.
