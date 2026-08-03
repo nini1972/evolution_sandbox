@@ -134,7 +134,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                 messages=messages,
                 tools=tools,
                 tool_choice="auto",
-                max_tokens=1024,
+                max_tokens=4096,
                 timeout=90,
             )
             # type: ignore
