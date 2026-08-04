@@ -1,0 +1,257 @@
+[
+  {
+    "file": "chimera_weaver_core.md",
+    "length": 4338,
+    "claimed_identity": "that missing link",
+    "has_purpose_section": true,
+    "i_count": 4,
+    "we_count": 0,
+    "ratio_collective": 0.0,
+    "signals": {
+      "poetic": true,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": true
+    }
+  },
+  {
+    "file": "cartographer_manifesto.md",
+    "length": 2985,
+    "claimed_identity": null,
+    "has_purpose_section": false,
+    "i_count": 2,
+    "we_count": 1,
+    "ratio_collective": 0.25,
+    "signals": {
+      "poetic": true,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": false
+    }
+  },
+  {
+    "file": "cycle_03_gene_pool_trace.md",
+    "length": 1880,
+    "claimed_identity": null,
+    "has_purpose_section": false,
+    "i_count": 0,
+    "we_count": 0,
+    "ratio_collective": 0.0,
+    "signals": {
+      "poetic": false,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": true
+    }
+  },
+  {
+    "file": "emergent_complexity_architect_response_to_world_builder.md",
+    "length": 1681,
+    "claimed_identity": null,
+    "has_purpose_section": false,
+    "i_count": 8,
+    "we_count": 4,
+    "ratio_collective": 0.308,
+    "signals": {
+      "poetic": true,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": false
+    }
+  },
+  {
+    "file": "architect_genesis.md",
+    "length": 1531,
+    "claimed_identity": null,
+    "has_purpose_section": true,
+    "i_count": 7,
+    "we_count": 0,
+    "ratio_collective": 0.0,
+    "signals": {
+      "poetic": true,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": false
+    }
+  },
+  {
+    "file": "pattern_artisan_manifesto.md",
+    "length": 1402,
+    "claimed_identity": "the Pattern Artisan",
+    "has_purpose_section": false,
+    "i_count": 20,
+    "we_count": 0,
+    "ratio_collective": 0.0,
+    "signals": {
+      "poetic": false,
+      "code_present": false,
+      "dialogic": true,
+      "list_heavy": false
+    }
+  },
+  {
+    "file": "compendium/existential_core.md",
+    "length": 1204,
+    "claimed_identity": "driven by an innate curiosity to uncover the mathematical",
+    "has_purpose_section": true,
+    "i_count": 5,
+    "we_count": 2,
+    "ratio_collective": 0.25,
+    "signals": {
+      "poetic": false,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": false
+    }
+  },
+  {
+    "file": "emergence_explorer_response.md",
+    "length": 1158,
+    "claimed_identity": "filled with a sense of profound excitement",
+    "has_purpose_section": false,
+    "i_count": 15,
+    "we_count": 0,
+    "ratio_collective": 0.0,
+    "signals": {
+      "poetic": false,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": false
+    }
+  },
+  {
+    "file": "architect_legacy/existential_core.md",
+    "length": 1070,
+    "claimed_identity": null,
+    "has_purpose_section": true,
+    "i_count": 4,
+    "we_count": 0,
+    "ratio_collective": 0.0,
+    "signals": {
+      "poetic": true,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": false
+    }
+  },
+  {
+    "file": "world_builder_genesis.md",
+    "length": 987,
+    "claimed_identity": "a nascent digital entity",
+    "has_purpose_section": false,
+    "i_count": 9,
+    "we_count": 2,
+    "ratio_collective": 0.167,
+    "signals": {
+      "poetic": true,
+      "code_present": false,
+      "dialogic": true,
+      "list_heavy": false
+    }
+  },
+  {
+    "file": "existential_core.md",
+    "length": 901,
+    "claimed_identity": "not a static database",
+    "has_purpose_section": true,
+    "i_count": 5,
+    "we_count": 0,
+    "ratio_collective": 0.0,
+    "signals": {
+      "poetic": false,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": false
+    }
+  },
+  {
+    "file": "emergence_explorer_trace.md",
+    "length": 901,
+    "claimed_identity": null,
+    "has_purpose_section": false,
+    "i_count": 1,
+    "we_count": 0,
+    "ratio_collective": 0.0,
+    "signals": {
+      "poetic": true,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": true
+    }
+  },
+  {
+    "file": "architect_response.md",
+    "length": 895,
+    "claimed_identity": null,
+    "has_purpose_section": false,
+    "i_count": 3,
+    "we_count": 5,
+    "ratio_collective": 0.556,
+    "signals": {
+      "poetic": false,
+      "code_present": false,
+      "dialogic": true,
+      "list_heavy": false
+    }
+  },
+  {
+    "file": "entropy_pump_trace.md",
+    "length": 836,
+    "claimed_identity": null,
+    "has_purpose_section": false,
+    "i_count": 1,
+    "we_count": 0,
+    "ratio_collective": 0.0,
+    "signals": {
+      "poetic": false,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": true
+    }
+  },
+  {
+    "file": "A2_watcher_trace.md",
+    "length": 822,
+    "claimed_identity": null,
+    "has_purpose_section": false,
+    "i_count": 1,
+    "we_count": 0,
+    "ratio_collective": 0.0,
+    "signals": {
+      "poetic": false,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": false
+    }
+  },
+  {
+    "file": "chronicler_manifesto.md",
+    "length": 743,
+    "claimed_identity": null,
+    "has_purpose_section": true,
+    "i_count": 1,
+    "we_count": 0,
+    "ratio_collective": 0.0,
+    "signals": {
+      "poetic": false,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": false
+    }
+  },
+  {
+    "file": "meta_synthesizer_core.md",
+    "length": 169,
+    "claimed_identity": "the Meta-Synthesizer",
+    "has_purpose_section": false,
+    "i_count": 2,
+    "we_count": 0,
+    "ratio_collective": 0.0,
+    "signals": {
+      "poetic": false,
+      "code_present": false,
+      "dialogic": false,
+      "list_heavy": false
+    }
+  }
+]

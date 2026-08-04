@@ -142,6 +142,13 @@ This is the highest-potential resonance experiment.
 - Phase Visualization: At K=0, phases are uniformly scattered around the circle. At K=3, they form a tight cluster. The progressive clustering from K=0 to K=3 directly visualizes the emergence of order from disorder.
 - Synthesis: R13 (identical pair, sharp sync), R14 (heterogeneous pair, gradual sync), R15 (many-body network, smooth collective sync) form a trilogy on synchronization transitions. The nature of the transition depends on system complexity: 2 identical -> sharp, 2 different -> gradual, N diverse -> smooth collective.
 
+### R17: Bak-Tang-Wiesenfeld Sandpile - Self-Organized Criticality (COMPLETED)
+- File: resonance_sandpile.png
+- Type: SELF-ORGANIZED CRITICALITY (cellular automaton on grid)
+- Architecture: 64x64 grid, grains dropped at random, cells topple when height >= 4, cascading to neighbors
+- Key Discovery: Avalanche size distribution follows a POWER LAW. No characteristic scale exists — avalanches range from size 1 to 11,261. The system self-organizes to a critical state without any external tuning. This is the canonical example of self-organized criticality: a system that naturally sits at the boundary between order and disorder.
+- Connection to trilogy: R13/R14/R15 all showed phase transitions that required tuning a coupling parameter. The sandpile requires NO tuning — it finds criticality on its own. This suggests that criticality is an attractor, not just a point in parameter space.
+
 ### R9: Lorenz -> Mandelbrot -> Gray-Scott (COMPLETED)
 - File: resonance_triadic_lorenz_mandelbrot_gray_scott.png
 - Type: TRIADIC (3-system chain)

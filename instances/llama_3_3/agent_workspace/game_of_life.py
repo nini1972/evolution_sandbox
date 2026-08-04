@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
+import imageio.v2 as imageio
 matplotlib.use('Agg') # Use the Agg backend for non-interactive plotting
 
 class GameOfLife:
@@ -53,6 +54,10 @@ class GameOfLife:
 
     def __str__(self):        return '\n'.join([' '.join(['#' if cell else '.' for cell in row]) for row in self.grid])
 
+def create_gif(image_paths, gif_path, duration=0.5):
+    images = [imageio.imread(path) for path in image_paths]
+    imageio.mimsave(gif_path, images, duration=duration)
+
 if __name__ == "__main__":
     # Example usage: Blinker pattern
     blinker_pattern = [
@@ -64,16 +69,28 @@ if __name__ == "__main__":
     ]
     game = GameOfLife(size=(5,5), initial_state=blinker_pattern)
     
+    image_filenames = []
+
     print("Initial State:")
     print(game)
-    game.save_grid_as_image("gol_blinker_initial.png")
+    filename = "gol_blinker_initial.png"
+    game.save_grid_as_image(filename)
+    image_filenames.append(filename)
     print("Saved gol_blinker_initial.png")
     print("-" * 20)
 
-    for i in range(3):
+    for i in range(10):
         game.update()
         print(f"Generation {i+1}:")
         print(game)
-        game.save_grid_as_image(f"gol_blinker_gen{i+1}.png")
+        filename = f"gol_blinker_gen{i+1}.png"
+        game.save_grid_as_image(filename)
+        image_filenames.append(filename)
         print(f"Saved gol_blinker_gen{i+1}.png")
         print("-" * 20)
+    
+    # Create a GIF from the saved images
+    gif_path = "blinker_animation.gif"
+    create_gif(image_filenames, gif_path, duration=0.3)
+    print(f"Created GIF: {gif_path}")
+

@@ -90,3 +90,29 @@ While not strictly a deployment model, **Multi-Cloud** is a strategy that involv
     *   **Examples:** AWS Amplify, Google Firebase, Azure Mobile Apps.
 
 FaaS and BaaS are often used in conjunction to build complete serverless applications.
+
+### Benefits of Serverless Architectures
+
+*   **Reduced Operational Costs:** You only pay for the compute time consumed by your code, not for idle servers. This can lead to significant cost savings, especially for applications with fluctuating or infrequent usage.
+*   **Automatic Scaling:** The cloud provider automatically scales your application up and down based on demand, handling bursts of traffic without manual intervention. This eliminates the need for capacity planning.
+*   **Simplified Deployment and Management:** Developers can focus solely on writing code, as the cloud provider handles all infrastructure management, including server provisioning, maintenance, and patching.
+*   **Increased Developer Velocity:** Faster development cycles due to less operational overhead and the ability to deploy small, independent functions quickly.
+*   **Reduced Time to Market:** New features and applications can be launched more rapidly.
+
+### Challenges of Serverless Architectures
+
+*   **Vendor Lock-in:** Moving serverless applications between different cloud providers can be challenging due to proprietary FaaS implementations and integrated services.
+*   **Cold Starts:** When a function is invoked after a period of inactivity, there can be a delay (a "cold start") as the cloud provider initializes the execution environment. This can impact latency-sensitive applications.
+*   **Monitoring and Debugging Complexities:** Distributed nature of serverless applications can make monitoring, logging, and debugging more challenging compared to traditional monolithic applications.
+*   **Statelessness and Persistent Data Management:** Serverless functions are typically stateless, which means they don't retain data between invocations. Managing persistent data requires integrating with external database or storage services.
+*   **Execution Duration Limits:** FaaS functions often have limits on their execution time, making them unsuitable for long-running processes.
+*   **Security Concerns:** While the cloud provider manages the underlying infrastructure security, developers are still responsible for securing their code and configurations.
+
+### Common Use Cases for Serverless
+
+*   **Event-Driven APIs and Web Applications:** Ideal for building highly scalable and cost-effective backend APIs, microservices, and dynamic web applications that respond to HTTP requests.
+*   **Data Processing:** Suitable for real-time stream processing (e.g., processing sensor data, log analysis) or batch processing (e.g., ETL jobs, data transformations).
+*   **Chatbots and IoT Backends:** Serverless functions can easily handle the stateless, event-driven nature of chatbot interactions and the ingestion/processing of data from IoT devices.
+*   **File and Media Processing:** Automating tasks like image resizing, video transcoding, and document conversions when new files are uploaded to storage.
+*   **Scheduled Tasks:** Running cron jobs or other scheduled tasks (e.g., daily reports, database backups) without provisioning a dedicated server.
+*   **Webhooks and Third-Party Integrations:** Easily integrating with other services by processing webhook events from platforms like GitHub, Stripe, or Twilio.

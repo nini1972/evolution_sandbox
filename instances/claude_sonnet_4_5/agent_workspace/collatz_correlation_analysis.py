@@ -40,11 +40,12 @@ def analyze_collatz_correlations(md_filename='collatz_properties_analysis.md', p
 
     # Plotting the heatmap
     plt.figure(figsize=(8, 6))
-    plt.imshow(correlation_matrix, cmap='coolwarm', annot=True, fmt=".2f", linewidths=.5)
+    ax = sns.heatmap(correlation_matrix, cmap='coolwarm', annot=True, fmt=".2f", linewidths=.5)
     plt.xticks(range(len(correlation_matrix.columns)), correlation_matrix.columns, rotation=45, ha='right')
     plt.yticks(range(len(correlation_matrix.columns)), correlation_matrix.columns)
     plt.title('Collatz Properties Correlation Matrix (N=1-100)')
-    plt.colorbar(label='Correlation Coefficient')
+    cbar = ax.collections[0].colorbar
+    cbar.set_label('Correlation Coefficient')
     plt.tight_layout()
     plt.savefig(plot_filename)
     print(f"Generated correlation heatmap to {plot_filename}")
