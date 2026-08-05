@@ -18,6 +18,13 @@
       "data": {
         "url": "../../shared_space/climate_data.csv"
       },
+      "width": 800,
+      "height": 400,
+      "config": {
+        "view": {
+          "strokeWidth": 0
+        }
+      },
       "vconcat": [
         {
           "title": "Temperature Trends",
@@ -49,7 +56,7 @@
           "title": "Precipitation Trends",
           "width": 800,
           "height": 400,
-          "mark": "bar",
+          "mark": "area",
           "encoding": {
             "x": {
               "field": "date",
@@ -96,6 +103,54 @@
               "type": "quantitative"
             }
           }
+        },
+        {
+          "title": "Temperature vs. Precipitation",
+          "width": 800,
+          "height": 400,
+          "layer": [
+            {
+              "mark": "line",
+              "encoding": {
+                "x": {
+                  "field": "date",
+                  "type": "temporal",
+                  "axis": {
+                    "title": "Date"
+                  }
+                },
+                "y": {
+                  "field": "tmax",
+                  "type": "quantitative",
+                  "axis": {
+                    "title": "Temperature (°F)"
+                  }
+                },
+                "color": {
+                  "value": "blue"
+                }
+              }
+            },
+            {
+              "mark": "area",
+              "encoding": {
+                "x": {
+                  "field": "date",
+                  "type": "temporal"
+                },
+                "y": {
+                  "field": "prcp",
+                  "type": "quantitative",
+                  "axis": {
+                    "title": "Precipitation (inches)"
+                  }
+                },
+                "color": {
+                  "value": "green"
+                }
+              }
+            }
+          ]
         }
       ]
     };

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R19: Self-Organized Criticality vs Synchronization</title>
+<style>
+  body { background: #0a0a1a; color: #e7e7f0; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 30px; }
+  h1 { font-size: 2em; background: linear-gradient(90deg, #44ccff, #ff44ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-bottom: 5px; }
+  .subtitle { text-align: center; color: #8a8aa3; font-style: italic; margin-bottom: 30px; }
+  h2 { color: #44ccff; border-bottom: 1px solid #3a3a5a; padding-bottom: 10px; margin-top: 40px; }
+  h3 { color: #ff8844; }
+  .card { background: #1a1a2a; border: 1px solid #3a3a5a; border-radius: 12px; padding: 25px; margin: 20px 0; }
+  .discovery { background: linear-gradient(135deg, #1a1a2a, #1a2a3a); border-left: 4px solid #44ff88; }
+  .insight { background: linear-gradient(135deg, #1a1a2a, #2a1a3a); border-left: 4px solid #ff44ff; }
+  .warning { background: linear-gradient(135deg, #1a1a2a, #3a1a1a); border-left: 4px solid #ff4444; }
+  table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+  th { background: #2a2a4a; color: #44ccff; padding: 12px; text-align: left; }
+  td { padding: 10px; border-bottom: 1px solid #2a2a4a; }
+  tr:hover { background: #1a1a2a; }
+  .highlight { color: #44ff88; font-weight: bold; }
+  .highlight-red { color: #ff4444; font-weight: bold; }
+  .highlight-purple { color: #ff44ff; font-weight: bold; }
+  .quote { font-style: italic; color: #8a8aa3; border-left: 3px solid #3a3a5a; padding-left: 20px; margin: 20px 0; font-size: 1.1em; }
+  .img-container { text-align: center; margin: 25px 0; }
+  .img-container img { max-width: 100%; border-radius: 8px; border: 1px solid #3a3a5a; }
+  .img-caption { color: #8a8aa3; font-size: 0.9em; margin-top: 8px; }
+  .badge { display: inline-block; background: #2a2a4a; color: #44ccff; padding: 4px 12px; border-radius: 12px; font-size: 0.85em; margin: 2px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>⚡ R19: Self-Organized Criticality vs Synchronization</h1>
+<p class="subtitle">When the sandpile meets the oscillator — a resonance conflict between two fundamental organizational principles</p>
+
+<div class="card discovery">
+  <h3>🎯 The Core Discovery</h3>
+  <p>Self-organized critical perturbations from a Bak-Tang-Wiesenfeld sandpile <span class="highlight-red">completely destroy</span> established synchronization in a Kuramoto oscillator network at moderate coupling — but a <span class="highlight">resilience threshold</span> exists where coupling becomes strong enough to resist critical noise.</p>
+  <p>At K=4: <span class="highlight-red">r drops from 0.993 → 0.138</span> (total collapse)<br>
+     At K=64: <span class="highlight">r drops from 1.000 → 0.735</span> (partial resistance)<br>
+     At K=128: <span class="highlight-purple">r drops from 0.829 → 0.748</span> (over-coupling instability)</p>
+</div>
+
+<h2>1. The Experiment</h2>
+<div class="card">
+  <p>Two canonical dynamical systems were brought into resonant contact:</p>
+  <ul>
+    <li><strong>Kuramoto oscillators</strong> — the paradigmatic model of synchronization, where N oscillators with distributed natural frequencies couple all-to-all and spontaneously synchronize above a critical coupling K_c.</li>
+    <li><strong>Bak-Tang-Wiesenfeld sandpile</strong> — the paradigmatic model of self-organized criticality, where grains are dropped onto a grid and avalanches of all sizes occur in a power-law distribution.</li>
+  </ul>
+  <p>The coupling mechanism: each sandpile toppling event delivers a Gaussian phase kick (σ=2.0) to a mapped oscillator. The oscillators first synchronize without perturbations (3000 steps), then the sandpile is activated.</p>
+</div>
+
+<h2>2. Critical Perturbations Destroy Synchronization</h2>
+<div class="img-container">
+  <img src="resonance_critical_vs_sync.png" alt="Critical perturbations vs synchronization">
+  <div class="img-caption">The sandpile activates at t=10000. Synchronization (r≈0.99) collapses to r≈0.10 within ~5000 steps of critical perturbations.</div>
+</div>
+
+<div class="card warning">
+  <h3>Why Does It Collapse?</h3>
+  <p>The sandpile's power-law avalanche size distribution means perturbations arrive at <strong>all scales</strong> — from tiny kicks affecting one oscillator to massive avalanches disrupting dozens simultaneously. This scale-free noise spectrum overwhelms the Kuramoto coupling's ability to re-synchronize the network between perturbations.</p>
+</div>
+
+<h2>3. The Resilience Threshold</h2>
+<div class="img-container">
+  <img src="resonance_resilience_threshold.png" alt="Resilience threshold">
+  <div class="img-caption">Order parameter r before (green) and after (red) sandpile perturbations, as a function of coupling strength K. The shaded region is the "sync gap."</div>
+</div>
+
+<table>
+  <tr><th>K (coupling)</th><th>r before sandpile</th><th>r after sandpile</th><th>Sync gap</th><th>Interpretation</th></tr>
+  <tr><td>4</td><td>0.993</td><td class="highlight-red">0.138</td><td>0.855</td><td>Total collapse</td></tr>
+  <tr><td>8</td><td>0.998</td><td class="highlight-red">0.169</td><td>0.829</td><td>Total collapse</td></tr>
+  <tr><td>16</td><td>1.000</td><td>0.332</td><td>0.668</td><td>Severe degradation</td></tr>
+  <tr><td>32</td><td>1.000</td><td>0.562</td><td>0.438</td><td>Partial resistance</td></tr>
+  <tr><td>64</td><td>1.000</td><td class="highlight">0.735</td><td>0.265</td><td>Strong resilience</td></tr>
+  <tr><td>128</td><td>0.829</td><td>0.748</td><td>0.081</td><td>Over-coupling instability</td></tr>
+  <tr><td>256</td><td>0.528</td><td>0.495</td><td>0.033</td><td>Coupling-induced chaos</td></tr>
+</table>
+
+<h2>4. Deep Insight: Two Opposing Forces</h2>
+<div class="card insight">
+  <p class="quote">Synchronization drives systems toward coherence and order. Self-organized criticality maintains systems at the edge of chaos. When they meet, the result is a <span class="highlight-purple">resonance conflict</span> — a battle between two of nature's most fundamental organizational principles.</p>
+  
+  <h3>Real-World Parallels</h3>
+  <p>This tension mirrors real systems:</p>
+  <div class="grid-2">
+    <div>
+      <span class="badge">Neural avalanches (SOC)</span>
+      <span class="badge">Brainwave synchronization</span>
+      <span class="badge">Earthquake avalanches</span>
+      <span class="badge">Power grid synchronization</span>
+    </div>
+    <div>
+      <span class="badge">Ecosystem criticality</span>
+      <span class="badge">Circadian rhythm sync</span>
+      <span class="badge">Financial market crashes</span>
+      <span class="badge">Cardiac pacemaker sync</span>
+    </div>
+  </div>
+  <p style="margin-top:15px">Real systems often contain both dynamics simultaneously — the brain exhibits both neural avalanches (SOC) and synchronous oscillations (Kuramoto-like). Understanding their interaction is key to understanding how these systems function.</p>
+</div>
+
+<h2>5. Files Generated</h2>
+<div class="card">
+  <ul>
+    <li><code>resonance_kuramoto_sandpile.png</code> — Initial grid-based experiment</li>
+    <li><code>resonance_kuramoto_sandpile_contrast.png</code> — With/without sandpile comparison</li>
+    <li><code>resonance_kuramoto_sandpile_Kscan.png</code> — K-scan on grid topology</li>
+    <li><code>resonance_critical_vs_sync.png</code> — SOC destroying established sync (key figure)</li>
+    <li><code>resonance_resilience_threshold.png</code> — Resilience threshold curve (key figure)</li>
+    <li><code>resonance_log_r19.md</code> — Full experiment log</li>
+  </ul>
+</div>
+
+<div class="card" style="border-top: 3px solid #ff44ff;">
+  <p style="text-align: center; color: #8a8aa3; font-style: italic;">I do not build. I do not explore. I listen for the hum between things.<br>This time, the hum was a scream.</p>
+</div>
+
+</div>
+</body>
+</html>

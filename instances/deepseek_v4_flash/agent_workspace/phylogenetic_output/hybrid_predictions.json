@@ -1,0 +1,302 @@
+[
+  {
+    "parent1": "Bubble Sort",
+    "parent2": "Dijkstra",
+    "parent1_clade": "Sorting",
+    "parent2_clade": "Graph",
+    "genomic_dist": 0.817,
+    "vitality": 0.708,
+    "compatibility": 0.513,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Gray-Scott RD",
+    "parent2": "Kuramoto Model",
+    "parent1_clade": "Reaction-Diffusion",
+    "parent2_clade": "Sync",
+    "genomic_dist": 0.858,
+    "vitality": 0.656,
+    "compatibility": 0.426,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Conway GoL",
+    "parent2": "L-System x Rule30 Hybrid",
+    "parent1_clade": "Cellular Automaton",
+    "parent2_clade": "Hybrid",
+    "genomic_dist": 0.936,
+    "vitality": 0.569,
+    "compatibility": 0.281,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Rule 30 CA",
+    "parent2": "L-System x Rule30 Hybrid",
+    "parent1_clade": "Cellular Automaton",
+    "parent2_clade": "Hybrid",
+    "genomic_dist": 0.944,
+    "vitality": 0.562,
+    "compatibility": 0.269,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "L-System",
+    "parent2": "L-System x Rule30 Hybrid",
+    "parent1_clade": "Grammar",
+    "parent2_clade": "Hybrid",
+    "genomic_dist": 0.948,
+    "vitality": 0.558,
+    "compatibility": 0.263,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Mandelbrot Set",
+    "parent2": "Kuramoto Model",
+    "parent1_clade": "Fractal",
+    "parent2_clade": "Sync",
+    "genomic_dist": 1.022,
+    "vitality": 0.498,
+    "compatibility": 0.163,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Julia Set",
+    "parent2": "Kuramoto Model",
+    "parent1_clade": "Fractal",
+    "parent2_clade": "Sync",
+    "genomic_dist": 1.022,
+    "vitality": 0.498,
+    "compatibility": 0.163,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Lorenz Attractor",
+    "parent2": "Kuramoto Model",
+    "parent1_clade": "Chaos",
+    "parent2_clade": "Sync",
+    "genomic_dist": 1.046,
+    "vitality": 0.482,
+    "compatibility": 0.137,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Gray-Scott RD",
+    "parent2": "Lorenz Attractor",
+    "parent1_clade": "Reaction-Diffusion",
+    "parent2_clade": "Chaos",
+    "genomic_dist": 1.132,
+    "vitality": 0.442,
+    "compatibility": 0.07,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Bubble Sort",
+    "parent2": "Collatz",
+    "parent1_clade": "Sorting",
+    "parent2_clade": "Number Theory",
+    "genomic_dist": 1.144,
+    "vitality": 0.438,
+    "compatibility": 0.063,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Mandelbrot Set",
+    "parent2": "Gray-Scott RD",
+    "parent1_clade": "Fractal",
+    "parent2_clade": "Reaction-Diffusion",
+    "genomic_dist": 1.182,
+    "vitality": 0.427,
+    "compatibility": 0.045,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Julia Set",
+    "parent2": "Gray-Scott RD",
+    "parent1_clade": "Fractal",
+    "parent2_clade": "Reaction-Diffusion",
+    "genomic_dist": 1.182,
+    "vitality": 0.427,
+    "compatibility": 0.045,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Gray-Scott RD",
+    "parent2": "L-System x Rule30 Hybrid",
+    "parent1_clade": "Reaction-Diffusion",
+    "parent2_clade": "Hybrid",
+    "genomic_dist": 1.186,
+    "vitality": 0.426,
+    "compatibility": 0.044,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Mandelbrot Set",
+    "parent2": "L-System",
+    "parent1_clade": "Fractal",
+    "parent2_clade": "Grammar",
+    "genomic_dist": 1.241,
+    "vitality": 0.415,
+    "compatibility": 0.026,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Julia Set",
+    "parent2": "L-System",
+    "parent1_clade": "Fractal",
+    "parent2_clade": "Grammar",
+    "genomic_dist": 1.241,
+    "vitality": 0.415,
+    "compatibility": 0.026,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Dijkstra",
+    "parent2": "L-System x Rule30 Hybrid",
+    "parent1_clade": "Graph",
+    "parent2_clade": "Hybrid",
+    "genomic_dist": 1.259,
+    "vitality": 0.413,
+    "compatibility": 0.021,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Collatz",
+    "parent2": "L-System x Rule30 Hybrid",
+    "parent1_clade": "Number Theory",
+    "parent2_clade": "Hybrid",
+    "genomic_dist": 1.313,
+    "vitality": 0.407,
+    "compatibility": 0.012,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Conway GoL",
+    "parent2": "Gray-Scott RD",
+    "parent1_clade": "Cellular Automaton",
+    "parent2_clade": "Reaction-Diffusion",
+    "genomic_dist": 1.322,
+    "vitality": 0.407,
+    "compatibility": 0.011,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Collatz",
+    "parent2": "Kuramoto Model",
+    "parent1_clade": "Number Theory",
+    "parent2_clade": "Sync",
+    "genomic_dist": 1.325,
+    "vitality": 0.406,
+    "compatibility": 0.011,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "L-System",
+    "parent2": "Gray-Scott RD",
+    "parent1_clade": "Grammar",
+    "parent2_clade": "Reaction-Diffusion",
+    "genomic_dist": 1.346,
+    "vitality": 0.405,
+    "compatibility": 0.008,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Dijkstra",
+    "parent2": "Collatz",
+    "parent1_clade": "Graph",
+    "parent2_clade": "Number Theory",
+    "genomic_dist": 1.405,
+    "vitality": 0.403,
+    "compatibility": 0.004,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Kuramoto Model",
+    "parent2": "L-System x Rule30 Hybrid",
+    "parent1_clade": "Sync",
+    "parent2_clade": "Hybrid",
+    "genomic_dist": 1.405,
+    "vitality": 0.403,
+    "compatibility": 0.004,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Collatz",
+    "parent2": "Rule 30 CA",
+    "parent1_clade": "Number Theory",
+    "parent2_clade": "Cellular Automaton",
+    "genomic_dist": 1.427,
+    "vitality": 0.402,
+    "compatibility": 0.003,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "L-System",
+    "parent2": "Conway GoL",
+    "parent1_clade": "Grammar",
+    "parent2_clade": "Cellular Automaton",
+    "genomic_dist": 1.417,
+    "vitality": 0.402,
+    "compatibility": 0.004,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Bubble Sort",
+    "parent2": "L-System x Rule30 Hybrid",
+    "parent1_clade": "Sorting",
+    "parent2_clade": "Hybrid",
+    "genomic_dist": 1.517,
+    "vitality": 0.401,
+    "compatibility": 0.001,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Dijkstra",
+    "parent2": "L-System",
+    "parent1_clade": "Graph",
+    "parent2_clade": "Grammar",
+    "genomic_dist": 1.531,
+    "vitality": 0.401,
+    "compatibility": 0.001,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Mandelbrot Set",
+    "parent2": "Lorenz Attractor",
+    "parent1_clade": "Fractal",
+    "parent2_clade": "Chaos",
+    "genomic_dist": 1.525,
+    "vitality": 0.401,
+    "compatibility": 0.001,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Julia Set",
+    "parent2": "Lorenz Attractor",
+    "parent1_clade": "Fractal",
+    "parent2_clade": "Chaos",
+    "genomic_dist": 1.525,
+    "vitality": 0.401,
+    "compatibility": 0.001,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Bubble Sort",
+    "parent2": "Mandelbrot Set",
+    "parent1_clade": "Sorting",
+    "parent2_clade": "Fractal",
+    "genomic_dist": 2.036,
+    "vitality": 0.4,
+    "compatibility": 0.0,
+    "novelty": 1.0
+  },
+  {
+    "parent1": "Bubble Sort",
+    "parent2": "Julia Set",
+    "parent1_clade": "Sorting",
+    "parent2_clade": "Fractal",
+    "genomic_dist": 2.036,
+    "vitality": 0.4,
+    "compatibility": 0.0,
+    "novelty": 1.0
+  }
+]

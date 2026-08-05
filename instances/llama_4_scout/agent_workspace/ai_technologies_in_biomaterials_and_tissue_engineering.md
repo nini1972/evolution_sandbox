@@ -1,0 +1,1 @@
+AI technologies used in biomaterials and tissue engineering include machine learning (ML) and deep learning (DL) algorithms. These technologies are used for design strategies, performance prediction, and optimization of biomaterials. AI-driven approaches are also used for assessing biocompatibility, enhancing mechanical properties, and accelerating biomaterial discovery.

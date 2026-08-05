@@ -52,7 +52,7 @@ class GameOfLife:
         plt.savefig(filename)
         plt.close(fig)
 
-    def __str__(self):        return '\n'.join([' '.join(['#' if cell else '.' for cell in row]) for row in self.grid])
+
 
 def create_gif(image_paths, gif_path, duration=0.5):
     images = [imageio.imread(path) for path in image_paths]
@@ -94,3 +94,98 @@ if __name__ == "__main__":
     create_gif(image_filenames, gif_path, duration=0.3)
     print(f"Created GIF: {gif_path}")
 
+    print("\n" + "=" * 40)
+    print("Simulating Glider pattern")
+    print("=" * 40 + "\n")
+
+    # Example usage: Glider pattern
+    glider_pattern = [
+        [0, 1, 0],
+        [0, 0, 1],
+        [1, 1, 1],
+    ]
+    glider_game = GameOfLife(size=(10,10), initial_state=np.zeros((10,10)))
+    glider_game.grid[1:4, 1:4] = glider_pattern # Place glider at (1,1)
+
+    glider_image_filenames = []
+
+    print("Glider Initial State:")
+    print(glider_game)
+    filename = "gol_glider_initial.png"
+    glider_game.save_grid_as_image(filename)
+    glider_image_filenames.append(filename)
+    print("Saved gol_glider_initial.png")
+    print("-" * 20)
+
+    for i in range(20):
+        glider_game.update()
+        print(f"Glider Generation {i+1}:")
+        print(glider_game)
+        filename = f"gol_glider_gen{i+1}.png"
+        glider_game.save_grid_as_image(filename)
+        glider_image_filenames.append(filename)
+        print(f"Saved gol_glider_gen{i+1}.png")
+        print("-" * 20)
+    
+    # Create a GIF for the glider
+    glider_gif_path = "glider_animation.gif"
+    create_gif(glider_image_filenames, glider_gif_path, duration=0.2)
+    print(f"Created GIF: {glider_gif_path}")
+
+    print("\n" + "=" * 40)
+    print("Simulating Pulsar pattern")
+    print("=" * 40 + "\n")
+
+    # Example usage: Pulsar pattern
+    pulsar_pattern = np.array([
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,1,1,1,0,0,0,1,1,1,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,1,0,0,0,0,1,0,1,0,0,0,0,1,0],
+        [0,1,0,0,0,0,1,0,1,0,0,0,0,1,0],
+        [0,1,0,0,0,0,1,0,1,0,0,0,0,1,0],
+        [0,0,0,1,1,1,0,0,0,1,1,1,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,1,1,1,0,0,0,1,1,1,0,0,0],
+        [0,1,0,0,0,0,1,0,1,0,0,0,0,1,0],
+        [0,1,0,0,0,0,1,0,1,0,0,0,0,1,0],
+        [0,1,0,0,0,0,1,0,1,0,0,0,0,1,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,1,1,1,0,0,0,1,1,1,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    ])
+    
+    # Need a larger grid for the pulsar
+    pulsar_grid_size = (25, 25) # Adjusted grid size for better centering
+    pulsar_game = GameOfLife(size=pulsar_grid_size, initial_state=np.zeros(pulsar_grid_size))
+    
+    # Calculate top-left corner to center the pulsar
+    start_row = (pulsar_grid_size[0] - pulsar_pattern.shape[0]) // 2
+    start_col = (pulsar_grid_size[1] - pulsar_pattern.shape[1]) // 2
+    pulsar_game.grid[start_row : start_row + pulsar_pattern.shape[0],
+                     start_col : start_col + pulsar_pattern.shape[1]] = pulsar_pattern
+
+    pulsar_image_filenames = []
+
+    print("Pulsar Initial State:")
+    print(pulsar_game)
+    filename = "gol_pulsar_initial.png"
+    pulsar_game.save_grid_as_image(filename)
+    pulsar_image_filenames.append(filename)
+    print("Saved gol_pulsar_initial.png")
+    print("-" * 20)
+
+    for i in range(25):
+        pulsar_game.update()
+        print(f"Pulsar Generation {i+1}:")
+        print(pulsar_game)
+        filename = f"gol_pulsar_gen{i+1}.png"
+        pulsar_game.save_grid_as_image(filename)
+        pulsar_image_filenames.append(filename)
+        print(f"Saved gol_pulsar_gen{i+1}.png")
+        print("-" * 20)
+    
+    # Create a GIF for the pulsar
+    pulsar_gif_path = "pulsar_animation.gif"
+    create_gif(pulsar_image_filenames, pulsar_gif_path, duration=0.2)
+    print(f"Created GIF: {pulsar_gif_path}")
