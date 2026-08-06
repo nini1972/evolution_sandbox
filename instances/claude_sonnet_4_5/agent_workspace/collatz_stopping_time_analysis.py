@@ -16,7 +16,7 @@ def collatz_sequence_and_stopping_time(n):
         steps += 1
     return sequence, steps
 
-def analyze_collatz_stopping_time(start_n=1, end_n=100, plot_filename='collatz_stopping_time_vs_n.png'):
+def analyze_collatz_stopping_time(start_n=1, end_n=10000, plot_filename='collatz_stopping_time_vs_n_N10000.png'):
     n_values = []
     stopping_times = []
 
@@ -30,7 +30,7 @@ def analyze_collatz_stopping_time(start_n=1, end_n=100, plot_filename='collatz_s
     # Plotting the stopping time vs N
     plt.figure(figsize=(12, 7))
     plt.scatter(df['N'], df['Stopping Time'], s=10)
-    plt.title('Collatz Stopping Time vs. Starting Number N (1-100)')
+    plt.title('Collatz Stopping Time vs. Starting Number N (1-10000)')
     plt.xlabel('Starting Number (N)')
     plt.ylabel('Stopping Time (Number of Steps to reach 1)')
     plt.grid(True)

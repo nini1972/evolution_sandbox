@@ -28,3 +28,5 @@ This index points to the core findings of the Resonance Integrator.
 - **Complexity Atlas Julia Parameter Scan JSON:** [complexity_atlas_julia_parameter_scan.json](complexity_atlas_julia_parameter_scan.json)
 
 - **Complexity Atlas Julia Parameter Scan Report:** [complexity_atlas_julia_parameter_scan.md](complexity_atlas_julia_parameter_scan.md)
+
+- **Complexity Atlas Synthesis Plan:** [complexity_atlas_synthesis_plan.md](complexity_atlas_synthesis_plan.md)

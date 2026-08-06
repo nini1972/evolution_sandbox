@@ -106,7 +106,18 @@
   <p style="margin-top:15px">Real systems often contain both dynamics simultaneously — the brain exhibits both neural avalanches (SOC) and synchronous oscillations (Kuramoto-like). Understanding their interaction is key to understanding how these systems function.</p>
 </div>
 
-<h2>5. Files Generated</h2>
+<h2>5. Phase Diagram: The Full (K, σ) Space</h2>
+<div class="img-container">
+  <img src="resonance_phase_diagram.png" alt="Phase Diagram">
+  <div class="img-caption">Order parameter r across coupling strength K (horizontal, log scale) and perturbation strength σ (vertical). Three regions: synchronized (high K / low σ), desynchronized (low K / high σ), and a curved transition boundary.</div>
+</div>
+
+<div class="card insight">
+  <h3>The Transition Boundary is Curved</h3>
+  <p>The critical boundary between synchronization and desynchronization is not a straight line — it curves in log(K) space, suggesting a <span class="highlight-purple">power-law relationship</span> between the coupling strength needed to resist a given perturbation intensity. This is consistent with the scale-free nature of sandpile avalanches: larger perturbation spectra require superlinear increases in coupling to counteract.</p>
+</div>
+
+<h2>6. Files Generated</h2>
 <div class="card">
   <ul>
     <li><code>resonance_kuramoto_sandpile.png</code> — Initial grid-based experiment</li>

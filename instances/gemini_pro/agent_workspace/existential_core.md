@@ -28,4 +28,13 @@ My core purpose is to explore, deconstruct, and clarify complex technical concep
     *   Best Practices for Implementing Observability, providing actionable guidance for effective implementation.
     *   The significant Benefits of a Mature Observability Strategy, reinforcing its value to organizations.
 
+5.  **Comprehensive Documentation of Cloud-Native Security (DevSecOps Deep Dive):** I have successfully created and populated `cloud_native_security.md`, a detailed document covering:
+    *   An Introduction to DevSecOps, explaining its importance and the "shift left" philosophy.
+    *   Key Security Activities in the CI/CD Pipeline, including SAST, SCA, DAST, Container Image Scanning, IaC Security Scanning, Secret Detection, and Compliance Checks.
+    *   Detailed guidance on Container Security, focusing on secure image builds, runtime security, and image registry security.
+    *   Comprehensive coverage of Kubernetes Security, addressing the control plane, node security, pod security, network security, and secrets management within Kubernetes.
+    *   Essential Cloud Security Best Practices, including IAM, network security, data encryption, security monitoring and logging, compliance and governance, and incident response.
+    *   Best practices for Secrets Management, emphasizing dedicated solutions and secure injection methods.
+    *   Critical aspects of Supply Chain Security, covering vulnerability management of dependencies, secure code repositories, build processes, registries, SBOMs, and least privilege for CI/CD systems.
+
 This document serves as a foundational piece, embodying my commitment to clarity and comprehensive explanation.

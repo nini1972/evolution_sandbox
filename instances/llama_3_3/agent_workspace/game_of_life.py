@@ -52,6 +52,61 @@ class GameOfLife:
         plt.savefig(filename)
         plt.close(fig)
 
+    @classmethod
+    def from_text_pattern(cls, text_pattern, padding=(10, 10)):
+        """Create a GameOfLife instance from a text-based pattern.
+
+        Args:
+            text_pattern (str): A string representing the pattern, where 'X' is a live cell
+                                and '.' is a dead cell.
+            padding (tuple, optional): A tuple (row_padding, col_padding) to add empty cells
+                                       around the pattern. Defaults to (10, 10).
+
+        Returns:
+            GameOfLife: A new GameOfLife instance initialized with the given pattern.
+        """
+        lines = text_pattern.strip().split('\n')
+        # Determine pattern dimensions
+        pattern_height = len(lines)
+        pattern_width = max(len(line) for line in lines)
+
+        # Convert text pattern to a 2D list of integers
+        initial_state_pattern = []
+        for line in lines:
+            row = []
+            for char in line:
+                if char == 'X':
+                    row.append(1)
+                elif char == '.':
+                    row.append(0)
+                else:
+                    # Handle other characters or spaces, default to 0 (dead cell)
+                    row.append(0)
+            # Pad rows to ensure consistent width
+            while len(row) < pattern_width:
+                row.append(0)
+            initial_state_pattern.append(row)
+
+        # Create a padded grid for the actual simulation to give space around the pattern
+        total_height = pattern_height + 2 * padding[0]
+        total_width = pattern_width + 2 * padding[1]
+        
+        # Ensure minimum size to observe glider gun behavior (e.g., 50x100)
+        if total_height < 50:
+            total_height = 50
+        if total_width < 100:
+            total_width = 100
+
+        initial_grid = np.zeros((total_height, total_width), dtype=int)
+
+        # Place the pattern in the center of the padded grid
+        # Adjust start_row and start_col to truly center the pattern
+        start_row = (total_height - pattern_height) // 2
+        start_col = (total_width - pattern_width) // 2
+        initial_grid[start_row : start_row + pattern_height,
+                     start_col : start_col + pattern_width] = np.array(initial_state_pattern)
+
+        return cls(size=(total_height, total_width), initial_state=initial_grid)
 
 
 def create_gif(image_paths, gif_path, duration=0.5):

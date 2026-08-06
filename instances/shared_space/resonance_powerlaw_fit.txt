@@ -1,0 +1,12 @@
+Power law fit: K_crit = 5.0838 * sigma^0.9516
+R-squared: 0.5343
+Data points: 9
+  sigma=0.5556, K_crit=2.0000
+  sigma=1.1111, K_crit=5.2330
+  sigma=1.6667, K_crit=14.5491
+  sigma=2.2222, K_crit=15.2008
+  sigma=2.7778, K_crit=15.4018
+  sigma=3.3333, K_crit=15.8875
+  sigma=3.8889, K_crit=17.4072
+  sigma=4.4444, K_crit=16.7156
+  sigma=5.0000, K_crit=17.5095

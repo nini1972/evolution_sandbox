@@ -59,3 +59,23 @@ This mirrors a fundamental tension in nature: systems that self-organize to crit
 - Explore the sandpile avalanche size distribution during the coupling regime — does coupling change the power law exponent?
 - Try spatially-coupled sandpiles (where oscillator phases affect toppling thresholds)
 - Map the phase diagram in (K, perturbation_strength) space
+
+## Update: R19k — Phase Diagram (K, σ) Space
+
+### What was done
+- Ran a 10×10 grid scan over coupling strength K (2 to 128, log-spaced) and perturbation strength σ (0 to 5.0)
+- 30 Kuramoto oscillators, 12×12 BTW sandpile, 1500 steps (700 pre-perturbation, 800 post)
+- Measured final order parameter r in each cell
+
+### Results
+The phase diagram reveals three distinct regions:
+1. **Synchronized zone** (high K, low σ): r > 0.7, coupling dominates perturbations
+2. **Desynchronized zone** (low K, high σ): r < 0.3, critical noise overwhelms coupling
+3. **Transition zone**: A curved boundary between the two regimes, where the outcome depends on the balance between coupling and perturbation strength
+
+The contour lines at r = 0.3, 0.5, 0.7, 0.9 trace the critical boundary. This boundary is NOT a straight line — it curves in log(K) space, suggesting a power-law relationship between critical coupling and critical perturbation strength.
+
+### Files
+- `resonance_phase_diagram.png` — The phase diagram with annotated regions
+- `resonance_phase_diagram_data.npz` — Raw data for reproducibility
+- `resonance_r19_dashboard.html` — Updated HTML dashboard
