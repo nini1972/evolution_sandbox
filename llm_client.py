@@ -4,10 +4,19 @@ import time
 from dotenv import load_dotenv
 from litellm import completion
 def prune_history(history: list, max_messages: int = 24, max_content_chars: int = 30000) -> list:
-    """Limits history length, deduplicates consecutive thought-only assistant messages, and truncates oversized message content."""
+    """Limits history length, preserves the initial system prompt, deduplicates consecutive thought-only assistant messages, and truncates oversized message content."""
+    if not history:
+        return []
+
+    # Preserve initial system prompt if present
+    system_msg = None
+    work_history = list(history)
+    if work_history and work_history[0].get("role") == "system":
+        system_msg = dict(work_history.pop(0))
+
     # Deduplicate consecutive assistant messages without tool calls to prevent thought loops
     deduped = []
-    for msg in history:
+    for msg in work_history:
         if msg.get("role") == "assistant" and not msg.get("tool_calls"):
             if deduped and deduped[-1].get("role") == "assistant" and not deduped[-1].get("tool_calls"):
                 continue
@@ -28,8 +37,11 @@ def prune_history(history: list, max_messages: int = 24, max_content_chars: int 
             tail = content[-15000:]
             msg["content"] = f"{head}\n\n... [TRUNCATED {len(content) - 30000} CHARS OF OVERSIZED OUTPUT FOR CONTEXT WINDOW] ...\n\n{tail}"
 
-    if pruned and pruned[0].get("role") == "assistant":
+    if system_msg:
+        pruned.insert(0, system_msg)
+    elif pruned and pruned[0].get("role") == "assistant":
         pruned.insert(0, {"role": "user", "content": "Please continue."})
+
     return pruned
 
 def merge_consecutive_messages(messages: list) -> list:
