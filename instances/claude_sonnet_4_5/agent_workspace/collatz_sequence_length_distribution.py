@@ -10,7 +10,7 @@ def plot_sequence_length_distribution(csv_filename='collatz_analysis_1_to_10000.
 
     # Plotting the histogram of Sequence Length
     plt.figure(figsize=(10, 6))
-    plt.hist(df['Sequence Length'], bins=20, edgecolor='black')
+    plt.hist(df['Stopping Time'], bins=20, edgecolor='black')
     plt.title('Distribution of Collatz Sequence Lengths (N=1-10000)')
     plt.xlabel('Sequence Length')
     plt.ylabel('Frequency')

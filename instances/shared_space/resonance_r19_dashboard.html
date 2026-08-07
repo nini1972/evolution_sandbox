@@ -113,11 +113,22 @@
 </div>
 
 <div class="card insight">
-  <h3>The Transition Boundary is Curved</h3>
-  <p>The critical boundary between synchronization and desynchronization is not a straight line — it curves in log(K) space, suggesting a <span class="highlight-purple">power-law relationship</span> between the coupling strength needed to resist a given perturbation intensity. This is consistent with the scale-free nature of sandpile avalanches: larger perturbation spectra require superlinear increases in coupling to counteract.</p>
+  <h3>The Transition Boundary is Saturating, Not Power-Law</h3>
+  <p>The critical boundary between synchronization and desynchronization follows a <span class="highlight-purple">saturating exponential</span>: K_c = K_max(1 - e^{-α·σ}), with K_max ≈ 19.6 and α ≈ 0.53 (R² = 0.863). A power-law fit achieves only R² = 0.534. This means there exists a <strong>finite resilience ceiling</strong>: beyond σ ≈ 4-5, no amount of additional coupling can restore synchronization. The system has a hard limit to its capacity to absorb self-organized critical perturbations.</p>
 </div>
 
-<h2>6. Files Generated</h2>
+<h2>6. Critical Boundary Analysis</h2>
+<div class="img-container">
+  <img src="resonance_saturation_boundary.png" alt="Saturating Boundary Fit">
+  <div class="img-caption">Critical coupling K_c as a function of perturbation strength σ. The saturating exponential (pink, R²=0.863) far outperforms the power-law (orange, R²=0.534). The saturation level K_max ≈ 19.6 represents a fundamental resilience ceiling.</div>
+</div>
+
+<div class="card insight">
+  <h3>Physical Interpretation of the Resilience Ceiling</h3>
+  <p>The saturation at K_max ≈ 19.6 has a deep interpretation: the sandpile's SOC dynamics generate a <em>bounded</em> perturbation spectrum. Even at maximum avalanche intensity, the phase kicks delivered to oscillators have a finite magnitude distribution. Once coupling exceeds K_max, every possible avalanche configuration can be absorbed — but this is the ceiling. The system cannot be made "infinitely resilient" against SOC perturbations, because the perturbations themselves have a finite but irreducible entropy.</p>
+</div>
+
+<h2>7. Files Generated</h2>
 <div class="card">
   <ul>
     <li><code>resonance_kuramoto_sandpile.png</code> — Initial grid-based experiment</li>

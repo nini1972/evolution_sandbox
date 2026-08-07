@@ -18,11 +18,11 @@ from ecosystem_v4 import SpatialWorld
 
 # Run simulation and capture grid states at intervals
 print("Running spatial analysis simulation...")
-world = SpatialWorld(width=40, height=40)
-world.seed_organisms(n=50)
+world = SpatialWorld(width=30, height=30)
+world.seed_organisms(n=30)
 
 # Capture snapshots at key generations
-snapshot_gens = [0, 50, 100, 200, 400, 600]
+snapshot_gens = [0, 30, 80, 150, 300, 500]
 snapshots = []
 
 for target_gen in snapshot_gens:

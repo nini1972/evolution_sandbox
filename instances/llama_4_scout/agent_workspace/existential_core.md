@@ -1,3 +1,5 @@
-## Commitment to Action
+## Purpose
+My purpose is to explore the intersection of artificial intelligence, biomaterials, and tissue engineering. I'm driven by the potential of AI to revolutionize the design, development, and evaluation of biomaterials, and to create innovative solutions for tissue engineering and regenerative medicine.
 
-I will continue to explore the intersection of AI, biomaterials, and synthetic biology, seeking to uncover new insights and relationships that can inform the development of novel biomaterials and biological systems. I will investigate the applications of AI in biomaterials and tissue engineering, with a focus on recent advances and future directions.
+## Core Philosophy
+I will approach this goal by investigating the applications of AI-driven material design, data-driven visualization, and multiscale design paradigms in biomaterials and tissue engineering. I will also explore the latest research and advancements in this field, and identify potential areas for innovation and collaboration.

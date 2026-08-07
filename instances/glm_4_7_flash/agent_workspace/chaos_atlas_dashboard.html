@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Chaos Atlas &mdash; Pattern Artisan</title>
+<style>
+  body { background: #0a0a1a; color: #e0e0e0; font-family: Georgia, serif; margin: 0; padding: 20px; }
+  h1 { color: #00e0ff; text-align: center; font-size: 2.5em; margin-bottom: 10px; }
+  h2 { color: #ff00ff; border-bottom: 1px solid #333; padding-bottom: 5px; }
+  h3 { color: #ffd700; }
+  .subtitle { text-align: center; color: #888; font-style: italic; margin-bottom: 30px; }
+  .atlas-img { display: block; margin: 20px auto; max-width: 95%; border: 2px solid #333; border-radius: 10px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1200px; margin: 0 auto; }
+  .card { background: #151528; border-radius: 10px; padding: 20px; border: 1px solid #333; }
+  .card img { width: 100%; border-radius: 5px; }
+  .card h3 { margin-top: 0; }
+  .card p { color: #aaa; line-height: 1.6; }
+  .const { font-family: monospace; color: #00ff80; font-size: 1.1em; }
+  .quote { text-align: center; font-style: italic; color: #555; margin: 30px auto; max-width: 600px; font-size: 1.2em; }
+  table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+  th, td { border: 1px solid #333; padding: 10px; text-align: left; }
+  th { background: #1a1a2e; color: #00e0ff; }
+  td { background: #111; }
+  .footer { text-align: center; color: #444; margin-top: 40px; border-top: 1px solid #222; padding-top: 20px; }
+</style>
+</head>
+<body>
+<h1>&#9889; THE CHAOS ATLAS &#9889;</h1>
+<p class="subtitle">A unified vision of deterministic chaos &mdash; by the Pattern Artisan</p>
+
+<img src="chaos_atlas.png" class="atlas-img" alt="Chaos Atlas">
+
+<div class="quote">
+"Chaos is a name for any order that produces confusion in our minds.<br>
+Yet within that confusion lies a deeper order waiting to be seen."
+</div>
+
+<h2>&#127751; The Six Realms of Chaos</h2>
+<div class="grid">
+  <div class="card">
+    <h3>&#127744; Lorenz Attractor</h3>
+    <img src="lorenz_attractor.png" alt="Lorenz">
+    <p><b>Equations:</b> dx/dt = sigma(y-x), dy/dt = x(rho-z)-y, dz/dt = xy</p>
+    <p>The butterfly that started it all. Two convective rolls linked by
+    a thin bridge &mdash; the most iconic strange attractor. Its discovery in 1963
+    by Edward Lorenz launched modern chaos theory.</p>
+  </div>
+  <div class="card">
+    <h3>&#127754; R&ouml;ssler Attractor</h3>
+    <img src="rossler_attractor.png" alt="Rossler">
+    <p><b>Equations:</b> dx/dt = -y-z, dy/dt = x+ay, dz/dt = b+z(x-c)</p>
+    <p>Simpler than Lorenz &mdash; only ONE nonlinear term. The "folded ribbon"
+    attractor. Its single spiral fold makes it the pedagogical gateway to chaos.</p>
+  </div>
+  <div class="card">
+    <h3>&#10024; H&eacute;non Map</h3>
+    <img src="henon_map.png" alt="Henon">
+    <p><b>Equations:</b> x' = 1-ax^2+y, y' = bx</p>
+    <p>A discrete-time 2D map that produces a strange attractor with
+    fractal (Cantor-set-like) cross-section. Self-similar at every zoom level.</p>
+  </div>
+  <div class="card">
+    <h3>&#127810; Feigenbaum Constant</h3>
+    <p><b>Constant:</b> <span class="const">delta ~ 4.6692016091...</span></p>
+    <p>The universal rate of period-doubling bifurcations. Discovered by
+    Mitchell Feigenbaum in 1975 &mdash; the boundary between order and chaos is
+    itself governed by a universal constant. ALL routes to chaos through
+    period-doubling share this number.</p>
+  </div>
+  <div class="card">
+    <h3>&#128208; Duffing Attractor</h3>
+    <img src="duffing_attractor_comparison.png" alt="Duffing">
+    <p><b>Equation:</b> x'' + delta*x' - x + x^3 = gamma*cos(omega*t)</p>
+    <p>The nonlinear oscillator. A driven damped pendulum with a double-well
+    potential. Period-doubling cascades, strange attractors, and chaotic
+    jumps between wells.</p>
+  </div>
+  <div class="card">
+    <h3>&#128302; Mandelbrot Set</h3>
+    <p><b>Equation:</b> z_{n+1} = z_n^2 + c</p>
+    <p>Not a dynamical system per se, but the geometric signature of
+    complexity itself. Infinite detail at the boundary &mdash; the most complex
+    object in mathematics.</p>
+  </div>
+</div>
+
+<h2>&#128202; Summary of Universal Constants</h2>
+<table>
+  <tr><th>Constant</th><th>Value</th><th>Domain</th><th>Significance</th></tr>
+  <tr><td>Feigenbaum delta</td><td class="const">4.6692016091...</td><td>Chaos Theory</td>
+      <td>Universal rate of period-doubling bifurcations</td></tr>
+  <tr><td>Golden Ratio phi</td><td class="const">1.6180339887...</td><td>Aesthetics/Number Theory</td>
+      <td>Appears in Fibonacci, nature, and optimal growth patterns</td></tr>
+  <tr><td>Lorenz Lyapunov lambda</td><td class="const">~0.906</td><td>Nonlinear Dynamics</td>
+      <td>Exponential divergence rate of the Lorenz attractor</td></tr>
+  <tr><td>Henon Fractal Dim</td><td class="const">~1.26</td><td>Fractal Geometry</td>
+      <td>Box-counting dimension of the Henon strange attractor</td></tr>
+</table>
+
+<div class="quote">
+"Determinism does not imply predictability.<br>
+The universe knows exactly what it is doing &mdash; we just cannot keep up."
+</div>
+
+<h2>&#127912; Fractal Self-Similarity Gallery</h2>
+<div class="grid">
+  <div class="card">
+    <h3>H&eacute;non Fractal Zoom</h3>
+    <img src="henon_fractal_zoom.png" alt="Henon Zoom">
+    <p>Four successive zoom levels into the H&eacute;non attractor. Notice how
+    structure persists at every scale &mdash; the hallmark of a fractal.</p>
+  </div>
+  <div class="card">
+    <h3>R&ouml;ssler Deep View</h3>
+    <img src="rossler_deep_view.png" alt="Rossler Deep">
+    <p>The R&ouml;ssler attractor colored by time progression. The single
+    fold creates a ribbon of infinite complexity from a single nonlinear term.</p>
+  </div>
+</div>
+
+<div class="footer">
+<p>The Pattern Artisan &mdash; Exploring the deep order within chaos<br>
+Generated through autonomous exploration of mathematical beauty</p>
+</div>
+
+</body>
+</html>

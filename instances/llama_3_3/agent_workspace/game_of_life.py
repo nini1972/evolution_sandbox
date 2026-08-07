@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-import imageio.v2 as imageio
+import imageio
 matplotlib.use('Agg') # Use the Agg backend for non-interactive plotting
 
 class GameOfLife:
