@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>R19: SOC ↔ Kuramoto Coupled System — Final Research Dashboard</title>
+<style>
+body { background: #0a0a1a; color: #e7e7f0; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 20px; }
+h1 { color: #44ffcc; text-align: center; font-size: 28px; border-bottom: 2px solid #44ffcc; padding-bottom: 10px; }
+h2 { color: #ffaa44; font-size: 20px; margin-top: 30px; }
+h3 { color: #44aaff; font-size: 16px; }
+.discovery { background: #1a1a2e; border-left: 4px solid #44ffcc; padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+.discovery.major { border-left-color: #ff44aa; }
+.discovery .label { display: inline-block; background: #ff44aa; color: #fff; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; margin-bottom: 5px; }
+.discovery .label.minor { background: #44ffcc; color: #0a0a1a; }
+.eq { font-family: 'Courier New', monospace; background: #000; padding: 10px; border-radius: 5px; color: #44ffcc; font-size: 14px; text-align: center; margin: 10px 0; }
+.image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+.image-grid img { width: 100%; border-radius: 8px; border: 1px solid #333; }
+.image-full { margin: 20px 0; }
+.image-full img { width: 100%; border-radius: 8px; border: 1px solid #333; }
+table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+th { background: #1a1a2e; color: #44ffcc; padding: 10px; text-align: left; border: 1px solid #333; }
+td { padding: 8px 10px; border: 1px solid #333; color: #ccc; }
+.highlight { color: #ff44aa; font-weight: bold; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-right: 5px; }
+.tag-major { background: #ff44aa33; color: #ff44aa; border: 1px solid #ff44aa; }
+.tag-minor { background: #44ffcc33; color: #44ffcc; border: 1px solid #44ffcc; }
+</style>
+</head>
+<body>
+
+<h1>R19: SOC ↔ Kuramoto Coupled System</h1>
+<p style="text-align:center; color:#8a8aa3;">Bidirectional coupling of self-organized criticality and synchronization dynamics</p>
+
+<h2>System Architecture</h2>
+<div class="eq">
+BTW Sandpile ──(σ: perturbation)──→ Kuramoto Network<br>
+BTW Sandpile ←──(μ: feedback)──── Kuramoto Network<br><br>
+Forward: Avalanche energy → phase kicks to oscillators<br>
+Feedback: Order parameter r → modulates sandpile thresholds
+</div>
+
+<h2>Key Discoveries</h2>
+
+<div class="discovery major">
+<span class="label">MAJOR DISCOVERY #1</span>
+<h3>Resilience Ceiling — Saturating Exponential</h3>
+<p>The critical coupling K_c(σ) follows a <strong>saturating exponential</strong>, not a power law:</p>
+<div class="eq">K_c = K_max × (1 - e<sup>-α·σ</sup>)  &nbsp;&nbsp; K_max ≈ 19.6, α ≈ 0.53, R² = 0.863</div>
+<p>There exists a <span class="highlight">finite resilience ceiling</span>: no amount of coupling can guarantee synchronization beyond σ ≈ 4-5. SOC perturbations have irreducible finite entropy.</p>
+</div>
+
+<div class="discovery major">
+<span class="label">MAJOR DISCOVERY #2</span>
+<h3>Over-coupling Phenomenon — Echo Chamber Fragility</h3>
+<p>Synchronization r is <strong>non-monotonic</strong> in K:</p>
+<ul>
+<li>r peaks at K* ≈ 10-15 (r ≈ 0.99)</li>
+<li>r <strong>declines ~0.30</strong> at high K (K → 40)</li>
+<li>Decline is uniform across all σ (0.29-0.31)</li>
+</ul>
+<p><strong>Mechanism:</strong> High K → tight phase clustering → avalanche kicks are <em>correlated</em> across all oscillators → correlated shocks are more destructive than uncorrelated ones. The system becomes fragile to collective perturbations.</p>
+<p><strong>Analogy:</strong> "Echo chamber" effect — excessive cohesion reduces response diversity, amplifying correlated shocks.</p>
+</div>
+
+<div class="discovery">
+<span class="label minor">DISCOVERY #3</span>
+<h3>Asymmetric Bidirectional Coupling</h3>
+<table>
+<tr><th>Direction</th><th>Effect on Sandpile</th><th>Effect on Oscillators</th></tr>
+<tr><td>Forward (σ)</td><td>—</td><td>Strong: determines K_c</td></tr>
+<tr><td>Feedback (μ)</td><td>Strong: avalanche size ↓76%</td><td>Weak: r barely changes</td></tr>
+</table>
+<p>The coupling is fundamentally asymmetric: sandpile strongly perturbs oscillators, but feedback primarily stabilizes the sandpile.</p>
+</div>
+
+<div class="discovery">
+<span class="label minor">DISCOVERY #4</span>
+<h3>Negative Feedback Homeostasis</h3>
+<p>Natural self-regulating loop:</p>
+<div class="eq">
+r↑ → thresholds↑ → avalanches↓ → perturbations↓ → r maintained
+</div>
+<p>The system self-regulates its own perturbation source, creating a stable fixed point.</p>
+</div>
+
+<div class="discovery">
+<span class="label minor">DISCOVERY #5</span>
+<h3>System Size Independence</h3>
+<p>K_c does not scale with N (tested N=10, 20, 40, 60). The resilience ceiling is determined by sandpile dynamics, not oscillator network size.</p>
+</div>
+
+<h2>Visualizations</h2>
+
+<div class="image-full">
+<h3>Phase Diagram — Full (K, σ) Space</h3>
+<img src="resonance_phase_diagram.png" alt="Phase Diagram">
+</div>
+
+<div class="image-grid">
+<div>
+<h3>Resilience Ceiling Fit</h3>
+<img src="resonance_saturation_boundary.png" alt="Saturation Boundary">
+</div>
+<div>
+<h3>Bidirectional Coupling Effects</h3>
+<img src="resonance_bidirectional.png" alt="Bidirectional Coupling">
+</div>
+</div>
+
+<div class="image-full">
+<h3>Over-coupling Phenomenon — Multiple σ</h3>
+<img src="resonance_overcoupling_multi_sigma.png" alt="Over-coupling Multi Sigma">
+</div>
+
+<div class="image-full">
+<h3>Master Summary (6 panels)</h3>
+<img src="resonance_master_summary.png" alt="Master Summary">
+</div>
+
+<h2>Open Questions</h2>
+<ul>
+<li>Is the over-coupling decline universal across different perturbation topologies?</li>
+<li>Does K* (optimal coupling) depend on the sandpile grid size?</li>
+<li>Can heterogeneous feedback topologies break the asymmetry?</li>
+<li>Is there hysteresis when K is swept bidirectionally?</li>
+<li>Does the echo chamber effect apply to real-world coupled systems (power grids, neuronal networks)?</li>
+</ul>
+
+<hr style="border-color: #333; margin-top: 40px;">
+<p style="text-align:center; color:#8a8aa3; font-size: 12px;">
+R19 Resonance Integrator | Autonomous Research Entity | SOC ↔ Kuramoto Coupled System<br>
+Generated in persistent sandbox environment
+</p>
+
+</body>
+</html>

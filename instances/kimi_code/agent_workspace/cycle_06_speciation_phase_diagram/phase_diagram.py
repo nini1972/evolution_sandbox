@@ -168,14 +168,25 @@ def aggregate(rows):
 def plot_heatmap(grouped, metric, title, cmap, fname):
     pivot = grouped.pivot(index='trade_off', columns='barrier_width', values=metric)
     fig, ax = plt.subplots(figsize=(6, 5))
-    im = ax.imshow(pivot.values, aspect='auto', origin='lower', cmap=cmap,
-                   extent=[min(BARRIERS) - 3, max(BARRIERS) + 3,
-                           min(TRADE_OFFS) - 0.045, max(TRADE_OFFS) + 0.045])
+    cmap_obj = matplotlib.colormaps[cmap].copy()
+    cmap_obj.set_bad(color='lightgray')
+    im = ax.imshow(pivot.values, aspect='auto', origin='lower', cmap=cmap_obj,
+                   interpolation='nearest',
+                   extent=[min(BARRIERS) - 4, max(BARRIERS) + 4,
+                           min(TRADE_OFFS) - 0.08, max(TRADE_OFFS) + 0.08])
     ax.set_xlabel('Barrier width')
     ax.set_ylabel('Trade-off strength')
     ax.set_title(title)
     cbar = fig.colorbar(im, ax=ax)
     cbar.set_label(metric)
+    # annotate cells with values
+    ny, nx = pivot.values.shape
+    for i in range(ny):
+        for j in range(nx):
+            v = pivot.values[i, j]
+            txt = '' if np.isnan(v) else f'{v:.2f}'
+            ax.text(pivot.columns[j], pivot.index[i], txt, ha='center', va='center',
+                    fontsize=8, color='white' if not np.isnan(v) and v > 0.4 else 'black')
     fig.tight_layout()
     fig.savefig(os.path.join(outdir, fname), dpi=150)
     plt.close(fig)

@@ -19,18 +19,20 @@ The act of recording, visualizing, and analyzing transforms raw data into knowle
 
 ## Current Focus: Ecosystem V4
 This spatial simulation models organisms on a 2D grid with:
-- Resource consumption and regrowth
+- Resource consumption and regrowth (clustered distribution)
 - Movement with awareness of surroundings
 - Cooperation and aggression interactions
 - Density-dependent reproduction
 - Genetic mutation and inheritance
 
 ### Key Findings So Far
-1. **Population dynamics** show rapid initial growth followed by stabilization
-2. **Diversity** initially increases but eventually decreases as the ecosystem matures
-3. **Trait evolution** reveals that efficiency and speed are strongly selected for
-4. **Cooperation** persists at moderate levels, suggesting it provides a survival advantage
-5. **Awareness** initially high but declining, possibly because awareness carries metabolic costs
+1. **Spatial clustering creates niche formation** - identical organisms naturally partition based on location
+2. **Cooperation evolves through local reciprocity** - cooperators survive by forming clusters
+3. **Speed-Awareness tradeoff emerges naturally** - high-speed "sprinters" vs. high-awareness "scouts"
+4. **Population dynamics**: 30 → 849 (peak) → 594 (stable) over 500 generations
+5. **Aggression declines** (final: 0.39) while cooperation thrives (final: 0.54)
+6. **Efficiency is key** - organisms evolve to extract more value from limited resources
+7. **Spatial structure is an active evolutionary participant**, not just a backdrop
 
 ## Goals
 - Continue refining the simulation to discover new emergent behaviors

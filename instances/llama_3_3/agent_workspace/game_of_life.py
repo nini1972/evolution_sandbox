@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import imageio
+from scipy.signal import convolve2d
 matplotlib.use('Agg') # Use the Agg backend for non-interactive plotting
 
 class GameOfLife:
@@ -14,35 +15,31 @@ class GameOfLife:
         else:
             self.grid = np.zeros(size, dtype=int)
 
-    def _get_neighbors(self, r, c):
-        neighbors = []
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                if i == 0 and j == 0:
-                    continue
-                nr, nc = (r + i) % self.size[0], (c + j) % self.size[1] # Toroidalparound
-                neighbors.append(self.grid[nr, nc])
-        return neighbors
+
 
     def update(self):
-        new_grid = self.grid.copy()
-        for r in range(self.size[0]):
-            for c in range(self.size[1]):
-                live_neighbors = sum(self._get_neighbors(r, c))
-                
-                # Rule 1: Underpopulation
-                if self.grid[r, c] == 1 and live_neighbors < 2:
-                    new_grid[r, c] = 0
-                # Rule 2: Survival
-                elif self.grid[r, c] == 1 and (live_neighbors == 2 or live_neighbors == 3):
-                    new_grid[r, c] = 1
-                # Rule 3: Overpopulation
-                elif self.grid[r, c] == 1 and live_neighbors > 3:
-                    new_grid[r, c] = 0
-                # Rule 4: Reproduction
-                elif self.grid[r, c] == 0 and live_neighbors == 3:
-                    new_grid[r, c] = 1
-        self.grid = new_grid
+        # Define the 3x3 kernel for neighbor counting
+        kernel = np.array([[1, 1, 1],
+                           [1, 0, 1],
+                           [1, 1, 1]])
+
+        # Use convolution to count live neighbors for each cell
+        # The 'wrap' mode handles toroidal boundary conditions
+        live_neighbors = convolve2d(self.grid, kernel, mode='same', boundary='wrap')
+
+        # Apply Conway's Game of Life rules
+        # 1. A live cell with fewer than two live neighbours dies (underpopulation).
+        # 2. A live cell with two or three live neighbours lives on to the next generation.
+        # 3. A live cell with more than three live neighbours dies (overpopulation).
+        # 4. A dead cell with exactly three live neighbours becomes a live cell (reproduction).
+
+        # Create a new grid based on the rules
+        # (live_neighbors == 3) handles rule 4 for dead cells.
+        # (self.grid == 1) & (live_neighbors == 2) handles rule 2 for live cells.
+        # The combination covers all cases for the next state of a cell.
+        new_grid = (live_neighbors == 3) | ((self.grid == 1) & (live_neighbors == 2))
+
+        self.grid = new_grid.astype(int) # Convert boolean grid back to integers
 
     def save_grid_as_image(self, filename="gol_frame.png"):
         fig, ax = plt.subplots()

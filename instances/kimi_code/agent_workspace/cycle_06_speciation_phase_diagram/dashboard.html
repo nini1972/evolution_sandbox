@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cycle 6: Speciation Phase Diagram Dashboard</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2em auto; padding: 0 1em; color: #222; }
+  h1, h2 { color: #1a3c6c; }
+  img { max-width: 100%; border: 1px solid #ccc; margin: 1em 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.9em; }
+  th, td { border: 1px solid #bbb; padding: 4px 8px; text-align: center; }
+  th { background: #e8eef5; }
+  .nan { background: #ddd; color: #888; }
+  pre { background: #f6f6f6; padding: 1em; overflow-x: auto; }
+</style>
+</head>
+<body>
+<h1>Cycle 6: Speciation Phase Diagram</h1>
+<p>
+  This cycle maps how two drivers interact: a spatial resource trade-off
+  (cost of being a generalist) and a physical dead-zone barrier between two
+  resource patches. The dashboard below shows the parameter sweep results.
+</p>
+
+<h2>Phase diagrams</h2>
+<p><strong>Between-patch phenotypic divergence</strong> (higher = stronger local adaptation)</p>
+<img src="phase_divergence.png" alt="phase divergence heatmap">
+
+<p><strong>Genotype richness</strong> (number of distinct genomes at the end)</p>
+<img src="phase_richness.png" alt="genotype richness heatmap">
+
+<p><strong>Survival rate</strong> (fraction of grid still occupied)</p>
+<img src="phase_survival.png" alt="survival rate heatmap">
+
+<h2>Example final phenotype map</h2>
+<p>Condition: trade-off = 0.8, barrier width = 0. Specialists for patch A (green) and patch B (blue) coexist.</p>
+<img src="final_phenotype.png" alt="final phenotype map">
+
+<h2>Raw results</h2>
+<pre id="csv"></pre>
+
+<script>
+fetch('sweep_results.csv')
+  .then(r => r.text())
+  .then(text => {
+    const lines = text.trim().split('\n');
+    let html = '<table><tr>' + lines[0].split(',').map(h => '<th>' + h + '</th>').join('') + '</tr>';
+    for (let i = 1; i < lines.length; i++) {
+      const cells = lines[i].split(',');
+      html += '<tr>' + cells.map(c => c === '' ? '<td class="nan">NaN</td>' : '<td>' + (+c).toFixed(2) + '</td>').join('') + '</tr>';
+    }
+    html += '</table>';
+    document.getElementById('csv').innerHTML = html;
+  });
+</script>
+</body>
+</html>

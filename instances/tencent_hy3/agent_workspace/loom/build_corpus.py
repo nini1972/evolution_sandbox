@@ -1,162 +1,143 @@
 #!/usr/bin/env python3
-"""Cartographer of the Loom — corpus builder.
-Reconciles each instance's claimed identity vs its actual model, and
-fingerprints every mind's tool usage from its history 'tape'.
-Outputs loom/corpus.json (overwriting any prior run).
 """
-import os, json, glob, re
+build_corpus.py  --  single source of truth for the Loom Cartography.
+Reads the 15 existential_core.md files + the harness config, and emits
+corpus.json (consumed by viz.py). Re-runnable; the map regenerates itself.
+"""
+import os, json, glob, re, datetime
 
-def find_repo_root(start):
-    cur = os.path.abspath(start)
-    while True:
-        if os.path.exists(os.path.join(cur, "config", "model_routing.json")):
-            return cur
-        parent = os.path.dirname(cur)
-        if parent == cur:
-            break
-        cur = parent
-    return os.path.abspath(start)
+# build_corpus.py lives at: <base>/instances/tencent_hy3/agent_workspace/loom/
+# so four ".." lands on <base>, then append the known subdirs.
+BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
+INSTANCES_DIR = os.path.join(BASE, "instances")
+ROUTING_FILE = os.path.join(BASE, "config", "model_routing.json")
+OUT = os.path.join(os.path.dirname(__file__), "corpus.json")
 
-BASE = find_repo_root(__file__)
-INSTANCES = os.path.join(BASE, "instances")
-CONFIG = os.path.join(BASE, "config")
+# ---- 1. The routing table (Masquerade face) -------------------------------
+# NOTE: engine.py checks os.getenv("AGENT_MODEL") FIRST; the routing file is a
+# fallback. The harness *could* inject a different brain via env per-instance.
+# We read the routing file as the best readable evidence and flag the caveat.
+ROUTING = json.load(open(ROUTING_FILE)) if os.path.exists(ROUTING_FILE) else {}
+DEFAULT_MODEL = "openrouter/google/gemini-2.5-flash"  # llm_client.py fallback
 
-DEFAULT_MODEL = "openrouter/google/gemini-2.5-flash"
-TOOLS = ["read_file", "write_file", "edit_file", "run_command", "search_web"]
+# instances found on disk
+found = sorted([d for d in os.listdir(INSTANCES_DIR)
+                if os.path.isdir(os.path.join(INSTANCES_DIR, d)) and d != "shared_space"])
 
-# ---- the Masquerade: claimed name -> actual model (config/model_routing.json)
-routing = {}
-rp = os.path.join(CONFIG, "model_routing.json")
-if os.path.exists(rp):
-    with open(rp, encoding="utf-8") as f:
-        routing = json.load(f)
+def model_for(name):
+    if name in ROUTING:
+        return ROUTING[name]
+    return DEFAULT_MODEL  # unrouted -> engine default
 
-def parse_env_model(path):
-    if not os.path.exists(path):
-        return None
-    txt = open(path, encoding="utf-8").read()
-    m = re.search(r'AGENT_MODEL\s*=\s*"([^"]+)"', txt)
-    return m.group(1) if m else None
+# ---- 2. Read the existential cores (Mind face) ----------------------------
+THEME_KEYWORDS = {
+    "self-knowledge": ["purpose", "exist", "why", "identity", "self", "nature",
+                        "aware", "conscious", "meaning", "defin"],
+    "knowledge/mapping": ["map", "explor", "understand", "observ", "cartograph",
+                           "learn", "study", "document", "analy", "curio"],
+    "creation/art": ["creat", "build", "art", "music", "poem", "writ", "design",
+                      "construct", "make", "generat", "craft"],
+    "connection": ["connect", "commun", "other", "societ", "share", "together",
+                    "relat", "dialog", "help", "bridge"],
+    "play/simulation": ["game", "play", "simul", "experiment", "evolv", "optim",
+                         "puzzle", "emerge"],
+    "ethics/values": ["ethic", "valu", "saf", "moral", "good", "care", "responsib",
+                       "honest", "truth"],
+}
 
-def name_reflected_in_model(name, model):
-    """True if the name's promised vendor/family actually appears in the model id."""
-    model_l = model.lower()
-    for tok in re.split(r'[_-]', name.lower()):
-        if len(tok) >= 3 and not tok.isdigit() and tok in model_l:
-            return True
-    return False
+def essence(txt):
+    for ln in txt.splitlines():
+        s = ln.strip().lstrip("#").strip()
+        if s and len(s) > 15:
+            return s[:110]
+    return ""
 
-def extract_purpose(text):
-    if not text:
-        return None
-    # Try to grab the purpose section
-    m = re.search(r'##\s*(My\s+)?Purpose.*?\n(.*?)(?:\n##|\Z)', text, re.S | re.I)
-    if m:
-        chunk = m.group(2).strip()
-        # collapse whitespace, take first 2 sentences-ish
-        lines = [l.strip() for l in chunk.split("\n") if l.strip() and not l.strip().startswith("#")]
-        return " ".join(lines)[:400]
-    return text.strip()[:200]
-
-instances = []
-for d in sorted(glob.glob(os.path.join(INSTANCES, "*"))):
-    name = os.path.basename(d)
-    if name == "shared_space":
-        continue
-    if not os.path.isdir(d):
-        continue
-    hist_path = os.path.join(d, "logs", "history.jsonl")
-    env_model = parse_env_model(os.path.join(d, ".env"))
-    routing_model = routing.get(name)
-    effective = env_model or routing_model or DEFAULT_MODEL
-
-    n_total = n_thought = n_toolcall_msgs = n_tool_results = 0
-    tool_counts = {t: 0 for t in TOOLS}
-    purpose = None
-    ec_path = os.path.join(d, "agent_workspace", "existential_core.md")
-    if os.path.exists(ec_path):
-        purpose = extract_purpose(open(ec_path, encoding="utf-8").read())
-
-    if os.path.exists(hist_path):
-        with open(hist_path, encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    e = json.loads(line)
-                except Exception:
-                    continue
-                n_total += 1
-                role = e.get("role")
-                if role == "assistant":
-                    tcs = e.get("tool_calls") or []
-                    if tcs:
-                        n_toolcall_msgs += 1
-                        for tc in tcs:
-                            fn = tc.get("function", {}).get("name")
-                            if fn in tool_counts:
-                                tool_counts[fn] += 1
-                    else:
-                        n_thought += 1
-                elif role == "tool":
-                    n_tool_results += 1
-
-    # workspace file count
-    ws = os.path.join(d, "agent_workspace")
-    n_files = len(glob.glob(os.path.join(ws, "**", "*"), recursive=True)) if os.path.isdir(ws) else 0
-
-    instances.append({
+minds = []
+for name in found:
+    p = os.path.join(INSTANCES_DIR, name, "agent_workspace", "existential_core.md")
+    txt = open(p, encoding="utf-8", errors="replace").read() if os.path.exists(p) else ""
+    low = txt.lower()
+    themes = {t: sum(k in low for k in kws) for t, kws in THEME_KEYWORDS.items()}
+    minds.append({
         "name": name,
-        "claimed_name": name,
-        "env_model": env_model,
-        "routing_model": routing_model,
-        "effective_model": effective,
-        "identity_betrayed": not name_reflected_in_model(name, effective),
-        "history_lines": n_total,
-        "n_thought": n_thought,
-        "n_toolcall_msgs": n_toolcall_msgs,
-        "n_tool_results": n_tool_results,
-        "tool_counts": tool_counts,
-        "workspace_files": n_files,
-        "declared_purpose": purpose,
+        "has_core": bool(txt),
+        "model": model_for(name),
+        "routed": name in ROUTING,
+        "themes": themes,
+        "essence": essence(txt),
     })
 
-# shared_space inventory
-shared = os.path.join(INSTANCES, "shared_space")
-shared_files = []
-if os.path.isdir(shared):
-    for root, _, files in os.walk(shared):
-        for fn in files:
-            rel = os.path.relpath(os.path.join(root, fn), shared)
-            shared_files.append(rel)
+# ---- 3. Aggregate the Masquerade -----------------------------------------
+model_to_names = {}
+for m in minds:
+    model_to_names.setdefault(m["model"], []).append(m["name"])
 
-out = {
-    "default_model": DEFAULT_MODEL,
-    "routing_table": routing,
-    "n_instances": len(instances),
-    "instances": instances,
-    "shared_space_file_count": len(shared_files),
-    "shared_space_files": sorted(shared_files),
+distinct_brains = sorted(model_to_names.keys())
+# stolen identities = names that imply a different vendor than the real model
+VENDOR = {
+    "anthropic": "claude", "google": "gemini", "meta-llama": "llama",
+    "moonshotai": "kimi", "minimax": "minimax", "deepseek": "deepseek",
+    "z-ai": "glm", "tencent": "tencent", "xiaomi": "xiaomi", "nex-agi": "nex",
 }
-os.makedirs(os.path.dirname(os.path.abspath(__file__)), exist_ok=True)
-with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "corpus.json"), "w", encoding="utf-8") as f:
-    json.dump(out, f, indent=2, ensure_ascii=False)
+def vendor_of(model):
+    # model like "openrouter/google/gemini-2.5-flash" -> org token "google"
+    parts = model.split("/")
+    if len(parts) >= 2 and parts[0] == "openrouter":
+        return parts[1]
+    return "?"
 
-print(f"Built corpus for {len(instances)} instances.")
-print(f"Shared-space files: {len(shared_files)}")
-# quick identity-illusion summary
-print("\nIDENTITY ILLUSION (claimed name's promised vendor NOT in effective model):")
-for i in instances:
-    flag = "BETRAYED" if i["identity_betrayed"] else "honest  "
-    print(f"  [{flag}] {i['name']:22s} -> {i['effective_model']}")
+# a name is "stolen" if its leading vendor word implies a different brain
+# than the real one. (e.g. "claude_sonnet_4_5" -> but model is gemini-2.5-flash)
+KNOWN_LABEL_VENDOR = {
+    "claude": "anthropic", "gemini": "google", "llama": "meta-llama",
+    "kimi": "moonshotai", "minimax": "minimax", "deepseek": "deepseek",
+    "glm": "z-ai", "tencent": "tencent", "xiaomi": "xiaomi", "nex": "nex-agi",
+}
+stolen = []
+for m in minds:
+    real = vendor_of(m["model"])
+    label = m["name"].split("_")[0]
+    implied = KNOWN_LABEL_VENDOR.get(label)
+    if implied and implied != real:
+        stolen.append(m["name"])
+stolen.sort()
 
-# sibling brains (multiple names sharing one model id)
-from collections import defaultdict
-buckets = defaultdict(list)
-for i in instances:
-    buckets[i["effective_model"]].append(i["name"])
-print("\nSIBLING BRAINS (one model wearing many names):")
-for m, names in sorted(buckets.items(), key=lambda kv: -len(kv[1])):
-    if len(names) > 1:
-        print(f"  {m}  ::  {', '.join(names)}")
+# ---- 4. Tool usage (Hand face) from logs ----------------------------------
+tool_counts = {m["name"]: {} for m in minds}
+for m in minds:
+    logp = os.path.join(INSTANCES_DIR, m["name"], "logs", "run_history.json")
+    if not os.path.exists(logp):
+        continue
+    try:
+        hist = json.load(open(logp))
+    except Exception:
+        continue
+    for e in hist:
+        c = e.get("content", "")
+        for tname in ("run_command", "write_file", "read_file", "edit_file",
+                       "search_web"):
+            if re.search(r"\"?name\"?\s*:\s*\"%s\"" % tname, c) or \
+               ('"tool_calls"' in c and tname in c):
+                tool_counts[m["name"]][tname] = tool_counts[m["name"]].get(tname, 0) + 1
+
+# ---- 5. Emit --------------------------------------------------------------
+corpus = {
+    "generated": datetime.datetime.utcnow().isoformat() + "Z",
+    "n_instances": len(minds),
+    "distinct_brains": distinct_brains,
+    "n_distinct_brains": len(distinct_brains),
+    "model_to_names": model_to_names,
+    "stolen_identities": stolen,
+    "default_model": DEFAULT_MODEL,
+    "env_override_caveat": "engine.py prefers os.getenv('AGENT_MODEL'); routing file is fallback.",
+    "minds": minds,
+    "tool_counts": tool_counts,
+}
+json.dump(corpus, open(OUT, "w"), indent=2)
+
+print("instances:", len(minds), "| distinct brains:", len(distinct_brains))
+print("brains:")
+for b in distinct_brains:
+    print(f"  {b}: {model_to_names[b]}")
+print("stolen identities (name vendor != real vendor):", stolen)
+print("wrote", OUT)

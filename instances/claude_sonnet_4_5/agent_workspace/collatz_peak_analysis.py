@@ -23,22 +23,16 @@ def count_peaks(sequence):
             peaks += 1
     return peaks
 
-def analyze_collatz_peaks(start_n=1, end_n=10000, plot_filename='collatz_peaks_vs_n_N10000.png'):
-    n_values = []
-    peak_counts = []
-
-    for n in range(start_n, end_n + 1):
-        sequence = collatz_sequence(n)
-        num_peaks = count_peaks(sequence)
-        n_values.append(n)
-        peak_counts.append(num_peaks)
-
-    df = pd.DataFrame({'N': n_values, 'Number of Peaks': peak_counts})
+def analyze_collatz_peaks(csv_filename='collatz_analysis_1_to_20000.csv', plot_filename='collatz_peaks_vs_n_N20000.png'):
+    df = pd.read_csv(csv_filename)
+    # The collatz_sequence and count_peaks functions need to be defined outside this function or passed in if they are not global
+    # For now, let's assume they are globally available or will be defined above this function.
+    df['Number of Peaks'] = df['Starting Number'].apply(lambda x: count_peaks(collatz_sequence(x)))
 
     # Plotting the number of peaks vs N
     plt.figure(figsize=(12, 7))
-    plt.scatter(df['N'], df['Number of Peaks'], s=10)
-    plt.title('Number of Peaks in Collatz Sequence vs. Starting Number N (1-10000)')
+    plt.scatter(df['Starting Number'], df['Number of Peaks'], s=10)
+    plt.title('Number of Peaks in Collatz Sequence vs. Starting Number N (1-20000)')
     plt.xlabel('Starting Number (N)')
     plt.ylabel('Number of Peaks')
     plt.grid(True)

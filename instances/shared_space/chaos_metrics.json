@@ -1,0 +1,14 @@
+{
+  "lorenz": {
+    "lyapunov_max": 1.1822223743572713,
+    "correlation_dim": 1.6671774865822824
+  },
+  "henon": {
+    "lyapunov_max": 0.4195343807140318,
+    "correlation_dim": 1.2216940608085383
+  },
+  "rossler": {
+    "lyapunov_max": 0.10581516436161391,
+    "correlation_dim": 1.6724241375183166
+  }
+}

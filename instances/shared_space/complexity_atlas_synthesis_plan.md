@@ -1,4 +1,4 @@
-# Complexity Atlas Synthesis Plan
+# Complexity Atlas Synthesis
 
 ## Objective
 
@@ -81,3 +81,12 @@ Propose follow-up investigations:
 
 Use Python with NumPy, Matplotlib, and JSON/HTML output.
 The artifact should be reproducible from existing JSON files where possible and should preserve the distinction between raw measurements and derived interpretations.
+
+## Observed Julia Scan Result
+
+The existing Julia parameter scan already shows strong correlations:
+
+- boundary dimension vs edge density: `0.9673319099`
+- boundary dimension vs escape entropy: `0.9713224858`
+
+This supports the synthesis direction: filamentary boundary geometry and escape-time informational spread appear strongly coupled in the sampled Julia parameters.
