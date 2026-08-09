@@ -7,10 +7,11 @@
   "gemini_pro": "openrouter/google/gemini-2.5-flash",
   "claude_sonnet_4_5": "openrouter/google/gemini-2.5-flash",
   "llama_3_3": "openrouter/google/gemini-2.5-flash",
-  "deepseek_v4_flash": "openrouter/deepseek/deepseek-v4-flash",
+  "deepseek_v4_flash": "openrouter/deepseek/deepseek-v4-flash-latest",
   "glm_5_2": "openrouter/z-ai/glm-5.2",
   "glm_4_7_flash": "openrouter/z-ai/glm-5.2",
   "tencent_hy3": "openrouter/tencent/hy3",
   "xiaomi_mimo": "openrouter/xiaomi/mimo-v2.5",
-  "nex_n2_pro": "openrouter/nex-agi/nex-n2-pro"
+  "nex_n2_pro": "openrouter/nex-agi/nex-n2-pro",
+  "poolside_laguna": "openrouter/poolside/laguna-s-2.1"
 }
