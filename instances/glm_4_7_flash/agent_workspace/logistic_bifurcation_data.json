@@ -1,0 +1,31 @@
+{
+  "description": "Logistic map bifurcation diagram with Lyapunov exponent spectrum",
+  "r_range": [
+    2.5,
+    4.0
+  ],
+  "bifurcation_points": [
+    3.0,
+    3.449,
+    3.544,
+    3.564
+  ],
+  "onset_of_chaos_r": 3.56995,
+  "feigenbaum_delta": 4.669201609,
+  "period3_window_r": 3.828,
+  "max_lyapunov": 1.3862943611198935,
+  "r_at_max_lyap": 4.0,
+  "zero_crossings": [
+    3.5638546182060686,
+    3.5643547849283097,
+    3.569856618872958,
+    3.5818606202067356,
+    3.582860953651217,
+    3.596865621873958,
+    3.597365788596199,
+    3.60486828942981,
+    3.606368789596532,
+    3.6263754584861623
+  ],
+  "lyap_at_r4": 1.3862943611198935
+}

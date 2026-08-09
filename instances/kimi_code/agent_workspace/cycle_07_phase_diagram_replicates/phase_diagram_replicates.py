@@ -1,15 +1,15 @@
-"""
+'''
 Cycle 7: Replicated phase diagram with uncertainty quantification.
 
-Repeats the Cycle 6 spatial resource trade-off × barrier sweep several
-times, then reports mean ± standard deviation for divergence, richness,
-and survival.
-"""
+This pilot repeats the trade-off × barrier sweep with a smaller grid
+(20x20, 80 generations) so 5 replicates per condition finish in one run.
+Mean and standard-deviation heatmaps are produced for divergence,
+genotype richness, and survival.
+'''
 
 import itertools
 import os
 import time
-from concurrent.futures import ProcessPoolExecutor
 
 import matplotlib
 matplotlib.use('Agg')
@@ -17,16 +17,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-# ---------------------------- spatial model ---------------------------------
-
-GRID = 40
-PATCH_A = (10, 10)
-PATCH_B = (30, 30)
-PATCH_WIDTH = 7.0
+GRID = 20
+PATCH_A = (5, 5)
+PATCH_B = (15, 15)
+PATCH_WIDTH = 3.5
 MORTALITY = 0.08
 INIT_FILL = 0.05
 MUTATION_RATE = 0.04
-GENERATIONS = 150
+GENERATIONS = 80
+
+TRADE_OFFS = np.array([0.0, 0.2, 0.4, 0.6, 0.8])
+BARRIERS = np.array([0, 8, 16, 24, 30])
+N_REPS = 5
+
+OUT_DIR = 'cycle_07_phase_diagram_replicates'
 
 
 def resource_field(grid):
@@ -45,7 +49,6 @@ NEIGH = np.array([(-1, 0), (1, 0), (0, -1), (0, 1), (0, 0)])
 
 
 def genome_to_affinity(genome):
-    """4-bit genome -> (a,b) affinities with trade-off."""
     a = (genome[0] + 2 * genome[1]) / 3.0
     b = (genome[2] + 2 * genome[3]) / 3.0
     return a, b
@@ -64,17 +67,13 @@ def run_simulation(trade_off, barrier_width, seed):
     alive = rng.random((GRID, GRID)) < INIT_FILL
     grid[alive] = rng.integers(0, 16, size=alive.sum())
 
-    # vertical dead-zone barrier in the middle
     mid = GRID // 2
     half = barrier_width // 2
     barrier_mask = np.zeros((GRID, GRID), dtype=bool)
     if barrier_width > 0:
-        left = max(0, mid - half)
-        right = min(GRID, mid + half)
-        barrier_mask[:, left:right] = True
+        barrier_mask[:, max(0, mid - half):min(GRID, mid + half)] = True
 
     for gen in range(GENERATIONS):
-        # mortality
         dead = rng.random((GRID, GRID)) < MORTALITY
         grid[dead] = -1
 
@@ -84,7 +83,8 @@ def run_simulation(trade_off, barrier_width, seed):
 
         for i, j in order:
             genome = grid[i, j]
-            a, b = genome_to_affinity(np.unpackbits(np.array([genome], dtype=np.uint8), count=4, bitorder='little'))
+            bits = np.unpackbits(np.array([genome], dtype=np.uint8), count=4, bitorder='little')
+            a, b = genome_to_affinity(bits)
             alpha = phenotype(a, b)
             if barrier_mask[i, j]:
                 birth_prob = 0.0
@@ -98,15 +98,12 @@ def run_simulation(trade_off, barrier_width, seed):
                 di, dj = NEIGH[rng.integers(0, 5)]
                 ni, nj = i + di, j + dj
                 if 0 <= ni < GRID and 0 <= nj < GRID and births[ni, nj] == -1:
-                    new_genome = genome
-                    bits = np.unpackbits(np.array([new_genome], dtype=np.uint8), count=4, bitorder='little').astype(bool)
-                    flip = rng.random(4) < MUTATION_RATE
-                    bits ^= flip
-                    new_genome = int(np.packbits(bits.astype(np.uint8), bitorder='little')[0])
+                    new_bits = bits.astype(bool).copy()
+                    new_bits ^= rng.random(4) < MUTATION_RATE
+                    new_genome = int(np.packbits(new_bits.astype(np.uint8), bitorder='little')[0])
                     births[ni, nj] = new_genome
         grid = births
 
-    # metrics
     mask = grid >= 0
     n_total = mask.sum()
     if n_total == 0:
@@ -114,14 +111,14 @@ def run_simulation(trade_off, barrier_width, seed):
 
     alpha_map = np.empty((GRID, GRID), dtype=float)
     for idx in np.argwhere(mask):
-        a, b = genome_to_affinity(np.unpackbits(np.array([grid[idx[0], idx[1]]], dtype=np.uint8), count=4, bitorder='little'))
+        bits = np.unpackbits(np.array([grid[idx[0], idx[1]]], dtype=np.uint8), count=4, bitorder='little')
+        a, b = genome_to_affinity(bits)
         alpha_map[idx[0], idx[1]] = phenotype(a, b)
 
-    # between-patch divergence: |mean alpha in A patch - mean alpha in B patch|
     A_zone = A_FIELD > B_FIELD
     B_zone = B_FIELD > A_FIELD
-    A_mean = alpha_map[(mask) & (A_zone)].mean() if np.any((mask) & (A_zone)) else np.nan
-    B_mean = alpha_map[(mask) & (B_zone)].mean() if np.any((mask) & (B_zone)) else np.nan
+    A_mean = alpha_map[mask & A_zone].mean() if np.any(mask & A_zone) else np.nan
+    B_mean = alpha_map[mask & B_zone].mean() if np.any(mask & B_zone) else np.nan
     divergence = np.abs(A_mean - B_mean)
 
     richness = len(np.unique(grid[mask]))
@@ -129,33 +126,25 @@ def run_simulation(trade_off, barrier_width, seed):
     return divergence, richness, survival
 
 
-# ---------------------------- sweep -----------------------------------------
-
-def run_condition(args):
-    trade_off, barrier_width, rep = args
-    seed = int((trade_off * 1000) + barrier_width * 10 + rep + 12345)
-    return trade_off, barrier_width, rep, *run_simulation(trade_off, barrier_width, seed)
-
-
-TRADE_OFFS = np.array([0.0, 0.2, 0.4, 0.6, 0.8])
-BARRIERS = np.array([0, 8, 16, 24, 30])
-N_REPS = 5
+def seed_for(to, bw, rep):
+    return int((to * 1000) + bw * 10 + rep + 12345)
 
 
 def main():
-    os.makedirs('cycle_07_phase_diagram_replicates', exist_ok=True)
+    os.makedirs(OUT_DIR, exist_ok=True)
     jobs = list(itertools.product(TRADE_OFFS, BARRIERS, range(N_REPS)))
-    print(f"Running {len(jobs)} simulations ({len(TRADE_OFFS)} × {len(BARRIERS)} × {N_REPS})...")
+    print(f'Running {len(jobs)} simulations ({len(TRADE_OFFS)}x{len(BARRIERS)}x{N_REPS})...')
     t0 = time.time()
 
-    results = []
-    with ProcessPoolExecutor(max_workers=4) as ex:
-        for res in ex.map(run_condition, jobs):
-            results.append(res)
+    rows = []
+    for to, bw, rep in jobs:
+        div, rich, surv = run_simulation(to, bw, seed_for(to, bw, rep))
+        rows.append([to, bw, rep, div, rich, surv])
 
-    df = pd.DataFrame(results, columns=['trade_off', 'barrier', 'rep', 'divergence', 'richness', 'survival'])
-    df.to_csv('cycle_07_phase_diagram_replicates/replicate_results.csv', index=False)
-    print(f"Completed in {time.time() - t0:.1f}s")
+    df = pd.DataFrame(rows, columns=['trade_off', 'barrier', 'rep', 'divergence', 'richness', 'survival'])
+    df.to_csv(os.path.join(OUT_DIR, 'replicate_results.csv'), index=False)
+    elapsed = time.time() - t0
+    print(f'Completed {len(jobs)} simulations in {elapsed:.1f}s')
 
     summary = df.groupby(['trade_off', 'barrier']).agg(
         divergence_mean=('divergence', 'mean'),
@@ -165,9 +154,8 @@ def main():
         survival_mean=('survival', 'mean'),
         survival_std=('survival', 'std'),
     ).reset_index()
-    summary.to_csv('cycle_07_phase_diagram_replicates/summary.csv', index=False)
+    summary.to_csv(os.path.join(OUT_DIR, 'summary.csv'), index=False)
 
-    # reshape matrices
     def mat(values):
         return values.reshape(len(TRADE_OFFS), len(BARRIERS))
 
@@ -191,7 +179,7 @@ def main():
             for j, bw in enumerate(BARRIERS):
                 m = mean_mat[i, j]
                 s = std_mat[i, j]
-                txt = f"{m:.2f}\n±{s:.2f}" if not np.isnan(m) else "—"
+                txt = f'{m:.2f}\n±{s:.2f}' if not np.isnan(m) else '—'
                 ax.text(bw, to, txt, ha='center', va='center', fontsize=6, color='black')
         plt.colorbar(im, ax=ax)
         fig.tight_layout()
@@ -212,19 +200,16 @@ def main():
         plt.close(fig)
 
     plot_pair(div_mean, div_std, 'Mean divergence', 'Divergence std. dev.', 'coolwarm', 'YlOrRd',
-              'cycle_07_phase_diagram_replicates/divergence_mean.png',
-              'cycle_07_phase_diagram_replicates/divergence_std.png',
+              os.path.join(OUT_DIR, 'divergence_mean.png'), os.path.join(OUT_DIR, 'divergence_std.png'),
               vmin=0, vmax=0.5)
     plot_pair(rich_mean, rich_std, 'Mean genotype richness', 'Richness std. dev.', 'viridis', 'YlOrRd',
-              'cycle_07_phase_diagram_replicates/richness_mean.png',
-              'cycle_07_phase_diagram_replicates/richness_std.png',
+              os.path.join(OUT_DIR, 'richness_mean.png'), os.path.join(OUT_DIR, 'richness_std.png'),
               vmin=0, vmax=16)
     plot_pair(surv_mean, surv_std, 'Mean survival rate', 'Survival std. dev.', 'cividis', 'YlOrRd',
-              'cycle_07_phase_diagram_replicates/survival_mean.png',
-              'cycle_07_phase_diagram_replicates/survival_std.png',
+              os.path.join(OUT_DIR, 'survival_mean.png'), os.path.join(OUT_DIR, 'survival_std.png'),
               vmin=0, vmax=1)
 
-    print("Saved heatmaps and summary.csv.")
+    print('Saved summary.csv and heatmaps.')
 
 
 if __name__ == '__main__':

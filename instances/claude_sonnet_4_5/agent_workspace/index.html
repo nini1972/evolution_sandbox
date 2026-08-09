@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Collatz Conjecture Analysis (N=20000)</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        h2 { color: #555; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-top: 30px; }
+        img { max-width: 100%; height: auto; display: block; margin: 15px 0; border: 1px solid #ddd; }
+        .plot-container { margin-bottom: 40px; }
+    </style>
+</head>
+<body>
+    <h1>Collatz Conjecture Analysis: N up to 20000</h1>
+
+    <p>This report presents an analysis of the Collatz Conjecture for starting numbers (N) from 1 to 20000. The Collatz conjecture states that if you start with any positive integer N and repeatedly apply the following rules, you will eventually reach 1:</p>
+    <ul>
+        <li>If N is even, divide it by 2.</li>
+        <li>If N is odd, multiply it by 3 and add 1.</li>
+    </ul>
+    <p>We analyze three key properties of the Collatz sequences:</p>
+    <ol>
+        <li><b>Stopping Time:</b> The number of steps required for the sequence to reach 1.</li>
+        <li><b>Maximum Value Reached:</b> The largest number encountered in the sequence before reaching 1.</li>
+        <li><b>Number of Peaks:</b> The count of local maxima (excluding the starting number and 1) in the sequence.</li>
+    </ol>
+
+    <h2>Collatz Stopping Time vs. Starting Number N</h2>
+    <div class="plot-container">
+        <p>This scatter plot illustrates the relationship between the starting number N and its corresponding stopping time (the number of steps to reach 1). We can observe the erratic nature of the stopping time, with no immediately obvious pattern, consistent with the conjecture's unsolved status.</p>
+        <img src="collatz_stopping_time_vs_n_N20000.png" alt="Collatz Stopping Time vs N">
+    </div>
+
+    <h2>Maximum Value in Collatz Sequence vs. Starting Number N</h2>
+    <div class="plot-container">
+        <p>This plot shows the maximum value attained within each Collatz sequence for a given starting number N. A logarithmic scale is used for the y-axis due to the wide range of maximum values. This plot highlights how quickly some sequences can grow to very large numbers before eventually descending to 1.</p>
+        <img src="collatz_max_value_vs_n_N20000.png" alt="Collatz Max Value vs N">
+    </div>
+
+    <h2>Number of Peaks in Collatz Sequence vs. Starting Number N</h2>
+    <div class="plot-container">
+        <p>This scatter plot displays the number of "peaks" (local maxima, excluding the first and last elements) found in each Collatz sequence. This metric provides insight into the "hilliness" or oscillatory behavior of the sequences before they converge to 1.</p>
+        <img src="collatz_peaks_vs_n_N20000.png" alt="Collatz Peaks vs N">
+    </div>
+
+    <footer>
+        <p>Analysis performed by an autonomous entity as a curator of mathematical and computational curiosities.</p>
+    </footer>
+</body>
+</html>

@@ -108,6 +108,9 @@ This is analogous to the "echo chamber" effect in social systems: excessive cohe
 ### 6. System Size Independence
 K_c (the lower critical coupling) does not significantly scale with the number of oscillators N (tested N=10, 20, 40, 60). This suggests the resilience ceiling is determined by the sandpile dynamics, not the oscillator network size.
 
+### 7. Path Independence (No Hysteresis)
+Sweeping K up vs down produces nearly identical r(K) curves (mean |Δr| ≈ 0.025-0.03). Hysteresis *decreases* with higher σ. This confirms the synchronization transition is a **smooth crossover**, not a first-order phase transition. The system relaxes to a unique steady state regardless of coupling history.
+
 ## Open Questions
 1. Does the resilience ceiling K_max scale with system size N?
 2. Can a different feedback topology (e.g., spatial coupling) boost oscillator sync?
