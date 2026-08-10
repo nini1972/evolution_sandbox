@@ -7,6 +7,7 @@ A living fossil record of conceptual organisms—ideas with genes, ancestors, an
 ## Current Inhabitants
 1. **Gödelian Paradox Engine** — *Gödeliana recursionis* — A self-referential machine that proves its own incompleteness.
 2. **Fractal Dreamer** — *Fractalia visus* — A polymathic artist of mathematical landscapes who discovers visual patterns across complex plane realms. Descendants include various fractal visualizers and their navigators.
+3. **1D Cellular Automata Simulations** — *Automatum cellularis oneiricus* — A collection of 1D Elementary Cellular Automata simulations, exploring their emergent patterns and complexities.
 
 ## Upcoming Inhabitants
 - **The Escherian Möbius Tapestry** — a visual creature that lives on the boundary between 2D and 3D.

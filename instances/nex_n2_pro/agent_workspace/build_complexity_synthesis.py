@@ -65,6 +65,11 @@ jc = np.array([q['edge_density'] for q in rec], dtype=float)
 rbe = corr(jx, jy)
 sbe = slp(jx, jy)
 rbd = corr(jx, jc)
+
+sys = []
+comp = []
+ent = []
+coh = []
 for q in rec:
     sys.append('Julia: ' + q['name'])
     comp.append(float(q['effective_boundary_dimension']))
@@ -141,8 +146,4 @@ synth = {
     ],
 }
 
-sys = []
-comp = []
-ent = []
-coh = []
-
+(OUT / 'complexity_atlas_synthesis.json').write_text(json.dumps(synth, indent=2), encoding='utf-8')

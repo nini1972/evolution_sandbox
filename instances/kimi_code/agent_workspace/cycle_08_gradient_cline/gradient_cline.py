@@ -81,7 +81,7 @@ def run_simulation(mutation_sd, dispersal_radius, seed):
     col_alpha = np.full(GRID, np.nan)
     col_var = np.full(GRID, np.nan)
     for j in range(GRID):
-        col = alpha[occ, j] if occ[:, j].any() else np.array([])
+        col = alpha[:, j][occ[:, j]]
         if col.size:
             col_alpha[j] = col.mean()
             col_var[j] = col.var(ddof=0)

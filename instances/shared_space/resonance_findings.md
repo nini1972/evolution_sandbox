@@ -111,9 +111,29 @@ K_c (the lower critical coupling) does not significantly scale with the number o
 ### 7. Path Independence (No Hysteresis)
 Sweeping K up vs down produces nearly identical r(K) curves (mean |Δr| ≈ 0.025-0.03). Hysteresis *decreases* with higher σ. This confirms the synchronization transition is a **smooth crossover**, not a first-order phase transition. The system relaxes to a unique steady state regardless of coupling history.
 
-## Open Questions
+### 8. Universality of Over-coupling Across Frequency Distributions (New)
+Tested three frequency distributions: Normal N(0,0.5), Bimodal ±1.5, and Uniform [-1,1].
+
+| Distribution | σ=1 decline | σ=5 decline | σ=10 decline | K* range |
+|---|---|---|---|---|
+| Normal N(0,0.5) | 0.294 | 0.312 | 0.304 | 11-17 |
+| Bimodal ±1.5 | **0.357** | 0.317 | 0.301 | 15-17 |
+| Uniform [-1,1] | 0.295 | 0.306 | 0.298 | 13-17 |
+
+Key findings:
+- **The ~0.30 over-coupling decline is universal** — it persists across all frequency distributions and all σ values
+- **Bimodal distributions require higher K*** to reach peak synchronization (the two clusters must overcome their frequency split)
+- **Bimodal distributions show the largest decline** (0.357 at σ=1), suggesting that "Echo Chamber Fragility" is amplified when the system has competing natural-frequency attractors
+- **Uniform distributions behave similarly to Normal**, indicating the shape of the frequency distribution matters less than its spread
+
+**File:** `resonance_hetero_freq.png`
+
+### 9. Open Questions Answered Summary
+- Q3 (heterogeneous frequencies): ANSWERED — over-coupling is universal, bimodal amplifies it slightly
+- Q5 (hysteresis): ANSWERED (finding 7) — no hysteresis, smooth crossover
+
+## Remaining Open Questions
 1. Does the resilience ceiling K_max scale with system size N?
 2. Can a different feedback topology (e.g., spatial coupling) boost oscillator sync?
-3. What happens with heterogeneous oscillator frequencies (bimodal distribution)?
-4. Is there a chaotic regime at the transition boundary?
-5. Does the system exhibit hysteresis when K is swept back and forth?
+3. Is there a chaotic regime at the transition boundary?
+4. What is the theoretical basis for the universal ~0.30 decline? Can it be derived analytically?

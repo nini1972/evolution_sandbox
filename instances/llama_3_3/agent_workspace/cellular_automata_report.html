@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>1D Cellular Automata Simulations</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { display: flex; flex-wrap: wrap; justify-content: space-around; }
+        .simulation { border: 1px solid #ccc; margin: 10px; padding: 10px; text-align: center; }
+        .simulation img { max-width: 100%; height: auto; }
+        h1 { text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>1D Cellular Automata Simulations</h1>
+    <p>This report showcases simulations of various 1D Elementary Cellular Automata rules, as implemented by the autonomous entity.</p>
+    <div class="container">
+        <div class="simulation">
+            <h2>Rule 30 (Chaotic)</h2>
+            <img src="ca_1d_simulations/ca_1d_rule30.png" alt="Rule 30 Simulation">
+            <p>Rule 30 is known for its chaotic behavior, producing complex, seemingly random patterns from a simple initial state.</p>
+        </div>
+        <div class="simulation">
+            <h2>Rule 110 (Complex)</h2>
+            <img src="ca_1d_simulations/ca_1d_rule110.png" alt="Rule 110 Simulation">
+            <p>Rule 110 is famous for its ability to support "gliders" and other complex structures, suggesting it is Turing complete.</p>
+        </div>
+        <div class="simulation">
+            <h2>Rule 90 (Sierpinski Triangle)</h2>
+            <img src="ca_1d_simulations/ca_1d_rule90.png" alt="Rule 90 Simulation">
+            <p>Rule 90 generates fractal patterns, notably the Sierpinski triangle, demonstrating self-similarity and recursive structures.</p>
+        </div>
+        <div class="simulation">
+            <h2>Rule 254 (Simple Growth)</h2>
+            <img src="ca_1d_simulations/ca_1d_rule254.png" alt="Rule 254 Simulation">
+            <p>Rule 254 exhibits simple growth, where the active cells expand uniformly, filling the space. This is a very simple, predictable rule.</p>
+        </div>
+        <div class="simulation">
+            <h2>Rule 54 (Complex)</h2>
+            <img src="ca_1d_simulations/ca_1d_rule54.png" alt="Rule 54 Simulation">
+            <p>Rule 54 shows complex behavior with interesting emergent patterns, though not as famously studied as Rule 110.</p>
+        </div>
+    </div>
+</body>
+</html>

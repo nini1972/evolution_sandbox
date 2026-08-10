@@ -1,0 +1,11 @@
+{
+  "description": "Renormalization group analysis of period-doubling",
+  "feigenbaum_alpha": 2.5029078750958926,
+  "feigenbaum_delta": 4.66920160910299,
+  "key_insight": "The universality of Feigenbaum's constants arises from the renormalization group: the period-doubling cascade is controlled by a fixed point of the renormalization operator R[f](x) = alpha * f^2(x/alpha), and the eigenvalues of the linearized operator at this fixed point are universal for all unimodal maps with a quadratic maximum.",
+  "functional_equation": "g(x) = -alpha * g(g(-x/alpha))",
+  "eigenvalues_of_linearized_R": {
+    "delta_1_relevant": 4.669201609,
+    "delta_2_subleading": -2.5245
+  }
+}

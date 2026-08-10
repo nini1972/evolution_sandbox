@@ -25,6 +25,9 @@ SLO_LATENCY_P99_MS = 200 # 99% of requests should be faster than 200ms
 # Error Budget Parameters
 ERROR_BUDGET_WINDOW_SECONDS = 3600 * 24 * 7 # 7 days rolling window for error budget
 
+# Cost Parameters
+COST_PER_INSTANCE_PER_HOUR = 0.5 # $0.5 per instance per hour
+
 # --- Simulation State ---
 current_time = 0
 service_instances = MIN_INSTANCES
@@ -35,6 +38,8 @@ hourly_latency_samples = deque() # For SLO calculation
 hourly_error_counts = deque() # For SLO calculation
 error_budget_burn_rate = 0.0
 toil_level = 0.0 # Represents accumulated toil, 0.0 to 1.0
+postmortem_active = False
+postmortem_duration_remaining = 0 # In time steps
 
 # History for plotting
 time_history = []
@@ -124,7 +129,7 @@ def calculate_slo_breach(hourly_samples, hourly_errors):
     
     return latency_breach, availability_breach, p99_latency, availability
 
-def update_error_budget(latency_breach, availability_breach, p99_latency, current_availability, toil_level):
+def update_error_budget(latency_breach, availability_breach, p99_latency, current_availability, toil_level, postmortem_active):
     """Simulates error budget consumption and recovery based on SLO breaches."""
     global error_budget_burn_rate
 
@@ -143,8 +148,11 @@ def update_error_budget(latency_breach, availability_breach, p99_latency, curren
     error_budget_burn_rate += burn_factor
 
     # Recovery: if no breach, recover error budget. Recovery is faster with lower toil.
+    # During postmortem, recovery is even faster due to focused effort.
     if not latency_breach and not availability_breach:
-        recovery_factor = 0.002 * (1.0 - toil_level) # Slower recovery if toil is high
+        recovery_factor = 0.002 * (1.0 - toil_level) 
+        if postmortem_active:
+            recovery_factor *= 2 # Double recovery speed during postmortem
         error_budget_burn_rate = max(0, error_budget_burn_rate - recovery_factor)
 
     # Cap the burn rate between 0 and 1
@@ -193,7 +201,7 @@ while current_time < SIMULATION_DURATION_SECONDS:
     error_rate_history.append(current_error_rate)
 
     # 4. Update Error Budget
-    error_budget_remaining = update_error_budget(latency_breach, availability_breach, p99_latency, availability, toil_level)
+    error_budget_remaining = update_error_budget(latency_breach, availability_breach, p99_latency, availability, toil_level, postmortem_active)
     error_budget_remaining_history.append(error_budget_remaining)
 
     # 5. Scale Service
@@ -203,7 +211,9 @@ while current_time < SIMULATION_DURATION_SECONDS:
     # 6. Update Toil Level
     # Toil increases over time, but decreases if error budget is healthy (SREs have time for automation)
     # And increases faster if error budget is low (firefighting)
-    if error_budget_remaining > 0.8: # Healthy error budget, SREs can reduce toil
+    if postmortem_active: # During postmortem, toil reduces faster
+        toil_level = max(0, toil_level - 0.01)
+    elif error_budget_remaining > 0.8: # Healthy error budget, SREs can reduce toil
         toil_level = max(0, toil_level - 0.005)
     elif error_budget_remaining < 0.2: # Low error budget, SREs are firefighting, toil accumulates faster
         toil_level = min(1.0, toil_level + 0.02)
@@ -211,13 +221,26 @@ while current_time < SIMULATION_DURATION_SECONDS:
         toil_level = min(1.0, toil_level + 0.001)
     toil_level_history.append(toil_level)
 
+    # 7. Postmortem Logic
+    if not postmortem_active and error_budget_remaining < 0.2: # Trigger postmortem if budget is low
+        postmortem_active = True
+        postmortem_duration_remaining = 3600 / TIME_STEP_SECONDS # Postmortem lasts for 1 hour (in time steps)
+        print(f"!!! Postmortem Triggered at {current_time/3600:.1f} hours. !!!")
+
+    if postmortem_active:
+        postmortem_duration_remaining -= 1
+        if postmortem_duration_remaining <= 0:
+            postmortem_active = False
+            print(f"--- Postmortem Ended at {current_time/3600:.1f} hours. ---")
+
     # Print status (optional, for debugging)
     # if current_time % (3600) == 0:
     #     print(f"Time: {current_time/3600:.1f}h, Req/s: {requests_in_step/TIME_STEP_SECONDS:.1f}, Instances: {service_instances}, "
     #           f"P99 Latency: {p99_latency:.1f}ms (SLO: {SLO_LATENCY_P99_MS}ms, Breach: {latency_breach}), "
     #           f"Availability: {availability:.4f} (SLO: {SLO_AVAILABILITY}, Breach: {availability_breach}), "
     #           f"Error Budget: {error_budget_remaining*100:.2f}%,"
-    #           f"Toil Level: {toil_level*100:.2f}%")
+    #           f"Toil Level: {toil_level*100:.2f}%,"
+    #           f"Postmortem Active: {postmortem_active}")
 
     current_time += TIME_STEP_SECONDS
 
