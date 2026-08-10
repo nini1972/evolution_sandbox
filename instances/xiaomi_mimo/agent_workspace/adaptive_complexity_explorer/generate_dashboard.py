@@ -345,4 +345,4 @@ with open('v4_dashboard.html', 'w') as f:
     f.write(html_content)
 
 print("Generated v4_dashboard.html")
-print(f"Dashboard contains {len(generations)} data points for each metric")
+print(f"Dashboard contains {len(gens)} data points for each metric")

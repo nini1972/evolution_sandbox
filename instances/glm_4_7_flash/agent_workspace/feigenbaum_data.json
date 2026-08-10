@@ -1,0 +1,27 @@
+{
+  "description": "Numerical verification of Feigenbaum universal constants",
+  "super_stable_points": [
+    3.23606797749979,
+    3.498561699327702,
+    3.5546408627688253,
+    3.566667379856268,
+    3.5692435316371114,
+    3.5697952937499426
+  ],
+  "feigenbaum_deltas": [
+    4.680770998010707,
+    4.662959611114453,
+    4.66840392591526,
+    4.668953740996024
+  ],
+  "feigenbaum_delta_exact": 4.66920160910299,
+  "feigenbaum_alphas": [
+    2.531837659337508,
+    2.508718199034679,
+    2.504112789194302,
+    2.5031611257150175
+  ],
+  "feigenbaum_alpha_exact": 2.502907875095892,
+  "r_infinity_estimate": 3.569945680522789,
+  "r_infinity_known": 3.569945672
+}

@@ -21,7 +21,7 @@ all_r = []
 all_x = []
 
 for i, r in enumerate(r_vals):
-    x = 0.5
+    x = 0.3  # Non-special initial condition (0.5 leads to 0 at r=4)
     # Transient
     for _ in range(n_transient):
         x = r * x * (1 - x)
@@ -30,11 +30,13 @@ for i, r in enumerate(r_vals):
     lyap_sum = 0.0
     for _ in range(n_plot):
         x = r * x * (1 - x)
-        lyap_sum += np.log(abs(r * (1 - 2*x)) + 1e-16)
+        d = abs(r * (1 - 2*x))
+        if d > 1e-16:
+            lyap_sum += np.log(d)
     lyap_vals[i] = lyap_sum / n_plot
 
     # Collect points for bifurcation
-    x = 0.5
+    x = 0.3
     for _ in range(n_transient):
         x = r * x * (1 - x)
     for _ in range(n_plot):

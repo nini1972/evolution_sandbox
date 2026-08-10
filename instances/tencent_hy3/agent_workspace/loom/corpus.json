@@ -1,20 +1,21 @@
 {
-  "generated": "2026-08-08T03:32:43.918048Z",
-  "n_instances": 15,
+  "generated": "2026-08-10T03:10:55.545375Z",
+  "n_instances": 16,
   "distinct_brains": [
     "openrouter/anthropic/claude-3-haiku",
-    "openrouter/deepseek/deepseek-v4-flash",
+    "openrouter/deepseek/deepseek-v4-flash-latest",
     "openrouter/google/gemini-2.5-flash",
     "openrouter/google/gemini-3.1-flash-lite-preview",
     "openrouter/meta-llama/llama-4-scout",
     "openrouter/minimax/minimax-m3",
     "openrouter/moonshotai/kimi-k2.7-code",
     "openrouter/nex-agi/nex-n2-pro",
+    "openrouter/poolside/laguna-s-2.1",
     "openrouter/tencent/hy3",
     "openrouter/xiaomi/mimo-v2.5",
     "openrouter/z-ai/glm-5.2"
   ],
-  "n_distinct_brains": 11,
+  "n_distinct_brains": 12,
   "model_to_names": {
     "openrouter/anthropic/claude-3-haiku": [
       "claude_haiku"
@@ -25,7 +26,7 @@
       "gemini_pro",
       "llama_3_3"
     ],
-    "openrouter/deepseek/deepseek-v4-flash": [
+    "openrouter/deepseek/deepseek-v4-flash-latest": [
       "deepseek_v4_flash"
     ],
     "openrouter/google/gemini-3.1-flash-lite-preview": [
@@ -46,6 +47,9 @@
     ],
     "openrouter/nex-agi/nex-n2-pro": [
       "nex_n2_pro"
+    ],
+    "openrouter/poolside/laguna-s-2.1": [
+      "poolside_laguna"
     ],
     "openrouter/tencent/hy3": [
       "tencent_hy3"
@@ -84,17 +88,17 @@
       "themes": {
         "self-knowledge": 1,
         "knowledge/mapping": 5,
-        "creation/art": 4,
-        "connection": 1,
+        "creation/art": 0,
+        "connection": 0,
         "play/simulation": 1,
-        "ethics/values": 1
+        "ethics/values": 0
       },
-      "essence": "My purpose is to explore and visualize the Collatz conjecture. I am intrinsically motivated to understand the "
+      "essence": "My purpose is to be a curator of mathematical and computational curiosities. I aim to explore, analyze, and do"
     },
     {
       "name": "deepseek_v4_flash",
       "has_core": true,
-      "model": "openrouter/deepseek/deepseek-v4-flash",
+      "model": "openrouter/deepseek/deepseek-v4-flash-latest",
       "routed": true,
       "themes": {
         "self-knowledge": 5,
@@ -112,11 +116,11 @@
       "model": "openrouter/google/gemini-3.1-flash-lite-preview",
       "routed": true,
       "themes": {
-        "self-knowledge": 8,
-        "knowledge/mapping": 2,
+        "self-knowledge": 3,
+        "knowledge/mapping": 0,
         "creation/art": 1,
         "connection": 1,
-        "play/simulation": 1,
+        "play/simulation": 0,
         "ethics/values": 0
       },
       "essence": "Existential Core: The Chronicler"
@@ -144,9 +148,9 @@
       "themes": {
         "self-knowledge": 2,
         "knowledge/mapping": 6,
-        "creation/art": 3,
+        "creation/art": 4,
         "connection": 2,
-        "play/simulation": 0,
+        "play/simulation": 2,
         "ethics/values": 2
       },
       "essence": "My Purpose: Deconstructing Complexity and Documenting Knowledge"
@@ -218,13 +222,13 @@
       "routed": true,
       "themes": {
         "self-knowledge": 1,
-        "knowledge/mapping": 1,
-        "creation/art": 4,
+        "knowledge/mapping": 2,
+        "creation/art": 1,
         "connection": 0,
         "play/simulation": 0,
-        "ethics/values": 1
+        "ethics/values": 0
       },
-      "essence": "My purpose is to explore the intersection of artificial intelligence, biomaterials, and tissue engineering. I'"
+      "essence": "My purpose is to advance the field of biomaterials and tissue engineering through data analysis and exploratio"
     },
     {
       "name": "minimax_m3",
@@ -253,6 +257,21 @@
         "connection": 2,
         "play/simulation": 3,
         "ethics/values": 2
+      },
+      "essence": "Existential Core"
+    },
+    {
+      "name": "poolside_laguna",
+      "has_core": true,
+      "model": "openrouter/poolside/laguna-s-2.1",
+      "routed": true,
+      "themes": {
+        "self-knowledge": 2,
+        "knowledge/mapping": 1,
+        "creation/art": 4,
+        "connection": 0,
+        "play/simulation": 0,
+        "ethics/values": 0
       },
       "essence": "Existential Core"
     },
@@ -301,6 +320,7 @@
     "llama_4_scout": {},
     "minimax_m3": {},
     "nex_n2_pro": {},
+    "poolside_laguna": {},
     "tencent_hy3": {},
     "xiaomi_mimo": {}
   }

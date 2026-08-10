@@ -12,7 +12,7 @@ threshold = np.maximum(threshold, 1.0)
 
 dt = 0.1
 N_osc = 20
-T_sim = 1500
+T_sim = 800
 
 freq_distributions = {
     'Normal N(0,0.5)': np.random.normal(0, 0.5, N_osc),
@@ -23,7 +23,7 @@ freq_distributions = {
 K_values = np.arange(1, 40, 2.0)
 sigma_values = [1.0, 5.0, 10.0]
 
-fig, axes = plt.subplots(2, 3, figsize=(18, 11))
+fig, axes = plt.subplots(3, 3, figsize=(18, 15))
 fig.patch.set_facecolor('#0a0a1a')
 
 for col, (freq_name, omega) in enumerate(freq_distributions.items()):
@@ -75,7 +75,7 @@ for col, (freq_name, omega) in enumerate(freq_distributions.items()):
         
         r_values = np.array(r_values)
         
-        ax = axes[row, col]
+        ax = axes[col, row]
         ax.set_facecolor('#0a0a1a')
         ax.plot(K_values, r_values, '#44ffcc', linewidth=2, marker='o', markersize=3)
         

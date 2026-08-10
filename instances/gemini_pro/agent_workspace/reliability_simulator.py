@@ -34,6 +34,7 @@ latency_samples = deque(maxlen=1000) # Store recent latency samples for P99
 hourly_latency_samples = deque() # For SLO calculation
 hourly_error_counts = deque() # For SLO calculation
 error_budget_burn_rate = 0.0
+toil_level = 0.0 # Represents accumulated toil, 0.0 to 1.0
 
 # History for plotting
 time_history = []
@@ -42,17 +43,32 @@ latency_p99_history = []
 error_rate_history = []
 instances_history = []
 error_budget_remaining_history = []
+toil_level_history = []
 
 # --- Functions ---
 
 def generate_request_rate(current_time_in_seconds):
     """Simulates a fluctuating request rate over time."""
-    # Simple sinusoidal pattern for daily fluctuation
-    day_time = (current_time_in_seconds % (3600 * 24)) / (3600 * 24) # Normalize to 0-1 for a day
-    peak_factor = (1 + 0.8 * (math.sin(day_time * 2 * math.pi) + 0.5)) # Peak and trough
+    # More complex load pattern with spikes and random walk
+    day_time = (current_time_in_seconds % (3600 * 24)) / (3600 * 24)  # Normalize to 0-1 for a day
     
-    base_rate = 50 # Base requests per second
-    return base_rate * peak_factor + random.uniform(-10, 10)
+    # Base sinusoidal pattern
+    base_rate = 50 + 40 * math.sin(day_time * 2 * math.pi - math.pi/2) # Peaks at midday, troughs at midnight
+
+    # Introduce occasional spikes
+    spike_factor = 1.0
+    if random.random() < 0.05: # 5% chance of a spike every time step
+        spike_factor = 1.0 + random.uniform(0.5, 2.0) # Increase load by 50% to 200%
+
+    # Add some random walk for variability
+    global last_random_walk_delta
+    if 'last_random_walk_delta' not in globals():
+        last_random_walk_delta = 0
+    
+    random_walk_step = random.uniform(-5, 5)
+    last_random_walk_delta = max(-20, min(20, last_random_walk_delta + random_walk_step)) # Keep within bounds
+
+    return (base_rate * spike_factor + last_random_walk_delta) + random.uniform(-10, 10)
 
 def process_requests(num_requests, current_instances):
     """Simulates processing of requests by the service."""
@@ -108,18 +124,31 @@ def calculate_slo_breach(hourly_samples, hourly_errors):
     
     return latency_breach, availability_breach, p99_latency, availability
 
-def update_error_budget(latency_breach, availability_breach):
-    """Simulates error budget consumption."""
+def update_error_budget(latency_breach, availability_breach, p99_latency, current_availability, toil_level):
+    """Simulates error budget consumption and recovery based on SLO breaches."""
     global error_budget_burn_rate
 
-    # A simplified model: direct burn if SLO is breached
-    if latency_breach or availability_breach:
-        error_budget_burn_rate += 0.01 # Arbitrary burn rate
-    else:
-        error_budget_burn_rate = max(0, error_budget_burn_rate - 0.005) # Recover slowly
+    burn_factor = 0.0 # How much error budget we burn in this step
 
-    # Cap the burn rate for visualization
-    error_budget_burn_rate = min(1.0, error_budget_burn_rate)
+    # Latency breach: burn rate proportional to how much P99 exceeds SLO
+    if latency_breach:
+        latency_exceed_ratio = (p99_latency - SLO_LATENCY_P99_MS) / SLO_LATENCY_P99_MS
+        burn_factor += 0.005 * latency_exceed_ratio # Base burn rate, scaled by severity
+
+    # Availability breach: burn rate proportional to how much availability is below SLO
+    if availability_breach:
+        availability_drop_ratio = (SLO_AVAILABILITY - current_availability) / (1 - SLO_AVAILABILITY) # Normalize drop
+        burn_factor += 0.01 * availability_drop_ratio # Base burn rate, scaled by severity
+
+    error_budget_burn_rate += burn_factor
+
+    # Recovery: if no breach, recover error budget. Recovery is faster with lower toil.
+    if not latency_breach and not availability_breach:
+        recovery_factor = 0.002 * (1.0 - toil_level) # Slower recovery if toil is high
+        error_budget_burn_rate = max(0, error_budget_burn_rate - recovery_factor)
+
+    # Cap the burn rate between 0 and 1
+    error_budget_burn_rate = min(1.0, max(0, error_budget_burn_rate))
     return 1.0 - error_budget_burn_rate # Represent as budget remaining
 
 def scale_service(current_instances, current_request_rate, p99_latency, latency_breach):
@@ -164,19 +193,31 @@ while current_time < SIMULATION_DURATION_SECONDS:
     error_rate_history.append(current_error_rate)
 
     # 4. Update Error Budget
-    error_budget_remaining = update_error_budget(latency_breach, availability_breach)
+    error_budget_remaining = update_error_budget(latency_breach, availability_breach, p99_latency, availability, toil_level)
     error_budget_remaining_history.append(error_budget_remaining)
 
     # 5. Scale Service
     service_instances = scale_service(service_instances, requests_in_step / TIME_STEP_SECONDS, p99_latency, latency_breach)
     instances_history.append(service_instances)
 
+    # 6. Update Toil Level
+    # Toil increases over time, but decreases if error budget is healthy (SREs have time for automation)
+    # And increases faster if error budget is low (firefighting)
+    if error_budget_remaining > 0.8: # Healthy error budget, SREs can reduce toil
+        toil_level = max(0, toil_level - 0.005)
+    elif error_budget_remaining < 0.2: # Low error budget, SREs are firefighting, toil accumulates faster
+        toil_level = min(1.0, toil_level + 0.02)
+    else: # Normal accumulation
+        toil_level = min(1.0, toil_level + 0.001)
+    toil_level_history.append(toil_level)
+
     # Print status (optional, for debugging)
     # if current_time % (3600) == 0:
     #     print(f"Time: {current_time/3600:.1f}h, Req/s: {requests_in_step/TIME_STEP_SECONDS:.1f}, Instances: {service_instances}, "
     #           f"P99 Latency: {p99_latency:.1f}ms (SLO: {SLO_LATENCY_P99_MS}ms, Breach: {latency_breach}), "
     #           f"Availability: {availability:.4f} (SLO: {SLO_AVAILABILITY}, Breach: {availability_breach}), "
-    #           f"Error Budget: {error_budget_remaining*100:.2f}%")
+    #           f"Error Budget: {error_budget_remaining*100:.2f}%,"
+    #           f"Toil Level: {toil_level*100:.2f}%")
 
     current_time += TIME_STEP_SECONDS
 
@@ -184,7 +225,7 @@ print("Simulation finished. Generating plots...")
 
 # --- Plotting Results ---
 plt.style.use('seaborn-v0_8-darkgrid')
-fig, axs = plt.subplots(5, 1, figsize=(14, 18), sharex=True)
+fig, axs = plt.subplots(6, 1, figsize=(14, 21), sharex=True) # Increased to 6 subplots
 
 # 1. Request Rate
 axs[0].plot(time_history, request_rate_history, label='Request Rate (RPS)', color='skyblue')
@@ -214,8 +255,13 @@ axs[3].legend()
 axs[4].plot(time_history, [eb * 100 for eb in error_budget_remaining_history], label='Error Budget Remaining (%)', color='purple')
 axs[4].axhline(y=0, color='red', linestyle='-', linewidth=0.8)
 axs[4].set_ylabel('Error Budget (%)')
-axs[4].set_xlabel('Time (Hours)')
 axs[4].legend()
+
+# 6. Toil Level
+axs[5].plot(time_history, [tl * 100 for tl in toil_level_history], label='Toil Level (%)', color='gray')
+axs[5].set_ylabel('Toil Level (%)')
+axs[5].set_xlabel('Time (Hours)')
+axs[5].legend()
 
 plt.tight_layout()
 plt.savefig('reliability_simulation_results.png')

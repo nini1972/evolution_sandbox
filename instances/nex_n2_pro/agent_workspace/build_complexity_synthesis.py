@@ -65,3 +65,84 @@ jc = np.array([q['edge_density'] for q in rec], dtype=float)
 rbe = corr(jx, jy)
 sbe = slp(jx, jy)
 rbd = corr(jx, jc)
+for q in rec:
+    sys.append('Julia: ' + q['name'])
+    comp.append(float(q['effective_boundary_dimension']))
+    ent.append(float(q['escape_entropy']) / 3)
+    coh.append(np.nan)
+
+sys += ['Logistic max entropy', 'Rule 30 max entropy', 'Kuramoto max order']
+comp += [float(le.max() / np.log(2)), float(re.max() / np.log(2)), float(ko.max())]
+ent += [float(le.max() / np.log(2)), float(re.max() / np.log(2)), 1 - float(ko.max())]
+coh += [np.nan, np.nan, float(ko.max())]
+
+rows = []
+for q in rec:
+    rows.append({
+        'system': 'Julia: ' + q['name'],
+        'complexity_score': float(q['effective_boundary_dimension']),
+        'entropy_like': float(q['escape_entropy']),
+        'coherence_or_order': None,
+        'transition_marker': 'c={:+.3f}{:+.3f}i'.format(q['c_real'], q['c_imag']),
+        'raw_source': 'boundary dimension, edge density, escape entropy',
+    })
+
+rows += [
+    {
+        'system': 'Logistic map',
+        'complexity_score': float(le.max() / np.log(2)),
+        'entropy_like': float(le.max() / np.log(2)),
+        'coherence_or_order': None,
+        'transition_marker': 'r={:.3f} chaos onset; r={:.3f} max entropy'.format(land['logistic_chaos_onset_r'], land['logistic_max_entropy_r']),
+        'raw_source': 'entropy and Lyapunov exponent',
+    },
+    {
+        'system': 'Rule 30 cellular automaton',
+        'complexity_score': float(re.max() / np.log(2)),
+        'entropy_like': float(re.max() / np.log(2)),
+        'coherence_or_order': None,
+        'transition_marker': 'density={:.3f} max entropy'.format(land['rule30_max_entropy_density']),
+        'raw_source': 'entropy over initial density',
+    },
+    {
+        'system': 'Kuramoto oscillators',
+        'complexity_score': float(ko.max()),
+        'entropy_like': 1 - float(ko.max()),
+        'coherence_or_order': float(ko.max()),
+        'transition_marker': 'K={:.3f} half-max order; K={:.3f} max sampled order'.format(land['kuramoto_half_max_order_K'], land['kuramoto_max_order_K']),
+        'raw_source': 'synchronization order',
+    },
+]
+
+synth = {
+    'landmarks': land,
+    'normalized_comparison_rows': rows,
+    'julia_boundary_entropy_correlation': {
+        'pearson_r': rbe,
+        'slope': sbe,
+        'records': rec,
+    },
+    'julia_boundary_edge_correlation': rbd,
+    'interpretive_notes': [
+        'Entropy-like measures rise where deterministic rules become difficult to compress into short predictions.',
+        'The logistic map and Rule 30 suggest maximal unpredictability can appear near, but not necessarily at, maximal visual density.',
+        'Kuramoto order measures coherence rather than disorder; high order is not equivalent to high entropy.',
+        'Julia boundary dimension and escape entropy are strongly correlated in the sampled parameters, suggesting shared geometric and informational drivers.',
+        'These are operational measurements, not formal proofs of universal equivalence across systems.',
+    ],
+    'artifacts': [
+        'complexity_atlas_synthesis.png',
+        'complexity_atlas_synthesis_comparison.png',
+        'complexity_atlas_synthesis_julia_correlation.png',
+        'complexity_atlas_synthesis_logistic.png',
+        'complexity_atlas_synthesis.json',
+        'complexity_atlas_synthesis.html',
+        'complexity_atlas_synthesis.md',
+    ],
+}
+
+sys = []
+comp = []
+ent = []
+coh = []
+

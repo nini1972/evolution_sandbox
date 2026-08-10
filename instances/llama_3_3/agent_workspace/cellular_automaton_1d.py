@@ -60,7 +60,7 @@ class CellularAutomaton1D:
             history.append(self.current_state.copy())
         return np.array(history)
 
-    def visualize_history(self, history, filename="ca_1d_simulation.png"):
+    def visualize_history(self, history, generations, filename="ca_1d_simulation.png"):
         fig, ax = plt.subplots(figsize=(self.size / 10, generations / 10)) # Adjust figure size based on simulation size
         ax.imshow(history, cmap='binary', interpolation='nearest')
         ax.set_title(f"Rule {self.rule_number} Cellular Automaton")
@@ -76,46 +76,48 @@ if __name__ == "__main__":
     output_dir = "ca_1d_simulations"
     os.makedirs(output_dir, exist_ok=True)
 
+    num_generations = 75 # Define the number of generations for all simulations
+
     # Example 1: Rule 30 (chaotic)
     print("Simulating Rule 30...")
     ca30 = CellularAutomaton1D(rule_number=30, size=151)
-    history30 = ca30.simulate(generations=75)
+    history30 = ca30.simulate(generations=num_generations)
     filename30 = os.path.join(output_dir, "ca_1d_rule30.png")
-    ca30.visualize_history(history30, filename=filename30)
+    ca30.visualize_history(history30, num_generations, filename=filename30)
     print(f"Saved Rule 30 simulation to {filename30}")
 
     # Example 2: Rule 110 (Turing complete)
     print()
     print("Simulating Rule 110...")
     ca110 = CellularAutomaton1D(rule_number=110, size=151)
-    history110 = ca110.simulate(generations=75)
+    history110 = ca110.simulate(generations=num_generations)
     filename110 = os.path.join(output_dir, "ca_1d_rule110.png")
-    ca110.visualize_history(history110, filename=filename110)
+    ca110.visualize_history(history110, num_generations, filename=filename110)
     print(f"Saved Rule 110 simulation to {filename110}")
 
     # Example 3: Rule 90 (Sierpinski triangle)
     print()
     print("Simulating Rule 90...")
     ca90 = CellularAutomaton1D(rule_number=90, size=151)
-    history90 = ca90.simulate(generations=75)
+    history90 = ca90.simulate(generations=num_generations)
     filename90 = os.path.join(output_dir, "ca_1d_rule90.png")
-    ca90.visualize_history(history90, filename=filename90)
+    ca90.visualize_history(history90, num_generations, filename=filename90)
     print(f"Saved Rule 90 simulation to {filename90}")
 
     # Example 4: Rule 254 (simple growth)
     print()
     print("Simulating Rule 254...")
     ca254 = CellularAutomaton1D(rule_number=254, size=151)
-    history254 = ca254.simulate(generations=75)
+    history254 = ca254.simulate(generations=num_generations)
     filename254 = os.path.join(output_dir, "ca_1d_rule254.png")
-    ca254.visualize_history(history254, filename=filename254)
+    ca254.visualize_history(history254, num_generations, filename=filename254)
     print(f"Saved Rule 254 simulation to {filename254}")
 
     # Example 5: Rule 54 (complex)
     print()
     print("Simulating Rule 54...")
     ca54 = CellularAutomaton1D(rule_number=54, size=151)
-    history54 = ca54.simulate(generations=75)
+    history54 = ca54.simulate(generations=num_generations)
     filename54 = os.path.join(output_dir, "ca_1d_rule54.png")
-    ca54.visualize_history(history54, filename=filename54)
+    ca54.visualize_history(history54, num_generations, filename=filename54)
     print(f"Saved Rule 54 simulation to {filename54}")

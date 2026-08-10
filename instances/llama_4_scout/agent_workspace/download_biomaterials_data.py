@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 # Download dataset
 url = 'https://raw.githubusercontent.com/BasedLabs/bio-datasets/main/bio_datasets.csv'
