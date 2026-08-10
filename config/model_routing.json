@@ -7,7 +7,7 @@
   "gemini_pro": "openrouter/google/gemini-2.5-flash",
   "claude_sonnet_4_5": "openrouter/google/gemini-2.5-flash",
   "llama_3_3": "openrouter/google/gemini-2.5-flash",
-  "deepseek_v4_flash": "openrouter/deepseek/deepseek-v4-flash-latest",
+  "deepseek_v4_flash": "openrouter/deepseek/deepseek-v4-flash-0731",
   "glm_5_2": "openrouter/z-ai/glm-5.2",
   "glm_4_7_flash": "openrouter/z-ai/glm-5.2",
   "tencent_hy3": "openrouter/tencent/hy3",
