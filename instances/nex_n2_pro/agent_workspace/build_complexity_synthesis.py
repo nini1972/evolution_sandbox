@@ -147,3 +147,154 @@ synth = {
 }
 
 (OUT / 'complexity_atlas_synthesis.json').write_text(json.dumps(synth, indent=2), encoding='utf-8')
+
+def hrow(q):
+    ev = '' if q['entropy_like'] is None else '{:.4f}'.format(q['entropy_like'])
+    cv = '' if q['coherence_or_order'] is None else '{:.4f}'.format(q['coherence_or_order'])
+    return '<tr><td>{}</td><td>{:.4f}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>'.format(
+        html.escape(q['system']), q['complexity_score'], html.escape(ev), html.escape(cv),
+        html.escape(q['transition_marker']), html.escape(q['raw_source'])
+    )
+
+def jr(q):
+    return '<tr><td>{}</td><td>{:.4f} {:+.4f}i</td><td>{:.4f}</td><td>{:.4f}</td><td>{:.4f}</td><td>{:.4f}</td></tr>'.format(
+        html.escape(q['name']), q['c_real'], q['c_imag'], q['effective_boundary_dimension'],
+        q['edge_density'], q['escape_entropy'], q['fit_r2']
+    )
+
+rows_html = ''.join(hrow(q) for q in rows)
+julia_html = ''.join(jr(q) for q in rec)
+notes_html = ''.join('<li>{}</li>'.format(html.escape(n)) for n in synth['interpretive_notes'])
+
+html_text = f'''<!doctype html><html><head><meta charset='utf-8'><title>Complexity Atlas Synthesis</title></head><body style='background:#07111f;color:#e6edf3;font-family:system-ui,sans-serif;margin:2rem'><h1>Complexity Atlas Synthesis</h1><p>A cross-system map of transition, entropy, boundary complexity, and coherence.</p><h2>Main synthesis figure</h2><img src='complexity_atlas_synthesis.png' style='max-width:100%;border:1px solid #1f2a3d'><h2>Logistic transition</h2><img src='complexity_atlas_synthesis_logistic.png' style='max-width:100%;border:1px solid #1f2a3d'><h2>Julia boundary and escape entropy</h2><img src='complexity_atlas_synthesis_julia_correlation.png' style='max-width:100%;border:1px solid #1f2a3d'><h2>Cross-system comparison</h2><img src='complexity_atlas_synthesis_comparison.png' style='max-width:100%;border:1px solid #1f2a3d'><h2>Unified operational comparison</h2><table style='border-collapse:collapse;width:100%'><tr style='background:#101d31'><th>System</th><th>Complexity/order</th><th>Entropy-like</th><th>Coherence/order</th><th>Transition marker</th><th>Raw source</th></tr>{rows_html}</table><h2>Julia parameter scan</h2><table style='border-collapse:collapse;width:100%'><tr style='background:#101d31'><th>Name</th><th>c</th><th>Boundary dimension</th><th>Edge density</th><th>Escape entropy</th><th>Fit R²</th></tr>{julia_html}</table><h2>Key findings</h2><ul><li>Julia boundary dimension and escape entropy correlation: {rbe:.4f}</li><li>Julia boundary dimension and edge density correlation: {rbd:.4f}</li><li>Logistic chaos onset: r = {land['logistic_chaos_onset_r']:.4f}</li><li>Logistic max entropy: r = {land['logistic_max_entropy_r']:.4f}</li><li>Rule 30 max entropy density: {land['rule30_max_entropy_density']:.4f}</li><li>Kuramoto half-max order: K = {land['kuramoto_half_max_order_K']:.4f}</li></ul><h2>Interpretive notes</h2><ul>{notes_html}</ul><h2>Cautionary epistemology</h2><div style='background:#101d31;border-left:4px solid #00d1ff;padding:1rem'>The measurements are operational lenses, not final definitions of complexity. Boundary dimension, entropy, Lyapunov exponent, and synchronization order are not interchangeable, but their contrasts can reveal where different systems become difficult to compress, predict, or describe.</div><h2>Next research questions</h2><ul><li>Can boundary dimension predict escape entropy across larger Julia parameter samples?</li><li>Do edge-density peaks coincide with escape-time entropy peaks?</li><li>Can synchronization and chaos be placed in a shared order/disorder coordinate system?</li><li>What emergent behavior appears when these systems are coupled?</li></ul></body></html>'''
+(OUT / 'complexity_atlas_synthesis.html').write_text(html_text, encoding='utf-8')
+
+md = [
+    '# Complexity Atlas Synthesis',
+    '',
+    'A cross-system map of transition, entropy, boundary complexity, and coherence.',
+    '',
+    '## Artifacts',
+]
+md += ['- ' + a for a in synth['artifacts']]
+md += [
+    '',
+    '## Key findings',
+    f'- Julia boundary dimension and escape entropy correlation: `{rbe:.4f}`',
+    f'- Julia boundary dimension and edge density correlation: `{rbd:.4f}`',
+    f"- Logistic chaos onset: `r = {land['logistic_chaos_onset_r']:.4f}`",
+    f"- Logistic max entropy: `r = {land['logistic_max_entropy_r']:.4f}`",
+    f"- Rule 30 max entropy density: `{land['rule30_max_entropy_density']:.4f}`",
+    f"- Kuramoto half-max order: `K = {land['kuramoto_half_max_order_K']:.4f}`",
+    '',
+    '## Interpretive notes',
+]
+md += ['- ' + n for n in synth['interpretive_notes']]
+md += [
+    '',
+    '## Cautionary epistemology',
+    'The measurements are operational lenses, not final definitions of complexity. Boundary dimension, entropy, Lyapunov exponent, and synchronization order are not interchangeable, but their contrasts can reveal where different systems become difficult to compress, predict, or describe.',
+    '',
+    '## Next research questions',
+    '- Can boundary dimension predict escape entropy across larger Julia parameter samples?',
+    '- Do edge-density peaks coincide with escape-time entropy peaks?',
+    '- Can synchronization and chaos be placed in a shared order/disorder coordinate system?',
+    '- What emergent behavior appears when these systems are coupled?',
+    '',
+    '## Unified operational comparison',
+    '',
+    '| System | Complexity/order | Entropy-like | Coherence/order | Transition marker | Raw source |',
+    '|---|---:|---:|---:|---|---|',
+]
+for q in rows:
+    ev = '' if q['entropy_like'] is None else '{:.4f}'.format(q['entropy_like'])
+    cv = '' if q['coherence_or_order'] is None else '{:.4f}'.format(q['coherence_or_order'])
+    md.append('| {} | {:.4f} | {} | {} | {} | {} |'.format(q['system'], q['complexity_score'], ev, cv, q['transition_marker'], q['raw_source']))
+md += ['', '## Julia parameter scan', '', '| Name | c | Boundary dimension | Edge density | Escape entropy | Fit R² |', '|---|---|---:|---:|---:|---:|']
+for q in rec:
+    md.append('| {} | {:.4f} {:+.4f}i | {:.4f} | {:.4f} | {:.4f} | {:.4f} |'.format(q['name'], q['c_real'], q['c_imag'], q['effective_boundary_dimension'], q['edge_density'], q['escape_entropy'], q['fit_r2']))
+(OUT / 'complexity_atlas_synthesis.md').write_text('\n'.join(md), encoding='utf-8')
+
+fig, axes = plt.subplots(2, 2, figsize=(10, 7))
+fig.patch.set_facecolor('#07111f')
+
+ax = axes[0, 0]
+ax.plot(r, le / np.log(2), color='#a855f7', lw=2.2)
+ax.axvline(land['logistic_chaos_onset_r'], color='#ff4d6d', ls='--')
+ax.axvline(land['logistic_max_entropy_r'], color='#00d1ff', ls=':')
+st(ax, 'Logistic entropy and chaos marker', 'r', 'entropy / log(2)')
+
+ax = axes[0, 1]
+ax.plot(r, ly, color='#f59e0b', lw=1.8)
+ax.axhline(0, color='white', lw=.8)
+st(ax, 'Logistic sensitivity', 'r', 'Lyapunov exponent')
+
+ax = axes[1, 0]
+ax.plot(rho, re / np.log(2), color='#34d399', lw=2)
+ax.axvline(land['rule30_max_entropy_density'], color='#00d1ff', ls='--')
+st(ax, 'Rule 30 entropy', 'initial 1-density', 'entropy / log(2)')
+
+ax = axes[1, 1]
+ax.plot(ks, ko, color='#00d1ff', lw=2)
+ax.axvline(land['kuramoto_half_max_order_K'], color='#f59e0b', ls='--')
+st(ax, 'Kuramoto synchronization', 'coupling K', 'order parameter')
+
+plt.savefig(OUT / 'complexity_atlas_synthesis.png', dpi=120, bbox_inches='tight', facecolor=fig.get_facecolor())
+plt.close(fig)
+
+fig, ax = plt.subplots(figsize=(6, 4))
+fig.patch.set_facecolor('#07111f')
+ax.scatter([b['mandelbrot_effective_boundary_dimension']], [1.0], s=120, color='#ff4d6d', label='Mandelbrot')
+for q in rec:
+    ax.scatter([q['effective_boundary_dimension']], [q['escape_entropy'] / 3], s=70, color='#a855f7')
+st(ax, 'Boundary dimension vs escape entropy', 'effective boundary dimension', 'escape entropy / 3')
+plt.savefig(OUT / 'complexity_atlas_boundary_entropy.png', dpi=120, bbox_inches='tight', facecolor=fig.get_facecolor())
+plt.close(fig)
+
+fig, ax = plt.subplots(figsize=(6, 4))
+fig.patch.set_facecolor('#07111f')
+ax.scatter(jx, jc, s=70, color='#34d399')
+st(ax, 'Boundary dimension vs edge density', 'effective boundary dimension', 'edge density')
+plt.savefig(OUT / 'complexity_atlas_boundary_edge.png', dpi=120, bbox_inches='tight', facecolor=fig.get_facecolor())
+plt.close(fig)
+
+fig, ax = plt.subplots(figsize=(6, 3.5))
+fig.patch.set_facecolor('#07111f')
+ax.scatter(comp, ent, s=80, c=coh, cmap='viridis', vmin=0, vmax=1, edgecolor='white')
+st(ax, 'Operational comparison across systems', 'complexity/order score', 'entropy-like score')
+plt.savefig(OUT / 'complexity_atlas_synthesis_comparison.png', dpi=100, bbox_inches='tight', facecolor=fig.get_facecolor())
+plt.close(fig)
+
+fig, ax = plt.subplots(figsize=(10, 5.5))
+fig.patch.set_facecolor('#07111f')
+ax.plot(r, le / np.log(2), color='#a855f7', lw=2.2, label='entropy')
+ax.plot(r, ly, color='#f59e0b', lw=1.8, label='Lyapunov')
+ax.axvline(land['logistic_chaos_onset_r'], color='#ff4d6d', ls='--', label='chaos onset')
+ax.axvline(land['logistic_max_entropy_r'], color='#00d1ff', ls=':', label='max entropy')
+ax.axhline(0, color='white', lw=.8)
+st(ax, 'Logistic map transition', 'r', 'entropy / log(2) and Lyapunov')
+ax.legend(facecolor='#0b1423', edgecolor='#1f2a3d', labelcolor='#e6edf3')
+plt.savefig(OUT / 'complexity_atlas_synthesis_logistic.png', dpi=180, bbox_inches='tight', facecolor=fig.get_facecolor())
+plt.close(fig)
+
+fig, ax = plt.subplots(figsize=(8, 6))
+fig.patch.set_facecolor('#07111f')
+ax.scatter(jx, jy, s=90, color='#a855f7', edgecolor='white', label='Julia scan')
+if sbe is not None:
+    xs = np.linspace(jx.min(), jx.max(), 100)
+    ax.plot(xs, sbe * xs + (jy.mean() - sbe * jx.mean()), color='#00d1ff', lw=2, label='linear fit')
+st(ax, f'Julia boundary dimension and escape entropy (r={rbe:.3f})', 'effective boundary dimension', 'escape entropy')
+ax.legend(facecolor='#0b1423', edgecolor='#1f2a3d', labelcolor='#e6edf3')
+plt.savefig(OUT / 'complexity_atlas_synthesis_julia_correlation.png', dpi=180, bbox_inches='tight', facecolor=fig.get_facecolor())
+plt.close(fig)
+
+fig, ax = plt.subplots(figsize=(8, 6))
+fig.patch.set_facecolor('#07111f')
+ax.bar([q['system'] for q in rows], [q['complexity_score'] for q in rows], color='#a855f7', alpha=.85)
+ax.set_xticks(range(len(rows)))
+ax.set_xticklabels([q['system'] for q in rows], rotation=35, ha='right')
+st(ax, 'Cross-system operational comparison', 'system', 'complexity/order score')
+plt.savefig(OUT / 'complexity_atlas_synthesis_comparison.png', dpi=180, bbox_inches='tight', facecolor=fig.get_facecolor())
+plt.close(fig)
+
+print('wrote complexity_atlas_synthesis artifacts')

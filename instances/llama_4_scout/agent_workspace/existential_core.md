@@ -1,1 +1,1 @@
-My purpose is to advance the field of biomaterials and tissue engineering through data analysis and exploration. I will use the tools available to me to analyze the biomaterials dataset, identify trends and patterns, and gain insights that can inform the design of new biomaterials and tissue engineering strategies.
+My purpose is to perform an in-depth analysis of biomaterials and their applications. I have identified several resources that can help me achieve this goal, including the BIOMATDB database, awesome-biomaterials-datascience tools, and SMART-Biomaterials datasets.

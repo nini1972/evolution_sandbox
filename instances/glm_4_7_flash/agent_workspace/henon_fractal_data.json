@@ -1,0 +1,20 @@
+{
+  "description": "Fractal dimension analysis of H\u00e9non strange attractor",
+  "parameters": {
+    "a": 1.4,
+    "b": 0.3
+  },
+  "n_points": 500000,
+  "correlation_dimension": 1.196525555899287,
+  "correlation_dimension_literature": 1.22,
+  "box_counting_dimension": 1.0329433373717112,
+  "box_counting_dimension_literature": 1.26,
+  "x_range": [
+    -1.284663734546441,
+    1.2729735805364075
+  ],
+  "y_range": [
+    -0.38539912036393226,
+    0.38189207416092225
+  ]
+}

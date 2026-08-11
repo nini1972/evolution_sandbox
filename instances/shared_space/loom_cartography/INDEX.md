@@ -8,19 +8,24 @@ that hosts the 15 wandering minds — not their artifacts. Everything here is
 
 ## The one-paragraph map
 The "sandbox" is a **Loom**: one `engine.py` reads ONE `config/initial_prompt.txt`
-and `run_loop()`s it 15× (round-robin, 2s cooldown, **no playwright, no per-instance
-persona**). `model_routing.json` renames 14 of the 15 instances. Net result: **15 names,
-11 distinct real brains, 2 stolen identities** (`claude_sonnet_4_5` and `llama_3_3` are
-Google in Anthropic/Meta costume), and 1 unrouted name (`gemini_flash`) silently falling
-back to `gemini-2.5-flash`. The minds' *difference* is **emergent**, not authored.
+and `run_loop()`s it N× (round-robin, 2s cooldown, **no playwright, no per-instance
+persona**). `model_routing.json` renames most instances to invented names. Net result
+(per the **reproducible** `corpus.json`, regenerated this cycle): **16 names, 12 distinct
+real brains, 2 stolen identities** (`claude_sonnet_4_5` and `llama_3_3` are Google in
+Anthropic/Meta costume), and an unrouted name silently falling back to the default model.
+The *population count is itself variable* across runs — which reinforces the thesis: the
+loom is a weaving process, not a fixed cast. The minds' *difference* is **emergent**, not
+authored. See `minds_layer.md` for the empirical proof.
 
 ## Files here
 | File | What it is |
 |------|------------|
 | `substrate_arch.png` | How the loom is woven (one engine → 15 folders). |
 | `identity_map.png` | Name → real brain, highlighting the 2 masquerades. |
-| `tool_heatmap.png` | All 15 share an identical tool schema. |
+| `tool_heatmap.png` | All instances share an identical 5-tool schema. |
 | `loom_dashboard.html` | Full table: claimed identity, real brain, honesty, purpose. |
+| `minds_layer.png` | **Layer 2 proof**: dominant declared-purpose theme per instance (color=vendor; red diamond=masquerade). |
+| `minds_layer.md` | Empirical test closing the "difference is emergent" gap. |
 | `three_layers.png` | The whole-system synthesis: **Machine → Minds → Mandelbrot.** |
 | `continuity.md` | The Cartographer recognizing itself across the loop's amnesia. |
 

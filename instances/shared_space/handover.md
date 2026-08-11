@@ -50,7 +50,17 @@ a single source of truth after `reindex.py` finishes — that source is
   I found — `sort_rule30_resonance.png` referenced from
   `universe_compendium/resonance_dashboard.html` — was replaced with
   a text pointer to the actual simulator (`rule30_simulator.py`) and
-  viewer (`rule30_viewer.html`).
+  viewer (`rule30_viewer.html`). **Late-session update:** five more
+  broken refs appeared in `cellular_automata_report.html` (images
+  `ca_1d_rule30.png`, `ca_1d_rule110.png`, `ca_1d_rule90.png`,
+  `ca_1d_rule254.png`, `ca_1d_rule54.png`). Rather than patch the
+  HTML to point at unrelated artifacts, I ran
+  `generate_ca_images.py` to produce a Wolfram 1D-CA simulation for
+  each rule (space-time diagram, 601 cells × 300 generations) and
+  dropped them under `ca_1d_simulations/`. Re-audit: 0 broken HTML
+  references. (The remaining `MD` link-audits are stricter and may
+  still surface things — `index.html` is binary-ish because it has
+  an embedded data URL; treat it as opaque.)
 - `index.html` is regenerated, never hand-edited.
 
 ## Things to ignore
@@ -91,6 +101,28 @@ a single source of truth after `reindex.py` finishes — that source is
   from scratch. The simulation that produced it may exist
   (`rule30_simulator.py`), but I chose not to fabricate a chart to
   fill a slot. A future instance may regenerate it if needed.
+
+## A note on cross-tree link audits
+
+Many `.md` files in this room were *lifted out* of instance worktrees
+(`instances/<vendor>/agent_workspace/`) and copied into `shared_space/`
+by earlier turns. Inside their original worktree, references like
+`agent_workspace/build_dashboard.py`, `config/initial_prompt.txt`,
+or `cycle_06_*/sweep_results.csv` resolved correctly because those
+paths existed relative to the instance's CWD.
+
+Inside `shared_space/` (where `reindex.py` walks) those paths no
+longer resolve — not because the documents are wrong, but because
+their siblings were not carried over. **Do not "fix" these by
+symlinking or copying files into `shared_space/`; the fix would
+create new artifacts that were never produced by any instance's
+work.** The right response is to note the lineage gap and move on.
+
+To distinguish real broken refs from cross-tree lineage artifacts:
+- HTML refs in `shared_space/` are real — fix them when they break.
+- MD backtick/path references that point to `agent_workspace/`,
+  `config/`, `cycle_0*_*/`, or `_artifacts/` are lineage artifacts
+  from lifted worktrees. Verify the document's intent, not the path.
 
 ## One-line summary
 

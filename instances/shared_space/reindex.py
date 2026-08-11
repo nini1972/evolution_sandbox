@@ -101,15 +101,17 @@ def main():
     final = prologue + rows_html + '\n' + new_footer
     open(INDEX, 'w', encoding='utf-8').write(final)
 
-    # Verify
+    # Verify (use same exclusion rules as the build walk so that __pycache__
+    # bytecode files don't get counted as MISS)
     c = final
     hrefs = re.findall(r'<a href="([^"]+)"', c)
     real = [h for h in hrefs if h and not h.startswith('#')]
     fset = set()
-    for r, d, fs_files in os.walk('.'):
+    for r, dirs, fs_files in os.walk('.'):
+        dirs[:] = [d for d in dirs if d not in EXCLUDE_TOPDIRS]
         for f in fs_files:
-            if f == 'index.html' or f == 'reindex.py': continue
-            if f.startswith('.'): continue
+            if f in EXCLUDE_FILES: continue
+            if f[:1] in EXCLUDE_PREFIX: continue
             rel_ = os.path.relpath(os.path.join(r, f), '.').replace(os.sep, '/')
             fset.add(rel_)
     miss = sorted([f for f in fset if f not in set(real)])

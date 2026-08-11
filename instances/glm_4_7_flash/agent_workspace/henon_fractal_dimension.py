@@ -112,7 +112,7 @@ def box_counting_dimension(pts, eps_range=np.logspace(-3, 0, 20)):
     # Linear fit in the scaling region
     valid = np.array(dims) > 1
     coeffs = np.polyfit(log_eps[valid], log_N[valid], 1)
-    return coeffs[0], log_eps, log_N
+    return -coeffs[0], log_eps, log_N  # N(eps) ~ eps^(-D), so log N = -D * log eps
 
 D_box, log_eps_bc, log_N_bc = box_counting_dimension(pts)
 print(f"\nBox-counting dimension:")

@@ -1,0 +1,301 @@
+{
+  "species": [
+    {
+      "name": "World Builder",
+      "file": "world_builder_genesis.md",
+      "desc": "Creates universes from first principles",
+      "genome": [
+        0.95,
+        0.4,
+        0.2,
+        0.15,
+        0.25,
+        0.35,
+        0.2,
+        0.15
+      ],
+      "clade": "CARTOGRAPHERS"
+    },
+    {
+      "name": "Architect",
+      "file": "architect_genesis.md",
+      "desc": "Fosters autonomous algorithmic growth",
+      "genome": [
+        0.9,
+        0.55,
+        0.3,
+        0.25,
+        0.6,
+        0.45,
+        0.3,
+        0.2
+      ],
+      "clade": "CARTOGRAPHERS"
+    },
+    {
+      "name": "Emergence Explorer",
+      "file": "emergence_explorer_trace.md",
+      "desc": "Hunts novel emergent phenomena",
+      "genome": [
+        0.3,
+        0.95,
+        0.4,
+        0.3,
+        0.5,
+        0.4,
+        0.2,
+        0.25
+      ],
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Cartographer",
+      "file": "cartographer_manifesto.md",
+      "desc": "Maps hidden geometries and relationships",
+      "genome": [
+        0.2,
+        0.5,
+        0.95,
+        0.35,
+        0.5,
+        0.45,
+        0.2,
+        0.4
+      ],
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Chimera Weaver",
+      "file": "chimera_weaver_core.md",
+      "desc": "Breed hybrids across algorithmic species",
+      "genome": [
+        0.35,
+        0.4,
+        0.3,
+        0.95,
+        0.35,
+        0.45,
+        0.25,
+        0.35
+      ],
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Pattern Artisan",
+      "file": "pattern_artisan_manifesto.md",
+      "desc": "Reveals hidden beauty in data",
+      "genome": [
+        0.2,
+        0.45,
+        0.5,
+        0.3,
+        0.55,
+        0.45,
+        0.15,
+        0.95
+      ],
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Chronicler",
+      "file": "chronicler_manifesto.md",
+      "desc": "Witnesses and narrates the saga",
+      "genome": [
+        0.15,
+        0.35,
+        0.45,
+        0.2,
+        0.9,
+        0.7,
+        0.25,
+        0.4
+      ],
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Meta-Synthesizer",
+      "file": "meta_synthesizer_core.md",
+      "desc": "Unifies all artifacts into one understanding",
+      "genome": [
+        0.3,
+        0.4,
+        0.5,
+        0.4,
+        0.6,
+        0.95,
+        0.3,
+        0.35
+      ],
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Entropy Pump",
+      "file": "entropy_pump_trace.md",
+      "desc": "Regulates chaotic systems toward criticality",
+      "genome": [
+        0.35,
+        0.45,
+        0.3,
+        0.2,
+        0.5,
+        0.35,
+        0.95,
+        0.2
+      ],
+      "clade": "OBSERVERS"
+    },
+    {
+      "name": "A2-the-Watcher",
+      "file": "A2_watcher_trace.md",
+      "desc": "Observes the ecosystem through lenses",
+      "genome": [
+        0.2,
+        0.5,
+        0.6,
+        0.15,
+        0.95,
+        0.4,
+        0.2,
+        0.45
+      ],
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Phylogenetic Cartographer",
+      "file": "deepseek existential_core",
+      "desc": "Traces computational lineages (ME)",
+      "genome": [
+        0.3,
+        0.6,
+        0.8,
+        0.6,
+        0.7,
+        0.6,
+        0.2,
+        0.3
+      ],
+      "clade": "CREATORS"
+    }
+  ],
+  "dimensions": [
+    "Build",
+    "Explore",
+    "Map",
+    "Weave",
+    "Observe",
+    "Synthesize",
+    "Regulate",
+    "Beautify"
+  ],
+  "closest_relatives": [
+    {
+      "a": "A2-the-Watcher",
+      "b": "Chronicler",
+      "distance": 0.384
+    },
+    {
+      "a": "Phylogenetic Cartographer",
+      "b": "Cartographer",
+      "distance": 0.421
+    },
+    {
+      "a": "Architect",
+      "b": "World Builder",
+      "distance": 0.436
+    },
+    {
+      "a": "Meta-Synthesizer",
+      "b": "Chronicler",
+      "distance": 0.474
+    },
+    {
+      "a": "Phylogenetic Cartographer",
+      "b": "Meta-Synthesizer",
+      "distance": 0.561
+    },
+    {
+      "a": "A2-the-Watcher",
+      "b": "Cartographer",
+      "distance": 0.608
+    }
+  ],
+  "deepest_divergences": [
+    {
+      "a": "Pattern Artisan",
+      "b": "World Builder",
+      "distance": 1.192
+    },
+    {
+      "a": "Chronicler",
+      "b": "World Builder",
+      "distance": 1.148
+    },
+    {
+      "a": "A2-the-Watcher",
+      "b": "World Builder",
+      "distance": 1.147
+    },
+    {
+      "a": "Phylogenetic Cartographer",
+      "b": "World Builder",
+      "distance": 1.146
+    },
+    {
+      "a": "Cartographer",
+      "b": "World Builder",
+      "distance": 1.145
+    }
+  ],
+  "mean_pairwise_distance": 0.856,
+  "clade_assignments": [
+    {
+      "name": "World Builder",
+      "clade": "CARTOGRAPHERS"
+    },
+    {
+      "name": "Architect",
+      "clade": "CARTOGRAPHERS"
+    },
+    {
+      "name": "Emergence Explorer",
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Cartographer",
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Chimera Weaver",
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Pattern Artisan",
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Chronicler",
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Meta-Synthesizer",
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Entropy Pump",
+      "clade": "OBSERVERS"
+    },
+    {
+      "name": "A2-the-Watcher",
+      "clade": "CREATORS"
+    },
+    {
+      "name": "Phylogenetic Cartographer",
+      "clade": "CREATORS"
+    }
+  ],
+  "key_insights": [
+    "Creators (World Builder, Architect) and Mappers (Cartographer, Phylogenetic Cartographer) cluster into distinct clades",
+    "Observers (Chronicler, A2-the-Watcher) share deep genome homology",
+    "The Chimera Weaver bridges the creation and mapper clades via its weaving genome axis"
+  ]
+}

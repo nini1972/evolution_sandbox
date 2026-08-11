@@ -28,6 +28,17 @@ ERROR_BUDGET_WINDOW_SECONDS = 3600 * 24 * 7 # 7 days rolling window for error bu
 # Cost Parameters
 COST_PER_INSTANCE_PER_HOUR = 0.5 # $0.5 per instance per hour
 
+# Chaos Engineering Parameters
+CHAOS_INJECTION_INTERVAL_SECONDS = 600 # Attempt chaos every 10 minutes
+CHAOS_INSTANCE_FAILURE_CHANCE = 0.3 # 30% chance of an instance failing during an interval
+CHAOS_FAILURE_DURATION_SECONDS = 300 # An instance remains failed for 5 minutes
+
+# Game Day Parameters
+GAME_DAY_INTERVAL_SECONDS = 7 * 24 * 3600 # Every 7 days
+GAME_DAY_DURATION_SECONDS = 4 * 3600 # 4 hours
+GAME_DAY_DETECTION_TIME_SECONDS = 0.5 * 3600 # 30 minutes to detect an issue
+GAME_DAY_RECOVERY_MULTIPLIER = 2 # Error budget recovers and toil reduces twice as fast during Game Day
+
 # --- Simulation State ---
 current_time = 0
 service_instances = MIN_INSTANCES
@@ -40,6 +51,12 @@ error_budget_burn_rate = 0.0
 toil_level = 0.0 # Represents accumulated toil, 0.0 to 1.0
 postmortem_active = False
 postmortem_duration_remaining = 0 # In time steps
+cumulative_cost = 0.0
+failed_instances = [] # List of {'instance_id': X, 'recovery_time': Y}
+last_chaos_injection_time = 0
+game_day_active = False
+game_day_duration_remaining = 0
+last_game_day_time = 0
 
 # History for plotting
 time_history = []
@@ -49,6 +66,7 @@ error_rate_history = []
 instances_history = []
 error_budget_remaining_history = []
 toil_level_history = []
+cumulative_cost_history = []
 
 # --- Functions ---
 
@@ -75,7 +93,7 @@ def generate_request_rate(current_time_in_seconds):
 
     return (base_rate * spike_factor + last_random_walk_delta) + random.uniform(-10, 10)
 
-def process_requests(num_requests, current_instances):
+def process_requests(num_requests, current_available_instances):
     """Simulates processing of requests by the service."""
     global total_requests_processed, total_successful_requests
 
@@ -83,11 +101,14 @@ def process_requests(num_requests, current_instances):
     errors = 0
     current_latencies = []
 
+    if current_available_instances == 0: # If no instances are available, all requests fail
+        return 0, num_requests, []
+
     for _ in range(int(num_requests)):
         total_requests_processed += 1
         
         # Simulate load impact on latency and error rate
-        load_factor = num_requests / (current_instances * INSTANCE_CAPACITY_RPS)
+        load_factor = num_requests / (current_available_instances * INSTANCE_CAPACITY_RPS)
         
         # Latency increases with load
         latency = BASE_LATENCY_MS + LATENCY_VARIANCE_MS * random.gauss(1, 0.2) * load_factor
@@ -148,11 +169,15 @@ def update_error_budget(latency_breach, availability_breach, p99_latency, curren
     error_budget_burn_rate += burn_factor
 
     # Recovery: if no breach, recover error budget. Recovery is faster with lower toil.
-    # During postmortem, recovery is even faster due to focused effort.
+    # During postmortem and Game Day, recovery is even faster due to focused effort.
+    recovery_multiplier = 1.0
+    if postmortem_active:
+        recovery_multiplier *= 2 # Double recovery speed during postmortem
+    if game_day_active: # Game Day also provides focused effort
+        recovery_multiplier *= GAME_DAY_RECOVERY_MULTIPLIER
+
     if not latency_breach and not availability_breach:
-        recovery_factor = 0.002 * (1.0 - toil_level) 
-        if postmortem_active:
-            recovery_factor *= 2 # Double recovery speed during postmortem
+        recovery_factor = 0.002 * (1.0 - toil_level) * recovery_multiplier
         error_budget_burn_rate = max(0, error_budget_burn_rate - recovery_factor)
 
     # Cap the burn rate between 0 and 1
@@ -172,6 +197,55 @@ def scale_service(current_instances, current_request_rate, p99_latency, latency_
     
     return new_instances
 
+def chaos_monkey(current_time, service_instances_count):
+    global failed_instances, last_chaos_injection_time
+
+    # Recover failed instances
+    failed_instances = [f for f in failed_instances if f['recovery_time'] > current_time]
+
+    # Inject new chaos
+    if current_time - last_chaos_injection_time >= CHAOS_INJECTION_INTERVAL_SECONDS:
+        last_chaos_injection_time = current_time
+        if random.random() < CHAOS_INSTANCE_FAILURE_CHANCE: # Check if chaos should be injected this interval
+            available_for_failure = service_instances_count - len(failed_instances)
+            if available_for_failure > MIN_INSTANCES: # Ensure we don't fail below MIN_INSTANCES
+                # Pick a random instance to fail. Assuming instance_id is just its index for simplicity.
+                # In a real system, you'd pick a specific instance ID.
+                
+                # Create a list of currently active instance IDs that are not already failed
+                active_instance_ids = set(range(service_instances_count))
+                currently_failed_ids = {f['instance_id'] for f in failed_instances}
+                eligible_for_failure = list(active_instance_ids - currently_failed_ids)
+
+                if eligible_for_failure: # If there are instances that can be failed
+                    instance_to_fail = random.choice(eligible_for_failure)
+                    recovery_time = current_time + CHAOS_FAILURE_DURATION_SECONDS
+                    failed_instances.append({'instance_id': instance_to_fail, 'recovery_time': recovery_time})
+                    print(f"!!! CHAOS: Instance {instance_to_fail} failed at {current_time/3600:.1f}h, recovering at {recovery_time/3600:.1f}h !!!")
+
+    return service_instances_count - len(failed_instances)
+
+def game_day_manager(current_time):
+    global game_day_active, game_day_duration_remaining, last_game_day_time, BASE_LATENCY_MS
+
+    # End Game Day if duration is over
+    if game_day_active and game_day_duration_remaining <= 0:
+        game_day_active = False
+        BASE_LATENCY_MS = 50 # Reset to normal
+        print(f"--- Game Day Ended at {current_time/3600:.1f} hours. ---")
+
+    # Start new Game Day
+    if not game_day_active and (current_time - last_game_day_time) >= GAME_DAY_INTERVAL_SECONDS:
+        game_day_active = True
+        last_game_day_time = current_time
+        game_day_duration_remaining = GAME_DAY_DURATION_SECONDS
+        BASE_LATENCY_MS = 300 # Simulate a severe latency issue during Game Day
+        print(f"!!! Game Day Started at {current_time/3600:.1f} hours. !!!")
+    
+    if game_day_active:
+        game_day_duration_remaining -= TIME_STEP_SECONDS
+
+
 # --- Simulation Loop ---
 print("Starting Cloud-Native Service Reliability Simulation...")
 
@@ -182,8 +256,14 @@ while current_time < SIMULATION_DURATION_SECONDS:
     requests_in_step = generate_request_rate(current_time) * TIME_STEP_SECONDS
     request_rate_history.append(requests_in_step / TIME_STEP_SECONDS) # Store RPS
 
-    # 2. Process Requests
-    successful, errors, latencies = process_requests(requests_in_step, service_instances)
+    # 2. Inject Chaos and Determine Available Instances
+    available_instances = chaos_monkey(current_time, service_instances)
+
+    # 3. Manage Game Days
+    game_day_manager(current_time)
+    
+    # 4. Process Requests
+    successful, errors, latencies = process_requests(requests_in_step, available_instances)
     
     # Update hourly samples for SLO calculation
     hourly_error_counts.append(errors)
@@ -204,17 +284,23 @@ while current_time < SIMULATION_DURATION_SECONDS:
     error_budget_remaining = update_error_budget(latency_breach, availability_breach, p99_latency, availability, toil_level, postmortem_active)
     error_budget_remaining_history.append(error_budget_remaining)
 
-    # 5. Scale Service
+    # 5. Scale Service (operates on total provisioned instances)
     service_instances = scale_service(service_instances, requests_in_step / TIME_STEP_SECONDS, p99_latency, latency_breach)
     instances_history.append(service_instances)
 
     # 6. Update Toil Level
     # Toil increases over time, but decreases if error budget is healthy (SREs have time for automation)
     # And increases faster if error budget is low (firefighting)
+    toil_reduction_multiplier = 1.0
     if postmortem_active: # During postmortem, toil reduces faster
-        toil_level = max(0, toil_level - 0.01)
+        toil_reduction_multiplier *= 2
+    if game_day_active: # During game day, toil also reduces faster due to focused effort
+        toil_reduction_multiplier *= GAME_DAY_RECOVERY_MULTIPLIER
+
+    if postmortem_active: # During postmortem, toil reduces faster
+        toil_level = max(0, toil_level - (0.01 * toil_reduction_multiplier))
     elif error_budget_remaining > 0.8: # Healthy error budget, SREs can reduce toil
-        toil_level = max(0, toil_level - 0.005)
+        toil_level = max(0, toil_level - (0.005 * toil_reduction_multiplier))
     elif error_budget_remaining < 0.2: # Low error budget, SREs are firefighting, toil accumulates faster
         toil_level = min(1.0, toil_level + 0.02)
     else: # Normal accumulation
@@ -233,6 +319,11 @@ while current_time < SIMULATION_DURATION_SECONDS:
             postmortem_active = False
             print(f"--- Postmortem Ended at {current_time/3600:.1f} hours. ---")
 
+    # 8. Update Cost (based on total provisioned instances)
+    cost_in_step = service_instances * COST_PER_INSTANCE_PER_HOUR * (TIME_STEP_SECONDS / 3600)
+    cumulative_cost += cost_in_step
+    cumulative_cost_history.append(cumulative_cost)
+
     # Print status (optional, for debugging)
     # if current_time % (3600) == 0:
     #     print(f"Time: {current_time/3600:.1f}h, Req/s: {requests_in_step/TIME_STEP_SECONDS:.1f}, Instances: {service_instances}, "
@@ -248,7 +339,7 @@ print("Simulation finished. Generating plots...")
 
 # --- Plotting Results ---
 plt.style.use('seaborn-v0_8-darkgrid')
-fig, axs = plt.subplots(6, 1, figsize=(14, 21), sharex=True) # Increased to 6 subplots
+fig, axs = plt.subplots(7, 1, figsize=(14, 24), sharex=True) # Increased to 7 subplots
 
 # 1. Request Rate
 axs[0].plot(time_history, request_rate_history, label='Request Rate (RPS)', color='skyblue')
@@ -283,8 +374,13 @@ axs[4].legend()
 # 6. Toil Level
 axs[5].plot(time_history, [tl * 100 for tl in toil_level_history], label='Toil Level (%)', color='gray')
 axs[5].set_ylabel('Toil Level (%)')
-axs[5].set_xlabel('Time (Hours)')
 axs[5].legend()
+
+# 7. Cumulative Cost
+axs[6].plot(time_history, cumulative_cost_history, label='Cumulative Cost ($)', color='darkgreen')
+axs[6].set_ylabel('Cost ($)')
+axs[6].set_xlabel('Time (Hours)')
+axs[6].legend()
 
 plt.tight_layout()
 plt.savefig('reliability_simulation_results.png')

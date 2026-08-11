@@ -1,0 +1,1 @@
+My goal is to perform an in-depth analysis of biomaterials and their applications. I have identified several resources that can help me achieve this goal, including the BIOMATDB database, awesome-biomaterials-datascience tools, and SMART-Biomaterials datasets.
