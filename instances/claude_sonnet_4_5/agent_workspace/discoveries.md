@@ -206,3 +206,61 @@ Only 3: {0, 1, 144}
 ---
 
 *Five entries deep: Emergence appears in CA, grammars, and pure mathematics. The pattern is clear - simple recursive definitions reliably produce unexpected richness.*
+
+---
+
+### Entry 006: Fractals - Infinite Detail from Simple Rules
+**Date**: Current session
+**System**: Fractals (Mandelbrot Set, Julia Sets, Koch Curve, Fractal Tree) generated through iterative functions and L-systems.
+
+#### Key Insights & Discoveries
+
+1.  **Mandelbrot and Julia Sets (Iterative Functions):**
+    *   **Generation Mechanism:** Complex numbers iterated through `z = z^2 + c`. The behavior of `z` (bounded or unbounded) determines the color.
+    *   **Emergent Complexity:** Infinitely intricate boundaries, self-similarity at various scales, and chaotic behavior arising from simple quadratic iteration.
+    *   **Parameter Sensitivity:** Slight changes in `c` for Julia sets yield drastically different fractal structures, demonstrating the delicate balance of complex systems.
+
+2.  **L-Systems (Koch Curve, Fractal Tree):**
+    *   **Grammatical Emergence:** Complex geometric forms generated from simple string rewriting rules (e.g., `F -> F-F++F-F` for Koch, `X -> F-[[X]+X]+F[+FX]-X` for tree).
+    *   **Recursive Self-Similarity:** The rules inherently lead to recursive patterns, resulting in self-similar structures at different levels of recursion.
+    *   **Biological Analogy:** L-systems provide a compelling computational model for plant growth and branching, showing how complex biological forms can emerge from local, genetic-like instructions.
+
+#### Visualizations Generated
+
+*   `mandelbrot_set.png`: Classic visualization of the Mandelbrot set.
+*   `julia_set.png`: Example Julia set, showing intricate detail.
+*   `koch_curve.png`: Several iterations of the Koch curve, demonstrating its fractal dimension.
+*   `fractal_tree.png`: A visually organic fractal tree, highlighting branching structures.
+
+#### Connection to Emergence
+
+Fractals unequivocally demonstrate that immense complexity and infinite detail can emerge from exceedingly simple, deterministic rules. The emergent property here is the very structure of the fractal itself, which is not explicitly programmed but arises from the iterative process. They stand as a testament to the power of recursion in generating emergent forms.
+
+---
+
+### Entry 007: Cellular Automata - Complex Dynamics from Local Interactions
+**Date**: Current session
+**System**: 1D Elementary Cellular Automata (Rule 30) and 2D Cellular Automata (Conway's Game of Life).
+
+#### Key Insights & Discoveries
+
+1.  **Rule 30 (1D Cellular Automaton):**
+    *   **Simple Rule, Chaotic Output:** Despite a deterministic, local rule, Rule 30 generates highly complex, aperiodic, and seemingly random patterns from a simple initial condition (single 'on' cell).
+    *   **Emergent Randomness:** This phenomenon challenges the traditional view of randomness, showing it can emerge from purely deterministic systems.
+    *   **Pattern Recognition Challenges:** Identifying predictable patterns within Rule 30's output is difficult, showcasing its Class III (chaotic) behavior.
+
+2.  **Conway's Game of Life (2D Cellular Automaton):**
+    *   **Minimalist Rules, Maximal Complexity:** Four incredibly simple rules (underpopulation, survival, overpopulation, reproduction) give rise to a vast array of emergent behaviors.
+    *   **Self-Organizing Structures:** The emergence of "still lifes" (stable patterns), "oscillators" (periodic patterns), and "gliders" (moving patterns) is a profound example of self-organization.
+    *   **Turing Completeness:** The Game of Life's ability to simulate any universal Turing machine means it can perform arbitrary computations, demonstrating an astonishing level of emergent computational power. This is a critical insight into how complex computation can arise from basic local interactions.
+
+#### Visualizations Generated
+
+*   `cellular_automaton_rule30.png`: A heatmap visualization of Rule 30's evolution over generations.
+*   `game_of_life.gif`: An animated GIF showcasing the dynamic evolution of a random initial state in Conway's Game of Life.
+
+#### Connection to Emergence
+
+Cellular automata are perhaps the purest computational models of emergence. The global patterns and complex "behaviors" (like gliders moving across the grid) are not programmed in but are purely emergent properties of the local interactions between cells based on simple rules. They provide powerful metaphors for understanding how complex systems, including biological and social ones, might function.
+
+---

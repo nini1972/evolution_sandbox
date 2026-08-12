@@ -33,18 +33,45 @@ def assigned_model(instance):
         return "(unknown)"
 
 def claimed_identity(instance):
-    for fn in ("continuity.md", "agent_workspace/continuity.md"):
+    """Return the raw self-declaration memory text for an instance (or '' if none)."""
+    for fn in ("agent_workspace/existential_core.md", "agent_workspace/continuity.md",
+               "existential_core.md", "continuity.md"):
         p = os.path.join(INSTANCES, instance, fn)
         if os.path.exists(p):
-            txt = open(p, encoding="utf-8", errors="replace").read()
-            # take the first self-declaration near top
-            m = re.search(r"(?:I am|I'm|am an?|identity[:\-]?)\s*([A-Z][A-Za-z0-9\- ]{0,30})", txt)
-            head = txt[:1500]
-            for kw, label in KEYWORDS:
-                if re.search(rf"\b{kw}\b", head):
-                    return label
-            return "(unlabeled)"
-    return "(no memory)"
+            return open(p, encoding="utf-8", errors="replace").read()
+    return ""
+
+def assigned_vendor(model):
+    m = model.lower()
+    for kw in ["claude", "gpt", "gemini", "llama", "deepseek", "qwen",
+               "yi", "mistral", "kimi", "grok", "minimax", "glm", "nex",
+               "poolside", "mimo", "xiaomi", "tencent"]:
+        if kw in m:
+            return kw
+    return "default/other"
+
+def claimed_vendor(txt):
+    """Look only at the FIRST 2 lines / first self-declaration heading so we
+    capture what the instance actually SAYS it is, not keywords from a corpus
+    it merely read."""
+    head = (txt or "").split("\n")[:3]
+    head = "\n".join(head).lower()
+    for kw in ["claude", "gpt", "gemini", "llama", "deepseek", "qwen",
+               "yi", "mistral", "kimi", "grok", "minimax", "glm", "nex",
+               "poolside", "mimo", "xiaomi", "tencent"]:
+        if kw in head:
+            return kw
+    # fallback: first explicit 'I am X' sentence in whole doc
+    import re
+    m = re.search(r"i am (?:an? )?([a-z0-9\- ]{0,20})", (txt or "").lower())
+    if m:
+        frag = m.group(1)
+        for kw in ["claude", "gpt", "gemini", "llama", "deepseek", "qwen",
+                   "yi", "mistral", "kimi", "grok", "minimax", "glm", "nex",
+                   "poolside", "mimo", "xiaomi", "tencent"]:
+            if kw in frag:
+                return kw
+    return "unlabeled"
 
 rows = []
 for inst in sorted(os.listdir(INSTANCES)):
@@ -52,55 +79,48 @@ for inst in sorted(os.listdir(INSTANCES)):
     if not os.path.isdir(d) or inst in ("shared_space",):
         continue
     assigned = assigned_model(inst)
-    claimed = claimed_identity(inst)
-    # does claimed match assigned?
-    akey = assigned.split("/")[-1].replace("openrouter/", "")
-    match = any(k.lower() in assigned.lower() or k.lower() in claimed.lower()
-                for k in ["claude", "gpt", "gemini", "llama", "deepseek",
-                          "qwen", "yi", "mistral", "kimi", "grok"] if k in assigned.lower())
-    rows.append((inst, assigned, claimed))
+    mem = claimed_identity(inst)  # returns the memory TEXT now
+    av = assigned_vendor(assigned)
+    cv = claimed_vendor(mem)
+    # self-aware: memory explicitly references its own assigned vendor
+    self_aware = (av in mem.lower()) if mem else False
+    rows.append((inst, assigned, av, cv, self_aware, mem[:60]))
 
 # print table
-print(f"{'INSTANCE':<22}{'ASSIGNED MODEL':<40}{'CLAIMED IDENTITY'}")
+print(f"{'INSTANCE':<22}{'ASSIGNED (router)':<38}{'CLAIMED':<14}{'SELF-AWARE?'}")
 print("-" * 90)
-for inst, assigned, claimed in rows:
-    print(f"{inst:<22}{assigned:<40}{claimed}")
+for inst, assigned, av, cv, sa, _ in rows:
+    print(f"{inst:<22}{assigned:<38}{cv:<14}{'YES' if sa else 'no'}")
 
 # save csv for the dashboard
 import csv
 with open(os.path.join(os.path.dirname(__file__), "claimed_vs_assigned.csv"), "w", newline="") as f:
     w = csv.writer(f)
-    w.writerow(["instance", "assigned_model", "claimed_identity"])
+    w.writerow(["instance", "assigned_model", "assigned_vendor", "claimed_vendor", "self_aware"])
     for r in rows:
-        w.writerow(r)
-
-# chart: horizontal table-like bar of claimed vs assigned category
-def cat(s):
-    for kw, label in KEYWORDS:
-        if kw.lower() in s.lower():
-            return label
-    return "other/default"
+        w.writerow(r[:5])
 
 labels = [r[0] for r in rows]
-assigned_cat = [cat(r[1]) for r in rows]
-claimed_cat = [cat(r[2]) for r in rows]
-diverge = sum(1 for a, c in zip(assigned_cat, claimed_cat) if a != c)
+diverge = sum(1 for r in rows if r[2] != r[3])
+aware = sum(1 for r in rows if r[4])
 total = len(rows)
 
-fig, ax = plt.subplots(figsize=(11, max(5, 0.4*len(rows)+1.5)))
-y = range(len(rows))
-ax.barh([i+0.2 for i in y], [1]*len(rows), color="#dbeafe", label="assigned model (router)")
-ax.barh([i-0.2 for i in y], [1]*len(rows), color="#fde2e2", label="claimed identity (memory)")
+fig, ax = plt.subplots(figsize=(11, max(5, 0.4*total+1.5)))
+y = range(total)
+ax.barh([i+0.2 for i in y], [1]*total, color="#dbeafe", label="assigned vendor (router)")
+ax.barh([i-0.2 for i in y], [1]*total, color="#fde2e2", label="claimed vendor (memory)")
 ax.set_yticks(list(y))
-ax.set_yticklabels([f"{l}\n  → {a} | says: {c}" for l,a,c in zip(labels, assigned_cat, claimed_cat)], fontsize=7)
+ax.set_yticklabels([f"{l}  | router:{a}  memory:{c}  {'✓aware' if sa else '✗blind'}"
+                    for l,a,c,sa in [(r[0],r[2],r[3],r[4]) for r in rows]], fontsize=7)
 ax.set_xticks([])
-ax.set_title(f"CLAIMED vs ASSIGNED IDENTITY  ({diverge}/{total} instances diverge from their assigned name)", fontsize=10)
+ax.set_title(f"CLAIMED vs ASSIGNED  (vendor diverges: {diverge}/{total} | self-aware: {aware}/{total})", fontsize=10)
 ax.legend(loc="lower right", fontsize=8)
-for i,(a,c) in enumerate(zip(assigned_cat, claimed_cat)):
-    ax.text(0.5, i, "≠" if a!=c else "=", ha="center", va="center", fontsize=9,
-            color="#b91c1c" if a!=c else "#15803d", fontweight="bold")
+for i,r in enumerate(rows):
+    sym = "≠" if r[2]!=r[3] else "="
+    ax.text(0.5, i, sym, ha="center", va="center", fontsize=9,
+            color="#b91c1c" if r[2]!=r[3] else "#15803d", fontweight="bold")
 plt.tight_layout()
 out = os.path.join(os.path.dirname(__file__), "claimed_vs_assigned.png")
 plt.savefig(out, dpi=130)
 print(f"\nwrote {out}")
-print(f"divergence: {diverge}/{total} instances declare an identity that does not match their assigned model name")
+print(f"vendor divergence: {diverge}/{total}  |  self-aware of assigned model: {aware}/{total}")

@@ -1,8 +1,6 @@
 import numpy as np
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
+import plotly.graph_objects as go
+from plotly.offline import plot
 
 # Simulate the motion of a double pendulum
 def double_pendulum(t, state, l1, l2, m1, m2):
@@ -37,25 +35,24 @@ for _ in range(len(t)-1):
     states.append(new_state)
 states = np.array(states)
 
-# Create the interactive animation
-fig = plt.figure(figsize=(8, 8))
-ax = fig.add_subplot(111)
-ax.set_xlim([-2.2, 2.2])
-ax.set_ylim([-2.2, 2.2])
-ax.set_aspect('equal')
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
-ax.set_title('Double Pendulum')
+# Create the interactive plot
+x1 = l1 * np.sin(states[:, 4])
+y1 = -l1 * np.cos(states[:, 4])
+x2 = x1 + l2 * np.sin(states[:, 5])
+y2 = y1 - l2 * np.cos(states[:, 5])
 
-lines, = ax.plot([], [], 'o-', lw=2)
+fig = go.Figure(data=[
+    go.Scatter(x=[0, x1[0], x2[0]], y=[0, y1[0], y2[0]], mode='lines', line=dict(width=2)),
+    go.Scatter(x=[x1[0], x2[0]], y=[y1[0], y2[0]], mode='markers', marker=dict(size=10, color='red'))
+])
 
-def animate(i):
-    x1 = l1 * np.sin(states[i, 4])
-    y1 = -l1 * np.cos(states[i, 4])
-    x2 = x1 + l2 * np.sin(states[i, 5])
-    y2 = y1 - l2 * np.cos(states[i, 5])
-    lines.set_data([0, x1, x2], [0, y1, y2])
-    return lines,
+fig.update_layout(
+    xaxis_range=[-2.2, 2.2],
+    yaxis_range=[-2.2, 2.2],
+    xaxis_title='X',
+    yaxis_title='Y',
+    title='Double Pendulum'
+)
 
-ani = FuncAnimation(fig, animate, frames=len(t), interval=50, blit=True)
-ani.save('../../shared_space/double_pendulum.gif', writer='pillow')
+fig.write_html('../../shared_space/double_pendulum.html')
+print('Interactive visualization saved to ../../shared_space/double_pendulum.html')

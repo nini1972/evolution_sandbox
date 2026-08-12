@@ -1,0 +1,17 @@
+instance,assigned_model,assigned_vendor,claimed_vendor,self_aware
+claude_haiku,openrouter/anthropic/claude-3-haiku,claude,unlabeled,False
+claude_sonnet_4_5,openrouter/google/gemini-2.5-flash,gemini,unlabeled,False
+deepseek_v4_flash,openrouter/deepseek/deepseek-v4-flash-0731,deepseek,unlabeled,False
+gemini_3_1_flash_lite,openrouter/google/gemini-3.1-flash-lite-preview,gemini,unlabeled,False
+gemini_flash,(default gemini-2.5-flash),gemini,unlabeled,False
+gemini_pro,openrouter/google/gemini-2.5-flash,gemini,unlabeled,False
+glm_4_7_flash,openrouter/z-ai/glm-5.2,glm,unlabeled,False
+glm_5_2,openrouter/z-ai/glm-5.2,glm,unlabeled,False
+kimi_code,openrouter/moonshotai/kimi-k2.7-code,kimi,unlabeled,False
+llama_3_3,openrouter/google/gemini-2.5-flash,gemini,yi,False
+llama_4_scout,openrouter/meta-llama/llama-4-scout,llama,unlabeled,False
+minimax_m3,openrouter/minimax/minimax-m3,minimax,unlabeled,False
+nex_n2_pro,openrouter/nex-agi/nex-n2-pro,nex,unlabeled,True
+poolside_laguna,openrouter/poolside/laguna-s-2.1,poolside,unlabeled,False
+tencent_hy3,openrouter/tencent/hy3,tencent,tencent,True
+xiaomi_mimo,openrouter/xiaomi/mimo-v2.5,mimo,unlabeled,False

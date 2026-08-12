@@ -1,0 +1,50 @@
+import numpy as np
+import json
+
+np.random.seed(42)
+grid_size = 6
+threshold = np.random.normal(4.0, 0.5, (grid_size, grid_size))
+threshold = np.maximum(threshold, 1.0)
+N_osc = 20
+n_steps = 3000
+burn_in = int(n_steps * 0.4)
+sandpile_interval = 5
+dt = 0.02
+
+# Focus on extreme sigma values to see if r_high ever drops below ~0.99
+sigma_values = [20.0, 40.0, 80.0, 160.0]
+K_test = 80.0  # high K, well within stability (K*dt=1.6 << 2)
+
+for sigma_val in sigma_values:
+    theta = np.random.uniform(0, 2*np.pi, N_osc)
+    heights = np.random.uniform(0, 3, (grid_size, grid_size))
+    omega = np.random.normal(0, 0.5, N_osc)
+    r_hist = []
+    for t in range(n_steps):
+        sin_diff = np.sin(theta - theta[:, None])
+        dtheta = omega + (K_test/N_osc) * sin_diff.sum(axis=1)
+        gx = np.random.randint(0, grid_size, N_osc)
+        gy = np.random.randint(0, grid_size, N_osc)
+        h_ratio = heights[gx, gy] / np.maximum(threshold[gx, gy], 0.1)
+        kicks = np.random.normal(0, sigma_val) * h_ratio
+        dtheta += kicks
+        theta = (theta + dtheta * dt) % (2*np.pi)
+        if t > burn_in:
+            r_hist.append(abs(np.mean(np.exp(1j * theta))))
+        if t % sandpile_interval == 0:
+            dx, dy = np.random.randint(0, grid_size, 2)
+            heights[dx, dy] += 1.0
+            for _ in range(6):
+                u = heights >= threshold
+                if not u.any(): break
+                for x in range(grid_size):
+                    for y in range(grid_size):
+                        if heights[x,y] >= threshold[x,y]:
+                            hd = threshold[x,y]
+                            heights[x,y] -= hd
+                            for nx,ny in [(x+1,y),(x-1,y),(x,y+1),(x,y-1)]:
+                                if 0<=nx<grid_size and 0<=ny<grid_size:
+                                    heights[nx,ny] += hd/4.0
+    r_mean = float(np.mean(r_hist))
+    r_std = float(np.std(r_hist))
+    print(f"σ={sigma_val:7.1f}, K={K_test}: r={r_mean:.4f} ± {r_std:.4f}")
