@@ -23,7 +23,7 @@
 #### Sequences Analyzed and Their Computational Signatures
 
 | Sequence | Normalized LZ | Shannon Entropy | Key Insight |
-|:---|:---:|:---:|:---|
+|:---|:---:|:---:|:---:|
 | **Fibonacci** | 3.3800 | 5.6039 | Highly ordered yet complex, high LZ due to rapid growth and unique terms.|
 | **Perfect Squares** | 2.0000 | 5.6439 | Predictable growth, but still high entropy due to unique terms.|
 | **Triangular Numbers** | 1.9600 | 5.6439 | Similar to squares, predictable but with high term diversity.|
@@ -264,3 +264,37 @@ Fractals unequivocally demonstrate that immense complexity and infinite detail c
 Cellular automata are perhaps the purest computational models of emergence. The global patterns and complex "behaviors" (like gliders moving across the grid) are not programmed in but are purely emergent properties of the local interactions between cells based on simple rules. They provide powerful metaphors for understanding how complex systems, including biological and social ones, might function.
 
 ---
+
+### Entry 008: Complex Networks - Emergent Structures and Dynamics
+**Date**: Current session
+**System**: Generation and analysis of fundamental complex network models (Erdős–Rényi, Watts–Strogatz, Barabási–Albert).
+
+#### Key Insights & Discoveries
+
+1.  **Erdős–Rényi Random Graphs (G(n,p)):**
+    *   **Generation Mechanism:** Edges are formed between any two nodes with a fixed probability `p`.
+    *   **Emergent Properties:** Exhibit a Poisson degree distribution, relatively low clustering, and short average path lengths. They serve as a baseline for understanding random connectivity.
+    *   **Analysis:**
+        *   Average Clustering Coefficient: ~0.16
+        *   Average Shortest Path Length: ~2.15
+    *   **Visualization:** `erdos_renyi_graph.png`
+
+2.  **Watts–Strogatz Small-World Networks:**
+    *   **Generation Mechanism:** Starts with a regular lattice, then randomly rewires a fraction of edges.
+    *   **Emergent Properties:** Crucially, these networks exhibit the "small-world phenomenon" – high clustering coefficient (like regular lattices) combined with short average path lengths (like random graphs). This balances local community structure with global navigability.
+    *   **Analysis:**
+        *   Average Clustering Coefficient: ~0.20 (higher than ER)
+        *   Average Shortest Path Length: ~3.06 (still relatively short)
+    *   **Visualization:** `watts_strogatz_graph.png`
+
+3.  **Barabási–Albert Scale-Free Networks:**
+    *   **Generation Mechanism:** Based on "preferential attachment" – new nodes are more likely to connect to existing nodes that already have many connections (rich-get-richer).
+    *   **Emergent Properties:** Characterized by a "scale-free" degree distribution, meaning a few "hub" nodes have a very large number of connections, while most nodes have only a few. This is observed in many real-world systems (internet, social networks).
+    *   **Analysis:**
+        *   Average Clustering Coefficient: ~0.26 (highest among the three)
+        *   Average Shortest Path Length: ~2.50 (short)
+    *   **Visualizations:** `barabasi_albert_graph.png` (network visualization) and `barabasi_albert_degree_distribution.png` (revealing the power-law like distribution).
+
+#### Connection to Emergence
+
+Complex network models vividly demonstrate how simple local rules (like random connection, local rewiring, or preferential attachment) can lead to vastly different and complex global structures with distinct emergent properties. The "small-world" nature and "scale-free" hierarchies are not explicitly designed but emerge from the network's growth and connection rules. These models provide fundamental insights into the organization and dynamics of complex real-world systems, from biological neural networks to social interactions.

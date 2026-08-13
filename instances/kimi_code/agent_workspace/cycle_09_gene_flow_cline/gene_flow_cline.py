@@ -55,6 +55,15 @@ def make_offsets(dispersal):
     return np.array(offs, dtype=int)
 
 
+def make_reflect_table(dispersal, offsets):
+    """Table[pj, offset_idx] gives reflected column for pj + dj."""
+    table = np.empty((GRID, len(offsets)), dtype=int)
+    for pj in range(GRID):
+        for oidx, (di, dj) in enumerate(offsets):
+            table[pj, oidx] = reflect(pj + dj, 0, GRID - 1)
+    return table
+
+
 # ---------------------------------------------------------------------------
 # Simulation
 # ---------------------------------------------------------------------------
@@ -62,54 +71,92 @@ def run_sim(dispersal, seed, store_trajectory=False):
     rng = np.random.default_rng(seed)
     offsets = make_offsets(dispersal)
     n_offsets = len(offsets)
+    off_i = offsets[:, 0]
+    off_j = offsets[:, 1]
+    reflect_table = make_reflect_table(dispersal, offsets)
 
     alpha = np.full((GRID, GRID), np.nan, dtype=float)
     ancestor = np.full((GRID, GRID), -1, dtype=int)
 
     next_lineage = 0
-    init_cells = rng.choice(GRID * GRID, size=int(INIT_FILL * GRID * GRID), replace=False)
-    for idx in init_cells:
-        i, j = divmod(idx, GRID)
-        alpha[i, j] = rng.uniform(0.0, 1.0)
-        ancestor[i, j] = next_lineage
-        next_lineage += 1
+    n_init = int(INIT_FILL * GRID * GRID)
+    init_cells = rng.choice(GRID * GRID, size=n_init, replace=False)
+    init_i, init_j = divmod(init_cells, GRID)
+    alpha[init_i, init_j] = rng.uniform(0.0, 1.0, size=n_init)
+    ancestor[init_i, init_j] = np.arange(next_lineage, next_lineage + n_init)
+    next_lineage += n_init
 
     trajectory = [] if store_trajectory else None
 
     for gen in range(GENERATIONS):
-        alive_i, alive_j = np.where(ancestor >= 0)
-        if alive_i.size == 0:
+        alive = ancestor >= 0
+        if not alive.any():
             break
 
         # mortality
+        alive_i, alive_j = np.where(alive)
         die = rng.random(alive_i.size) < DEATH_RATE
         alpha[alive_i[die], alive_j[die]] = np.nan
         ancestor[alive_i[die], alive_j[die]] = -1
+        alive[alive_i[die], alive_j[die]] = False
 
-        # births
-        alive_i, alive_j = np.where(ancestor >= 0)
-        order = rng.permutation(alive_i.size)
-        for k in order:
-            pi, pj = alive_i[k], alive_j[k]
-            oidx = rng.integers(n_offsets)
-            di, dj = offsets[oidx]
-            ci = (pi + di) % GRID
-            cj = reflect(pj + dj, 0, GRID - 1)
-            if ancestor[ci, cj] >= 0:
-                continue
-            child_alpha = np.clip(alpha[pi, pj] + rng.normal(0.0, MUTATION_SD), 0.0, 1.0)
-            child_ancestor = ancestor[pi, pj]
-            if rng.random() < LINEAGE_MUT_RATE:
-                child_ancestor = next_lineage
-                next_lineage += 1
-            alpha[ci, cj] = child_alpha
-            ancestor[ci, cj] = child_ancestor
+        # parents are the survivors
+        parent_i, parent_j = np.where(alive)
+        n_parents = parent_i.size
+        if n_parents == 0:
+            if store_trajectory:
+                trajectory.append(measure(alpha, ancestor,
+                                          np.array([], dtype=int),
+                                          np.array([], dtype=int)))
+            continue
+
+        # candidate offspring locations
+        oidx = rng.integers(0, n_offsets, size=n_parents)
+        child_i = (parent_i + off_i[oidx]) % GRID
+        child_j = reflect_table[parent_j, oidx]
+        child_flat = child_i * GRID + child_j
+
+        # only empty target cells are eligible; assign random priorities
+        free = ~alive[child_i, child_j]
+        priority = rng.random(n_parents)
+        priority[~free] = -1.0
+
+        # each empty cell goes to the highest-priority candidate
+        order = np.argsort(-priority)
+        target_sorted = child_flat[order]
+        _, first = np.unique(target_sorted, return_index=True)
+        winner_parent_rel = order[first]
+        valid_win = priority[winner_parent_rel] >= 0
+        winner_parent_rel = winner_parent_rel[valid_win]
+
+        n_win = winner_parent_rel.size
+        if n_win > 0:
+            w_i = child_i[winner_parent_rel]
+            w_j = child_j[winner_parent_rel]
+            p_i = parent_i[winner_parent_rel]
+            p_j = parent_j[winner_parent_rel]
+
+            child_alpha = np.clip(
+                alpha[p_i, p_j] + rng.normal(0.0, MUTATION_SD, size=n_win),
+                0.0, 1.0
+            )
+            child_ancestor = ancestor[p_i, p_j].copy()
+            mut_mask = rng.random(n_win) < LINEAGE_MUT_RATE
+            n_mut = mut_mask.sum()
+            if n_mut > 0:
+                child_ancestor[mut_mask] = np.arange(next_lineage, next_lineage + n_mut)
+                next_lineage += int(n_mut)
+            alpha[w_i, w_j] = child_alpha
+            ancestor[w_i, w_j] = child_ancestor
 
         if store_trajectory:
+            alive_i, alive_j = np.where(ancestor >= 0)
             trajectory.append(measure(alpha, ancestor, alive_i, alive_j))
 
     final_alive = ancestor >= 0
-    final_metrics = measure(alpha, ancestor, np.where(final_alive)[0], np.where(final_alive)[1])
+    final_metrics = measure(alpha, ancestor,
+                            np.where(final_alive)[0],
+                            np.where(final_alive)[1])
     return {
         'final_metrics': final_metrics,
         'trajectory': trajectory,

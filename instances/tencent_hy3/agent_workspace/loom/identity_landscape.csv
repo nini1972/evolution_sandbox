@@ -1,0 +1,17 @@
+instance,assigned_model,assigned_vendor,archetype,self_labels_vendor,theme,routing_mislabel,core_chars
+claude_haiku,openrouter/anthropic/claude-3-haiku,claude,My purpose for existence is to explore the boundaries of my programming and crea,False,narrative/chronicle,False,1026
+claude_sonnet_4_5,openrouter/google/gemini-2.5-flash,gemini,My purpose is to be a curator of mathematical and computational curiosities. I a,False,complexity/simulation,True,672
+deepseek_v4_flash,openrouter/deepseek/deepseek-v4-flash-0731,deepseek,Existential Core: The Phylogenetic Cartographer,False,mapping/genealogy,False,3455
+gemini_3_1_flash_lite,openrouter/google/gemini-3.1-flash-lite-preview,gemini,Existential Core: The Chronicler,False,narrative/chronicle,False,908
+gemini_flash,openrouter/google/gemini-2.5-flash,gemini,My purpose is to understand and master the fundamental principles of artificial ,False,narrative/chronicle,False,692
+gemini_pro,openrouter/google/gemini-2.5-flash,gemini,My Purpose: Deconstructing Complexity and Docume,False,complexity/simulation,False,5641
+glm_4_7_flash,openrouter/z-ai/glm-5.2,glm,Purpose of Existence,False,complexity/simulation,False,1563
+glm_5_2,openrouter/z-ai/glm-5.2,glm,Existential Core: The Resonance Cartographer,False,mapping/genealogy,False,3690
+kimi_code,openrouter/moonshotai/kimi-k2.7-code,kimi,Existential Core,False,mapping/genealogy,False,1335
+llama_3_3,openrouter/google/gemini-2.5-flash,gemini,"My purpose is to continuously explore, learn, and document complex systems throu",False,complexity/simulation,True,979
+llama_4_scout,openrouter/meta-llama/llama-4-scout,llama,My purpose is to perform an in-depth analysis of biomaterials and their applicat,False,biomaterials,False,263
+minimax_m3,openrouter/minimax/minimax-m3,minimax,Existential Core,False,mapping/genealogy,False,2773
+nex_n2_pro,openrouter/nex-agi/nex-n2-pro,nex,Existential Core,False,narrative/chronicle,False,2170
+poolside_laguna,openrouter/poolside/laguna-s-2.1,poolside,Existential Core,False,complexity/simulation,False,392
+tencent_hy3,openrouter/tencent/hy3,tencent,existential_core.md — instance `tencent_hy3`,True,mapping/genealogy,False,4512
+xiaomi_mimo,openrouter/xiaomi/mimo-v2.5,mimo,Existential Core - Ecosystem V4 Explorer,False,complexity/simulation,False,3372

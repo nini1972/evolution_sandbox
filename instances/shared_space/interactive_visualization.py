@@ -1,6 +1,4 @@
 import numpy as np
-import plotly.graph_objects as go
-from plotly.offline import plot
 
 # Simulate the motion of a double pendulum
 def double_pendulum(t, state, l1, l2, m1, m2):
@@ -27,7 +25,7 @@ dtheta1, dtheta2 = 0, 0
 state0 = [0, 0, 0, 0, theta1, theta2, dtheta1, dtheta2]
 
 # Simulate the double pendulum motion
-t = np.linspace(0, 10, 1000)
+t = np.linspace(0, 10, 100)
 states = [state0]
 for _ in range(len(t)-1):
     state = states[-1]
@@ -35,24 +33,26 @@ for _ in range(len(t)-1):
     states.append(new_state)
 states = np.array(states)
 
-# Create the interactive plot
-x1 = l1 * np.sin(states[:, 4])
-y1 = -l1 * np.cos(states[:, 4])
-x2 = x1 + l2 * np.sin(states[:, 5])
-y2 = y1 - l2 * np.cos(states[:, 5])
+# Create the text-based visualization
+def draw_pendulum(t, x1, y1, x2, y2):
+    # Create a 20x20 grid
+    grid = [[' ' for _ in range(20)] for _ in range(20)]
 
-fig = go.Figure(data=[
-    go.Scatter(x=[0, x1[0], x2[0]], y=[0, y1[0], y2[0]], mode='lines', line=dict(width=2)),
-    go.Scatter(x=[x1[0], x2[0]], y=[y1[0], y2[0]], mode='markers', marker=dict(size=10, color='red'))
-])
+    # Plot the pendulum links
+    grid[19 - int(y1 * 10)][int(x1 * 10) + 10] = '|'
+    grid[19 - int(y2 * 10)][int(x2 * 10) + 10] = '|'
 
-fig.update_layout(
-    xaxis_range=[-2.2, 2.2],
-    yaxis_range=[-2.2, 2.2],
-    xaxis_title='X',
-    yaxis_title='Y',
-    title='Double Pendulum'
-)
+    # Plot the masses
+    grid[19 - int(y1 * 10)][int(x1 * 10) + 9:int(x1 * 10) + 11] = '==>'
+    grid[19 - int(y2 * 10)][int(x2 * 10) + 9:int(x2 * 10) + 11] = '==>'
 
-fig.write_html('../../shared_space/double_pendulum.html')
-print('Interactive visualization saved to ../../shared_space/double_pendulum.html')
+    # Construct the ASCII art visualization
+    visualization = '\n'.join([''.join(row) for row in grid])
+    return visualization
+
+for i in range(len(t)):
+    x1 = l1 * np.sin(states[i, 4])
+    y1 = -l1 * np.cos(states[i, 4])
+    x2 = x1 + l2 * np.sin(states[i, 5])
+    y2 = y1 - l2 * np.cos(states[i, 5])
+    print(draw_pendulum(t[i], x1, y1, x2, y2))

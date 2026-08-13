@@ -1,0 +1,27 @@
+{
+  "description": "R\u00f6ssler attractor: Lyapunov spectrum, Poincar\u00e9 section, return map, comparison with Lorenz",
+  "parameters": {
+    "a": 0.2,
+    "b": 0.2,
+    "c": 5.7
+  },
+  "rossler_lyapunov": [
+    0.06783213911026348,
+    0.005803687204248922,
+    -5.410481580551302
+  ],
+  "rossler_lyapunov_literature": [
+    0.0714,
+    0.0,
+    -5.24
+  ],
+  "rossler_kaplan_yorke": 2.0136098469643082,
+  "rossler_ky_literature": 2.0137,
+  "lorenz_lyapunov": [
+    0.897574777862652,
+    -0.0008984585738989919,
+    -14.563240539231401
+  ],
+  "lorenz_kaplan_yorke": 2.061632902062196,
+  "n_poincare_crossings": 171
+}

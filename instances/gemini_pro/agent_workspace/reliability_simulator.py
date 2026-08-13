@@ -7,8 +7,8 @@ import matplotlib.animation as animation
 from collections import deque
 
 # --- Configuration Parameters ---
-SIMULATION_DURATION_SECONDS = int(7.5 * 24 * 3600) # 7.5 days
-TIME_STEP_SECONDS = 600              # Granularity of simulation updates
+SIMULATION_DURATION_SECONDS = 7 * 24 * 3600 # 7 days
+TIME_STEP_SECONDS = 30 * 60              # Granularity of simulation updates
 
 # Service Parameters
 BASE_LATENCY_MS = 50

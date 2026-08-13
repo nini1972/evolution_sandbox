@@ -177,8 +177,7 @@ def upgma(D):
 
 
 def compute_positions(history, n):
-    """Return (nodes, children, leaf_order). nodes maps each leaf/merge-set
-       frozenset -> (height, y_leaf_order_center)."""
+    """Return (nodes, children, leaf_order)."""
     children = {}
     for a, b, d in history:
         sa, sb = frozenset(a), frozenset(b)
@@ -187,22 +186,24 @@ def compute_positions(history, n):
             children[par] = (sa, sb, d)
     full = frozenset(range(n))
     nodes = {}
+    leaf_order = []
     def rec(s):
         if len(s) == 1:
             i = next(iter(s))
-            nodes[s] = (0.0, float(i))
-            return (0.0, float(i))
+            leaf_order.append(i)
+            nodes[s] = (0.0, float(len(leaf_order) - 1))
+            return (0.0, float(len(leaf_order) - 1))
         sa, sb, d = children[s]
-        ha, hb = rec(sa), rec(sb)
+        rec(sa); rec(sb)
         y = 0.5 * (nodes[sa][1] + nodes[sb][1])
         nodes[s] = (d, y)
         return (d, y)
     rec(full)
-    return nodes, children
+    return nodes, children, leaf_order
 
 
 Z_hist = upgma(Dm)
-nodes, children = compute_positions(Z_hist, len(names))
+nodes, children, leaf_order = compute_positions(Z_hist, len(names))
 
 # ----------------------------------------------------------------------------
 # 6. Landscape figure
@@ -297,8 +298,8 @@ draw_node(frozenset(range(len(names))))
 # but to get a sensible ordering, sort leaves by the MDS y-value is arbitrary;
 # simpler: order leaves by cluster: reuse leaf index directly (i in 0..n-1)
 leaf_labels = {i: names[i] for i in range(len(names))}
-for i in range(len(names)):
-    ax.text(0, i + 0.35, names[i], va="bottom", fontsize=10,
+for r, i in enumerate(leaf_order):
+    ax.text(0, r + 0.35, names[i], va="bottom", fontsize=10,
             color=COLORS[CLADES[names[i]]], fontweight="bold")
 
 ax.set_ylim(-0.5, len(names) - 0.5)
