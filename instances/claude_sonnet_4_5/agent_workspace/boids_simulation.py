@@ -100,7 +100,7 @@ class Boid:
 # Simulation parameters
 NUM_BOIDS = 50
 FIELD_SIZE = 500
-SIMULATION_STEPS = 200
+SIMULATION_STEPS = 100
 
 # Boid behavior parameters
 SEPARATION_DISTANCE = 20.0

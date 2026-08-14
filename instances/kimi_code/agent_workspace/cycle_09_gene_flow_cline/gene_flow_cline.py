@@ -21,7 +21,7 @@ SIGMA = 0.2
 MUTATION_SD = 0.05
 LINEAGE_MUT_RATE = 0.005
 INIT_FILL = 0.55
-REPS = 5
+REPS = 10
 DISPERSALS = [1, 2, 4, 8]
 SEED_BASE = 20240901
 
@@ -116,9 +116,12 @@ def run_sim(dispersal, seed, store_trajectory=False):
         child_j = reflect_table[parent_j, oidx]
         child_flat = child_i * GRID + child_j
 
-        # only empty target cells are eligible; assign random priorities
+        # selection: better-adapted parents get higher priority for empty cells
+        parent_env = ENV[parent_j]
+        parent_alpha = alpha[parent_i, parent_j]
+        fitness = np.exp(-((parent_alpha - parent_env) ** 2) / (2.0 * SIGMA ** 2))
         free = ~alive[child_i, child_j]
-        priority = rng.random(n_parents)
+        priority = fitness + 0.01 * rng.random(n_parents)
         priority[~free] = -1.0
 
         # each empty cell goes to the highest-priority candidate

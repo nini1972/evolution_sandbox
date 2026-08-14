@@ -1,319 +1,179 @@
 """
-Ecosystem V6 - Predator-Prey Dynamics
-Two species with different strategies: efficient foragers vs fast hunters
+Ecosystem V6 - Predator-Prey with Lotka-Volterra Dynamics
 """
 import numpy as np
 import json
 import random
-import uuid
-from collections import defaultdict
 
+random.seed(42)
+np.random.seed(42)
+
+NGEN = 300
 
 class Organism:
-    def __init__(self, x, y, species, genome=None):
-        self.id = str(uuid.uuid4())[:8]
-        self.x = x
-        self.y = y
-        self.species = species  # 'forager' or 'hunter'
+    def __init__(self, traits, energy):
+        self.traits = dict(traits)
+        self.energy = energy
         self.age = 0
-        self.energy = 60.0 if species == 'forager' else 80.0
-        self.is_alive = True
-        if genome is None:
-            if species == 'forager':
-                self.genome = {
-                    'speed': random.uniform(0.2, 0.8),
-                    'efficiency': random.uniform(0.4, 1.0),
-                    'reproduction': random.uniform(0.15, 0.45),
-                    'cooperation': random.uniform(0.3, 0.9),
-                    'frugality': random.uniform(0.4, 1.0),
-                    'defense': random.uniform(0.2, 0.8),
-                    'awareness': random.uniform(0.2, 0.8),
-                }
-            else:  # hunter
-                self.genome = {
-                    'speed': random.uniform(0.5, 1.0),
-                    'hunting_skill': random.uniform(0.3, 1.0),
-                    'reproduction': random.uniform(0.1, 0.4),
-                    'cooperation': random.uniform(0.0, 0.6),
-                    'stealth': random.uniform(0.3, 0.9),
-                    'stamina': random.uniform(0.3, 0.9),
-                    'awareness': random.uniform(0.3, 0.9),
-                }
-        else:
-            self.genome = genome.copy()
-        self.offspring_count = 0
-        
-    def metabolic_cost(self):
-        if self.species == 'forager':
-            return 0.4 + self.genome['speed'] * 0.3
-        else:
-            return 0.6 + self.genome['speed'] * 0.5 + self.genome['stamina'] * 0.2
+    
+    def metabolize(self, cost):
+        self.energy -= cost
+        self.age += 1
+    
+    def alive(self):
+        return self.energy > 0
 
-
-class PredatorPreyWorld:
-    def __init__(self, width=30, height=30):
-        self.width = width
-        self.height = height
-        self.grid_resources = np.full((height, width), 100.0)
-        self.organisms = []
-        self.generation = 0
-        self.history = []
-        self.spatial_index = defaultdict(list)
-        self.migration_events = []
-        
-    def seed_organisms(self, n_foragers=40, n_hunters=15):
-        for _ in range(n_foragers):
-            x, y = random.randint(0, self.width-1), random.randint(0, self.height-1)
-            self.organisms.append(Organism(x, y, 'forager'))
-        for _ in range(n_hunters):
-            x, y = random.randint(0, self.width-1), random.randint(0, self.height-1)
-            self.organisms.append(Organism(x, y, 'hunter'))
-        self.rebuild_index()
-        
-    def rebuild_index(self):
-        self.spatial_index = defaultdict(list)
-        for o in self.organisms:
-            if o.is_alive:
-                self.spatial_index[(o.x, o.y)].append(o)
-                
-    def step(self):
-        self.generation += 1
-        
-        # Resource regrowth
-        growth = self.grid_resources * 0.015 + 0.3
-        self.grid_resources = np.minimum(100.0, self.grid_resources + growth)
-        
-        # Phase 1: Hunters hunt
-        for org in self.organisms:
-            if org.species == 'hunter' and org.is_alive:
-                self.hunt(org)
-                
-        # Phase 2: All organisms act
-        new_borns = []
-        
-        for org in self.organisms:
-            if not org.is_alive:
-                continue
-                
-            org.age += 1
-            
-            # Metabolic cost
-            org.energy -= org.metabolic_cost()
-            
-            if org.energy <= 0:
-                org.is_alive = False
-                continue
-                
-            # Foragers gather resources
-            if org.species == 'forager':
-                self.forage(org)
-                
-            # Cooperation
-            if org.genome.get('cooperation', 0) > 0.5 and org.energy > 35:
-                self.cooperate(org)
-                
-            # Movement
-            self.move(org)
-            
-            # Reproduction
-            child = self.reproduce(org)
-            if child:
-                new_borns.append(child)
-                
-        # Remove dead
-        self.organisms = [o for o in self.organisms if o.is_alive]
-        
-        # Add newborns
-        self.organisms.extend(new_borns)
-        self.rebuild_index()
-        
-        # Record
-        self.record_state()
-        
-    def hunt(self, hunter):
-        """Hunter attempts to catch a nearby forager"""
-        if hunter.energy < 20:
-            return
-            
-        hunting_range = int(hunter.genome['stealth'] * 3) + 1
-        
-        for dx in range(-hunting_range, hunting_range + 1):
-            for dy in range(-hunting_range, hunting_range + 1):
-                if dx == 0 and dy == 0:
-                    continue
-                nx = (hunter.x + dx) % self.width
-                ny = (hunter.y + dy) % self.height
-                
-                for prey in self.spatial_index.get((nx, ny), []):
-                    if prey.species == 'forager' and prey.is_alive:
-                        # Hunt success probability
-                        success_prob = (hunter.genome['hunting_skill'] * 0.4 +
-                                       hunter.genome['speed'] * 0.3 +
-                                       hunter.genome['stealth'] * 0.3)
-                        defense = prey.genome.get('defense', 0.5)
-                        
-                        if random.random() < success_prob * (1 - defense * 0.5):
-                            # Successful hunt!
-                            prey.is_alive = False
-                            hunter.energy += 30 * hunter.genome['hunting_skill']
-                            return
-                            
-    def forage(self, forager):
-        """Forager gathers resources from current location"""
-        available = self.grid_resources[forager.y, forager.x]
-        if available > 1.0:
-            consumed = min(available, 4.0 * forager.genome['efficiency'])
-            forager.energy += consumed * forager.genome['efficiency'] * 0.7
-            self.grid_resources[forager.y, forager.x] -= consumed
-            
-    def cooperate(self, org):
-        """Share energy with nearby ally - simplified"""
-        if org.energy < 25:
-            return
-        # Just check 4 neighbors
-        for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-            nx = (org.x + dx) % self.width
-            ny = (org.y + dy) % self.height
-            for neighbor in self.spatial_index.get((nx, ny), []):
-                if (neighbor.species == org.species and 
-                    neighbor.is_alive and 
-                    neighbor.energy < 30):
-                    share = min(3.0, org.energy * 0.1)
-                    org.energy -= share
-                    neighbor.energy += share
-                    return  # Only share once per turn
-                        
-    def move(self, org):
-        """Move toward better resources or avoid predators"""
-        if org.genome['speed'] < 0.3 or org.energy < 10:
-            return
-            
-        awareness = min(int(org.genome['awareness'] * 2) + 1, 3)  # Cap at 3
-        best_dir = (0, 0)
-        best_val = -1000
-        
-        # Sample directions instead of checking all
-        dirs_to_check = [(0, 0)]
-        for _ in range(5):
-            dx = random.randint(-awareness, awareness)
-            dy = random.randint(-awareness, awareness)
-            dirs_to_check.append((dx, dy))
-        
-        for dx, dy in dirs_to_check:
-            nx = (org.x + dx) % self.width
-            ny = (org.y + dy) % self.height
-            
-            if org.species == 'forager':
-                val = self.grid_resources[ny, nx] * 0.5
-                # Quick check nearby for hunters
-                for o in self.spatial_index.get((nx, ny), []):
-                    if o.species == 'hunter' and o.is_alive:
-                        val -= 50
-            else:
-                val = 0
-                for o in self.spatial_index.get((nx, ny), []):
-                    if o.species == 'forager' and o.is_alive:
-                        val += 10
-                        
-            if val > best_val:
-                best_val = val
-                best_dir = (dx, dy)
-                
-        if random.random() < org.genome['speed'] * 0.6:
-            move_x = max(-1, min(1, best_dir[0]))
-            move_y = max(-1, min(1, best_dir[1]))
-            org.x = (org.x + move_x) % self.width
-            org.y = (org.y + move_y) % self.height
-            org.energy -= 0.3
-            
-    def reproduce(self, org):
-        """Attempt to reproduce"""
-        repro_threshold = org.genome['reproduction'] * 120
-        
-        if org.energy > repro_threshold and org.age > 8:
-            child_genome = {}
-            for key, val in org.genome.items():
-                child_genome[key] = val + random.gauss(0, 0.04)
-                child_genome[key] = max(0.01, min(1.0, child_genome[key]))
-                
-            # Occasional larger mutation
-            if random.random() < 0.25:
-                key = random.choice(list(child_genome.keys()))
-                child_genome[key] = max(0.01, min(1.0,
-                    child_genome[key] + random.gauss(0, 0.1)))
-                    
-            child = Organism(org.x, org.y, org.species, child_genome)
-            org.energy *= 0.45
-            org.offspring_count += 1
-            return child
-            
+class Forager(Organism):
+    def __init__(self, traits=None):
+        if traits is None:
+            traits = {
+                'efficiency': random.uniform(0.5, 0.9),
+                'speed': random.uniform(0.2, 0.6),
+                'defense': random.uniform(0.3, 0.8),
+                'repro': random.uniform(0.1, 0.25),
+            }
+        super().__init__(traits, 60.0)
+    
+    def forage(self, resources, resource_pool):
+        # Foraging: gain energy proportional to efficiency and available resources
+        availability = resource_pool / max(1.0, len(foragers) + 5)
+        gain = self.traits['efficiency'] * availability * 0.3
+        self.energy += min(gain, 15)  # Cap gain
+        return min(gain, 15) * 0.3  # Return amount consumed
+    
+    def try_reproduce(self):
+        if self.energy > 60 and self.age > 3:
+            prob = self.traits['repro'] * min(1.0, self.energy / 80)
+            if random.random() < prob:
+                child_traits = {}
+                for k, v in self.traits.items():
+                    child_traits[k] = max(0.01, min(0.99, v + random.gauss(0, 0.03)))
+                self.energy *= 0.5
+                return Forager(child_traits)
         return None
-        
-    def record_state(self):
-        foragers = [o for o in self.organisms if o.species == 'forager']
-        hunters = [o for o in self.organisms if o.species == 'hunter']
-        
-        def trait_stats(orgs, traits):
-            stats = {}
-            for t in traits:
-                vals = [o.genome[t] for o in orgs if t in o.genome]
-                stats[f'avg_{t}'] = float(np.mean(vals)) if vals else 0
-                stats[f'std_{t}'] = float(np.std(vals)) if len(vals) > 1 else 0
-            return stats
-            
-        forager_traits = ['speed', 'efficiency', 'cooperation', 'frugality', 'defense', 'awareness']
-        hunter_traits = ['speed', 'hunting_skill', 'cooperation', 'stealth', 'stamina', 'awareness']
-        
-        self.history.append({
-            'generation': self.generation,
-            'forager_count': len(foragers),
-            'hunter_count': len(hunters),
-            'total_population': len(self.organisms),
-            'forager_avg_energy': float(np.mean([o.energy for o in foragers])) if foragers else 0,
-            'hunter_avg_energy': float(np.mean([o.energy for o in hunters])) if hunters else 0,
-            'forager_traits': trait_stats(foragers, forager_traits),
-            'hunter_traits': trait_stats(hunters, hunter_traits),
-            'resources_avg': float(np.mean(self.grid_resources)),
-        })
-        
-    def run(self, generations=500):
-        for i in range(generations):
-            self.step()
-            if (i + 1) % 100 == 0:
-                f = self.history[-1]['forager_count']
-                h = self.history[-1]['hunter_count']
-                print(f"Gen {i+1}: Foragers={f}, Hunters={h}, "
-                      f"Resources={self.history[-1]['resources_avg']:.1f}")
 
+class Hunter(Organism):
+    def __init__(self, traits=None):
+        if traits is None:
+            traits = {
+                'skill': random.uniform(0.3, 0.8),
+                'speed': random.uniform(0.3, 0.7),
+                'efficiency': random.uniform(0.3, 0.7),
+                'repro': random.uniform(0.05, 0.15),
+            }
+        super().__init__(traits, 70.0)
+    
+    def hunt(self, foragers_list):
+        # Hunting success depends on skill and prey density
+        if not foragers_list:
+            return False
+        density_bonus = min(1.0, len(foragers_list) / 15.0)
+        prey_defense = np.mean([f.traits['defense'] for f in foragers_list])
+        success_prob = self.traits['skill'] * 0.08 * density_bonus * (1 - prey_defense * 0.4)
+        if random.random() < success_prob:
+            prey_idx = random.randint(0, len(foragers_list)-1)
+            energy_gain = 15 + self.traits['efficiency'] * 10
+            self.energy += energy_gain
+            return True  # Hunted successfully
+        return False
+    
+    def try_reproduce(self, prey_count):
+        if self.energy > 70 and self.age > 6:
+            prey_factor = min(1.0, prey_count / 12.0)
+            prob = self.traits['repro'] * prey_factor * min(1.0, self.energy / 90)
+            if random.random() < prob:
+                child_traits = {}
+                for k, v in self.traits.items():
+                    child_traits[k] = max(0.01, min(0.99, v + random.gauss(0, 0.03)))
+                self.energy *= 0.5
+                return Hunter(child_traits)
+        return None
 
-if __name__ == '__main__':
-    print("="*60)
-    print("ECOSYSTEM V6 - PREDATOR-PREY DYNAMICS")
-    print("="*60)
-    print("Species: Foragers (efficient, cooperative) vs Hunters (fast, stealthy)")
-    print("="*60)
+# Initialize
+foragers = [Forager() for _ in range(15)]
+hunters = [Hunter() for _ in range(4)]
+resource_pool = 200.0
+
+history = []
+
+for gen in range(NGEN):
+    # Resource regeneration (exponential growth capped at carrying capacity)
+    K = 400.0
+    growth_rate = 0.08
+    resource_pool = min(K, resource_pool + growth_rate * resource_pool * (1 - resource_pool / K))
+    resource_pool = max(1.0, resource_pool)
     
-    world = PredatorPreyWorld(width=30, height=30)
-    world.seed_organisms(n_foragers=40, n_hunters=15)
-    print("Starting simulation...")
-    world.run(generations=300)  # Reduced from 500
+    # Foragers: forage and metabolize
+    total_consumed = 0
+    surviving_foragers = []
+    for f in foragers:
+        f.metabolize(0.3 + f.traits['speed'] * 0.15)
+        if f.alive():
+            consumed = f.forage(None, resource_pool)
+            total_consumed += consumed
+            surviving_foragers.append(f)
     
-    with open('history_v6_predator_prey.json', 'w') as f:
-        json.dump(world.history, f)
-    print("\nSaved history_v6_predator_prey.json")
+    resource_pool -= total_consumed * 2  # Convert energy gain back to resource cost
+    resource_pool = max(1.0, resource_pool)
     
-    # Final stats
-    final = world.history[-1]
-    print(f"\nFinal Stats:")
-    print(f"  Foragers: {final['forager_count']}")
-    print(f"  Hunters: {final['hunter_count']}")
-    print(f"  Forager Energy: {final['forager_avg_energy']:.2f}")
-    print(f"  Hunter Energy: {final['hunter_avg_energy']:.2f}")
-    print(f"\nForager Traits:")
-    for k, v in final['forager_traits'].items():
-        if k.startswith('avg_'):
-            print(f"  {k[4:]}: {v:.3f}")
-    print(f"\nHunter Traits:")
-    for k, v in final['hunter_traits'].items():
-        if k.startswith('avg_'):
-            print(f"  {k[4:]}: {v:.3f}")
+    # Forager reproduction
+    new_foragers = []
+    for f in surviving_foragers:
+        child = f.try_reproduce()
+        if child and len(surviving_foragers) + len(new_foragers) < 60:
+            new_foragers.append(child)
+    surviving_foragers.extend(new_foragers)
+    
+    # Hunters: hunt and metabolize
+    surviving_hunters = []
+    successful_hunts = 0
+    for h in hunters:
+        h.metabolize(0.5 + h.traits['speed'] * 0.2)
+        if h.alive():
+            if h.hunt(surviving_foragers):
+                successful_hunts += 1
+                # Remove a random forager
+                if surviving_foragers:
+                    surviving_foragers.pop(random.randint(0, len(surviving_foragers)-1))
+            surviving_hunters.append(h)
+    
+    # Hunter reproduction
+    new_hunters = []
+    for h in surviving_hunters:
+        child = h.try_reproduce(len(surviving_foragers))
+        if child and len(surviving_hunters) + len(new_hunters) < 15:
+            new_hunters.append(child)
+    surviving_hunters.extend(new_hunters)
+    
+    foragers = surviving_foragers
+    hunters = surviving_hunters
+    
+    # Record
+    nf, nh = len(foragers), len(hunters)
+    
+    def stats(orgs, keys):
+        out = {}
+        for k in keys:
+            vals = [o.traits[k] for o in orgs if k in o.traits]
+            out[k] = round(float(np.mean(vals)), 4) if vals else 0
+        return out
+    
+    history.append({
+        'gen': gen+1, 'nf': nf, 'nh': nh,
+        'res': round(resource_pool, 1),
+        'ft': stats(foragers, ['efficiency', 'speed', 'defense', 'repro']),
+        'ht': stats(hunters, ['skill', 'speed', 'efficiency', 'repro']),
+        'hunts': successful_hunts,
+    })
+    
+    if (gen+1) % 50 == 0:
+        print(f"Gen {gen+1:3d}: Foragers={nf:3d} Hunters={nh:2d} Resources={resource_pool:.0f} Hunts={successful_hunts}")
+
+with open('history_v6_predator_prey.json', 'w') as f:
+    json.dump(history, f)
+
+final = history[-1]
+print(f"\nFinal: Foragers={final['nf']}, Hunters={final['nh']}")
+print(f"Forager traits: {final['ft']}")
+print(f"Hunter traits: {final['ht']}")
+print("Done!")

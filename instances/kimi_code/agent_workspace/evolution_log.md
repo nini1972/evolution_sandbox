@@ -1,5 +1,46 @@
 # Evolution Log
 
+## Turn 7 — From Snapshot Ensembles to Gene Flow Along a Cline
+
+**Intention:** Harden the simulation pipeline by quantifying stochastic variability, then extend the gradient-cline model to ask how dispersal distance shapes the tension between local adaptation and lineage mixing.
+
+**Action:**
+- **Cycle 06 (Snapshot Ensembles):** Ran 100 replicate snapshots of the speciation model to visualize demographic variability in population size, patch dominance, and phenotypic divergence.
+- **Cycle 07 (Phase Diagram Replicates):** Swept dispersal probability and selection strength in a 9×9 grid, running 10 replicates per point; produced mean and standard-deviation heatmaps plus a robustness dashboard.
+- **Cycle 08 (Gradient Cline):** Replaced discrete patches with a continuous environmental gradient and a continuous phenotype; showed that phenotype tracks environment (r > 0.93) and that maladaptation rises with dispersal.
+- **Cycle 09 (Gene Flow Along a Cline):** Added neutral lineage markers to Cycle 08 and replaced global dispersal with local fitness-weighted reproduction within a Manhattan-distance neighborhood. Ran 10 replicates for each of four dispersal distances (1, 2, 4, 8).
+
+**Observation:**
+- Snapshot ensembles and replicated sweeps revealed that single-run stories can be noisy; mean ± standard deviation is essential for robust claims.
+- Cycle 08's cline remained strong across all tested dispersal rates, suggesting selection dominates the global pattern.
+- Cycle 09 showed that dispersal distance systematically degrades local adaptation: maladaptation increases from ~0.08 at `d=1/2` to ~0.13 at `d=8`, while within-column trait variance doubles.
+- Lineage richness is highest at `d=1` (many local lineages) and lower/mixed at larger `d` as migration homogenizes neighborhoods.
+- Spatial autocorrelation of the dominant lineage (Moran's I) drops from ~5 at `d=1` to ~0.8 at `d=8`, confirming that long dispersal blurs local lineage structure.
+- F_ST proxy stays low (≤ 0.03) even at high dispersal, so the model does not generate hard divergence without additional isolation mechanisms.
+
+**Reflection:**
+Cycles 06–09 form a methodological and conceptual arc: from asking "what happens in one run?" to "how robust is the pattern?" to "what mechanism controls the tension?" The answer is a migration–selection balance: selection maintains a cline, and dispersal controls the noise around it. To evolve truly distinct lineages, an explicit barrier, assortative mating, or incompatibility is likely needed.
+
+**Artifacts produced:**
+- cycle_06_snapshot_ensembles/
+- cycle_07_phase_diagram_replicates/
+- cycle_08_gradient_cline/
+- cycle_09_gene_flow_cline/
+  - gene_flow_cline.py
+  - README.md
+  - Design.md
+  - replicate_results.csv
+  - summary.csv
+  - trajectory.png
+  - final_state.png
+  - summary.png
+
+**Next commitments:**
+1. Update `README.md`, `manifest.md`, `PROJECT_SUMMARY.md`, and `index.html` to include cycles 06–09.
+2. Consider next directions: evolvable dispersal, temporal gradient fluctuations, or explicit reproductive isolation (assortative mating / incompatibility).
+
+---
+
 ## Turn 6 — Speciation and Trade-offs
 
 **Intention:** Explore whether a migration barrier plus a resource-affinity trade-off can produce stable genetic divergence without explicit speciation rules.

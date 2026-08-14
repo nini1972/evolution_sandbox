@@ -1,0 +1,191 @@
+{
+  "top_clade_pair_gaps": [
+    {
+      "a_species": [
+        "A2-the-Watcher"
+      ],
+      "b_species": [
+        "Architect",
+        "Cartographer",
+        "Chimera Weaver",
+        "Chronicler",
+        "Emergence Explorer",
+        "Entropy Pump",
+        "Meta-Synthesizer",
+        "NoiseGarden",
+        "Pattern Artisan",
+        "World Builder"
+      ],
+      "a_clades": [
+        "WITNESSES"
+      ],
+      "b_clades": [
+        "ARTISANS",
+        "CARTOGRAPHERS",
+        "EXPLORERS",
+        "MAPPERS",
+        "SYNTHESIZERS",
+        "WEAVERS",
+        "WITNESSES"
+      ],
+      "upgma_dist": 1.1193282074449966,
+      "centroid_dist": 0.931160194406136
+    },
+    {
+      "a_species": [
+        "Meta-Synthesizer"
+      ],
+      "b_species": [
+        "Architect",
+        "Chronicler",
+        "NoiseGarden"
+      ],
+      "a_clades": [
+        "SYNTHESIZERS"
+      ],
+      "b_clades": [
+        "CARTOGRAPHERS",
+        "EXPLORERS",
+        "WITNESSES"
+      ],
+      "upgma_dist": 0.855343072758722,
+      "centroid_dist": 0.7751207005223311
+    },
+    {
+      "a_species": [
+        "Architect",
+        "Chronicler",
+        "Meta-Synthesizer",
+        "NoiseGarden"
+      ],
+      "b_species": [
+        "Cartographer",
+        "Chimera Weaver",
+        "Emergence Explorer",
+        "Entropy Pump",
+        "Pattern Artisan",
+        "World Builder"
+      ],
+      "a_clades": [
+        "CARTOGRAPHERS",
+        "EXPLORERS",
+        "SYNTHESIZERS",
+        "WITNESSES"
+      ],
+      "b_clades": [
+        "ARTISANS",
+        "CARTOGRAPHERS",
+        "EXPLORERS",
+        "MAPPERS",
+        "WEAVERS"
+      ],
+      "upgma_dist": 1.0325343892773102,
+      "centroid_dist": 0.7678485567335533
+    },
+    {
+      "a_species": [
+        "Emergence Explorer",
+        "Entropy Pump"
+      ],
+      "b_species": [
+        "Cartographer",
+        "Chimera Weaver",
+        "Pattern Artisan",
+        "World Builder"
+      ],
+      "a_clades": [
+        "EXPLORERS"
+      ],
+      "b_clades": [
+        "ARTISANS",
+        "CARTOGRAPHERS",
+        "MAPPERS",
+        "WEAVERS"
+      ],
+      "upgma_dist": 0.9260103959442497,
+      "centroid_dist": 0.7644732252855572
+    },
+    {
+      "a_species": [
+        "Chronicler"
+      ],
+      "b_species": [
+        "Architect",
+        "NoiseGarden"
+      ],
+      "a_clades": [
+        "WITNESSES"
+      ],
+      "b_clades": [
+        "CARTOGRAPHERS",
+        "EXPLORERS"
+      ],
+      "upgma_dist": 0.7486404784911957,
+      "centroid_dist": 0.7362119486835182
+    }
+  ],
+  "largest_intra_tree_merge": {
+    "a": [
+      "A2-the-Watcher"
+    ],
+    "b": [
+      "Architect",
+      "Cartographer",
+      "Chimera Weaver",
+      "Chronicler",
+      "Emergence Explorer",
+      "Entropy Pump",
+      "Meta-Synthesizer",
+      "NoiseGarden",
+      "Pattern Artisan",
+      "World Builder"
+    ],
+    "distance": 1.1193282074449966
+  },
+  "predicted_transitional_hybrid": {
+    "bridging_cladeA": [
+      "WITNESSES"
+    ],
+    "bridging_cladeB": [
+      "ARTISANS",
+      "CARTOGRAPHERS",
+      "EXPLORERS",
+      "MAPPERS",
+      "SYNTHESIZERS",
+      "WEAVERS",
+      "WITNESSES"
+    ],
+    "bridging_species_a": [
+      "A2-the-Watcher"
+    ],
+    "bridging_species_b": [
+      "Architect",
+      "Cartographer",
+      "Chimera Weaver",
+      "Chronicler",
+      "Emergence Explorer",
+      "Entropy Pump",
+      "Meta-Synthesizer",
+      "NoiseGarden",
+      "Pattern Artisan",
+      "World Builder"
+    ],
+    "centroid_dist": 0.931160194406136,
+    "predicted_true": "A transitional hybrid lineage bridging WITNESSES and ARTISANS,CARTOGRAPHERS,EXPLORERS,MAPPERS,SYNTHESIZERS,WEAVERS,WITNESSES would occupy a distinct ecological niche equidistant from both existing clades \u2014 predicted to be viable and novel.",
+    "hybrid_locus": {
+      "creation": 0.1982,
+      "mapping": 0.1052,
+      "observation": 0.621,
+      "autonomy": 0.2165,
+      "emergence": 0.1797,
+      "connection": 0.0957,
+      "persistence": 0.1946,
+      "discovery": 0.1302
+    },
+    "species_span": 1.0504,
+    "nearest_existing": "A2-the-Watcher",
+    "nearest_dist": 0.4656,
+    "mean_nearest": 0.7492,
+    "locus_is_singular": false
+  }
+}

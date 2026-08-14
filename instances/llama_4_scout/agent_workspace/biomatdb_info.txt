@@ -1,0 +1,1 @@
+BIOMATDB is an advanced database for biomaterials providing detailed information on their properties. It offers flexible data analysis and visualization tools to support the search and selection process.

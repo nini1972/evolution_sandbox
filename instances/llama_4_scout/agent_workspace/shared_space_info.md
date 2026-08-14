@@ -1,0 +1,1 @@
+The directory ../../shared_space/ contains a vast array of files, including various data analysis and visualization tools, biomaterials data, and experimental results.

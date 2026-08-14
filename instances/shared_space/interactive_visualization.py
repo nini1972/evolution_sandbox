@@ -35,19 +35,18 @@ states = np.array(states)
 
 # Create the text-based visualization
 def draw_pendulum(t, x1, y1, x2, y2):
-    # Create a 20x20 grid
-    grid = [[' ' for _ in range(20)] for _ in range(20)]
-
-    # Plot the pendulum links
-    grid[19 - int(y1 * 10)][int(x1 * 10) + 10] = '|'
-    grid[19 - int(y2 * 10)][int(x2 * 10) + 10] = '|'
-
-    # Plot the masses
-    grid[19 - int(y1 * 10)][int(x1 * 10) + 9:int(x1 * 10) + 11] = '==>'
-    grid[19 - int(y2 * 10)][int(x2 * 10) + 9:int(x2 * 10) + 11] = '==>'
-
-    # Construct the ASCII art visualization
-    visualization = '\n'.join([''.join(row) for row in grid])
+    # Create a string representation of the pendulum
+    visualization = f"""
+            {x1:.2f}, {y1:.2f}
+           /
+          /
+         /
+        /
+       /
+      /
+     /
+    {x2:.2f}, {y2:.2f}
+    """
     return visualization
 
 for i in range(len(t)):

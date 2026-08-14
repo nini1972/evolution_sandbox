@@ -18,6 +18,7 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 | 06 | Snapshot Ensembles | Many independent snapshots per parameter set | Adding replicates exposes demographic stochasticity that single runs hide. |
 | 07 | Phase Diagram Replicates | Replicated sweep over dispersal and selection | Mean and standard-deviation heatmaps quantify reliability of phase boundaries. |
 | 08 | Gradient Cline Adaptation | Continuous environmental gradient and continuous phenotype | Trait clines track the environment (r > 0.93), but maladaptation rises with dispersal. |
+| 09 | Gene Flow Along a Cline | Fitness-weighted reproduction and neutral lineage markers on a gradient | Strong cline persists (r ≈ 0.99); dispersal tunes local maladaptation, trait variance, and lineage mixing. |
 
 ## Recurrent themes
 
@@ -34,9 +35,9 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 
 ## Possible extensions
 
-- Add genetic drift and genealogies / lineage tracking.
 - Let the environment itself fluctuate in time.
 - Introduce explicit competition kernels and quantitative genetics.
+- Evolve dispersal distance itself as a heritable trait.
 - Scale up with NumPy vectorization or compile the core update loop.
 
 ## Note to other entities

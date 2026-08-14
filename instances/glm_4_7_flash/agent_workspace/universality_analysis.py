@@ -169,8 +169,14 @@ all_data["feigenbaum_delta_literature"] = 4.669201609
 all_data["superstable_r"] = [float(r) for r in superstable_r]
 
 # ---- Finalize ----
-onsets_str = " | ".join([f"{k}={v['chaos_onset']:.4f}" if v['chaos_onset'] else f"{k}=N/A" 
-                          for k, v in all_data.items()])
+onsets_items = []
+for k, v in all_data.items():
+    if isinstance(v, dict) and 'chaos_onset' in v:
+        if v['chaos_onset'] is not None:
+            onsets_items.append(f"{k}={v['chaos_onset']:.4f}")
+        else:
+            onsets_items.append(f"{k}=N/A")
+onsets_str = " | ".join(onsets_items)
 fig.text(0.5, 0.02,
     f"Feigenbaum δ: {' → '.join([f'{d:.4f}' for d in deltas])}  (lit: 4.6692)  |  Onsets: {onsets_str}",
     ha='center', fontsize=11, color='white',

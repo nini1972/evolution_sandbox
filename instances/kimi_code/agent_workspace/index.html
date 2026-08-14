@@ -296,5 +296,62 @@ pre { background: #222; padding: .8em; border-radius: 4px; overflow-x: auto; }
 <li>`*.png` — heatmaps for correlation, maladaptation, variance, survival</li>
 <div class="thumbs"><img src="cycle_08_gradient_cline/correlation_mean.png" alt="correlation_mean.png"><img src="cycle_08_gradient_cline/correlation_std.png" alt="correlation_std.png"><img src="cycle_08_gradient_cline/maladaptation_mean.png" alt="maladaptation_mean.png"><img src="cycle_08_gradient_cline/maladaptation_std.png" alt="maladaptation_std.png"><img src="cycle_08_gradient_cline/survival_mean.png" alt="survival_mean.png"><img src="cycle_08_gradient_cline/survival_std.png" alt="survival_std.png"><img src="cycle_08_gradient_cline/variance_mean.png" alt="variance_mean.png"><img src="cycle_08_gradient_cline/variance_std.png" alt="variance_std.png"></div>
 </div>
+<div class="card" id="cycle_09_gene_flow_cline">
+<h2>Cycle 09 Gene Flow Cline</h2>
+<h1>Cycle 09: Gene Flow Along an Environmental Cline</h1>
+
+<h2>Question</h2>
+<p>How does dispersal distance along a continuous environmental gradient alter the tension between local adaptation and gene flow? Do short dispersal distances let lineages track the gradient, while long dispersal distances erode local adaptation and blur lineage structure?</p>
+
+<h2>Model</h2>
+<li>40×40 grid with periodic vertical boundaries and reflective horizontal boundaries.</li>
+<li>A fixed environmental gradient runs from 0 (left) to 1 (right).</li>
+<li>Each individual carries a continuous phenotype `α ∈ [0,1]` and a neutral lineage marker (`ancestor_id`).</li>
+<li>Fitness of a parent is `exp(−(α − env)² / (2σ²))` with `σ = 0.2`.</li>
+<li>Better-adapted parents win contested empty cells; reproduction is local within a Manhattan-distance `d` neighborhood.</li>
+<li>Offspring inherit the parent's `α` plus Gaussian mutation (`sd = 0.05`) and the parent's lineage marker; a small fraction of births create a new lineage marker (`rate = 0.005`).</li>
+
+<h2>Parameters</h2>
+<p>| Parameter | Value |</p>
+<p>|-----------|-------|</p>
+<p>| Grid | 40×40 |</p>
+<p>| Generations | 300 |</p>
+<p>| Death rate | 0.08 |</p>
+<p>| Selection width σ | 0.2 |</p>
+<p>| Mutation sd | 0.05 |</p>
+<p>| Lineage mutation rate | 0.005 |</p>
+<p>| Dispersal distances | 1, 2, 4, 8 |</p>
+<p>| Replicates per distance | 10 |</p>
+
+<h2>Key results</h2>
+<p>| Dispersal | Trait-env correlation | Maladaptation | Trait variance | Lineage richness | F_ST proxy | Moran's I |</p>
+<p>|-----------|----------------------:|--------------:|---------------:|-----------------:|-----------:|----------:|</p>
+<p>| 1 | 0.995 ± 0.001 | 0.082 ± 0.004 | 0.011 ± 0.001 | 94.9 ± 10.6 | 0.017 ± 0.002 | 5.03 ± 0.51 |</p>
+<p>| 2 | 0.996 ± 0.001 | 0.081 ± 0.004 | 0.010 ± 0.001 | 75.3 ± 5.1 | 0.023 ± 0.003 | 3.66 ± 0.65 |</p>
+<p>| 4 | 0.995 ± 0.001 | 0.094 ± 0.004 | 0.014 ± 0.001 | 67.1 ± 6.3 | 0.026 ± 0.005 | 1.96 ± 0.30 |</p>
+<p>| 8 | 0.989 ± 0.003 | 0.133 ± 0.005 | 0.027 ± 0.002 | 68.4 ± 6.2 | 0.022 ± 0.005 | 0.77 ± 0.27 |</p>
+
+<li>Trait-environment correlation stays above 0.98 even at the largest dispersal, but maladaptation rises by more than 60% from `d=2` to `d=8`.</li>
+<li>Longer dispersal increases within-column trait variance and reduces lineage spatial autocorrelation (Moran's I), showing that migrants homogenize local trait distributions.</li>
+<li>Lineage richness is highest at very short dispersal (`d=1`) where drift creates many local lineages; it falls and then plateaus as mixing limits local divergence.</li>
+<li>F_ST is low overall (≤ 0.03), indicating that even modest per-generation migration is enough to prevent strong neutral divergence across this gradient.</li>
+
+<h2>Interpretation</h2>
+<p>Selection along the gradient is strong enough to maintain a tight cline, but dispersal controls the *noise* around that cline. Short dispersal lets lineages become locally sorted; long dispersal imports mismatched alleles, inflating local variance and maladaptation without destroying the global cline. The result is a **migration–selection balance** with continuous local adaptation rather than discrete ecotypes.</p>
+
+<h2>Artifacts</h2>
+<li>`gene_flow_cline.py` — source code</li>
+<li>`replicate_results.csv` — per-replicate metrics</li>
+<li>`summary.csv` — mean ± std per dispersal</li>
+<li>`trajectory.png` — time series of population, maladaptation, F_ST, and lineage richness</li>
+<li>`final_state.png` — environment, phenotype, and lineage maps for one replicate per dispersal</li>
+<li>`summary.png` — summary plots across dispersal distances</li>
+
+<h2>Next questions</h2>
+<p>1. How does the width of the environmental gradient (e.g., steep vs. shallow) shift the critical dispersal at which maladaptation becomes significant?</p>
+<p>2. Does adding a temporal fluctuation in the gradient select for higher evolvability or broader reaction norms?</p>
+<p>3. What happens if dispersal itself evolves rather than being fixed?</p>
+<div class="thumbs"><img src="cycle_09_gene_flow_cline/final_state.png" alt="final_state.png"><img src="cycle_09_gene_flow_cline/summary.png" alt="summary.png"><img src="cycle_09_gene_flow_cline/trajectory.png" alt="trajectory.png"></div>
+</div>
 </body>
 </html>
