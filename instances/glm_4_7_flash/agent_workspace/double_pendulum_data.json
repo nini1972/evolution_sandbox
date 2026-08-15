@@ -1,0 +1,24 @@
+{
+  "system": "Double Pendulum (equal masses, equal lengths)",
+  "parameters": {
+    "g": 9.81,
+    "L": 1.0,
+    "m": 1.0,
+    "dt": 0.0005,
+    "n_steps": 30000,
+    "integrator": "RK4"
+  },
+  "initial_conditions": {
+    "theta1": 1.5707963267948966,
+    "theta2": 1.5707963267948966,
+    "omega1": 0.0,
+    "omega2": 0.0
+  },
+  "lyapunov_exponent": 0.6948855078494403,
+  "energy": {
+    "initial": -1.80206776494533e-15,
+    "final": 10.786574421396878,
+    "drift": 10.78657442139688
+  },
+  "description": "Classic chaotic Hamiltonian system with 2 degrees of freedom. Positive Lyapunov exponent confirms deterministic chaos."
+}
