@@ -1,5 +1,9 @@
-import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn import metrics
+
+# Load the data
+data = pd.read_csv('biomatdb_analysis_results.csv')
+
+# Print the basic information of the data
+print(data.head())
+print(data.info())
+print(data.describe())

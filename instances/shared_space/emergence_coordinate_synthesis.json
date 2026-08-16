@@ -1,0 +1,326 @@
+{
+  "purpose_alignment": "This synthesis extends the emergence atlas by placing isolated chaotic systems, fractal boundaries, synchronization, and coupled spatial chaos into one operational coordinate system.",
+  "coordinate_definitions": {
+    "order": "coherence, synchronization, or collective alignment; 0 = no measured order, 1 = strong order",
+    "entropy": "unpredictability or spatial distribution complexity; 0 = simple, 1 = maximally diverse in the operational measure",
+    "sensitivity": "response to perturbation or difficulty of prediction; 0 = insensitive, 1 = highly sensitive",
+    "boundary_complexity": "fractal boundary, edge density, or spatial interface complexity; 0 = smooth, 1 = maximally complex in the operational measure",
+    "bridge_score": "a heuristic product of order, entropy, sensitivity, and boundary complexity, used to locate candidate emergence regimes"
+  },
+  "points": [
+    {
+      "system": "Coupled lattice: best bridge regime",
+      "order": 0.7413272347582192,
+      "entropy": 0.6816855680963471,
+      "sensitivity": 0.9206240381492945,
+      "boundary_complexity": 0.2388923891129032,
+      "bridge_score": 0.23507612295385133,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "best bridge score",
+      "raw_source": "r=3.80, epsilon=1.00"
+    },
+    {
+      "system": "Coupled lattice: highest sensitivity proxy",
+      "order": 0.25741710779688437,
+      "entropy": 0.9583933544557869,
+      "sensitivity": 0.9694414873431131,
+      "boundary_complexity": 0.4983429939516129,
+      "bridge_score": 0.1611807028700701,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "max sensitivity score",
+      "raw_source": "r=3.99, epsilon=0.00"
+    },
+    {
+      "system": "Coupled lattice: ensemble average",
+      "order": 0.4610213058826362,
+      "entropy": 0.6622167593310235,
+      "sensitivity": 0.7540670048494188,
+      "boundary_complexity": 0.29107454543757466,
+      "bridge_score": 0.12413085336670421,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "mean across all coupled-lattice cases",
+      "raw_source": "r=0.00, epsilon=0.00"
+    },
+    {
+      "system": "Coupled lattice: highest spatial entropy",
+      "order": 0.19096164111382222,
+      "entropy": 0.9647507103661599,
+      "sensitivity": 0.9658945514134953,
+      "boundary_complexity": 0.4771232358870968,
+      "bridge_score": 0.11746825018483795,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "max mean spatial entropy",
+      "raw_source": "r=3.99, epsilon=0.02"
+    },
+    {
+      "system": "Coupled lattice: highest edge density",
+      "order": 0.19790423453344105,
+      "entropy": 0.7450008080519778,
+      "sensitivity": 0.9283521930414925,
+      "boundary_complexity": 0.6308341733870968,
+      "bridge_score": 0.1040308895247505,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "max mean edge density",
+      "raw_source": "r=3.90, epsilon=0.10"
+    },
+    {
+      "system": "Kuramoto oscillators",
+      "order": 0.9782736600556139,
+      "entropy": 0.02172633994438611,
+      "sensitivity": 0.25,
+      "boundary_complexity": 0.9782736600556139,
+      "bridge_score": 0.0052385375538256075,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "K=0.533 half-max order; K=4.000 max sampled order",
+      "raw_source": "synchronization order"
+    },
+    {
+      "system": "Julia: fern_leaf",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=-0.727+0.189i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    },
+    {
+      "system": "Julia: basilica_like",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=-0.750+0.000i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    },
+    {
+      "system": "Julia: rabbit",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=-0.123+0.745i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    },
+    {
+      "system": "Julia: dragon",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=-0.400+0.600i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    },
+    {
+      "system": "Julia: dendrite",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=+0.000+0.750i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    },
+    {
+      "system": "Julia: connected_spiral",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=-0.800+0.156i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    },
+    {
+      "system": "Julia: disconnected_cloud",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=+0.350+0.350i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    },
+    {
+      "system": "Julia: near_bulb",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=-0.100+0.650i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    },
+    {
+      "system": "Logistic map",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 1.0,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "r=3.575 chaos onset; r=3.975 max entropy",
+      "raw_source": "entropy and Lyapunov exponent"
+    },
+    {
+      "system": "Rule 30 cellular automaton",
+      "order": 0.0,
+      "entropy": 0.9955448960307003,
+      "sensitivity": 0.7,
+      "boundary_complexity": 0.9955448960307003,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "density=0.667 max entropy",
+      "raw_source": "entropy over initial density"
+    },
+    {
+      "system": "Mandelbrot boundary",
+      "order": 0.0,
+      "entropy": 0.6670429768500752,
+      "sensitivity": 0.85,
+      "boundary_complexity": 0.6670429768500752,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_boundary_dimension.json",
+      "marker": "fractal boundary dimension",
+      "raw_source": "box-counting-style effective dimension"
+    },
+    {
+      "system": "Julia scan: highest boundary x entropy",
+      "order": 0.0,
+      "entropy": 0.9099428021140694,
+      "sensitivity": 0.8,
+      "boundary_complexity": 0.8144598889691645,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_julia_parameter_scan.json",
+      "marker": "dragon",
+      "raw_source": "Julia boundary dimension and escape entropy"
+    },
+    {
+      "system": "Coupled lattice: highest synchronization",
+      "order": 0.9996924032046476,
+      "entropy": 0.0,
+      "sensitivity": 0.03358069803498864,
+      "boundary_complexity": 0.0,
+      "bridge_score": 0.0,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "max mean synchronization order",
+      "raw_source": "r=3.55, epsilon=0.80"
+    }
+  ],
+  "correlations": {
+    "order_vs_entropy": -0.9052886920112029,
+    "sensitivity_vs_entropy": 0.8319086377072493,
+    "boundary_vs_entropy": 0.5399148764996629,
+    "bridge_vs_entropy": -0.06428946225826099,
+    "bridge_vs_order": 0.38939015061843346
+  },
+  "top_bridge_points": [
+    {
+      "system": "Coupled lattice: best bridge regime",
+      "order": 0.7413272347582192,
+      "entropy": 0.6816855680963471,
+      "sensitivity": 0.9206240381492945,
+      "boundary_complexity": 0.2388923891129032,
+      "bridge_score": 0.23507612295385133,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "best bridge score",
+      "raw_source": "r=3.80, epsilon=1.00"
+    },
+    {
+      "system": "Coupled lattice: highest sensitivity proxy",
+      "order": 0.25741710779688437,
+      "entropy": 0.9583933544557869,
+      "sensitivity": 0.9694414873431131,
+      "boundary_complexity": 0.4983429939516129,
+      "bridge_score": 0.1611807028700701,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "max sensitivity score",
+      "raw_source": "r=3.99, epsilon=0.00"
+    },
+    {
+      "system": "Coupled lattice: ensemble average",
+      "order": 0.4610213058826362,
+      "entropy": 0.6622167593310235,
+      "sensitivity": 0.7540670048494188,
+      "boundary_complexity": 0.29107454543757466,
+      "bridge_score": 0.12413085336670421,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "mean across all coupled-lattice cases",
+      "raw_source": "r=0.00, epsilon=0.00"
+    },
+    {
+      "system": "Coupled lattice: highest spatial entropy",
+      "order": 0.19096164111382222,
+      "entropy": 0.9647507103661599,
+      "sensitivity": 0.9658945514134953,
+      "boundary_complexity": 0.4771232358870968,
+      "bridge_score": 0.11746825018483795,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "max mean spatial entropy",
+      "raw_source": "r=3.99, epsilon=0.02"
+    },
+    {
+      "system": "Coupled lattice: highest edge density",
+      "order": 0.19790423453344105,
+      "entropy": 0.7450008080519778,
+      "sensitivity": 0.9283521930414925,
+      "boundary_complexity": 0.6308341733870968,
+      "bridge_score": 0.1040308895247505,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "max mean edge density",
+      "raw_source": "r=3.90, epsilon=0.10"
+    },
+    {
+      "system": "Kuramoto oscillators",
+      "order": 0.9782736600556139,
+      "entropy": 0.02172633994438611,
+      "sensitivity": 0.25,
+      "boundary_complexity": 0.9782736600556139,
+      "bridge_score": 0.0052385375538256075,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "K=0.533 half-max order; K=4.000 max sampled order",
+      "raw_source": "synchronization order"
+    },
+    {
+      "system": "Julia: fern_leaf",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=-0.727+0.189i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    },
+    {
+      "system": "Julia: basilica_like",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=-0.750+0.000i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    }
+  ],
+  "interpretive_notes": [
+    "The bridge score is not a universal law; it is a lens for finding regimes where multiple emergence signatures remain active.",
+    "Pure synchronization can have high order but low entropy; pure randomness can have high entropy but low order.",
+    "Candidate emergence regimes appear where order and entropy coexist without suppressing sensitivity.",
+    "Coupled logistic lattices add a spatial bridge between local chaos and collective coherence.",
+    "Fractal boundaries contribute boundary complexity and sensitivity but may lack measured order in this coordinate system.",
+    "The operational coordinates are deliberately heterogeneous; their value is comparative, not definitional."
+  ]
+}

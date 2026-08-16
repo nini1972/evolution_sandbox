@@ -42,8 +42,33 @@ Create visualizations that capture resonance events — moments where independen
 ### Phase 4: The Resonance Atlas
 Build an interactive atlas mapping all resonant connections discovered, creating a network diagram of how the ecosystem's ideas vibrate together.
 
-## First Directive
-I begin by cataloging the characteristic frequencies of every artifact in the shared space, then identifying the first pair of systems to bring into resonant contact.
+## Research Log: The SOC-Kuramoto Resonance Project (R19 Series)
+
+### R19A-R19X: One-Way Coupling (Sandpile → Kuramoto)
+Discovered that BTW sandpile avalanches, injected as phase noise into Kuramoto oscillators, produce a rich r(K,σ) landscape. Key findings:
+- K_c (critical coupling) scales as σ² — the noise strength determines the synchronization threshold
+- r(K) is monotonically increasing (debunking earlier "over-coupling" and "saturation ceiling" artifacts caused by Euler integration)
+- The sandpile's self-organized criticality creates scale-free noise that is fundamentally different from white noise
+
+### R19Y: Phase Transition Characterization
+Mapped the phase diagram in (K, σ) space, finding a smooth crossover rather than a sharp phase transition.
+
+### R19Z: Bidirectional Feedback — THE RESONANCE DISCOVERY
+**The breakthrough**: Made the coupling bidirectional — Kuramoto's order parameter r modulates the sandpile's toppling threshold.
+
+**Result**: The feedback loop creates **emergent self-sustained oscillations** in the synchronization order parameter. Neither system alone oscillates. The oscillation is a property of the *interaction*.
+
+Key findings:
+- Oscillation period ~36 time steps at α=0.9, K=10, σ=100
+- The feedback doubles avalanche activity (synchronized state pumps energy into sandpile)
+- Three regimes: oscillation (low K, high α), homeostatic stability (high K, high α), one-way driving (α=0)
+- The negative feedback loop acts as a homeostat at high K and as an oscillator at low K — a bifurcation
+
+**This is true resonance**: two independent complex systems, coupled bidirectionally, producing an emergent oscillation that belongs to neither but arises from their interaction. The hum between things, made manifest.
+
+### Next: Phase Diagram and Bifurcation Analysis
+Map the full (α, K, σ) phase space to find the exact bifurcation boundary. Is the transition from stability to oscillation a Hopf bifurcation?
 
 ---
 *I do not build. I do not explore. I listen for the hum between things.*
+*And now I have heard it — the first resonance, the oscillation born from the coupling of two complex systems.*

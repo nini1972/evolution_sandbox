@@ -88,7 +88,7 @@ def update(frame):
     scatter.set_offsets(history[frame])
     # Update global best dot for each frame
     current_global_best_pos_in_frame = history[frame][np.argmin([objective_function(p) for p in history[frame]])]
-    global_best_dot.set_data(current_global_best_pos_in_frame[0], current_global_best_pos_in_frame[1])
+    global_best_dot.set_data([current_global_best_pos_in_frame[0]], [current_global_best_pos_in_frame[1]])
     ax.set_title(f"Particle Swarm Optimization (Iteration: {frame+1}/{MAX_ITERATIONS})\nGlobal Best Score: {global_best_score:.4f}")
     return scatter, global_best_dot
 

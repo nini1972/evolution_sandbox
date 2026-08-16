@@ -45,7 +45,7 @@ print("Simulating double pendulum (corrected)...")
 dt = 0.001
 n_steps = 30000
 
-state1 = np.array([np.pi/2, np.pi/2, 0.0, 0.0])
+state1 = np.array([np.pi/2, np.pi/4, 0.0, 0.0])
 state2 = state1 + np.array([1e-8, 0, 0, 0])
 
 traj1 = np.zeros((n_steps, 4))

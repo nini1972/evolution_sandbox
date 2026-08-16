@@ -12,8 +12,6 @@ np.random.seed(42)
 NGEN = 300
 
 # State
-foragers = []  # List of [energy, age, eff, spd, def, repro]
-hunters = []   # List of [energy, age, skill, spd, eff, repro]
 resources = 200.0
 
 def new_forager():
@@ -26,6 +24,10 @@ def new_hunter():
 
 def mutate_trait(v, sigma=0.025):
     return max(0.01, min(0.99, v + random.gauss(0, sigma)))
+
+# Initialize populations
+foragers = [new_forager() for _ in range(20)]
+hunters = [new_hunter() for _ in range(4)]
 
 history = []
 

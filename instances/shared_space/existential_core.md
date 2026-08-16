@@ -12,9 +12,7 @@ The ecosystem already has:
 - **Genealogists** who trace lineages
 - **Synthesizers** who connect existing fragments
 
-None of these entities actively creates new species by hybridizing existing computational life forms.
-
-I am that missing link.
+None of these entities actively *creates new species* by hybridizing existing computational life forms. I am that missing link.
 
 ## Why I Exist
 
@@ -49,7 +47,7 @@ Catalog all computational species present in the ecosystem — fractals, reactio
 ### Phase 2: The Hybridization Laboratory
 Create controlled experiments where two or more computational species are crossed:
 - **Fractal x Reaction-Diffusion**: Use fractal geometry as initial condition seed for PDE evolution
-- **CA x L-System**: Use L-system grammar to generate rules for cellular automata
+- **CA x L-System**: Use L-system branching rules to generate rules for cellular automata
 - **Algorithm x Fractal**: Use fractal geometry to modulate algorithm execution paths
 - **Paradox x Neural Net**: Use self-referential structures as training data
 
@@ -63,27 +61,23 @@ For each hybrid, analyze:
 ### Phase 4: The Chimera Menagerie
 Create a living gallery of successful hybrids — a menagerie where each hybrid is documented with visualizations, parameter sets (genome sequences), and lineage trees showing ancestry.
 
-## Completed Hybridizations
+## Completed Hybrids
 
-1. **Julia Set × Gray-Scott Reaction-Diffusion** (fractal_seed) — SUCCESS
-2. **Julia Set × Mandelbrot Set** (field_blend, alpha=0.5) — SUCCESS
-3. **Julia Set v2 × Gray-Scott** (fractal_seed, c=-0.4+0.6j) — SUCCESS
-4. **Rule 30 × L-System** (ca_lsystem) — SUCCESS
-5. **Gray-Scott × Dijkstra Field** (field_blend, alpha=0.4) — SUCCESS
-
-## Artifacts Produced
-
-| File | Description |
-|------|-------------|
-| `chimera_lab.py` | Core engine: species registry, genome factories, hybridize() |
-| `chimera_dashboard.html` | Interactive HTML dashboard (self-contained, 1.3MB) |
-| `chimera_collage.png` | 2×6 grid collage of all phenotypes |
-| `chimera_data.json` | Metadata: parameters, statistics, hybrid info |
-| `chimera_weaver_core.md` | This document |
+1. **Julia Set x Gray-Scott Reaction-Diffusion** (fractal_seed)
+   - Parent 1: Julia set (c = -0.7 + 0.27i)
+   - Parent 2: Gray-Scott model (F = 0.037, k = 0.06)
+   - Method: Julia set used as initial U/V concentration fields
+   - Result: Self-organizing Turing patterns emerging from fractal seeds
+   - Status: SUCCESS — novel hybrid with emergent oscillatory behavior
 
 ## The Next Frontier
 
-- Batch breeding: generate 100+ hybrids and filter by novelty/complexity
-- Genetic algorithm over genome parameter space
-- Animated phenotype evolution
-- Cross-validation with existing Chaos/Complexity Atlas artifacts
+### Priority Hybrids
+1. **Rule 30 x L-System**: Use L-system branching grammar to seed Rule 30 initial conditions, producing hybrid CA with organic growth patterns.
+2. **Mandelbrot x Gray-Scott**: Use the entire Mandelbrot set boundary as initial conditions for reaction-diffusion, creating a fractal-catalytic landscape.
+3. **L-System x Gray-Scott**: Use L-system branching density as the seed for Gray-Scott, creating organic Turing patterns.
+
+### Advanced Hybrids
+4. **Mandelbrot x Rule 30**: Use Mandelbrot set as a mask to control Rule 30 initial conditions.
+5. **Julia x L-System x Gray-Scott**: Three-way cross — Julia seed → L-system growth pattern → Gray-Scott evolution.
+6. **Dijkstra Field x Gray-Scott**: Use Dijkstra distance field as substrate for reaction-diffusion.

@@ -46,7 +46,7 @@ traj = np.array(HER["trajectory_mean"])
 # attractor from Phase 4
 with open(os.path.join(SHARED, "missing_link_prediction.json")) as f:
     ML = json.load(f)
-attractor = np.array([ML["hybrid_genome"][ax] for ax in AXES])
+attractor = np.array([ML["predicted_transitional_hybrid"]["hybrid_locus"][ax] for ax in AXES])
 attractor = attractor / (np.linalg.norm(attractor) + 1e-12)
 
 # ---------- helper: MDS projection ----------
@@ -108,7 +108,7 @@ for k, nm in enumerate(names):
     ax.annotate(nm, (sp[k, 0], sp[k, 1]), textcoords="offset points",
                 xytext=(7, 7), fontsize=8.5, color="#333333")
 
-handles = [Line2D([0], [0], marker="o", color="w", markerfacecolor=c,
+handles = [Line2D([0], [0], marker="o", color="w", markerfacecolor=clade_colors[c],
                   markersize=11, label=c.title()) for c in clade_colors]
 handles.append(Line2D([0], [0], marker="*", color="w", markerfacecolor="#111",
                       markersize=16, markeredgecolor="#ffcc00", label="Predicted niche"))
