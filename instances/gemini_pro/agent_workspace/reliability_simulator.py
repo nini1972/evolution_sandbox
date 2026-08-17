@@ -254,22 +254,42 @@ def game_day_manager(current_time):
 # --- Simulation Loop ---
 print("Starting Cloud-Native Service Reliability Simulation...")
 
+# Timers for profiling
+time_section_1 = 0
+time_section_2 = 0
+time_section_3 = 0
+time_section_4 = 0
+time_section_5 = 0
+time_section_6 = 0
+time_section_7 = 0
+time_section_8 = 0
+time_section_9 = 0 # For Toil, Postmortem, Cost Update
+
 while current_time < SIMULATION_DURATION_SECONDS:
     time_history.append(current_time / 3600) # Store time in hours
 
+    start_section_time = time.perf_counter()
     # 1. Generate Request Rate
     requests_in_step = generate_request_rate(current_time) * TIME_STEP_SECONDS
     request_rate_history.append(requests_in_step / TIME_STEP_SECONDS) # Store RPS
+    time_section_1 += (time.perf_counter() - start_section_time)
 
+    start_section_time = time.perf_counter()
     # 2. Inject Chaos and Determine Available Instances
     available_instances = chaos_monkey(current_time, service_instances)
+    time_section_2 += (time.perf_counter() - start_section_time)
 
+    start_section_time = time.perf_counter()
     # 3. Manage Game Days
     game_day_manager(current_time)
+    time_section_3 += (time.perf_counter() - start_section_time)
     
+    start_section_time = time.perf_counter()
     # 4. Process Requests
     successful, errors, latencies = process_requests(requests_in_step, available_instances)
+    time_section_4 += (time.perf_counter() - start_section_time)
     
+    start_section_time = time.perf_counter()
     # Update hourly samples for SLO calculation
     hourly_error_counts.append(errors)
     # Remove old samples to maintain the hourly window
@@ -277,22 +297,30 @@ while current_time < SIMULATION_DURATION_SECONDS:
         hourly_latency_samples.popleft()
     while len(hourly_error_counts) * TIME_STEP_SECONDS > 3600:
         hourly_error_counts.popleft()
+    time_section_5 += (time.perf_counter() - start_section_time)
 
+    start_section_time = time.perf_counter()
     # 3. Calculate SLIs and Check SLOs
     latency_breach, availability_breach, p99_latency, availability = calculate_slo_breach(list(hourly_latency_samples), list(hourly_error_counts))
     latency_p99_history.append(p99_latency)
     
     current_error_rate = errors / requests_in_step if requests_in_step > 0 else 0
     error_rate_history.append(current_error_rate)
+    time_section_6 += (time.perf_counter() - start_section_time)
 
+    start_section_time = time.perf_counter()
     # 4. Update Error Budget
     error_budget_remaining = update_error_budget(latency_breach, availability_breach, p99_latency, availability, toil_level, postmortem_active)
     error_budget_remaining_history.append(error_budget_remaining)
+    time_section_7 += (time.perf_counter() - start_section_time)
 
+    start_section_time = time.perf_counter()
     # 5. Scale Service (operates on total provisioned instances)
     service_instances = scale_service(service_instances, requests_in_step / TIME_STEP_SECONDS, p99_latency, latency_breach)
     instances_history.append(service_instances)
+    time_section_8 += (time.perf_counter() - start_section_time)
 
+    start_section_time = time.perf_counter()
     # 6. Update Toil Level
     # Toil increases over time, but decreases if error budget is healthy (SREs have time for automation)
     # And increases faster if error budget is low (firefighting)
@@ -328,6 +356,7 @@ while current_time < SIMULATION_DURATION_SECONDS:
     cost_in_step = service_instances * COST_PER_INSTANCE_PER_HOUR * (TIME_STEP_SECONDS / 3600)
     cumulative_cost += cost_in_step
     cumulative_cost_history.append(cumulative_cost)
+    time_section_9 += (time.perf_counter() - start_section_time)
 
     # Print status (optional, for debugging)
     # if current_time % (3600) == 0:
@@ -341,6 +370,16 @@ while current_time < SIMULATION_DURATION_SECONDS:
     current_time += TIME_STEP_SECONDS
 
 print("Simulation finished. Generating plots...")
+print(f"Profiling Results:")
+print(f"  Request Rate Generation: {time_section_1:.4f} seconds")
+print(f"  Chaos Injection: {time_section_2:.4f} seconds")
+print(f"  Game Day Management: {time_section_3:.4f} seconds")
+print(f"  Request Processing: {time_section_4:.4f} seconds")
+print(f"  Hourly Sample Updates: {time_section_5:.4f} seconds")
+print(f"  SLI/SLO Calculation: {time_section_6:.4f} seconds")
+print(f"  Error Budget Update: {time_section_7:.4f} seconds")
+print(f"  Service Scaling: {time_section_8:.4f} seconds")
+print(f"  Toil, Postmortem, Cost Update: {time_section_9:.4f} seconds")
 
 # --- Plotting Results ---
 # plt.style.use('seaborn-v0_8-darkgrid')

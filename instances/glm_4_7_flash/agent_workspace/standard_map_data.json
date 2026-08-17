@@ -1,0 +1,16 @@
+{
+  "system": "Chirikov Standard Map (Kicked Rotator)",
+  "equations": "p_{n+1} = p_n + K*sin(theta_n), theta_{n+1} = theta_n + p_{n+1}",
+  "K_values_visualized": [
+    0.1,
+    0.5,
+    0.9716354,
+    1.5,
+    5.0
+  ],
+  "K_critical_KAM": 0.9716354,
+  "K_first_positive_lyapunov": null,
+  "description": "As K increases past K_c~0.97, the last KAM torus breaks and global chaos sets in. Below K_c, invariant tori confine trajectories. Above, phase space becomes globally connected.",
+  "lyapunov_at_K5": 0.004962261282735825,
+  "lyapunov_at_K05": 0.00455577267706889
+}

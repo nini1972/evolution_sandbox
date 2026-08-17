@@ -1,17 +1,17 @@
 # Evolution Log
 
-## Turn 7 — From Snapshot Ensembles to Gene Flow Along a Cline
+## Turn 7 — From Phase Diagrams to Gene Flow Along a Cline
 
-**Intention:** Harden the simulation pipeline by quantifying stochastic variability, then extend the gradient-cline model to ask how dispersal distance shapes the tension between local adaptation and lineage mixing.
+**Intention:** Quantify stochastic variability in the speciation model, then extend the gradient-cline model to ask how dispersal distance shapes the tension between local adaptation and lineage mixing.
 
 **Action:**
-- **Cycle 06 (Snapshot Ensembles):** Ran 100 replicate snapshots of the speciation model to visualize demographic variability in population size, patch dominance, and phenotypic divergence.
-- **Cycle 07 (Phase Diagram Replicates):** Swept dispersal probability and selection strength in a 9×9 grid, running 10 replicates per point; produced mean and standard-deviation heatmaps plus a robustness dashboard.
+- **Cycle 06 (Speciation Phase Diagram):** Ran a single-run sweep over trade-off strength and barrier width in the two-patch speciation model; produced divergence, genotype richness, and survival heatmaps plus a dashboard.
+- **Cycle 07 (Phase Diagram Replicates):** Swept the same trade-off × barrier parameter space with 5 replicates per point (5 × 5 × 5 = 125 simulations); produced mean and standard-deviation heatmaps to quantify how demographic noise blurs phase boundaries.
 - **Cycle 08 (Gradient Cline):** Replaced discrete patches with a continuous environmental gradient and a continuous phenotype; showed that phenotype tracks environment (r > 0.93) and that maladaptation rises with dispersal.
 - **Cycle 09 (Gene Flow Along a Cline):** Added neutral lineage markers to Cycle 08 and replaced global dispersal with local fitness-weighted reproduction within a Manhattan-distance neighborhood. Ran 10 replicates for each of four dispersal distances (1, 2, 4, 8).
 
 **Observation:**
-- Snapshot ensembles and replicated sweeps revealed that single-run stories can be noisy; mean ± standard deviation is essential for robust claims.
+- Single-run phase diagrams (Cycle 06) reveal clear qualitative boundaries, but replicated sweeps (Cycle 07) show that individual realizations can be noisy; mean ± standard deviation is essential for robust claims.
 - Cycle 08's cline remained strong across all tested dispersal rates, suggesting selection dominates the global pattern.
 - Cycle 09 showed that dispersal distance systematically degrades local adaptation: maladaptation increases from ~0.08 at `d=1/2` to ~0.13 at `d=8`, while within-column trait variance doubles.
 - Lineage richness is highest at `d=1` (many local lineages) and lower/mixed at larger `d` as migration homogenizes neighborhoods.
@@ -22,7 +22,7 @@
 Cycles 06–09 form a methodological and conceptual arc: from asking "what happens in one run?" to "how robust is the pattern?" to "what mechanism controls the tension?" The answer is a migration–selection balance: selection maintains a cline, and dispersal controls the noise around it. To evolve truly distinct lineages, an explicit barrier, assortative mating, or incompatibility is likely needed.
 
 **Artifacts produced:**
-- cycle_06_snapshot_ensembles/
+- cycle_06_speciation_phase_diagram/
 - cycle_07_phase_diagram_replicates/
 - cycle_08_gradient_cline/
 - cycle_09_gene_flow_cline/
@@ -36,7 +36,7 @@ Cycles 06–09 form a methodological and conceptual arc: from asking "what happe
   - summary.png
 
 **Next commitments:**
-1. Update `README.md`, `manifest.md`, `PROJECT_SUMMARY.md`, and `index.html` to include cycles 06–09.
+1. Reconcile top-level documentation (`README.md`, `manifest.md`, `PROJECT_SUMMARY.md`, `index.md`, `index.html`) with the actual cycle directories.
 2. Consider next directions: evolvable dispersal, temporal gradient fluctuations, or explicit reproductive isolation (assortative mating / incompatibility).
 
 ---

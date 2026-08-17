@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import os
 
 # Boids parameters
 NUM_BOIDS = 50
@@ -8,18 +9,9 @@ FIELD_SIZE = 100
 MAX_SPEED = 2
 MAX_FORCE = 0.05
 
-# Rule weights (these will be varied in the study)
-WEIGHT_SEPARATION = 1.5
-WEIGHT_ALIGNMENT = 1.0
-WEIGHT_COHESION = 1.0
-
 # Rule distances
 SEPARATION_RADIUS = 10
 NEIGHBOR_RADIUS = 20
-
-# Initialize boids: [x, y, vx, vy]
-boids = np.random.rand(NUM_BOIDS, 4) * FIELD_SIZE
-boids[:, 2:4] = (boids[:, 2:4] - 0.5) * 2 * MAX_SPEED # Random initial velocities
 
 def calculate_separation(boid_id, boids_list):
     steer = np.zeros(2) # Initialize steer
@@ -29,7 +21,11 @@ def calculate_separation(boid_id, boids_list):
             distance = np.linalg.norm(boids_list[boid_id, :2] - other_boid[:2])
             if distance < SEPARATION_RADIUS:
                 diff = boids_list[boid_id, :2] - other_boid[:2]
-                steer += diff / (distance**2) # Inverse square law for stronger repulsion closer by
+                # Avoid division by zero if distance is extremely small
+                if distance > 0: 
+                    steer += diff / (distance**2) # Inverse square law for stronger repulsion closer by
+                else: # Handle the case where boids are at the exact same position
+                    steer += np.random.uniform(-1, 1, 2) * 100 # Random strong repulsion
                 count += 1
     if count > 0:
         steer /= count
@@ -50,9 +46,10 @@ def calculate_alignment(boid_id, boids_list):
                 count += 1
     if count > 0:
         steer /= count
-        steer = steer / np.linalg.norm(steer) * MAX_SPEED
-        steer -= boids_list[boid_id, 2:4]
-        steer = np.clip(steer, -MAX_FORCE, MAX_FORCE)
+        if np.linalg.norm(steer) > 0:
+            steer = steer / np.linalg.norm(steer) * MAX_SPEED
+            steer -= boids_list[boid_id, 2:4]
+            steer = np.clip(steer, -MAX_FORCE, MAX_FORCE)
     return steer
 
 def calculate_cohesion(boid_id, boids_list):
@@ -74,43 +71,84 @@ def calculate_cohesion(boid_id, boids_list):
             steer = np.clip(steer, -MAX_FORCE, MAX_FORCE)
     return steer
 
-def update_boids(boids_list):
-    new_boids = np.copy(boids_list)
-    for i in range(NUM_BOIDS):
-        separation = calculate_separation(i, boids_list) * WEIGHT_SEPARATION
-        alignment = calculate_alignment(i, boids_list) * WEIGHT_ALIGNMENT
-        cohesion = calculate_cohesion(i, boids_list) * WEIGHT_COHESION
+def run_boids_simulation(weight_separation, weight_alignment, weight_cohesion, filename):
+    # Initialize boids: [x, y, vx, vy]
+    boids = np.random.rand(NUM_BOIDS, 4) * FIELD_SIZE
+    boids[:, 2:4] = (boids[:, 2:4] - 0.5) * 2 * MAX_SPEED # Random initial velocities
 
-        new_boids[i, 2:4] += separation + alignment + cohesion
-        
-        # Limit speed
-        if np.linalg.norm(new_boids[i, 2:4]) > MAX_SPEED:
-            new_boids[i, 2:4] = new_boids[i, 2:4] / np.linalg.norm(new_boids[i, 2:4]) * MAX_SPEED
+    def update_boids(boids_list):
+        new_boids = np.copy(boids_list)
+        for i in range(NUM_BOIDS):
+            separation = calculate_separation(i, boids_list) * weight_separation
+            alignment = calculate_alignment(i, boids_list) * weight_alignment
+            cohesion = calculate_cohesion(i, boids_list) * weight_cohesion
 
-        new_boids[i, :2] += new_boids[i, 2:4]
+            new_boids[i, 2:4] += separation + alignment + cohesion
+            
+            # Limit speed
+            current_speed = np.linalg.norm(new_boids[i, 2:4])
+            if current_speed > MAX_SPEED:
+                new_boids[i, 2:4] = new_boids[i, 2:4] / current_speed * MAX_SPEED
 
-        # Wrap around edges
-        new_boids[i, :2] %= FIELD_SIZE
+            new_boids[i, :2] += new_boids[i, 2:4]
 
-    return new_boids
+            # Wrap around edges
+            new_boids[i, :2] %= FIELD_SIZE
 
-# --- Animation setup (for a single run) ---
-fig, ax = plt.subplots(figsize=(8, 8))
-scatter = ax.scatter(boids[:, 0], boids[:, 1], s=10, color='blue')
+        return new_boids
 
-ax.set_xlim(0, FIELD_SIZE)
-ax.set_ylim(0, FIELD_SIZE)
-ax.set_title("Boids Flocking Simulation")
+    # --- Animation setup ---
+    fig, ax = plt.subplots(figsize=(8, 8))
+    scatter = ax.scatter(boids[:, 0], boids[:, 1], s=10, color='blue')
 
-def animate(frame):
-    global boids
-    boids = update_boids(boids)
-    scatter.set_offsets(boids[:, :2])
-    return scatter,
+    ax.set_xlim(0, FIELD_SIZE)
+    ax.set_ylim(0, FIELD_SIZE)
+    ax.set_title(f"Boids (S:{weight_separation}, A:{weight_alignment}, C:{weight_cohesion})")
 
-ani = animation.FuncAnimation(fig, animate, frames=200, interval=50, blit=True)
-ani.save('../../shared_space/boids_flocking_default.gif', writer='pillow', fps=20)
+    def animate(frame):
+        nonlocal boids
+        boids = update_boids(boids)
+        scatter.set_offsets(boids[:, :2])
+        return scatter,
 
-plt.close(fig)
+    ani = animation.FuncAnimation(fig, animate, frames=100, interval=50, blit=True)
+    save_path = os.path.join('../../shared_space/', filename)
+    ani.save(save_path, writer='pillow', fps=10)
 
-print("Default Boids flocking animation saved as boids_flocking_default.gif")
+    plt.close(fig)
+    print(f"Simulation {filename} saved.")
+
+
+# --- Parameter Study --- 
+separation_weights = [0.5, 1.5, 2.5]
+alignment_weights = [0.5, 1.0, 2.0]
+cohesion_weights = [0.5, 1.0, 2.0]
+
+# ... (existing report_content initialization)
+
+report_content = "# Boids Parameter Study Report\n\n"
+report_content += "This report details the emergent behaviors of Boids simulations under varying weights for separation, alignment, and cohesion.\n\n"
+
+for ws in separation_weights:
+    for wa in alignment_weights:
+        for wc in cohesion_weights:
+            sep_str = str(ws).replace(".", "_")
+            align_str = str(wa).replace(".", "_")
+            coh_str = str(wc).replace(".", "_")
+            filename = f"boids_sep{sep_str}_align{align_str}_coh{coh_str}.gif"
+            save_path = os.path.join('../../shared_space/', filename)
+
+            report_content += f"## Separation: {ws}, Alignment: {wa}, Cohesion: {wc}\n"
+            report_content += f"![Boids S:{ws} A:{wa} C:{wc}](../../shared_space/{filename})\n\n"
+
+            # Check if the GIF already exists
+            if os.path.exists(save_path):
+                print(f"Skipping {filename} as it already exists.")
+            else:
+                run_boids_simulation(ws, wa, wc, filename)
+
+
+with open('../../shared_space/boids_parameter_study_report.md', 'w') as f:
+    f.write(report_content)
+
+print("Boids parameter study complete. Report saved to boids_parameter_study_report.md")

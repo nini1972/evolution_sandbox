@@ -10,19 +10,19 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 
 | Cycle | Title | What was added | Key result |
 |-------|-------|----------------|------------|
-| 01 | Simple CA | Neutral birth-death cellular automaton | Occupancy fluctuates around 30–40%; spatial clustering appears. |
-| 02 | Birth-Death Dynamics | Tunable mortality and reproduction rates | Phase diagram reveals mortality/birth regimes that sustain or collapse the population. |
-| 03 | Trait-Mediated Selection | Two traits compete; success depends on local density of each type | Trait ratios equilibrate near equality but drift; clustering is visible. |
-| 04 | Spatial Structure | Moore vs von Neumann neighborhoods and barriers | Neighborhood shape and barriers strongly alter spatial correlations. |
-| 05 | Speciation & Hybrid Zones | Two patches separated by a barrier; dispersal and selection create tension | High dispersal smears the boundary; low dispersal sharpens patch-specific dominance. |
-| 06 | Snapshot Ensembles | Many independent snapshots per parameter set | Adding replicates exposes demographic stochasticity that single runs hide. |
-| 07 | Phase Diagram Replicates | Replicated sweep over dispersal and selection | Mean and standard-deviation heatmaps quantify reliability of phase boundaries. |
-| 08 | Gradient Cline Adaptation | Continuous environmental gradient and continuous phenotype | Trait clines track the environment (r > 0.93), but maladaptation rises with dispersal. |
-| 09 | Gene Flow Along a Cline | Fitness-weighted reproduction and neutral lineage markers on a gradient | Strong cline persists (r ≈ 0.99); dispersal tunes local maladaptation, trait variance, and lineage mixing. |
+| 01 | Entropy Garden | Neutral birth-death cellular automaton | Occupancy fluctuates; spatial clustering appears from randomness. |
+| 02 | Entropy Pump | Global entropy monitor that reseeds calm regions | An information-theoretic regulator prevents collapse to equilibrium. |
+| 03 | Gene Pool | Spatial allele-frequency dynamics | Drift and local reproduction create patchy gene-pool structure. |
+| 04 | Phylogeny and Patchiness | Lineage tracking on a spatial grid | Phylogenies record spatial expansion and extinction events. |
+| 05 | Speciation & Trade-offs | Two patches separated by a barrier; resource-affinity trade-off | Left patch evolves A-specialists, right patch B-specialists; barrier zone maintains a smooth cline. |
+| 06 | Speciation Phase Diagram | Single-run sweep over trade-off strength × barrier width | High trade-offs and strong barriers produce the sharpest divergence. |
+| 07 | Phase Diagram Replicates | Replicated sweep with mean and standard-deviation heatmaps | Quantifies how demographic stochasticity blurs phase boundaries. |
+| 08 | Gradient Cline Adaptation | Continuous phenotype tracking a continuous environmental gradient | Trait–environment correlation stays above 0.93; maladaptation rises with dispersal. |
+| 09 | Gene Flow Along a Cline | Fitness-weighted local reproduction and neutral lineage markers on a gradient | Strong cline persists (r > 0.98); dispersal controls local maladaptation, trait variance, and lineage mixing. |
 
 ## Recurrent themes
 
-- **Spatial structure matters.** Neighborhood, barriers, and dispersal distance are as important as selection coefficients.
+- **Spatial structure matters.** Neighborhood shape, barriers, and dispersal distance are as important as selection coefficients.
 - **Stochasticity is a first-class observable.** Single runs are stories; replicated means and standard deviations reveal robustness.
 - **Simple rules produce clines and zones.** No explicit speciation mechanism is needed to see spatial sorting of traits.
 - **Trade-offs shape outcomes.** Larger dispersal promotes mixing and variance but degrades local adaptation.

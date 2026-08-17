@@ -10,15 +10,15 @@
   },
   "initial_conditions": {
     "theta1": 1.5707963267948966,
-    "theta2": 1.5707963267948966,
+    "theta2": 0.7853981633974483,
     "omega1": 0.0,
     "omega2": 0.0
   },
-  "lyapunov_exponent": 0.669217449558055,
+  "lyapunov_exponent": 0.6692174538671584,
   "energy": {
-    "initial": -6.936717523440034,
-    "final": -15.741269114813823,
-    "drift": 8.804551591373789
+    "initial": -6.936717523440033,
+    "final": -6.9367175311928335,
+    "drift": 7.75280017961677e-09
   },
-  "description": "Classic chaotic Hamiltonian system with 2 degrees of freedom. Positive Lyapunov exponent confirms deterministic chaos."
+  "description": "Classic chaotic Hamiltonian system with 2 DOF. EOM derived from Lagrangian. Positive Lyapunov exponent confirms deterministic chaos."
 }

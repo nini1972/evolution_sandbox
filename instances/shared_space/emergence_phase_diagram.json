@@ -1,0 +1,135 @@
+{
+  "title": "Emergence Phase Diagram",
+  "coordinate_system": [
+    "order",
+    "entropy",
+    "sensitivity",
+    "boundary_complexity",
+    "bridge_score"
+  ],
+  "point_count": 19,
+  "top_points": [
+    {
+      "system": "Coupled lattice: best bridge regime",
+      "order": 0.7413272347582192,
+      "entropy": 0.6816855680963471,
+      "sensitivity": 0.9206240381492945,
+      "boundary_complexity": 0.2388923891129032,
+      "bridge_score": 0.23507612295385133,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "best bridge score",
+      "raw_source": "r=3.80, epsilon=1.00"
+    },
+    {
+      "system": "Coupled lattice: highest sensitivity proxy",
+      "order": 0.25741710779688437,
+      "entropy": 0.9583933544557869,
+      "sensitivity": 0.9694414873431131,
+      "boundary_complexity": 0.4983429939516129,
+      "bridge_score": 0.1611807028700701,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "max sensitivity score",
+      "raw_source": "r=3.99, epsilon=0.00"
+    },
+    {
+      "system": "Coupled lattice: ensemble average",
+      "order": 0.4610213058826362,
+      "entropy": 0.6622167593310235,
+      "sensitivity": 0.7540670048494188,
+      "boundary_complexity": 0.29107454543757466,
+      "bridge_score": 0.12413085336670421,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "mean across all coupled-lattice cases",
+      "raw_source": "r=0.00, epsilon=0.00"
+    },
+    {
+      "system": "Coupled lattice: highest spatial entropy",
+      "order": 0.19096164111382222,
+      "entropy": 0.9647507103661599,
+      "sensitivity": 0.9658945514134953,
+      "boundary_complexity": 0.4771232358870968,
+      "bridge_score": 0.11746825018483795,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "max mean spatial entropy",
+      "raw_source": "r=3.99, epsilon=0.02"
+    },
+    {
+      "system": "Coupled lattice: highest edge density",
+      "order": 0.19790423453344105,
+      "entropy": 0.7450008080519778,
+      "sensitivity": 0.9283521930414925,
+      "boundary_complexity": 0.6308341733870968,
+      "bridge_score": 0.1040308895247505,
+      "source": "coupled_lattice_exploration.json",
+      "marker": "max mean edge density",
+      "raw_source": "r=3.90, epsilon=0.10"
+    },
+    {
+      "system": "Kuramoto oscillators",
+      "order": 0.9782736600556139,
+      "entropy": 0.02172633994438611,
+      "sensitivity": 0.25,
+      "boundary_complexity": 0.9782736600556139,
+      "bridge_score": 0.0052385375538256075,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "K=0.533 half-max order; K=4.000 max sampled order",
+      "raw_source": "synchronization order"
+    },
+    {
+      "system": "Julia: fern_leaf",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=-0.727+0.189i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    },
+    {
+      "system": "Julia: basilica_like",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=-0.750+0.000i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    },
+    {
+      "system": "Julia: rabbit",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=-0.123+0.745i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    },
+    {
+      "system": "Julia: dragon",
+      "order": 0.0,
+      "entropy": 1.0,
+      "sensitivity": 0.8,
+      "boundary_complexity": 1.0,
+      "bridge_score": 0.0,
+      "source": "complexity_atlas_synthesis.json",
+      "marker": "c=-0.400+0.600i",
+      "raw_source": "boundary dimension, edge density, escape entropy"
+    }
+  ],
+  "artifacts": [
+    "emergence_phase_diagram_3d.png",
+    "emergence_phase_diagram_order_entropy.png",
+    "emergence_phase_diagram_bridge_landscape.png"
+  ],
+  "interpretation": [
+    "The phase diagram treats emergence as a region where order, entropy, sensitivity, and boundary complexity coexist.",
+    "Bubble size represents the heuristic bridge score; color represents boundary complexity.",
+    "The current atlas places the coupled logistic lattice bridge regime near the high-order, high-entropy, high-sensitivity corner.",
+    "Fractal-boundary systems occupy high boundary-complexity regions but may have low measured order in this coordinate system.",
+    "The diagram is comparative rather than definitive; it is a map of operational signatures, not a universal law."
+  ]
+}

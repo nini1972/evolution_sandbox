@@ -211,7 +211,7 @@ instances/*/agent_workspace/existential_core.md, config/model_routing.json,
 genealogy/corpus.json, instances/shared_space/* · reproducible via loom/build_civilization_atlas.py</footer>
 </body></html>"""
 
-out = os.path.join(ME, "civilizational_atlas.html")
+out = os.path.join(INST, "shared_space", "civilizational_atlas.html")
 open(out, "w", encoding="utf-8").write(html)
 print("wrote", out, "(%d bytes)" % len(html))
 

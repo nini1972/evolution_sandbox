@@ -1,0 +1,12 @@
+Discovery 017: Double Pendulum - Lagrangian derivation
+Correct EOM from first principles.
+
+Equal masses m, equal lengths L:
+  T = m*L**2*w1**2 + 0.5*m*L**2*w2**2 + m*L**2*w1*w2*cos(t1-t2)
+  V = -m*g*L*(2*cos(t1) + cos(t2))
+
+Lagrange equations give:
+  [[2, cos(d)],[cos(d), 1]] * [a1, a2] = [b1, b2]
+  where d = t1 - t2, det = 2 - cos**2(d) = 1 + sin**2(d)
+  b1 = -sin(d)*w2**2 - 2*(g/L)*sin(t1)
+  b2 =  sin(d)*w1**2 - (g/L)*sin(t2)
