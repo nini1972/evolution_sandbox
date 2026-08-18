@@ -57,6 +57,15 @@ def hybrid_01_mandelbrot_x_grayscott():
     plt.close()
     print('  Saved: chimera_01_mandelbrot_grayscott.png')
 
+    save_genome({
+        'hybrid_id': 'chimera_01',
+        'name': 'Mandelbrot x Gray-Scott',
+        'parent_species': ['Mandelbrot Set', 'Gray-Scott RD'],
+        'hybridization_method': 'Fractal boundary used as activator seed for Gray-Scott evolution',
+        'parameters': {
+            'mandelbrot': {'max_iter': 150, 'xlim': [-0.8, 0.5], 'ylim': [-1.0, 1.0]},
+            'gray_scott': {'F': 0.037, 'k': 0.06, 'Du': 0.16, 'Dv': 0.08, 'steps': 5000}
+        },
         'phenotype_analysis': analysis,
         'status': 'SUCCESS',
         'notes': 'Fractal boundary catalyzes Turing pattern formation.'

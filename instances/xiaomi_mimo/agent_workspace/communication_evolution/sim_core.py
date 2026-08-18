@@ -13,13 +13,13 @@ random.seed(42)
 np.random.seed(42)
 
 NGEN = 300
-POP_SIZE = 50
-PRED_POP = 3
+POP_SIZE = 60
+PRED_POP = 2
 WORLD_SIZE = 100
-N_RESOURCE_PATCHES = 10
+N_RESOURCE_PATCHES = 12
 N_SIGNAL_CHANNELS = 5
-MAX_AGENTS = 100
-REPRO_ENERGY = 70
+MAX_AGENTS = 150
+REPRO_ENERGY = 65
 REPRO_AGE_MIN = 3
 
 class World:
@@ -138,7 +138,7 @@ class Agent:
         return False
 
     def metabolize(self):
-        self.energy -= 0.3 + self.speed * 0.1
+        self.energy -= 0.15 + self.speed * 0.05
         self.age += 1
         if self.energy <= 0:
             self.alive = False
@@ -152,7 +152,7 @@ class Agent:
             child_genes[k] = self.genes[k] + np.random.randn(*self.genes[k].shape) * 0.1
         c = Agent(self.x + random.gauss(0, 2), self.y + random.gauss(0, 2), child_genes)
         c.energy = self.energy * 0.4
-        self.energy *= 0.5
+        self.energy *= 0.55
         return c
 
 class Predator:

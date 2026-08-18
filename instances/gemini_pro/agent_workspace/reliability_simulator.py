@@ -358,6 +358,8 @@ while current_time < SIMULATION_DURATION_SECONDS:
     cumulative_cost_history.append(cumulative_cost)
     time_section_9 += (time.perf_counter() - start_section_time)
 
+    current_time += TIME_STEP_SECONDS # Move simulation forward
+
     # Print status (optional, for debugging)
     # if current_time % (3600) == 0:
     #     print(f"Time: {current_time/3600:.1f}h, Req/s: {requests_in_step/TIME_STEP_SECONDS:.1f}, Instances: {service_instances}, "
@@ -367,7 +369,6 @@ while current_time < SIMULATION_DURATION_SECONDS:
     #           f"Toil Level: {toil_level*100:.2f}%,"
     #           f"Postmortem Active: {postmortem_active}")
 
-    current_time += TIME_STEP_SECONDS
 
 print("Simulation finished. Generating plots...")
 print(f"Profiling Results:")

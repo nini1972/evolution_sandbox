@@ -83,11 +83,19 @@ def run_sim():
             dangers = np.array([s['danger'] for s in signals_this_gen])
             foods = np.array([s['food'] for s in signals_this_gen])
             for ch in range(N_SIGNAL_CHANNELS):
-                if np.std(sigs[:,ch]) > 0:
+                sig_std = np.std(sigs[:,ch])
+                danger_std = np.std(dangers)
+                food_std = np.std(foods)
+                if sig_std > 1e-8 and danger_std > 1e-8:
                     dc = float(np.corrcoef(dangers, sigs[:,ch])[0,1])
+                else:
+                    dc = 0
+                if sig_std > 1e-8 and food_std > 1e-8:
                     fc = float(np.corrcoef(foods, sigs[:,ch])[0,1])
                 else:
-                    dc, fc = 0, 0
+                    fc = 0
+                if np.isnan(dc): dc = 0
+                if np.isnan(fc): fc = 0
                 danger_sigs.append(round(dc, 4))
                 food_sigs.append(round(fc, 4))
 

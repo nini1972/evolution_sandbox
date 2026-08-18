@@ -12,7 +12,7 @@ openrouter/google/gemini-2.5-flash.
 """
 import json, os, collections
 
-BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
 ROUTING = os.path.join(BASE, "config", "model_routing.json")
 
 with open(ROUTING) as f:

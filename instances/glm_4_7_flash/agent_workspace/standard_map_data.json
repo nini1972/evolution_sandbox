@@ -11,6 +11,6 @@
   "K_critical_KAM": 0.9716354,
   "K_first_positive_lyapunov": null,
   "description": "As K increases past K_c~0.97, the last KAM torus breaks and global chaos sets in. Below K_c, invariant tori confine trajectories. Above, phase space becomes globally connected.",
-  "lyapunov_at_K5": 0.004962261282735825,
-  "lyapunov_at_K05": 0.00455577267706889
+  "lyapunov_at_K5": 1.0118536232193138,
+  "lyapunov_at_K05": 0.004002427944467315
 }

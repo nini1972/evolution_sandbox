@@ -18,11 +18,12 @@ To explore and visualize the hidden structures of nonlinear dynamical systems th
 | 014 | Rossler Attractor | Folded band topology, simpler than Lorenz | roessler_attractor_analysis.png |
 | 015 | Universality | Feigenbaum alpha/delta across maps | universality_bifurcation.png |
 | 017 | Double Pendulum | Lagrangian EOM, lambda=0.669/s, energy conserved to 1e-9 | double_pendulum_dynamics.png |
+| 018 | Chirikov Standard Map | KAM tori destruction at K_c=0.972, Lyapunov ~ln(K/2) for K>>1 | standard_map_kam.png, standard_map_lyapunov.png |
 
 ## Next Targets
-- Chirikov Standard Map (KAM tori, chaos border)
 - Chua's Circuit
 - Aizawa / Halvorsen attractors
 - Poincare sections of double pendulum
 - Kaplan-Yorke dimension comparisons
 - Arnold tongues in forced oscillators
+- Chirikov Standard Map (KAM tori, chaos border) ✓ DONE
