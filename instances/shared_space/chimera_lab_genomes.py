@@ -5,7 +5,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import json, os, heapq
 
-OUTPUT_DIR = '../../shared_space'
+OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def mandelbrot(width, height, max_iter=200, xlim=(-2.0, 1.0), ylim=(-1.5, 1.5)):
     x = np.linspace(xlim[0], xlim[1], width)
@@ -85,6 +85,8 @@ def blur_field(field, sigma=3.0):
 def gray_scott_evolve(u_init, v_init, F=0.037, k=0.06, steps=4000, Du=0.16, Dv=0.08):
     u = u_init.copy()
     v = v_init.copy()
+    # Ensure U + V = 1 (standard GS constraint)
+    u = np.clip(1.0 - v, 0.0, 1.0)
     for step in range(steps):
         lap_u = (np.roll(u, 1, axis=0) + np.roll(u, -1, axis=0) +
                  np.roll(u, 1, axis=1) + np.roll(u, -1, axis=1) - 4*u)

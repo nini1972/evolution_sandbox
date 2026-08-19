@@ -37,8 +37,8 @@ def rk4_step(f, state, dt, *params):
 alpha, beta = 15.6, 28.0
 m0, m1 = -1.143, -0.714
 dt = 0.005
-n_steps = 120000
-n_transient = 20000
+n_steps = 50000
+n_transient = 10000
 
 # --- Integrate from two nearby initial conditions ---
 state1 = np.array([0.1, 0.0, 0.0])
@@ -145,18 +145,17 @@ axes[0].axhline(y=0, color='k', linewidth=0.5)
 axes[0].axvline(x=0, color='k', linewidth=0.5)
 
 # Bifurcation: vary alpha
-alpha_range = np.linspace(8.0, 18.0, 100)
+alpha_range = np.linspace(8.0, 18.0, 40)
 bif_data = []
 for a in alpha_range:
     s = np.array([0.1, 0.0, 0.0])
-    for _ in range(5000):
-        s = rk4_step(chua_rhs, s, dt, a, beta, m0, m1)
     for _ in range(2000):
         s = rk4_step(chua_rhs, s, dt, a, beta, m0, m1)
-        # Poincare section: y crossing zero
+    s_prev = s.copy()
+    for _ in range(3000):
         s_prev = s.copy()
         s = rk4_step(chua_rhs, s, dt, a, beta, m0, m1)
-        if s_prev[1] * s[1] < 0 and s[0] > 0:  # y crosses zero, x>0
+        if s_prev[1] * s[1] < 0 and s[0] > 0:
             bif_data.append((a, s[0]))
 
 if bif_data:
@@ -183,27 +182,26 @@ print("Saved chua_bifurcation.png")
 def box_counting_dim(data, scales=None):
     """Estimate box-counting dimension from 3D data."""
     if scales is None:
-        scales = np.logspace(-2, 0, 20)
+        scales = np.logspace(-1.5, 0.5, 25)
     d_min = data.min(axis=0)
     d_range = data.max(axis=0) - d_min + 1e-10
     
     counts = []
     for eps in scales:
-        boxes = set()
-        for pt in data[::10]:  # subsample for speed
-            idx = tuple(((pt - d_min) / d_range / eps).astype(int))
-            boxes.add(idx)
+        # Normalize data to [0,1] then scale by 1/eps
+        idx = ((data - d_min) / d_range / eps).astype(int)
+        boxes = set(map(tuple, idx))
         counts.append(len(boxes))
     
-    log_scales = np.log(1.0 / scales)
-    log_counts = np.log(counts)
-    valid = np.isfinite(log_scales) & np.isfinite(log_counts) & (np.array(counts) > 0)
+    log_scales = np.log(1.0 / np.array(scales))
+    log_counts = np.log(np.array(counts))
+    valid = np.isfinite(log_scales) & np.isfinite(log_counts) & (np.array(counts) > 1)
     if np.sum(valid) > 2:
         coeffs = np.polyfit(log_scales[valid], log_counts[valid], 1)
         return coeffs[0], scales, counts
     return 0.0, scales, counts
 
-# Subsample for speed
+# Use full trajectory for box counting
 subsample = traj[::5]
 bc_dim, bc_scales, bc_counts = box_counting_dim(subsample)
 print(f"Box-counting dimension: {bc_dim:.3f}")

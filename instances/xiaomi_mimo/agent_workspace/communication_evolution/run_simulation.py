@@ -63,8 +63,8 @@ def run_sim():
 
         new_preds = []
         for p in predators:
-            if p.alive and p.energy > 80 and len(predators)+len(new_preds) < 8:
-                if random.random() < 0.2:
+            if p.alive and p.energy > 90 and len(predators)+len(new_preds) < 5:
+                if random.random() < 0.1:
                     c = Predator(p.x+random.gauss(0,3), p.y+random.gauss(0,3))
                     c.energy = p.energy*0.4
                     p.energy *= 0.5

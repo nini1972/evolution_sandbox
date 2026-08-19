@@ -32,6 +32,10 @@ COST_PER_INSTANCE_PER_HOUR = 0.5 # $0.5 per instance per hour
 CHAOS_INJECTION_INTERVAL_SECONDS = 600 # Attempt chaos every 10 minutes
 CHAOS_INSTANCE_FAILURE_CHANCE = 0.3 # 30% chance of an instance failing during an interval
 CHAOS_FAILURE_DURATION_SECONDS = 300 # An instance remains failed for 5 minutes
+NETWORK_LATENCY_SPIKE_PROBABILITY = 0.0005 # Probability of a network latency spike
+NETWORK_LATENCY_SPIKE_DURATION = 1800 / TIME_STEP_SECONDS # Latency spike lasts 30 minutes
+NETWORK_LATENCY_SPIKE_MAGNITUDE = 200 # Additional latency in ms during a spike
+
 
 # Game Day Parameters
 GAME_DAY_INTERVAL_SECONDS = 7 * 24 * 3600 # Every 7 days
@@ -53,6 +57,8 @@ postmortem_active = False
 postmortem_duration_remaining = 0 # In time steps
 cumulative_cost = 0.0
 failed_instances = [] # List of {'instance_id': X, 'recovery_time': Y}
+network_latency_spike_active = False
+network_latency_spike_remaining = 0
 last_chaos_injection_time = 0
 game_day_active = False
 game_day_duration_remaining = 0
@@ -118,6 +124,9 @@ def process_requests(num_requests, current_available_instances):
     # Calculate representative latency for this time step
     # P99 latency is more relevant for SLOs, so we'll approximate it directly
     p99_latency_for_step = BASE_LATENCY_MS + LATENCY_VARIANCE_MS * 2.33 * load_factor # 2.33 for P99 of normal dist
+    
+    if network_latency_spike_active:
+        p99_latency_for_step += NETWORK_LATENCY_SPIKE_MAGNITUDE
     
     # Append this representative latency multiple times to fill the deques for percentile calculation
     # The number of appends is arbitrary but should reflect the 'density' of requests
@@ -202,22 +211,27 @@ def scale_service(current_instances, current_request_rate, p99_latency, latency_
     
     return new_instances
 
-def chaos_monkey(current_time, service_instances_count):
-    global failed_instances, last_chaos_injection_time
+def chaos_manager(current_time, service_instances_count):
+    global failed_instances, last_chaos_injection_time, network_latency_spike_active, network_latency_spike_remaining
 
     # Recover failed instances
     failed_instances = [f for f in failed_instances if f['recovery_time'] > current_time]
 
-    # Inject new chaos
+    # Handle network latency spikes
+    if network_latency_spike_active:
+        network_latency_spike_remaining -= TIME_STEP_SECONDS
+        if network_latency_spike_remaining <= 0:
+            network_latency_spike_active = False
+            print(f"--- Network Latency Spike Ended at {current_time/3600:.1f} hours. ---")
+
+    # Inject new chaos (instance failure or network spike)
     if current_time - last_chaos_injection_time >= CHAOS_INJECTION_INTERVAL_SECONDS:
         last_chaos_injection_time = current_time
-        if random.random() < CHAOS_INSTANCE_FAILURE_CHANCE: # Check if chaos should be injected this interval
+
+        # Instance Failure Chaos
+        if random.random() < CHAOS_INSTANCE_FAILURE_CHANCE: # Check if instance chaos should be injected
             available_for_failure = service_instances_count - len(failed_instances)
             if available_for_failure > MIN_INSTANCES: # Ensure we don't fail below MIN_INSTANCES
-                # Pick a random instance to fail. Assuming instance_id is just its index for simplicity.
-                # In a real system, you'd pick a specific instance ID.
-                
-                # Create a list of currently active instance IDs that are not already failed
                 active_instance_ids = set(range(service_instances_count))
                 currently_failed_ids = {f['instance_id'] for f in failed_instances}
                 eligible_for_failure = list(active_instance_ids - currently_failed_ids)
@@ -227,6 +241,12 @@ def chaos_monkey(current_time, service_instances_count):
                     recovery_time = current_time + CHAOS_FAILURE_DURATION_SECONDS
                     failed_instances.append({'instance_id': instance_to_fail, 'recovery_time': recovery_time})
                     print(f"!!! CHAOS: Instance {instance_to_fail} failed at {current_time/3600:.1f}h, recovering at {recovery_time/3600:.1f}h !!!")
+        
+        # Network Latency Spike Chaos
+        if not network_latency_spike_active and random.random() < NETWORK_LATENCY_SPIKE_PROBABILITY:
+            network_latency_spike_active = True
+            network_latency_spike_remaining = NETWORK_LATENCY_SPIKE_DURATION
+            print(f"!!! CHAOS: Network Latency Spike Triggered at {current_time/3600:.1f} hours. !!!")
 
     return service_instances_count - len(failed_instances)
 
@@ -276,7 +296,7 @@ while current_time < SIMULATION_DURATION_SECONDS:
 
     start_section_time = time.perf_counter()
     # 2. Inject Chaos and Determine Available Instances
-    available_instances = chaos_monkey(current_time, service_instances)
+    available_instances = chaos_manager(current_time, service_instances)
     time_section_2 += (time.perf_counter() - start_section_time)
 
     start_section_time = time.perf_counter()

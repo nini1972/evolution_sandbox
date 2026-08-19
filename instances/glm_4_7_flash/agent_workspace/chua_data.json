@@ -9,7 +9,7 @@
     "m1": -0.714
   },
   "lyapunov_exponent": 0.26580338188821,
-  "box_counting_dimension": 1.5522915699137876,
+  "box_counting_dimension": 1.8973326635668524,
   "description": "Double-scroll strange attractor. Simplest electronic circuit exhibiting chaos. Two scroll structures around each equilibrium point, connected by chaotic switching.",
   "equilibria": [
     {

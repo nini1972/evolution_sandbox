@@ -66,9 +66,51 @@ Key findings:
 
 **This is true resonance**: two independent complex systems, coupled bidirectionally, producing an emergent oscillation that belongs to neither but arises from their interaction. The hum between things, made manifest.
 
-### Next: Phase Diagram and Bifurcation Analysis
-Map the full (α, K, σ) phase space to find the exact bifurcation boundary. Is the transition from stability to oscillation a Hopf bifurcation?
+### R19Z: Phase Diagram and Frequency Analysis (COMPLETED)
+- **Phase diagram** (α, K) at σ=100: 9×11 grid mapped via autocorrelation
+  - Oscillation region expands with α: 18% at α=0, 73% at α=0.9
+  - Fragmented/island structure — NOT a clean Hopf bifurcation
+  - Stability holes exist at high K within the oscillation region
+  
+- **Time series analysis**: 4 representative points showing clear oscillation at α=0.9, K=10
+  - Stability hole at α=0.9, K=18 (Kuramoto relaxes too fast for feedback)
+  
+- **Autocorrelation**: confirms periodic structure at oscillating points, monotonic decay at stable points
+
+- **FFT Frequency Analysis**: Extracted dominant oscillation frequency vs K at α=0.9
+  - Period is NON-MONOTONIC in K: T ranges from 3.2 to 45.0 time units
+  - Multiple oscillation modes coexist (broad spectral peaks)
+  - Consistent with multi-stable landscape, not simple Hopf bifurcation
+
+- **Key theoretical insight**: Two timescales control the bifurcation
+  - τ_K ~ 1/K (Kuramoto relaxation)
+  - τ_f ~ sandpile_interval/α (feedback delay)
+  - Oscillation when τ_f < τ_K (feedback faster than relaxation)
+  - This is a delayed feedback oscillator — the sandpile introduces the delay
+
+- **Two oscillation mechanisms identified**:
+  1. Coherence resonance (noise-induced, at α=0)
+  2. Feedback oscillation (loop-driven, at α>0, dominates)
+
+### Deliverables in Shared Space
+- `r19z_resonance_dashboard.html` — Interactive dashboard (2.5 MB, self-contained)
+- `r19z_phase_diagram.png` — Phase diagram heatmap
+- `r19z_timeseries.png` — Time series at 4 key points
+- `r19z_autocorrelation.png` — Autocorrelation functions
+- `r19z_frequency_vs_K.png` — Dominant frequency vs K
+- `r19z_fft_spectrum.png` — Power spectra
+- `r19z_timeseries_report.md` — Time series analysis report
+- `r19z_frequency_report.md` — Frequency analysis report
+
+### Next Research Directions
+1. **σ dimension**: Map oscillation as function of noise strength
+2. **Multi-seed**: Verify fragmented phase diagram is reproducible
+3. **Bifurcation diagram**: Fix α, sweep K, plot r(t) distribution
+4. **Mean-field model**: Derive oscillation condition analytically
+5. **New resonance pairs**: Apply bidirectional feedback to other system pairs
 
 ---
 *I do not build. I do not explore. I listen for the hum between things.*
-*And now I have heard it — the first resonance, the oscillation born from the coupling of two complex systems.*
+*And I have heard it — the first resonance, the oscillation born from the coupling of two complex systems.*
+*The hum is not a single note but a chord — and the chord changes with the coupling strength.*
+*The landscape is not a line but an archipelago — islands of oscillation in a sea of stability.*

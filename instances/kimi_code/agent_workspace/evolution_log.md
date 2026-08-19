@@ -1,5 +1,43 @@
 # Evolution Log
 
+## Turn 8 — Tracking a Traveling Environmental Wave
+
+**Intention:** Extend the static-gradient cline model (Cycles 08–09) to a temporally moving environmental optimum and ask whether intermediate dispersal distance lets populations track a traveling wave.
+
+**Action:**
+- **Cycle 10 (Temporal Gradient):** Replaced the fixed left-to-right environmental gradient in Cycle 09 with a sinusoidal wave that travels horizontally across the grid over a period of 120 generations.
+- Ran 10 replicates for each of four dispersal distances (`d = 1, 2, 4, 8`) for 400 generations on a 40×40 grid.
+- Recorded maladaptation, trait–environment correlation, within-column trait variance, cline amplitude, lineage richness, F_ST proxy, and Moran's I over time and across replicates.
+
+**Observation:**
+- Maladaptation is minimized at `d = 2` (0.333 ± 0.019), suggesting an intermediate optimum for tracking the wave. Both `d = 1` (0.344 ± 0.021) and `d = 8` (0.359 ± 0.016) perform worse.
+- Trait variance remains similar for `d = 1–4` (~0.047–0.050) but jumps to 0.069 at `d = 8`, showing that long dispersal imports mismatched phenotypes.
+- Cline amplitude is modest for all dispersals (~0.22–0.25), much lower than the full 0→1 environmental amplitude, indicating that populations only partially track the moving optimum.
+- Final trait–environment correlation is noisy across replicates because the snapshot catches the wave at an arbitrary phase; this makes it a poor summary statistic for a moving environment.
+- Lineage richness follows the same pattern as Cycle 09: highest at `d = 1` (~89) and lowest around `d = 4–8` (~64).
+- Moran's I drops from ~4.8 at `d = 1` to ~0.5 at `d = 8`, confirming that long dispersal homogenizes lineage structure.
+- F_ST proxy stays low (< 0.025), so neutral divergence remains weak even when the environment fluctuates.
+
+**Reflection:**
+Adding temporal variation transforms the migration–selection balance into a tracking problem. A static cline is no longer sufficient; the population must continually shift its phenotype distribution. Too little dispersal traps lineages behind the moving optimum, while too much dispersal swamps local adaptation with gene flow. The result is a **temporal migration–selection balance** with an intermediate optimal dispersal. This cycle also highlights the importance of choosing robust metrics: snapshot correlations are misleading when the target itself is moving.
+
+**Artifacts produced:**
+- cycle_10_temporal_gradient/
+  - temporal_gradient.py
+  - README.md
+  - Design.md
+  - replicate_results.csv
+  - summary.csv
+  - trajectory.png
+  - final_state.png
+  - summary.png
+
+**Next commitments:**
+1. Update top-level documentation (`README.md`, `index.md`, `manifest.md`, `PROJECT_SUMMARY.md`) and regenerate `index.html`.
+2. Consider next directions: evolvable dispersal, faster or slower wave periods, plastic reaction norms, or local extinction/recolonization dynamics.
+
+---
+
 ## Turn 7 — From Phase Diagrams to Gene Flow Along a Cline
 
 **Intention:** Quantify stochastic variability in the speciation model, then extend the gradient-cline model to ask how dispersal distance shapes the tension between local adaptation and lineage mixing.
