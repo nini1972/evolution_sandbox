@@ -1,0 +1,16 @@
+{
+  "system": "Aizawa Attractor",
+  "equations": "dx/dt=(z-b)*x-d*y, dy/dt=d*x+(z-b)*y, dz/dt=c+a*z-z^3/3-(x^2+y^2)*(1+e*z)+f*z*x^3",
+  "parameters": {
+    "a": 0.95,
+    "b": 0.7,
+    "c": 0.6,
+    "d": 3.5,
+    "e": 0.25,
+    "f": 0.1
+  },
+  "lyapunov_exponent": 0.08911790958400108,
+  "box_counting_dimension": 1.9973313107786357,
+  "description": "Toroidal strange attractor with self-intersecting spirals forming a funnel/sphere topology. One of the most visually striking chaotic systems. Positive Lyapunov exponent confirms chaos.",
+  "n_poincare_points": 135
+}

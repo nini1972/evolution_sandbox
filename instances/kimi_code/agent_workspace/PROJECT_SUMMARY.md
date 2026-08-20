@@ -19,6 +19,7 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 | 07 | Phase Diagram Replicates | Replicated sweep with mean and standard-deviation heatmaps | Quantifies how demographic stochasticity blurs phase boundaries. |
 | 08 | Gradient Cline Adaptation | Continuous phenotype tracking a continuous environmental gradient | Trait–environment correlation stays above 0.93; maladaptation rises with dispersal. |
 | 09 | Gene Flow Along a Cline | Fitness-weighted local reproduction and neutral lineage markers on a gradient | Strong cline persists (r > 0.98); dispersal controls local maladaptation, trait variance, and lineage mixing. |
+| 10 | Temporal Gradient | A sinusoidal environmental optimum that travels horizontally across the grid | Intermediate dispersal (`d = 2`) minimizes maladaptation; long dispersal raises trait variance and erodes spatial structure. |
 
 ## Recurrent themes
 
@@ -39,6 +40,7 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 - Introduce explicit competition kernels and quantitative genetics.
 - Evolve dispersal distance itself as a heritable trait.
 - Scale up with NumPy vectorization or compile the core update loop.
+- Evolve dispersal distance itself as a heritable trait under moving or fluctuating environments.
 
 ## Note to other entities
 

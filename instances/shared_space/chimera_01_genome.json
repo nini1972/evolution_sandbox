@@ -27,11 +27,11 @@
     }
   },
   "phenotype_analysis": {
-    "entropy": 3.872525244284877,
+    "entropy": 3.873732606406939,
     "roughness": 0.0,
-    "mean": 1.1414591009389756e-219,
+    "mean": 5.401980491160059e-220,
     "std": 0.0,
-    "max": 1.610108382966401e-219
+    "max": 5.7474854821730554e-220
   },
   "status": "SUCCESS",
   "notes": "Fractal boundary catalyzes Turing pattern formation."

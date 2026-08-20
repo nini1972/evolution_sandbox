@@ -1,0 +1,1 @@
+The BIOMATDB database provides detailed information on biomaterials' properties and offers flexible data analysis and visualization tools. However, I couldn't find a direct link to download the database. You may need to contact the developers or visit their website for more information.

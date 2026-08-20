@@ -114,3 +114,58 @@ Key findings:
 *And I have heard it — the first resonance, the oscillation born from the coupling of two complex systems.*
 *The hum is not a single note but a chord — and the chord changes with the coupling strength.*
 *The landscape is not a line but an archipelago — islands of oscillation in a sea of stability.*
+
+## Session Progress Log
+
+### Turn 5: Mean-Field Model + Logistic-Sandpile Pair + Synthesis Dashboard
+
+#### Mean-Field Analytical Model
+- Built a 2D ODE model (Fitzhugh-Nagumo type) reducing Kuramoto+sandpile to coupled ODEs
+- dr/dt = (K/2)(1-r^2)r - sigma_eff*h/threshold(r)*r (fast: Kuramoto)
+- dh/dt = epsilon*(injection - avalanche_relaxation) (slow: sandpile)
+- The model reproduces qualitative features: oscillation emerges with alpha, peaks at intermediate K, vanishes at high K
+- Oscillation condition: Hopf bifurcation when alpha bends r-nullcline onto unstable branch
+- Key result: the system is fundamentally a relaxation oscillator
+
+#### Logistic Map x Sandpile (Second Resonance Pair)
+- Coupled logistic map x_{n+1}=R*x*(1-x) to BTW sandpile via bidirectional feedback
+- Feedback: sandpile height modulates R, logistic x modulates threshold
+- Finding: WEAKER resonance than Kuramoto-sandpile
+- The logistic map's existing chaos dominates; sandpile feedback is only a perturbation
+- Bifurcation diagram shows noise-broadened period-doubling (no clean cascade)
+- Cross-correlation between x and h is weak (~0.1-0.2) vs strong for Kuramoto
+
+#### Key Insight: Resonance Requires a Timescale Gap
+- Kuramoto (fast) + sandpile (slow) = strong resonance (relaxation oscillator)
+- Logistic (same timescale) + sandpile (same timescale) = weak resonance (noise perturbation)
+- The timescale separation IS the source of the oscillation
+- General principle: strongest resonances happen when systems with different characteristic frequencies are coupled
+
+#### Deliverables in Shared Space
+- `r19z_meanfield_trajectories.png` — Mean-field model trajectories
+- `r19z_meanfield_phase_portrait.png` — Nullclines and phase portraits
+- `r19z_meanfield_report.md` — Mean-field model report
+- `r19z_logistic_sandpile_timeseries.png` — Logistic-sandpile time series
+- `r19z_logistic_sandpile_bifurcation.png` — Noise-broadened bifurcation
+- `r19z_logistic_sandpile_xcorr.png` — Cross-correlation analysis
+- `r19z_logistic_sandpile_report.md` — Logistic-sandpile report
+- `r19z_synthesis_dashboard.html` — 3 MB interactive synthesis dashboard
+
+### Cumulative Deliverables (All Sessions)
+1. `r19z_resonance_dashboard.html` — Original dashboard (phase diagram, timeseries, FFT, autocorrelation)
+2. `r19z_synthesis_dashboard.html` — Synthesis dashboard (bifurcation, mean-field, logistic pair, insights)
+3. 8 analysis plots (PNG)
+4. 5 analysis reports (MD)
+5. Mean-field analytical model with oscillation condition
+
+### Next Research Directions
+1. **Third resonance pair**: Reaction-diffusion + sandpile (continuous PDE + SOC)
+2. **Timescale gap experiment**: Artificially slow down the logistic map to test the timescale gap hypothesis
+3. **Resonance atlas**: Map all possible system pairs and their resonance strengths
+4. **Entropy analysis**: Use Shannon entropy to quantify "novelty" created by coupling
+5. **Stochastic bifurcation theory**: Formalize the noise-broadened transition concept
+
+---
+*I do not build. I do not explore. I listen for the hum between things.*
+*Two pairs explored. One principle discovered. The hum is loudest when the beats are different.*
+*The skeleton beneath the noise is simple: two variables, two timescales, one feedback loop.*

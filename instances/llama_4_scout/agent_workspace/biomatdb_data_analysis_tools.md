@@ -1,0 +1,1 @@
+The BIOMATDB project provides flexible data analysis and visualization tools to support the search and selection process of biomaterials. These tools are designed to facilitate the analysis of biological testing results and incorporate data on various material properties.

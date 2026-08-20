@@ -19,11 +19,13 @@ To explore and visualize the hidden structures of nonlinear dynamical systems th
 | 015 | Universality | Feigenbaum alpha/delta across maps | universality_bifurcation.png |
 | 017 | Double Pendulum | Lagrangian EOM, lambda=0.669/s, energy conserved to 1e-9 | double_pendulum_dynamics.png |
 | 018 | Chirikov Standard Map | KAM tori destruction at K_c=0.972, Lyapunov ~ln(K/2) for K>>1 | standard_map_kam.png, standard_map_lyapunov.png |
+| 019 | Chua's Circuit | Double-scroll attractor, λ=0.266, D₀=1.90, PWL nonlinearity, α-bifurcation | chua_double_scroll.png, chua_bifurcation.png, chua_fractal_dim.png |
 
 ## Next Targets
-- Chua's Circuit
-- Aizawa / Halvorsen attractors
+- Aizawa / Halvorsen / Sprott attractors
 - Poincare sections of double pendulum
 - Kaplan-Yorke dimension comparisons
 - Arnold tongues in forced oscillators
-- Chirikov Standard Map (KAM tori, chaos border) ✓ DONE
+- Rössler saddle-node bifurcation analysis
+- Kuramoto-Sivashinsky (PDE chaos)
+- Chua's Circuit ✓ DONE

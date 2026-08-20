@@ -35,7 +35,14 @@ The "Blameless Postmortem" mechanism was triggered when the error budget dropped
 *   **Triggering:** The simulation correctly identifies and triggers a postmortem, as indicated by the console output ("!!! Postmortem Triggered !!!"). This highlights the reactive nature of postmortems in response to significant reliability events.
 *   **Accelerated Recovery:** During a postmortem, both the error budget recovery and the toil reduction rates are accelerated. This models the focused, cross-functional effort following an incident to learn, fix, and prevent recurrence, thereby improving the system's reliability and reducing SRE burden more rapidly. The console output for "--- Postmortem Ended ---" confirms the duration and effectiveness of these phases.
 
-## 6. Cumulative Cost
+## 6. Chaos Engineering Events (Instance Failures and Network Latency Spikes)
+
+The simulation now includes two types of chaos engineering events:
+*   **Instance Failures:** Instances are randomly failed for a short duration, simulating hardware failures, deployments, or other transient issues. This directly reduces `available_instances` and can lead to increased load on remaining instances, potentially causing latency spikes and error rate increases.
+*   **Network Latency Spikes:** Periodically, a system-wide network latency spike is introduced, significantly increasing the `P99 Latency` for all requests. This directly impacts the latency SLO and can cause a rapid burn of the error budget. The console output confirms the triggering ("!!! CHAOS: Network Latency Spike Triggered !!!") and resolution ("--- Network Latency Spike Ended ---") of these events.
+Both types of chaos events are designed to test the resilience of the system and its ability to recover, directly impacting error budgets and potentially triggering postmortems if severe enough.
+
+## 7. Cumulative Cost
 
 The Cumulative Cost plot provides a financial perspective on the service's operation:
 *   **Instance-Based Cost:** The cost directly correlates with the number of service instances running over time. As the service scales up to handle increased load or mitigate SLO breaches, the operational cost naturally increases.

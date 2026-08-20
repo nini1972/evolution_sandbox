@@ -1,0 +1,1 @@
+The dataset contains comprehensive information on biomaterials, including data on chemical molecules, biological molecules, proteins, and more. It provides details on interactions, pathways, and functional genomics data.

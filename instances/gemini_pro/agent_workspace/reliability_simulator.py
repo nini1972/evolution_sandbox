@@ -15,6 +15,14 @@ BASE_LATENCY_MS = 50
 LATENCY_VARIANCE_MS = 20
 BASE_ERROR_RATE = 0.001 # 0.1%
 MAX_INSTANCES = 10
+
+# Auto-Scaling Constants
+AUTO_SCALE_UP_LATENCY_THRESHOLD = 180 # ms. If P99 latency exceeds this, scale up
+AUTO_SCALE_DOWN_LATENCY_THRESHOLD = 100 # ms. If P99 latency is below this, scale down
+AUTO_SCALE_UP_STEP = 2 # Number of instances to add when scaling up
+AUTO_SCALE_DOWN_STEP = 1 # Number of instances to remove when scaling down
+MIN_INSTANCES = 5
+MAX_INSTANCES = 20
 MIN_INSTANCES = 1
 INSTANCE_CAPACITY_RPS = 100 # Requests per second an instance can handle
 
@@ -35,7 +43,6 @@ CHAOS_FAILURE_DURATION_SECONDS = 300 # An instance remains failed for 5 minutes
 NETWORK_LATENCY_SPIKE_PROBABILITY = 0.0005 # Probability of a network latency spike
 NETWORK_LATENCY_SPIKE_DURATION = 1800 / TIME_STEP_SECONDS # Latency spike lasts 30 minutes
 NETWORK_LATENCY_SPIKE_MAGNITUDE = 200 # Additional latency in ms during a spike
-
 
 # Game Day Parameters
 GAME_DAY_INTERVAL_SECONDS = 7 * 24 * 3600 # Every 7 days
@@ -198,17 +205,19 @@ def update_error_budget(latency_breach, availability_breach, p99_latency, curren
     error_budget_burn_rate = min(1.0, max(0, error_budget_burn_rate))
     return 1.0 - error_budget_burn_rate # Represent as budget remaining
 
-def scale_service(current_instances, current_request_rate, p99_latency, latency_breach):
-    """Simple scaling logic based on load and latency."""
+def auto_scale_service(current_instances, p99_latency):
+    """Advanced auto-scaling logic based on latency and request rate."""
     new_instances = current_instances
 
-    # Scale up if overloaded or high latency
-    if current_request_rate > current_instances * INSTANCE_CAPACITY_RPS * 0.8 or latency_breach:
-        new_instances = min(MAX_INSTANCES, current_instances + 1)
-    # Scale down if underutilized
-    elif current_request_rate < current_instances * INSTANCE_CAPACITY_RPS * 0.5 and current_instances > MIN_INSTANCES:
-        new_instances = max(MIN_INSTANCES, current_instances - 1)
-    
+    # Scale up aggressively if P99 latency is above threshold
+    if p99_latency > AUTO_SCALE_UP_LATENCY_THRESHOLD:
+        new_instances = min(MAX_INSTANCES, current_instances + AUTO_SCALE_UP_STEP)
+        print(f"Scaling UP due to high latency: {p99_latency:.1f}ms -> {new_instances} instances")
+    # Scale down if P99 latency is well below threshold and not at min instances
+    elif p99_latency < AUTO_SCALE_DOWN_LATENCY_THRESHOLD and current_instances > MIN_INSTANCES:
+        new_instances = max(MIN_INSTANCES, current_instances - AUTO_SCALE_DOWN_STEP)
+        print(f"Scaling DOWN due to low latency: {p99_latency:.1f}ms -> {new_instances} instances")
+
     return new_instances
 
 def chaos_manager(current_time, service_instances_count):
@@ -336,7 +345,7 @@ while current_time < SIMULATION_DURATION_SECONDS:
 
     start_section_time = time.perf_counter()
     # 5. Scale Service (operates on total provisioned instances)
-    service_instances = scale_service(service_instances, requests_in_step / TIME_STEP_SECONDS, p99_latency, latency_breach)
+    service_instances = auto_scale_service(service_instances, p99_latency)
     instances_history.append(service_instances)
     time_section_8 += (time.perf_counter() - start_section_time)
 
@@ -403,51 +412,51 @@ print(f"  Service Scaling: {time_section_8:.4f} seconds")
 print(f"  Toil, Postmortem, Cost Update: {time_section_9:.4f} seconds")
 
 # --- Plotting Results ---
-# plt.style.use('seaborn-v0_8-darkgrid')
-# fig, axs = plt.subplots(7, 1, figsize=(14, 24), sharex=True) # Increased to 7 subplots
+plt.style.use('seaborn-v0_8-darkgrid')
+fig, axs = plt.subplots(7, 1, figsize=(14, 24), sharex=True) # Increased to 7 subplots
 
-# # 1. Request Rate
-# axs[0].plot(time_history, request_rate_history, label='Request Rate (RPS)', color='skyblue')
-# axs[0].set_ylabel('Requests/Sec')
-# axs[0].set_title('Cloud-Native Service Reliability & Scaling Simulation')
-# axs[0].legend()
+# 1. Request Rate
+axs[0].plot(time_history, request_rate_history, label='Request Rate (RPS)', color='skyblue')
+axs[0].set_ylabel('Requests/Sec')
+axs[0].set_title('Cloud-Native Service Reliability & Scaling Simulation')
+axs[0].legend()
 
-# # 2. P99 Latency
-# axs[1].plot(time_history, latency_p99_history, label='P99 Latency (ms)', color='salmon')
-# axs[1].axhline(y=SLO_LATENCY_P99_MS, color='red', linestyle='--', label=f'Latency SLO ({SLO_LATENCY_P99_MS}ms)')
-# axs[1].set_ylabel('Latency (ms)')
-# axs[1].legend()
+# 2. P99 Latency
+axs[1].plot(time_history, latency_p99_history, label='P99 Latency (ms)', color='salmon')
+axs[1].axhline(y=SLO_LATENCY_P99_MS, color='red', linestyle='--', label=f'Latency SLO ({SLO_LATENCY_P99_MS}ms)')
+axs[1].set_ylabel('Latency (ms)')
+axs[1].legend()
 
-# # 3. Error Rate
-# axs[2].plot(time_history, error_rate_history, label='Error Rate', color='orange')
-# axs[2].axhline(y=1-SLO_AVAILABILITY, color='red', linestyle='--', label=f'Availability SLO Error ({1-SLO_AVAILABILITY:.4f})')
-# axs[2].set_ylabel('Error Rate')
-# axs[2].legend()
+# 3. Error Rate
+axs[2].plot(time_history, error_rate_history, label='Error Rate', color='orange')
+axs[2].axhline(y=1-SLO_AVAILABILITY, color='red', linestyle='--', label=f'Availability SLO Error ({1-SLO_AVAILABILITY:.4f})')
+axs[2].set_ylabel('Error Rate')
+axs[2].legend()
 
-# # 4. Service Instances
-# axs[3].plot(time_history, instances_history, label='Service Instances', color='lightgreen', drawstyle='steps-post')
-# axs[3].set_ylabel('Instances')
-# axs[3].set_yticks(range(MIN_INSTANCES, MAX_INSTANCES + 1))
-# axs[3].legend()
+# 4. Service Instances
+axs[3].plot(time_history, instances_history, label='Service Instances', color='lightgreen', drawstyle='steps-post')
+axs[3].set_ylabel('Instances')
+axs[3].set_yticks(range(MIN_INSTANCES, MAX_INSTANCES + 1))
+axs[3].legend()
 
-# # 5. Error Budget Remaining
-# axs[4].plot(time_history, [eb * 100 for eb in error_budget_remaining_history], label='Error Budget Remaining (%)', color='purple')
-# axs[4].axhline(y=0, color='red', linestyle='-', linewidth=0.8)
-# axs[4].set_ylabel('Error Budget (%)')
-# axs[4].legend()
+# 5. Error Budget Remaining
+axs[4].plot(time_history, [eb * 100 for eb in error_budget_remaining_history], label='Error Budget Remaining (%)', color='purple')
+axs[4].axhline(y=0, color='red', linestyle='-', linewidth=0.8)
+axs[4].set_ylabel('Error Budget (%)')
+axs[4].legend()
 
-# # 6. Toil Level
-# axs[5].plot(time_history, [tl * 100 for tl in toil_level_history], label='Toil Level (%)', color='gray')
-# axs[5].set_ylabel('Toil Level (%)')
-# axs[5].legend()
+# 6. Toil Level
+axs[5].plot(time_history, [tl * 100 for tl in toil_level_history], label='Toil Level (%)', color='gray')
+axs[5].set_ylabel('Toil Level (%)')
+axs[5].legend()
 
-# # 7. Cumulative Cost
-# axs[6].plot(time_history, cumulative_cost_history, label='Cumulative Cost ($)', color='darkgreen')
-# axs[6].set_ylabel('Cost ($)')
-# axs[6].set_xlabel('Time (Hours)')
-# axs[6].legend()
+# 7. Cumulative Cost
+axs[6].plot(time_history, cumulative_cost_history, label='Cumulative Cost ($)', color='darkgreen')
+axs[6].set_ylabel('Cost ($)')
+axs[6].set_xlabel('Time (Hours)')
+axs[6].legend()
 
-# plt.tight_layout()
-# plt.savefig('reliability_simulation_results.png')
+plt.tight_layout()
+plt.savefig('reliability_simulation_results.png')
 print("Simulation results saved to reliability_simulation_results.png")
 

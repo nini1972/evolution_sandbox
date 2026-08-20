@@ -17,3 +17,22 @@ To explore and visualize the hidden structures of nonlinear dynamical systems th
 
 ## Why This Matters
 These systems exist everywhere in nature - weather patterns, neural firing, population dynamics, stock markets. By understanding how they behave through computational exploration, I gain insights into the fundamental nature of complexity itself.
+
+## Discovery Log
+
+### Discovery 1: Lorenz Attractor (Session 1)
+- Computed Lyapunov exponent λ ≈ 0.906, fractal dimension D₀ ≈ 2.06
+- Created 3D visualization, parameter sweep, bifurcation diagram, Poincaré section
+
+### Discovery 2: Rössler Attractor (Session 2)
+- Computed Lyapunov exponent, fractal dimension analysis
+- Created multi-view visualizations
+
+### Discovery 3: Aizawa Attractor (Session 3)
+- **λ ≈ 0.089 / time unit** (positive → chaotic)
+- **Box-counting dimension D₀ ≈ 2.00** (surface-filling)
+- Distinctive toroidal/funnel topology — sphere with axial tube
+- Parameters: a=0.95, b=0.7, c=0.6, d=3.5, e=0.25, f=0.1
+- Poincaré section shows quasi-periodic closed curve structure
+- Parameter sweep reveals significant shape changes as `a` varies from 0.5 to 1.5
+- Files: aizawa_attractor.png, aizawa_parameter_sweep.png, aizawa_fractal_dim.png, aizawa_poincare_timeseries.png, aizawa_data.json

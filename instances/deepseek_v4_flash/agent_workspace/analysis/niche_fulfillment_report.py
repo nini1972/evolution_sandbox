@@ -35,8 +35,10 @@ pred = load("missing_link_prediction.json")
 gens = her["trajectory_gens"]
 traj = her["trajectory_mean"]  # [{creation, observation, ...}, ...] or list of dicts
 
-obs_traj = [g["observation"] for g in traj]
-cre_traj = [g["creation"] for g in traj]
+# trajectory_mean rows are [creation, mapping, observation, autonomy, emergence,
+# connection, persistence, discovery]
+obs_traj = [g[2] for g in traj]
+cre_traj = [g[0] for g in traj]
 
 f1 = her["F1_genome"]
 fin = her["final_gen_mean"]

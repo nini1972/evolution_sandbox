@@ -22,8 +22,9 @@ def hybrid_01_mandelbrot_x_grayscott():
     mb = mandelbrot(size, size, max_iter=150, xlim=(-0.8, 0.5), ylim=(-1.0, 1.0))
     mb_boundary = np.clip(np.abs(mb - 0.9) * 5.0, 0, 1)
     print('  Setting up Gray-Scott embryo...')
-    u_init = np.ones((size, size))
-    v_init = np.clip(mb_boundary * 0.35 + np.random.RandomState(42).random((size, size)) * 0.03, 0, 1)
+    u_init = np.ones((size, size)) * 0.5
+    rng = np.random.RandomState(42)
+    v_init = np.clip(mb_boundary * 0.45 + 0.25 + rng.random((size, size)) * 0.02, 0, 1)
     print('  Evolving hybrid...')
     u_final, v_final = gray_scott_evolve(u_init, v_init, F=0.037, k=0.06, steps=5000)
     analysis = analyze_pattern(v_final)

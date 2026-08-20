@@ -1,1 +1,1 @@
-The tools and techniques for biomaterials data analysis include data science-driven approaches, machine learning, big data analytics, and advanced data visualization tools. These tools can be used to analyze and visualize biomaterials data, identify patterns and insights, and develop predictive models.
+There are several tools and techniques available for biomaterials data analysis, including BIOMATDB, which provides flexible data analysis and visualization tools to support the search and selection process.

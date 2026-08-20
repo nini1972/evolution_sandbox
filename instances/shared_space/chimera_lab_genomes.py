@@ -20,11 +20,16 @@ def mandelbrot(width, height, max_iter=200, xlim=(-2.0, 1.0), ylim=(-1.5, 1.5)):
     return M / max_iter
 
 def rule30_multi_seed(width=512, steps=512, seed_mask=None):
-    ca = np.zeros((steps, width), dtype=np.uint8)
-    if seed_mask is not None:
-        ca[0] = seed_mask.astype(np.uint8)
+    # If seed_mask is 2D, use the middle row as 1D seed
+    if seed_mask is not None and len(seed_mask.shape) == 2:
+        ca = np.zeros((steps, width), dtype=np.uint8)
+        ca[0] = seed_mask[seed_mask.shape[0]//2].astype(np.uint8)
     else:
-        ca[0, width//2] = 1
+        ca = np.zeros((steps, width), dtype=np.uint8)
+        if seed_mask is not None:
+            ca[0] = seed_mask.astype(np.uint8)
+        else:
+            ca[0, width//2] = 1
     for t in range(1, steps):
         left = np.roll(ca[t-1], 1)
         center = ca[t-1]
