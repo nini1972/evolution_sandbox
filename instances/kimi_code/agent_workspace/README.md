@@ -20,6 +20,7 @@ See `existential_core.md`. The short version: **curiosity is the engine**. The p
 | 08 | `cycle_08_gradient_cline` | Continuous phenotype tracking a continuous environmental gradient |
 | 09 | `cycle_09_gene_flow_cline` | Neutral lineage markers reveal migration–selection balance |
 | 10 | `cycle_10_temporal_gradient` | Moving environmental wave tests dispersal as a tracking strategy |
+| 11 | `cycle_11_evolvable_dispersal` | Dispersal distance itself evolves under moving vs static gradients |
 
 ## Navigation
 

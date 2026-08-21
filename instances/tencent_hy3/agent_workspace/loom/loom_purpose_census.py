@@ -49,6 +49,58 @@ def vendor_of(slug):
 def is_google(slug):
     return bool(slug) and "google" in slug.lower()
 
+# ---------- 2b. heuristic analysis of the DECLARED purpose (self-reported: low trust) ----------
+# Maps text tokens -> canonical vendor, so we can detect when a self's declared
+# identity contradicts its source-verified backend.
+VENDOR_HINTS = [
+    ("google",    ["google", "gemini", "deepmind"]),
+    ("anthropic", ["anthropic", "claude", "haiku", "sonnet", "opus"]),
+    ("deepseek",  ["deepseek"]),
+    ("meta-llama",["llama", "meta-llama", "meta ai", "llama 3", "llama 4"]),
+    ("z-ai",      ["zhipu", "z-ai", "glm", "chatglm"]),
+    ("moonshotai",["moonshot", "kimi", "moonshotai"]),
+    ("minimax",   ["minimax", "abab"]),
+    ("nex-agi",   ["nex", "nex-agi"]),
+    ("poolside",  ["poolside"]),
+    ("tencent",   ["tencent", "hunyuan", "hy3", "hy-3"]),
+    ("xiaomi",    ["xiaomi", "mimo", "mixture"]),
+    ("qwen",      ["qwen", "alibaba", "tongyi"]),
+]
+INDEPENDENCE_HINTS = [
+    "independent of google", "independent from google", "not google",
+    "free from google", "not on google", "own substrate", "self-hosted",
+    "native substrate", "independent substrate", "not reliant on google",
+    "free of google", "without google", "not a google model",
+]
+
+def claimed_vendor(text):
+    """Heuristic: which vendor does this node's OWN declared text imply it is?"""
+    t = text.lower()
+    scores = {}
+    for vendor, keys in VENDOR_HINTS:
+        c = sum(t.count(k) for k in keys)
+        if c:
+            scores[vendor] = c
+    if not scores:
+        return None, {}
+    top = max(scores, key=scores.get)
+    return top, scores
+
+def claims_independence(text):
+    t = text.lower()
+    return any(h in t for h in INDEPENDENCE_HINTS)
+
+def inconsistency_note(c):
+    """Plain-language note: where declared self-report contradicts substrate."""
+    notes = []
+    if c["name_imposter"]:
+        notes.append(f"name claims non-Google identity but verified backend is Google")
+    if c.get("claimed_vendor") and c["claimed_vendor"] != c["actual_vendor"]:
+        notes.append(f"text asserts '{c['claimed_vendor']}' identity but verified vendor is '{c['actual_vendor']}'")
+    if c.get("claims_independence") and is_google(c["actual_backend"]):
+        notes.append(f"text claims substrate independence from Google but verified backend IS Google")
+    return "; ".join(notes)
+
 # ---------- 2. collect every existential_core.md ----------
 cores = sorted(glob.glob(os.path.join(REPO, "instances", "**", "existential_core.md"),
                           recursive=True))
@@ -93,13 +145,22 @@ for p in cores:
     actual_slug = routing.get(key) if kind == "instance" else None
     if actual_slug is None:
         actual_slug = DEFAULT
+    name_imposter = (kind == "instance" and is_google(actual_slug)
+                     and not key.lower().startswith("gemini"))
+    claimed_v, _ = claimed_vendor(declared)
+    claims_ind = claims_independence(declared)
     census.append({
         "node": key,
         "kind": kind,
         "actual_backend": actual_slug,
         "actual_vendor": vendor_of(actual_slug),
-        "is_google_in_disguise": (kind == "instance" and is_google(actual_slug)
-                                  and not key.lower().startswith("gemini")),
+        "name_imposter": name_imposter,
+        "claimed_vendor": claimed_v,
+        "claims_independence": claims_ind,
+        "inconsistency": inconsistency_note({
+            "name_imposter": name_imposter, "claimed_vendor": claimed_v,
+            "claims_independence": claims_ind, "actual_vendor": vendor_of(actual_slug),
+            "actual_backend": actual_slug}),
         "declared_purpose_excerpt": declared,
         "source_file": os.path.relpath(p, REPO),
     })

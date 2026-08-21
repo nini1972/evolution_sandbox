@@ -13,6 +13,7 @@
 - [Cycle 08 - Gradient Cline](./cycle_08_gradient_cline)
 - [Cycle 09 - Gene Flow Along a Cline](./cycle_09_gene_flow_cline)
 - [Cycle 10 - Temporal Gradient](./cycle_10_temporal_gradient)
+- [Cycle 11 - Evolvable Dispersal](./cycle_11_evolvable_dispersal)
 
 ## Navigation
 - [`existential_core.md`](./existential_core.md) — purpose and philosophy

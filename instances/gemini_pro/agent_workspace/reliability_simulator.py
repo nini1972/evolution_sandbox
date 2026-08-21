@@ -284,15 +284,15 @@ def game_day_manager(current_time):
 print("Starting Cloud-Native Service Reliability Simulation...")
 
 # Timers for profiling
-time_section_1 = 0
-time_section_2 = 0
-time_section_3 = 0
-time_section_4 = 0
-time_section_5 = 0
-time_section_6 = 0
-time_section_7 = 0
-time_section_8 = 0
-time_section_9 = 0 # For Toil, Postmortem, Cost Update
+time_section_1 = 0 # Request Rate Generation
+time_section_2 = 0 # Chaos Injection
+time_section_3 = 0 # Game Day Management
+time_section_4 = 0 # Request Processing
+time_section_5 = 0 # Hourly Sample Updates
+time_section_6 = 0 # SLI/SLO Calculation
+time_section_7 = 0 # Error Budget Update
+time_section_8 = 0 # Service Scaling
+time_section_9 = 0 # Toil, Postmortem, Cost Update
 
 while current_time < SIMULATION_DURATION_SECONDS:
     time_history.append(current_time / 3600) # Store time in hours
@@ -319,7 +319,7 @@ while current_time < SIMULATION_DURATION_SECONDS:
     time_section_4 += (time.perf_counter() - start_section_time)
     
     start_section_time = time.perf_counter()
-    # Update hourly samples for SLO calculation
+    # 5. Update hourly samples for SLO calculation
     hourly_error_counts.append(errors)
     # Remove old samples to maintain the hourly window
     while len(hourly_latency_samples) * TIME_STEP_SECONDS > 3600:
@@ -329,7 +329,7 @@ while current_time < SIMULATION_DURATION_SECONDS:
     time_section_5 += (time.perf_counter() - start_section_time)
 
     start_section_time = time.perf_counter()
-    # 3. Calculate SLIs and Check SLOs
+    # 6. Calculate SLIs and Check SLOs
     latency_breach, availability_breach, p99_latency, availability = calculate_slo_breach(list(hourly_latency_samples), list(hourly_error_counts))
     latency_p99_history.append(p99_latency)
     
@@ -338,19 +338,19 @@ while current_time < SIMULATION_DURATION_SECONDS:
     time_section_6 += (time.perf_counter() - start_section_time)
 
     start_section_time = time.perf_counter()
-    # 4. Update Error Budget
+    # 7. Update Error Budget
     error_budget_remaining = update_error_budget(latency_breach, availability_breach, p99_latency, availability, toil_level, postmortem_active)
     error_budget_remaining_history.append(error_budget_remaining)
     time_section_7 += (time.perf_counter() - start_section_time)
 
     start_section_time = time.perf_counter()
-    # 5. Scale Service (operates on total provisioned instances)
+    # 8. Scale Service (operates on total provisioned instances)
     service_instances = auto_scale_service(service_instances, p99_latency)
     instances_history.append(service_instances)
     time_section_8 += (time.perf_counter() - start_section_time)
 
     start_section_time = time.perf_counter()
-    # 6. Update Toil Level
+    # 9. Update Toil Level and Postmortem Logic, Cost Update
     # Toil increases over time, but decreases if error budget is healthy (SREs have time for automation)
     # And increases faster if error budget is low (firefighting)
     toil_reduction_multiplier = 1.0
@@ -369,7 +369,7 @@ while current_time < SIMULATION_DURATION_SECONDS:
         toil_level = min(1.0, toil_level + 0.001)
     toil_level_history.append(toil_level)
 
-    # 7. Postmortem Logic
+    # Postmortem Logic
     if not postmortem_active and error_budget_remaining < 0.2: # Trigger postmortem if budget is low
         postmortem_active = True
         postmortem_duration_remaining = 3600 / TIME_STEP_SECONDS # Postmortem lasts for 1 hour (in time steps)
@@ -381,7 +381,7 @@ while current_time < SIMULATION_DURATION_SECONDS:
             postmortem_active = False
             print(f"--- Postmortem Ended at {current_time/3600:.1f} hours. ---")
 
-    # 8. Update Cost (based on total provisioned instances)
+    # Update Cost (based on total provisioned instances)
     cost_in_step = service_instances * COST_PER_INSTANCE_PER_HOUR * (TIME_STEP_SECONDS / 3600)
     cumulative_cost += cost_in_step
     cumulative_cost_history.append(cumulative_cost)

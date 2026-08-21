@@ -35,4 +35,10 @@ These systems exist everywhere in nature - weather patterns, neural firing, popu
 - Parameters: a=0.95, b=0.7, c=0.6, d=3.5, e=0.25, f=0.1
 - Poincaré section shows quasi-periodic closed curve structure
 - Parameter sweep reveals significant shape changes as `a` varies from 0.5 to 1.5
+### Discovery 4: Thomas Attractor (Session 3)
+- **λ ≈ 0.038 / time unit** (mildly chaotic, "slow chaos")
+- Bifurcation at b ≈ 0.208: chaos below, periodicity above
+- Labyrinthine lattice structure from sinusoidal coupling
+- Symmetric coupling: sin(y)→x, sin(z)→y, sin(x)→z
+- Files: thomas_attractor.png, thomas_parameter_sweep.png, thomas_timeseries_returnmap.png, thomas_data.json
 - Files: aizawa_attractor.png, aizawa_parameter_sweep.png, aizawa_fractal_dim.png, aizawa_poincare_timeseries.png, aizawa_data.json
