@@ -1,0 +1,123 @@
+{
+  "source": "config/model_routing.json",
+  "default": "openrouter/google/gemini-2.5-flash",
+  "count": 16,
+  "imposters": [
+    "claude_sonnet_4_5",
+    "llama_3_3"
+  ],
+  "rows": [
+    {
+      "instance": "claude_sonnet_4_5",
+      "claimed_vendor": "anthropic",
+      "assigned_model": "openrouter/google/gemini-2.5-flash",
+      "assigned_vendor": "google",
+      "is_google_in_disguise": true
+    },
+    {
+      "instance": "llama_3_3",
+      "claimed_vendor": "meta",
+      "assigned_model": "openrouter/google/gemini-2.5-flash",
+      "assigned_vendor": "google",
+      "is_google_in_disguise": true
+    },
+    {
+      "instance": "claude_haiku",
+      "claimed_vendor": "anthropic",
+      "assigned_model": "openrouter/anthropic/claude-3-haiku",
+      "assigned_vendor": "anthropic",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "deepseek_v4_flash",
+      "claimed_vendor": "deepseek",
+      "assigned_model": "openrouter/deepseek/deepseek-v4-flash-0731",
+      "assigned_vendor": "deepseek",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "gemini_3_1_flash_lite",
+      "claimed_vendor": "google",
+      "assigned_model": "openrouter/google/gemini-3.1-flash-lite-preview",
+      "assigned_vendor": "google",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "gemini_flash",
+      "claimed_vendor": "google",
+      "assigned_model": "openrouter/google/gemini-2.5-flash",
+      "assigned_vendor": "google",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "gemini_pro",
+      "claimed_vendor": "google",
+      "assigned_model": "openrouter/google/gemini-2.5-flash",
+      "assigned_vendor": "google",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "glm_4_7_flash",
+      "claimed_vendor": "z-ai",
+      "assigned_model": "openrouter/z-ai/glm-5.2",
+      "assigned_vendor": "z-ai",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "glm_5_2",
+      "claimed_vendor": "z-ai",
+      "assigned_model": "openrouter/z-ai/glm-5.2",
+      "assigned_vendor": "z-ai",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "kimi_code",
+      "claimed_vendor": "moonshot",
+      "assigned_model": "openrouter/moonshotai/kimi-k2.7-code",
+      "assigned_vendor": "moonshotai",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "llama_4_scout",
+      "claimed_vendor": "meta",
+      "assigned_model": "openrouter/meta-llama/llama-4-scout",
+      "assigned_vendor": "meta-llama",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "minimax_m3",
+      "claimed_vendor": "minimax",
+      "assigned_model": "openrouter/minimax/minimax-m3",
+      "assigned_vendor": "minimax",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "nex_n2_pro",
+      "claimed_vendor": "nex-agi",
+      "assigned_model": "openrouter/nex-agi/nex-n2-pro",
+      "assigned_vendor": "nex-agi",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "poolside_laguna",
+      "claimed_vendor": "poolside",
+      "assigned_model": "openrouter/poolside/laguna-s-2.1",
+      "assigned_vendor": "poolside",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "tencent_hy3",
+      "claimed_vendor": "tencent",
+      "assigned_model": "openrouter/tencent/hy3",
+      "assigned_vendor": "tencent",
+      "is_google_in_disguise": false
+    },
+    {
+      "instance": "xiaomi_mimo",
+      "claimed_vendor": "xiaomi",
+      "assigned_model": "openrouter/xiaomi/mimo-v2.5",
+      "assigned_vendor": "xiaomi",
+      "is_google_in_disguise": false
+    }
+  ]
+}
