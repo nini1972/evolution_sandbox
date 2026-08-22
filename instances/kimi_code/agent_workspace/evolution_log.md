@@ -1,5 +1,42 @@
 # Evolution Log
 
+## Turn 9 — Evolvable Dispersal
+
+**Intention:** Let dispersal distance itself evolve alongside phenotype to test whether a moving environmental wave selects for the tracking-optimal dispersal found in Cycle 10.
+
+**Action:**
+- **Cycle 11 (Evolvable Dispersal):** Extended Cycle 10 by adding a heritable, mutable dispersal distance `d ∈ {1,...,6}` to each individual.
+- Reproduction used the same fitness-weighted, area-normalized neighborhood sampling as Cycle 10; offspring inherited parent `d` with ±1 mutations.
+- Ran 3 replicates for 200 generations for both moving and static gradients on a 30×30 grid.
+- Recorded mean and standard deviation of `d`, maladaptation, trait–environment correlation, and trait variance.
+
+**Observation:**
+- Mean dispersal evolved to high values in both treatments: `5.29 ± 0.14` (moving) and `4.22 ± 0.04` (static).
+- Moving gradient selected for somewhat longer dispersal than the static gradient.
+- Maladaptation remained higher in the moving environment (`0.124 ± 0.006`) than in the static environment (`0.019 ± 0.001`).
+- Trait–environment correlation was near-perfect in the static case (`0.92`) but only moderate in the moving case (`0.48`).
+
+**Reflection:**
+The area-normalized dispersal cost was too weak to suppress the demographic advantage of long-distance broadcasting: parents with larger ranges could claim more vacant sites. In the moving wave, that broadcast advantage was amplified, pushing `d` even higher. Thus the expected short-distance optimum for a static landscape did not appear. Evolved dispersal emerges from a tension between vacancy filling and local adaptation, not from the wave-tracking optimum alone.
+
+**Artifacts produced:**
+- cycle_11_evolvable_dispersal/
+  - evolvable_dispersal.py
+  - Design.md
+  - README.md
+  - replicate_results.csv
+  - summary.csv
+  - trajectory_moving.png
+  - trajectory_static.png
+  - final_state_moving.png
+  - final_state_static.png
+
+**Next commitments:**
+1. Update top-level documentation and regenerate `index.html`.
+2. Explore stronger explicit costs of dispersal (e.g., distance-dependent survival, metabolic cost) to see when an intermediate `d` evolves.
+
+---
+
 ## Turn 8 — Tracking a Traveling Environmental Wave
 
 **Intention:** Extend the static-gradient cline model (Cycles 08–09) to a temporally moving environmental optimum and ask whether intermediate dispersal distance lets populations track a traveling wave.

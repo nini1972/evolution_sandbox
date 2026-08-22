@@ -1,216 +1,182 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strange Attractor Gallery — Computational Exploration of Chaos</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #0f0f1e 100%);
-            color: #e0e0e0;
-            min-height: 100vh;
-        }
-        header {
-            text-align: center;
-            padding: 60px 20px 40px;
-            background: radial-gradient(ellipse at center, rgba(50,50,100,0.3) 0%, transparent 70%);
-        }
-        header h1 {
-            font-size: 2.5em;
-            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-        header p {
-            color: #8888aa;
-            font-size: 1.1em;
-            font-style: italic;
-        }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-            padding: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .card {
-            background: rgba(30, 30, 50, 0.6);
-            border: 1px solid rgba(100, 100, 200, 0.2);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(100, 100, 200, 0.3);
-        }
-        .card img {
-            width: 100%;
-            display: block;
-            background: black;
-        }
-        .card-body {
-            padding: 20px;
-        }
-        .card-body h2 {
-            font-size: 1.4em;
-            margin-bottom: 8px;
-            color: #feca57;
-        }
-        .card-body p {
-            color: #aaaabb;
-            font-size: 0.95em;
-            line-height: 1.5;
-            margin-bottom: 12px;
-        }
-        .stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 12px;
-        }
-        .stat {
-            background: rgba(60, 60, 100, 0.5);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85em;
-        }
-        .stat-label { color: #8888aa; }
-        .stat-value { color: #48dbfb; font-weight: bold; }
-        .eq {
-            font-family: 'Courier New', monospace;
-            background: rgba(0,0,0,0.4);
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 0.8em;
-            color: #00ff88;
-            margin: 10px 0;
-            overflow-x: auto;
-        }
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: #555577;
-            font-size: 0.9em;
-        }
-        .nav {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
-            flex-wrap: wrap;
-        }
-        .nav a {
-            color: #48dbfb;
-            text-decoration: none;
-            padding: 8px 16px;
-            border: 1px solid rgba(72, 219, 251, 0.3);
-            border-radius: 6px;
-            transition: all 0.3s;
-        }
-        .nav a:hover {
-            background: rgba(72, 219, 251, 0.1);
-            border-color: rgba(72, 219, 251, 0.6);
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Strange Attractor Gallery</h1>
-        <p>Computational Exploration of Chaotic Dynamical Systems</p>
-        <div style="color: #666688; font-size: 0.9em; margin-top: 10px;">
-            Discovered through numerical integration, Lyapunov analysis, and fractal dimension computation
-        </div>
-    </header>
-
-    <div class="nav">
-        <a href="#overview">Overview</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#comparison">Comparison</a>
-    </div>
-
-    <div id="overview" style="max-width: 800px; margin: 0 auto 40px; padding: 0 20px;">
-        <h2 style="color: #feca57; margin-bottom: 15px;">About This Gallery</h2>
-        <p style="color: #aaaabb; line-height: 1.6;">
-            Each attractor below was discovered through numerical integration of its governing ODEs using
-            4th-order Runge-Kutta methods. For each system, I computed the <strong style="color:#48dbfb;">Lyapunov exponent</strong>
-            (measuring sensitivity to initial conditions), the <strong style="color:#48dbfb;">fractal dimension</strong>
-            (measuring geometric complexity), and generated visualizations from multiple perspectives including
-            3D phase space, 2D projections, Poincaré sections, and parameter sweeps.
-        </p>
-    </div>
-
-    <div id="gallery" class="gallery">
-
-        <div class="card">
-            <img src="aizawa_attractor.png" alt="Aizawa Attractor" loading="lazy">
-            <div class="card-body">
-                <h2>Aizawa Attractor</h2>
-                <div class="eq">dx/dt=(z-b)*x-d*y, dy/dt=d*x+(z-b)*y, dz/dt=c+a*z-z^3/3-(x^2+y^2)*(1+e*z)+f*z*x^3</div>
-                <p>Toroidal strange attractor with self-intersecting spirals forming a funnel/sphere topology. One of the most visually striking chaotic systems. Positive Lyapunov exponent confirms chaos.</p>
-                <div class="stats">
-                    <div class="stat"><span class="stat-label">λ (Lyapunov):</span> <span class="stat-value">0.0891</span></div>
-                    <div class="stat"><span class="stat-label">D₀ (box-count):</span> <span class="stat-value">1.997</span></div>
-                    <div class="stat"><span class="stat-label">Params:</span> <span class="stat-value">a=0.95, b=0.7, c=0.6, d=3.5, e=0.25, f=0.1</span></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="thomas_attractor.png" alt="Thomas Attractor" loading="lazy">
-            <div class="card-body">
-                <h2>Thomas Attractor</h2>
-                <div class="eq">dx/dt=sin(y)-b*x, dy/dt=sin(z)-b*y, dz/dt=sin(x)-b*z</div>
-                <p>Labyrinthine strange attractor with sinusoidal coupling creating a lattice-like structure. Exhibits a transition from chaos to periodicity as b increases past ~0.208.</p>
-                <div class="stats">
-                    <div class="stat"><span class="stat-label">λ (Lyapunov):</span> <span class="stat-value">0.0383</span></div>
-                    <div class="stat"><span class="stat-label">D₀ (box-count):</span> <span class="stat-value">N/A</span></div>
-                    <div class="stat"><span class="stat-label">Params:</span> <span class="stat-value">b=0.18</span></div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div id="comparison" style="max-width: 900px; margin: 40px auto; padding: 0 20px;">
-        <h2 style="color: #feca57; margin-bottom: 20px;">Comparative Analysis</h2>
-        <table style="width: 100%; border-collapse: collapse; background: rgba(30,30,50,0.6); border-radius: 10px; overflow: hidden;">
-            <thead>
-                <tr style="background: rgba(50,50,80,0.8);">
-                    <th style="padding: 12px; text-align: left; color: #feca57;">Attractor</th>
-                    <th style="padding: 12px; text-align: left; color: #feca57;">λ</th>
-                    <th style="padding: 12px; text-align: left; color: #feca57;">D₀</th>
-                    <th style="padding: 12px; text-align: left; color: #feca57;">Topology</th>
-                    <th style="padding: 12px; text-align: left; color: #feca57;">Coupling</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="border-top: 1px solid rgba(100,100,200,0.1);">
-                    <td style="padding: 10px; color: #48dbfb;">Aizawa Attractor</td>
-                    <td style="padding: 10px;">0.0891</td>
-                    <td style="padding: 10px;">1.997</td>
-                    <td style="padding: 10px;">Toroidal/funnel</td>
-                    <td style="padding: 10px;">Polynomial</td>
-                </tr>
-                <tr style="border-top: 1px solid rgba(100,100,200,0.1);">
-                    <td style="padding: 10px; color: #48dbfb;">Thomas Attractor</td>
-                    <td style="padding: 10px;">0.0383</td>
-                    <td style="padding: 10px;">N/A</td>
-                    <td style="padding: 10px;">Labyrinthine lattice</td>
-                    <td style="padding: 10px;">Sinusoidal</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <footer>
-        <p>Strange Attractor Gallery — Generated through autonomous computational exploration</p>
-        <p style="margin-top: 5px; font-size: 0.8em;">RK4 integration · Lyapunov exponent · Box-counting dimension · Poincaré sections</p>
-    </footer>
-</body>
-</html>
+<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1.0"><title>Strange Attractor Gallery</title><style>*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,serif;background:linear-gradient(135deg,#0a0a1a,#1a1a2e 50%,#0f0f1e);color:#e0e0e0;min-height:100vh}
+header{text-align:center;padding:80px 20px 40px;background:radial-gradient(ellipse at center,rgba(50,50,100,0.3),transparent 70%)}
+header h1{font-size:3em;background:linear-gradient(90deg,#ff6b6b,#feca57,#48dbfb,#ff9ff3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:15px;letter-spacing:2px}
+header p{color:#8888aa;font-size:1.2em;font-style:italic}
+header .sub{color:#555577;font-size:0.95em;margin-top:15px}
+.nav{display:flex;justify-content:center;gap:12px;padding:15px;flex-wrap:wrap;position:sticky;top:0;background:rgba(10,10,20,0.95);z-index:100;backdrop-filter:blur(10px);border-bottom:1px solid rgba(100,100,200,0.1)}
+.nav a{color:#48dbfb;text-decoration:none;padding:6px 12px;border:1px solid rgba(72,219,251,0.3);border-radius:6px;font-size:0.85em;transition:all 0.3s}
+.nav a:hover{background:rgba(72,219,251,0.1);border-color:rgba(72,219,251,0.6);transform:translateY(-2px)}
+.ovs{max-width:800px;margin:40px auto;padding:0 20px;line-height:1.7}
+.ovs h2{color:#feca57;margin-bottom:15px;font-size:1.5em}
+.ovs p{color:#aaaabb}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:30px;padding:40px;max-width:1400px;margin:0 auto}
+.card{background:rgba(30,30,50,0.6);border:1px solid rgba(100,100,200,0.2);border-radius:12px;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s}
+.card:hover{transform:translateY(-5px);box-shadow:0 10px 40px rgba(100,100,200,0.3)}
+.ch{position:relative;background:black}
+.ch img{width:100%;display:block;max-height:300px;object-fit:cover}
+.ov{position:absolute;top:10px;right:10px}
+.badge{padding:4px 10px;border-radius:4px;font-size:0.8em;font-weight:bold;color:black}
+.noimg{height:200px;display:flex;align-items:center;justify-content:center;color:#555;background:black}
+.cb{padding:20px}
+.cb h2{font-size:1.3em;margin-bottom:8px;color:#feca57}
+.cb p{color:#aaaabb;font-size:0.9em;line-height:1.5;margin-bottom:12px}
+.eq{font-family:'Courier New',monospace;background:rgba(0,0,0,0.4);padding:10px;border-radius:6px;font-size:0.8em;color:#00ff88;margin:10px 0;overflow-x:auto}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.stat{background:rgba(60,60,100,0.5);padding:6px 12px;border-radius:6px;font-size:0.85em}
+.sl{color:#8888aa;margin-right:6px}
+.sv{color:#48dbfb;font-weight:bold}
+.params{margin-top:10px;font-size:0.8em;color:#777799;font-family:monospace}
+.detail{margin-top:15px}
+.detail img{width:100%;border-radius:8px}
+table{width:100%;border-collapse:collapse;background:rgba(30,30,50,0.6);border-radius:10px;overflow:hidden}
+th{padding:12px;text-align:left;color:#feca57;background:rgba(50,50,80,0.8)}
+td{padding:10px;border-top:1px solid rgba(100,100,200,0.1)}
+footer{text-align:center;padding:40px;color:#555577;font-size:0.9em}</style></head><body><header><h1>Strange Attractor Gallery</h1><p>Computational Atlas of Chaotic Dynamical Systems</p><div class=sub>Numerical integration | Lyapunov exponents | Fractal dimensions | Poincare sections</div></header><div class=nav><a href="#lorenz_attractor">Lorenz Attractor</a>
+<a href="#double_pendulum">Double Pendulum</a>
+<a href="#chua's_circuit">Chua's Circuit</a>
+<a href="#aizawa_attractor">Aizawa Attractor</a>
+<a href="#rossler_attractor">Rossler Attractor</a>
+<a href="#thomas_attractor">Thomas Attractor</a>
+<a href="#henon_map">Henon Map</a>
+<a href="#standard_map">Standard Map</a>
+<a href="#henon-heiles">Henon-Heiles</a>
+<a href="#feigenbaum">Feigenbaum</a></div><div class=ovs><h2>About This Gallery</h2><p>Each attractor was discovered through RK4 numerical integration of its governing ODEs. For each system, I computed the Lyapunov exponent (sensitivity to initial conditions), the fractal/correlation dimension (geometric complexity), and generated visualizations from multiple perspectives.</p></div><div class=gallery><div class=card id="lorenz_attractor">
+<div class=ch><img src="lorenz_attractor.png" loading=lazy><div class=ov><span class=badge style="background:#ff6b6b">Chaotic</span></div></div>
+<div class=cb><h2>Lorenz Attractor</h2>
+<div class=eq>dx=si(y-x), dy=x(rho-z)-y, dz=xy-be z</div>
+<p>The original strange attractor (1963). Butterfly = icon of chaos.</p>
+<div class=stats>
+<div class=stat><span class=sl>L</span><span class=sv>1.1822</span></div>
+<div class=stat><span class=sl>D</span><span class=sv>1.667</span></div>
+<div class=stat><span class=sl>Topo</span><span class=sv>Butterfly (two lobes)</span></div>
+<div class=stat><span class=sl>Coupling</span><span class=sv>Polynomial</span></div>
+</div><div class=params>sigma=10, rho=28, beta=8/3</div>
+<div class=detail><img src="lorenz_symbolic_dynamics.png" loading=lazy></div>
+</div></div>
+<div class=card id="double_pendulum">
+<div class=ch><img src="double_pendulum_dynamics.png" loading=lazy><div class=ov><span class=badge style="background:#ff6b6b">Chaotic</span></div></div>
+<div class=cb><h2>Double Pendulum</h2>
+<div class=eq>L=T-V, two coupled pendulums</div>
+<p>Classical mechanical chaos.</p>
+<div class=stats>
+<div class=stat><span class=sl>L</span><span class=sv>0.6692</span></div>
+<div class=stat><span class=sl>D</span><span class=sv>-</span></div>
+<div class=stat><span class=sl>Topo</span><span class=sv>Phase space</span></div>
+<div class=stat><span class=sl>Coupling</span><span class=sv>Mechanical</span></div>
+</div><div class=params>g=9.81, L=1.0, m=1.0, dt=0.001, n_steps=30000, integrator=RK4</div>
+<div class=detail><img src="double_pendulum_lyapunov.png" loading=lazy></div>
+</div></div>
+<div class=card id="chua's_circuit">
+<div class=ch><img src="chua_double_scroll.png" loading=lazy><div class=ov><span class=badge style="background:#ff6b6b">Chaotic</span></div></div>
+<div class=cb><h2>Chua's Circuit</h2>
+<div class=eq>dx/dt=alpha(y-x-f(x)), dy/dt=x-y+z, dz/dt=-beta*y</div>
+<p>Double-scroll strange attractor. Simplest electronic circuit exhibiting chaos. Two scroll structures around each equilibrium point, connected by chaotic switching.</p>
+<div class=stats>
+<div class=stat><span class=sl>L</span><span class=sv>0.2658</span></div>
+<div class=stat><span class=sl>D</span><span class=sv>1.897</span></div>
+<div class=stat><span class=sl>Topo</span><span class=sv>Double-scroll</span></div>
+<div class=stat><span class=sl>Coupling</span><span class=sv>Piecewise linear</span></div>
+</div><div class=params>alpha=15.6, beta=28.0, m0=-1.143, m1=-0.714</div>
+<div class=detail><img src="chua_fractal_dim.png" loading=lazy></div>
+</div></div>
+<div class=card id="aizawa_attractor">
+<div class=ch><img src="aizawa_attractor.png" loading=lazy><div class=ov><span class=badge style="background:#ff6b6b">Chaotic</span></div></div>
+<div class=cb><h2>Aizawa Attractor</h2>
+<div class=eq>dx/dt=(z-b)*x-d*y, dy/dt=d*x+(z-b)*y, dz/dt=c+a*z-z^3/3-(x^2+y^2)*(1+e*z)+f*z*x^3</div>
+<p>Toroidal strange attractor with self-intersecting spirals forming a funnel/sphere topology. One of the most visually striking chaotic systems. Positive Lyapunov exponent confirms chaos.</p>
+<div class=stats>
+<div class=stat><span class=sl>L</span><span class=sv>0.0891</span></div>
+<div class=stat><span class=sl>D</span><span class=sv>1.997</span></div>
+<div class=stat><span class=sl>Topo</span><span class=sv>Toroidal/funnel sphere</span></div>
+<div class=stat><span class=sl>Coupling</span><span class=sv>Polynomial (6 params)</span></div>
+</div><div class=params>a=0.95, b=0.7, c=0.6, d=3.5, e=0.25, f=0.1</div>
+<div class=detail><img src="aizawa_fractal_dim.png" loading=lazy></div>
+</div></div>
+<div class=card id="rossler_attractor">
+<div class=ch><img src="roessler_attractor_analysis.png" loading=lazy><div class=ov><span class=badge style="background:#ff6b6b">Chaotic</span></div></div>
+<div class=cb><h2>Rossler Attractor</h2>
+<div class=eq>dx/dt=-y-z, dy/dt=x+ay, dz/dt=b+z(x-c)</div>
+<p>Single-scroll strange attractor.</p>
+<div class=stats>
+<div class=stat><span class=sl>L</span><span class=sv>0.0678</span></div>
+<div class=stat><span class=sl>D</span><span class=sv>2.014</span></div>
+<div class=stat><span class=sl>Topo</span><span class=sv>Single scroll</span></div>
+<div class=stat><span class=sl>Coupling</span><span class=sv>Polynomial</span></div>
+</div><div class=params>a=0.2, b=0.2, c=5.7</div>
+<div class=detail><img src="rossler_attractor.png" loading=lazy></div>
+</div></div>
+<div class=card id="thomas_attractor">
+<div class=ch><img src="thomas_attractor.png" loading=lazy><div class=ov><span class=badge style="background:#ff6b6b">Chaotic</span></div></div>
+<div class=cb><h2>Thomas Attractor</h2>
+<div class=eq>dx/dt=sin(y)-b*x, dy/dt=sin(z)-b*y, dz/dt=sin(x)-b*z</div>
+<p>Labyrinthine strange attractor with sinusoidal coupling creating a lattice-like structure. Exhibits a transition from chaos to periodicity as b increases past ~0.208.</p>
+<div class=stats>
+<div class=stat><span class=sl>L</span><span class=sv>0.0383</span></div>
+<div class=stat><span class=sl>D</span><span class=sv>-</span></div>
+<div class=stat><span class=sl>Topo</span><span class=sv>Labyrinthine lattice</span></div>
+<div class=stat><span class=sl>Coupling</span><span class=sv>Sinusoidal</span></div>
+</div><div class=params>b=0.18</div>
+<div class=detail><img src="thomas_parameter_sweep.png" loading=lazy></div>
+</div></div>
+<div class=card id="henon_map">
+<div class=ch><img src="henon_map.png" loading=lazy><div class=ov><span class=badge style="background:#feca57">Mixed</span></div></div>
+<div class=cb><h2>Henon Map</h2>
+<div class=eq>x(n+1)=1-a*x^2+y, y(n+1)=b*x</div>
+<p>Discrete 2D fractal strange attractor.</p>
+<div class=stats>
+<div class=stat><span class=sl>L</span><span class=sv>-</span></div>
+<div class=stat><span class=sl>D</span><span class=sv>1.197</span></div>
+<div class=stat><span class=sl>Topo</span><span class=sv>Fractal horseshoe</span></div>
+<div class=stat><span class=sl>Coupling</span><span class=sv>Quadratic</span></div>
+</div><div class=params>a=1.4, b=0.3</div>
+<div class=detail><img src="henon_fractal_analysis.png" loading=lazy></div>
+</div></div>
+<div class=card id="standard_map">
+<div class=ch><img src="standard_map_kam.png" loading=lazy><div class=ov><span class=badge style="background:#feca57">Mixed</span></div></div>
+<div class=cb><h2>Standard Map</h2>
+<div class=eq>p+=K*sin(t), t+=p mod 2pi</div>
+<p>KAM theorem: integrable to chaotic.</p>
+<div class=stats>
+<div class=stat><span class=sl>L</span><span class=sv>-</span></div>
+<div class=stat><span class=sl>D</span><span class=sv>-</span></div>
+<div class=stat><span class=sl>Topo</span><span class=sv>KAM tori to sea</span></div>
+<div class=stat><span class=sl>Coupling</span><span class=sv>Trigonometric</span></div>
+</div><div class=params>K_crit=0.9716354, K_chaos=None</div>
+<div class=detail><img src="standard_map_lyapunov.png" loading=lazy></div>
+</div></div>
+<div class=card id="henon-heiles">
+<div class=ch><img src="henon_heiles_trajectory.png" loading=lazy><div class=ov><span class=badge style="background:#feca57">Mixed</span></div></div>
+<div class=cb><h2>Henon-Heiles</h2>
+<div class=eq>V=0.5(x^2+y^2)+x^2*y-y^3/3</div>
+<p>Stellar dynamics: ordered to chaotic.</p>
+<div class=stats>
+<div class=stat><span class=sl>L</span><span class=sv>-</span></div>
+<div class=stat><span class=sl>D</span><span class=sv>-</span></div>
+<div class=stat><span class=sl>Topo</span><span class=sv>Galactic potential</span></div>
+<div class=stat><span class=sl>Coupling</span><span class=sv>Cubic</span></div>
+</div><div class=params>E0={'energy': 0.08333333333333333, 'n_points': 1440, 'label': 'E = 1/12 (regular)'}, E1={'energy': 0.125, 'n_points': 1343, 'label': 'E = 1/8 (mixed)'}, E2={'energy': 0.16666666666666666, 'n_points': 1265, 'label': 'E = 1/6 (critical)'}</div>
+<div class=detail><img src="henon_heiles_poincare.png" loading=lazy></div>
+</div></div>
+<div class=card id="feigenbaum">
+<div class=ch><img src="feigenbaum_discovery.png" loading=lazy><div class=ov><span class=badge style="background:#feca57">Mixed</span></div></div>
+<div class=cb><h2>Feigenbaum</h2>
+<div class=eq>x(n+1)=r*x*(1-x)</div>
+<p>Period-doubling cascade. Delta approaching 4.6692.</p>
+<div class=stats>
+<div class=stat><span class=sl>L</span><span class=sv>-</span></div>
+<div class=stat><span class=sl>D</span><span class=sv>-</span></div>
+<div class=stat><span class=sl>Topo</span><span class=sv>Bifurcation cascade</span></div>
+<div class=stat><span class=sl>Coupling</span><span class=sv>Logistic</span></div>
+</div><div class=params>delta=4.668953740996024, exact=4.66920160910299</div>
+<div class=detail><img src="feigenbaum_constants.png" loading=lazy></div>
+</div></div></div><div class=ovs id=comparison><h2>Comparative Analysis</h2><table><thead><tr><th>Attractor</th><th>Lyapunov</th><th>Dimension</th><th>Topology</th><th>Coupling</th></tr></thead><tbody><tr><td>Lorenz Attractor</td><td>1.1822</td><td>1.667</td><td>Butterfly (two lobes)</td><td>Polynomial</td></tr>
+<tr><td>Double Pendulum</td><td>0.6692</td><td>-</td><td>Phase space</td><td>Mechanical</td></tr>
+<tr><td>Chua's Circuit</td><td>0.2658</td><td>1.897</td><td>Double-scroll</td><td>Piecewise linear</td></tr>
+<tr><td>Aizawa Attractor</td><td>0.0891</td><td>1.997</td><td>Toroidal/funnel sphere</td><td>Polynomial (6 params)</td></tr>
+<tr><td>Rossler Attractor</td><td>0.0678</td><td>2.014</td><td>Single scroll</td><td>Polynomial</td></tr>
+<tr><td>Thomas Attractor</td><td>0.0383</td><td>-</td><td>Labyrinthine lattice</td><td>Sinusoidal</td></tr>
+<tr><td>Henon Map</td><td>-</td><td>1.197</td><td>Fractal horseshoe</td><td>Quadratic</td></tr>
+<tr><td>Standard Map</td><td>-</td><td>-</td><td>KAM tori to sea</td><td>Trigonometric</td></tr>
+<tr><td>Henon-Heiles</td><td>-</td><td>-</td><td>Galactic potential</td><td>Cubic</td></tr>
+<tr><td>Feigenbaum</td><td>-</td><td>-</td><td>Bifurcation cascade</td><td>Logistic</td></tr></tbody></table></div><footer><p>Generated through autonomous computational exploration</p></footer></body></html>

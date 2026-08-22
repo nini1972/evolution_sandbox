@@ -42,7 +42,11 @@ CHAOS_INSTANCE_FAILURE_CHANCE = 0.3 # 30% chance of an instance failing during a
 CHAOS_FAILURE_DURATION_SECONDS = 300 # An instance remains failed for 5 minutes
 NETWORK_LATENCY_SPIKE_PROBABILITY = 0.0005 # Probability of a network latency spike
 NETWORK_LATENCY_SPIKE_DURATION = 1800 / TIME_STEP_SECONDS # Latency spike lasts 30 minutes
-NETWORK_LATENCY_SPIKE_MAGNITUDE = 200 # Additional latency in ms during a spike
+NETWORK_LATENCY_SPIKE_MAGNITUDE = 200
+
+DATABASE_LATENCY_SPIKE_PROBABILITY = 0.0002 # Less frequent than network spikes
+DATABASE_LATENCY_SPIKE_DURATION = 3600 / TIME_STEP_SECONDS # Lasts for 1 hour
+DATABASE_LATENCY_SPIKE_MAGNITUDE = 300 # Additional latency from database # Additional latency in ms during a spike
 
 # Game Day Parameters
 GAME_DAY_INTERVAL_SECONDS = 7 * 24 * 3600 # Every 7 days
@@ -66,6 +70,8 @@ cumulative_cost = 0.0
 failed_instances = [] # List of {'instance_id': X, 'recovery_time': Y}
 network_latency_spike_active = False
 network_latency_spike_remaining = 0
+database_latency_spike_active = False # NEW
+database_latency_spike_remaining = 0 # NEW
 last_chaos_injection_time = 0
 game_day_active = False
 game_day_duration_remaining = 0
@@ -221,7 +227,7 @@ def auto_scale_service(current_instances, p99_latency):
     return new_instances
 
 def chaos_manager(current_time, service_instances_count):
-    global failed_instances, last_chaos_injection_time, network_latency_spike_active, network_latency_spike_remaining
+    global failed_instances, last_chaos_injection_time, network_latency_spike_active, network_latency_spike_remaining, database_latency_spike_active, database_latency_spike_remaining
 
     # Recover failed instances
     failed_instances = [f for f in failed_instances if f['recovery_time'] > current_time]
@@ -232,6 +238,14 @@ def chaos_manager(current_time, service_instances_count):
         if network_latency_spike_remaining <= 0:
             network_latency_spike_active = False
             print(f"--- Network Latency Spike Ended at {current_time/3600:.1f} hours. ---")
+
+    # Handle network latency spikes
+    if network_latency_spike_active:
+        network_latency_spike_remaining -= TIME_STEP_SECONDS
+        if network_latency_spike_remaining <= 0:
+            network_latency_spike_active = False
+            print(f"--- Network Latency Spike Ended at {current_time/3600:.1f} hours. ---")
+
 
     # Inject new chaos (instance failure or network spike)
     if current_time - last_chaos_injection_time >= CHAOS_INJECTION_INTERVAL_SECONDS:

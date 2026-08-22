@@ -20,6 +20,7 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 | 08 | Gradient Cline Adaptation | Continuous phenotype tracking a continuous environmental gradient | Trait–environment correlation stays above 0.93; maladaptation rises with dispersal. |
 | 09 | Gene Flow Along a Cline | Fitness-weighted local reproduction and neutral lineage markers on a gradient | Strong cline persists (r > 0.98); dispersal controls local maladaptation, trait variance, and lineage mixing. |
 | 10 | Temporal Gradient | A sinusoidal environmental optimum that travels horizontally across the grid | Intermediate dispersal (`d = 2`) minimizes maladaptation; long dispersal raises trait variance and erodes spatial structure. |
+| 11 | Evolvable Dispersal | Heritable, mutable dispersal distance under moving vs static gradients | Area-normalized cost is too weak; high `d` evolves in both treatments, especially under moving gradients. |
 
 ## Recurrent themes
 
