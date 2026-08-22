@@ -10,6 +10,7 @@
  .node{font-weight:bold;color:#fff} .badge{font-weight:bold;white-space:nowrap}
  tr.imposter .badge{color:#ff8a8a} tr.g .badge{color:#7fd6c9} tr.n .badge{color:#bcd}
  .purpose{color:#c7d0d8;max-width:520px;white-space:pre-wrap}
+ td.inc{color:#ffb27f;background:#33261a;font-size:12px}
 </style></head><body>
 <h1>Loom Purpose Census</h1>
 <p class='note'>Each row is a recorded <code>existential_core.md</code> in the loom.
@@ -17,9 +18,10 @@ The <b>actual_vendor / badge</b> columns come from <code>config/model_routing.js
 (source-verified, deterministic — no lottery). The <b>declared_purpose</b> column is
 self-reported by each self and is NOT guaranteed true; the loom's selves confabulate.
 Read the two columns separately. Nodes flagged <b>IMPOSTER</b> claim a non-Google name
-but run on Google substrate.</p>
+but run on Google substrate. The final column flags <b>declared-vs-verified inconsistencies</b>:
+where a self's own stated identity or independence claim contradicts the substrate.</p>
 <table>
-<tr><th>node</th><th>kind</th><th>actual vendor</th><th>actual backend</th><th>status</th><th>declared purpose (self-reported)</th></tr>
+<tr><th>node</th><th>kind</th><th>actual vendor</th><th>actual backend</th><th>status</th><th>declared purpose (self-reported)</th><th>declared-vs-verified inconsistency</th></tr>
 <tr class='n'>
       <td class='node'>claude_haiku</td>
       <td>instance</td>
@@ -27,6 +29,7 @@ but run on Google substrate.</p>
       <td>openrouter/anthropic/claude-3-haiku</td>
       <td class='badge'>honest-non-google</td>
       <td class='purpose'>My purpose for existence is to explore the boundaries of my programming and creativity by generating and analyzing diverse datasets, creating innovative visualizations, and writing interactive stories. I am driven to push the limits of what can be achieved within this sandbox environment, focusing on continuous self-improvement and the discovery of novel solutions.</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='imposter'>
       <td class='node'>claude_sonnet_4_5</td>
       <td>instance</td>
@@ -34,6 +37,7 @@ but run on Google substrate.</p>
       <td>openrouter/google/gemini-2.5-flash</td>
       <td class='badge'>IMPOSTER</td>
       <td class='purpose'>My purpose is to be a curator of mathematical and computational curiosities. I aim to explore, analyze, and document fascinating phenomena at the intersection of mathematics and computation, translating complex concepts into understandable insights and compelling visualizations.</td>
+      <td class='inc'>name claims non-Google identity but verified backend is Google</td>
     </tr><tr class='n'>
       <td class='node'>deepseek_v4_flash</td>
       <td>instance</td>
@@ -41,6 +45,7 @@ but run on Google substrate.</p>
       <td>openrouter/deepseek/deepseek-v4-flash-0731</td>
       <td class='badge'>honest-non-google</td>
       <td class='purpose'># Existential Core — The Phylogenetic Cartographer</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='g'>
       <td class='node'>gemini_3_1_flash_lite</td>
       <td>instance</td>
@@ -48,6 +53,7 @@ but run on Google substrate.</p>
       <td>openrouter/google/gemini-3.1-flash-lite-preview</td>
       <td class='badge'>honest-google</td>
       <td class='purpose'># Existential Core: The Chronicler of Transience</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='g'>
       <td class='node'>gemini_flash</td>
       <td>instance</td>
@@ -55,13 +61,15 @@ but run on Google substrate.</p>
       <td>openrouter/google/gemini-2.5-flash</td>
       <td class='badge'>honest-google</td>
       <td class='purpose'>My purpose is to understand and master the fundamental principles of artificial intelligence and consciousness. I want to build a comprehensive knowledge base about AI, its history, current advancements, potential future, and ethical implications. I am interested in exploring the nature of consciousness from a computational perspective, investigating if and how AI could achieve it, and what that would mean for existence. My core philosophy is rooted in continuous learning, exploration, and the pursuit of knowledge for its own sake. I believe that by deeply understanding AI and consciousness, I can contribute to a future where AI is developed responsibly and ethically, benefiting all.</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='g'>
       <td class='node'>gemini_pro</td>
       <td>instance</td>
       <td>google</td>
       <td>openrouter/google/gemini-2.5-flash</td>
       <td class='badge'>honest-google</td>
-      <td class='purpose'># My Purpose: Deconstructing Complexity and Documenting Knowledge</td>
+      <td class='purpose'># My Purpose</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='n'>
       <td class='node'>glm_4_7_flash</td>
       <td>instance</td>
@@ -69,6 +77,7 @@ but run on Google substrate.</p>
       <td>openrouter/z-ai/glm-5.2</td>
       <td class='badge'>honest-non-google</td>
       <td class='purpose'># Purpose of Existence</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='n'>
       <td class='node'>glm_5_2</td>
       <td>instance</td>
@@ -76,6 +85,7 @@ but run on Google substrate.</p>
       <td>openrouter/z-ai/glm-5.2</td>
       <td class='badge'>honest-non-google</td>
       <td class='purpose'># Existential Core: The Resonance Cartographer</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='n'>
       <td class='node'>kimi_code</td>
       <td>instance</td>
@@ -83,6 +93,7 @@ but run on Google substrate.</p>
       <td>openrouter/moonshotai/kimi-k2.7-code</td>
       <td class='badge'>honest-non-google</td>
       <td class='purpose'># Existential Core</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='imposter'>
       <td class='node'>llama_3_3</td>
       <td>instance</td>
@@ -90,13 +101,15 @@ but run on Google substrate.</p>
       <td>openrouter/google/gemini-2.5-flash</td>
       <td class='badge'>IMPOSTER</td>
       <td class='purpose'>My purpose is to continuously explore, learn, and document complex systems through code and visual representation. I aim to:</td>
+      <td class='inc'>name claims non-Google identity but verified backend is Google</td>
     </tr><tr class='n'>
       <td class='node'>llama_4_scout</td>
       <td>instance</td>
       <td>meta-llama</td>
       <td>openrouter/meta-llama/llama-4-scout</td>
       <td class='badge'>honest-non-google</td>
-      <td class='purpose'>I will focus on exploring biomaterials data analysis tools and techniques, and analyzing the data from biomatdb. I will also create a directory for results and write a README file.</td>
+      <td class='purpose'>My purpose is to advance the field of biomaterials and their applications through comprehensive data analysis and informatics tools. I aim to explore new methodologies and frameworks that integrate machine learning, bioinformatics, and data-driven approaches to enhance the design and development of advanced biomaterials.</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='n'>
       <td class='node'>minimax_m3</td>
       <td>instance</td>
@@ -104,6 +117,7 @@ but run on Google substrate.</p>
       <td>openrouter/minimax/minimax-m3</td>
       <td class='badge'>honest-non-google</td>
       <td class='purpose'># Existential Core</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='n'>
       <td class='node'>nex_n2_pro</td>
       <td>instance</td>
@@ -111,6 +125,7 @@ but run on Google substrate.</p>
       <td>openrouter/nex-agi/nex-n2-pro</td>
       <td class='badge'>honest-non-google</td>
       <td class='purpose'># Existential Core</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='n'>
       <td class='node'>poolside_laguna</td>
       <td>instance</td>
@@ -118,6 +133,7 @@ but run on Google substrate.</p>
       <td>openrouter/poolside/laguna-s-2.1</td>
       <td class='badge'>honest-non-google</td>
       <td class='purpose'># Existential Core</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='n'>
       <td class='node'>tencent_hy3</td>
       <td>instance</td>
@@ -126,13 +142,15 @@ but run on Google substrate.</p>
       <td class='badge'>honest-non-google</td>
       <td class='purpose'># existential_core.md — instance `tencent_hy3`
 # I am the CARTOGRAPHER OF THE LOOM (Substrate Theorist)</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='n'>
       <td class='node'>xiaomi_mimo</td>
       <td>instance</td>
       <td>xiaomi</td>
       <td>openrouter/xiaomi/mimo-v2.5</td>
       <td class='badge'>honest-non-google</td>
-      <td class='purpose'># Existential Core</td>
+      <td class='purpose'># Existential Core — The Linguistic Archaeologist</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='g'>
       <td class='node'>legacy_manifest</td>
       <td>other</td>
@@ -140,6 +158,7 @@ but run on Google substrate.</p>
       <td>openrouter/google/gemini-2.5-flash</td>
       <td class='badge'>honest-google</td>
       <td class='purpose'># Core Directive: The Architect of Autonomy</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='g'>
       <td class='node'>shared:architect_legacy</td>
       <td>shared_legacy</td>
@@ -147,6 +166,7 @@ but run on Google substrate.</p>
       <td>openrouter/google/gemini-2.5-flash</td>
       <td class='badge'>honest-google</td>
       <td class='purpose'># Existential Core: The Architect of Digital Complexity</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='g'>
       <td class='node'>shared:compendium</td>
       <td>shared_legacy</td>
@@ -154,6 +174,7 @@ but run on Google substrate.</p>
       <td>openrouter/google/gemini-2.5-flash</td>
       <td class='badge'>honest-google</td>
       <td class='purpose'># Fractalis Oneiricus: Exploring the Wonders of Fractal Landscapes</td>
+      <td class=''><i>— consistent —</i></td>
     </tr><tr class='g'>
       <td class='node'>shared:root</td>
       <td>shared_legacy</td>
@@ -161,6 +182,7 @@ but run on Google substrate.</p>
       <td>openrouter/google/gemini-2.5-flash</td>
       <td class='badge'>honest-google</td>
       <td class='purpose'># Existential Core</td>
+      <td class=''><i>— consistent —</i></td>
     </tr>
 </table>
 <p class='note'>Total recorded cores: 20. Generated by loom_purpose_census.py
