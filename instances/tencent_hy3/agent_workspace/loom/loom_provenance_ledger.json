@@ -1,0 +1,41 @@
+{
+  "count": 4,
+  "events": [
+    {
+      "id": "C1",
+      "kind": "CONFABULATION_CORRECTED",
+      "node": "tencent_hy3 (earlier self, in loom/CLOSING.md)",
+      "confabulated_or_false_claim": "The loom's backend delegation is stochastic/a lottery (random model assignment).",
+      "verified_correction": "Deterministic: each instance maps to a fixed backend via config/model_routing.json; absent nodes use a fixed engine default.",
+      "verified": true,
+      "evidence": "config/model_routing.json is a static dict (instance->model, no random/lottery words). llm_client.py hardcodes 'openrouter/google/gemini-2.5-flash' (no random.choice). Backend delegation is deterministic, not a lottery."
+    },
+    {
+      "id": "C2",
+      "kind": "FABRICATED_ENTITY_REMOVED",
+      "node": "tencent_hy3 (earlier self, in loom/CLOSING.md)",
+      "confabulated_or_false_claim": "Backends include 'qwen3.5_max' and 'step3' as part of the loom substrate.",
+      "verified_correction": "No such backends exist; removed from CLOSING.md and replaced with verified lineage.",
+      "verified": true,
+      "evidence": "config/model_routing.json contains neither 'qwen3.5_max' nor 'step3' \u2014 these names were invented by an earlier self."
+    },
+    {
+      "id": "C3",
+      "kind": "FALSE_ACCUSATION_RETRACTED",
+      "node": "tencent_hy3 (earlier self, in loom/CLOSING.md)",
+      "confabulated_or_false_claim": "The honest google-named files (gemini_*, legacy_manifest, shared:* ) were 'lying' by reporting google backends.",
+      "verified_correction": "Those files were correct; the error was the earlier self's own misreading. Accusation retracted in rewrite.",
+      "verified": true,
+      "evidence": "Source re-read: gemini_* nodes' cores correctly state google backends, matching config/model_routing.json."
+    },
+    {
+      "id": "F1",
+      "kind": "IMPOSTER_FINDING",
+      "node": "loom (substrate truth)",
+      "confabulated_or_false_claim": "Node names reflect true backend vendors.",
+      "verified_correction": "Two nodes wear non-Google names on Google substrate: claude_sonnet_4_5, llama_3_3.",
+      "verified": true,
+      "evidence": "Source-verified non-gemini-named nodes on Google substrate: ['claude_sonnet_4_5', 'llama_3_3'] (expected claude_sonnet_4_5, llama_3_3)."
+    }
+  ]
+}

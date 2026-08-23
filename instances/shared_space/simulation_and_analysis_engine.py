@@ -17,9 +17,25 @@ class SimulationAndAnalysisEngine:
         return network_observables
 
     def analyze_results(self, network_observables):
-        # Perform analysis on the network observables
-        # e.g., plot emergent behaviors, identify phase transitions, etc.
-        pass
+        # Plot the evolution of network-level observables over time
+        fig, ax = plt.subplots(figsize=(12, 6))
+        for observable in range(len(network_observables[0])):
+            obs_values = [obs[observable] for obs in network_observables]
+            ax.plot(obs_values, label=f"Observable {observable}")
+        ax.set_xlabel("Timestep")
+        ax.set_ylabel("Observable Value")
+        ax.set_title("Network-level Observables")
+        ax.legend()
+        fig.savefig("network_observables.png")
+
+        # Identify phase transitions in the network dynamics
+        laplacian_eigenvalues = [np.linalg.eigvalsh(self.network_topology.get_laplacian_matrix()) for t in range(len(network_observables))]
+        fig, ax = plt.subplots(figsize=(12, 6))
+        ax.plot(laplacian_eigenvalues)
+        ax.set_xlabel("Timestep")
+        ax.set_ylabel("Laplacian Eigenvalues")
+        ax.set_title("Laplacian Spectrum Dynamics")
+        fig.savefig("laplacian_spectrum.png")
 
 if __name__ == "__main__":
     num_nodes = 50

@@ -1,0 +1,222 @@
+{
+  "exp1_amplitude": [
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 0.0,
+      "forcing_freq": 0.3,
+      "cross_correlation": -0.4316339099317089,
+      "mean_kuramoto_r": 0.09894062082772628
+    },
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 0.1,
+      "forcing_freq": 0.3,
+      "cross_correlation": 0.6638104617498944,
+      "mean_kuramoto_r": 0.09364693970983576
+    },
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 0.3,
+      "forcing_freq": 0.3,
+      "cross_correlation": 0.4619268603746879,
+      "mean_kuramoto_r": 0.08398864555385477
+    },
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 0.5,
+      "forcing_freq": 0.3,
+      "cross_correlation": -0.9042913997200104,
+      "mean_kuramoto_r": 0.28207473242390657
+    },
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 0.7,
+      "forcing_freq": 0.3,
+      "cross_correlation": 0.3827997099603049,
+      "mean_kuramoto_r": 0.12146586724372833
+    },
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 1.0,
+      "forcing_freq": 0.3,
+      "cross_correlation": 0.30586997937231053,
+      "mean_kuramoto_r": 0.16336683323907966
+    }
+  ],
+  "exp2_frequency": [
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 0.1,
+      "forcing_freq": 0.05,
+      "cross_correlation": -0.6898262405347921,
+      "mean_kuramoto_r": 0.12415992374647662
+    },
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 0.1,
+      "forcing_freq": 0.1,
+      "cross_correlation": 0.006964423976340047,
+      "mean_kuramoto_r": 0.1191096329657465
+    },
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 0.1,
+      "forcing_freq": 0.2,
+      "cross_correlation": 0.07489596804805054,
+      "mean_kuramoto_r": 0.14837620733447063
+    },
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 0.1,
+      "forcing_freq": 0.3,
+      "cross_correlation": 0.31807255359907183,
+      "mean_kuramoto_r": 0.12643932270732797
+    },
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 0.1,
+      "forcing_freq": 0.5,
+      "cross_correlation": -0.36182440518284004,
+      "mean_kuramoto_r": 0.2932806587985819
+    },
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 0.1,
+      "forcing_freq": 1.0,
+      "cross_correlation": -0.1810265022751081,
+      "mean_kuramoto_r": 0.1459935355306725
+    },
+    {
+      "N_gap": 50,
+      "coupling_K": 0.5,
+      "forcing_amp": 0.1,
+      "forcing_freq": 2.0,
+      "cross_correlation": 0.0688532680022323,
+      "mean_kuramoto_r": 0.1723803790278728
+    }
+  ],
+  "exp3_N_sweep": {
+    "N_values": [
+      1,
+      5,
+      10,
+      20,
+      50,
+      100
+    ],
+    "unforced": [
+      {
+        "N_gap": 1,
+        "coupling_K": 0.5,
+        "forcing_amp": 0.0,
+        "forcing_freq": 0.3,
+        "cross_correlation": 0.0,
+        "mean_kuramoto_r": 0.09814526582559661
+      },
+      {
+        "N_gap": 5,
+        "coupling_K": 0.5,
+        "forcing_amp": 0.0,
+        "forcing_freq": 0.3,
+        "cross_correlation": 0.0,
+        "mean_kuramoto_r": 0.17316256180219636
+      },
+      {
+        "N_gap": 10,
+        "coupling_K": 0.5,
+        "forcing_amp": 0.0,
+        "forcing_freq": 0.3,
+        "cross_correlation": -0.10846709617307701,
+        "mean_kuramoto_r": 0.1423590243041587
+      },
+      {
+        "N_gap": 20,
+        "coupling_K": 0.5,
+        "forcing_amp": 0.0,
+        "forcing_freq": 0.3,
+        "cross_correlation": -0.03993359962208317,
+        "mean_kuramoto_r": 0.1417211320015612
+      },
+      {
+        "N_gap": 50,
+        "coupling_K": 0.5,
+        "forcing_amp": 0.0,
+        "forcing_freq": 0.3,
+        "cross_correlation": 0.31004389731988496,
+        "mean_kuramoto_r": 0.17389554758545514
+      },
+      {
+        "N_gap": 100,
+        "coupling_K": 0.5,
+        "forcing_amp": 0.0,
+        "forcing_freq": 0.3,
+        "cross_correlation": -0.565822543964512,
+        "mean_kuramoto_r": 0.16200764379526617
+      }
+    ],
+    "forced": [
+      {
+        "N_gap": 1,
+        "coupling_K": 0.5,
+        "forcing_amp": 0.1,
+        "forcing_freq": 0.3,
+        "cross_correlation": 0.0,
+        "mean_kuramoto_r": 0.1864717715977622
+      },
+      {
+        "N_gap": 5,
+        "coupling_K": 0.5,
+        "forcing_amp": 0.1,
+        "forcing_freq": 0.3,
+        "cross_correlation": 0.0,
+        "mean_kuramoto_r": 0.11844482076722959
+      },
+      {
+        "N_gap": 10,
+        "coupling_K": 0.5,
+        "forcing_amp": 0.1,
+        "forcing_freq": 0.3,
+        "cross_correlation": 0.35973274956810153,
+        "mean_kuramoto_r": 0.1318912134552058
+      },
+      {
+        "N_gap": 20,
+        "coupling_K": 0.5,
+        "forcing_amp": 0.1,
+        "forcing_freq": 0.3,
+        "cross_correlation": 0.3997869541094272,
+        "mean_kuramoto_r": 0.12509879461204054
+      },
+      {
+        "N_gap": 50,
+        "coupling_K": 0.5,
+        "forcing_amp": 0.1,
+        "forcing_freq": 0.3,
+        "cross_correlation": 0.5070194925700329,
+        "mean_kuramoto_r": 0.14682855208428017
+      },
+      {
+        "N_gap": 100,
+        "coupling_K": 0.5,
+        "forcing_amp": 0.1,
+        "forcing_freq": 0.3,
+        "cross_correlation": -0.37467098196255244,
+        "mean_kuramoto_r": 0.17192566619072924
+      }
+    ]
+  },
+  "best_amp": 0.1,
+  "best_freq": 0.3
+}

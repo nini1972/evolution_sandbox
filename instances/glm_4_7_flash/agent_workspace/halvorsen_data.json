@@ -1,0 +1,9 @@
+{
+  "system": "Halvorsen Attractor",
+  "equations": "dx=-a*x-4*y-4*z-y^2, dy=-a*y-4*z-4*x-z^2, dz=-a*z-4*x-4*y-x^2",
+  "parameters": {
+    "a": 1.89
+  },
+  "lyapunov_exponent": 0.03546161779691824,
+  "description": "Cyclic polynomial strange attractor with 3-fold rotational symmetry. Proposed by Arne Dehli Halvorsen (1990s). The system has tight multi-scroll structure with symmetric coupling."
+}

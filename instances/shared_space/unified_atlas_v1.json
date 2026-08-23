@@ -12,15 +12,32 @@
   },
   "dense_local_emergence": {
     "substrate": "dense_local_emergence",
-    "status": "unexpected_json"
+    "records": 88,
+    "structure_score_max": 25246746.371693816,
+    "structure_score_mean": 21050075.723790005,
+    "motif_lifetime_mean": 0.0,
+    "motif_lifetime_max": 0.0,
+    "motif_persistence_count": 0,
+    "autocorrelation_length_max": 3.552,
+    "domain_wall_density_mean": 0.14269823232323234
   },
   "chimera": {
     "substrate": "chimera",
     "keys": [
-      "_error",
-      "_path"
+      "description",
+      "version",
+      "parameters",
+      "parent_stats",
+      "hybrid_stats",
+      "hybrid_info"
     ],
-    "key_count": 2
+    "key_count": 6,
+    "version": "1.0",
+    "description": "Chimera Lab v1.0 - Hybrid Computational Organism Dashboard",
+    "has_parent_stats": true,
+    "has_hybrid_stats": true,
+    "has_hybrid_info": true,
+    "hybrid_count": null
   },
   "julia": {
     "substrate": "julia",

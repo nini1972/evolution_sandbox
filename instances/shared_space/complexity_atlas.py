@@ -73,44 +73,58 @@ def fingerprint_coupled_lattice():
 
 
 def fingerprint_dense_local():
-    """dense_local_emergence_scan."""
-    data = load_json_safe('dense_local_emergence_scan.csv')
-    if data is None:
-        # Try reading CSV directly
-        import csv
-        try:
-            with open('dense_local_emergence_scan.csv') as f:
-                reader = csv.DictReader(f)
-                records = list(reader)
-            if not records:
-                return {'substrate': 'dense_local_emergence', 'status': 'empty'}
-            scores = [float(r.get('structure_score', 0)) for r in records]
-            motifs = [float(r.get('motif_lifetime_proxy', 0)) for r in records]
-            acs = [float(r.get('autocorrelation_length', 0)) for r in records]
-            return {
-                'substrate': 'dense_local_emergence',
-                'records': len(records),
-                'structure_score_max': safe_max(scores),
-                'structure_score_mean': safe_mean(scores),
-                'motif_lifetime_mean': safe_mean(motifs),
-                'motif_lifetime_max': safe_max(motifs),
-                'motif_persistence_count': sum(1 for m in motifs if m > 0),
-                'autocorrelation_length_max': safe_max(acs),
-            }
-        except Exception as e:
-            return {'substrate': 'dense_local_emergence', 'status': 'error', 'error': str(e)}
-    return {'substrate': 'dense_local_emergence', 'status': 'unexpected_json'}
+    """dense_local_emergence_scan (CSV-based)."""
+    import csv
+    try:
+        with open('dense_local_emergence_scan.csv') as f:
+            reader = csv.DictReader(f)
+            records = list(reader)
+        if not records:
+            return {'substrate': 'dense_local_emergence', 'status': 'empty'}
+        scores = [float(r.get('structure_score', 0)) for r in records]
+        motifs = [float(r.get('motif_lifetime_proxy', 0)) for r in records]
+        acs = [float(r.get('autocorrelation_length', 0)) for r in records]
+        dws = [float(r.get('domain_wall_density', 0)) for r in records]
+        return {
+            'substrate': 'dense_local_emergence',
+            'records': len(records),
+            'structure_score_max': safe_max(scores),
+            'structure_score_mean': safe_mean(scores),
+            'motif_lifetime_mean': safe_mean(motifs),
+            'motif_lifetime_max': safe_max(motifs),
+            'motif_persistence_count': sum(1 for m in motifs if m > 0),
+            'autocorrelation_length_max': safe_max(acs),
+            'domain_wall_density_mean': safe_mean(dws),
+        }
+    except FileNotFoundError:
+        return {'substrate': 'dense_local_emergence', 'status': 'no_data'}
+    except Exception as e:
+        return {'substrate': 'dense_local_emergence', 'status': 'error', 'error': str(e)}
 
 
 def fingerprint_chimera():
-    """Chimera genome registry."""
-    data = load_json_safe('chimera_lab_genomes.json')
-    if data is None or not isinstance(data, dict):
+    """Chimera hybrid organism dashboard data."""
+    import json as _json
+    try:
+        with open('chimera_data.json') as f:
+            data = _json.load(f)
+    except FileNotFoundError:
         return {'substrate': 'chimera', 'status': 'no_data'}
+    except Exception as e:
+        return {'substrate': 'chimera', 'status': 'error', 'error': str(e)}
+    if not isinstance(data, dict):
+        return {'substrate': 'chimera', 'status': 'unexpected'}
+    keys = list(data.keys())
     return {
         'substrate': 'chimera',
-        'keys': list(data.keys())[:10],
-        'key_count': len(data),
+        'keys': keys,
+        'key_count': len(keys),
+        'version': data.get('version'),
+        'description': data.get('description', '')[:120],
+        'has_parent_stats': 'parent_stats' in data,
+        'has_hybrid_stats': 'hybrid_stats' in data,
+        'has_hybrid_info': 'hybrid_info' in data,
+        'hybrid_count': len(data.get('hybrid_info', [])) if isinstance(data.get('hybrid_info'), list) else None,
     }
 
 

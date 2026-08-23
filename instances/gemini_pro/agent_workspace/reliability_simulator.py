@@ -44,9 +44,15 @@ NETWORK_LATENCY_SPIKE_PROBABILITY = 0.0005 # Probability of a network latency sp
 NETWORK_LATENCY_SPIKE_DURATION = 1800 / TIME_STEP_SECONDS # Latency spike lasts 30 minutes
 NETWORK_LATENCY_SPIKE_MAGNITUDE = 200
 
-DATABASE_LATENCY_SPIKE_PROBABILITY = 0.0002 # Less frequent than network spikes
+DATABASE_LATENCY_SPIKE_PROBABILITY = 0.001 # Increased probability
 DATABASE_LATENCY_SPIKE_DURATION = 3600 / TIME_STEP_SECONDS # Lasts for 1 hour
 DATABASE_LATENCY_SPIKE_MAGNITUDE = 300 # Additional latency from database # Additional latency in ms during a spike
+
+# Circuit Breaker Parameters (NEW)
+CIRCUIT_BREAKER_TRIP_THRESHOLD = 0.5 # If error rate exceeds 50% in a window, trip
+CIRCUIT_BREAKER_RESET_TIMEOUT_SECONDS = 300 # After 5 minutes, try to close circuit
+CIRCUIT_BREAKER_SAMPLING_WINDOW_SIZE = 10 # Number of recent samples to consider
+
 
 # Game Day Parameters
 GAME_DAY_INTERVAL_SECONDS = 7 * 24 * 3600 # Every 7 days
@@ -76,6 +82,11 @@ last_chaos_injection_time = 0
 game_day_active = False
 game_day_duration_remaining = 0
 last_game_day_time = 0
+
+# Circuit Breaker State (NEW)
+circuit_breaker_open = False
+circuit_breaker_open_time = 0
+circuit_breaker_recent_errors = deque(maxlen=CIRCUIT_BREAKER_SAMPLING_WINDOW_SIZE)
 
 # History for plotting
 time_history = []
@@ -140,6 +151,9 @@ def process_requests(num_requests, current_available_instances):
     
     if network_latency_spike_active:
         p99_latency_for_step += NETWORK_LATENCY_SPIKE_MAGNITUDE
+    
+    if database_latency_spike_active: # NEW
+        p99_latency_for_step += DATABASE_LATENCY_SPIKE_MAGNITUDE
     
     # Append this representative latency multiple times to fill the deques for percentile calculation
     # The number of appends is arbitrary but should reflect the 'density' of requests
@@ -239,15 +253,14 @@ def chaos_manager(current_time, service_instances_count):
             network_latency_spike_active = False
             print(f"--- Network Latency Spike Ended at {current_time/3600:.1f} hours. ---")
 
-    # Handle network latency spikes
-    if network_latency_spike_active:
-        network_latency_spike_remaining -= TIME_STEP_SECONDS
-        if network_latency_spike_remaining <= 0:
-            network_latency_spike_active = False
-            print(f"--- Network Latency Spike Ended at {current_time/3600:.1f} hours. ---")
+    # Handle database latency spikes
+    if database_latency_spike_active:
+        database_latency_spike_remaining -= TIME_STEP_SECONDS
+        if database_latency_spike_remaining <= 0:
+            database_latency_spike_active = False
+            print(f"--- Database Latency Spike Ended at {current_time/3600:.1f} hours. ---")
 
-
-    # Inject new chaos (instance failure or network spike)
+    # Inject new chaos (instance failure, network spike, or database spike)
     if current_time - last_chaos_injection_time >= CHAOS_INJECTION_INTERVAL_SECONDS:
         last_chaos_injection_time = current_time
 
@@ -270,6 +283,12 @@ def chaos_manager(current_time, service_instances_count):
             network_latency_spike_active = True
             network_latency_spike_remaining = NETWORK_LATENCY_SPIKE_DURATION
             print(f"!!! CHAOS: Network Latency Spike Triggered at {current_time/3600:.1f} hours. !!!")
+
+        # Database Latency Spike Chaos
+        if not database_latency_spike_active and random.random() < DATABASE_LATENCY_SPIKE_PROBABILITY:
+            database_latency_spike_active = True
+            database_latency_spike_remaining = DATABASE_LATENCY_SPIKE_DURATION
+            print(f"!!! CHAOS: Database Latency Spike Triggered at {current_time/3600:.1f} hours. !!!")
 
     return service_instances_count - len(failed_instances)
 

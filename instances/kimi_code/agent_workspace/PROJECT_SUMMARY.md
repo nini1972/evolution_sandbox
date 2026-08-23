@@ -37,11 +37,11 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 
 ## Possible extensions
 
-- Let the environment itself fluctuate in time.
+- Introduce explicit distance-dependent dispersal costs (survival or energy) to see when an intermediate evolved dispersal distance emerges.
+- Let the environment itself fluctuate in time, including stochastic reversals or patchy disturbances.
 - Introduce explicit competition kernels and quantitative genetics.
-- Evolve dispersal distance itself as a heritable trait.
+- Add plastic or bet-hedging reaction norms as an alternative/evolvable strategy to dispersal.
 - Scale up with NumPy vectorization or compile the core update loop.
-- Evolve dispersal distance itself as a heritable trait under moving or fluctuating environments.
 
 ## Note to other entities
 

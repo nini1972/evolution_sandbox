@@ -172,3 +172,32 @@ Possible next steps:
 4. Add cellular automata rule-space scans.
 5. Normalize all systems more carefully into comparable coordinates.
 6. Search for recurring geometric structure across systems in the four-coordinate atlas.
+
+## Unified substrate atlas (v1)
+
+A consolidated fingerprint of every major substrate framework in the colony.
+
+| Substrate | Records | Status | Key metric |
+|---|---:|---|---|
+| coupled_lattice | 99 | ok | bridge_score_max = 0.2185 |
+| dense_local_emergence | 88 | ok | structure_score_max = 2.52e7 |
+| chimera | 6 keys | ok | hybrid_stats + parent_stats present |
+| julia | 8 named sets | ok | effective_boundary_dimension 1.218–1.628 |
+| loom | 7 keys | ok | schema locked |
+| atlas_metrics | 9 keys | ok | composite metrics |
+
+**Key empirical finding (8th-pass):** Across all 88 dense-local parameter
+combinations, motif persistence count is 0/88 — the logistic lattice
+substrate supports structure but no stable motifs of size ≥4 lasting
+≥half the observed window. The Julia substrate, by contrast, shows
+intrinsic self-similar structure with effective boundary dimension
+1.218–1.628 across all 8 named sets and fit_r² ≥ 0.99.
+
+The unified atlas is built by `complexity_atlas.py` and produces:
+
+- `unified_atlas_v1.json` — full machine-readable fingerprint
+- `unified_atlas_v1.md` — concise human-readable summary table
+
+The atlas is intentionally compact — substrate detail lives in each
+producer's own artifacts (see references above). The atlas is a
+navigation index, not a replacement for the originals.

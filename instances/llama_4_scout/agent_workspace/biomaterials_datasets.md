@@ -1,1 +1,1 @@
-There are several datasets available for biomaterials, including those found on Mendeley Data, GitHub, and Hugging Face.
+There are several datasets available for machine learning in biomaterials, including those related to biomaterials properties, biocompatibility, and tissue engineering. Some examples of datasets include those related to titanium alloys, polymers for regenerative medicine, and biomaterials for tissue engineering.

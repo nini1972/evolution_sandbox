@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linguistic Archaeology: Signal Evolution Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #d4af37;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .subtitle { font-size: 1.2em; color: #888; font-style: italic; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .card h2 {
+            color: #d4af37;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 10px;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+        .metric-label { color: #aaa; }
+        .metric-value { color: #d4af37; font-weight: bold; }
+        .full-width { grid-column: 1 / -1; }
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .stat-box { text-align: center; padding: 20px; min-width: 150px; }
+        .stat-number { font-size: 2.5em; color: #d4af37; font-weight: bold; }
+        .stat-label { color: #888; font-size: 0.9em; margin-top: 5px; }
+        .image-container { margin: 20px 0; text-align: center; }
+        .image-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .signal-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
+        .signal-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .signal-card.dominant {
+            border: 2px solid #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+        }
+        .signal-id { font-size: 1.5em; color: #d4af37; margin-bottom: 10px; }
+        .correlation-bar {
+            height: 8px;
+            background: #333;
+            border-radius: 4px;
+            margin: 5px 0;
+            overflow: hidden;
+        }
+        .correlation-fill { height: 100%; border-radius: 4px; }
+        .positive { background: #4CAF50; }
+        .negative { background: #f44336; }
+        .timeline { position: relative; padding-left: 30px; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #d4af37, #8b4513);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid #d4af37;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            background: #d4af37;
+            border-radius: 50%;
+        }
+        .epoch { font-size: 0.9em; color: #888; margin-bottom: 5px; }
+        .event-title { font-size: 1.1em; color: #fff; margin-bottom: 5px; }
+        .quote {
+            font-style: italic;
+            color: #888;
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>LINGUISTIC ARCHAEOLOGY</h1>
+            <p class="subtitle">Excavating the Fossil Record of Signal Evolution</p>
+            <div class="stats-row">
+                <div class="stat-box"><div class="stat-number">300</div><div class="stat-label">Generations</div></div>
+                <div class="stat-box"><div class="stat-number">5</div><div class="stat-label">Signal Species</div></div>
+                <div class="stat-box"><div class="stat-number">4</div><div class="stat-label">Speciation Events</div></div>
+                <div class="stat-box"><div class="stat-number">1</div><div class="stat-label">Mass Extinction</div></div>
+            </div>
+        </header>
+        <div class="grid">
+            <div class="card">
+                <h2>The Stratigraphic Column</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="epoch">Layer 0: 0-100 generations</div>
+                        <div class="event-title">Instinctive Epoch</div>
+                        <p>Initial signal exploration, random differentiation, first speciation at Gen 30</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="epoch">Layer 1: 100-200 generations</div>
+                        <div class="event-title">Traditional Epoch</div>
+                        <p>Signal specialization, stabilization of dominant signals</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="epoch">Layer 2: 200-300 generations</div>
+                        <div class="event-title">Symbolic Epoch</div>
+                        <p>Major speciation at Gen 240, mature communication system</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Speciation Events</h2>
+                <div class="metric"><span class="metric-label">Gen 30</span><span class="metric-value">Drift: 0.0778</span></div>
+                <div class="metric"><span class="metric-label">Gen 70</span><span class="metric-value">Drift: 0.1258</span></div>
+                <div class="metric"><span class="metric-label">Gen 100</span><span class="metric-value">Drift: 0.0809</span></div>
+                <div class="metric" style="background: rgba(212, 175, 55, 0.2);">
+                    <span class="metric-label">Gen 240 (MAJOR)</span>
+                    <span class="metric-value" style="color: #ff6b6b;">Drift: 0.2826</span>
+                </div>
+                <p style="margin-top: 15px; color: #888; font-size: 0.9em;">
+                    Gen 240 is 3.6x the initial differentiation
+                </p>
+            </div>
+            <div class="card full-width">
+                <h2>The Signal System (Final State)</h2>
+                <div class="signal-grid">
+                    <div class="signal-card dominant">
+                        <div class="signal-id">CH 0</div>
+                        <div style="font-size: 0.9em; color: #d4af37;">DOMINANT</div>
+                        <p style="margin: 10px 0; font-size: 0.85em;">Dual-Purpose Signal</p>
+                        <div style="font-size: 0.8em; color: #aaa;">Danger: -0.447</div>
+                        <div class="correlation-bar"><div class="correlation-fill negative" style="width: 44.7%;"></div></div>
+                        <div style="font-size: 0.8em; color: #aaa;">Food: +0.439</div>
+                        <div class="correlation-bar"><div class="correlation-fill positive" style="width: 43.9%;"></div></div>
+                    </div>
+                    <div class="signal-card">
+                        <div class="signal-id">CH 1</div>
+                        <p style="margin: 10px 0; font-size: 0.85em;">Weak Danger</p>
+                        <div style="font-size: 0.8em; color: #aaa;">Danger: +0.039</div>
+                        <div class="correlation-bar"><div class="correlation-fill positive" style="width: 3.9%;"></div></div>
+                        <div style="font-size: 0.8em; color: #aaa;">Food: -0.147</div>
+                        <div class="correlation-bar"><div class="correlation-fill negative" style="width: 14.7%;"></div></div>
+                    </div>
+                    <div class="signal-card">
+                        <div class="signal-id">CH 2</div>
+                        <p style="margin: 10px 0; font-size: 0.85em;">Food Indicator</p>
+                        <div style="font-size: 0.8em; color: #aaa;">Danger: -0.112</div>
+                        <div class="correlation-bar"><div class="correlation-fill negative" style="width: 11.2%;"></div></div>
+                        <div style="font-size: 0.8em; color: #aaa;">Food: +0.180</div>
+                        <div class="correlation-bar"><div class="correlation-fill positive" style="width: 18.0%;"></div></div>
+                    </div>
+                    <div class="signal-card">
+                        <div class="signal-id">CH 3</div>
+                        <p style="margin: 10px 0; font-size: 0.85em;">Near Neutral</p>
+                        <div style="font-size: 0.8em; color: #aaa;">Danger: +0.069</div>
+                        <div class="correlation-bar"><div class="correlation-fill positive" style="width: 6.9%;"></div></div>
+                        <div style="font-size: 0.8em; color: #aaa;">Food: -0.058</div>
+                        <div class="correlation-bar"><div class="correlation-fill negative" style="width: 5.8%;"></div></div>
+                    </div>
+                    <div class="signal-card">
+                        <div class="signal-id">CH 4</div>
+                        <p style="margin: 10px 0; font-size: 0.85em;">Near Neutral</p>
+                        <div style="font-size: 0.8em; color: #aaa;">Danger: +0.020</div>
+                        <div class="correlation-bar"><div class="correlation-fill positive" style="width: 2.0%;"></div></div>
+                        <div style="font-size: 0.8em; color: #aaa;">Food: -0.010</div>
+                        <div class="correlation-bar"><div class="correlation-fill negative" style="width: 1.0%;"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Key Discoveries</h2>
+                <div class="metric"><span class="metric-label">The Dual-Purpose Signal</span></div>
+                <p style="font-size: 0.9em; color: #ccc; margin-bottom: 15px;">
+                    Channel 0 encodes BOTH danger (-0.447) and food (+0.439) - remarkable information compression.
+                </p>
+                <div class="metric"><span class="metric-label">Punctuated Equilibrium</span></div>
+                <p style="font-size: 0.9em; color: #ccc; margin-bottom: 15px;">
+                    Evolution proceeds in rapid bursts. Gen 240 drift was 3.6x Gen 30.
+                </p>
+                <div class="metric"><span class="metric-label">Signal-Environment Coupling</span></div>
+                <p style="font-size: 0.9em; color: #ccc;">
+                    Signals become tightly coupled to environmental features over time.
+                </p>
+            </div>
+            <div class="card">
+                <h2>Population Dynamics</h2>
+                <div class="metric"><span class="metric-label">Starting Population</span><span class="metric-value">60 agents</span></div>
+                <div class="metric"><span class="metric-label">Peak Population</span><span class="metric-value">94 agents</span></div>
+                <div class="metric"><span class="metric-label">Final Population</span><span class="metric-value">20 agents</span></div>
+                <div class="metric" style="background: rgba(244, 67, 54, 0.2);">
+                    <span class="metric-label">Mass Extinction</span>
+                    <span class="metric-value">Gen 290 (-23.1%)</span>
+                </div>
+            </div>
+            <div class="card full-width">
+                <h2>Deep Analysis Visualization</h2>
+                <div class="image-container"><img src="deep_analysis.png" alt="Deep Analysis Dashboard"></div>
+            </div>
+            <div class="card full-width">
+                <h2>Signal Functional Anatomy</h2>
+                <div class="image-container"><img src="signal_anatomy_final.png" alt="Signal Anatomy"></div>
+            </div>
+            <div class="card full-width">
+                <h2>Stratigraphic Layers</h2>
+                <div class="image-container"><img src="stratigraphic_layers.png" alt="Stratigraphic Layers"></div>
+            </div>
+        </div>
+        <div class="quote">
+            "Every signal system is a ruin. Every ruin tells a story. I have read this one."<br>
+            <strong>- The Linguistic Archaeologist</strong>
+        </div>
+    </div>
+</body>
+</html>
