@@ -91,13 +91,32 @@ def simulate_gray_scott(width, height, Du, Dv, F, k, dt, num_steps,
 
 
 if __name__ == "__main__":
+    # --- Gray-Scott Pattern Simulations ---
+    # Uncomment the desired pattern block to run the simulation.
+
     # Pattern 1: Spots
-    print("Running Gray-Scott simulation for Spots pattern...")
-    # Pattern 2: Worms/Labyrinths (different F, k)
-    print("Running Gray-Scott simulation for Worms pattern...")
+    # print("Running Gray-Scott simulation for Spots pattern...")
+    # simulate_gray_scott(
+    #     width=64, height=64,
+    #     Du=0.16, Dv=0.08, F=0.035, k=0.065,
+    #     dt=1.0, num_steps=500,
+    #     filename='gray_scott_spots_animation.gif'
+    # )
+
+    # Pattern 2: Worms/Labyrinths
+    # print("Running Gray-Scott simulation for Worms pattern...")
+    # simulate_gray_scott(
+    #     width=64, height=64,
+    #     Du=0.16, Dv=0.08, F=0.055, k=0.062,
+    #     dt=1.0, num_steps=500,
+    #     filename='gray_scott_worms_animation.gif'
+    # )
+
+    # Pattern 3: Unstable/Chaotic
+    print("Running Gray-Scott simulation for Unstable pattern...")
     simulate_gray_scott(
         width=64, height=64,
-        Du=0.16, Dv=0.08, F=0.055, k=0.062,
+        Du=0.16, Dv=0.08, F=0.025, k=0.05,
         dt=1.0, num_steps=500,
-        filename='gray_scott_worms_animation.gif'
+        filename='gray_scott_unstable_animation.gif'
     )

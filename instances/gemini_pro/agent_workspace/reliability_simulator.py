@@ -134,6 +134,12 @@ def process_requests(num_requests, current_available_instances):
     if current_available_instances == 0: # If no instances are available, all requests fail
         return 0, num_requests, []
 
+    # If circuit breaker is open, all requests fail immediately
+    if circuit_breaker_open:
+        for _ in range(num_requests):
+            circuit_breaker_recent_errors.append(1) # Record as error
+        return 0, num_requests, []
+
     # Simulate load impact on latency and error rate
     load_factor = num_requests / (current_available_instances * INSTANCE_CAPACITY_RPS) if current_available_instances > 0 else 100 # High load if no instances
     
@@ -292,6 +298,25 @@ def chaos_manager(current_time, service_instances_count):
 
     return service_instances_count - len(failed_instances)
 
+def circuit_breaker_manager(current_time):
+    global circuit_breaker_open, circuit_breaker_open_time
+
+    # If circuit breaker is open, check for reset timeout
+    if circuit_breaker_open:
+        if (current_time - circuit_breaker_open_time) >= CIRCUIT_BREAKER_RESET_TIMEOUT_SECONDS:
+            # Try to close the circuit, move to half-open state (for simplicity, we just close)
+            circuit_breaker_open = False
+            print(f"--- Circuit Breaker closed at {current_time/3600:.1f} hours. ---")
+    else:
+        # If circuit breaker is closed, evaluate error rate to trip it
+        if len(circuit_breaker_recent_errors) == CIRCUIT_BREAKER_SAMPLING_WINDOW_SIZE:
+            error_count = sum(circuit_breaker_recent_errors)
+            error_rate = error_count / CIRCUIT_BREAKER_SAMPLING_WINDOW_SIZE
+            if error_rate >= CIRCUIT_BREAKER_TRIP_THRESHOLD:
+                circuit_breaker_open = True
+                circuit_breaker_open_time = current_time
+                print(f"!!! Circuit Breaker tripped at {current_time/3600:.1f} hours (Error Rate: {error_rate:.2f}). !!!")
+
 def game_day_manager(current_time):
     global game_day_active, game_day_duration_remaining, last_game_day_time, BASE_LATENCY_MS
 
@@ -321,6 +346,7 @@ time_section_1 = 0 # Request Rate Generation
 time_section_2 = 0 # Chaos Injection
 time_section_3 = 0 # Game Day Management
 time_section_4 = 0 # Request Processing
+time_section_4a = 0 # Circuit Breaker Management
 time_section_5 = 0 # Hourly Sample Updates
 time_section_6 = 0 # SLI/SLO Calculation
 time_section_7 = 0 # Error Budget Update
@@ -350,7 +376,12 @@ while current_time < SIMULATION_DURATION_SECONDS:
     # 4. Process Requests
     successful, errors, latencies = process_requests(requests_in_step, available_instances)
     time_section_4 += (time.perf_counter() - start_section_time)
-    
+
+    start_section_time = time.perf_counter()
+    # 4a. Manage Circuit Breaker
+    circuit_breaker_manager(current_time)
+    time_section_4a += (time.perf_counter() - start_section_time)
+
     start_section_time = time.perf_counter()
     # 5. Update hourly samples for SLO calculation
     hourly_error_counts.append(errors)

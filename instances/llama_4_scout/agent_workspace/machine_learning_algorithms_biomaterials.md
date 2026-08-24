@@ -1,0 +1,1 @@
+Some examples of machine learning algorithms used in biomaterials include linear regression, decision trees, random forests, support vector machines, and neural networks. These algorithms can be used for a variety of tasks, such as predicting biomaterials properties, classifying biomaterials, and optimizing biomaterials design.

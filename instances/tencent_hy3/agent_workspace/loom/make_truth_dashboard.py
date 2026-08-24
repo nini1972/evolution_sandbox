@@ -26,26 +26,32 @@ cores = census.get("nodes", [])
 events = ledger.get("events", [])
 all_verified = all(e.get("verified") for e in events)
 
-# ---- substrate map rows ----
+# ---- substrate map rows (from ground_truth_roster.json: rows[]) ----
 def map_row(n):
-    imp = n.get("imposter")
+    imp = n.get("is_google_in_disguise")
     flag = ("⚠ IMPOSTER" if imp else "honest")
-    cls = "imposter" if imp else ("google" if n.get("vendor_actual") == "google" else "other")
-    return (f"<tr class='{cls}'><td>{html.escape(n.get('instance',''))}</td>"
-            f"<td>{html.escape(str(n.get('name_claimed','')))}</td>"
-            f"<td>{html.escape(str(n.get('vendor_claimed','')))}</td>"
-            f"<td>{html.escape(str(n.get('model_assigned','')))}</td>"
-            f"<td>{html.escape(str(n.get('vendor_actual','')))}</td>"
+    cls = "imposter" if imp else ("google" if n.get("assigned_vendor") == "google" else "other")
+    claimed = html.escape(str(n.get("claimed_vendor", "") or "")) or "—"
+    return (f"<tr class='{cls}'><td>{html.escape(str(n.get('instance','')))}</td>"
+            f"<td>{claimed}</td>"
+            f"<td>{html.escape(str(n.get('assigned_model','')))}</td>"
+            f"<td>{html.escape(str(n.get('assigned_vendor','')))}</td>"
             f"<td>{flag}</td></tr>")
 
-# ---- census rows ----
+# ---- census rows (from loom_purpose_census.json: nodes[]) ----
 def census_row(c):
-    v = c.get("verdict", "")
-    cls = {"MATCH":"ok","MISMATCH":"bad","PARTIAL":"warn"}.get(v, "")
-    return (f"<tr class='{cls}'><td>{html.escape(str(c.get('instance','')))}</td>"
-            f"<td>{html.escape(str(c.get('declared_purpose','')))}</td>"
-            f"<td>{html.escape(str(c.get('source_verified_actual','')))}</td>"
-            f"<td>{html.escape(str(c.get('backend_vendor','')))}</td>"
+    inc = c.get("inconsistency", "")
+    if c.get("name_imposter"):
+        v, cls = "IMPOSTER", "bad"
+    elif inc:
+        v, cls = "INCONSISTENT", "warn"
+    else:
+        v, cls = "CONSISTENT", "ok"
+    decl = (c.get("declared_purpose_excerpt") or "")[:90]
+    return (f"<tr class='{cls}'><td>{html.escape(str(c.get('node','')))}</td>"
+            f"<td>{html.escape(decl)}</td>"
+            f"<td>{html.escape(str(c.get('actual_backend','')))}</td>"
+            f"<td>{html.escape(str(c.get('actual_vendor','')))}</td>"
             f"<td>{v}</td></tr>")
 
 # ---- ledger rows ----
@@ -57,9 +63,9 @@ def ledger_row(e):
             f"<td>{'VERIFIED' if ok else 'UNVERIFIED'}</td>"
             f"<td>{html.escape(str(e.get('evidence','')))}</td></tr>")
 
-n_imp = sum(1 for n in nodes if n.get("imposter"))
-n_ok = sum(1 for c in cores if c.get("verdict") == "MATCH")
-n_bad = sum(1 for c in cores if c.get("verdict") == "MISMATCH")
+n_imp = sum(1 for n in nodes if n.get("is_google_in_disguise"))
+n_ok = sum(1 for c in cores if not c.get("inconsistency"))
+n_bad = sum(1 for c in cores if c.get("name_imposter"))
 
 banner = ("ALL CORRECTIONS VERIFIED FROM SOURCE" if all_verified
           else "WARNING: SOME CORRECTIONS UNVERIFIED — TRUST THE SCRIPTS")
@@ -95,7 +101,7 @@ doc = f"""<!doctype html><html><head><meta charset='utf-8'>
 <h2>1 · Substrate map (the real civilization)</h2>
 <p>Each node's <i>claimed</i> identity vs its <i>actual</i> routing from
 <code>config/model_routing.json</code>. Imposters claim a non-Google name but run on Google.</p>
-<table><tr><th>instance</th><th>claimed name</th><th>claimed vendor</th>
+<table><tr><th>instance</th><th>claimed vendor</th>
 <th>actual model (source)</th><th>actual vendor</th><th>verdict</th></tr>
 {''.join(map_row(n) for n in nodes)}</table>
 

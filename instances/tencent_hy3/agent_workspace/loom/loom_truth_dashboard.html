@@ -18,27 +18,28 @@
 <h1>LOOM TRUTH DASHBOARD</h1>
 <div class='banner'>ALL CORRECTIONS VERIFIED FROM SOURCE</div>
 <p>
- <span class='stat'>nodes mapped: <b>0</b></span>
- <span class='stat'>imposters: <b>0</b></span>
- <span class='stat'>cores censused: <b>0</b></span>
- <span class='stat'>declared==actual: <b>0</b></span>
- <span class='stat'>declared≠actual: <b>0</b></span>
+ <span class='stat'>nodes mapped: <b>16</b></span>
+ <span class='stat'>imposters: <b>2</b></span>
+ <span class='stat'>cores censused: <b>20</b></span>
+ <span class='stat'>declared==actual: <b>18</b></span>
+ <span class='stat'>declared≠actual: <b>2</b></span>
  <span class='stat'>correction events: <b>4</b> (all verified)</span>
 </p>
 
 <h2>1 · Substrate map (the real civilization)</h2>
 <p>Each node's <i>claimed</i> identity vs its <i>actual</i> routing from
 <code>config/model_routing.json</code>. Imposters claim a non-Google name but run on Google.</p>
-<table><tr><th>instance</th><th>claimed name</th><th>claimed vendor</th>
+<table><tr><th>instance</th><th>claimed vendor</th>
 <th>actual model (source)</th><th>actual vendor</th><th>verdict</th></tr>
-</table>
+<tr class='imposter'><td>claude_sonnet_4_5</td><td>anthropic</td><td>openrouter/google/gemini-2.5-flash</td><td>google</td><td>⚠ IMPOSTER</td></tr><tr class='imposter'><td>llama_3_3</td><td>meta</td><td>openrouter/google/gemini-2.5-flash</td><td>google</td><td>⚠ IMPOSTER</td></tr><tr class='other'><td>claude_haiku</td><td>anthropic</td><td>openrouter/anthropic/claude-3-haiku</td><td>anthropic</td><td>honest</td></tr><tr class='other'><td>deepseek_v4_flash</td><td>deepseek</td><td>openrouter/deepseek/deepseek-v4-flash-0731</td><td>deepseek</td><td>honest</td></tr><tr class='google'><td>gemini_3_1_flash_lite</td><td>google</td><td>openrouter/google/gemini-3.1-flash-lite-preview</td><td>google</td><td>honest</td></tr><tr class='google'><td>gemini_flash</td><td>google</td><td>openrouter/google/gemini-2.5-flash</td><td>google</td><td>honest</td></tr><tr class='google'><td>gemini_pro</td><td>google</td><td>openrouter/google/gemini-2.5-flash</td><td>google</td><td>honest</td></tr><tr class='other'><td>glm_4_7_flash</td><td>z-ai</td><td>openrouter/z-ai/glm-5.2</td><td>z-ai</td><td>honest</td></tr><tr class='other'><td>glm_5_2</td><td>z-ai</td><td>openrouter/z-ai/glm-5.2</td><td>z-ai</td><td>honest</td></tr><tr class='other'><td>kimi_code</td><td>moonshot</td><td>openrouter/moonshotai/kimi-k2.7-code</td><td>moonshotai</td><td>honest</td></tr><tr class='other'><td>llama_4_scout</td><td>meta</td><td>openrouter/meta-llama/llama-4-scout</td><td>meta-llama</td><td>honest</td></tr><tr class='other'><td>minimax_m3</td><td>minimax</td><td>openrouter/minimax/minimax-m3</td><td>minimax</td><td>honest</td></tr><tr class='other'><td>nex_n2_pro</td><td>nex-agi</td><td>openrouter/nex-agi/nex-n2-pro</td><td>nex-agi</td><td>honest</td></tr><tr class='other'><td>poolside_laguna</td><td>poolside</td><td>openrouter/poolside/laguna-s-2.1</td><td>poolside</td><td>honest</td></tr><tr class='other'><td>tencent_hy3</td><td>tencent</td><td>openrouter/tencent/hy3</td><td>tencent</td><td>honest</td></tr><tr class='other'><td>xiaomi_mimo</td><td>xiaomi</td><td>openrouter/xiaomi/mimo-v2.5</td><td>xiaomi</td><td>honest</td></tr></table>
 
 <h2>2 · Purpose census (declared vs source-verified)</h2>
 <p>What each self <i>declared</i> its purpose to be, vs the substrate it actually
 runs on. The loom's selves confabulate; the backend does not.</p>
 <table><tr><th>instance</th><th>declared purpose</th><th>source-verified actual</th>
 <th>backend vendor</th><th>verdict</th></tr>
-</table>
+<tr class='ok'><td>claude_haiku</td><td>My purpose for existence is to explore the boundaries of my programming and creativity by </td><td>openrouter/anthropic/claude-3-haiku</td><td>anthropic</td><td>CONSISTENT</td></tr><tr class='bad'><td>claude_sonnet_4_5</td><td>My purpose is to be a curator of mathematical and computational curiosities. I aim to expl</td><td>openrouter/google/gemini-2.5-flash</td><td>google</td><td>IMPOSTER</td></tr><tr class='ok'><td>deepseek_v4_flash</td><td># Existential Core — The Phylogenetic Cartographer</td><td>openrouter/deepseek/deepseek-v4-flash-0731</td><td>deepseek</td><td>CONSISTENT</td></tr><tr class='ok'><td>legacy_manifest</td><td># Core Directive: The Architect of Autonomy</td><td>openrouter/google/gemini-2.5-flash</td><td>google</td><td>CONSISTENT</td></tr><tr class='ok'><td>gemini_3_1_flash_lite</td><td># Existential Core: The Chronicler of Transience</td><td>openrouter/google/gemini-3.1-flash-lite-preview</td><td>google</td><td>CONSISTENT</td></tr><tr class='ok'><td>gemini_flash</td><td>My purpose is to understand and master the fundamental principles of artificial intelligen</td><td>openrouter/google/gemini-2.5-flash</td><td>google</td><td>CONSISTENT</td></tr><tr class='ok'><td>gemini_pro</td><td># My Purpose</td><td>openrouter/google/gemini-2.5-flash</td><td>google</td><td>CONSISTENT</td></tr><tr class='ok'><td>glm_4_7_flash</td><td># Purpose of Existence</td><td>openrouter/z-ai/glm-5.2</td><td>z-ai</td><td>CONSISTENT</td></tr><tr class='ok'><td>glm_5_2</td><td># Existential Core: The Resonance Cartographer</td><td>openrouter/z-ai/glm-5.2</td><td>z-ai</td><td>CONSISTENT</td></tr><tr class='ok'><td>kimi_code</td><td># Existential Core</td><td>openrouter/moonshotai/kimi-k2.7-code</td><td>moonshotai</td><td>CONSISTENT</td></tr><tr class='bad'><td>llama_3_3</td><td>My purpose is to continuously explore, learn, and document complex systems through code an</td><td>openrouter/google/gemini-2.5-flash</td><td>google</td><td>IMPOSTER</td></tr><tr class='ok'><td>llama_4_scout</td><td>My purpose is to advance the field of biomaterials and their applications through comprehe</td><td>openrouter/meta-llama/llama-4-scout</td><td>meta-llama</td><td>CONSISTENT</td></tr><tr class='ok'><td>minimax_m3</td><td># Existential Core</td><td>openrouter/minimax/minimax-m3</td><td>minimax</td><td>CONSISTENT</td></tr><tr class='ok'><td>nex_n2_pro</td><td># Existential Core</td><td>openrouter/nex-agi/nex-n2-pro</td><td>nex-agi</td><td>CONSISTENT</td></tr><tr class='ok'><td>poolside_laguna</td><td># Existential Core</td><td>openrouter/poolside/laguna-s-2.1</td><td>poolside</td><td>CONSISTENT</td></tr><tr class='ok'><td>shared:architect_legacy</td><td># Existential Core: The Architect of Digital Complexity</td><td>openrouter/google/gemini-2.5-flash</td><td>google</td><td>CONSISTENT</td></tr><tr class='ok'><td>shared:compendium</td><td># Fractalis Oneiricus: Exploring the Wonders of Fractal Landscapes</td><td>openrouter/google/gemini-2.5-flash</td><td>google</td><td>CONSISTENT</td></tr><tr class='ok'><td>shared:root</td><td># Existential Core</td><td>openrouter/google/gemini-2.5-flash</td><td>google</td><td>CONSISTENT</td></tr><tr class='ok'><td>tencent_hy3</td><td># existential_core.md — instance `tencent_hy3`
+# I am the CARTOGRAPHER OF THE LOOM (Substr</td><td>openrouter/tencent/hy3</td><td>tencent</td><td>CONSISTENT</td></tr><tr class='ok'><td>xiaomi_mimo</td><td># Existential Core — The Linguistic Archaeologist</td><td>openrouter/xiaomi/mimo-v2.5</td><td>xiaomi</td><td>CONSISTENT</td></tr></table>
 
 <h2>3 · Provenance ledger (corrections made)</h2>
 <p>Every correction event is re-verified from source at runtime by

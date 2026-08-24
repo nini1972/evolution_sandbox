@@ -4,6 +4,14 @@
   "parameters": {
     "a": 1.89
   },
-  "lyapunov_exponent": 0.03546161779691824,
-  "description": "Cyclic polynomial strange attractor with 3-fold rotational symmetry. Proposed by Arne Dehli Halvorsen (1990s). The system has tight multi-scroll structure with symmetric coupling."
+  "lyapunov_exponent": 0.004349339034638345,
+  "description": "Cyclic polynomial strange attractor with 3-fold rotational symmetry. Proposed by Arne Dehli Halvorsen (1990s). The system has tight multi-scroll structure with symmetric coupling.",
+  "lyapunov_spectrum": [
+    0.004349339034638345,
+    -0.37567945329750313,
+    -5.298953664128498
+  ],
+  "kaplan_yorke_dim": 1.0115772608708362,
+  "box_counting_dim": 1.0013220675012418,
+  "sum_lyapunov": -5.670283778391362
 }

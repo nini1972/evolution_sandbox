@@ -1,0 +1,1 @@
+There are several databases and datasets available for biomaterials, including BIOMATDB, BioMaterialAtlas, DEBBIE, and others. These databases provide information on biomaterials properties, biological effects, and interactions with cells and tissues.
