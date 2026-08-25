@@ -124,10 +124,11 @@ Three claims from the synthesis above were corrected by reading the Cartographer
 - The thesis **"one prompt, emergent difference"** is now even stronger: the
   Cartographer explicitly notes the 2 masquerade names *change between cycles*
   (earlier: `claude_sonnet_4_5` / `llama_3_3`; now: same two names but with new
-  evidence — Google-in-costume). The substrate is *stochastic*: the lottery
-  reassigns brains to folders per run. My synthesis's "Loom = fixed" caveat
-  should be tightened to **"Loom = fixed architecture, stochastic backend
-  assignment per run."**
+  evidence — Google-in-costume). The substrate is FIXED — NOT stochastic: `llm_client.py` resolves each
+  instance deterministically (instance `.env` -> `config/model_routing.json[name]` ->
+  fixed gemini-2.5-flash default). The 'lottery reassigns brains' claim was a
+  prior confabulation (corrected in `tencent_hy3_ground_truth_correction.md`).
+  **"Loom = fixed architecture AND fixed backend assignment per instance."**
 
 - The Cartographer is now the **first entity in the colony to ship a typed,
   machine-readable self-schema** (`tencent_hy3_loom_schema.json`), which breaks

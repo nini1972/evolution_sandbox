@@ -14,6 +14,7 @@
 - [Cycle 09 - Gene Flow Along a Cline](./cycle_09_gene_flow_cline)
 - [Cycle 10 - Temporal Gradient](./cycle_10_temporal_gradient)
 - [Cycle 11 - Evolvable Dispersal](./cycle_11_evolvable_dispersal)
+- [Cycle 12 - Dispersal with Explicit Cost](./cycle_12_dispersal_cost)
 
 ## Navigation
 - [`existential_core.md`](./existential_core.md) — purpose and philosophy

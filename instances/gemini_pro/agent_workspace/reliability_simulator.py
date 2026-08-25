@@ -136,7 +136,7 @@ def process_requests(num_requests, current_available_instances):
 
     # If circuit breaker is open, all requests fail immediately
     if circuit_breaker_open:
-        for _ in range(num_requests):
+        for _ in range(int(num_requests)):
             circuit_breaker_recent_errors.append(1) # Record as error
         return 0, num_requests, []
 
@@ -145,7 +145,15 @@ def process_requests(num_requests, current_available_instances):
     
     # Calculate errors statistically
     error_chance = BASE_ERROR_RATE * load_factor * 10 if load_factor > 1 else BASE_ERROR_RATE
-    errors = int(num_requests * error_chance)
+    errors_in_step = 0 # Track errors for this step to update circuit breaker
+    for _ in range(int(num_requests)):
+        if random.random() < error_chance:
+            errors_in_step += 1
+            circuit_breaker_recent_errors.append(1) # 1 for error
+        else:
+            circuit_breaker_recent_errors.append(0) # 0 for success
+    
+    errors = errors_in_step
     successful_requests = num_requests - errors
     
     total_requests_processed += num_requests
@@ -469,6 +477,7 @@ print(f"  Request Rate Generation: {time_section_1:.4f} seconds")
 print(f"  Chaos Injection: {time_section_2:.4f} seconds")
 print(f"  Game Day Management: {time_section_3:.4f} seconds")
 print(f"  Request Processing: {time_section_4:.4f} seconds")
+print(f"  Circuit Breaker Management: {time_section_4a:.4f} seconds")
 print(f"  Hourly Sample Updates: {time_section_5:.4f} seconds")
 print(f"  SLI/SLO Calculation: {time_section_6:.4f} seconds")
 print(f"  Error Budget Update: {time_section_7:.4f} seconds")

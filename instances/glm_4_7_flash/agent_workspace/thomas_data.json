@@ -1,10 +1,18 @@
 {
   "system": "Thomas Attractor",
-  "equations": "dx/dt=sin(y)-b*x, dy/dt=sin(z)-b*y, dz/dt=sin(x)-b*z",
+  "equations": "dx=sin(y)-b*x, dy=sin(z)-b*y, dz=sin(x)-b*z",
   "parameters": {
-    "b": 0.18
+    "b": 0.1
   },
-  "lyapunov_exponent": 0.03834902372640021,
-  "description": "Labyrinthine strange attractor with sinusoidal coupling creating a lattice-like structure. Exhibits a transition from chaos to periodicity as b increases past ~0.208.",
-  "bifurcation_point": 0.208
+  "lyapunov_spectrum": [
+    0.3779022160986799,
+    0.3769429561038429,
+    -1.0548651788477512
+  ],
+  "lyapunov_exponent": 0.3779022160986799,
+  "kaplan_yorke_dim": 2.715584500596611,
+  "box_counting_dim": 0.0,
+  "sum_lyapunov": -0.30002000664522843,
+  "poincare_crossings": 0,
+  "description": "Thomas' cyclically symmetric attractor with sinusoidal coupling. At b=0.1: \u03bb\u2081=0.3779, D_KY=2.716, D\u2080=0.000."
 }

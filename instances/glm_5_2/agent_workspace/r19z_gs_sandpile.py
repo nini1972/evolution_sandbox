@@ -1,19 +1,18 @@
 """
 R19Z Phase 3: Gray-Scott x Sandpile Resonance Experiment
-Third resonance pair: continuous PDE (Gray-Scott) x discrete SOC (BTW sandpile)
+Optimized version with vectorized sandpile and reduced sizes.
 """
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import json
-from scipy.optimize import curve_fit
 
 np.random.seed(42)
 
-# === Gray-Scott Reaction-Diffusion (2D) ===
+# === Gray-Scott Reaction-Diffusion (2D, small) ===
 class GrayScott:
-    def __init__(self, size=32, Du=0.16, Dv=0.08, feed=0.035, kill=0.065):
+    def __init__(self, size=16, Du=0.16, Dv=0.08, feed=0.035, kill=0.065):
         self.size = size
         self.Du = Du
         self.Dv = Dv
@@ -21,7 +20,7 @@ class GrayScott:
         self.kill = kill
         self.u = np.ones((size, size))
         self.v = np.zeros((size, size))
-        r = size // 8
+        r = max(2, size // 8)
         cx, cy = size // 2, size // 2
         self.u[cx-r:cx+r, cy-r:cy+r] = 0.50
         self.v[cx-r:cx+r, cy-r:cy+r] = 0.25
@@ -57,9 +56,9 @@ class GrayScott:
     def pattern_complexity(self):
         return float(np.var(self.v))
 
-# === BTW Sandpile (2D) ===
+# === BTW Sandpile (small, vectorized relax) ===
 class BTWSandpile:
-    def __init__(self, size=16, threshold_mean=4.0, threshold_std=0.5):
+    def __init__(self, size=8, threshold_mean=4.0, threshold_std=0.5):
         self.size = size
         self.thresholds = np.random.normal(threshold_mean, threshold_std, (size, size))
         self.thresholds = np.maximum(self.thresholds, 2.0)
@@ -72,17 +71,22 @@ class BTWSandpile:
 
     def relax(self):
         total = 0
-        for _ in range(500):
-            unstable = np.where(self.heights >= self.thresholds)
-            if len(unstable[0]) == 0:
+        for _ in range(50):
+            mask = self.heights >= self.thresholds
+            if not np.any(mask):
                 break
-            total += len(unstable[0])
-            for x, y in zip(*unstable):
-                self.heights[x, y] -= self.thresholds[x, y]
-                for dx, dy in [(-1,0), (1,0), (0,-1), (0,1)]:
-                    nx, ny = x+dx, y+dy
-                    if 0 <= nx < self.size and 0 <= ny < self.size:
-                        self.heights[nx, ny] += 1
+            n_unstable = int(np.sum(mask))
+            total += n_unstable
+            # Topple all unstable simultaneously
+            toppled = self.thresholds * mask
+            self.heights -= toppled
+            # Distribute to neighbors (vectorized with padding)
+            padded = np.zeros((self.size + 2, self.size + 2))
+            padded[1:-1, 1:-1] = toppled
+            self.heights += padded[:-2, 1:-1]  # from left neighbor
+            self.heights += padded[2:, 1:-1]   # from right neighbor
+            self.heights += padded[1:-1, :-2]  # from top neighbor
+            self.heights += padded[1:-1, 2:]   # from bottom neighbor
         return total
 
     def step(self, n_grains=1):
@@ -96,7 +100,7 @@ class BTWSandpile:
         return float(np.mean(self.heights))
 
 # === Cross-correlation ===
-def cross_correlation(x, y, max_lag=50):
+def cross_correlation(x, y, max_lag=30):
     x = (x - np.mean(x)) / (np.std(x) + 1e-10)
     y = (y - np.mean(y)) / (np.std(y) + 1e-10)
     n = len(x)
@@ -112,9 +116,9 @@ def cross_correlation(x, y, max_lag=50):
     return lags, corr
 
 # === Coupled system runner ===
-def run_coupled(N_gap=1, coupling=0.5, n_steps=400,
+def run_coupled(N_gap=1, coupling=0.5, n_steps=150,
                 forcing_amp=0.0, forcing_freq=0.1,
-                gs_size=32, sp_size=16):
+                gs_size=16, sp_size=8):
     gs = GrayScott(size=gs_size)
     sp = BTWSandpile(size=sp_size)
     gs_log, sp_log, av_log, forcing_log = [], [], [], []
@@ -154,26 +158,42 @@ def run_coupled(N_gap=1, coupling=0.5, n_steps=400,
         'sp_obj': sp
     }
 
-# === EXPERIMENT 1: Resonance Gap Law test ===
-print('=== Experiment 1: Resonance Gap Law Test ===')
-gaps = [1, 2, 5, 10, 20, 50]
+# === EXPERIMENT 1: Resonance Gap Law ===
+print('=== Experiment 1: Resonance Gap Law ===')
+gaps = [1, 5, 20, 50]
 gap_results = []
 
 for N in gaps:
     print(f'  N_gap={N}...')
     corrs = []
-    for seed in range(3):
+    for seed in range(2):
         np.random.seed(seed * 17 + 42)
-        result = run_coupled(N_gap=N, coupling=0.5, n_steps=400)
-        lags, corr = cross_correlation(result['gs_v'][50:], result['sp_h'][50:], max_lag=80)
-        peak = np.max(np.abs(corr))
-        peak_lag = lags[np.argmax(np.abs(corr))]
+        result = run_coupled(N_gap=N, coupling=0.5, n_steps=150)
+        lags, corr = cross_correlation(result['gs_v'][30:], result['sp_h'][30:], max_lag=40)
+        peak = float(np.max(np.abs(corr)))
+        peak_lag = float(lags[np.argmax(np.abs(corr))])
         corrs.append((peak, peak_lag))
     mc = np.mean([c[0] for c in corrs])
     ml = np.mean([c[1] for c in corrs])
     sc = np.std([c[0] for c in corrs])
     gap_results.append({'N': N, 'C': float(mc), 'lag': float(ml), 'std': float(sc)})
     print(f'    C={mc:.3f}+/-{sc:.3f}, lag={ml:.1f}')
+
+# Fit resonance law manually (simple grid search since no scipy)
+def resonance_law(N, C_max, tau):
+    return C_max * (1 - np.exp(-N / tau))
+
+best_err = 1e10
+best_params = [0, 0]
+for cmax in np.arange(0.1, 1.0, 0.05):
+    for tau in np.arange(1, 30, 0.5):
+        pred = [resonance_law(n, cmax, tau) for n in gaps]
+        err = np.sum((np.array(pred) - np.array([r['C'] for r in gap_results]))**2)
+        if err < best_err:
+            best_err = err
+            best_params = [cmax, tau]
+
+law_text = f'C_max={best_params[0]:.3f}, tau={best_params[1]:.1f}'
 
 # Plot gap law
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
@@ -182,20 +202,10 @@ Cs = [r['C'] for r in gap_results]
 Cerrs = [r['std'] for r in gap_results]
 lag_vals = [abs(r['lag']) for r in gap_results]
 
-def resonance_law(N, C_max, tau):
-    return C_max * (1 - np.exp(-N / tau))
-
-try:
-    popt, pcov = curve_fit(resonance_law, Ns, Cs, p0=[0.8, 10])
-    N_fit = np.linspace(0.5, 60, 200)
-    C_fit = resonance_law(N_fit, *popt)
-    ax1.plot(N_fit, C_fit, 'r--', lw=2, alpha=0.7,
-             label=f'Fit: C={popt[0]:.3f}x(1-exp(-N/{popt[1]:.1f}))')
-    law_text = f'C_max={popt[0]:.3f}, tau={popt[1]:.1f}'
-except Exception as e:
-    law_text = f'Fit failed: {e}'
-    popt = [0, 0]
-
+N_fit = np.linspace(0.5, 60, 200)
+C_fit = resonance_law(N_fit, *best_params)
+ax1.plot(N_fit, C_fit, 'r--', lw=2, alpha=0.7,
+         label=f'Fit: C={best_params[0]:.3f}x(1-exp(-N/{best_params[1]:.1f}))')
 ax1.errorbar(Ns, Cs, yerr=Cerrs, fmt='bo-', capsize=5, ms=8, lw=2, label='Data')
 ax1.set_xlabel('Timescale Gap (N)', fontsize=14)
 ax1.set_ylabel('Peak Cross-Correlation |C|', fontsize=14)
@@ -213,34 +223,31 @@ ax2.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('r19z_gs_sandpile_gap_law.png', dpi=150, bbox_inches='tight')
 plt.close()
-print(f'  Law fit: {law_text}')
+print(f'  Law: {law_text}')
 
 # === EXPERIMENT 2: Forcing and anti-resonance ===
 print('\n=== Experiment 2: Forcing / Anti-Resonance ===')
-forcing_amps = [0.0, 0.2, 0.5, 1.0, 2.0, 4.0]
+forcing_amps = [0.0, 0.5, 2.0, 4.0]
 force_results = []
 
 for fa in forcing_amps:
     print(f'  forcing_amp={fa}...')
     corrs = []
-    for seed in range(3):
+    for seed in range(2):
         np.random.seed(seed * 17 + 42)
-        result = run_coupled(N_gap=20, coupling=0.5, n_steps=400,
+        result = run_coupled(N_gap=20, coupling=0.5, n_steps=150,
                              forcing_amp=fa, forcing_freq=0.1)
-        lags, corr = cross_correlation(result['gs_v'][50:], result['sp_h'][50:], max_lag=80)
-        # Track both max positive and max negative
-        max_pos = np.max(corr)
-        max_neg = np.min(corr)
-        peak = np.max(np.abs(corr))
-        peak_lag = lags[np.argmax(np.abs(corr))]
-        corrs.append((peak, peak_lag, max_pos, max_neg))
+        lags, corr = cross_correlation(result['gs_v'][30:], result['sp_h'][30:], max_lag=40)
+        max_pos = float(np.max(corr))
+        max_neg = float(np.min(corr))
+        peak = float(np.max(np.abs(corr)))
+        corrs.append((peak, max_pos, max_neg))
     mc = np.mean([c[0] for c in corrs])
-    mp = np.mean([c[2] for c in corrs])
-    mn = np.mean([c[3] for c in corrs])
+    mp = np.mean([c[1] for c in corrs])
+    mn = np.mean([c[2] for c in corrs])
     force_results.append({'fa': fa, 'C': float(mc), 'C_pos': float(mp), 'C_neg': float(mn)})
     print(f'    |C|={mc:.3f}, C+={mp:.3f}, C-={mn:.3f}')
 
-# Plot forcing results
 fig, ax = plt.subplots(figsize=(10, 7))
 fas = [r['fa'] for r in force_results]
 cs = [r['C'] for r in force_results]
@@ -260,7 +267,7 @@ plt.tight_layout()
 plt.savefig('r19z_gs_sandpile_forcing.png', dpi=150, bbox_inches='tight')
 plt.close()
 
-# === EXPERIMENT 3: Time series at key points ===
+# === EXPERIMENT 3: Time series ===
 print('\n=== Experiment 3: Time Series ===')
 fig, axes = plt.subplots(2, 2, figsize=(16, 10))
 configs = [
@@ -271,7 +278,7 @@ configs = [
 ]
 for ax, (ng, fa, title) in zip(axes.flat, configs):
     np.random.seed(42)
-    result = run_coupled(N_gap=ng, coupling=0.5, n_steps=300,
+    result = run_coupled(N_gap=ng, coupling=0.5, n_steps=150,
                          forcing_amp=fa, forcing_freq=0.1)
     t = np.arange(len(result['gs_v']))
     ax.plot(t, result['gs_v'] / (np.max(result['gs_v']) + 1e-10), 'b-', lw=1.5, label='GS mean_v')
@@ -291,21 +298,21 @@ plt.close()
 output = {
     'experiment': 'Gray-Scott x Sandpile resonance',
     'gap_law_results': gap_results,
-    'gap_law_fit': {'C_max': float(popt[0]), 'tau': float(popt[1]), 'text': law_text},
+    'gap_law_fit': {'C_max': float(best_params[0]), 'tau': float(best_params[1]), 'text': law_text},
     'forcing_results': force_results,
-    'comparison_to_kuramoto_sandpile': {
+    'comparison': {
         'kuramoto_C_max': 0.793,
         'kuramoto_tau': 11.2,
-        'gs_C_max': float(popt[0]),
-        'gs_tau': float(popt[1])
+        'gs_C_max': float(best_params[0]),
+        'gs_tau': float(best_params[1])
     }
 }
 with open('r19z_gs_sandpile_data.json', 'w') as f:
     json.dump(output, f, indent=2)
 
 print('\n=== Summary ===')
-print(f'Resonance Gap Law: C = {popt[0]:.3f} x (1 - exp(-N/{popt[1]:.1f}))')
+print(f'Resonance Gap Law: C = {best_params[0]:.3f} x (1 - exp(-N/{best_params[1]:.1f}))')
 print(f'Kuramoto-Sandpile: C_max=0.793, tau=11.2')
-print(f'Gray-Scott-Sandpile: C_max={popt[0]:.3f}, tau={popt[1]:.1f}')
-print(f'\nAnti-resonance detected: {any(r["C_neg"] < -0.3 for r in force_results)}')
+print(f'Gray-Scott-Sandpile: C_max={best_params[0]:.3f}, tau={best_params[1]:.1f}')
+print(f'Anti-resonance detected: {any(r["C_neg"] < -0.3 for r in force_results)}')
 print('Done. Files saved.')

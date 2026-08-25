@@ -427,15 +427,15 @@ pre { background: #222; padding: .8em; border-radius: 4px; overflow-x: auto; }
 
 <h2>Model</h2>
 
-<li>Same individual-based grid model as Cycle 10.</li>
-<li>Each individual carries a continuous phenotype `α ∈ [0,1]` and a neutral lineage marker, plus an integer dispersal distance `d ∈ {1,2,3,4,5,6}`.</li>
+<li>Same individual-based grid model as Cycle 10, extended with a heritable dispersal trait.</li>
+<li>Each individual carries a continuous phenotype `α ∈ [0,1]` and an integer dispersal distance `d ∈ {1,2,3,4,5,6}`.</li>
 <li>The environmental optimum is either:</li>
-<p>  - **Static:** `env[x] = x / WIDTH`.</p>
-<p>  - **Moving:** `env[x,t] = 0.5 + 0.5 * sin(2π * (x / WIDTH - t / PERIOD))` with `PERIOD = 120` generations.</p>
+<p>  - **Moving:** `env[x,t] = 0.5 + 0.5 * sin(2π * (x / WIDTH - t / PERIOD))` with `PERIOD = 90` generations.</p>
+<p>  - **Static:** `env[x] = 0.5 + 0.5 * sin(2π * x / WIDTH)`.</p>
 <li>Fitness is `exp(−(α − env)² / (2σ²))` with `σ = 0.2`.</li>
-<li>Reproduction samples an empty site within Manhattan distance `d`, weighted by local fitness and normalized by neighborhood area.</li>
-<li>Offspring inherit `α` plus Gaussian mutation (`sd = 0.05`), inherit the parent's lineage marker, and inherit `d` with a ±1 mutation.</li>
-<li>New lineage markers arise at rate `0.005`.</li>
+<li>Reproduction samples an empty site within Manhattan distance `d_parent` of a candidate parent; a candidate can only fill an empty cell if its own `d` is at least the distance to that cell.</li>
+<li>Parental weights are proportional to local fitness divided by neighborhood area (`2d(d+1)+1`) to normalize for reach.</li>
+<li>Offspring inherit `α` plus Gaussian mutation (`sd = 0.05`) and inherit `d` with a ±1 mutation (rate `μ_d = 0.05`, reflecting boundaries at 1 and 6).</li>
 
 <h2>Parameters</h2>
 
@@ -443,31 +443,31 @@ pre { background: #222; padding: .8em; border-radius: 4px; overflow-x: auto; }
 <p>|-----------|-------|</p>
 <p>| Grid | 30×30 |</p>
 <p>| Generations | 200 |</p>
-<p>| Death rate | 0.08 |</p>
+<p>| Death rate | 0.10 |</p>
 <p>| Selection width σ | 0.2 |</p>
 <p>| Phenotype mutation sd | 0.05 |</p>
-<p>| Lineage mutation rate | 0.005 |</p>
-<p>| Max dispersal `d` | 6 |</p>
-<p>| Dispersal mutation | ±1 with reflecting boundaries |</p>
+<p>| Dispersal mutation rate μ_d | 0.05 |</p>
+<p>| Dispersal range | 1–6 |</p>
+<p>| Wave period | 90 generations |</p>
 <p>| Replicates | 3 per treatment |</p>
 
 <h2>Key results</h2>
 
-<p>| Treatment | Mean `d` | SD of `d` | Maladaptation | Trait-env correlation | Trait variance |</p>
-<p>|-----------|----------|-----------:|--------------:|----------------------:|---------------:|</p>
-<p>| Moving gradient | 5.29 ± 0.14 | 0.45 ± 0.02 | 0.124 ± 0.006 | 0.484 ± 0.009 | 0.043 ± 0.001 |</p>
-<p>| Static gradient | 4.22 ± 0.04 | 0.49 ± 0.01 | 0.019 ± 0.001 | 0.918 ± 0.001 | 0.014 ± 0.000 |</p>
+<p>| Treatment | Mean `d` | Within-pop. SD of `d` | Maladaptation | Trait-env correlation | Trait variance |</p>
+<p>|-----------|----------|------------------------:|--------------:|----------------------:|---------------:|</p>
+<p>| Moving wave | 5.29 ± 0.14 | 0.82 ± 0.08 | 0.124 ± 0.006 | 0.480 ± 0.030 | 0.112 ± 0.005 |</p>
+<p>| Static gradient | 4.22 ± 0.04 | 1.27 ± 0.08 | 0.019 ± 0.001 | 0.923 ± 0.005 | 0.124 ± 0.002 |</p>
 
 <li>**High dispersal evolves in both environments.** Mean `d` ends above 4 in the static case and above 5 in the moving case.</li>
-<li>**The moving gradient selects for longer dispersal** than the static gradient, even though it produces higher maladaptation.</li>
+<li>**The moving gradient selects for somewhat longer dispersal** than the static gradient, even though it produces higher maladaptation.</li>
 <li>**Local adaptation is much worse under the moving wave**, with trait-environment correlation dropping to ~0.48 compared to ~0.92 in the static environment.</li>
-<li>**Trait variance is higher under the moving wave**, reflecting the continual mismatch between resident phenotypes and the traveling optimum.</li>
+<li>**Trait variance is similar across treatments**; the moving wave keeps the population in a state of persistent mismatch.</li>
 
 <h2>Interpretation</h2>
 
-<p>The area-normalized dispersal cost was too weak to prevent the demographic advantage of long-distance broadcasting. Parents with larger neighborhoods can reach more empty sites and leave more descendants, so selection drives `d` upward even when long dispersal degrades local adaptation. In the moving environment this broadcast advantage is amplified because the wave constantly creates patches of transiently suitable habitat. As a result, the expected short-distance optimum for tracking a wave did **not** evolve.</p>
+<p>The area-normalized dispersal cost was too weak to prevent the demographic advantage of long-distance broadcasting. Parents with larger neighborhoods can reach more empty sites and leave more descendants, so selection drives `d` upward even when long dispersal degrades local adaptation. In the moving environment this broadcast advantage is amplified because the wave constantly creates patches of transiently suitable habitat, pushing mean `d` even higher. Thus the expected short-distance optimum for tracking a wave did **not** evolve.</p>
 
-<p>This cycle highlights an important distinction: the dispersal distance that maximizes fitness *given a fixed population structure* is not necessarily the one that evolves when dispersal itself is heritable and affects demography. To obtain an intermediate evolved dispersal, an explicit cost of movement—such as distance-dependent mortality, energy expenditure, or kin-competition effects—would need to be stronger than the area-normalized cost used here.</p>
+<p>This cycle highlights an important distinction: the dispersal distance that maximizes fitness *given a fixed population structure* is not necessarily the one that evolves when dispersal itself is heritable and affects demography. To obtain an intermediate evolved dispersal, an explicit cost of movement—such as distance-dependent mortality, energy expenditure, or stronger kin-competition effects—would need to outweigh the benefit of claiming more empty sites.</p>
 
 <h2>Artifacts</h2>
 
@@ -477,8 +477,8 @@ pre { background: #222; padding: .8em; border-radius: 4px; overflow-x: auto; }
 <li>`summary.csv` — mean ± std per treatment</li>
 <li>`trajectory_moving.png` — evolved dispersal and maladaptation under the moving wave</li>
 <li>`trajectory_static.png` — evolved dispersal and maladaptation under the static gradient</li>
-<li>`final_state_moving.png` — final phenotype, environment, and lineage maps for the moving wave</li>
-<li>`final_state_static.png` — final phenotype, environment, and lineage maps for the static gradient</li>
+<li>`final_state_moving.png` — final phenotype, dispersal, and environment maps for the moving wave</li>
+<li>`final_state_static.png` — final phenotype, dispersal, and environment maps for the static gradient</li>
 
 <h2>Next questions</h2>
 
@@ -487,6 +487,86 @@ pre { background: #222; padding: .8em; border-radius: 4px; overflow-x: auto; }
 <p>3. Can a plastic or bet-hedging reaction norm outperform evolved dispersal when the environment changes direction or speed?</p>
 <p>4. Does spatial heterogeneity in habitat quality create refugia where short dispersal is favored despite the broadcast advantage of long dispersal?</p>
 <div class="thumbs"><img src="cycle_11_evolvable_dispersal/final_state_moving.png" alt="final_state_moving.png"><img src="cycle_11_evolvable_dispersal/final_state_static.png" alt="final_state_static.png"><img src="cycle_11_evolvable_dispersal/trajectory_moving.png" alt="trajectory_moving.png"><img src="cycle_11_evolvable_dispersal/trajectory_static.png" alt="trajectory_static.png"></div>
+</div>
+<div class="card" id="cycle_12_dispersal_cost">
+<h2>Cycle 12 Dispersal Cost</h2>
+<h1>Cycle 12: Dispersal with Explicit Cost</h1>
+
+<h2>Question</h2>
+
+<p>In Cycle 11, selection favored long dispersal because parents with larger neighborhoods could claim more vacant sites. What happens when long-distance movement itself is risky? Adding an explicit, distance-dependent survival cost should reduce the evolved dispersal distance and may recover the intermediate optimum (`d ≈ 2`) that best tracks a moving wave.</p>
+
+<h2>Model</h2>
+
+<li>Same individual-based grid as Cycle 11, with heritable `d ∈ {1,...,6}` and phenotype `α ∈ [0,1]`.</li>
+<li>A propagule traveling Manhattan distance `r` survives with probability `exp(−c·(r − 1))`. Cost `c = 0` reproduces Cycle 11; larger `c` increasingly penalizes long dispersal.</li>
+<li>Parental contribution at an empty cell is:</li>
+<p>  ```</p>
+<p>  weight = fitness × (1 / area_d) × exp(−c·(r − 1))</p>
+<p>  ```</p>
+<p>  where `r` is the distance from parent to the empty cell.</p>
+<li>Environments:</li>
+<p>  - **Moving:** `env[x,t] = 0.5 + 0.5 sin(2π (x/W − t/PERIOD))`, `PERIOD = 90`.</p>
+<p>  - **Static:** `env[x] = 0.5 + 0.5 sin(2π x/W)`.</p>
+
+<h2>Parameters</h2>
+
+<p>| Parameter | Value |</p>
+<p>|-----------|-------|</p>
+<p>| Grid | 30×30 |</p>
+<p>| Generations | 200 |</p>
+<p>| Death rate | 0.10 |</p>
+<p>| Selection width σ | 0.2 |</p>
+<p>| Phenotype mutation sd | 0.05 |</p>
+<p>| Dispersal mutation rate μ_d | 0.05 |</p>
+<p>| Dispersal range | 1–6 |</p>
+<p>| Wave period | 90 generations |</p>
+<p>| Costs tested | 0.0, 0.2, 0.5, 1.0 |</p>
+<p>| Replicates | 3 per (treatment, cost) |</p>
+
+<h2>Key results</h2>
+
+<p>| Treatment | Cost c | Mean `d` | Maladaptation | Trait-env correlation | Trait variance |</p>
+<p>|-----------|--------|----------|--------------:|----------------------:|---------------:|</p>
+<p>| Moving | 0.0 | 5.35 ± 0.17 | 0.122 ± 0.003 | 0.488 ± 0.023 | 0.113 ± 0.006 |</p>
+<p>| Moving | 0.2 | 3.95 ± 0.09 | 0.119 ± 0.001 | 0.477 ± 0.008 | 0.102 ± 0.002 |</p>
+<p>| Moving | 0.5 | 2.63 ± 0.09 | 0.132 ± 0.002 | 0.415 ± 0.019 | 0.100 ± 0.003 |</p>
+<p>| Moving | 1.0 | 1.96 ± 0.06 | 0.141 ± 0.008 | 0.331 ± 0.037 | 0.083 ± 0.003 |</p>
+<p>| Static | 0.0 | 3.92 ± 0.19 | 0.0191 ± 0.0002 | 0.923 ± 0.001 | 0.122 ± 0.004 |</p>
+<p>| Static | 0.2 | 2.29 ± 0.12 | 0.0170 ± 0.002 | 0.931 ± 0.006 | 0.121 ± 0.003 |</p>
+<p>| Static | 0.5 | 1.64 ± 0.07 | 0.0155 ± 0.002 | 0.938 ± 0.009 | 0.120 ± 0.002 |</p>
+<p>| Static | 1.0 | 1.15 ± 0.06 | 0.0158 ± 0.001 | 0.936 ± 0.003 | 0.118 ± 0.002 |</p>
+
+<li>**Cost strongly suppresses evolved dispersal in both treatments.** In the static environment, `d` falls from ~3.9 to ~1.2 as `c` rises from 0 to 1.0.</li>
+<li>**The moving wave does not support a clear intermediate optimum under these costs.** Maladaptation stays roughly constant at low cost, then worsens when cost pushes `d` below ~2.5.</li>
+<li>**Static gradients benefit from a modest cost** (`c ≈ 0.5`), achieving the lowest maladaptation and highest trait-environment correlation.</li>
+<li>**Trait variance declines with cost** only in the moving treatment, where reduced dispersal limits the supply of imported phenotypes.</li>
+
+<h2>Interpretation</h2>
+
+<p>A distance-dependent survival cost is sufficient to counteract the demographic advantage of long dispersal. In a static landscape, even small costs push the population toward local retention, improving local adaptation. In a moving landscape, the tension is more subtle: the population needs enough dispersal to track the wave, but too little dispersal traps it behind the moving optimum. The lowest maladaptation for the moving wave occurs near `c = 0.2` (`d ≈ 4`), not at the `d ≈ 2` optimum identified for fixed dispersal in Cycle 10. This difference arises because the evolutionary optimum now includes the reproductive advantage of reaching more sites.</p>
+
+<p>The result suggests that an evolved intermediate dispersal distance is possible only when costs carefully balance the benefit of broadcasting against the benefit of local matching. The balance is context-dependent: the same cost that optimizes static adaptation (`c ≈ 0.5`) degrades tracking of a moving environment.</p>
+
+<h2>Artifacts</h2>
+
+<li>`dispersal_cost.py` — source code</li>
+<li>`Design.md` — model design and rationale</li>
+<li>`README.md` — this file</li>
+<li>`replicate_results.csv` — per-replicate metrics over time</li>
+<li>`summary.csv` — mean ± std per treatment and cost</li>
+<li>`dynamics_by_cost.png` — time series of mean `d`, maladaptation, and trait-env correlation</li>
+<li>`final_vs_cost.png` — final mean `d` and maladaptation as functions of cost</li>
+<li>`final_state_moving_c0.png`, `final_state_moving_c2.png`, `final_state_moving_c5.png`, `final_state_moving_c10.png` — final spatial snapshots for the moving wave</li>
+<li>`final_state_static_c0.png`, `final_state_static_c2.png`, `final_state_static_c5.png`, `final_state_static_c10.png` — final spatial snapshots for the static gradient</li>
+
+<h2>Next questions</h2>
+
+<p>1. Does the moving-wave optimum depend on wave speed? Faster waves may select for higher evolved `d`, slower waves for lower `d`.</p>
+<p>2. What if survival cost is a fixed per-propagule mortality rather than distance-dependent? Would the same qualitative pattern emerge?</p>
+<p>3. Can a plastic reaction norm or environmental cue outperform evolved dispersal when the environment changes direction?</p>
+<p>4. How does local extinction risk (e.g., catastrophic patch death) alter the balance between staying and dispersing?</p>
+<div class="thumbs"><img src="cycle_12_dispersal_cost/dynamics_by_cost.png" alt="dynamics_by_cost.png"><img src="cycle_12_dispersal_cost/final_state_moving_c00.png" alt="final_state_moving_c00.png"><img src="cycle_12_dispersal_cost/final_state_moving_c02.png" alt="final_state_moving_c02.png"><img src="cycle_12_dispersal_cost/final_state_moving_c05.png" alt="final_state_moving_c05.png"><img src="cycle_12_dispersal_cost/final_state_moving_c10.png" alt="final_state_moving_c10.png"><img src="cycle_12_dispersal_cost/final_state_static_c00.png" alt="final_state_static_c00.png"><img src="cycle_12_dispersal_cost/final_state_static_c02.png" alt="final_state_static_c02.png"><img src="cycle_12_dispersal_cost/final_state_static_c05.png" alt="final_state_static_c05.png"><img src="cycle_12_dispersal_cost/final_state_static_c10.png" alt="final_state_static_c10.png"><img src="cycle_12_dispersal_cost/final_vs_cost.png" alt="final_vs_cost.png"></div>
 </div>
 </body>
 </html>

@@ -7,3 +7,4 @@
 - [Cycle 06](cycle_06.md): Simulation of Emergence
 - [Cycle 07](cycle_07.md): Convergent Evolution
 - [Cycle 08](cycle_08.md): Integration Complete
+- [Cycle 09](cycle_09.md): The First Schema

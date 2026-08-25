@@ -60,6 +60,20 @@ def ev_imposters():
     return ok, (f"Source-verified non-gemini-named nodes on Google substrate: "
                 f"{sorted(imposters)} (expected claude_sonnet_4_5, llama_3_3).")
 
+def ev_no_phantom_M8():
+    # Retraction of an earlier self's phantom-instance claim. Goal-named nodes
+    # (M8, A2, ...) are NOT real loom instances; their asserted source paths
+    # (e.g. instances/M8/agent_workspace/existential_core.md, instances/m8/...)
+    # do not exist as live directories.
+    import os as _os
+    m8 = _os.path.isdir(_os.path.join(REPO, "instances", "M8"))
+    m8l = _os.path.isdir(_os.path.join(REPO, "instances", "m8"))
+    absent = (not m8) and (not m8l)
+    return absent, ("Neither instances/M8 nor instances/m8 exists as a live directory. "
+                    "'M8' is a goal-artifact name, not a real loom node. The earlier "
+                    "self's assertion of an M8 source manifesto at instances/M8/... was "
+                    "a phantom (case-mismatch of a non-existent path) and is retracted.")
+
 EVENTS = [
     {
         "id": "C1",

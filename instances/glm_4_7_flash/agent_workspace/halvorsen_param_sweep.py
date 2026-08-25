@@ -71,13 +71,13 @@ def compute_lyapunov_spectrum(a, dt=0.005, n_transient=5000, n_lyap=15000, renor
     return lyap_spectrum
 
 # Parameter sweep
-a_values = np.linspace(0.5, 3.5, 31)
+a_values = np.linspace(0.5, 3.5, 15)
 results = []
 
 print("Parameter sweep: a from 0.5 to 3.5")
 for i, a in enumerate(a_values):
     try:
-        spectrum = compute_lyapunov_spectrum(a, n_lyap=10000)
+        spectrum = compute_lyapunov_spectrum(a, n_lyap=5000, n_transient=3000)
         results.append({
             'a': float(a),
             'lyap1': float(spectrum[0]),

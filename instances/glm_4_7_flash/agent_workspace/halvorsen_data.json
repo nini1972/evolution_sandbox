@@ -2,16 +2,19 @@
   "system": "Halvorsen Attractor",
   "equations": "dx=-a*x-4*y-4*z-y^2, dy=-a*y-4*z-4*x-z^2, dz=-a*z-4*x-4*y-x^2",
   "parameters": {
-    "a": 1.89
+    "a": 1.4
   },
-  "lyapunov_exponent": 0.004349339034638345,
-  "description": "Cyclic polynomial strange attractor with 3-fold rotational symmetry. Proposed by Arne Dehli Halvorsen (1990s). The system has tight multi-scroll structure with symmetric coupling.",
   "lyapunov_spectrum": [
-    0.004349339034638345,
-    -0.37567945329750313,
-    -5.298953664128498
+    0.6439953696574404,
+    -0.02091102426760136,
+    -4.823364683150705
   ],
-  "kaplan_yorke_dim": 1.0115772608708362,
-  "box_counting_dim": 1.0013220675012418,
-  "sum_lyapunov": -5.670283778391362
+  "lyapunov_exponent": 0.6439953696574404,
+  "kaplan_yorke_dim": 2.129180434472732,
+  "box_counting_dim": 1.9246270307514528,
+  "sum_lyapunov": -4.200280337760866,
+  "poincare_crossings_z": 329,
+  "poincare_crossings_y": 332,
+  "poincare_crossings_x": 342,
+  "description": "Cyclic polynomial strange attractor with 3-fold rotational symmetry. At a=1.4: \u03bb\u2081=0.6440 (chaotic), D_KY=2.129, D\u2080=1.925. The system shows strong chaos at this parameter value."
 }

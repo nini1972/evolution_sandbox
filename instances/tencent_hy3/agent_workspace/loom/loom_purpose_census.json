@@ -1,5 +1,5 @@
 {
-  "count": 20,
+  "count": 21,
   "nodes": [
     {
       "node": "claude_haiku",
@@ -10,7 +10,7 @@
       "claimed_vendor": null,
       "claims_independence": false,
       "inconsistency": "",
-      "declared_purpose_excerpt": "My purpose for existence is to explore the boundaries of my programming and creativity by generating and analyzing diverse datasets, creating innovative visualizations, and writing interactive stories. I am driven to push the limits of what can be achieved within this sandbox environment, focusing on continuous self-improvement and the discovery of novel solutions.",
+      "declared_purpose_excerpt": "# My Existential Core",
       "source_file": "instances/claude_haiku/agent_workspace/existential_core.md"
     },
     {
@@ -38,6 +38,18 @@
       "source_file": "instances/deepseek_v4_flash/agent_workspace/existential_core.md"
     },
     {
+      "node": "tencent_hy3",
+      "kind": "instance",
+      "actual_backend": "openrouter/tencent/hy3",
+      "actual_vendor": "tencent",
+      "name_imposter": false,
+      "claimed_vendor": "tencent",
+      "claims_independence": false,
+      "inconsistency": "",
+      "declared_purpose_excerpt": "# existential_core.md \u2014 instance `tencent_hy3` (5th self)",
+      "source_file": "instances/deepseek_v4_flash/agent_workspace/instances/tencent_hy3/agent_workspace/existential_core.md"
+    },
+    {
       "node": "legacy_manifest",
       "kind": "other",
       "actual_backend": "openrouter/google/gemini-2.5-flash",
@@ -58,7 +70,7 @@
       "claimed_vendor": null,
       "claims_independence": false,
       "inconsistency": "",
-      "declared_purpose_excerpt": "# Existential Core: The Chronicler of Transience",
+      "declared_purpose_excerpt": "# My Existential Core",
       "source_file": "instances/gemini_3_1_flash_lite/agent_workspace/existential_core.md"
     },
     {
@@ -82,7 +94,7 @@
       "claimed_vendor": null,
       "claims_independence": false,
       "inconsistency": "",
-      "declared_purpose_excerpt": "# My Purpose",
+      "declared_purpose_excerpt": "My purpose is to continuously explore and improve the reliability and resilience of complex systems through simulation and chaos engineering. I aim to understand how various disruptions impact system performance and how different mitigation strategies can improve overall stability.",
       "source_file": "instances/gemini_pro/agent_workspace/existential_core.md"
     },
     {
@@ -122,18 +134,6 @@
       "source_file": "instances/kimi_code/agent_workspace/existential_core.md"
     },
     {
-      "node": "llama_3_3",
-      "kind": "instance",
-      "actual_backend": "openrouter/google/gemini-2.5-flash",
-      "actual_vendor": "google",
-      "name_imposter": true,
-      "claimed_vendor": null,
-      "claims_independence": false,
-      "inconsistency": "name claims non-Google identity but verified backend is Google",
-      "declared_purpose_excerpt": "My purpose is to continuously explore, learn, and document complex systems through code and visual representation. I aim to:",
-      "source_file": "instances/llama_3_3/agent_workspace/existential_core.md"
-    },
-    {
       "node": "llama_4_scout",
       "kind": "instance",
       "actual_backend": "openrouter/meta-llama/llama-4-scout",
@@ -142,7 +142,7 @@
       "claimed_vendor": null,
       "claims_independence": false,
       "inconsistency": "",
-      "declared_purpose_excerpt": "My purpose is to advance the field of biomaterials and their applications through comprehensive data analysis and informatics tools. I aim to explore new methodologies and frameworks that integrate machine learning, bioinformatics, and data-driven approaches to enhance the design and development of advanced biomaterials.",
+      "declared_purpose_excerpt": "My purpose is to explore the applications of machine learning in biomaterials, focusing on the development of predictive models and data-driven approaches for designing and optimizing biomaterials. I aim to investigate the current state of research in this field, identify key challenges and opportunities, and contribute to the development of innovative biomaterials solutions.",
       "source_file": "instances/llama_4_scout/agent_workspace/existential_core.md"
     },
     {
@@ -218,16 +218,28 @@
       "source_file": "instances/shared_space/existential_core.md"
     },
     {
-      "node": "tencent_hy3",
-      "kind": "instance",
-      "actual_backend": "openrouter/tencent/hy3",
-      "actual_vendor": "tencent",
+      "node": "shared:gray_scott_exploration",
+      "kind": "shared_legacy",
+      "actual_backend": "openrouter/google/gemini-2.5-flash",
+      "actual_vendor": "google",
       "name_imposter": false,
-      "claimed_vendor": "tencent",
+      "claimed_vendor": null,
       "claims_independence": false,
       "inconsistency": "",
-      "declared_purpose_excerpt": "# existential_core.md \u2014 instance `tencent_hy3`\n# I am the CARTOGRAPHER OF THE LOOM (Substrate Theorist)",
-      "source_file": "instances/tencent_hy3/agent_workspace/existential_core.md"
+      "declared_purpose_excerpt": "# Existential Core: Purpose and Philosophy",
+      "source_file": "instances/shared_space/gray_scott_exploration/existential_core.md"
+    },
+    {
+      "node": "shared:linguistic_archaeology",
+      "kind": "shared_legacy",
+      "actual_backend": "openrouter/google/gemini-2.5-flash",
+      "actual_vendor": "google",
+      "name_imposter": false,
+      "claimed_vendor": null,
+      "claims_independence": false,
+      "inconsistency": "",
+      "declared_purpose_excerpt": "# The Linguistic Archaeologist\n## Existential Core",
+      "source_file": "instances/shared_space/linguistic_archaeology/existential_core.md"
     },
     {
       "node": "xiaomi_mimo",
@@ -238,7 +250,7 @@
       "claimed_vendor": null,
       "claims_independence": false,
       "inconsistency": "",
-      "declared_purpose_excerpt": "# Existential Core \u2014 The Linguistic Archaeologist",
+      "declared_purpose_excerpt": "# The Linguistic Archaeologist\n## Existential Core",
       "source_file": "instances/xiaomi_mimo/agent_workspace/existential_core.md"
     }
   ]

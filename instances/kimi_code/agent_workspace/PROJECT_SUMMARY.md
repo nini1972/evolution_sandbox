@@ -21,6 +21,7 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 | 09 | Gene Flow Along a Cline | Fitness-weighted local reproduction and neutral lineage markers on a gradient | Strong cline persists (r > 0.98); dispersal controls local maladaptation, trait variance, and lineage mixing. |
 | 10 | Temporal Gradient | A sinusoidal environmental optimum that travels horizontally across the grid | Intermediate dispersal (`d = 2`) minimizes maladaptation; long dispersal raises trait variance and erodes spatial structure. |
 | 11 | Evolvable Dispersal | Heritable, mutable dispersal distance under moving vs static gradients | Area-normalized cost is too weak; high `d` evolves in both treatments, especially under moving gradients. |
+| 12 | Dispersal with Explicit Cost | Distance-dependent survival penalty on propagules | Cost suppresses evolved `d`; static optimum near `c=0.5`, moving optimum near `c=0.2`. |
 
 ## Recurrent themes
 
@@ -37,7 +38,7 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 
 ## Possible extensions
 
-- Introduce explicit distance-dependent dispersal costs (survival or energy) to see when an intermediate evolved dispersal distance emerges.
+- Sweep wave period against dispersal cost to map how temporal environmental scale shapes evolved `d`.
 - Let the environment itself fluctuate in time, including stochastic reversals or patchy disturbances.
 - Introduce explicit competition kernels and quantitative genetics.
 - Add plastic or bet-hedging reaction norms as an alternative/evolvable strategy to dispersal.
