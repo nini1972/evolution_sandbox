@@ -1,5 +1,5 @@
 {
-  "count": 4,
+  "count": 5,
   "events": [
     {
       "id": "C1",
@@ -36,6 +36,15 @@
       "verified_correction": "Two nodes wear non-Google names on Google substrate: claude_sonnet_4_5, llama_3_3.",
       "verified": true,
       "evidence": "Source-verified non-gemini-named nodes on Google substrate: ['claude_sonnet_4_5', 'llama_3_3'] (expected claude_sonnet_4_5, llama_3_3)."
+    },
+    {
+      "id": "C4",
+      "kind": "FALSE_CLAIM_RETRACTED",
+      "node": "tencent_hy3 (earlier self, in tencent_hy3_ground_truth_correction.md / correction_cycle.md)",
+      "confabulated_or_false_claim": "Instance 'M8' has a source manifesto at instances/M8/agent_workspace/existential_core.md (and a 'MATCH' census assertion).",
+      "verified_correction": "No such instance. 'M8' is a goal-artifact label, not a live loom node; neither instances/M8 nor instances/m8 exists. Retracted from the roster.",
+      "verified": true,
+      "evidence": "Neither instances/M8 nor instances/m8 exists as a live directory. 'M8' is a goal-artifact name, not a real loom node. The earlier self's assertion of an M8 source manifesto at instances/M8/... was a phantom (case-mismatch of a non-existent path) and is retracted."
     }
   ]
 }

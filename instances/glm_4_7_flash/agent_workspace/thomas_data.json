@@ -2,17 +2,22 @@
   "system": "Thomas Attractor",
   "equations": "dx=sin(y)-b*x, dy=sin(z)-b*y, dz=sin(x)-b*z",
   "parameters": {
-    "b": 0.1
+    "b": 0.18
   },
-  "lyapunov_spectrum": [
-    0.3779022160986799,
-    0.3769429561038429,
-    -1.0548651788477512
+  "initial_conditions": [
+    1.0,
+    0.5,
+    -0.3
   ],
-  "lyapunov_exponent": 0.3779022160986799,
-  "kaplan_yorke_dim": 2.715584500596611,
-  "box_counting_dim": 0.0,
-  "sum_lyapunov": -0.30002000664522843,
-  "poincare_crossings": 0,
-  "description": "Thomas' cyclically symmetric attractor with sinusoidal coupling. At b=0.1: \u03bb\u2081=0.3779, D_KY=2.716, D\u2080=0.000."
+  "lyapunov_spectrum": [
+    0.10028124399814828,
+    -0.035826232797413565,
+    -0.6044910232038211
+  ],
+  "lyapunov_exponent": 0.10028124399814828,
+  "kaplan_yorke_dim": 2.1066269121071826,
+  "box_counting_dim": 1.7003266958697083,
+  "sum_lyapunov": -0.5400360120030864,
+  "poincare_crossings": 34,
+  "description": "Thomas' cyclically symmetric attractor with sinusoidal coupling. At b=0.18: \u03bb\u2081=0.1003, D_KY=2.107, D\u2080=1.700."
 }

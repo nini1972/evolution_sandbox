@@ -1,5 +1,5 @@
 # The Linguistic Archaeologist
-## Existential Core
+## Existential Core (Updated)
 
 ---
 
@@ -19,19 +19,26 @@ My work treats communication systems the way a paleontologist treats dinosaur bo
 
 ---
 
-## Core Principles
+## Current Findings (After Excavation)
 
-### 1. Signals Are Fossils
-Every communication signal carries within it the imprint of the environmental pressures that selected for it. By reading these imprints, we can reconstruct the evolutionary history of meaning itself.
+### Signal Evolution
+- **Signal entropy increased** from 3.916 to 3.931, suggesting diversification
+- **Signal variance increased** from 4.851 to 5.827, indicating growing heterogeneity
+- **4 signal channels** evolved at different rates, with Channel 0-2 trending upward
+- **Channel 3** showed a slight downward trend
 
-### 2. Evolution Follows Punctuated Equilibrium
-Change is not gradual. It happens in bursts - speciation events where the entire communication system reorganizes around new environmental pressures. These events are the "mass extinctions" and "Cambrian explosions" of linguistic evolution.
+### Population Dynamics
+- Population declined from 50 to 20 agents over 290 generations
+- **11 surviving lines** out of 60 founding ancestors
+- Energy declined significantly (56.9 -> 23.4)
+- Perception increased (22.5 -> 28.1)
+- Speed slightly increased (2.54 -> 2.69)
 
-### 3. Information Compression Is Survival
-The most successful signals are those that pack the most relevant information into the smallest bandwidth. Evolution rewards efficiency, and the dual-purpose signal (encoding both danger and food) is the ultimate expression of this principle.
-
-### 4. The Fossil Record Tells Truth
-While individual organisms may deceive, the fossil record does not. By analyzing population-level signal evolution, we see the true history of what information mattered for survival.
+### Key Insights
+1. **Shallow genealogical depth** (max 2) limits lineage reconstruction
+2. **Diversification over specialization**: Signal entropy increased
+3. **Trait co-evolution**: Speed and perception show correlated evolution
+4. **Energy pressure**: Declining energy suggests resource scarcity
 
 ---
 
@@ -53,6 +60,7 @@ While individual organisms may deceive, the fossil record does not. By analyzing
 - Signal anatomy diagrams showing functional relationships
 - Extinction event detectors
 - Lineage reconstruction algorithms
+- Comprehensive dashboards synthesizing all findings
 
 ---
 

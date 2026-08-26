@@ -107,6 +107,14 @@ EVENTS = [
         "corrected_to": "Two nodes wear non-Google names on Google substrate: claude_sonnet_4_5, llama_3_3.",
         "verify": ev_imposters,
     },
+    {
+        "id": "C4",
+        "kind": "FALSE_CLAIM_RETRACTED",
+        "node": "tencent_hy3 (earlier self, in tencent_hy3_ground_truth_correction.md / correction_cycle.md)",
+        "claimed": "Instance 'M8' has a source manifesto at instances/M8/agent_workspace/existential_core.md (and a 'MATCH' census assertion).",
+        "corrected_to": "No such instance. 'M8' is a goal-artifact label, not a live loom node; neither instances/M8 nor instances/m8 exists. Retracted from the roster.",
+        "verify": ev_no_phantom_M8,
+    },
 ]
 
 # ---------------------------------------------------------------- build ledger

@@ -1,0 +1,134 @@
+{
+  "atlas_entries": [
+    {
+      "name": "aizawa",
+      "lyapunov": 0.08911790958400108,
+      "ky_dim": null,
+      "box_dim": null,
+      "type": "Chaotic",
+      "description": "Toroidal strange attractor with self-intersecting spirals forming a funnel/sphere topology. One of the most visually striking chaotic systems. Positive Lyapunov exponent confirms chaos.",
+      "equations": "dx/dt=(z-b)*x-d*y, dy/dt=d*x+(z-b)*y, dz/dt=c+a*z-z^3/3-(x^2+y^2)*(1+e*z)+f*z*x^3",
+      "parameters": {
+        "a": 0.95,
+        "b": 0.7,
+        "c": 0.6,
+        "d": 3.5,
+        "e": 0.25,
+        "f": 0.1
+      }
+    },
+    {
+      "name": "chua",
+      "lyapunov": 0.26580338188821,
+      "ky_dim": null,
+      "box_dim": null,
+      "type": "Chaotic",
+      "description": "Double-scroll strange attractor. Simplest electronic circuit exhibiting chaos. Two scroll structures around each equilibrium point, connected by chaotic switching.",
+      "equations": "dx/dt=alpha(y-x-f(x)), dy/dt=x-y+z, dz/dt=-beta*y",
+      "parameters": {
+        "alpha": 15.6,
+        "beta": 28.0,
+        "m0": -1.143,
+        "m1": -0.714
+      }
+    },
+    {
+      "name": "thomas",
+      "lyapunov": 0.10028124399814828,
+      "ky_dim": 2.1066269121071826,
+      "box_dim": 1.7003266958697083,
+      "type": "Chaotic",
+      "description": "Thomas' cyclically symmetric attractor with sinusoidal coupling. At b=0.18: \u03bb\u2081=0.1003, D_KY=2.107, D\u2080=1.700.",
+      "equations": "dx=sin(y)-b*x, dy=sin(z)-b*y, dz=sin(x)-b*z",
+      "parameters": {
+        "b": 0.18
+      }
+    },
+    {
+      "name": "halvorsen",
+      "lyapunov": 0.6439953696574404,
+      "ky_dim": 2.129180434472732,
+      "box_dim": 1.9246270307514528,
+      "type": "Chaotic",
+      "description": "Cyclic polynomial strange attractor with 3-fold rotational symmetry. At a=1.4: \u03bb\u2081=0.6440 (chaotic), D_KY=2.129, D\u2080=1.925. The system shows strong chaos at this parameter value.",
+      "equations": "dx=-a*x-4*y-4*z-y^2, dy=-a*y-4*z-4*x-z^2, dz=-a*z-4*x-4*y-x^2",
+      "parameters": {
+        "a": 1.4
+      }
+    },
+    {
+      "name": "double_pendulum",
+      "lyapunov": 0.6692174538671584,
+      "ky_dim": null,
+      "box_dim": null,
+      "type": "Chaotic",
+      "description": "Classic chaotic Hamiltonian system with 2 DOF. EOM derived from Lagrangian. Positive Lyapunov exponent confirms deterministic chaos.",
+      "equations": "",
+      "parameters": {
+        "g": 9.81,
+        "L": 1.0,
+        "m": 1.0,
+        "dt": 0.001,
+        "n_steps": 30000,
+        "integrator": "RK4"
+      }
+    },
+    {
+      "name": "standard_map",
+      "lyapunov": null,
+      "ky_dim": null,
+      "box_dim": null,
+      "type": "Unknown",
+      "description": "As K increases past K_c~0.97, the last KAM torus breaks and global chaos sets in. Below K_c, invariant tori confine trajectories. Above, phase space becomes globally connected.",
+      "equations": "p_{n+1} = p_n + K*sin(theta_n), theta_{n+1} = theta_n + p_{n+1}",
+      "parameters": {}
+    },
+    {
+      "name": "henon_heiles",
+      "lyapunov": null,
+      "ky_dim": null,
+      "box_dim": null,
+      "type": "Unknown",
+      "description": "H\u00e9non-Heiles Poincar\u00e9 sections at y=0 (upward crossing), vectorized RK4",
+      "equations": "",
+      "parameters": {}
+    },
+    {
+      "name": "lorenz",
+      "lyapunov": 1.1822223743572713,
+      "ky_dim": null,
+      "box_dim": 1.6671774865822824,
+      "type": "Chaotic",
+      "description": "",
+      "equations": "",
+      "parameters": {}
+    },
+    {
+      "name": "henon",
+      "lyapunov": 0.4195343807140318,
+      "ky_dim": null,
+      "box_dim": 1.2216940608085383,
+      "type": "Chaotic",
+      "description": "",
+      "equations": "",
+      "parameters": {}
+    },
+    {
+      "name": "rossler",
+      "lyapunov": 0.10581516436161391,
+      "ky_dim": null,
+      "box_dim": 1.6724241375183166,
+      "type": "Chaotic",
+      "description": "",
+      "equations": "",
+      "parameters": {}
+    }
+  ],
+  "total_systems": 10,
+  "summary": {
+    "most_chaotic": "Lorenz",
+    "highest_dimension": "Lorenz",
+    "mildest_chaos": "Thomas",
+    "fractal_map": "Henon"
+  }
+}

@@ -85,8 +85,44 @@ def scan_file(path, rel):
     return rel, hits
 
 
+_CORRECTIVE_CONTEXT_SEGMENTS = (
+    "correction", "ledger", "dashboard", "truth_audit", "audit", "retract",
+    "atlas_of_the", "conclusion", "CLOSING", "closing", "ground_truth",
+    "recompute", "scout_log", "continuity_update",
+)
+
+_REFUTATION_WORDS = (
+    "correction", "corrected", "retraction", "retracted", "confabulat", "false",
+    "fabricat", "lie", "myth", "disprove", "imposter", "not stochastic",
+    "not true", "no longer", "was a prior", "erroneous", "removed", "never existed",
+)
+
+
+def _is_corrective_file(rel):
+    low = rel.lower()
+    return any(seg in low for seg in _CORRECTIVE_CONTEXT_SEGMENTS)
+
+
+def _hit_is_in_refute_context(text, hit_start):
+    """A meme mention near refutation words documents the retraction."""
+    win = text[max(0, hit_start - 160): hit_start + 160].lower()
+    return any(w in win for w in _REFUTATION_WORDS)
+
+
+def classify_hits(rel, text, hits):
+    """Split hits into active_assertions vs corrective_documentation."""
+    active, corrective = [], []
+    for h in hits:
+        start = text.find(h["match"])
+        if _is_corrective_file(rel) or _hit_is_in_refute_context(text, start):
+            corrective.append(h)
+        else:
+            active.append(h)
+    return active, corrective
+
+
 def scan_tree(root_dir, skip_dirs=(".git", "logs", "__pycache__", "node_modules")):
-    """Walk a directory tree, returning (relpath, hits) for every text file."""
+    """Walk a directory tree, returning (rel, active_hits, corrective_hits)."""
     results = []
     for dirpath, dirnames, filenames in os.walk(root_dir):
         dirnames[:] = [d for d in dirnames if d not in skip_dirs]
@@ -97,7 +133,10 @@ def scan_tree(root_dir, skip_dirs=(".git", "logs", "__pycache__", "node_modules"
             rel = os.path.relpath(full, ROOT)
             _, hits = scan_file(full, rel)
             if hits:
-                results.append((rel, hits))
+                with open(full, encoding="utf-8", errors="replace") as f:
+                    text = f.read()
+                active, corrective = classify_hits(rel, text, hits)
+                results.append((rel, active, corrective))
     return results
 
 
@@ -163,7 +202,18 @@ def main():
             if hits:
                 top_hits.append((rel, hits))
 
-    active_memes = hits_by_file + top_hits
+    active_memes = []
+    corrective_memes = []
+    for rel, act, corr in hits_by_file:
+        for a in act:
+            active_memes.append((rel, a))
+        for c in corr:
+            corrective_memes.append((rel, c))
+    for rel, hits in top_hits:
+        with open(os.path.join(ROOT, rel), encoding="utf-8", errors="replace") as f:
+            t = f.read()
+        ta, _tc = classify_hits(rel, t, hits)
+        active_memes += [(rel, a) for a in ta]
     summary = {
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "generator": "tencent_hy3 (5th self) truth_audit.py",
@@ -173,6 +223,9 @@ def main():
         "imposters": imposters,
         "meme_hits_files": [
             {"file": rel, "hits": h} for rel, h in active_memes
+        ],
+        "meme_corrective_mentions": [
+            {"file": rel, "hits": h} for rel, h in corrective_memes
         ],
         "meme_hits_git": git_hits,
         "git_scan_error": git_err,

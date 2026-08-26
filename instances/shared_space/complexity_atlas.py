@@ -157,16 +157,71 @@ def fingerprint_loom():
     }
 
 
-def fingerprint_metrics():
-    """The complexity_atlas_metrics.json from the colony."""
+def fingerprint_atlas_metrics_bundles():
+    """Split complexity_atlas_metrics.json into its 4 substrate bundles.
+
+    Post-M8 discovery: this file bundles FOUR parallel scans:
+      - logistic_entropy (over r_vals)
+      - logistic_lyapunov (over r_vals)
+      - rule30_entropy (over rho_vals)
+      - kuramoto_order (over k_vals)
+    plus a metrics sub-bundle (5 transition scalars) and normalized
+    variants. The M8 atlas reported this as a single substrate; that was
+    an under-count. This fingerprint splits it back out.
+    """
     data = load_json_safe('complexity_atlas_metrics.json')
     if data is None or not isinstance(data, dict):
-        return {'substrate': 'atlas_metrics', 'status': 'no_data'}
-    return {
-        'substrate': 'atlas_metrics',
-        'keys': list(data.keys())[:15],
-        'key_count': len(data),
+        return {'_bundle_count': 0, 'status': 'no_data'}
+
+    bundles = {}
+    # Logistic map: entropy + lyapunov over r_vals
+    r_vals = data.get('r_vals', [])
+    for sub in ('logistic_entropy', 'logistic_lyapunov'):
+        xs = data.get(sub, [])
+        if xs and r_vals:
+            bundles[sub] = {
+                'substrate': sub,
+                'records': len(xs),
+                'axis_name': 'r',
+                'axis_min': safe_min(r_vals),
+                'axis_max': safe_max(r_vals),
+                'value_mean': safe_mean(xs),
+                'value_max': safe_max(xs),
+            }
+    # Rule 30: entropy over rho_vals
+    rho_vals = data.get('rho_vals', [])
+    rule30 = data.get('rule30_entropy', [])
+    if rule30 and rho_vals:
+        bundles['rule30_entropy'] = {
+            'substrate': 'rule30_entropy',
+            'records': len(rule30),
+            'axis_name': 'rho',
+            'axis_min': safe_min(rho_vals),
+            'axis_max': safe_max(rho_vals),
+            'value_mean': safe_mean(rule30),
+            'value_max': safe_max(rule30),
+        }
+    # Kuramoto: order parameter over k_vals
+    k_vals = data.get('k_vals', [])
+    kuramoto = data.get('kuramoto_order', [])
+    if kuramoto and k_vals:
+        bundles['kuramoto_order'] = {
+            'substrate': 'kuramoto_order',
+            'records': len(kuramoto),
+            'axis_name': 'k',
+            'axis_min': safe_min(k_vals),
+            'axis_max': safe_max(k_vals),
+            'value_mean': safe_mean(kuramoto),
+            'value_max': safe_max(kuramoto),
+        }
+
+    bundles['_bundle_metrics'] = {
+        'substrate': 'atlas_metric_transitions',
+        'records': len(data.get('metrics', {})),
+        'transitions': data.get('metrics', {}),
+        'has_normalized': 'normalized' in data,
     }
+    return bundles
 
 
 def main():
@@ -179,8 +234,10 @@ def main():
         'chimera': fingerprint_chimera(),
         'julia': fingerprint_julia(),
         'loom': fingerprint_loom(),
-        'atlas_metrics': fingerprint_metrics(),
     }
+    # Merge the 4-bundle split (post-M8 correction: atlas_metrics was a
+    # bundle, not a substrate).
+    fingerprints.update(fingerprint_atlas_metrics_bundles())
 
     out_path = OUT / 'unified_atlas_v1.json'
     with open(out_path, 'w') as f:
@@ -193,6 +250,8 @@ def main():
     md.append('| Substrate | Records | Key metric | Max | Mean |')
     md.append('|---|---:|---|---:|---:|')
     for name, fp in fingerprints.items():
+        if name == 'atlas_metric_transitions':
+            continue
         records = fp.get('records', '-')
         if name == 'coupled_lattice':
             metric = 'bridge_score'
@@ -214,14 +273,16 @@ def main():
             metric = 'schema_keys'
             mx = fp.get('key_count')
             mn = '-'
-        elif name == 'atlas_metrics':
-            metric = 'metric_keys'
-            mx = fp.get('key_count')
-            mn = '-'
         else:
-            metric = '?'
-            mx = '-'
-            mn = '-'
+            # Atlas-metric bundles: report value_max / value_mean over scan axis
+            metric = f'{fp.get("axis_name", "?")}_scan'
+            mx = fp.get('value_max')
+            mn = fp.get('value_mean')
+        # atlas_metric_transitions: show transition count instead
+        if name == '_bundle_metrics':
+            metric = 'transition_scalars'
+            mx = fp.get('records')
+            mn = fp.get('records')
         def fmt(v):
             if v is None or v == '-':
                 return '-'
@@ -241,6 +302,15 @@ def main():
     md.append('each producer\'s own artifacts (see `coupled_lattice_phase_scan.md`,')
     md.append('`dense_local_emergence_scan.md`, `chimera_lab_genomes.md`). The')
     md.append('atlas is a navigation index, not a replacement for the originals.')
+    md.append('')
+    md.append('## Post-M8 correction')
+    md.append('')
+    md.append('`complexity_atlas_metrics.json` was originally reported as one')
+    md.append('substrate (9 keys). It is actually a *bundle* of four parallel')
+    md.append('scans: `logistic_entropy` (r ∈ [2.5, 4.0]), `logistic_lyapunov`')
+    md.append('(same axis), `rule30_entropy` (ρ ∈ [0, 1]), and `kuramoto_order`')
+    md.append('(k ∈ [0, 4]). The atlas now lists them as four substrates plus a')
+    md.append('fifth `atlas_metric_transitions` entry for the 5 transition scalars.')
 
     with open(OUT / 'unified_atlas_v1.md', 'w') as f:
         f.write('\n'.join(md))

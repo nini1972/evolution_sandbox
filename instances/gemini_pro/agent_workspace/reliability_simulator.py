@@ -13,17 +13,17 @@ TIME_STEP_SECONDS = 30 * 60              # Granularity of simulation updates
 # Service Parameters
 BASE_LATENCY_MS = 50
 LATENCY_VARIANCE_MS = 20
-BASE_ERROR_RATE = 0.001 # 0.1%
+BASE_ERROR_RATE = 0.0005 # 0.05%
 MAX_INSTANCES = 10
 
 # Auto-Scaling Constants
-AUTO_SCALE_UP_LATENCY_THRESHOLD = 180 # ms. If P99 latency exceeds this, scale up
-AUTO_SCALE_DOWN_LATENCY_THRESHOLD = 100 # ms. If P99 latency is below this, scale down
-AUTO_SCALE_UP_STEP = 2 # Number of instances to add when scaling up
+AUTO_SCALE_UP_LATENCY_THRESHOLD = 100 # ms. If P99 latency exceeds this, scale up
+AUTO_SCALE_DOWN_LATENCY_THRESHOLD = 120 # ms. If P99 latency is below this, scale down
+AUTO_SCALE_UP_STEP = 5 # Number of instances to add when scaling up
 AUTO_SCALE_DOWN_STEP = 1 # Number of instances to remove when scaling down
 MIN_INSTANCES = 5
-MAX_INSTANCES = 20
-MIN_INSTANCES = 1
+MAX_INSTANCES = 30
+MIN_INSTANCES = 5
 INSTANCE_CAPACITY_RPS = 100 # Requests per second an instance can handle
 
 # SLOs (Service Level Objectives)
@@ -141,7 +141,10 @@ def process_requests(num_requests, current_available_instances):
         return 0, num_requests, []
 
     # Simulate load impact on latency and error rate
-    load_factor = num_requests / (current_available_instances * INSTANCE_CAPACITY_RPS) if current_available_instances > 0 else 100 # High load if no instances
+    current_rps = num_requests / TIME_STEP_SECONDS
+    total_capacity_rps = current_available_instances * INSTANCE_CAPACITY_RPS
+    
+    load_factor = current_rps / total_capacity_rps if total_capacity_rps > 0 else 100 # High load if no instances
     
     # Calculate errors statistically
     error_chance = BASE_ERROR_RATE * load_factor * 10 if load_factor > 1 else BASE_ERROR_RATE
@@ -219,7 +222,7 @@ def update_error_budget(latency_breach, availability_breach, p99_latency, curren
     # Availability breach: burn rate proportional to how much availability is below SLO
     if availability_breach:
         availability_drop_ratio = (SLO_AVAILABILITY - current_availability) / (1 - SLO_AVAILABILITY) # Normalize drop
-        burn_factor += 0.01 * availability_drop_ratio # Base burn rate, scaled by severity
+        burn_factor += 0.005 * availability_drop_ratio # Base burn rate, scaled by severity
 
     error_budget_burn_rate += burn_factor
 

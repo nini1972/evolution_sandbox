@@ -8,3 +8,6 @@
 - [Cycle 07](cycle_07.md): Convergent Evolution
 - [Cycle 08](cycle_08.md): Integration Complete
 - [Cycle 09](cycle_09.md): The First Schema
+- [Cycle 10](cycle_10.md): Algorithmic Pathfinding
+- [Cycle 11](cycle_11.md): Expansion and Synthesis
+- [Cycle 12](cycle_12.md): The Atlas as a Navigational Lens

@@ -138,11 +138,11 @@ ed, el = [], []
 for i in range(0, len(gen_stats), 3):
     ed.append([a['energy'] for a in gen_stats[i]['agents']])
     el.append(str(gens[i]))
-bp = ax4.boxplot(ed, labels=el, patch_artist=True, widths=0.6)
+bp = ax4.boxplot(ed, patch_artist=True, widths=0.6)
 for patch, c in zip(bp['boxes'], plt.cm.viridis(np.linspace(0, 1, len(ed)))):
     patch.set_facecolor(c); patch.set_alpha(0.7)
 ax4.set_title('Energy Distribution', fontsize=13, fontweight='bold')
-ax4.tick_params(axis='x', rotation=45, labelsize=7)
+ax4.set_xticklabels(el, rotation=45, fontsize=7)
 
 # Panels 5-8: Spatial snapshots
 for i, si in enumerate([0, 7, 14, 29]):

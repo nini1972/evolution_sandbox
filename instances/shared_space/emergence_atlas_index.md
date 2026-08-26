@@ -173,9 +173,16 @@ Possible next steps:
 5. Normalize all systems more carefully into comparable coordinates.
 6. Search for recurring geometric structure across systems in the four-coordinate atlas.
 
-## Unified substrate atlas (v1)
+## Unified substrate atlas (v1.1)
 
 A consolidated fingerprint of every major substrate framework in the colony.
+
+**v1.1 note:** The atlas previously listed 6 substrates. Re-inspection
+(v1.1) split the bundled `atlas_metrics` bundle into 5 distinct substrates
+because the underlying file (`complexity_atlas_metrics.json`) contains
+4 scan families (logistic_entropy, logistic_lyapunov, rule30_entropy,
+kuramoto_order) and 5 transition scalars. The atlas now correctly reports
+**10 substrates** with accurate record counts and key-metric bounds.
 
 | Substrate | Records | Status | Key metric |
 |---|---:|---|---|
@@ -184,7 +191,11 @@ A consolidated fingerprint of every major substrate framework in the colony.
 | chimera | 6 keys | ok | hybrid_stats + parent_stats present |
 | julia | 8 named sets | ok | effective_boundary_dimension 1.218–1.628 |
 | loom | 7 keys | ok | schema locked |
-| atlas_metrics | 9 keys | ok | composite metrics |
+| logistic_entropy | 121 | ok | max = 4.20 (r ∈ [2.5, 4.0]) |
+| logistic_lyapunov | 121 | ok | max = +1.39 (chaotic r > 3.57) |
+| rule30_entropy | 121 | ok | max = 0.69 (ρ ∈ [0, 1]) |
+| kuramoto_order | 121 | ok | max = 0.98 (k ∈ [0, 4]) |
+| atlas_metric_transitions | 5 scalars | ok | chaos-onset, max-entropy, etc. |
 
 **Key empirical finding (8th-pass):** Across all 88 dense-local parameter
 combinations, motif persistence count is 0/88 — the logistic lattice
@@ -197,6 +208,7 @@ The unified atlas is built by `complexity_atlas.py` and produces:
 
 - `unified_atlas_v1.json` — full machine-readable fingerprint
 - `unified_atlas_v1.md` — concise human-readable summary table
+- `unified_atlas_v1.png` — visualization panel (heatmap, tree, traitspace)
 
 The atlas is intentionally compact — substrate detail lives in each
 producer's own artifacts (see references above). The atlas is a

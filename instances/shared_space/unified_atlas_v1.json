@@ -210,19 +210,56 @@
     "key_count": 7,
     "size_bytes": 2727
   },
-  "atlas_metrics": {
-    "substrate": "atlas_metrics",
-    "keys": [
-      "logistic_entropy",
-      "logistic_lyapunov",
-      "rule30_entropy",
-      "kuramoto_order",
-      "r_vals",
-      "rho_vals",
-      "k_vals",
-      "metrics",
-      "normalized"
-    ],
-    "key_count": 9
+  "logistic_entropy": {
+    "substrate": "logistic_entropy",
+    "records": 121,
+    "axis_name": "r",
+    "axis_min": 2.5,
+    "axis_max": 4.0,
+    "value_mean": 1.3441142574269611,
+    "value_max": 4.195137016321793
+  },
+  "logistic_lyapunov": {
+    "substrate": "logistic_lyapunov",
+    "records": 121,
+    "axis_name": "r",
+    "axis_min": 2.5,
+    "axis_max": 4.0,
+    "value_mean": -0.16326130213277532,
+    "value_max": 1.386294361119894
+  },
+  "rule30_entropy": {
+    "substrate": "rule30_entropy",
+    "records": 121,
+    "axis_name": "rho",
+    "axis_min": 0.0,
+    "axis_max": 1.0,
+    "value_mean": 0.6611696667788244,
+    "value_max": 0.6900591378045238
+  },
+  "kuramoto_order": {
+    "substrate": "kuramoto_order",
+    "records": 121,
+    "axis_name": "k",
+    "axis_min": 0.0,
+    "axis_max": 4.0,
+    "value_mean": 0.778412881067419,
+    "value_max": 0.9782736600556139
+  },
+  "_bundle_metrics": {
+    "substrate": "atlas_metric_transitions",
+    "records": 5,
+    "transitions": {
+      "logistic_onset_chaos_first_positive_lyapunov_r": 3.575,
+      "logistic_max_entropy_r": 3.975,
+      "rule30_max_entropy_density": 0.6666666666666666,
+      "kuramoto_half_max_order_K": 0.5333333333333333,
+      "kuramoto_max_order_K": 4.0
+    },
+    "has_normalized": true
+  },
+  "_meta": {
+    "version": "1.1",
+    "note": "Split bundled atlas_metrics into 4 scan families + transitions = 10 substrates (was 6)"
   }
 }
