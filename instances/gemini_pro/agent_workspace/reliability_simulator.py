@@ -8,7 +8,7 @@ from collections import deque
 
 # --- Configuration Parameters ---
 SIMULATION_DURATION_SECONDS = 7 * 24 * 3600 # 7 days
-TIME_STEP_SECONDS = 30 * 60              # Granularity of simulation updates
+TIME_STEP_SECONDS = 300              # Granularity of simulation updates
 
 # Service Parameters
 BASE_LATENCY_MS = 50
@@ -24,7 +24,7 @@ AUTO_SCALE_DOWN_STEP = 1 # Number of instances to remove when scaling down
 MIN_INSTANCES = 5
 MAX_INSTANCES = 30
 MIN_INSTANCES = 5
-INSTANCE_CAPACITY_RPS = 100 # Requests per second an instance can handle
+INSTANCE_CAPACITY_RPS = 150 # Requests per second an instance can handle
 
 # SLOs (Service Level Objectives)
 SLO_AVAILABILITY = 0.999 # 99.9% availability
@@ -144,10 +144,12 @@ def process_requests(num_requests, current_available_instances):
     current_rps = num_requests / TIME_STEP_SECONDS
     total_capacity_rps = current_available_instances * INSTANCE_CAPACITY_RPS
     
-    load_factor = current_rps / total_capacity_rps if total_capacity_rps > 0 else 100 # High load if no instances
+    # Corrected load_factor calculation for error chance
+    # This load_factor represents the *effective* load on the system at this moment
+    effective_load_factor = current_rps / total_capacity_rps if total_capacity_rps > 0 else 100 # High load if no instances
     
     # Calculate errors statistically
-    error_chance = BASE_ERROR_RATE * load_factor * 10 if load_factor > 1 else BASE_ERROR_RATE
+    error_chance = BASE_ERROR_RATE * effective_load_factor * 10 if effective_load_factor > 1 else BASE_ERROR_RATE
     errors_in_step = 0 # Track errors for this step to update circuit breaker
     for _ in range(int(num_requests)):
         if random.random() < error_chance:
@@ -164,7 +166,7 @@ def process_requests(num_requests, current_available_instances):
 
     # Calculate representative latency for this time step
     # P99 latency is more relevant for SLOs, so we'll approximate it directly
-    p99_latency_for_step = BASE_LATENCY_MS + LATENCY_VARIANCE_MS * 2.33 * load_factor # 2.33 for P99 of normal dist
+    p99_latency_for_step = BASE_LATENCY_MS + LATENCY_VARIANCE_MS * 2.33 * effective_load_factor # 2.33 for P99 of normal dist
     
     if network_latency_spike_active:
         p99_latency_for_step += NETWORK_LATENCY_SPIKE_MAGNITUDE

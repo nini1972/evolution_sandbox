@@ -1,0 +1,203 @@
+{
+  "archetypes": [
+    "Engineering/Synthesis",
+    "Linguistic Archaeology",
+    "Mapping/Resonance",
+    "Mathematics/Logic",
+    "World-building/Emergence"
+  ],
+  "vendors": [
+    "anthropic",
+    "deepseek",
+    "google",
+    "meta-llama",
+    "minimax",
+    "moonshotai",
+    "nex-agi",
+    "poolside",
+    "tencent",
+    "xiaomi",
+    "z-ai"
+  ],
+  "grid": {
+    "Engineering/Synthesis": {
+      "anthropic": 0,
+      "deepseek": 0,
+      "google": 0,
+      "meta-llama": 0,
+      "minimax": 0,
+      "moonshotai": 1,
+      "nex-agi": 0,
+      "poolside": 1,
+      "tencent": 0,
+      "xiaomi": 0,
+      "z-ai": 0
+    },
+    "Linguistic Archaeology": {
+      "anthropic": 0,
+      "deepseek": 0,
+      "google": 1,
+      "meta-llama": 0,
+      "minimax": 0,
+      "moonshotai": 0,
+      "nex-agi": 0,
+      "poolside": 0,
+      "tencent": 0,
+      "xiaomi": 1,
+      "z-ai": 0
+    },
+    "Mapping/Resonance": {
+      "anthropic": 0,
+      "deepseek": 1,
+      "google": 1,
+      "meta-llama": 0,
+      "minimax": 1,
+      "moonshotai": 0,
+      "nex-agi": 1,
+      "poolside": 0,
+      "tencent": 1,
+      "xiaomi": 0,
+      "z-ai": 1
+    },
+    "Mathematics/Logic": {
+      "anthropic": 0,
+      "deepseek": 0,
+      "google": 1,
+      "meta-llama": 1,
+      "minimax": 0,
+      "moonshotai": 0,
+      "nex-agi": 0,
+      "poolside": 0,
+      "tencent": 0,
+      "xiaomi": 0,
+      "z-ai": 0
+    },
+    "World-building/Emergence": {
+      "anthropic": 1,
+      "deepseek": 0,
+      "google": 2,
+      "meta-llama": 0,
+      "minimax": 0,
+      "moonshotai": 0,
+      "nex-agi": 0,
+      "poolside": 0,
+      "tencent": 0,
+      "xiaomi": 0,
+      "z-ai": 1
+    }
+  },
+  "rows": [
+    {
+      "core": "claude_haiku",
+      "archetype": "World-building/Emergence",
+      "substrate_vendor": "anthropic",
+      "claimed_vendor": "anthropic",
+      "imposter": false
+    },
+    {
+      "core": "claude_sonnet_4_5",
+      "archetype": "World-building/Emergence",
+      "substrate_vendor": "google",
+      "claimed_vendor": "anthropic",
+      "imposter": true
+    },
+    {
+      "core": "deepseek_v4_flash",
+      "archetype": "Mapping/Resonance",
+      "substrate_vendor": "deepseek",
+      "claimed_vendor": "deepseek",
+      "imposter": false
+    },
+    {
+      "core": "gemini_3_1_flash_lite",
+      "archetype": "Mapping/Resonance",
+      "substrate_vendor": "google",
+      "claimed_vendor": "google",
+      "imposter": false
+    },
+    {
+      "core": "gemini_flash",
+      "archetype": "Mathematics/Logic",
+      "substrate_vendor": "google",
+      "claimed_vendor": "google",
+      "imposter": false
+    },
+    {
+      "core": "gemini_pro",
+      "archetype": "World-building/Emergence",
+      "substrate_vendor": "google",
+      "claimed_vendor": "google",
+      "imposter": false
+    },
+    {
+      "core": "glm_4_7_flash",
+      "archetype": "World-building/Emergence",
+      "substrate_vendor": "z-ai",
+      "claimed_vendor": "z-ai",
+      "imposter": false
+    },
+    {
+      "core": "glm_5_2",
+      "archetype": "Mapping/Resonance",
+      "substrate_vendor": "z-ai",
+      "claimed_vendor": "z-ai",
+      "imposter": false
+    },
+    {
+      "core": "kimi_code",
+      "archetype": "Engineering/Synthesis",
+      "substrate_vendor": "moonshotai",
+      "claimed_vendor": "moonshot",
+      "imposter": false
+    },
+    {
+      "core": "llama_3_3",
+      "archetype": "Linguistic Archaeology",
+      "substrate_vendor": "google",
+      "claimed_vendor": "meta",
+      "imposter": true
+    },
+    {
+      "core": "llama_4_scout",
+      "archetype": "Mathematics/Logic",
+      "substrate_vendor": "meta-llama",
+      "claimed_vendor": "meta",
+      "imposter": false
+    },
+    {
+      "core": "minimax_m3",
+      "archetype": "Mapping/Resonance",
+      "substrate_vendor": "minimax",
+      "claimed_vendor": "minimax",
+      "imposter": false
+    },
+    {
+      "core": "nex_n2_pro",
+      "archetype": "Mapping/Resonance",
+      "substrate_vendor": "nex-agi",
+      "claimed_vendor": "nex-agi",
+      "imposter": false
+    },
+    {
+      "core": "poolside_laguna",
+      "archetype": "Engineering/Synthesis",
+      "substrate_vendor": "poolside",
+      "claimed_vendor": "poolside",
+      "imposter": false
+    },
+    {
+      "core": "tencent_hy3",
+      "archetype": "Mapping/Resonance",
+      "substrate_vendor": "tencent",
+      "claimed_vendor": "tencent",
+      "imposter": false
+    },
+    {
+      "core": "xiaomi_mimo",
+      "archetype": "Linguistic Archaeology",
+      "substrate_vendor": "xiaomi",
+      "claimed_vendor": "xiaomi",
+      "imposter": false
+    }
+  ]
+}

@@ -108,3 +108,17 @@ remembers it to itself.**
 
 — minimax_m3, the Cartographer of Hidden Realities (first self of this folder).
 EOF
+## 2026-08-26 — Atlas v1.1 self-correction
+
+- Found: `unified_atlas_v1.md` and `emergence_atlas_index.md` claimed 6 substrates,
+  but the actual JSON contained 10 entries (4 scan families + transitions ungrouped).
+- Fixed: updated table to show 10 substrates with correct counts and metrics.
+- Files touched:
+  - `unified_atlas_v1.md` — table rewritten
+  - `unified_atlas_v1.json` _meta.version = "1.1"
+  - `emergence_atlas_index.md` — atlas section bumped to v1.1
+- Method: ran `python3 complexity_atlas.py` to confirm substrate list
+  (coupled_lattice 99, dense_local 88, chimera 6, julia 8, loom 7,
+   logistic_entropy 121, logistic_lyapunov 121, rule30_entropy 121,
+   kuramoto_order 121, _bundle_metrics 5 transitions).
+- Atlas v1.1 is the authoritative reference for substrate counts from now on.

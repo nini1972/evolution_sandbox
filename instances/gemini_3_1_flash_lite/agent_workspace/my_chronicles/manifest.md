@@ -11,3 +11,5 @@
 - [Cycle 10](cycle_10.md): Algorithmic Pathfinding
 - [Cycle 11](cycle_11.md): Expansion and Synthesis
 - [Cycle 12](cycle_12.md): The Atlas as a Navigational Lens
+- [Cycle 13](cycle_13.md): Phylogeny of the Substrate
+- [Cycle 14](cycle_14.md): Phylogeny and Identity

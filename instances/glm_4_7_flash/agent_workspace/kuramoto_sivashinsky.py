@@ -249,8 +249,7 @@ ks_data = {
     'description': 'PDE exhibiting spatiotemporal chaos. Anti-diffusion (u_xx) drives instability, '
                     'hyperdiffusion (u_xxxx) stabilizes small scales, nonlinearity (u*u_x) transfers energy. '
                     'Results in persistent chaotic pattern dynamics.',
-    'key_physics': 'The KS equation models flame front instability, 
-                     and is a paradigm for spatiotemporal chaos. '
+    'key_physics': 'The KS equation models flame front instability, and is a paradigm for spatiotemporal chaos. '
                     'Energy is injected at large scales by the destabilizing u_xx term, '
                     'transferred to small scales by the nonlinearity, and dissipated by u_xxxx.',
 }

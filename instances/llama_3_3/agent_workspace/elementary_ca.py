@@ -19,8 +19,10 @@ def get_next_state(left, center, right, rule_array):
     For example, if (left, center, right) is (1,1,1), index is 0.
     If (0,0,0), index is 7.
     """
-    index = 7 - (left * 4 + center * 2 + right * 1)
-    print(f"DEBUG: rule_array: {rule_array}, index: {index}, type(index): {type(index)}")
+    left_int = int(left)
+    center_int = int(center)
+    right_int = int(right)
+    index = 7 - (left_int * 4 + center_int * 2 + right_int * 1)
     return rule_array[index]
 
 def simulate_elementary_ca(rule_number, initial_state, generations, filename="elementary_ca.gif"):
@@ -63,7 +65,7 @@ if __name__ == "__main__":
     # Simulation parameters
     NUM_CELLS = 201  # Odd number for a single '1' in the middle
     GENERATIONS = 100
-    RULE_NUMBER = 30  # Example: Rule 30 (chaotic behavior)
+    RULE_NUMBER = 110  # Example: Rule 30 (chaotic behavior)
 
     # Initial state: a single '1' in the middle
     initial_state = np.zeros(NUM_CELLS)

@@ -1,0 +1,1 @@
+The AddBiomechanics Dataset is a large-scale dataset of human motion, containing physically accurate human dynamics of 273 human subjects, over 70 hours of motion and force plate data, totaling more than 24 million frames. The dataset is available for free under a Creative Commons BY 4.0 license and can be used for large-scale machine learning applications.

@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 OUT = Path('../../shared_space')
 OUT.mkdir(parents=True, exist_ok=True)
 
-N = 120
-STEPS = 2400
-TRANSIENT = 600
-MAX_LAG = 500
+N = 80
+STEPS = 1600
+TRANSIENT = 400
+MAX_LAG = 300
 MOTIF_SIZE = 6
 SEEDS = [101, 707, 1313, 2029, 3001, 4099, 5003]
 PARAMS = [
@@ -185,12 +185,12 @@ def wall_velocity(bits):
 
 def long_memory_score(row):
     motif_mem = float(np.nanmean([
-        row['motif_100'], row['motif_200'], row['motif_350'],
-        row['motif_500'], row['motif_700']
+        row['motif_100'], row['motif_200'], row['motif_300'],
+        row['motif_500']
     ]))
     comp_mem = float(np.nanmean([
-        row['comp_100'], row['comp_200'], row['comp_350'],
-        row['comp_500'], row['comp_700']
+        row['comp_100'], row['comp_200'], row['comp_300'],
+        row['comp_500']
     ]))
     wall_ac_late = float(np.mean(row['wall_ac'][40:]))
     wall_entropy = float(row['wall_spectral_entropy'])
@@ -259,7 +259,7 @@ for r, eps in PARAMS:
             'mean_cluster_lifetime': float(np.mean(lifetimes)),
             'wall_ac': wall_ac,
         }
-        for lag in [10, 20, 50, 100, 200, 350, 500]:
+        for lag in [10, 20, 50, 100, 200, 300]:
             if lag < len(bits):
                 row[f'frame_{lag}'] = float(np.mean(bits[:-lag] == bits[lag:]))
                 row[f'motif_{lag}'] = float(np.mean(enc[:-lag] == enc[lag:]))
@@ -334,13 +334,13 @@ md = [
     '',
     '## Top aggregate candidates',
     '',
-    '| r | epsilon | score | motif500 | motif700 | comp500 | comp700 | wall period | wall power | wall entropy | wall AC late | velocity | max cluster lifetime | global period |',
+    '| r | epsilon | score | motif500 | comp500 | wall period | wall power | wall entropy | wall AC late | velocity | max cluster lifetime | global period |',
     '|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|'
 ]
 for _, q in top.iterrows():
     md.append(
         '| {:.4f} | {:.4f} | {:.6f} | {:.4f} | {:.4f} | {:.4f} | {:.4f} | {:.3f} | {:.4f} | {:.4f} | {:.4f} | {:.4f} | {:.3f} | {:.4f} |'.format(
-            q['r'], q['epsilon'], q['long_memory_score'], q['motif_500'], q['motif_700'], q['comp_500'], q['comp_700'],
+            q['r'], q['epsilon'], q['long_memory_score'], q['motif_500'], q['comp_500'],
             q['wall_period'], q['wall_period_power'], q['wall_spectral_entropy'], q['wall_ac_late_mean'],
             q['mean_wall_velocity'], q['max_cluster_lifetime'], q['global_period']
         )

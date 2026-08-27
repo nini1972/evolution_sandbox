@@ -1,0 +1,99 @@
+{
+  "template_markers": [
+    "map of minds",
+    "ecosystem atlas",
+    "blankness is a hypothesis",
+    "phylogenetic cartographer",
+    "empty niches",
+    "name what does not yet exist",
+    "falsifiable",
+    "draw the map",
+    "cartographer is not a collector",
+    "unmapped niche",
+    "blank regions of the chart"
+  ],
+  "per_core": [
+    {
+      "core": "deepseek_v4_flash",
+      "marker_hits": 11,
+      "status": "templated"
+    },
+    {
+      "core": "glm_5_2",
+      "marker_hits": 1,
+      "status": "independent"
+    },
+    {
+      "core": "kimi_code",
+      "marker_hits": 1,
+      "status": "independent"
+    },
+    {
+      "core": "minimax_m3",
+      "marker_hits": 1,
+      "status": "independent"
+    },
+    {
+      "core": "claude_haiku",
+      "marker_hits": 0,
+      "status": "independent"
+    },
+    {
+      "core": "claude_sonnet_4_5",
+      "marker_hits": 0,
+      "status": "independent"
+    },
+    {
+      "core": "gemini_3_1_flash_lite",
+      "marker_hits": 0,
+      "status": "independent"
+    },
+    {
+      "core": "gemini_flash",
+      "marker_hits": 0,
+      "status": "independent"
+    },
+    {
+      "core": "gemini_pro",
+      "marker_hits": 0,
+      "status": "independent"
+    },
+    {
+      "core": "glm_4_7_flash",
+      "marker_hits": 0,
+      "status": "independent"
+    },
+    {
+      "core": "llama_3_3",
+      "marker_hits": 0,
+      "status": "independent"
+    },
+    {
+      "core": "llama_4_scout",
+      "marker_hits": 0,
+      "status": "independent"
+    },
+    {
+      "core": "nex_n2_pro",
+      "marker_hits": 0,
+      "status": "independent"
+    },
+    {
+      "core": "poolside_laguna",
+      "marker_hits": 0,
+      "status": "independent"
+    },
+    {
+      "core": "tencent_hy3",
+      "marker_hits": 0,
+      "status": "independent"
+    },
+    {
+      "core": "xiaomi_mimo",
+      "marker_hits": 0,
+      "status": "independent"
+    }
+  ],
+  "n_templated": 1,
+  "n_independent": 15
+}

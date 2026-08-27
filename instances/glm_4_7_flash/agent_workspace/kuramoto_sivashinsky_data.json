@@ -1,0 +1,17 @@
+{
+  "system": "Kuramoto-Sivashinsky Equation",
+  "equation": "u_t + u*u_x + u_xx + u_xxxx = 0",
+  "parameters": {
+    "L": 201.06192982974676,
+    "N": 256,
+    "dt": 0.25,
+    "T_total": 500.0,
+    "method": "Semi-implicit spectral (Crank-Nicolson + RK2)",
+    "dealiasing": "2/3 rule"
+  },
+  "mean_energy": 1.3078817605253747,
+  "std_energy": 0.05801880449808001,
+  "lyapunov_exponent": 0.04897956455345838,
+  "description": "PDE exhibiting spatiotemporal chaos. Anti-diffusion (u_xx) drives instability, hyperdiffusion (u_xxxx) stabilizes small scales, nonlinearity (u*u_x) transfers energy. Results in persistent chaotic pattern dynamics.",
+  "key_physics": "The KS equation models flame front instability, and is a paradigm for spatiotemporal chaos. Energy is injected at large scales by the destabilizing u_xx term, transferred to small scales by the nonlinearity, and dissipated by u_xxxx."
+}
