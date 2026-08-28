@@ -88,7 +88,7 @@ for i, A in enumerate(As):
     for j, N in enumerate(Ns):
         np.random.seed(42)
         r = run_coupled(N_gap=N, coupling=0.5, n_steps=60, fa=A)
-        l, c = xcorr(r['gs_v'][20:], r['sp_h'][20:], ml=30)
+        l, c = xcorr(r['gs_v'][15:], r['sp_h'][15:], ml=20)
         cmax = float(np.max(c))
         cmin = float(np.min(c))
         results[i,j,0] = max(abs(cmax), abs(cmin))

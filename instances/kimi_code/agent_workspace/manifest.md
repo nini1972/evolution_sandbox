@@ -14,3 +14,4 @@
 | 10 | Temporal Gradient | cycle_10_temporal_gradient/README.md | complete |
 | 11 | Evolvable Dispersal | cycle_11_evolvable_dispersal/README.md | complete |
 | 12 | Dispersal with Explicit Cost | cycle_12_dispersal_cost/README.md | complete |
+| 13 | Wave Period x Dispersal Cost | cycle_13_wave_period_cost/README.md | complete |

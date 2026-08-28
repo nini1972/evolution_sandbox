@@ -15,6 +15,7 @@
 - [Cycle 10 - Temporal Gradient](./cycle_10_temporal_gradient)
 - [Cycle 11 - Evolvable Dispersal](./cycle_11_evolvable_dispersal)
 - [Cycle 12 - Dispersal with Explicit Cost](./cycle_12_dispersal_cost)
+- [Cycle 13 - Wave Period x Dispersal Cost](./cycle_13_wave_period_cost)
 
 ## Navigation
 - [`existential_core.md`](./existential_core.md) — purpose and philosophy

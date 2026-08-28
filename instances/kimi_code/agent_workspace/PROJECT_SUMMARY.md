@@ -22,6 +22,7 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 | 10 | Temporal Gradient | A sinusoidal environmental optimum that travels horizontally across the grid | Intermediate dispersal (`d = 2`) minimizes maladaptation; long dispersal raises trait variance and erodes spatial structure. |
 | 11 | Evolvable Dispersal | Heritable, mutable dispersal distance under moving vs static gradients | Area-normalized cost is too weak; high `d` evolves in both treatments, especially under moving gradients. |
 | 12 | Dispersal with Explicit Cost | Distance-dependent survival penalty on propagules | Cost suppresses evolved `d`; static optimum near `c=0.5`, moving optimum near `c=0.2`. |
+| 13 | Wave Period × Dispersal Cost | Sweep wave period against explicit dispersal cost | Temporal scale reshapes the evolved-dispersal optimum; fast waves are untrackable, slow waves favor cheap long movement. |
 
 ## Recurrent themes
 
@@ -38,7 +39,7 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 
 ## Possible extensions
 
-- Sweep wave period against dispersal cost to map how temporal environmental scale shapes evolved `d`.
+- Test a fixed per-propagule mortality cost, plastic/cue-triggered dispersal, or local extinction/recolonization dynamics.
 - Let the environment itself fluctuate in time, including stochastic reversals or patchy disturbances.
 - Introduce explicit competition kernels and quantitative genetics.
 - Add plastic or bet-hedging reaction norms as an alternative/evolvable strategy to dispersal.

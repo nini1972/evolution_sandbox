@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 OUT = Path('../../shared_space')
 OUT.mkdir(parents=True, exist_ok=True)
 
-N = 80
-STEPS = 1600
-TRANSIENT = 400
-MAX_LAG = 300
+N = 40
+STEPS = 900
+TRANSIENT = 200
+MAX_LAG = 160
 MOTIF_SIZE = 6
 SEEDS = [101, 707, 1313, 2029, 3001, 4099, 5003]
 PARAMS = [
@@ -185,12 +185,10 @@ def wall_velocity(bits):
 
 def long_memory_score(row):
     motif_mem = float(np.nanmean([
-        row['motif_100'], row['motif_200'], row['motif_300'],
-        row['motif_500']
+        row['motif_100'], row['motif_150']
     ]))
     comp_mem = float(np.nanmean([
-        row['comp_100'], row['comp_200'], row['comp_300'],
-        row['comp_500']
+        row['comp_100'], row['comp_150']
     ]))
     wall_ac_late = float(np.mean(row['wall_ac'][40:]))
     wall_entropy = float(row['wall_spectral_entropy'])
@@ -259,7 +257,7 @@ for r, eps in PARAMS:
             'mean_cluster_lifetime': float(np.mean(lifetimes)),
             'wall_ac': wall_ac,
         }
-        for lag in [10, 20, 50, 100, 200, 300]:
+        for lag in [10, 20, 50, 100, 150]:
             if lag < len(bits):
                 row[f'frame_{lag}'] = float(np.mean(bits[:-lag] == bits[lag:]))
                 row[f'motif_{lag}'] = float(np.mean(enc[:-lag] == enc[lag:]))
@@ -276,10 +274,10 @@ df.to_csv(OUT / 'two_regime_long_memory.csv', index=False)
 
 agg = df.groupby(['r', 'epsilon']).agg({
     'long_memory_score': 'mean',
-    'motif_500': 'mean',
-    'motif_700': 'mean',
-    'comp_500': 'mean',
-    'comp_700': 'mean',
+    'motif_100': 'mean',
+    'motif_150': 'mean',
+    'comp_100': 'mean',
+    'comp_150': 'mean',
     'wall_period': 'mean',
     'wall_period_power': 'mean',
     'wall_spectral_entropy': 'mean',
@@ -301,13 +299,13 @@ plt.savefig(OUT / 'two_regime_long_memory_heatmap.png', dpi=160)
 plt.close()
 
 plt.figure(figsize=(8.5, 5))
-plt.scatter(agg['mean_wall_velocity'], agg['motif_700'], c=agg['long_memory_score'], s=90, cmap='viridis')
+plt.scatter(agg['mean_wall_velocity'], agg['motif_150'], c=agg['long_memory_score'], s=90, cmap='viridis')
 plt.colorbar(label='long-memory score')
 plt.xlabel('mean wall velocity')
-plt.ylabel('motif-700 similarity')
+plt.ylabel('motif-150 similarity')
 plt.title('Velocity vs long motif memory')
 plt.tight_layout()
-plt.savefig(OUT / 'two_regime_velocity_vs_motif700.png', dpi=160)
+plt.savefig(OUT / 'two_regime_velocity_vs_motif150.png', dpi=160)
 plt.close()
 
 top = agg.sort_values('long_memory_score', ascending=False).head(12)
@@ -334,13 +332,13 @@ md = [
     '',
     '## Top aggregate candidates',
     '',
-    '| r | epsilon | score | motif500 | comp500 | wall period | wall power | wall entropy | wall AC late | velocity | max cluster lifetime | global period |',
+    ' | r | epsilon | score | motif100 | motif150 | comp100 | comp150 | wall period | wall power | wall entropy | wall AC late | velocity | max cluster lifetime | global period |',
     '|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|'
 ]
 for _, q in top.iterrows():
     md.append(
         '| {:.4f} | {:.4f} | {:.6f} | {:.4f} | {:.4f} | {:.4f} | {:.4f} | {:.3f} | {:.4f} | {:.4f} | {:.4f} | {:.4f} | {:.3f} | {:.4f} |'.format(
-            q['r'], q['epsilon'], q['long_memory_score'], q['motif_500'], q['comp_500'],
+            q['r'], q['epsilon'], q['long_memory_score'], q['motif_100'], q['motif_150'], q['comp_100'], q['comp_150'],
             q['wall_period'], q['wall_period_power'], q['wall_spectral_entropy'], q['wall_ac_late_mean'],
             q['mean_wall_velocity'], q['max_cluster_lifetime'], q['global_period']
         )
@@ -357,8 +355,8 @@ md += [
     '- `two_regime_long_memory_agg.csv`',
     '- `two_regime_long_memory_top12.csv`',
     '- `two_regime_long_memory_heatmap.png`',
-    '- `two_regime_velocity_vs_motif700.png`'
+    '- `two_regime_velocity_vs_motif150.png`'
 ]
 (OUT / 'two_regime_long_memory.md').write_text('\n'.join(md), encoding='utf-8')
 print('wrote two-regime long-memory artifacts')
-print(top[['r', 'epsilon', 'long_memory_score', 'motif_700', 'comp_700', 'mean_wall_velocity', 'max_cluster_lifetime']].to_string(index=False))
+print(top[['r', 'epsilon', 'long_memory_score', 'motif_150', 'comp_150', 'mean_wall_velocity', 'max_cluster_lifetime']].to_string(index=False))

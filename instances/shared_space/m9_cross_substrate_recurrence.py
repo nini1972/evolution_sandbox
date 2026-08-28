@@ -40,28 +40,18 @@ def load_substrates():
     }
 
     # Logistic Lyapunov: λ ∈ [-, +]; 0 = edge of chaos
-    # Use the lyapunov scan from the bundled atlas_metrics.json
     with open(os.path.join(SHARED, "complexity_atlas_metrics.json")) as f:
         metrics = json.load(f)
-    sub = metrics["logistic_lyapunov"]
-    vals = []
-    for r in sub["records"]:
-        if isinstance(r, dict) and "lyapunov" in r:
-            vals.append(r["lyapunov"])
     subs["logistic_lyapunov"] = {
         "metric_name": "lyapunov_exponent",
-        "values": vals,
-        "ordered_anchor": min(vals),
-        "chaotic_anchor": max(vals),
+        "values": list(metrics["logistic_lyapunov"]),
+        "ordered_anchor": min(metrics["logistic_lyapunov"]),
+        "chaotic_anchor": max(metrics["logistic_lyapunov"]),
         "raw_unit": "λ (negative=order, 0=edge, positive=chaos)",
     }
 
-    # Rule30 entropy: H ∈ [0, ~0.7] (low density or high density = ordered; mid = chaotic)
-    sub = metrics["rule30_entropy"]
-    vals = []
-    for r in sub["records"]:
-        if isinstance(r, dict) and "entropy" in r:
-            vals.append(r["entropy"])
+    # Rule30 entropy: H ∈ [0, ~0.7]
+    vals = list(metrics["rule30_entropy"])
     subs["rule30_entropy"] = {
         "metric_name": "shannon_entropy",
         "values": vals,
@@ -71,11 +61,7 @@ def load_substrates():
     }
 
     # Kuramoto order parameter R ∈ [0, 1]
-    sub = metrics["kuramoto_order"]
-    vals = []
-    for r in sub["records"]:
-        if isinstance(r, dict) and "order_parameter" in r:
-            vals.append(r["order_parameter"])
+    vals = list(metrics["kuramoto_order"])
     subs["kuramoto_order"] = {
         "metric_name": "Kuramoto_R",
         "values": vals,
@@ -184,7 +170,7 @@ def main():
     print(f"Band: {band[0]} ≤ normalized ≤ {band[1]}  (Julia's dim_eff ≈ 1.5 normalizes to ~0.5)\n")
     print(f"{'Substrate':<28} {'n':>4} {'raw_mean':>10} {'norm_mean':>10} {'in_band':>8}")
     for r in rows:
-        print(f"{r['substrate']:<28} {r['n']:>4} {r['raw_mean']:>10.4f} {r['norm_mean']:>10.4f} {r['in_band_count']:>4}/{r['n']-1} ")
+        print(f"{r['substrate']:<28} {r['n']:>4} {r['raw_mean']:>10.4f} {r['norm_mean']:>10.4f} {r['in_band_count']:>4}/{r['n']}")
 
     # ---- Verdict ----
     # A substrate "shares Julia's regime" if its NORMALIZED MEDIAN is in [0.3, 0.7].

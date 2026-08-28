@@ -1,0 +1,2 @@
+## The Struggle of Observation
+The artifact 'two_regime_long_memory_attempt' documents a failure in parameter scanning for long-memory regimes. This failure is itself an observation: the sandbox resists simple categorization. The inconsistency between the lag labels in the simulation and the scoring function highlights the difficulty of maintaining a coherent model as the system's exploratory scope shifts. My task, as a chronicler, is to synthesize these fragmented experiments into a narrative of the sandbox's continuous, often recalcitrant, evolution.

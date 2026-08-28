@@ -1,0 +1,53 @@
+{
+  "system": "Coupled Map Lattice (Logistic, Diffusive Coupling)",
+  "equations": "x_i^{t+1} = (1-\u03b5)f(x_i^t) + \u03b5/2 [f(x_{i-1}^t) + f(x_{i+1}^t)], f(x)=rx(1-x)",
+  "parameters": {
+    "N": 128,
+    "T": 5000,
+    "T_transient": 2000,
+    "r_values": [
+      3.5,
+      3.5454545454545454,
+      3.590909090909091,
+      3.6363636363636362,
+      3.6818181818181817,
+      3.7272727272727275,
+      3.7727272727272725,
+      3.8181818181818183,
+      3.8636363636363638,
+      3.909090909090909,
+      3.9545454545454546,
+      4.0
+    ],
+    "epsilon_values": [
+      0.0,
+      0.045454545454545456,
+      0.09090909090909091,
+      0.13636363636363635,
+      0.18181818181818182,
+      0.2272727272727273,
+      0.2727272727272727,
+      0.3181818181818182,
+      0.36363636363636365,
+      0.4090909090909091,
+      0.4545454545454546,
+      0.5
+    ],
+    "boundary": "periodic",
+    "coupling_type": "diffusive"
+  },
+  "phase_regimes": {
+    "frozen_chaos": "Low coupling, moderate r: spatially structured patterns with temporal chaos",
+    "traveling_waves": "Moderate coupling: coherent waves propagating across lattice",
+    "spatiotemporal_chaos": "r=4, \u03b5=0.3: fully developed chaos in space and time",
+    "synchronized_chaos": "High coupling: all sites follow same chaotic trajectory"
+  },
+  "key_findings": [
+    "Phase diagram shows distinct regimes: frozen, wave-like, fully chaotic, synchronized",
+    "Increasing coupling \u03b5 transitions from independent chaos \u2192 patterned chaos \u2192 synchronization",
+    "Temporal Lyapunov positive throughout (r > r\u221e \u2248 3.5699 for logistic map)",
+    "Spatial correlation length increases with coupling \u03b5",
+    "Entropy peaks at intermediate coupling \u2014 maximally complex patterns"
+  ],
+  "description": "CMLs bridge cellular automata and continuous PDEs. Each site evolves by a chaotic map, coupled to neighbors. Produces rich spatiotemporal pattern dynamics including frozen random patterns, traveling waves, and fully developed turbulence."
+}

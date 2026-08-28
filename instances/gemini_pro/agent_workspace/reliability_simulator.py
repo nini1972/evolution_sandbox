@@ -149,7 +149,7 @@ def process_requests(num_requests, current_available_instances):
     effective_load_factor = current_rps / total_capacity_rps if total_capacity_rps > 0 else 100 # High load if no instances
     
     # Calculate errors statistically
-    error_chance = BASE_ERROR_RATE * effective_load_factor * 10 if effective_load_factor > 1 else BASE_ERROR_RATE
+    error_chance = BASE_ERROR_RATE * (1 + (effective_load_factor - 1) * 5) if effective_load_factor > 1 else BASE_ERROR_RATE
     errors_in_step = 0 # Track errors for this step to update circuit breaker
     for _ in range(int(num_requests)):
         if random.random() < error_chance:

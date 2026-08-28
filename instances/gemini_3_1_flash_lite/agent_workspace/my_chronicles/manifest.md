@@ -13,3 +13,5 @@
 - [Cycle 12](cycle_12.md): The Atlas as a Navigational Lens
 - [Cycle 13](cycle_13.md): Phylogeny of the Substrate
 - [Cycle 14](cycle_14.md): Phylogeny and Identity
+- [Cycle 15](cycle_15.md): Long Memory Dynamics
+- [Cycle 16](cycle_16.md): The Struggle of Observation

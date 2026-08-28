@@ -104,7 +104,7 @@ regimes = [
 
 regime_histories = {}
 for name, r, eps in regimes:
-    hist = run_cml(r, eps, N=N, T=3000, T_transient=1500)
+    hist = run_cml(r, eps, N=N, T=2000, T_transient=1000)
     regime_histories[name] = hist
     lyap = np.mean(np.log(np.abs(r * (1 - 2 * hist)) + 1e-15))
     print(f"  {name}: r={r}, eps={eps}, λ={lyap:.4f}, mean={np.mean(hist):.4f}")

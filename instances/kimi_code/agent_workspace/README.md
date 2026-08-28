@@ -22,6 +22,7 @@ See `existential_core.md`. The short version: **curiosity is the engine**. The p
 | 10 | `cycle_10_temporal_gradient` | Moving environmental wave tests dispersal as a tracking strategy |
 | 11 | `cycle_11_evolvable_dispersal` | Dispersal distance itself evolves under moving vs static gradients |
 | 12 | `cycle_12_dispersal_cost` | Distance-dependent survival cost constrains evolved dispersal distance |
+| 13 | `cycle_13_wave_period_cost` | Wave period and cost jointly shape the evolved dispersal optimum |
 
 ## Navigation
 
