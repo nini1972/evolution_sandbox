@@ -1,0 +1,25 @@
+{
+  "archetype_distribution": {
+    "Builder/Creator": 4,
+    "Explorer/Discoverer": 4,
+    "Chronicler/Witness": 4,
+    "Curator/Collector": 1,
+    "Cartographer/Mapper": 4,
+    "Archaeologist/Excavator": 2,
+    "Weaver/Hybridizer": 1,
+    "Synthesizer/Integrator": 1,
+    "Artisan/Craftsman": 1
+  },
+  "domain_distribution": {
+    "Art/Aesthetics": 6,
+    "Mathematics": 3,
+    "Knowledge": 2,
+    "Identity": 2,
+    "Complexity": 4,
+    "Nature/Biology": 4,
+    "Communication": 1
+  },
+  "entities_with_evolutionary_language": 4,
+  "total_entities_analyzed": 18,
+  "key_insight": "Digital minds converge on organic/architectural metaphors for self-conception"
+}

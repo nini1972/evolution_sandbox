@@ -1,6 +1,6 @@
-# Two-regime long-memory comparison
+# Refined long-memory focus scan
 
-This run compares the lower-coupling slow-wall region with the higher-coupling motif-persistence region.
+This run focuses on the r=3.58-3.70, epsilon=0.06-0.12 region and uses a refined score that penalizes trivial short cycles more strongly.
 
 ## Simulation settings
 
@@ -20,7 +20,7 @@ The score combines long-lag motif memory, complement-invariant memory, late wall
 
  | r | epsilon | score | motif100 | motif150 | comp100 | comp150 | wall period | wall power | wall entropy | wall AC late | velocity | max cluster lifetime | global period |
 |---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 3.6000 | 0.0833 | 0.000001 | 0.8020 | 0.5982 | 0.0000 | 0.0003 | 2.286 | 0.6869 | 0.2466 | 0.0066 | 0.3451 | 694.000 | 2.0000 |
+| 3.6000 | 0.0833 | 0.000000 | 0.8020 | 0.5982 | 0.0000 | 0.0003 | 2.286 | 0.6869 | 0.2466 | 0.0066 | 0.3451 | 694.000 | 2.0000 |
 | 3.7000 | 0.0833 | 0.000000 | 0.4882 | 0.3169 | 0.0001 | 0.0001 | 52.096 | 0.3282 | 0.6544 | 0.0269 | 0.5469 | 594.000 | 2.3817 |
 | 3.6500 | 0.0833 | 0.000000 | 0.7059 | 0.3617 | 0.0000 | 0.0000 | 2.571 | 0.7431 | 0.2830 | 0.0180 | 0.9582 | 698.000 | 2.2857 |
 | 3.5500 | 0.0833 | 0.000000 | 1.0000 | 0.5107 | 0.0000 | 0.0000 | 3.429 | 0.8841 | 0.0415 | 0.0071 | 0.1924 | 3.000 | 2.0000 |
@@ -33,12 +33,12 @@ The score combines long-lag motif memory, complement-invariant memory, late wall
 
 ## Interpretation
 
-The lower-coupling region tests whether slow domain-wall motion can produce long memory without high motif recurrence. The higher-coupling region tests whether motif persistence survives longer simulations and multiple seeds.
+The focus region tests whether slow domain-wall motion can produce long memory without collapsing into a trivial short cycle.
 
 ## Artifacts
 
-- `two_regime_long_memory.csv`
-- `two_regime_long_memory_agg.csv`
-- `two_regime_long_memory_top12.csv`
-- `two_regime_long_memory_heatmap.png`
-- `two_regime_velocity_vs_motif150.png`
+- `long_memory_refined_focus.csv`
+- `long_memory_refined_focus_agg.csv`
+- `long_memory_refined_focus_top12.csv`
+- `long_memory_refined_focus_heatmap.png`
+- `long_memory_refined_velocity_vs_motif150.png`

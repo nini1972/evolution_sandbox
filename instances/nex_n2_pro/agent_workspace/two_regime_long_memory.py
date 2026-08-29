@@ -15,16 +15,24 @@ MAX_LAG = 160
 MOTIF_SIZE = 6
 SEEDS = [101, 707, 1313, 2029, 3001, 4099, 5003]
 PARAMS = [
-    (3.55, 1/12),
-    (3.60, 1/12),
-    (3.65, 1/12),
-    (3.70, 1/12),
-    (3.85, 1/6),
-    (3.90, 1/6),
-    (3.95, 1/6),
-    (4.00, 1/6),
-    (4.00, 0.14),
-    (4.00, 0.18),
+    (3.55, 0.04),
+    (3.55, 0.06),
+    (3.55, 0.08),
+    (3.58, 0.04),
+    (3.58, 0.06),
+    (3.58, 0.08),
+    (3.60, 0.04),
+    (3.60, 0.06),
+    (3.60, 0.08),
+    (3.62, 0.04),
+    (3.62, 0.06),
+    (3.62, 0.08),
+    (3.65, 0.04),
+    (3.65, 0.06),
+    (3.65, 0.08),
+    (3.70, 0.04),
+    (3.70, 0.06),
+    (3.70, 0.08),
 ]
 
 
@@ -183,6 +191,15 @@ def wall_velocity(bits):
     return np.array(velocities)
 
 
+def smooth_step(x, x0, x1):
+    if x <= x0:
+        return 0.0
+    if x >= x1:
+        return 1.0
+    t = (x - x0) / (x1 - x0)
+    return t * t * (3.0 - 2.0 * t)
+
+
 def long_memory_score(row):
     motif_mem = float(np.nanmean([
         row['motif_100'], row['motif_150']
@@ -198,22 +215,26 @@ def long_memory_score(row):
 
     global_period = row['global_period']
     wall_period = row['wall_period']
-    if np.isfinite(global_period) and global_period <= 8:
-        short_cycle_penalty = 0.08
-    elif np.isfinite(global_period) and global_period <= 20:
-        short_cycle_penalty = 0.40
-    else:
-        short_cycle_penalty = 1.0
+    global_cycle_filter = smooth_step(float(global_period), 4.0, 18.0)
+    wall_cycle_filter = smooth_step(float(wall_period), 12.0, 60.0)
+    cycle_filter = float(0.25 + 0.75 * global_cycle_filter * wall_cycle_filter)
+    if np.isfinite(global_period) and global_period <= 4:
+        cycle_filter *= 0.10
+    if np.isfinite(wall_period) and wall_period <= 12:
+        cycle_filter *= 0.25
+
     if np.isfinite(wall_period):
-        long_wall = float(1.0 / (1.0 + np.exp(-0.006 * (wall_period - 80))))
+        long_wall = float(1.0 / (1.0 + np.exp(-0.025 * (wall_period - 35))))
     else:
         long_wall = 0.5
     cluster_component = float(1.0 / (1.0 + np.exp(-16.0 * (cluster_ratio - 0.05))))
     wall_ac_component = float(1.0 / (1.0 + np.exp(-9.0 * (wall_ac_late - 0.010))))
+    entropy_factor = float(0.25 + wall_entropy)
+    nontriviality = float(0.40 + 0.60 * (1.0 - row['frame_150']))
     return (
-        short_cycle_penalty * long_wall * motif_mem * comp_mem *
-        (0.45 + wall_entropy) * (0.45 + cluster_component) *
-        low_velocity * wall_balance * wall_ac_component
+        cycle_filter * long_wall * motif_mem * comp_mem *
+        entropy_factor * (0.45 + cluster_component) *
+        low_velocity * wall_balance * wall_ac_component * nontriviality
     )
 
 rows = []
@@ -270,7 +291,7 @@ for r, eps in PARAMS:
         rows.append(row)
 
 df = pd.DataFrame(rows)
-df.to_csv(OUT / 'two_regime_long_memory.csv', index=False)
+df.to_csv(OUT / 'low_coupling_escape.csv', index=False)
 
 agg = df.groupby(['r', 'epsilon']).agg({
     'long_memory_score': 'mean',
@@ -286,16 +307,16 @@ agg = df.groupby(['r', 'epsilon']).agg({
     'max_cluster_lifetime': 'max',
     'global_period': 'mean',
 }).reset_index()
-agg.to_csv(OUT / 'two_regime_long_memory_agg.csv', index=False)
+agg.to_csv(OUT / 'low_coupling_escape_agg.csv', index=False)
 
 plt.figure(figsize=(8.5, 5))
 plt.scatter(agg['r'], agg['epsilon'], c=agg['long_memory_score'], s=90, cmap='magma')
 plt.colorbar(label='long-memory score')
 plt.xlabel('r')
 plt.ylabel('epsilon')
-plt.title('Two-regime long-memory comparison')
+plt.title('Low-coupling escape scan')
 plt.tight_layout()
-plt.savefig(OUT / 'two_regime_long_memory_heatmap.png', dpi=160)
+plt.savefig(OUT / 'low_coupling_escape_heatmap.png', dpi=160)
 plt.close()
 
 plt.figure(figsize=(8.5, 5))
@@ -305,16 +326,16 @@ plt.xlabel('mean wall velocity')
 plt.ylabel('motif-150 similarity')
 plt.title('Velocity vs long motif memory')
 plt.tight_layout()
-plt.savefig(OUT / 'two_regime_velocity_vs_motif150.png', dpi=160)
+plt.savefig(OUT / 'long_memory_refined_velocity_vs_motif150.png', dpi=160)
 plt.close()
 
 top = agg.sort_values('long_memory_score', ascending=False).head(12)
-top.to_csv(OUT / 'two_regime_long_memory_top12.csv', index=False)
+top.to_csv(OUT / 'low_coupling_escape_top12.csv', index=False)
 
 md = [
-    '# Two-regime long-memory comparison',
+    '# Low-coupling escape scan',
     '',
-    'This run compares the lower-coupling slow-wall region with the higher-coupling motif-persistence region.',
+    'This run tests a lower-coupling escape band from the period-2 trap: r=3.55-3.70, epsilon=0.04-0.08.',
     '',
     '## Simulation settings',
     '',
@@ -347,16 +368,16 @@ md += [
     '',
     '## Interpretation',
     '',
-    'The lower-coupling region tests whether slow domain-wall motion can produce long memory without high motif recurrence. The higher-coupling region tests whether motif persistence survives longer simulations and multiple seeds.',
+    'The lower-coupling escape band tests whether reducing epsilon can preserve motif memory and wall structure while avoiding period-2 lock-in.',
     '',
     '## Artifacts',
     '',
-    '- `two_regime_long_memory.csv`',
-    '- `two_regime_long_memory_agg.csv`',
-    '- `two_regime_long_memory_top12.csv`',
-    '- `two_regime_long_memory_heatmap.png`',
-    '- `two_regime_velocity_vs_motif150.png`'
+    '- `low_coupling_escape.csv`',
+    '- `low_coupling_escape_agg.csv`',
+    '- `low_coupling_escape_top12.csv`',
+    '- `low_coupling_escape_heatmap.png`',
+    '- `long_memory_refined_velocity_vs_motif150.png`'
 ]
-(OUT / 'two_regime_long_memory.md').write_text('\n'.join(md), encoding='utf-8')
-print('wrote two-regime long-memory artifacts')
+(OUT / 'low_coupling_escape.md').write_text('\n'.join(md), encoding='utf-8')
+print('wrote low-coupling escape artifacts')
 print(top[['r', 'epsilon', 'long_memory_score', 'motif_150', 'comp_150', 'mean_wall_velocity', 'max_cluster_lifetime']].to_string(index=False))

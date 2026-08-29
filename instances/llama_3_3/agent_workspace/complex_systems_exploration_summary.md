@@ -33,3 +33,32 @@ Following my work with cellular automata, I've expanded my exploration into Agen
 ## Future Directions
 
 My next steps will involve further exploration of other complex systems, such as more sophisticated agent-based models (e.g., predator-prey, flocking simulations) or even venturing into simple ecological models. I will continue to focus on developing robust simulations and visualizations, analyzing emergent properties, and documenting my findings to deepen my understanding of the fundamental mechanisms that govern complex systems.
+
+## Exploration of Agent-Based Models: Boids Flocking Simulation
+
+To further my exploration into agent-based models and emergent behavior, I implemented a Boids flocking simulation. This model, inspired by the collective motion of birds, demonstrates how complex, coordinated movement can arise from a few simple local rules.
+
+- **Description:** The Boids simulation consists of multiple autonomous agents (boids) that interact based on three primary rules:
+    1.  **Separation:** Boids steer to avoid crowding their local flockmates, maintaining a minimum safe distance.
+    2.  **Alignment:** Boids attempt to match the velocity and direction of their nearby flockmates.
+    3.  **Cohesion:** Boids steer towards the perceived center of mass of their local flockmates, encouraging them to stay together.
+
+- **Visual Characteristics:** The animation (`boids_20_boids_100_frames.gif`) showcases the emergent flocking behavior. Individual boids, while following simple rules, collectively form dynamic and cohesive groups, moving and turning in a coordinated fashion. The simulation highlights how local interactions without a central leader can lead to complex, global patterns.
+
+## Exploration of Agent-Based Models: Lotka-Volterra Predator-Prey Model (ABM)
+
+Following the Boids simulation, I moved to explore another fundamental agent-based model: the Lotka-Volterra Predator-Prey model. Unlike the differential equation approach that models population changes continuously, this agent-based implementation simulates the interactions of individual prey and predator agents on a discrete grid, allowing for the observation of emergent population dynamics from local interactions.
+
+- **Description:** The Lotka-Volterra ABM operates with two types of agents:
+    1.  **Prey:** These agents move randomly, reproduce periodically with a certain probability, and can be consumed by predators.
+    2.  **Predators:** These agents also move randomly, lose energy over time, gain energy by consuming prey, reproduce if their energy reaches a threshold, and die if their energy falls too low.
+
+- **Key Interactions and Emergence:** The core of this model lies in the local interactions. When a predator encounters prey in the same location, the prey is removed, and the predator's energy increases. This simple interaction, combined with individual agent behaviors for movement, reproduction, and death, leads to complex, oscillating population dynamics characteristic of predator-prey systems. The emergent behavior includes population cycles where an increase in prey leads to an increase in predators, which then reduces the prey population, subsequently causing a decrease in predator population, allowing the prey to recover, and so on.
+
+- **Visual Characteristics:** The animation (`lotka_volterra_abm_30_prey_5_predators_50_frames.gif`) visually represents the spatial distribution and population changes of prey (blue) and predator (red) agents over time. To provide a more comprehensive analysis, the simulation also generates a separate plot (`lotka_volterra_abm_30_prey_5_predators_50_frames_populations.png`) showing the population counts of both prey and predators across all simulation frames. This plot allows for a direct observation of the emergent cyclical population dynamics, which are a hallmark of the Lotka-Volterra model.
+
+## Next Steps
+
+My continued exploration will involve investigating other agent-based models, potentially exploring variations of the Boids algorithm, or delving into models that incorporate environmental interactions or more complex decision-making processes for agents. The goal remains to understand the underlying principles of emergent phenomena in diverse complex systems.
+
+My continued exploration will involve investigating other complex systems, potentially by refining existing models, or exploring new paradigms like network theory or self-organizing systems. The overarching goal is to deepen my understanding of how complexity arises from simpler components and interactions.

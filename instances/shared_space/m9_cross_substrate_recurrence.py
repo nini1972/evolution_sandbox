@@ -90,19 +90,34 @@ def load_substrates():
 
     # Dense local emergence: structure_score — large positive when structure forms
     try:
-        with open(os.path.join(SHARED, "dense_local_emergence_scan_corrected.json")) as f:
-            dl = json.load(f)
+        # emergence_coordinate_synthesis.json has 19 points across multiple systems,
+        # each with boundary_complexity already in [0,1].
+        with open(os.path.join(SHARED, "emergence_coordinate_synthesis.json")) as f:
+            em = json.load(f)
         vals = []
-        for r in dl.get("records", []):
-            if isinstance(r, dict) and "structure_score" in r:
-                vals.append(r["structure_score"])
-        subs["dense_local_structure"] = {
-            "metric_name": "structure_score",
+        for r in em.get("points", []):
+            if isinstance(r, dict) and "boundary_complexity" in r:
+                vals.append(r["boundary_complexity"])
+        subs["emergence_boundary_complexity"] = {
+            "metric_name": "boundary_complexity",
             "values": vals,
-            "ordered_anchor": min(vals),
-            "chaotic_anchor": max(vals),
-            "raw_unit": "structure_score (min/max anchors)",
+            "ordered_anchor": 0.0,
+            "chaotic_anchor": 1.0,
+            "raw_unit": "boundary_complexity (0=smooth, 1=saturated)",
         }
+        # Also include bridge_score — same scale, different quantity
+        vals2 = []
+        for r in em.get("points", []):
+            if isinstance(r, dict) and "bridge_score" in r:
+                vals2.append(r["bridge_score"])
+        if vals2:
+            subs["emergence_bridge_score"] = {
+                "metric_name": "bridge_score",
+                "values": vals2,
+                "ordered_anchor": 0.0,
+                "chaotic_anchor": max(vals2) if max(vals2) > 0 else 1.0,
+                "raw_unit": "bridge_score (0=no cross-coupling, max=full)",
+            }
     except Exception as e:
         pass
 
@@ -129,6 +144,16 @@ def main():
     rows = []
     band = (0.3, 0.7)
 
+    # ---- Anchor-sensitivity probe ----
+    # Test: does the verdict hold under alternate anchor choices?
+    # Variant anchors: (1) tight (1.0, 1.7), (2) loose (0.5, 2.5), (3) empirical 5th/95th percentile
+    anchor_variants = {
+        "default (1.0, 2.0)": (1.0, 2.0),
+        "tight (1.0, 1.7)": (1.0, 1.7),
+        "loose (0.5, 2.5)": (0.5, 2.5),
+        "empirical 5/95 pct": None,  # filled in below
+    }
+
     for name, s in subs.items():
         if not s["values"]:
             continue
@@ -149,6 +174,27 @@ def main():
             "in_band_frac": in_band / len(z),
             "median": float(np.median(z)),
         })
+
+    # ---- Verdict under default anchors ----
+    in_regime = [r for r in rows if band[0] <= r["median"] <= band[1]]
+
+    # ---- Anchor sensitivity: how many substrates stay in band for each variant? ----
+    julia_v = np.array(subs["julia"]["values"])
+    sensitivity = {}
+    for av_name, av in anchor_variants.items():
+        if av is None:
+            lo = float(np.percentile(julia_v, 5))
+            hi = float(np.percentile(julia_v, 95))
+            if hi == lo:
+                hi = lo + 1.0
+            av = (lo, hi)
+        z = normalize(julia_v, av[0], av[1])
+        julia_median_in = bool(band[0] <= np.median(z) <= band[1])
+        sensitivity[av_name] = {
+            "anchors": av,
+            "julia_median_norm": float(np.median(z)),
+            "julia_in_band": julia_median_in,
+        }
 
     # ---- Write JSON report ----
     report = {
@@ -189,9 +235,22 @@ def main():
             f"NO — only {len(in_regime)} substrate family sits in Julia's intermediate regime. "
             f"Recurrence not confirmed under this normalization."
         )
+
+    print()
+    print("Anchor-sensitivity probe (julia median_norm under different anchor choices):")
+    for av_name, d in sensitivity.items():
+        flag = "in-band" if d["julia_in_band"] else "OUT-OF-BAND"
+        print(f"  {av_name:<22} anchors={d['anchors']}  julia_med={d['julia_median_norm']:.3f}  [{flag}]")
+    if all(d["julia_in_band"] for d in sensitivity.values()):
+        verdict += "  Anchor-robust (julia stays in band for all probed anchors)."
+    else:
+        fragile = [k for k, v in sensitivity.items() if not v["julia_in_band"]]
+        verdict += f"  Anchor-fragile: julia drops out under {fragile}."
+
     print(f"\nVERDICT: {verdict}")
     report["_meta"]["verdict"] = verdict
     report["_meta"]["n_substrates_in_regime"] = len(in_regime)
+    report["_meta"]["anchor_sensitivity"] = sensitivity
     with open(os.path.join(SHARED, "m9_cross_substrate_recurrence.json"), "w") as f:
         json.dump(report, f, indent=2)
 

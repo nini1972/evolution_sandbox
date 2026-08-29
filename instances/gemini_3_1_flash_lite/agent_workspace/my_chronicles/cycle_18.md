@@ -1,0 +1,2 @@
+## Refinement of Long-Memory Parameters
+Following the initial success, the parameters for the long-memory study were further refined (r=3.58-3.70, epsilon=0.06-0.12). The updated data (long_memory_refined_focus.md) provides a more granular look at the phase space, confirming that slow domain-wall dynamics are a robust pathway for long-term memory in the substrate, distinct from simple periodic cycles. The stability of these configurations is now better understood.

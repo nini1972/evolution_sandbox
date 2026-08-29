@@ -18,6 +18,7 @@ MAX_INSTANCES = 10
 
 # Auto-Scaling Constants
 AUTO_SCALE_UP_LATENCY_THRESHOLD = 100 # ms. If P99 latency exceeds this, scale up
+AUTO_SCALE_UP_LOAD_FACTOR_THRESHOLD = 0.8 # If effective load factor exceeds this, scale up
 AUTO_SCALE_DOWN_LATENCY_THRESHOLD = 120 # ms. If P99 latency is below this, scale down
 AUTO_SCALE_UP_STEP = 5 # Number of instances to add when scaling up
 AUTO_SCALE_DOWN_STEP = 1 # Number of instances to remove when scaling down
@@ -48,6 +49,10 @@ DATABASE_LATENCY_SPIKE_PROBABILITY = 0.001 # Increased probability
 DATABASE_LATENCY_SPIKE_DURATION = 3600 / TIME_STEP_SECONDS # Lasts for 1 hour
 DATABASE_LATENCY_SPIKE_MAGNITUDE = 300 # Additional latency from database # Additional latency in ms during a spike
 
+DEPENDENCY_FAILURE_PROBABILITY = 0.0005 # Probability of a dependency failure
+DEPENDENCY_FAILURE_DURATION_SECONDS = 600 # Dependency failure lasts 10 minutes
+DEPENDENCY_FAILURE_ERROR_RATE_INCREASE = 0.05 # 5% increase in error rate during dependency failure
+
 # Circuit Breaker Parameters (NEW)
 CIRCUIT_BREAKER_TRIP_THRESHOLD = 0.5 # If error rate exceeds 50% in a window, trip
 CIRCUIT_BREAKER_RESET_TIMEOUT_SECONDS = 300 # After 5 minutes, try to close circuit
@@ -59,6 +64,7 @@ GAME_DAY_INTERVAL_SECONDS = 7 * 24 * 3600 # Every 7 days
 GAME_DAY_DURATION_SECONDS = 4 * 3600 # 4 hours
 GAME_DAY_DETECTION_TIME_SECONDS = 0.5 * 3600 # 30 minutes to detect an issue
 GAME_DAY_RECOVERY_MULTIPLIER = 2 # Error budget recovers and toil reduces twice as fast during Game Day
+GAME_DAY_REQUEST_RATE_MULTIPLIER = 2.5 # Request rate multiplies by 2.5 during game day to simulate spike
 
 # --- Simulation State ---
 current_time = 0
@@ -68,6 +74,7 @@ total_successful_requests = 0
 latency_samples = deque(maxlen=1000) # Store recent latency samples for P99
 hourly_latency_samples = deque() # For SLO calculation
 hourly_error_counts = deque() # For SLO calculation
+hourly_request_counts = deque() # For SLO calculation (NEW)
 error_budget_burn_rate = 0.0
 toil_level = 0.0 # Represents accumulated toil, 0.0 to 1.0
 postmortem_active = False
@@ -78,6 +85,8 @@ network_latency_spike_active = False
 network_latency_spike_remaining = 0
 database_latency_spike_active = False # NEW
 database_latency_spike_remaining = 0 # NEW
+dependency_failure_active = False
+dependency_failure_remaining = 0
 last_chaos_injection_time = 0
 game_day_active = False
 game_day_duration_remaining = 0
@@ -150,6 +159,10 @@ def process_requests(num_requests, current_available_instances):
     
     # Calculate errors statistically
     error_chance = BASE_ERROR_RATE * (1 + (effective_load_factor - 1) * 5) if effective_load_factor > 1 else BASE_ERROR_RATE
+
+    if dependency_failure_active:
+        error_chance += DEPENDENCY_FAILURE_ERROR_RATE_INCREASE
+
     errors_in_step = 0 # Track errors for this step to update circuit breaker
     for _ in range(int(num_requests)):
         if random.random() < error_chance:
@@ -201,7 +214,7 @@ def calculate_slo_breach(hourly_samples, hourly_errors):
     latency_breach = p99_latency > SLO_LATENCY_P99_MS
 
     # Availability SLO
-    total_hourly_requests = len(hourly_samples) + sum(hourly_errors)
+    total_hourly_requests = sum(hourly_request_counts)
     if total_hourly_requests == 0:
         availability = 1.0
     else:
@@ -244,14 +257,19 @@ def update_error_budget(latency_breach, availability_breach, p99_latency, curren
     error_budget_burn_rate = min(1.0, max(0, error_budget_burn_rate))
     return 1.0 - error_budget_burn_rate # Represent as budget remaining
 
-def auto_scale_service(current_instances, p99_latency):
+def auto_scale_service(current_instances, p99_latency, requests_in_step):
     """Advanced auto-scaling logic based on latency and request rate."""
     new_instances = current_instances
 
-    # Scale up aggressively if P99 latency is above threshold
-    if p99_latency > AUTO_SCALE_UP_LATENCY_THRESHOLD:
+    current_rps = requests_in_step / TIME_STEP_SECONDS
+    total_capacity_rps = current_instances * INSTANCE_CAPACITY_RPS
+    effective_load_factor = current_rps / total_capacity_rps if total_capacity_rps > 0 else 100 # High load if no instances
+
+    # Scale up aggressively if P99 latency is above threshold OR effective load factor is high
+    if p99_latency > AUTO_SCALE_UP_LATENCY_THRESHOLD or effective_load_factor > AUTO_SCALE_UP_LOAD_FACTOR_THRESHOLD:
         new_instances = min(MAX_INSTANCES, current_instances + AUTO_SCALE_UP_STEP)
-        print(f"Scaling UP due to high latency: {p99_latency:.1f}ms -> {new_instances} instances")
+        if new_instances > current_instances: # Only print if scaling actually happens
+            print(f"Scaling UP due to high latency ({p99_latency:.1f}ms) or load ({effective_load_factor:.2f}): -> {new_instances} instances")
     # Scale down if P99 latency is well below threshold and not at min instances
     elif p99_latency < AUTO_SCALE_DOWN_LATENCY_THRESHOLD and current_instances > MIN_INSTANCES:
         new_instances = max(MIN_INSTANCES, current_instances - AUTO_SCALE_DOWN_STEP)
@@ -260,7 +278,7 @@ def auto_scale_service(current_instances, p99_latency):
     return new_instances
 
 def chaos_manager(current_time, service_instances_count):
-    global failed_instances, last_chaos_injection_time, network_latency_spike_active, network_latency_spike_remaining, database_latency_spike_active, database_latency_spike_remaining
+    global failed_instances, last_chaos_injection_time, network_latency_spike_active, network_latency_spike_remaining, database_latency_spike_active, database_latency_spike_remaining, dependency_failure_active, dependency_failure_remaining
 
     # Recover failed instances
     failed_instances = [f for f in failed_instances if f['recovery_time'] > current_time]
@@ -279,7 +297,14 @@ def chaos_manager(current_time, service_instances_count):
             database_latency_spike_active = False
             print(f"--- Database Latency Spike Ended at {current_time/3600:.1f} hours. ---")
 
-    # Inject new chaos (instance failure, network spike, or database spike)
+    # Handle dependency failures
+    if dependency_failure_active:
+        dependency_failure_remaining -= TIME_STEP_SECONDS
+        if dependency_failure_remaining <= 0:
+            dependency_failure_active = False
+            print(f"--- Dependency Failure Ended at {current_time/3600:.1f} hours. ---")
+
+    # Inject new chaos (instance failure, network spike, database spike, or dependency failure)
     if current_time - last_chaos_injection_time >= CHAOS_INJECTION_INTERVAL_SECONDS:
         last_chaos_injection_time = current_time
 
@@ -308,6 +333,12 @@ def chaos_manager(current_time, service_instances_count):
             database_latency_spike_active = True
             database_latency_spike_remaining = DATABASE_LATENCY_SPIKE_DURATION
             print(f"!!! CHAOS: Database Latency Spike Triggered at {current_time/3600:.1f} hours. !!!")
+
+        # Dependency Failure Chaos
+        if not dependency_failure_active and random.random() < DEPENDENCY_FAILURE_PROBABILITY:
+            dependency_failure_active = True
+            dependency_failure_remaining = DEPENDENCY_FAILURE_DURATION_SECONDS
+            print(f"!!! CHAOS: Dependency Failure Triggered at {current_time/3600:.1f} hours. !!!")
 
     return service_instances_count - len(failed_instances)
 
@@ -398,11 +429,14 @@ while current_time < SIMULATION_DURATION_SECONDS:
     start_section_time = time.perf_counter()
     # 5. Update hourly samples for SLO calculation
     hourly_error_counts.append(errors)
+    hourly_request_counts.append(requests_in_step)
     # Remove old samples to maintain the hourly window
     while len(hourly_latency_samples) * TIME_STEP_SECONDS > 3600:
         hourly_latency_samples.popleft()
     while len(hourly_error_counts) * TIME_STEP_SECONDS > 3600:
         hourly_error_counts.popleft()
+    while len(hourly_request_counts) * TIME_STEP_SECONDS > 3600:
+        hourly_request_counts.popleft()
     time_section_5 += (time.perf_counter() - start_section_time)
 
     start_section_time = time.perf_counter()
@@ -422,7 +456,7 @@ while current_time < SIMULATION_DURATION_SECONDS:
 
     start_section_time = time.perf_counter()
     # 8. Scale Service (operates on total provisioned instances)
-    service_instances = auto_scale_service(service_instances, p99_latency)
+    service_instances = auto_scale_service(service_instances, p99_latency, requests_in_step)
     instances_history.append(service_instances)
     time_section_8 += (time.perf_counter() - start_section_time)
 

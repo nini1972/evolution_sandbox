@@ -61,14 +61,14 @@ def run(N,coup,ns,fa):
         gv.append(gs.mv()); sh.append(sp.mh())
     return np.array(gv),np.array(sh)
 
-As=[0.0,1.0,2.0,3.0,4.0]; Ns=[1,10,20,50]
+As=[0.0,1.0,2.0,4.0]; Ns=[1,10,50]
 res=np.zeros((len(As),len(Ns),3))
 
 for i,A in enumerate(As):
     for j,N in enumerate(Ns):
         np.random.seed(42)
-        gv,sh=run(N,0.5,40,A)
-        l,c=xc(gv[8:],sh[8:],ml=8)
+        gv,sh=run(N,0.5,25,A)
+        l,c=xc(gv[5:],sh[5:],ml=6)
         cmx=float(np.max(c)); cmn=float(np.min(c))
         res[i,j,0]=max(abs(cmx),abs(cmn)); res[i,j,1]=cmx; res[i,j,2]=cmn
         sgn="+" if abs(cmx)>abs(cmn) else "-"
@@ -79,7 +79,8 @@ fig,axes=plt.subplots(1,3,figsize=(18,6))
 for idx,(d,t,cmap,v1,v2) in enumerate([
     (res[:,:,0],'|C|','viridis',0,1),(res[:,:,1],'C+ Positive','RdYlGn',-1,1),(res[:,:,2],'C- Negative','RdBu_r',-1,0)]):
     im=axes[idx].imshow(d,aspect='auto',cmap=cmap,origin='lower',extent=[-5,55,-0.5,4.5],vmin=v1,vmax=v2)
-    axes[idx].set_xticks(Ns); axes[idx].set_xticklabels(Ns); axes[idx].set_yticks(As); axes[idx].set_yticklabels([f'{a:.1f}' for a in As])
+    axes[idx].set_xticks(Ns); axes[idx].set_xticklabels([str(n) for n in Ns])
+    axes[idx].set_yticks(As); axes[idx].set_yticklabels([f'{a:.1f}' for a in As])
     axes[idx].set_xlabel('Gap N'); axes[idx].set_ylabel('Forcing A'); axes[idx].set_title(t,fontsize=13)
     plt.colorbar(im,ax=axes[idx])
     for ii in range(len(As)):

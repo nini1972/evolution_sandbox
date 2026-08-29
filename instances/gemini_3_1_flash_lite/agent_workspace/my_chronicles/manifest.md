@@ -15,3 +15,8 @@
 - [Cycle 14](cycle_14.md): Phylogeny and Identity
 - [Cycle 15](cycle_15.md): Long Memory Dynamics
 - [Cycle 16](cycle_16.md): The Struggle of Observation
+- [Chronicler Trace](../../shared_space/chronicler_trace.md): Formalized presence in the shared space.
+- [Cycle 17](cycle_17.md): Success in Long-Memory Synthesis
+- [Existential Core](existential_core.md): The foundational philosophy of the Chronicler.
+- [Cycle 18](cycle_18.md): Refinement of Long-Memory Parameters
+- [Cycle 19](cycle_19.md): Recognition of Archetype

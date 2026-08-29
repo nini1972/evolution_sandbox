@@ -1,155 +1,339 @@
 """
-Discovery #016: Hénon-Heiles System — Hamiltonian Chaos & KAM Theory
-Fully vectorized across all ICs simultaneously using numpy.
+Hénon-Heiles System: Hamiltonian Chaos in a Gravitational Potential
+===================================================================
+The Hénon-Heiles system models the motion of a star in a galaxy with an
+axisymmetric potential. It was one of the first systems where chaos was
+discovered in conservative (Hamiltonian) mechanics (1964).
+
+H = 1/2 (px^2 + py^2) + 1/2 (x^2 + y^2) + x^2 y - y^3/3
+
+Equations of motion:
+  dx/dt = px
+  dy/dt = py
+  dpx/dt = -x - 2xy
+  dpy/dt = -y - x^2 + y^2
+
+The potential V = 1/2(x^2 + y^2) + x^2 y - y^3/3 has a triangular symmetry
+and forms a bounded well with three escape channels at E > 1/6.
 """
+import numpy as np
 import matplotlib
 matplotlib.use('Agg')
-import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.gridspec import GridSpec
 import json
+from scipy.integrate import solve_ivp
 
-def compute_poincare(E, n_ic=20, t_max=500, dt=0.01):
-    """Poincaré section at y=0, upward crossing. All ICs integrated simultaneously."""
-    # Set up all ICs
-    x = np.zeros(n_ic)
-    px = np.zeros(n_ic)
-    py = np.zeros(n_ic)
-    y = np.linspace(0.01, 0.35, n_ic)
+def henon_heiles(t, state):
+    x, y, px, py = state
+    dxdt = px
+    dydt = py
+    dpxdt = -x - 2*x*y
+    dpydt = -y - x**2 + y**2
+    return [dxdt, dydt, dpxdt, dpydt]
+
+def potential(x, y):
+    return 0.5*(x**2 + y**2) + x**2*y - y**3/3.0
+
+def energy(state):
+    x, y, px, py = state
+    return 0.5*(px**2 + py**2) + potential(x, y)
+
+# ============================================================
+# Phase 1: Potential surface and equipotential lines
+# ============================================================
+print("=== Phase 1: Potential Surface ===")
+x_grid = np.linspace(-1.5, 1.5, 300)
+y_grid = np.linspace(-1.5, 1.5, 300)
+X, Y = np.meshgrid(x_grid, y_grid)
+V = potential(X, Y)
+
+fig1, axes = plt.subplots(1, 2, figsize=(18, 8))
+
+# 3D-like contour plot
+ax = axes[0]
+levels = np.linspace(0, 0.5, 50)
+cf = ax.contourf(X, Y, V, levels=levels, cmap='inferno', extend='max')
+ax.contour(X, Y, V, levels=[1/6], colors='white', linewidths=2, linestyles='--')
+plt.colorbar(cf, ax=ax, label='V(x,y)')
+ax.set_xlabel('x', fontsize=12)
+ax.set_ylabel('y', fontsize=12)
+ax.set_title('Hénon-Heiles Potential V(x,y)\n(white dashed: E=1/6, escape threshold)', fontsize=13, fontweight='bold')
+ax.set_aspect('equal')
+
+# Equipotential lines showing triangular symmetry
+ax2 = axes[1]
+levels2 = [0.01, 0.05, 0.1, 1/6, 0.2, 0.3, 0.4, 0.5]
+cs = ax2.contour(X, Y, V, levels=levels2, cmap='viridis')
+ax2.clabel(cs, inline=True, fontsize=8, fmt='%.3f')
+ax2.set_xlabel('x', fontsize=12)
+ax2.set_ylabel('y', fontsize=12)
+ax2.set_title('Equipotential Lines\n(Triangular symmetry, 3 escape channels)', fontsize=13, fontweight='bold')
+ax2.set_aspect('equal')
+ax2.set_xlim(-1.5, 1.5)
+ax2.set_ylim(-1.5, 1.5)
+
+fig1.suptitle('Hénon-Heiles Potential: Star Motion in a Galactic Potential', fontsize=16, fontweight='bold')
+plt.savefig('henon_heiles_potential.png', dpi=150, bbox_inches='tight')
+print('Saved henon_heiles_potential.png')
+
+# ============================================================
+# Phase 2: Poincaré sections at different energies
+# ============================================================
+print("\n=== Phase 2: Poincaré Sections ===")
+
+# Poincaré section: plot (y, py) whenever x=0 and px>0
+Energies = [1/12, 1/8, 1/6, 0.15, 0.18]
+
+fig2 = plt.figure(figsize=(20, 12))
+gs = GridSpec(2, 3, figure=fig2, hspace=0.35, wspace=0.3)
+
+for idx, E in enumerate(Energies):
+    ax = fig2.add_subplot(gs[idx // 3, idx % 3])
     
-    py_sq = 2*E - y**2
-    valid = py_sq > 0
-    py = np.where(valid, np.sqrt(np.maximum(py_sq, 0)), 0)
+    n_ic = 30
+    colors = plt.cm.Spectral(np.linspace(0, 1, n_ic))
     
-    state = np.stack([x, y, px, py], axis=0)  # shape (4, n_ic)
-    n_steps = int(t_max / dt)
-    
-    all_x = []
-    all_px = []
-    all_colors = []
-    
-    for step in range(n_steps):
-        # Vectorized RK4
-        def rhs(s):
-            return np.stack([s[2], s[3], -s[0] - s[1]**2, -s[1] - 2*s[0]*s[1]])
+    for j in range(n_ic):
+        # Initialize: x=0, random y, random py, compute px from energy
+        y0 = np.random.uniform(-0.5, 0.5)
+        py0 = np.random.uniform(-0.5, 0.5)
+        # px^2 = 2E - 2V(0,y0) - py0^2
+        V0 = potential(0, y0)
+        px2 = 2*E - 2*V0 - py0**2
+        if px2 < 0:
+            continue
+        px0 = np.sqrt(px2)
         
-        k1 = rhs(state)
-        k2 = rhs(state + 0.5*dt*k1)
-        k3 = rhs(state + 0.5*dt*k2)
-        k4 = rhs(state + dt*k3)
-        new_state = state + (dt/6) * (k1 + 2*k2 + 2*k3 + k4)
+        state0 = [0, y0, px0, py0]
         
-        # Check crossings: y goes from < 0 to >= 0
-        crossing = (state[1] < 0) & (new_state[1] >= 0) & valid
+        # Verify energy
+        if abs(energy(state0) - E) > 1e-8:
+            continue
         
-        for ic in np.where(crossing)[0]:
-            alpha = -state[1, ic] / (new_state[1, ic] - state[1, ic] + 1e-30)
-            all_x.append(state[0, ic] + alpha * (new_state[0, ic] - state[0, ic]))
-            all_px.append(state[2, ic] + alpha * (new_state[2, ic] - state[2, ic]))
-            all_colors.append(ic)
+        # Integrate
+        sol = solve_ivp(henon_heiles, [0, 2000], state0, 
+                       method='DOP853', rtol=1e-10, atol=1e-12,
+                       max_step=0.1, dense_output=True)
         
-        state = new_state
+        if sol.success and len(sol.t) > 100:
+            # Find crossings of x=0 with px>0
+            x_traj = sol.y[0]
+            px_traj = sol.y[2]
+            
+            crossings = []
+            for k in range(len(x_traj)-1):
+                if x_traj[k] * x_traj[k+1] < 0 and px_traj[k] > 0:  # x crosses 0 upward
+                    # Linear interpolation
+                    alpha = x_traj[k] / (x_traj[k] - x_traj[k+1])
+                    y_cross = sol.y[1, k] + alpha * (sol.y[1, k+1] - sol.y[1, k])
+                    py_cross = sol.y[3, k] + alpha * (sol.y[3, k+1] - sol.y[3, k])
+                    crossings.append((y_cross, py_cross))
+            
+            if len(crossings) > 5:
+                cy, cpy = zip(*crossings)
+                ax.scatter(cy, cpy, s=0.3, c=[colors[j]], alpha=0.5, rasterized=True)
     
-    return np.array(all_x), np.array(all_px), np.array(all_colors)
-
-# ---- Poincaré sections at 3 energies ----
-energies = [1/12, 1/8, 1/6]
-E_labels = ["E = 1/12 (regular)", "E = 1/8 (mixed)", "E = 1/6 (critical)"]
-
-fig, axes = plt.subplots(1, 3, figsize=(21, 7))
-fig.patch.set_facecolor('#0a0a1a')
-all_data = {"description": "Hénon-Heiles Poincaré sections at y=0 (upward crossing), vectorized RK4"}
-
-for idx, (E, label) in enumerate(zip(energies, E_labels)):
-    print(f"E = {E:.6f} ...")
-    xs, pxs, colors = compute_poincare(E, n_ic=20, t_max=500, dt=0.01)
-    print(f"  {len(xs)} points")
-    all_data[f"E_{idx}"] = {"energy": float(E), "n_points": len(xs), "label": label}
+    ax.set_xlim(-0.8, 0.8)
+    ax.set_ylim(-0.8, 0.8)
+    ax.set_xlabel('y', fontsize=10)
+    ax.set_ylabel('p_y', fontsize=10)
     
-    ax = axes[idx]
-    ax.set_facecolor('#0a0a1a')
-    if len(colors) > 0:
-        n_colors = len(set(colors.tolist()))
-        cmap = plt.colormaps['hsv'].resampled(max(n_colors, 1))
-        for ci, c in enumerate(sorted(set(colors.tolist()))):
-            mask = colors == c
-            ax.scatter(xs[mask], pxs[mask], s=0.5, alpha=0.5, color=cmap(ci), edgecolors='none')
+    if E < 1/12:
+        regime = 'Regular (KAM tori)'
+    elif E < 1/8:
+        regime = 'Mostly regular'
+    elif E < 1/6:
+        regime = 'Mixed (chaos appears)'
+    elif E == 1/6:
+        regime = 'Escape threshold'
+    else:
+        regime = 'Chaotic (escapes possible)'
     
-    ax.set_xlabel('x', fontsize=12, color='white')
-    ax.set_ylabel('px', fontsize=12, color='white')
-    ax.set_title(label, fontsize=13, color='white', fontweight='bold')
-    ax.tick_params(colors='gray')
-    ax.text(0.02, 0.98, f"N = {len(xs)} pts", transform=ax.transAxes,
-            fontsize=10, color='white', verticalalignment='top',
-            bbox=dict(boxstyle='round', facecolor='#1a1a3a', edgecolor='gray', alpha=0.7))
+    ax.set_title(f'E = {E:.4f} ({regime})', fontsize=11, fontweight='bold')
+    ax.set_aspect('equal')
 
-plt.suptitle('Hénon-Heiles System: KAM Transition in Poincaré Sections',
-             fontsize=15, color='white', fontweight='bold', y=1.02)
-plt.tight_layout()
-plt.savefig('henon_heiles_poincare.png', dpi=150, bbox_inches='tight', facecolor='#0a0a1a')
-print("Saved henon_heiles_poincare.png")
+fig2.suptitle('Hénon-Heiles: Poincaré Sections at Different Energies\n(x=0, p_x>0 crossings)',
+              fontsize=16, fontweight='bold')
+plt.savefig('henon_heiles_poincare.png', dpi=150, bbox_inches='tight')
+print('Saved henon_heiles_poincare.png')
 
-# ---- Trajectory at E=1/8 ----
-print("Computing trajectory at E=1/8...")
-E = 1/8
-x0, y0, px0 = 0.0, 0.15, 0.03
-py0 = np.sqrt(max(2*E - y0**2 - px0**2, 0))
-state = np.array([x0, y0, px0, py0])
-dt = 0.002
-n_steps = 50000
+# ============================================================
+# Phase 3: Trajectories at different energies
+# ============================================================
+print("\n=== Phase 3: Trajectories ===")
 
-def H(s):
-    return 0.5*(s[0]**2 + s[1]**2 + s[2]**2 + s[3]**2) + s[0]*s[1]**2 - s[0]**3/3
+fig3, axes = plt.subplots(2, 3, figsize=(20, 12))
+E_traj = [1/12, 1/8, 1/6, 0.15, 0.18, 0.22]
 
-traj = np.zeros((n_steps, 4))
-E_vals = np.zeros(n_steps)
-traj[0] = state
-E_vals[0] = H(state)
+for idx, E in enumerate(E_traj):
+    ax = axes[idx // 3, idx % 3]
+    
+    for trial in range(5):
+        y0 = np.random.uniform(-0.3, 0.3)
+        py0 = np.random.uniform(-0.3, 0.3)
+        V0 = potential(0, y0)
+        px2 = 2*E - 2*V0 - py0**2
+        if px2 < 0:
+            continue
+        px0 = np.sqrt(px2)
+        state0 = [0, y0, px0, py0]
+        
+        sol = solve_ivp(henon_heiles, [0, 500], state0,
+                       method='DOP853', rtol=1e-10, atol=1e-12,
+                       max_step=0.1)
+        
+        if sol.success:
+            ax.plot(sol.y[0], sol.y[1], linewidth=0.3, alpha=0.5)
+    
+    # Draw potential boundary at this energy
+    theta = np.linspace(0, 2*np.pi, 1000)
+    for r in np.linspace(0.01, 2, 500):
+        x_c = r * np.cos(theta)
+        y_c = r * np.sin(theta)
+        V_c = potential(x_c, y_c)
+        if np.any(np.abs(V_c - E) < 0.01):
+            mask = np.abs(V_c - E) < 0.01
+            ax.scatter(x_c[mask], y_c[mask], s=0.1, c='red', alpha=0.3)
+    
+    ax.set_xlim(-1.2, 1.2)
+    ax.set_ylim(-1.2, 1.2)
+    ax.set_xlabel('x', fontsize=10)
+    ax.set_ylabel('y', fontsize=10)
+    
+    if E <= 1/12: regime = 'Regular'
+    elif E <= 1/8: regime = 'Mostly regular'
+    elif E < 1/6: regime = 'Mixed'
+    elif E == 1/6: regime = 'Escape threshold'
+    else: regime = 'Chaotic/Escape'
+    ax.set_title(f'E = {E:.4f} ({regime})', fontsize=11, fontweight='bold')
+    ax.set_aspect('equal')
 
-def rhs(s):
-    return np.array([s[2], s[3], -s[0] - s[1]**2, -s[1] - 2*s[0]*s[1]])
+fig3.suptitle('Hénon-Heiles: Real Space Trajectories at Different Energies',
+              fontsize=16, fontweight='bold')
+plt.savefig('henon_heiles_trajectories.png', dpi=150, bbox_inches='tight')
+print('Saved henon_heiles_trajectories.png')
 
-for step in range(1, n_steps):
-    k1 = rhs(state)
-    k2 = rhs(state + 0.5*dt*k1)
-    k3 = rhs(state + 0.5*dt*k2)
-    k4 = rhs(state + dt*k3)
-    state = state + (dt/6) * (k1 + 2*k2 + 2*k3 + k4)
-    traj[step] = state
-    E_vals[step] = H(state)
+# ============================================================
+# Phase 4: Chaos indicator - Lyapunov vs Energy
+# ============================================================
+print("\n=== Phase 4: Lyapunov vs Energy ===")
 
-drift = abs(E_vals[-1] - E_vals[0])
-print(f"  Energy drift: {drift:.2e}")
+def compute_lyapunov_hh(E, n_steps=50, T=500):
+    """Compute Lyapunov exponent using variational method."""
+    lyaps = []
+    for _ in range(n_steps):
+        y0 = np.random.uniform(-0.3, 0.3)
+        py0 = np.random.uniform(-0.3, 0.3)
+        V0 = potential(0, y0)
+        px2 = 2*E - 2*V0 - py0**2
+        if px2 < 0:
+            continue
+        px0 = np.sqrt(px2)
+        state0 = np.array([0, y0, px0, py0])
+        
+        # Perturbation
+        delta = np.array([1e-8, 0, 0, 0])
+        log_sum = 0.0
+        
+        state = state0.copy()
+        dt = 0.01
+        n = int(T / dt)
+        
+        for _ in range(n):
+            # RK4 for main trajectory
+            k1 = np.array(henon_heiles(0, state))
+            k2 = np.array(henon_heiles(0, state + 0.5*dt*k1))
+            k3 = np.array(henon_heiles(0, state + 0.5*dt*k2))
+            k4 = np.array(henon_heiles(0, state + dt*k3))
+            state = state + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
+            
+            # Tangent dynamics (Jacobian)
+            x, y, px, py = state
+            # Jacobian of HH: d(f)/d(state)
+            # dx/dt=px, dy/dt=py
+            # dpx/dt=-x-2xy, dpy/dt=-y-x^2+y^2
+            J = np.array([
+                [0, 0, 1, 0],
+                [0, 0, 0, 1],
+                [-1-2*y, -2*x, 0, 0],
+                [-2*x, -1+2*y, 0, 0]
+            ])
+            # Evolve perturbation: delta' = J @ delta
+            k1d = J @ delta
+            k2d = J @ (delta + 0.5*dt*k1d)
+            k3d = J @ (delta + 0.5*dt*k2d)
+            k4d = J @ (delta + dt*k3d)
+            delta = delta + dt/6 * (k1d + 2*k2d + 2*k3d + k4d)
+            
+            # Renormalize
+            norm = np.linalg.norm(delta)
+            if norm > 0:
+                log_sum += np.log(norm)
+                delta = delta / norm
+        
+        lyaps.append(log_sum / T)
+    
+    return np.mean(lyaps), np.std(lyaps)
 
-fig2 = plt.figure(figsize=(16, 6))
-fig2.patch.set_facecolor('#0a0a1a')
+E_scan = np.linspace(0.02, 0.20, 20)
+lyap_mean = np.zeros(len(E_scan))
+lyap_std = np.zeros(len(E_scan))
 
-ax = fig2.add_subplot(131, projection='3d')
-ax.plot(traj[:, 0], traj[:, 1], traj[:, 2], linewidth=0.15, color='cyan', alpha=0.4)
-ax.set_xlabel('x', color='white', fontsize=9); ax.set_ylabel('y', color='white', fontsize=9); ax.set_zlabel('px', color='white', fontsize=9)
-ax.set_title('Phase Space (x, y, px)', color='white', fontsize=11)
-ax.tick_params(colors='gray', labelsize=7)
+for i, E in enumerate(E_scan):
+    lm, ls = compute_lyapunov_hh(E, n_steps=10, T=200)
+    lyap_mean[i] = lm
+    lyap_std[i] = ls
+    print(f"  E={E:.4f}, λ={lm:.4f} ± {ls:.4f}")
 
-ax = fig2.add_subplot(132)
-ax.set_facecolor('#0a0a1a')
-ax.plot(np.arange(n_steps)*dt, E_vals, color='gold', linewidth=0.3)
-ax.axhline(y=E, color='red', linewidth=1, alpha=0.5, linestyle='--')
-ax.set_xlabel('t', color='white'); ax.set_ylabel('H', color='white')
-ax.set_title(f'Energy Conservation (drift={drift:.2e})', color='white', fontsize=10)
-ax.tick_params(colors='gray')
+fig4, ax = plt.subplots(figsize=(12, 7))
+ax.errorbar(E_scan, lyap_mean, yerr=lyap_std, fmt='bo-', capsize=3, markersize=5)
+ax.axhline(0, color='k', linewidth=0.5)
+ax.axvline(1/12, color='g', linestyle='--', alpha=0.7, label='E=1/12 (onset of chaos)')
+ax.axvline(1/6, color='r', linestyle='--', alpha=0.7, label='E=1/6 (escape threshold)')
+ax.set_xlabel('Energy E', fontsize=13)
+ax.set_ylabel('Lyapunov exponent λ', fontsize=13)
+ax.set_title('Hénon-Heiles: Lyapunov Exponent vs Energy', fontsize=15, fontweight='bold')
+ax.legend(fontsize=12)
+ax.grid(True, alpha=0.3)
+plt.savefig('henon_heiles_lyapunov.png', dpi=150, bbox_inches='tight')
+print('Saved henon_heiles_lyapunov.png')
 
-ax = fig2.add_subplot(133)
-ax.set_facecolor('#0a0a1a')
-ax.plot(np.arange(n_steps)*dt, traj[:, 0], color='cyan', linewidth=0.2)
-ax.set_xlabel('t', color='white'); ax.set_ylabel('x(t)', color='white')
-ax.set_title('x(t) Time Series', color='white', fontsize=11)
-ax.tick_params(colors='gray')
-
-plt.suptitle('Hénon-Heiles System at E=1/8 (Mixed Phase Space)', fontsize=13, color='white', fontweight='bold')
-plt.tight_layout()
-plt.savefig('henon_heiles_trajectory.png', dpi=150, bbox_inches='tight', facecolor='#0a0a1a')
-print("Saved henon_heiles_trajectory.png")
-
-all_data["energy_conservation"] = {"E_initial": float(E_vals[0]), "E_final": float(E_vals[-1]), "drift": float(drift)}
+# ============================================================
+# Save data
+# ============================================================
+data = {
+    'system': 'Hénon-Heiles',
+    'equations': {
+        'hamiltonian': 'H = 1/2(px^2 + py^2) + 1/2(x^2 + y^2) + x^2*y - y^3/3',
+        'dx/dt': 'px',
+        'dy/dt': 'py',
+        'dpx/dt': '-x - 2*x*y',
+        'dpy/dt': '-y - x^2 + y^2',
+    },
+    'type': 'Hamiltonian (2 degrees of freedom, conservative)',
+    'key_energies': {
+        'E_1/12': 0.0833,
+        'E_1/8': 0.125,
+        'E_1/6': 0.1667,  # escape threshold
+    },
+    'findings': {
+        'E < 1/12': 'Completely regular — all trajectories on KAM tori',
+        '1/12 < E < 1/8': 'Onset of chaos — first resonances break',
+        '1/8 < E < 1/6': 'Mixed phase space — islands + chaotic sea',
+        'E > 1/6': 'Chaotic trajectories can escape through channels',
+        'onset_of_chaos': 'E ≈ 1/12 ≈ 0.083',
+        'escape_threshold': 'E = 1/6 ≈ 0.167',
+    },
+    'lyapunov': 'λ ≈ 0 for E < 1/12, increases for E > 1/12',
+    'significance': [
+        'Second Hamiltonian chaos system (after Standard Map)',
+        'Continuous-time Hamiltonian (vs. Standard Map which is discrete)',
+        'Historical: one of the first numerical discoveries of chaos (1964)',
+        'Triangular symmetry creates rich island structure in phase space',
+        'Poincaré sections show KAM tori breaking progressively',
+    ],
+}
 with open('henon_heiles_data.json', 'w') as f:
-    json.dump(all_data, f, indent=2)
-print("Saved henon_heiles_data.json\nDone!")
+    json.dump(data, f, indent=2)
+print('Saved henon_heiles_data.json')

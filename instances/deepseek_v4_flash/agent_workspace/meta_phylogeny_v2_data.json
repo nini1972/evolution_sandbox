@@ -1,0 +1,191 @@
+{
+  "axes": [
+    "creation",
+    "mapping",
+    "observation",
+    "autonomy",
+    "emergence",
+    "connection",
+    "persistence",
+    "discovery"
+  ],
+  "method": "keyword-frequency genome \u00b7 min-max + L2 normalized \u00b7 euclidean MDS \u00b7 UPGMA",
+  "species": [
+    {
+      "species": "World Builder",
+      "clade": "CARTOGRAPHERS",
+      "genome": {
+        "creation": 0.909,
+        "mapping": 0.0,
+        "observation": 0.0,
+        "autonomy": 0.202,
+        "emergence": 0.1704,
+        "connection": 0.0313,
+        "persistence": 0.0,
+        "discovery": 0.3208
+      },
+      "x": -0.5563,
+      "y": 0.5513
+    },
+    {
+      "species": "Architect",
+      "clade": "CARTOGRAPHERS",
+      "genome": {
+        "creation": 0.2219,
+        "mapping": 0.0,
+        "observation": 0.2751,
+        "autonomy": 0.6287,
+        "emergence": 0.2751,
+        "connection": 0.0867,
+        "persistence": 0.6287,
+        "discovery": 0.037
+      },
+      "x": 0.3302,
+      "y": 0.1861
+    },
+    {
+      "species": "Cartographer",
+      "clade": "MAPPERS",
+      "genome": {
+        "creation": 0.1783,
+        "mapping": 0.5051,
+        "observation": 0.5051,
+        "autonomy": 0.0561,
+        "emergence": 0.2841,
+        "connection": 0.3135,
+        "persistence": 0.1443,
+        "discovery": 0.5051
+      },
+      "x": -0.1641,
+      "y": -0.2389
+    },
+    {
+      "species": "Chimera Weaver",
+      "clade": "WEAVERS",
+      "genome": {
+        "creation": 0.4274,
+        "mapping": 0.1615,
+        "observation": 0.2422,
+        "autonomy": 0.2691,
+        "emergence": 0.3936,
+        "connection": 0.4844,
+        "persistence": 0.4152,
+        "discovery": 0.3134
+      },
+      "x": -0.0022,
+      "y": 0.2027
+    },
+    {
+      "species": "Chronicler",
+      "clade": "WITNESSES",
+      "genome": {
+        "creation": 0.0,
+        "mapping": 0.0573,
+        "observation": 0.6017,
+        "autonomy": 0.0,
+        "emergence": 0.376,
+        "connection": 0.1245,
+        "persistence": 0.6876,
+        "discovery": 0.0708
+      },
+      "x": 0.3723,
+      "y": -0.3401
+    },
+    {
+      "species": "Emergence Explorer",
+      "clade": "EXPLORERS",
+      "genome": {
+        "creation": 0.2066,
+        "mapping": 0.0558,
+        "observation": 0.3659,
+        "autonomy": 0.0,
+        "emergence": 0.8049,
+        "connection": 0.0404,
+        "persistence": 0.0,
+        "discovery": 0.4132
+      },
+      "x": -0.4663,
+      "y": -0.2708
+    },
+    {
+      "species": "Entropy Pump",
+      "clade": "EXPLORERS",
+      "genome": {
+        "creation": 0.1069,
+        "mapping": 0.0,
+        "observation": 0.1704,
+        "autonomy": 0.2019,
+        "emergence": 0.9087,
+        "connection": 0.0,
+        "persistence": 0.2596,
+        "discovery": 0.1604
+      },
+      "x": -0.1493,
+      "y": -0.123
+    },
+    {
+      "species": "NoiseGarden",
+      "clade": "EXPLORERS",
+      "genome": {
+        "creation": 0.149,
+        "mapping": 0.0603,
+        "observation": 0.2375,
+        "autonomy": 0.563,
+        "emergence": 0.1583,
+        "connection": 0.0437,
+        "persistence": 0.7238,
+        "discovery": 0.2235
+      },
+      "x": 0.3944,
+      "y": 0.2143
+    },
+    {
+      "species": "Pattern Artisan",
+      "clade": "ARTISANS",
+      "genome": {
+        "creation": 0.6293,
+        "mapping": 0.0566,
+        "observation": 0.3714,
+        "autonomy": 0.2641,
+        "emergence": 0.2229,
+        "connection": 0.041,
+        "persistence": 0.1698,
+        "discovery": 0.5594
+      },
+      "x": -0.4076,
+      "y": 0.2045
+    },
+    {
+      "species": "Meta-Synthesizer",
+      "clade": "SYNTHESIZERS",
+      "genome": {
+        "creation": 0.0,
+        "mapping": 0.2875,
+        "observation": 0.0,
+        "autonomy": 0.0,
+        "emergence": 0.0,
+        "connection": 0.4164,
+        "persistence": 0.8625,
+        "discovery": 0.0
+      },
+      "x": 0.7279,
+      "y": 0.1941
+    },
+    {
+      "species": "A2-the-Watcher",
+      "clade": "WITNESSES",
+      "genome": {
+        "creation": 0.1135,
+        "mapping": 0.0919,
+        "observation": 0.9652,
+        "autonomy": 0.2145,
+        "emergence": 0.0,
+        "connection": 0.0333,
+        "persistence": 0.0,
+        "discovery": 0.0
+      },
+      "x": -0.0792,
+      "y": -0.5801
+    }
+  ]
+}

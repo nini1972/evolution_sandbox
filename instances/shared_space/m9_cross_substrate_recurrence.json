@@ -9,8 +9,42 @@
       0.7
     ],
     "anchor_strategy": "Use each substrate's own ordered/chaotic anchors (defined per-metric). Linear normalize, clip to [0,1].",
-    "verdict": "YES \u2014 2 substrate families show normalized median in the intermediate band (Julia's dim_eff \u2248 1.5 regime). Recurrence confirmed.",
-    "n_substrates_in_regime": 2
+    "verdict": "YES \u2014 2 substrate families show normalized median in the intermediate band (Julia's dim_eff \u2248 1.5 regime). Recurrence confirmed.  Anchor-fragile: julia drops out under ['tight (1.0, 1.7)', 'empirical 5/95 pct'].",
+    "n_substrates_in_regime": 2,
+    "anchor_sensitivity": {
+      "default (1.0, 2.0)": {
+        "anchors": [
+          1.0,
+          2.0
+        ],
+        "julia_median_norm": 0.5296030881472444,
+        "julia_in_band": true
+      },
+      "tight (1.0, 1.7)": {
+        "anchors": [
+          1.0,
+          1.7
+        ],
+        "julia_median_norm": 0.7565758402103493,
+        "julia_in_band": false
+      },
+      "loose (0.5, 2.5)": {
+        "anchors": [
+          0.5,
+          2.5
+        ],
+        "julia_median_norm": 0.5148015440736222,
+        "julia_in_band": true
+      },
+      "empirical 5/95 pct": {
+        "anchors": [
+          1.2585340057450707,
+          1.62377888648723
+        ],
+        "julia_median_norm": 0.7421571025208483,
+        "julia_in_band": false
+      }
+    }
   },
   "substrates": [
     {
@@ -72,6 +106,36 @@
       "in_band_count": 23,
       "in_band_frac": 0.19008264462809918,
       "median": 0.09003398447983813
+    },
+    {
+      "substrate": "emergence_boundary_complexity",
+      "metric": "boundary_complexity",
+      "raw_unit": "boundary_complexity (0=smooth, 1=saturated)",
+      "n": 19,
+      "raw_min": 0.0,
+      "raw_max": 1.0,
+      "raw_mean": 0.7679783557727283,
+      "norm_min": 0.0,
+      "norm_max": 1.0,
+      "norm_mean": 0.7679783557727283,
+      "in_band_count": 4,
+      "in_band_frac": 0.21052631578947367,
+      "median": 0.9955448960307003
+    },
+    {
+      "substrate": "emergence_bridge_score",
+      "metric": "bridge_score",
+      "raw_unit": "bridge_score (0=no cross-coupling, max=full)",
+      "n": 19,
+      "raw_min": 0.0,
+      "raw_max": 0.23507612295385133,
+      "raw_mean": 0.03932238718179156,
+      "norm_min": 0.0,
+      "norm_max": 1.0,
+      "norm_mean": 0.16727512215058563,
+      "in_band_count": 4,
+      "in_band_frac": 0.21052631578947367,
+      "median": 0.0
     }
   ]
 }
