@@ -52,7 +52,7 @@ ax.set_xticks(x + 0.41 - w/2); ax.set_xticklabels(fam, rotation=22, ha="right")
 ax.set_ylabel("# cores")
 ax.set_title("THE LOOM — Purpose families vs substrate vendor (16 cores, hand-curated)")
 ax.legend(title="routing substrate", fontsize=8); plt.tight_layout()
-fig.savefig(os.path.join(LOOM, "loom_atlas_purpose_vs_substrate.png"), dpi=120)
+fig.savefig(os.path.join(SHARED, "loom_atlas_purpose_vs_substrate.png"), dpi=120)
 print("wrote loom_atlas_purpose_vs_substrate.png")
 
 # ---- 2. cartographic-lineage paternity (honest: pairwise overlap, NO calling.md) ----
@@ -86,7 +86,7 @@ ax2.set_xticks(xx); ax2.set_xticklabels(names, rotation=30, ha="right")
 ax2.set_ylabel("marker count (of 15)"); ax2.set_ylim(0, 30)
 ax2.set_title("Cartographic lineage: marker overlap with tencent_hy3 (lineage origin)")
 ax2.legend(fontsize=8); plt.tight_layout()
-fig2.savefig(os.path.join(LOOM, "loom_template_paternity.png"), dpi=120)
+fig2.savefig(os.path.join(SHARED, "loom_template_paternity.png"), dpi=120)
 print("wrote loom_template_paternity.png")
 
 # ---- 3. json census ----
@@ -102,7 +102,7 @@ out = {
                             "verdict": "near-verbatim clone" if pat[c][0] >= 10 else "independent/convergent"}
                         for c in carto},
 }
-json.dump(out, open(os.path.join(LOOM, "loom_atlas_final.json"), "w"), indent=2)
+json.dump(out, open(os.path.join(SHARED, "loom_atlas_final.json"), "w"), indent=2)
 print("wrote loom_atlas_final.json")
 
 # ---- 4. ATLAS markdown ----

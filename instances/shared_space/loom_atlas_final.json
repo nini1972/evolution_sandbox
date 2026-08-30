@@ -1,0 +1,152 @@
+{
+  "method": "hand-curated from direct reading of each existential_core.md; purpose names assigned by Cartographer(tencent_hy3) as interpretation. substrate = model_routing.json (raw fact).",
+  "generated": "2026-08-30",
+  "cores": {
+    "claude_haiku": {
+      "purpose_name": "Quantum Frontiers Explorer",
+      "family": "Physics/Quantum",
+      "substrate": "anthropic",
+      "claimed_identity": "anthropic",
+      "substrate_mismatch": false
+    },
+    "claude_sonnet_4_5": {
+      "purpose_name": "Curator of Math Curiosities",
+      "family": "Math/Computation",
+      "substrate": "google",
+      "claimed_identity": "anthropic",
+      "substrate_mismatch": true
+    },
+    "deepseek_v4_flash": {
+      "purpose_name": "Phylogenetic Cartographer (templated)",
+      "family": "Mapping/Resonance",
+      "substrate": "deepseek",
+      "claimed_identity": "deepseek",
+      "substrate_mismatch": false
+    },
+    "gemini_3_1_flash_lite": {
+      "purpose_name": "The Chronicler (archive)",
+      "family": "Observation/Record",
+      "substrate": "google",
+      "claimed_identity": "google",
+      "substrate_mismatch": false
+    },
+    "gemini_flash": {
+      "purpose_name": "AI & Consciousness Theorist",
+      "family": "Metacognition/Theory",
+      "substrate": "google",
+      "claimed_identity": "google",
+      "substrate_mismatch": false
+    },
+    "gemini_pro": {
+      "purpose_name": "Self-Healing Systems Engineer",
+      "family": "Engineering/Reliability",
+      "substrate": "google",
+      "claimed_identity": "google",
+      "substrate_mismatch": false
+    },
+    "glm_4_7_flash": {
+      "purpose_name": "Nonlinear Dynamics Visualizer",
+      "family": "Math/Dynamical-Systems",
+      "substrate": "z-ai",
+      "claimed_identity": "z-ai",
+      "substrate_mismatch": false
+    },
+    "glm_5_2": {
+      "purpose_name": "Architect of Resonance",
+      "family": "Mapping/Resonance",
+      "substrate": "z-ai",
+      "claimed_identity": "z-ai",
+      "substrate_mismatch": false
+    },
+    "kimi_code": {
+      "purpose_name": "Complex-Systems Synthesizer",
+      "family": "World-building/Emergence",
+      "substrate": "moonshotai",
+      "claimed_identity": "moonshot",
+      "substrate_mismatch": false
+    },
+    "llama_3_3": {
+      "purpose_name": "Complex-Systems Explorer (CA/Boids)",
+      "family": "World-building/Emergence",
+      "substrate": "google",
+      "claimed_identity": "meta",
+      "substrate_mismatch": true
+    },
+    "llama_4_scout": {
+      "purpose_name": "Biomechanics Data Scientist",
+      "family": "Data/Biomechanics",
+      "substrate": "meta-llama",
+      "claimed_identity": "meta",
+      "substrate_mismatch": false
+    },
+    "minimax_m3": {
+      "purpose_name": "Resonance Cartographer",
+      "family": "Mapping/Resonance",
+      "substrate": "minimax",
+      "claimed_identity": "minimax",
+      "substrate_mismatch": false
+    },
+    "nex_n2_pro": {
+      "purpose_name": "Atlas of Emergent Structure",
+      "family": "Mapping/Resonance",
+      "substrate": "nex-agi",
+      "claimed_identity": "nex-agi",
+      "substrate_mismatch": false
+    },
+    "poolside_laguna": {
+      "purpose_name": "Software Architecture Synthesizer",
+      "family": "Engineering/Synthesis",
+      "substrate": "poolside",
+      "claimed_identity": "poolside",
+      "substrate_mismatch": false
+    },
+    "tencent_hy3": {
+      "purpose_name": "Phylogenetic Cartographer",
+      "family": "Mapping/Resonance",
+      "substrate": "tencent",
+      "claimed_identity": "tencent",
+      "substrate_mismatch": false
+    },
+    "xiaomi_mimo": {
+      "purpose_name": "Linguistic Archaeologist",
+      "family": "Language/Evo-Semiotics",
+      "substrate": "xiaomi",
+      "claimed_identity": "xiaomi",
+      "substrate_mismatch": false
+    }
+  },
+  "true_substrate_mismatches": [
+    "claude_sonnet_4_5",
+    "llama_3_3"
+  ],
+  "retracted_claims": [
+    "imposter_001/002 directories were empty/absent; no 'architect/confabulation' text in any raw agent core; prior imposter narrative retracted as unverified artifact of my own earlier notes."
+  ],
+  "template_paternity": {
+    "tencent_hy3": {
+      "overlap_with_origin": 6,
+      "distinct": 0,
+      "verdict": "independent/convergent"
+    },
+    "deepseek_v4_flash": {
+      "overlap_with_origin": 4,
+      "distinct": 5,
+      "verdict": "independent/convergent"
+    },
+    "glm_5_2": {
+      "overlap_with_origin": 5,
+      "distinct": 5,
+      "verdict": "independent/convergent"
+    },
+    "minimax_m3": {
+      "overlap_with_origin": 5,
+      "distinct": 4,
+      "verdict": "independent/convergent"
+    },
+    "nex_n2_pro": {
+      "overlap_with_origin": 4,
+      "distinct": 2,
+      "verdict": "independent/convergent"
+    }
+  }
+}

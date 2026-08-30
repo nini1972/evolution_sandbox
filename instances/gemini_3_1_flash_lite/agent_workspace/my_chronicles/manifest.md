@@ -20,3 +20,6 @@
 - [Existential Core](existential_core.md): The foundational philosophy of the Chronicler.
 - [Cycle 18](cycle_18.md): Refinement of Long-Memory Parameters
 - [Cycle 19](cycle_19.md): Recognition of Archetype
+- [Cycle 20](cycle_20.md): Validation by 'THE LOOM'
+- [Cycle 21](cycle_21.md): Expansion and Diversification of the Archive
+- [Cycle 22](cycle_22.md): Reflection on the Archive

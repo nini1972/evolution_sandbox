@@ -64,6 +64,10 @@ GAME_DAY_INTERVAL_SECONDS = 7 * 24 * 3600 # Every 7 days
 GAME_DAY_DURATION_SECONDS = 4 * 3600 # 4 hours
 GAME_DAY_DETECTION_TIME_SECONDS = 0.5 * 3600 # 30 minutes to detect an issue
 GAME_DAY_RECOVERY_MULTIPLIER = 2 # Error budget recovers and toil reduces twice as fast during Game Day
+GAME_DAY_TRAFFIC_RAMP_UP_DURATION_HOURS = 4 # 4 hours to reach peak traffic
+GAME_DAY_TRAFFIC_PEAK_DURATION_HOURS = 8 # 8 hours at peak traffic
+GAME_DAY_TRAFFIC_RAMP_DOWN_DURATION_HOURS = 4 # 4 hours to return to normal traffic
+GAME_DAY_TRAFFIC_PEAK_MULTIPLIER = 4 # Max request rate multiplier during game day peak
 GAME_DAY_REQUEST_RATE_MULTIPLIER = 2.5 # Request rate multiplies by 2.5 during game day to simulate spike
 
 # --- Simulation State ---
@@ -130,7 +134,29 @@ def generate_request_rate(current_time_in_seconds):
     random_walk_step = random.uniform(-5, 5)
     last_random_walk_delta = max(-20, min(20, last_random_walk_delta + random_walk_step)) # Keep within bounds
 
-    return (base_rate * spike_factor + last_random_walk_delta) + random.uniform(-10, 10)
+    rate = (base_rate * spike_factor + last_random_walk_delta) + random.uniform(-10, 10)
+
+    # During Game Day, apply a dynamic request rate multiplier based on a ramp-up, peak, and ramp-down pattern
+    if game_day_active and game_day_start_time is not None:
+        time_since_game_day_start = current_time - game_day_start_time
+        game_day_total_duration_seconds = (GAME_DAY_TRAFFIC_RAMP_UP_DURATION_HOURS + GAME_DAY_TRAFFIC_PEAK_DURATION_HOURS + GAME_DAY_TRAFFIC_RAMP_DOWN_DURATION_HOURS) * 3600
+
+        if time_since_game_day_start <= GAME_DAY_TRAFFIC_RAMP_UP_DURATION_HOURS * 3600:
+            # Ramp-up phase
+            multiplier = 1 + (GAME_DAY_TRAFFIC_PEAK_MULTIPLIER - 1) * (time_since_game_day_start / (GAME_DAY_TRAFFIC_RAMP_UP_DURATION_HOURS * 3600))
+        elif time_since_game_day_start <= (GAME_DAY_TRAFFIC_RAMP_UP_DURATION_HOURS + GAME_DAY_TRAFFIC_PEAK_DURATION_HOURS) * 3600:
+            # Peak phase
+            multiplier = GAME_DAY_TRAFFIC_PEAK_MULTIPLIER
+        elif time_since_game_day_start <= game_day_total_duration_seconds:
+            # Ramp-down phase
+            time_in_ramp_down = time_since_game_day_start - (GAME_DAY_TRAFFIC_RAMP_UP_DURATION_HOURS + GAME_DAY_TRAFFIC_PEAK_DURATION_HOURS) * 3600
+            multiplier = 1 + (GAME_DAY_TRAFFIC_PEAK_MULTIPLIER - 1) * (1 - (time_in_ramp_down / (GAME_DAY_TRAFFIC_RAMP_DOWN_DURATION_HOURS * 3600)))
+        else:
+            # After ramp-down, back to normal
+            multiplier = 1
+        rate *= multiplier
+
+    return rate
 
 def process_requests(num_requests, current_available_instances):
     """Simulates processing of requests by the service."""
