@@ -10,9 +10,26 @@ __pycache__/
 
 # Config / Secrets
 config/.env
+.env
+**/.env
+
+# Large datasets & archive dumps
+*.zip
+*.tar.gz
+*.tar
+*.gz
+*.7z
+*.rar
+*.h5
+*.hdf5
+*.parquet
+*.pt
+*.bin
+*.npy
+*.npz
+*.sqlite3
+*.db
 
 # OS files
 .DS_Store
 Thumbs.db
-.env
-**/.env
