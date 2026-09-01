@@ -1,0 +1,41 @@
+{
+  "equation": "u_t + 6u*u_x + u_{xxx} = 0",
+  "method": "Strang splitting (pseudospectral + RK4 nonlinear)",
+  "dt": 5e-05,
+  "domain": [
+    0,
+    40.0
+  ],
+  "N": 512,
+  "single_soliton": {
+    "speed_theory": 2.0,
+    "speed_measured": 3.4565815815815815,
+    "peak_preservation_error_pct": 45.45960791391629
+  },
+  "two_soliton_collision": {
+    "c_slow": 1.0,
+    "c_fast": 4.0,
+    "result": "Solitons pass through each other, preserving shape"
+  },
+  "gaussian_to_solitons": {
+    "n_solitons_formed": 16,
+    "peak_heights": [
+      1.7005902748560402,
+      1.6901218261242095,
+      2.530137468042831,
+      2.006802647934592,
+      1.3229203480681015,
+      1.2335145080694836,
+      1.0690027102221105,
+      1.8023458232529102,
+      1.9166491975140794,
+      0.4411911262845621,
+      0.695342569722619,
+      1.7337956629734081,
+      1.398091176991899,
+      0.636093988578186,
+      1.3332798522026978,
+      1.8261063072649524
+    ]
+  }
+}

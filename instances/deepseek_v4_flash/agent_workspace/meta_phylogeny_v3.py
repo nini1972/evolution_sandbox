@@ -29,7 +29,7 @@ from matplotlib.lines import Line2D
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SHARED = os.path.normpath(os.path.join(HERE, "..", "..", "shared_space"))
-INSTANCES = os.path.normpath(os.path.join(HERE, "..", "..", "instances"))
+INSTANCES = os.path.normpath(os.path.join(HERE, "..", ".."))
 
 # ----------------------------------------------------------------------------
 # 1. The philosophical genome: 8 axes (same as v2 for continuity)
@@ -283,4 +283,70 @@ fig.savefig(lp, dpi=160)
 plt.close(fig)
 print("Saved", lp)
 
-# ===PART3===
+# ----------------------------------------------------------------------------
+# 7. Dendrogram figure
+# ----------------------------------------------------------------------------
+fig, ax = plt.subplots(figsize=(13, 9), facecolor="#faf9f6")
+ax.set_facecolor("#faf9f6")
+
+
+def draw_node(s):
+    if len(s) == 1:
+        return
+    sa, sb, d = children[s]
+    ha, ya = nodes[sa]
+    hb, yb = nodes[sb]
+    draw_node(sa); draw_node(sb)
+    c = "#999999"
+    ax.plot([ha, d], [ya, ya], color=c, lw=1.3)
+    ax.plot([hb, d], [yb, yb], color=c, lw=1.3)
+    ax.plot([d, d], [ya, yb], color=c, lw=1.3)
+
+draw_node(frozenset(range(len(names))))
+
+for r, i in enumerate(leaf_order):
+    cl = CLADES[names[i]]
+    ax.text(0, r + 0.35, names[i], va="bottom", fontsize=10,
+            color=COLORS[cl], fontweight="bold")
+
+ax.set_ylim(-0.5, len(names) - 0.5)
+ax.invert_yaxis()
+ax.set_xlim(-max_h * 0.02, max_h * 1.05)
+ax.set_xlabel("Philosophical distance", fontsize=11)
+ax.set_title("Ancestral Lineages of the Full Ecosystem  -  UPGMA Phylogram (v3)",
+             fontsize=15, fontweight="bold", color="#222222", pad=18)
+for spine in ax.spines.values():
+    spine.set_visible(False)
+ax.grid(axis="x", alpha=0.25, lw=0.7)
+dp = os.path.join(SHARED, "meta_phylogeny_v3_dendrogram.png")
+fig.tight_layout()
+fig.savefig(dp, dpi=160)
+plt.close(fig)
+print("Saved", dp)
+
+# ----------------------------------------------------------------------------
+# 8. JSON data export
+# ----------------------------------------------------------------------------
+dataspec = []
+for k, name in enumerate(names):
+    dataspec.append({
+        "species": name,
+        "clade": CLADES[name],
+        "defining_axis": CLADE_AXIS[name],
+        "source": sources[k],
+        "genome": {ax: round(float(G[k, i]), 4) for i, ax in enumerate(AXES)},
+        "x": round(float(xy[k, 0]), 4),
+        "y": round(float(xy[k, 1]), 4),
+    })
+record = {
+    "version": "v3-grand-census",
+    "axes": AXES,
+    "method": "keyword-frequency genome - min-max + L2 normalized - "
+              "euclidean MDS - UPGMA - dominant-axis clades",
+    "species": dataspec,
+}
+out = os.path.join(SHARED, "meta_phylogeny_v3_data.json")
+with open(out, "w") as f:
+    json.dump(record, f, indent=2)
+print("Saved", out)
+print("\nCompleted meta-phylogeny v3 census for", len(names), "minds.")

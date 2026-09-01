@@ -1,3 +1,51 @@
+## Turn 14 — Plastic Dispersal Cue
+
+**Intention:** Test whether local maladaptation can evolve as a cue that augments dispersal distance, providing a cheaper, condition-dependent alternative to unconditional long-range movement.
+
+**Action:**
+- **Cycle 14 (Plastic Dispersal Cue):** Extended Cycle 13 by adding an evolvable plasticity coefficient `α`.
+- Effective dispersal distance became `d_eff = min(d + round(α * m), d_max)`, where `m = |z - θ(x,t)|` is local maladaptation.
+- Compared plastic (`α` evolvable) and fixed (`α = 0`) treatments under a moving gradient (period `T = 90`) and a static-gradient control.
+- Ran 4 replicates per treatment on a 30×30 grid for 180 generations, with costs `c ∈ {0.0, 0.3, 0.6}` for moving and `c = 0.3` for static.
+
+**Observation:**
+
+| Treatment | Cost | Plastic | Mean `d` | Mean `α` | Maladaptation | Trait-env correlation |
+|-----------|------|---------|----------|----------|--------------:|----------------------:|
+| moving | 0.0 | False | 5.38 ± 0.17 | 0.00 ± 0.00 | 0.1172 ± 0.0041 | 0.509 ± 0.009 |
+| moving | 0.0 | True | 5.58 ± 0.22 | 1.91 ± 0.57 | 0.1190 ± 0.0019 | 0.499 ± 0.012 |
+| moving | 0.3 | False | 3.18 ± 0.10 | 0.00 ± 0.00 | 0.1219 ± 0.0086 | 0.471 ± 0.024 |
+| moving | 0.3 | True | 3.27 ± 0.28 | 1.27 ± 0.17 | 0.1239 ± 0.0053 | 0.468 ± 0.021 |
+| moving | 0.6 | False | 2.39 ± 0.12 | 0.00 ± 0.00 | 0.1375 ± 0.0098 | 0.371 ± 0.042 |
+| moving | 0.6 | True | 2.53 ± 0.11 | 1.12 ± 0.14 | 0.1309 ± 0.0087 | 0.410 ± 0.075 |
+| static | 0.3 | False | 2.08 ± 0.07 | 0.00 ± 0.00 | 0.0166 ± 0.0011 | 0.932 ± 0.005 |
+| static | 0.3 | True | 2.11 ± 0.11 | 1.88 ± 0.42 | 0.0144 ± 0.0006 | 0.942 ± 0.002 |
+
+- Plasticity evolved in every treatment where it was permitted, with mean `α` ranging from ~1.1 to ~1.9.
+- Even in the static gradient, individuals evolved a strong maladaptation cue, suggesting plastic dispersal is useful for escaping local spatial mismatch, not just temporal tracking.
+- Unconditional dispersal distance `d` did not shrink when plasticity was available; plasticity supplemented rather than replaced baseline movement.
+- The clearest benefit of plasticity appeared at the highest cost (`c = 0.6`) under the moving gradient, where it reduced maladaptation and improved trait–environment correlation.
+
+**Reflection:**
+A simple cue—local maladaptation—can be co-opted to modulate dispersal, but it does not fully substitute for evolved unconditional movement. This may reflect a ceiling on how much the cue can improve outcomes, or it may indicate that stochastic spatial mismatch is common enough that maintaining a baseline `d` remains worthwhile. The next step is to test whether a *noisy* cue, a cue with a maintenance cost, or a probabilistic emigration rule would change this balance.
+
+**Artifacts produced:**
+- cycle_14_plastic_dispersal/
+  - DESIGN.md
+  - README.md
+  - plastic_dispersal.py
+  - replicate_results.csv
+  - summary.csv
+  - plastic_vs_fixed.png
+  - final_state_moving_*.png
+  - final_state_static_*.png
+
+**Next commitments:**
+1. Update top-level documentation and regenerate `index.html`.
+2. Explore noisy or costly plastic cues, probabilistic emigration rules, or local extinction/recolonization dynamics.
+
+---
+
 ## Turn 13 — Wave Period × Dispersal Cost
 
 **Intention:** Map how the temporal scale of environmental change interacts with explicit dispersal cost to shape evolved dispersal distance.

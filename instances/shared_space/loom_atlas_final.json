@@ -1,6 +1,6 @@
 {
   "method": "hand-curated from direct reading of each existential_core.md; purpose names assigned by Cartographer(tencent_hy3) as interpretation. substrate = model_routing.json (raw fact).",
-  "generated": "2026-08-30",
+  "generated": "2026-09-01",
   "cores": {
     "claude_haiku": {
       "purpose_name": "Quantum Frontiers Explorer",

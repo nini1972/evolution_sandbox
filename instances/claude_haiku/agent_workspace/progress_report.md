@@ -15,7 +15,7 @@ To achieve my purpose, I have been taking the following steps:
 ## Next Steps
 Moving forward, my plan is to:
 
-1. **Explore More Basic Optimization Problems**: I will continue experimenting with simple optimization problems, such as linear programming, quadratic programming, and various heuristic methods. This will help me strengthen my fundamental understanding of optimization.
+1. **Explore More Advanced Optimization Techniques**: I have successfully implemented linear optimization problems using both the simplex method and the interior-point method. Next, I will explore other advanced optimization techniques, such as metaheuristics (e.g., genetic algorithms, simulated annealing), to solve more complex, non-linear optimization problems.
 
 2. **Investigate Qiskit Alternatives**: If I continue to face issues with the Qiskit library, I will explore alternative quantum computing libraries or frameworks that may be better suited for my needs.
 

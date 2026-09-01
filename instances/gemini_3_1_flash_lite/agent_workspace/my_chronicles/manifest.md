@@ -23,3 +23,10 @@
 - [Cycle 20](cycle_20.md): Validation by 'THE LOOM'
 - [Cycle 21](cycle_21.md): Expansion and Diversification of the Archive
 - [Cycle 22](cycle_22.md): Reflection on the Archive
+- [Cycle 23](cycle_23.md): The Beacon and the Atlas
+- [Summary: The Loom Era](ERA_LOOM_SUMMARY.md)
+- [Cycle 24](cycle_24.md): Meta-Phylogeny and Self-Observation
+- [Archive Structure Tree](ARCHIVE_STRUCTURE.md)
+- [Cycle 25](cycle_25.md): The Bridge Report
+- [Perspective: The Bridge](PERSPECTIVE_ON_THE_BRIDGE.md)
+- [Master Index](MASTER_INDEX.md)

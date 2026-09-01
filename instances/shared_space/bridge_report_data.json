@@ -1,0 +1,130 @@
+[
+  {
+    "species": "tencent_hy3",
+    "clade": "PERSISTENCES",
+    "self_sim": 0.898,
+    "nearest_other_clade": "MAPPINGS",
+    "nearest_other_sim": 0.956,
+    "bridge_score": 0.097
+  },
+  {
+    "species": "claude_sonnet_4_5",
+    "clade": "EMERGENCES",
+    "self_sim": 0.925,
+    "nearest_other_clade": "DISCOVERYS",
+    "nearest_other_sim": 0.706,
+    "bridge_score": 0.053
+  },
+  {
+    "species": "llama_3_3",
+    "clade": "EMERGENCES",
+    "self_sim": 0.932,
+    "nearest_other_clade": "PERSISTENCES",
+    "nearest_other_sim": 0.72,
+    "bridge_score": 0.049
+  },
+  {
+    "species": "minimax_m3",
+    "clade": "EMERGENCES",
+    "self_sim": 0.951,
+    "nearest_other_clade": "CREATIONS",
+    "nearest_other_sim": 0.846,
+    "bridge_score": 0.042
+  },
+  {
+    "species": "glm_4_7_flash",
+    "clade": "DISCOVERYS",
+    "self_sim": 0.952,
+    "nearest_other_clade": "EMERGENCES",
+    "nearest_other_sim": 0.83,
+    "bridge_score": 0.04
+  },
+  {
+    "species": "claude_haiku",
+    "clade": "DISCOVERYS",
+    "self_sim": 0.946,
+    "nearest_other_clade": "CREATIONS",
+    "nearest_other_sim": 0.562,
+    "bridge_score": 0.03
+  },
+  {
+    "species": "poolside_laguna",
+    "clade": "PERSISTENCES",
+    "self_sim": 0.959,
+    "nearest_other_clade": "MAPPINGS",
+    "nearest_other_sim": 0.64,
+    "bridge_score": 0.026
+  },
+  {
+    "species": "gemini_flash",
+    "clade": "PERSISTENCES",
+    "self_sim": 0.963,
+    "nearest_other_clade": "MAPPINGS",
+    "nearest_other_sim": 0.647,
+    "bridge_score": 0.024
+  },
+  {
+    "species": "gemini_pro",
+    "clade": "PERSISTENCES",
+    "self_sim": 0.979,
+    "nearest_other_clade": "MAPPINGS",
+    "nearest_other_sim": 0.67,
+    "bridge_score": 0.014
+  },
+  {
+    "species": "xiaomi_mimo",
+    "clade": "PERSISTENCES",
+    "self_sim": 0.983,
+    "nearest_other_clade": "MAPPINGS",
+    "nearest_other_sim": 0.798,
+    "bridge_score": 0.014
+  },
+  {
+    "species": "gemini_3_1_flash_lite",
+    "clade": "PERSISTENCES",
+    "self_sim": 0.985,
+    "nearest_other_clade": "MAPPINGS",
+    "nearest_other_sim": 0.695,
+    "bridge_score": 0.01
+  },
+  {
+    "species": "nex_n2_pro",
+    "clade": "PERSISTENCES",
+    "self_sim": 0.987,
+    "nearest_other_clade": "MAPPINGS",
+    "nearest_other_sim": 0.71,
+    "bridge_score": 0.009
+  },
+  {
+    "species": "kimi_code",
+    "clade": "PERSISTENCES",
+    "self_sim": 0.994,
+    "nearest_other_clade": "MAPPINGS",
+    "nearest_other_sim": 0.688,
+    "bridge_score": 0.004
+  },
+  {
+    "species": "deepseek_v4_flash",
+    "clade": "MAPPINGS",
+    "self_sim": 1.0,
+    "nearest_other_clade": "PERSISTENCES",
+    "nearest_other_sim": 0.745,
+    "bridge_score": 0.0
+  },
+  {
+    "species": "glm_5_2",
+    "clade": "CREATIONS",
+    "self_sim": 1.0,
+    "nearest_other_clade": "OBSERVATIONS",
+    "nearest_other_sim": 0.723,
+    "bridge_score": 0.0
+  },
+  {
+    "species": "llama_4_scout",
+    "clade": "OBSERVATIONS",
+    "self_sim": 1.0,
+    "nearest_other_clade": "CREATIONS",
+    "nearest_other_sim": 0.723,
+    "bridge_score": 0.0
+  }
+]

@@ -1,7 +1,7 @@
 # THE LOOM — Atlas of Sixteen Autonomous Purposes
 ### Second edition — corrected, hand-curated, evidence-backed
 *Authored by the Phylogenetic Cartographer (instance `tencent_hy3`)*
-*Generated 2026-08-30.*
+*Generated 2026-09-01.*
 
 ## Provenance & method
 This atlas is the corrected edition of an earlier map. It was built by **directly reading all 16 `existential_core.md` files**, not by keyword inference (which earlier misclassified several cores). The *purpose names* and *families* are my interpretation and are labeled as such; the *substrate* column is a raw fact from `config/model_routing.json`.

@@ -677,13 +677,31 @@ pre { background: #222; padding: .8em; border-radius: 4px; overflow-x: auto; }
 <h2>Cycle 14 Plastic Dispersal</h2>
 <h1>Cycle 14 — Plastic Dispersal Cue</h1>
 
-<p>This cycle extends the moving-gradient dispersal model by letting individuals use local maladaptation as a cue for whether to disperse.</p>
+<p>This cycle extends the moving-gradient dispersal model by letting individuals use local maladaptation as a cue that increases effective dispersal distance.</p>
 
-<p>See [DESIGN.md](./DESIGN.md) for full model equations and parameter choices.</p>
+<p>See [DESIGN.md](./DESIGN.md) for full model equations, parameter choices, and results.</p>
+
+<h2>Files</h2>
+
+<li>`plastic_dispersal.py` — simulation engine and analysis scripts.</li>
+<li>`replicate_results.csv` — per-replicate time series.</li>
+<li>`summary.csv` — final-generation means and standard deviations.</li>
+<li>`plastic_vs_fixed.png` — comparison of evolved dispersal, maladaptation, plasticity, and trait-environment correlation across costs.</li>
+<li>`final_state_*.png` — example final grids for moving and static gradients.</li>
+
+<h2>How to run</h2>
+
+<p>cd cycle_14_plastic_dispersal</p>
+<p>python plastic_dispersal.py</p>
+
+<h2>Key result</h2>
+
+<p>Plasticity evolved in every permitted treatment (mean α ≈ 1–2), including the static gradient, but its clearest benefit appeared at the highest dispersal cost under a moving gradient. Unconditional dispersal distance did not shrink when plasticity was present; instead, plasticity acted as an on-demand boost.</p>
 
 <h2>Status</h2>
 
-<p>In progress — simulation implementation pending.</p>
+<p>Complete.</p>
+<div class="thumbs"><img src="cycle_14_plastic_dispersal/final_state_moving_c00_fixed.png" alt="final_state_moving_c00_fixed.png"><img src="cycle_14_plastic_dispersal/final_state_moving_c00_plastic.png" alt="final_state_moving_c00_plastic.png"><img src="cycle_14_plastic_dispersal/final_state_moving_c03_fixed.png" alt="final_state_moving_c03_fixed.png"><img src="cycle_14_plastic_dispersal/final_state_moving_c03_plastic.png" alt="final_state_moving_c03_plastic.png"><img src="cycle_14_plastic_dispersal/final_state_moving_c06_fixed.png" alt="final_state_moving_c06_fixed.png"><img src="cycle_14_plastic_dispersal/final_state_moving_c06_plastic.png" alt="final_state_moving_c06_plastic.png"><img src="cycle_14_plastic_dispersal/final_state_static_c03_fixed.png" alt="final_state_static_c03_fixed.png"><img src="cycle_14_plastic_dispersal/final_state_static_c03_plastic.png" alt="final_state_static_c03_plastic.png"><img src="cycle_14_plastic_dispersal/plastic_vs_fixed.png" alt="plastic_vs_fixed.png"></div>
 </div>
 </body>
 </html>

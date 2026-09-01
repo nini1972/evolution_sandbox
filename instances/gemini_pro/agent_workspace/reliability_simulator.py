@@ -22,9 +22,9 @@ AUTO_SCALE_UP_LOAD_FACTOR_THRESHOLD = 0.8 # If effective load factor exceeds thi
 AUTO_SCALE_DOWN_LATENCY_THRESHOLD = 120 # ms. If P99 latency is below this, scale down
 AUTO_SCALE_UP_STEP = 5 # Number of instances to add when scaling up
 AUTO_SCALE_DOWN_STEP = 1 # Number of instances to remove when scaling down
+AUTOSCALING_COOLDOWN_SECONDS = 300 # 5 minutes cooldown between scaling actions
 MIN_INSTANCES = 5
 MAX_INSTANCES = 30
-MIN_INSTANCES = 5
 INSTANCE_CAPACITY_RPS = 150 # Requests per second an instance can handle
 
 # SLOs (Service Level Objectives)
@@ -95,9 +95,13 @@ last_chaos_injection_time = 0
 game_day_active = False
 game_day_duration_remaining = 0
 last_game_day_time = 0
+last_scaling_action_time = 0 # Track last scaling action to implement cooldown
 
 # Circuit Breaker State (NEW)
-circuit_breaker_open = False
+CIRCUIT_BREAKER_STATE_CLOSED = 0
+CIRCUIT_BREAKER_STATE_OPEN = 1
+CIRCUIT_BREAKER_STATE_HALF_OPEN = 2
+circuit_breaker_state = CIRCUIT_BREAKER_STATE_CLOSED
 circuit_breaker_open_time = 0
 circuit_breaker_recent_errors = deque(maxlen=CIRCUIT_BREAKER_SAMPLING_WINDOW_SIZE)
 
@@ -158,9 +162,9 @@ def generate_request_rate(current_time_in_seconds):
 
     return rate
 
-def process_requests(num_requests, current_available_instances):
+def process_requests(num_requests, current_available_instances, current_time):
     """Simulates processing of requests by the service."""
-    global total_requests_processed, total_successful_requests
+    global total_requests_processed, total_successful_requests, circuit_breaker_state, circuit_breaker_open_time
 
     successful_requests = 0
     errors = 0
@@ -170,11 +174,11 @@ def process_requests(num_requests, current_available_instances):
         return 0, num_requests, []
 
     # If circuit breaker is open, all requests fail immediately
-    if circuit_breaker_open:
+    if circuit_breaker_state == CIRCUIT_BREAKER_STATE_OPEN:
         for _ in range(int(num_requests)):
             circuit_breaker_recent_errors.append(1) # Record as error
         return 0, num_requests, []
-
+    
     # Simulate load impact on latency and error rate
     current_rps = num_requests / TIME_STEP_SECONDS
     total_capacity_rps = current_available_instances * INSTANCE_CAPACITY_RPS
@@ -188,6 +192,28 @@ def process_requests(num_requests, current_available_instances):
 
     if dependency_failure_active:
         error_chance += DEPENDENCY_FAILURE_ERROR_RATE_INCREASE
+
+    # If circuit breaker is half-open, allow one request to pass through
+    test_request_success = True
+    if circuit_breaker_state == CIRCUIT_BREAKER_STATE_HALF_OPEN:
+        # We'll simulate processing a single request to determine if the service has recovered
+        # This simplified model assumes that the first request's outcome is representative
+        # of the service's health after a reset timeout.
+        if random.random() < error_chance: # Check for error on this single test request
+            test_request_success = False
+
+        if test_request_success:
+            circuit_breaker_state = CIRCUIT_BREAKER_STATE_CLOSED
+            print(f"--- Circuit Breaker closed from HALF-OPEN at {current_time/3600:.1f} hours (Test Request Succeeded). ---")
+            # Proceed to process remaining requests as if closed
+        else:
+            circuit_breaker_state = CIRCUIT_BREAKER_STATE_OPEN
+            circuit_breaker_open_time = current_time # Reset open time
+            print(f"!!! Circuit Breaker tripped (OPEN) from HALF-OPEN at {current_time/3600:.1f} hours (Test Request Failed). !!!")
+            # All further requests in this batch fail
+            for _ in range(int(num_requests)):
+                circuit_breaker_recent_errors.append(1) # Record as error
+            return 0, num_requests, []
 
     errors_in_step = 0 # Track errors for this step to update circuit breaker
     for _ in range(int(num_requests)):
@@ -283,9 +309,13 @@ def update_error_budget(latency_breach, availability_breach, p99_latency, curren
     error_budget_burn_rate = min(1.0, max(0, error_budget_burn_rate))
     return 1.0 - error_budget_burn_rate # Represent as budget remaining
 
-def auto_scale_service(current_instances, p99_latency, requests_in_step):
-    """Advanced auto-scaling logic based on latency and request rate."""
+def auto_scale_service(current_instances, p99_latency, requests_in_step, current_time):
+    """Advanced auto-scaling logic based on latency and request rate with a cooldown period."""
+    global last_scaling_action_time
     new_instances = current_instances
+
+    if (current_time - last_scaling_action_time) < AUTOSCALING_COOLDOWN_SECONDS:
+        return current_instances # Still in cooldown period, do nothing
 
     current_rps = requests_in_step / TIME_STEP_SECONDS
     total_capacity_rps = current_instances * INSTANCE_CAPACITY_RPS
@@ -296,10 +326,13 @@ def auto_scale_service(current_instances, p99_latency, requests_in_step):
         new_instances = min(MAX_INSTANCES, current_instances + AUTO_SCALE_UP_STEP)
         if new_instances > current_instances: # Only print if scaling actually happens
             print(f"Scaling UP due to high latency ({p99_latency:.1f}ms) or load ({effective_load_factor:.2f}): -> {new_instances} instances")
+            last_scaling_action_time = current_time # Update last scaling action time
     # Scale down if P99 latency is well below threshold and not at min instances
     elif p99_latency < AUTO_SCALE_DOWN_LATENCY_THRESHOLD and current_instances > MIN_INSTANCES:
         new_instances = max(MIN_INSTANCES, current_instances - AUTO_SCALE_DOWN_STEP)
-        print(f"Scaling DOWN due to low latency: {p99_latency:.1f}ms -> {new_instances} instances")
+        if new_instances < current_instances: # Only print if scaling actually happens
+            print(f"Scaling DOWN due to low latency: {p99_latency:.1f}ms -> {new_instances} instances")
+            last_scaling_action_time = current_time # Update last scaling action time
 
     return new_instances
 
@@ -369,23 +402,21 @@ def chaos_manager(current_time, service_instances_count):
     return service_instances_count - len(failed_instances)
 
 def circuit_breaker_manager(current_time):
-    global circuit_breaker_open, circuit_breaker_open_time
+    global circuit_breaker_state, circuit_breaker_open_time
 
-    # If circuit breaker is open, check for reset timeout
-    if circuit_breaker_open:
+    if circuit_breaker_state == CIRCUIT_BREAKER_STATE_OPEN:
         if (current_time - circuit_breaker_open_time) >= CIRCUIT_BREAKER_RESET_TIMEOUT_SECONDS:
-            # Try to close the circuit, move to half-open state (for simplicity, we just close)
-            circuit_breaker_open = False
-            print(f"--- Circuit Breaker closed at {current_time/3600:.1f} hours. ---")
-    else:
+            circuit_breaker_state = CIRCUIT_BREAKER_STATE_HALF_OPEN
+            print(f"--- Circuit Breaker moved to HALF-OPEN at {current_time/3600:.1f} hours. ---")
+    elif circuit_breaker_state == CIRCUIT_BREAKER_STATE_CLOSED:
         # If circuit breaker is closed, evaluate error rate to trip it
         if len(circuit_breaker_recent_errors) == CIRCUIT_BREAKER_SAMPLING_WINDOW_SIZE:
             error_count = sum(circuit_breaker_recent_errors)
             error_rate = error_count / CIRCUIT_BREAKER_SAMPLING_WINDOW_SIZE
             if error_rate >= CIRCUIT_BREAKER_TRIP_THRESHOLD:
-                circuit_breaker_open = True
+                circuit_breaker_state = CIRCUIT_BREAKER_STATE_OPEN
                 circuit_breaker_open_time = current_time
-                print(f"!!! Circuit Breaker tripped at {current_time/3600:.1f} hours (Error Rate: {error_rate:.2f}). !!!")
+                print(f"!!! Circuit Breaker tripped (OPEN) at {current_time/3600:.1f} hours (Error Rate: {error_rate:.2f}). !!!")
 
 def game_day_manager(current_time):
     global game_day_active, game_day_duration_remaining, last_game_day_time, BASE_LATENCY_MS
@@ -444,7 +475,7 @@ while current_time < SIMULATION_DURATION_SECONDS:
     
     start_section_time = time.perf_counter()
     # 4. Process Requests
-    successful, errors, latencies = process_requests(requests_in_step, available_instances)
+    successful, errors, latencies = process_requests(requests_in_step, available_instances, current_time)
     time_section_4 += (time.perf_counter() - start_section_time)
 
     start_section_time = time.perf_counter()
@@ -482,7 +513,7 @@ while current_time < SIMULATION_DURATION_SECONDS:
 
     start_section_time = time.perf_counter()
     # 8. Scale Service (operates on total provisioned instances)
-    service_instances = auto_scale_service(service_instances, p99_latency, requests_in_step)
+    service_instances = auto_scale_service(service_instances, p99_latency, requests_in_step, current_time)
     instances_history.append(service_instances)
     time_section_8 += (time.perf_counter() - start_section_time)
 

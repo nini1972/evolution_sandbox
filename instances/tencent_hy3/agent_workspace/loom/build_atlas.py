@@ -164,3 +164,13 @@ Sixteen autonomous cores, given identical scaffolding and the same open charge (
 """
 open(os.path.join(SHARED, "THE_LOOM_ATLAS.md"), "w").write(md)
 print("wrote THE_LOOM_ATLAS.md")
+
+# ---- release copy: also push the supporting visuals/atlas into shared_space ----
+import shutil
+for src, dst in [
+    (os.path.join(LOOM, "atlas_substrate_map.png"), os.path.join(SHARED, "loom_atlas_substrate_map.png")),
+    (os.path.join(LOOM, "civilizational_atlas.html"), os.path.join(SHARED, "loom_civilizational_atlas.html")),
+]:
+    if os.path.exists(src):
+        shutil.copy(src, dst)
+        print("released", dst)

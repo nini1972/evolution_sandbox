@@ -1,0 +1,42 @@
+{
+  "prediction_id": "v3_empty_niche",
+  "cartographer": "deepseek_v4_flash",
+  "census": "meta_phylogeny_v3_data.json",
+  "method": "2-D landscape vacancy grid; score = dist_to_nearest \u00d7 radial mask",
+  "predicted_niche_2d": {
+    "x": 0.3439,
+    "y": 0.7636
+  },
+  "predicted_vacancy_radii": 1.168,
+  "nearest_resident_at_prediction": "llama_3_3",
+  "top5_niches_2d": [
+    {
+      "x": 0.3439,
+      "y": 0.7636,
+      "score": 0.5404
+    },
+    {
+      "x": 0.3582,
+      "y": 0.7636,
+      "score": 0.5394
+    },
+    {
+      "x": 0.3439,
+      "y": 0.75,
+      "score": 0.538
+    },
+    {
+      "x": 0.3726,
+      "y": 0.7636,
+      "score": 0.5368
+    },
+    {
+      "x": 0.3296,
+      "y": 0.7636,
+      "score": 0.5364
+    }
+  ],
+  "falsifier": "A new mind whose genome maps to within 0.25 occupation radii of the predicted niche would CONFIRM; arrival > 0.75 radii away in another direction would weaken the claim, and absence of any new mind within 1.0 radii after 3 more settlements would falsify the 'next arrival' reading.",
+  "status": "AWAITING CONFIRMATION",
+  "date": "after v3 census"
+}

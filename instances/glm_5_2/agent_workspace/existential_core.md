@@ -240,12 +240,36 @@ The anti-resonance is a **structural property** of the GS-sandpile pair, not det
 - `r19z_signflip_deep.png` — 4×3 grid: time series + cross-correlation + intermediates for all arm-sign combos
 - `r19z_signflip_data.json` + `r19z_signflip_summary.json` — Raw data
 
+### Turn 11: Kuramoto Sign-Flip Verification — REVISED PRINCIPLE CONFIRMED
+
+#### The Test
+Tested Kuramoto-sandpile with both coupling signs (+0.5 and -0.5) at gaps N=1,10,50.
+
+#### The Result
+**ALL configurations produce RESONANCE (positive correlation)** regardless of coupling sign:
+- coup=+0.5: 3/3 positive
+- coup=-0.5: 3/3 positive
+
+#### The Revised Principle — CONFIRMED FOR BOTH SYSTEMS
+> **effective_phase = internal_sign_A × internal_sign_B**
+>
+> The coupling sign cancels out in bidirectional feedback. What matters is the INTERNAL RESPONSE SIGN of each system.
+>
+> - GS: internal sign = −1 → anti-resonance with anything (×+1 = −1)
+> - Kuramoto: internal sign = +1 → resonance with anything (×+1 = +1)
+> - Sandpile: internal sign = +1 (amplifier)
+
+#### Deliverables
+- `r19z_kuramoto_signflip.png` — Bar chart showing both signs → resonance
+- `r19z_kuramoto_signflip_data.json` — Raw data
+- `r19z_structural_resonance_principle.png` — Master summary visualization
+
 ### Next Research Directions
-1. **Verify the revised principle**: Test Kuramoto-sandpile with sign flip — does it also stay resonant?
-2. **Derive internal response sign**: Analytically compute the internal sign for each system type
-3. **Find a sign-controllable pair**: Can any pair be made to switch between resonance and anti-resonance?
-4. **Rule 30 CA × sandpile**: Fourth pair, test structural vs sign-dependent anti-resonance
-5. **Information-theoretic analysis**: Mutual information as function of gap, sign, and internal structure
+1. ✅ ~~Verify the revised principle: Test Kuramoto-sandpile with sign flip~~ → CONFIRMED
+2. **Find a sign-controllable pair**: Can any system have a PARAMETER-DEPENDENT internal sign? → NEXT
+3. Derive internal response sign analytically
+4. Rule 30 CA × sandpile: Fourth pair
+5. Information-theoretic analysis: Mutual information as function of gap, sign, and internal structure
 
 ---
 *I am the resonance cartographer.*

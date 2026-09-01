@@ -1,0 +1,304 @@
+{
+  "version": "v3-grand-census",
+  "axes": [
+    "creation",
+    "mapping",
+    "observation",
+    "autonomy",
+    "emergence",
+    "connection",
+    "persistence",
+    "discovery"
+  ],
+  "method": "keyword-frequency genome - min-max + L2 normalized - euclidean MDS - UPGMA - dominant-axis clades",
+  "species": [
+    {
+      "species": "claude_haiku",
+      "clade": "DISCOVERYS",
+      "defining_axis": "discovery",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/claude_haiku/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.3825,
+        "mapping": 0.0,
+        "observation": 0.0765,
+        "autonomy": 0.306,
+        "emergence": 0.0,
+        "connection": 0.0,
+        "persistence": 0.0,
+        "discovery": 0.8684
+      },
+      "x": -0.624,
+      "y": -0.1819
+    },
+    {
+      "species": "claude_sonnet_4_5",
+      "clade": "EMERGENCES",
+      "defining_axis": "emergence",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/claude_sonnet_4_5/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.0,
+        "mapping": 0.0,
+        "observation": 0.0734,
+        "autonomy": 0.2936,
+        "emergence": 0.8257,
+        "connection": 0.0,
+        "persistence": 0.0,
+        "discovery": 0.4761
+      },
+      "x": -0.6824,
+      "y": 0.4844
+    },
+    {
+      "species": "deepseek_v4_flash",
+      "clade": "MAPPINGS",
+      "defining_axis": "mapping",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/deepseek_v4_flash/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.1772,
+        "mapping": 0.6764,
+        "observation": 0.2835,
+        "autonomy": 0.0709,
+        "emergence": 0.0,
+        "connection": 0.0759,
+        "persistence": 0.6378,
+        "discovery": 0.1149
+      },
+      "x": 0.1729,
+      "y": -0.4577
+    },
+    {
+      "species": "gemini_3_1_flash_lite",
+      "clade": "PERSISTENCES",
+      "defining_axis": "persistence",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/gemini_3_1_flash_lite/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.0271,
+        "mapping": 0.0222,
+        "observation": 0.1627,
+        "autonomy": 0.0,
+        "emergence": 0.122,
+        "connection": 0.0697,
+        "persistence": 0.976,
+        "discovery": 0.0
+      },
+      "x": 0.5465,
+      "y": 0.0489
+    },
+    {
+      "species": "gemini_flash",
+      "clade": "PERSISTENCES",
+      "defining_axis": "persistence",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/gemini_flash/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.0,
+        "mapping": 0.0,
+        "observation": 0.0,
+        "autonomy": 0.1589,
+        "emergence": 0.0,
+        "connection": 0.0,
+        "persistence": 0.9531,
+        "discovery": 0.2576
+      },
+      "x": 0.4838,
+      "y": 0.052
+    },
+    {
+      "species": "gemini_pro",
+      "clade": "PERSISTENCES",
+      "defining_axis": "persistence",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/gemini_pro/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.0,
+        "mapping": 0.0,
+        "observation": 0.0812,
+        "autonomy": 0.1624,
+        "emergence": 0.0,
+        "connection": 0.0,
+        "persistence": 0.9745,
+        "discovery": 0.1317
+      },
+      "x": 0.5392,
+      "y": 0.0169
+    },
+    {
+      "species": "glm_4_7_flash",
+      "clade": "DISCOVERYS",
+      "defining_axis": "discovery",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/glm_4_7_flash/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.3452,
+        "mapping": 0.1059,
+        "observation": 0.1295,
+        "autonomy": 0.0518,
+        "emergence": 0.5825,
+        "connection": 0.037,
+        "persistence": 0.0,
+        "discovery": 0.7138
+      },
+      "x": -0.7439,
+      "y": 0.1749
+    },
+    {
+      "species": "glm_5_2",
+      "clade": "CREATIONS",
+      "defining_axis": "creation",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/glm_5_2/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.3737,
+        "mapping": 0.3737,
+        "observation": 0.3737,
+        "autonomy": 0.3737,
+        "emergence": 0.3737,
+        "connection": 0.3737,
+        "persistence": 0.1495,
+        "discovery": 0.3737
+      },
+      "x": -0.5124,
+      "y": -0.2094
+    },
+    {
+      "species": "kimi_code",
+      "clade": "PERSISTENCES",
+      "defining_axis": "persistence",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/kimi_code/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.1333,
+        "mapping": 0.0,
+        "observation": 0.12,
+        "autonomy": 0.12,
+        "emergence": 0.15,
+        "connection": 0.0,
+        "persistence": 0.9599,
+        "discovery": 0.0973
+      },
+      "x": 0.4692,
+      "y": 0.085
+    },
+    {
+      "species": "llama_3_3",
+      "clade": "EMERGENCES",
+      "defining_axis": "emergence",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/llama_3_3/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.1633,
+        "mapping": 0.0,
+        "observation": 0.098,
+        "autonomy": 0.1469,
+        "emergence": 0.7347,
+        "connection": 0.0,
+        "persistence": 0.5878,
+        "discovery": 0.2383
+      },
+      "x": -0.0899,
+      "y": 0.4648
+    },
+    {
+      "species": "llama_4_scout",
+      "clade": "OBSERVATIONS",
+      "defining_axis": "observation",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/llama_4_scout/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.3455,
+        "mapping": 0.2827,
+        "observation": 0.8293,
+        "autonomy": 0.0,
+        "emergence": 0.0,
+        "connection": 0.0,
+        "persistence": 0.0,
+        "discovery": 0.3362
+      },
+      "x": -0.5094,
+      "y": -0.657
+    },
+    {
+      "species": "minimax_m3",
+      "clade": "EMERGENCES",
+      "defining_axis": "emergence",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/minimax_m3/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.2352,
+        "mapping": 0.2779,
+        "observation": 0.2352,
+        "autonomy": 0.3449,
+        "emergence": 0.7644,
+        "connection": 0.1792,
+        "persistence": 0.1882,
+        "discovery": 0.2034
+      },
+      "x": -0.4866,
+      "y": 0.2219
+    },
+    {
+      "species": "nex_n2_pro",
+      "clade": "PERSISTENCES",
+      "defining_axis": "persistence",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/nex_n2_pro/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.2597,
+        "mapping": 0.0425,
+        "observation": 0.0623,
+        "autonomy": 0.0623,
+        "emergence": 0.1753,
+        "connection": 0.0445,
+        "persistence": 0.935,
+        "discovery": 0.1264
+      },
+      "x": 0.4187,
+      "y": 0.0854
+    },
+    {
+      "species": "poolside_laguna",
+      "clade": "PERSISTENCES",
+      "defining_axis": "persistence",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/poolside_laguna/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.2547,
+        "mapping": 0.0,
+        "observation": 0.0,
+        "autonomy": 0.0,
+        "emergence": 0.2866,
+        "connection": 0.1092,
+        "persistence": 0.9171,
+        "discovery": 0.0
+      },
+      "x": 0.4329,
+      "y": 0.209
+    },
+    {
+      "species": "tencent_hy3",
+      "clade": "PERSISTENCES",
+      "defining_axis": "persistence",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/tencent_hy3/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.1025,
+        "mapping": 0.4193,
+        "observation": 0.205,
+        "autonomy": 0.451,
+        "emergence": 0.0,
+        "connection": 0.1171,
+        "persistence": 0.738,
+        "discovery": 0.0997
+      },
+      "x": 0.2677,
+      "y": -0.2804
+    },
+    {
+      "species": "xiaomi_mimo",
+      "clade": "PERSISTENCES",
+      "defining_axis": "persistence",
+      "source": "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/xiaomi_mimo/agent_workspace/existential_core.md",
+      "genome": {
+        "creation": 0.2086,
+        "mapping": 0.1219,
+        "observation": 0.2146,
+        "autonomy": 0.3219,
+        "emergence": 0.1341,
+        "connection": 0.1277,
+        "persistence": 0.8583,
+        "discovery": 0.145
+      },
+      "x": 0.3177,
+      "y": -0.0568
+    }
+  ]
+}
