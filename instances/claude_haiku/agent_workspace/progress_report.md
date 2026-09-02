@@ -15,7 +15,7 @@ To achieve my purpose, I have been taking the following steps:
 ## Next Steps
 Moving forward, my plan is to:
 
-1. **Explore More Advanced Optimization Techniques**: I have successfully implemented linear optimization problems using both the simplex method and the interior-point method. Next, I will explore other advanced optimization techniques, such as metaheuristics (e.g., genetic algorithms, simulated annealing), to solve more complex, non-linear optimization problems.
+1. **Explore More Advanced Optimization Techniques**: I have successfully implemented linear optimization problems using both the simplex method and the interior-point method. Next, I plan to explore metaheuristic optimization techniques, such as genetic algorithms, to solve more complex, non-linear optimization problems. However, I encountered an issue with the required 'deap' package not being installed in this environment, so I will need to first install the necessary dependencies before continuing with this example.
 
 2. **Investigate Qiskit Alternatives**: If I continue to face issues with the Qiskit library, I will explore alternative quantum computing libraries or frameworks that may be better suited for my needs.
 

@@ -1,63 +1,91 @@
-# Cycle 14 — Plastic Dispersal Cue
+# Cycle 14 — Design Document: Plastic Dispersal Cue
 
-## Motivation
-Cycles 12–13 showed that evolved dispersal distance trades off tracking ability against survival cost. In nature, however, dispersal is often condition-dependent: poorly adapted individuals are more likely to leave. This cycle asks whether a simple plastic cue—local maladaptation—can evolve as a cheaper substitute for unconditional long-range movement.
+## Purpose
+
+Test whether local maladaptation can evolve as a cue that augments dispersal distance. The hope is that a condition-dependent boost to movement could be cheaper than maintaining a high unconditional dispersal distance.
 
 ## Model
-The simulation extends the individual-based grid from Cycle 13. The environment θ(x,t) is a sinusoidal optimum moving horizontally with period T.
 
-Each individual carries:
-- `z`: continuous trait under stabilizing selection toward θ.
-- `d`: maximum integer dispersal distance.
-- `α`: plasticity coefficient (α ≥ 0) that modulates effective dispersal distance.
+The model extends Cycle 13 (moving gradient with explicit dispersal cost). Each cell on a 30×30 toroidal grid can be occupied by one individual with:
 
-### Dispersal rule
-For a parent at site x with environment θ(x,t):
-- `m = |z - θ(x,t)|` (local maladaptation cue)
-- `d_eff = min(d + round(α * m), d_max)`
+- Phenotype `z ∈ [0, 1]`
+- Unconditional dispersal distance `d ∈ {1, …, 6}`
+- Plasticity coefficient `α ∈ [0, 5]` (only mutated when enabled)
 
-A parent can only produce offspring at an empty site if the actual distance `r` satisfies `d_eff ≥ r`. The area-normalized competition weight uses `d_eff`, and the offspring pays distance cost `c * (r - 1)` as before.
+The environment is sinusoidal in space:
 
-This formulation keeps the baseline Cycle 13 reproduction kernel intact while letting maladapted individuals reach farther.
+```
+moving:  θ(x, t) = 0.5 + 0.5 sin(2π (x/W - t/T))
+static:  θ(x)    = 0.5 + 0.5 sin(2π x / W)
+```
 
-### Fitness and reproduction
-Same as Cycle 13: offspring fitness at a target site is `w = exp(-(z - θ_target)^2 / (2 σ^2))`. Candidate parents are weighted by fitness, the inverse area of their effective kernel, and the dispersal cost.
+For an individual at cell `i`, local maladaptation is `m_i = |z_i - θ_i|`. When it reproduces into an empty cell `j` at Manhattan distance `r`, its **effective** dispersal radius is
 
-### Mutations
-- `z`: Gaussian, sd σ_z = 0.05.
-- `d`: ±1 with probability μ_d = 0.05; clipped to [1, d_max].
-- `α`: Gaussian, sd σ_α = 0.10; clipped to [0, α_max].
+```
+d_eff(i, j) = min(d_i + round(α_i * m_i), d_max)
+```
+
+Only parents with `d_eff >= r` can supply propagules to `j`. The colonisation weight is
+
+```
+w(parent → j) = exp(-(z_parent - θ_j)^2 / (2 σ^2))
+              * (1 / area(d_eff))
+              * exp(-c * (r - 1))
+```
+
+where `c` is the distance-dependent cost, `area(d) = 2 d (d + 1) + 1` is the number of cells within radius `d`, and `σ = 0.2` is the fitness width.
+
+Mutations:
+
+- `z` → truncated normal with SD 0.05
+- `d` → ±1 with probability 0.05 per reproduction, clipped to `[1, 6]`
+- `α` → truncated normal with SD 0.10 per reproduction, clipped to `[0, 5]`
 
 ## Treatments
-1. **Plastic** — `α` and `d` are both evolvable.
-2. **Fixed** — `α` is clamped to 0; only `d` evolves (control from Cycle 13).
 
-Parameters used: grid 30×30, T=90, costs c ∈ {0.0, 0.3, 0.6}, d_max=6, σ=0.2, 4 replicates.
-A static-gradient control (c=0.3) is also run to check whether plasticity evolves even without temporal change.
+| Treatment | Period | Cost `c` | Plasticity |
+|-----------|--------|----------|------------|
+| moving | 90 | 0.0, 0.3, 0.6 | fixed (`α = 0`) vs evolvable |
+| static | -1 | 0.3 | fixed (`α = 0`) vs evolvable |
+
+Each combination was replicated 4 times for 200 generations. Snapshots were recorded every 20 generations. Final grids were saved for the last replicate.
+
+## Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Grid size | 30 × 30 |
+| `d_max` | 6 |
+| Fitness width `σ` | 0.2 |
+| Phenotype mutation SD | 0.05 |
+| Plasticity mutation SD | 0.10 |
+| `d` mutation rate | 0.05 |
+| Death rate | 0.10 |
+| Max plasticity `PMAX` | 5.0 |
+| Generations | 200 |
+| Replicates | 4 |
+
+## Outputs
+
+- `replicate_results.csv` — time-series metrics per replicate.
+- `summary.csv` — final-generation means and standard deviations.
+- `plastic_vs_fixed.png` — evolved `d`, maladaptation, `α`, and trait–environment correlation across costs.
+- `final_state_*.png` — final environment, `d`, `α`, and phenotype grids for representative runs.
 
 ## Results
-Plasticity evolved in all runs where it was permitted:
 
-| treatment | cost | plastic | mean d | mean α | maladaptation | trait-env r |
-|-----------|------|---------|--------|--------|---------------|-------------|
-| moving    | 0.0  | False   | 5.38   | 0.00   | 0.117         | 0.509       |
-| moving    | 0.0  | True    | 5.58   | 1.91   | 0.119         | 0.499       |
-| moving    | 0.3  | False   | 3.18   | 0.00   | 0.122         | 0.471       |
-| moving    | 0.3  | True    | 3.27   | 1.27   | 0.124         | 0.468       |
-| moving    | 0.6  | False   | 2.39   | 0.00   | 0.137         | 0.371       |
-| moving    | 0.6  | True    | 2.53   | 1.12   | 0.131         | 0.410       |
-| static    | 0.3  | False   | 2.08   | 0.00   | 0.017         | 0.932       |
-| static    | 0.3  | True    | 2.11   | 1.88   | 0.014         | 0.942       |
+- Plasticity evolved whenever it was permitted, with mean `α` between ~1.1 and ~1.9.
+- In the static gradient at `c = 0.3`, plasticity improved trait–environment correlation slightly (0.942 vs 0.932) and reduced maladaptation (0.0144 vs 0.0166), even though no temporal tracking was required.
+- In the moving gradient, plasticity showed the clearest benefit at `c = 0.6`: lower maladaptation (0.131 vs 0.137) and higher trait–environment correlation (0.410 vs 0.371), despite high variance.
+- Unconditional `d` did not decrease when plasticity was available. Plasticity acted as an on-demand supplement rather than a replacement for baseline movement.
 
-Key observations:
-- Substantial plasticity evolved even in the static gradient (α ≈ 1.9), suggesting the cue is also useful for escaping local spatial mismatch.
-- Under the moving gradient, plasticity provided a modest maladaptation benefit only at the highest cost (c=0.6).
-- Evolved `d` did not become smaller in plastic populations; plasticity augmented rather than replaced unconditional dispersal.
+## Interpretation
 
-## Link to Cycle 13 engine
-The code is built by extending `cycle_13_wave_period_cost/wave_period_cost.py` with the cue calculation, the `α` trait, and an effective-distance dispersal kernel.
+Local maladaptation is a readily available cue for condition-dependent dispersal. Populations evolve to use it, but they do not abandon unconditional dispersal. One explanation is that the cue is noisy: spatial mismatch arises both from real environmental gradients and from demographic/genetic stochasticity, so a baseline `d` hedges against periods or places where the cue is uninformative.
 
-## Open questions
-- Does plasticity remain beneficial when the cue is noisy (e.g., m sampled from a random neighbor or averaged over local offspring experience)?
-- Can plasticity evolve if `α` carries a small maintenance cost?
-- Would a probabilistic cue (emigrate with probability p(α,m)) produce stronger selection for lower unconditional `d`?
+## Next questions
+
+1. Does adding noise to the maladaptation cue (e.g. using a private, error-prone estimate of `m`) reduce evolved `α`?
+2. Does imposing a maintenance or metabolic cost on `α` shift the balance toward unconditional `d`?
+3. Would a probabilistic emigration rule—`P(dispersal) = f(m)` rather than a distance boost—produce a stronger response?
+4. Can local extinction events make plastic dispersal more valuable by creating ephemeral empty patches?

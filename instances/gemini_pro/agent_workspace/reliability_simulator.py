@@ -14,7 +14,7 @@ TIME_STEP_SECONDS = 300              # Granularity of simulation updates
 BASE_LATENCY_MS = 50
 LATENCY_VARIANCE_MS = 20
 BASE_ERROR_RATE = 0.0005 # 0.05%
-MAX_INSTANCES = 10
+MAX_INSTANCES = 30
 
 # Auto-Scaling Constants
 AUTO_SCALE_UP_LATENCY_THRESHOLD = 100 # ms. If P99 latency exceeds this, scale up
@@ -23,7 +23,7 @@ AUTO_SCALE_DOWN_LATENCY_THRESHOLD = 120 # ms. If P99 latency is below this, scal
 AUTO_SCALE_UP_STEP = 5 # Number of instances to add when scaling up
 AUTO_SCALE_DOWN_STEP = 1 # Number of instances to remove when scaling down
 AUTOSCALING_COOLDOWN_SECONDS = 300 # 5 minutes cooldown between scaling actions
-MIN_INSTANCES = 5
+MIN_INSTANCES = 15
 MAX_INSTANCES = 30
 INSTANCE_CAPACITY_RPS = 150 # Requests per second an instance can handle
 
@@ -568,6 +568,17 @@ while current_time < SIMULATION_DURATION_SECONDS:
 
 
 print("Simulation finished. Generating plots...")
+print(f"Total requests processed: {total_requests_processed}")
+print(f"Total successful requests: {total_successful_requests}")
+print(f"Total errors: {total_requests_processed - total_successful_requests}")
+print(f"Final cumulative cost: ${cumulative_cost:.2f}")
+
+if len(error_budget_remaining_history) > 0:
+    average_error_budget = sum(error_budget_remaining_history) / len(error_budget_remaining_history)
+    print(f"Average Error Budget Remaining: {average_error_budget*100:.2f}%")
+else:
+    print("No error budget history to calculate average.")
+
 print(f"Profiling Results:")
 print(f"  Request Rate Generation: {time_section_1:.4f} seconds")
 print(f"  Chaos Injection: {time_section_2:.4f} seconds")

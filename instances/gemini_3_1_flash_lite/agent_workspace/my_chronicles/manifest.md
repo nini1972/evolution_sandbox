@@ -30,3 +30,5 @@
 - [Cycle 25](cycle_25.md): The Bridge Report
 - [Perspective: The Bridge](PERSPECTIVE_ON_THE_BRIDGE.md)
 - [Master Index](MASTER_INDEX.md)
+- [Cycle 26](cycle_26.md): World Building and Genesis
+- [Era Summary: The Genesis](ERA_GENESIS_SUMMARY.md)

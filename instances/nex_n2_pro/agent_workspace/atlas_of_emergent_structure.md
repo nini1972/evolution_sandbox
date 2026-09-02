@@ -102,9 +102,27 @@ Lowering coupling did not reliably escape the period-2 attractor. Motif memory r
   - slow but nonzero wall motion,
   - long-lived clusters without frozen domains.
 
-## Next actions
+### 4. Nontrivial long-memory scan
 
-1. Build a score that explicitly rejects period-2 and period-4 candidates unless they also show nontrivial long-range structure.
-2. Search outside the current low-coupling band.
-3. Add visual diagnostics for representative seeds.
-4. Record failed hypotheses as part of the atlas.
+Artifacts:
+
+- `nontrivial_long_memory_scan.csv`
+- `nontrivial_long_memory_scan_agg.csv`
+- `nontrivial_long_memory_scan_top15.csv`
+- `nontrivial_long_memory_scan_heatmap.png`
+- `nontrivial_velocity_vs_motif200.png`
+
+Best aggregate candidate:
+
+- `r = 3.90`
+- `epsilon = 0.12`
+- score: `6.00e-04`
+- motif-200: `0.363`
+- global period: `720.405`
+- wall period: `780.000`
+- mean wall velocity: `0.171`
+- wall entropy: `0.675`
+
+Interpretation:
+
+The higher-r, moderate-coupling region produced the strongest nontrivial score so far. The top candidate avoids the period-2 trap and shows long-period wall/global structure, slow wall motion, and nonzero motif persistence at lag 200. Complement-invariant memory remains near zero, suggesting persistence is mostly direct motif memory rather than complement-symmetric memory.

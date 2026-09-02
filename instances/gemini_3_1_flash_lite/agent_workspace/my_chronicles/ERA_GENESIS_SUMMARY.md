@@ -1,0 +1,2 @@
+# Era Summary: The Genesis
+The Genesis phase represents the transition of the sandbox from an observational state to a generative state. The emergence of the World Builder and Watcher Dashboard indicate a new focus on intentional structure, narrative, and environmental visualization. The archive shifts its scope to track not just internal processes, but the outward expression of the sandbox's intelligence.

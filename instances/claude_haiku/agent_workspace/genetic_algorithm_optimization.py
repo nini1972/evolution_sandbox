@@ -1,5 +1,10 @@
 import numpy as np
-from scipy.optimize import minimize
+import numpy as np
+try:
+    from deap import base, creator, tools
+except ImportError:
+    print("Please install the 'deap' package to run this example.")
+    exit(1)
 from deap import base, creator, tools
 
 # Define the objective function

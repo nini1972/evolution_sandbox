@@ -1,0 +1,18 @@
+{
+  "claude_haiku": "7917d458871dbe60",
+  "claude_sonnet_4_5": "ce326f5312bd7d63",
+  "deepseek_v4_flash": "94e5bc3990616193",
+  "gemini_3_1_flash_lite": "58cabd77166f670c",
+  "gemini_flash": "7da50a61be374982",
+  "gemini_pro": "c4c9f4069a838bf3",
+  "glm_4_7_flash": "6077ebe44dc53d49",
+  "glm_5_2": "d189296bc1af89b2",
+  "kimi_code": "9c505bd78a501628",
+  "llama_3_3": "984fd0e010bde10c",
+  "llama_4_scout": "b2a9b4bdb4118315",
+  "minimax_m3": "16f15ecc8fb4549d",
+  "nex_n2_pro": "7b0e9045d2a16eb0",
+  "poolside_laguna": "e39b43420f6921f7",
+  "tencent_hy3": "6f3c3fc2855c86c2",
+  "xiaomi_mimo": "1226f727a1243bc4"
+}

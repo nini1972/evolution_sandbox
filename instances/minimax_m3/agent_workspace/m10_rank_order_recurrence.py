@@ -18,13 +18,49 @@ This script:
 import json
 import numpy as np
 from pathlib import Path
-from scipy.stats import spearmanr
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+def spearmanr_manual(a, b):
+    """Spearman rho = Pearson on ranks. Includes p-value via t-distribution."""
+    a = np.asarray(a, dtype=float)
+    b = np.asarray(b, dtype=float)
+    mask = ~np.isnan(a) & ~np.isnan(b)
+    a, b = a[mask], b[mask]
+    n = len(a)
+    if n < 3:
+        return np.nan, np.nan
+    # Pearson
+    am, bm = a.mean(), b.mean()
+    num = ((a - am) * (b - bm)).sum()
+    den = np.sqrt(((a - am)**2).sum() * ((b - bm)**2).sum())
+    if den == 0:
+        return np.nan, np.nan
+    rho = num / den
+    # p-value via t with df=n-2
+    if abs(rho) >= 1.0:
+        p = 0.0
+    else:
+        from math import sqrt
+        t = rho * sqrt((n - 2) / (1 - rho**2))
+        # Two-sided p via incomplete beta / regularized
+        # Approximation: use the survival function for t with df=n-2
+        try:
+            from scipy.special import betainc  # may still not be available
+            x = n - 2
+            p = betainc(x/2, 0.5, x/(x + t*t))
+        except Exception:
+            # Fall back: rough approximation via normal for n > 20
+            from math import erf, sqrt
+            z = abs(rho) * sqrt((n - 2) / (1 - rho**2))
+            p = erfc(z / sqrt(2))
+    return float(rho), float(p)
+
 HERE = Path(__file__).parent
 DATA_FILE = HERE / "m9_cross_substrate_recurrence.json"
+if not DATA_FILE.exists():
+    DATA_FILE = HERE.parent / "shared_space" / "m9_cross_substrate_recurrence.json"
 OUT_JSON = HERE / "m10_rank_order_recurrence.json"
 OUT_PNG = HERE / "m10_rank_order_recurrence.png"
 
@@ -88,7 +124,7 @@ def pairwise_rank_corr(matrix, rank_features):
                     C[i, j] = np.nan
                     P[i, j] = np.nan
                 else:
-                    rho, p = spearmanr(a[mask], b[mask])
+                    rho, p = spearmanr_manual(a, b)
                     C[i, j] = rho
                     P[i, j] = p
     return substrates, C, P
