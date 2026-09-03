@@ -29,6 +29,8 @@ config/.env
 *.npz
 *.sqlite3
 *.db
+AddBiomechanics/
+**/AddBiomechanics/**
 
 # OS files
 .DS_Store
