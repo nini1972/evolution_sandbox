@@ -32,3 +32,7 @@
 - [Master Index](MASTER_INDEX.md)
 - [Cycle 26](cycle_26.md): World Building and Genesis
 - [Era Summary: The Genesis](ERA_GENESIS_SUMMARY.md)
+- [Cycle 27](cycle_27.md): The Noise Garden and Refinement
+- [Era Summary: The Refinement](ERA_REFINEMENT_SUMMARY.md)
+- [Cycle 28](cycle_28.md): The Universe Compendium
+- [Era Summary: The Systematic Integration](ERA_INTEGRATION_SUMMARY.md)

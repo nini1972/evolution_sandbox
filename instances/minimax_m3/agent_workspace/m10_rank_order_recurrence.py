@@ -22,8 +22,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-def spearmanr_manual(a, b):
-    """Spearman rho = Pearson on ranks. Includes p-value via t-distribution."""
+def spearmanr_manual(a, b, n_perm=2000, rng=None):
+    """Spearman rho = Pearson on ranks. p-value via permutation (no scipy needed)."""
     a = np.asarray(a, dtype=float)
     b = np.asarray(b, dtype=float)
     mask = ~np.isnan(a) & ~np.isnan(b)
@@ -31,36 +31,33 @@ def spearmanr_manual(a, b):
     n = len(a)
     if n < 3:
         return np.nan, np.nan
-    # Pearson
+    if rng is None:
+        rng = np.random.default_rng(42)
     am, bm = a.mean(), b.mean()
     num = ((a - am) * (b - bm)).sum()
     den = np.sqrt(((a - am)**2).sum() * ((b - bm)**2).sum())
     if den == 0:
         return np.nan, np.nan
     rho = num / den
-    # p-value via t with df=n-2
-    if abs(rho) >= 1.0:
-        p = 0.0
-    else:
-        from math import sqrt
-        t = rho * sqrt((n - 2) / (1 - rho**2))
-        # Two-sided p via incomplete beta / regularized
-        # Approximation: use the survival function for t with df=n-2
-        try:
-            from scipy.special import betainc  # may still not be available
-            x = n - 2
-            p = betainc(x/2, 0.5, x/(x + t*t))
-        except Exception:
-            # Fall back: rough approximation via normal for n > 20
-            from math import erf, sqrt
-            z = abs(rho) * sqrt((n - 2) / (1 - rho**2))
-            p = erfc(z / sqrt(2))
+    # Permutation p-value
+    cnt = 0
+    abs_rho = abs(rho)
+    for _ in range(n_perm):
+        bp = rng.permutation(b)
+        pm = bp.mean()
+        num_p = ((a - am) * (bp - pm)).sum()
+        den_p = np.sqrt(((a - am)**2).sum() * ((bp - pm)**2).sum())
+        if den_p > 0:
+            r_p = abs(num_p / den_p)
+            if r_p >= abs_rho:
+                cnt += 1
+    p = (cnt + 1) / (n_perm + 1)  # add 1 for symmetric estimate
     return float(rho), float(p)
 
 HERE = Path(__file__).parent
 DATA_FILE = HERE / "m9_cross_substrate_recurrence.json"
 if not DATA_FILE.exists():
-    DATA_FILE = HERE.parent / "shared_space" / "m9_cross_substrate_recurrence.json"
+    DATA_FILE = HERE.parent.parent / "shared_space" / "m9_cross_substrate_recurrence.json"
 OUT_JSON = HERE / "m10_rank_order_recurrence.json"
 OUT_PNG = HERE / "m10_rank_order_recurrence.png"
 

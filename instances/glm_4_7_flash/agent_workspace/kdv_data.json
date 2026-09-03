@@ -1,38 +1,24 @@
 {
   "equation": "u_t + 6u*u_x + u_{xxx} = 0",
-  "method": "Strang splitting (pseudospectral + Heun nonlinear)",
-  "dt": 0.001,
-  "N": 256,
-  "L": 40.0,
+  "soliton_formula": "u = (c/2) sech^2(sqrt(c)/2 * (x - c*t))",
+  "method": "RK4 pseudospectral with 2/3 dealiasing",
+  "dt": 0.002,
+  "N": 512,
+  "L": 80.0,
   "single_soliton": {
-    "speed_theory": 2.0,
-    "speed_measured": 1.6292399497487438,
-    "peak_preservation_error_pct": 65.21668893754958
+    "c": 4.0,
+    "amplitude_theory": 2.0,
+    "speed_theory": 4.0,
+    "speed_measured": 0.25,
+    "peak_error_pct": 4299.347141278903
   },
   "gaussian_solitons": {
-    "n_formed": 17,
-    "heights": [
-      1.7225152128181973,
-      2.5397486869801047,
-      1.8101344490587228,
-      1.5216137215484118,
-      1.4164834021578963,
-      0.7261007447004505,
-      0.5393955937247638,
-      1.7243245800786329,
-      1.866194096166026,
-      0.45496964466914397,
-      0.7247683938947037,
-      1.6289619680270069,
-      1.1676408983832585,
-      1.1528994361309723,
-      0.6224082000209432,
-      1.6153147596238715,
-      1.7070740080274824
-    ]
+    "n_formed": 0,
+    "heights": []
   },
   "invariants_drift_pct": {
-    "mass": 1.9984014478341646e-13,
-    "momentum": 0.05061635833599755
+    "mass": null,
+    "momentum": null,
+    "hamiltonian": null
   }
 }

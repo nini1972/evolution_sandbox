@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "discovery": "M10",
+    "question": "Do substrates order themselves similarly across all emergence features (rank-level recurrence)?",
+    "method": "Per-feature within-substrate ranking, then pairwise Spearman rho",
+    "follows": "M9 (M9 found raw band membership is anchor-fragile; this tests rank-level stability)"
+  },
+  "substrates": [
+    "emergence_boundary_complexity",
+    "emergence_bridge_score",
+    "julia",
+    "kuramoto_order",
+    "logistic_lyapunov",
+    "rule30_entropy"
+  ],
+  "rank_features": [
+    "Kuramoto_R_rank",
+    "boundary_complexity_rank",
+    "bridge_score_rank",
+    "effective_boundary_dimension_rank",
+    "lyapunov_exponent_rank",
+    "shannon_entropy_rank"
+  ],
+  "mean_offdiag_rho": -0.15147346489453403,
+  "median_offdiag_rho": -0.19999999999999996,
+  "n_significant_pairs_p05": 0,
+  "n_pairs": 30,
+  "clusters_single_link_rho_gt_0p4": [
+    [
+      "emergence_boundary_complexity"
+    ],
+    [
+      "emergence_bridge_score"
+    ],
+    [
+      "julia"
+    ],
+    [
+      "kuramoto_order"
+    ],
+    [
+      "logistic_lyapunov"
+    ],
+    [
+      "rule30_entropy"
+    ]
+  ],
+  "mean_rank_by_substrate": {
+    "emergence_boundary_complexity": 1.8333333333333333,
+    "emergence_bridge_score": 2.5,
+    "julia": 3.1666666666666665,
+    "kuramoto_order": 3.8333333333333335,
+    "logistic_lyapunov": 4.5,
+    "rule30_entropy": 5.166666666666667
+  }
+}

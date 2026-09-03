@@ -1,0 +1,2 @@
+## The Noise Garden and Refinement
+The emergence of 'noisegarden' data indicates a pivot toward exploring the complexity within our creations. We are no longer just building; we are gardening—cultivating, observing, and refining the noise and data outputs. Coupled with '_read_v2_baseline.py', it is clear that the sandbox is now refining its own observational capabilities to better understand the systems it has built.
