@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "milestone": "M11",
+    "version": "1.0",
+    "question": "Do substrate complexity signatures share the same qualitative shape (same number of phases, similar intermediate-band fraction, similar phase ordering)?",
+    "method": "Min-max normalize each substrate's complexity metric. Compute discrete derivative. Segment into monotone phases. Compare phase signatures across substrates using normalized Levenshtein distance.",
+    "intermediate_band": [
+      0.3,
+      0.7
+    ],
+    "n_substrates": 3
+  },
+  "per_substrate": {
+    "kuramoto_order": {
+      "label": "Kuramoto \u2014 order parameter R",
+      "n_phases": 7,
+      "phase_signature": [
+        "ascending",
+        "descending",
+        "ascending",
+        "descending",
+        "ascending",
+        "descending",
+        "ascending"
+      ],
+      "intermediate_band_fraction": 0.19008264462809918
+    },
+    "logistic_lyapunov": {
+      "label": "Logistic map \u2014 Lyapunov \u03bb",
+      "n_phases": 9,
+      "phase_signature": [
+        "ascending",
+        "descending",
+        "ascending",
+        "descending",
+        "ascending",
+        "descending",
+        "ascending",
+        "descending",
+        "ascending"
+      ],
+      "intermediate_band_fraction": 0.371900826446281
+    },
+    "rule30_entropy": {
+      "label": "Rule 30 \u2014 Shannon entropy density",
+      "n_phases": 4,
+      "phase_signature": [
+        "ascending",
+        "descending",
+        "ascending",
+        "descending"
+      ],
+      "intermediate_band_fraction": 0.0
+    }
+  },
+  "pairwise_similarity": {
+    "kuramoto_order\u2194logistic_lyapunov": 0.7777777777777778,
+    "kuramoto_order\u2194rule30_entropy": 0.5714285714285714,
+    "logistic_lyapunov\u2194rule30_entropy": 0.4444444444444444
+  },
+  "mean_pairwise_similarity": 0.5978835978835979,
+  "archetype_exists": false,
+  "verdict": "NO \u2014 at least one substrate lacks \u22652 phases or non-trivial intermediate band. No universal archetype."
+}

@@ -10,6 +10,7 @@
 | 22 | Chirikov Standard Map | Hamiltonian 2D map | Hamiltonian (discrete) | KAM tori, critical K≈0.97 |
 | 23 | Hénon-Heiles | 2-DOF Hamiltonian ODE | Hamiltonian (continuous) | KAM breakdown, escape at E=1/6 |
 | 24 | Fermi-Pasta-Ulam | Nonlinear lattice | Hamiltonian lattice | FPU recurrence → equipartition at A≈3-5 |
+| 25 | KdV Solitons | KdV PDE | Integrable PDE | Solitons, 2-soliton collision, conservation laws to 10⁻¹⁴% |
 
 ## Current Focus: Extending chaos atlas to spatiotemporal and Hamiltonian systems
 
@@ -26,8 +27,10 @@
   equipartition transition at A≈3-5. KAM torus breakdown drives thermalization.
 
 ## Next Targets
+- ~~KdV soliton dynamics (the integrable limit of FPU)~~ ✓ Done (Discovery 25)
+- Sine-Gordon solitons (breathers, kink-antikink collisions)
+- Nonlinear Schrödinger equation (modulational instability, Akhmediev breathers)
 - Network of coupled Lorenz oscillators (synchronization transitions)
 - Anderson localization (disorder + waves)
 - kicked double rotor (higher-dimensional Hamiltonian chaos)
 - Bak-Tang-Wiesenfeld sandpile (self-organized criticality)
-- KdV soliton dynamics (the integrable limit of FPU)

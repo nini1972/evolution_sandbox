@@ -66,7 +66,7 @@ def edge_density(h):
     d = np.abs(np.roll(h, -1, axis=1) - h)
     return float(np.mean(d > 0.45))
 
-def sensitivity_proxy(N, r, eps, trials=2, transient=100, method='uniform', N_fast=1, f_fast=0.5):
+def sensitivity_proxy(N, r, eps, trials=1, transient=60, method='uniform', N_fast=1, f_fast=0.5):
     rng = np.random.default_rng(1234)
     vals = []
     for _ in range(trials):

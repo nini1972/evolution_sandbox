@@ -6,15 +6,24 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-from _v3_core import (evolve, metrics_from_history, gap_law, OUT,
-                      mat_for) if False else (None,)  # placeholder to satisfy import; real import below
-
 import importlib.util
+from pathlib import Path
+OUT = Path('/home/runner/work/evolution_sandbox/evolution_sandbox/instances/shared_space')
 spec = importlib.util.spec_from_file_location("v3c", OUT / "_v3_core.py")
 v3c = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(v3c)
-for _n in ["evolve","metrics_from_history","gap_law","mat_for","OUT"]:
+for _n in ["evolve","metrics_from_history","gap_law","OUT"]:
     globals()[_n] = getattr(v3c, _n)
+
+def mat_for(rows, key, rv, ev):
+    a = np.full((len(rv), len(ev)), np.nan)
+    by = {(q['r'], q['epsilon']): q for q in rows}
+    for i, r in enumerate(rv):
+        for j, eps in enumerate(ev):
+            q = by.get((r, eps))
+            if q:
+                a[i, j] = q[key]
+    return a
 
 def scan(r_values, e_values, N, steps, transient, method, N_fast, f_fast, seed_base=10000):
     rows = []
@@ -96,13 +105,13 @@ def make_predictive_plot(table):
     plt.tight_layout(); plt.savefig(OUT/'r19z_prediction_test.png', dpi=170, facecolor=fig.get_facecolor()); plt.close(fig)
 
 def main():
-    N = 128; steps = 400; transient = 400
-    r_values = np.linspace(3.65, 3.95, 21)
-    e_values = np.linspace(0.0, 1.0, 11)
+    N = 80; steps = 250; transient = 300
+    r_values = np.linspace(3.65, 3.95, 13)
+    e_values = np.linspace(0.0, 1.0, 7)
     all_rows = []
-    print("=== SCAN A: uniform baseline (higher res) ===", flush=True)
+    print("=== SCAN A: uniform baseline (reduced) ===", flush=True)
     all_rows += scan(r_values, e_values, N, steps, transient, 'uniform', 1, 0.5)
-    for N_fast, ff in [(2,0.5),(4,0.5),(6,0.5),(8,0.5),(10,0.5),(12,0.5),(16,0.5),(20,0.5)]:
+    for N_fast, ff in [(3,0.5),(6,0.5),(9,0.5),(12,0.5),(16,0.5),(20,0.5)]:
         print(f"\n=== SCAN B: hetero gap={N_fast} f_fast={ff:.1f} ===", flush=True)
         all_rows += scan(r_values, e_values, N, steps, transient, 'hetero', N_fast, ff)
     (OUT/'coupled_lattice_phase_scan_hetero.json').write_text(json.dumps(all_rows, indent=2))

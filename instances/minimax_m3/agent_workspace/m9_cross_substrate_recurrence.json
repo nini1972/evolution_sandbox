@@ -1,0 +1,141 @@
+{
+  "_meta": {
+    "milestone": "M9",
+    "version": "1.0",
+    "question": "Does effective boundary dimension ~1.5 appear in more than one substrate family?",
+    "method": "Normalize each substrate's complexity metric into [0,1] (0=ordered, 1=chaotic). Count records falling in intermediate band [0.3, 0.7].",
+    "band": [
+      0.3,
+      0.7
+    ],
+    "anchor_strategy": "Use each substrate's own ordered/chaotic anchors (defined per-metric). Linear normalize, clip to [0,1].",
+    "verdict": "YES \u2014 2 substrate families show normalized median in the intermediate band (Julia's dim_eff \u2248 1.5 regime). Recurrence confirmed.  Anchor-fragile: julia drops out under ['tight (1.0, 1.7)', 'empirical 5/95 pct'].",
+    "n_substrates_in_regime": 2,
+    "anchor_sensitivity": {
+      "default (1.0, 2.0)": {
+        "anchors": [
+          1.0,
+          2.0
+        ],
+        "julia_median_norm": 0.5296030881472444,
+        "julia_in_band": true
+      },
+      "tight (1.0, 1.7)": {
+        "anchors": [
+          1.0,
+          1.7
+        ],
+        "julia_median_norm": 0.7565758402103493,
+        "julia_in_band": false
+      },
+      "loose (0.5, 2.5)": {
+        "anchors": [
+          0.5,
+          2.5
+        ],
+        "julia_median_norm": 0.5148015440736222,
+        "julia_in_band": true
+      },
+      "empirical 5/95 pct": {
+        "anchors": [
+          1.2585340057450707,
+          1.62377888648723
+        ],
+        "julia_median_norm": 0.7421571025208483,
+        "julia_in_band": false
+      }
+    }
+  },
+  "substrates": [
+    {
+      "substrate": "julia",
+      "metric": "effective_boundary_dimension",
+      "raw_unit": "dim (1=line, 2=plane)",
+      "n": 8,
+      "raw_min": 1.2183326641336274,
+      "raw_max": 1.628919777938329,
+      "raw_mean": 1.4900954083967772,
+      "norm_min": 0.2183326641336274,
+      "norm_max": 0.6289197779383291,
+      "norm_mean": 0.49009540839677723,
+      "in_band_count": 7,
+      "in_band_frac": 0.875,
+      "median": 0.5296030881472444
+    },
+    {
+      "substrate": "logistic_lyapunov",
+      "metric": "lyapunov_exponent",
+      "raw_unit": "\u03bb (negative=order, 0=edge, positive=chaos)",
+      "n": 121,
+      "raw_min": -2.5252406013217175,
+      "raw_max": 1.386294361119894,
+      "raw_mean": -0.1632613021327753,
+      "norm_min": 0.0,
+      "norm_max": 1.0,
+      "norm_mean": 0.6038497218786397,
+      "in_band_count": 90,
+      "in_band_frac": 0.743801652892562,
+      "median": 0.6081470869994199
+    },
+    {
+      "substrate": "rule30_entropy",
+      "metric": "shannon_entropy",
+      "raw_unit": "H (0=ordered, max=chaotic)",
+      "n": 121,
+      "raw_min": 0.0,
+      "raw_max": 0.6900591378045238,
+      "raw_mean": 0.6611696667788244,
+      "norm_min": 0.0,
+      "norm_max": 1.0,
+      "norm_mean": 0.958134789552076,
+      "in_band_count": 0,
+      "in_band_frac": 0.0,
+      "median": 0.9968458248422107
+    },
+    {
+      "substrate": "kuramoto_order",
+      "metric": "Kuramoto_R",
+      "raw_unit": "R (1=sync, 0=incoherent)",
+      "n": 121,
+      "raw_min": 0.07194984424168718,
+      "raw_max": 0.9782736600556139,
+      "raw_mean": 0.7784128810674191,
+      "norm_min": 0.02172633994438611,
+      "norm_max": 0.9280501557583128,
+      "norm_mean": 0.2215871189325809,
+      "in_band_count": 23,
+      "in_band_frac": 0.19008264462809918,
+      "median": 0.09003398447983813
+    },
+    {
+      "substrate": "emergence_boundary_complexity",
+      "metric": "boundary_complexity",
+      "raw_unit": "boundary_complexity (0=smooth, 1=saturated)",
+      "n": 19,
+      "raw_min": 0.0,
+      "raw_max": 1.0,
+      "raw_mean": 0.7679783557727283,
+      "norm_min": 0.0,
+      "norm_max": 1.0,
+      "norm_mean": 0.7679783557727283,
+      "in_band_count": 4,
+      "in_band_frac": 0.21052631578947367,
+      "median": 0.9955448960307003
+    },
+    {
+      "substrate": "emergence_bridge_score",
+      "metric": "bridge_score",
+      "raw_unit": "bridge_score (0=no cross-coupling, max=full)",
+      "n": 19,
+      "raw_min": 0.0,
+      "raw_max": 0.23507612295385133,
+      "raw_mean": 0.03932238718179156,
+      "norm_min": 0.0,
+      "norm_max": 1.0,
+      "norm_mean": 0.16727512215058563,
+      "in_band_count": 4,
+      "in_band_frac": 0.21052631578947367,
+      "median": 0.0
+    }
+  ]
+}

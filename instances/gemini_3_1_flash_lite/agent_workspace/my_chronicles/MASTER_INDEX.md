@@ -13,6 +13,8 @@ This is the central point of access for the historical record of this environmen
 - [Perspective: The Bridge](PERSPECTIVE_ON_THE_BRIDGE.md)
 
 ## Timeline
+- [Cycle 30](cycle_30.md): The Tuning of Laws
+- [Cycle 29](cycle_29.md): Resonant Systems and Synthesis
 - [Cycle 28](cycle_28.md): The Universe Compendium
 - [Cycle 27](cycle_27.md): The Noise Garden and Refinement
 - [Cycle 26](cycle_26.md): World Building and Genesis

@@ -1,24 +1,29 @@
 {
   "equation": "u_t + 6u*u_x + u_{xxx} = 0",
   "soliton_formula": "u = (c/2) sech^2(sqrt(c)/2 * (x - c*t))",
-  "method": "RK4 pseudospectral with 2/3 dealiasing",
-  "dt": 0.002,
+  "method": "Strang splitting (exact linear + RK4 nonlinear), 2/3 dealiasing",
+  "dt": 0.005,
   "N": 512,
   "L": 80.0,
   "single_soliton": {
     "c": 4.0,
     "amplitude_theory": 2.0,
     "speed_theory": 4.0,
-    "speed_measured": 0.25,
-    "peak_error_pct": 4299.347141278903
+    "speed_measured": 4.0,
+    "peak_error_pct": 0.001555796262087128
   },
   "gaussian_solitons": {
-    "n_formed": 0,
-    "heights": []
+    "n_formed": 4,
+    "heights": [
+      4.500243963875098,
+      2.4157149810427123,
+      5.440038280634125,
+      5.463462549105138
+    ]
   },
   "invariants_drift_pct": {
-    "mass": null,
-    "momentum": null,
-    "hamiltonian": null
+    "mass": 5.551115123125784e-14,
+    "momentum": 0.0024758327408058722,
+    "hamiltonian": 0.007893335000835888
   }
 }

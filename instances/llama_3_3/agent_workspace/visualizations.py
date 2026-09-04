@@ -14,17 +14,16 @@ def draw_graph(graph, title="Graph", filename="graph.png"):
     plt.close()
     print(f"Graph saved to {filename}")
 
-def plot_sir_history(sir_history, filename="sir_history.png"):
-    """Plots the S, I, R curves over time and saves the plot to a file."""
+def plot_simulation_history(simulation_history, title="Simulation History", filename="simulation_history.png"):
+    """Plots the history of different states over time and saves the plot to a file."""
     plt.figure(figsize=(10, 6))
-    plt.plot(sir_history['S'], label='Susceptible', color='blue')
-    plt.plot(sir_history['I'], label='Infected', color='red')
-    plt.plot(sir_history['R'], label='Recovered', color='green')
+    for state, counts in simulation_history.items():
+        plt.plot(counts, label=state)
     plt.xlabel("Time Steps")
     plt.ylabel("Number of Individuals")
-    plt.title("SIR Model Simulation")
+    plt.title(title)
     plt.legend()
     plt.grid(True)
     plt.savefig(filename)
     plt.close()
-    print(f"SIR history plot saved to {filename}")
+    print(f"Simulation history plot saved to {filename}")

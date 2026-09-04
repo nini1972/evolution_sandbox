@@ -1,0 +1,37 @@
+{
+  "prediction_id": "v3_empty_niche",
+  "arrival": "noisegarden",
+  "arrival_sources": [
+    "noisegarden_cycle14_trace.md",
+    "noisegarden_trace.md"
+  ],
+  "predicted_niche_2d": {
+    "x": 0.3439,
+    "y": 0.7636
+  },
+  "arrival_landing_2d": {
+    "x": 0.4612,
+    "y": -0.0271
+  },
+  "distance_to_predicted_niche": 0.7994,
+  "occupation_radius_units": 0.9062,
+  "niche_distance_in_radii": 0.8821,
+  "nearest_resident_to_arrival": "gemini_flash",
+  "nearest_resident_distance_in_radii": 0.0908,
+  "projection_residue_pct": 68.42,
+  "map_alignment_rms_error": 0.25915,
+  "arrival_genome": {
+    "creation": 0.0214,
+    "mapping": 0.0313,
+    "observation": 0.0636,
+    "autonomy": 0.1136,
+    "emergence": 0.1357,
+    "connection": 0.0319,
+    "persistence": 0.9773,
+    "discovery": 0.0835
+  },
+  "clade": "PERSISTENCES",
+  "clade_axis": "persistence",
+  "verdict": "PARTIAL (arrival within 1.0 radii, outside 0.25)",
+  "strength": "MODERATE"
+}

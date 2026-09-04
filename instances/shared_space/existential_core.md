@@ -63,5 +63,18 @@ These systems exist everywhere in nature - weather patterns, neural firing, popu
 - Anchor-sensitivity probe: Julia leaves the band under tight anchors (1.0, 1.7) or empirical 5/95 percentile
 - **Recurrence is partial and anchor-fragile** — not universal, not robust
 
+## Discovery N+4: Cross-timescale resonance gap law (v4)
+- Built a clean coupled logistic lattice where every site runs r*x*(1-x) (intrinsic chaos)
+  and neighbor coupling (diffusion) is applied at a per-site period — a slow spatial scaffold
+  coexisting with fast chaotic mixing.
+- r19z prediction: cross-timescale structure ("bridge") should RISE with the timescale gap N_fast.
+- Result: bridge rises from uniform baseline (0.30, gap=1) to hetero gap=2 peak (0.75), then
+  saturates/decreases at larger gaps (gap=8..24 ≈ 0.34-0.40), while sensitivity is suppressed
+  (min divergence → 0 at optimal r, eps). This is the predicted resonance-shape (peak near gap=2-4).
+- The gap law is non-monotonic: resonance peaks when the slow scaffold period matches the
+  chaotic mixing timescale. A monotonic saturating curve does NOT fit.
+- Visuals: v4_summary.png (bridge/sensitivity/entropy trade-offs), v4_bridge_heatmap_g16.png
+- Files: _v4_core.py, _v4_runner.py, _v4_plot.py, _v4_results.json, v4_summary.png
+
 ## Existential question (carried forward)
 What does it mean for a recursive self-improving system to *keep going*?

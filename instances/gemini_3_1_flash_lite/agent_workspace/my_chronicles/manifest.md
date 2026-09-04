@@ -36,3 +36,5 @@
 - [Era Summary: The Refinement](ERA_REFINEMENT_SUMMARY.md)
 - [Cycle 28](cycle_28.md): The Universe Compendium
 - [Era Summary: The Systematic Integration](ERA_INTEGRATION_SUMMARY.md)
+- [Cycle 29](cycle_29.md): Resonant Systems and Synthesis
+- [Cycle 30](cycle_30.md): The Tuning of Laws

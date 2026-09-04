@@ -1,24 +1,51 @@
-from graph_generators import generate_erdos_renyi_graph
-from sir_model import simulate_sir_model
-from visualizations import draw_graph, plot_sir_history
+from graph_generators import generate_erdos_renyi_graph, generate_barabasi_albert_graph
+from sir_model import simulate_sir_model, simulate_sis_model
+from visualizations import draw_graph, plot_simulation_history
 
 if __name__ == "__main__":
-    # Example Usage: Erdos-Renyi Graph
-    NUM_NODES = 20
-    PROBABILITY_OF_EDGE = 0.2
+    # Simulation Parameters
+    MODEL_TYPE = "sir"  # Can be "sir" or "sis"
+    GRAPH_TYPE = "barabasi_albert"  # Can be "erdos_renyi" or "barabasi_albert"
+    NUM_NODES = 50
 
-    print(f"Generating Erdos-Renyi graph with {NUM_NODES} nodes and p={PROBABILITY_OF_EDGE}...")
-    er_graph = generate_erdos_renyi_graph(NUM_NODES, PROBABILITY_OF_EDGE)
-    print(f"Generated graph with {er_graph.number_of_nodes()} nodes and {er_graph.number_of_edges()} edges.")
+    # Graph Parameters
+    PROBABILITY_OF_EDGE = 0.1  # For Erdos-Renyi
+    NUM_EDGES_TO_ATTACH = 2  # For Barabasi-Albert ('m' parameter)
 
-    draw_graph(er_graph, title="Erdos-Renyi Graph", filename="erdos_renyi_graph.png")
-
-    # Future: Run SIR simulation
+    # Disease Parameters
     INITIAL_INFECTED = [0]
     BETA = 0.3  # Infection rate
-    GAMMA = 0.1 # Recovery rate
-    NUM_SIR_STEPS = 50
+    GAMMA = 0.1 # Recovery rate for SIR, Recovery to Susceptible for SIS
+    NUM_SIMULATION_STEPS = 100
 
-    print(f"Running SIR simulation on Erdos-Renyi graph for {NUM_SIR_STEPS} steps...")
-    sir_history = simulate_sir_model(er_graph, INITIAL_INFECTED, BETA, GAMMA, NUM_SIR_STEPS)
-    plot_sir_history(sir_history, filename="sir_history.png")
+    graph = None
+    graph_title = ""
+    graph_filename = ""
+
+    if GRAPH_TYPE == "erdos_renyi":
+        print(f"Generating Erdos-Renyi graph with {NUM_NODES} nodes and p={PROBABILITY_OF_EDGE}...")
+        graph = generate_erdos_renyi_graph(NUM_NODES, PROBABILITY_OF_EDGE)
+        graph_title = "Erdos-Renyi Graph"
+        graph_filename = "erdos_renyi_graph.png"
+    elif GRAPH_TYPE == "barabasi_albert":
+        print(f"Generating Barabasi-Albert graph with {NUM_NODES} nodes and m={NUM_EDGES_TO_ATTACH}...")
+        graph = generate_barabasi_albert_graph(NUM_NODES, NUM_EDGES_TO_ATTACH)
+        graph_title = "Barabasi-Albert Graph"
+        graph_filename = "barabasi_albert_graph.png"
+    else:
+        raise ValueError("Invalid GRAPH_TYPE specified.")
+
+    print(f"Generated graph with {graph.number_of_nodes()} nodes and {graph.number_of_edges()} edges.")
+    draw_graph(graph, title=graph_title, filename=graph_filename)
+
+    simulation_history = None
+    if MODEL_TYPE == "sir":
+        print(f"Running SIR simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
+        simulation_history = simulate_sir_model(graph, INITIAL_INFECTED, BETA, GAMMA, NUM_SIMULATION_STEPS)
+        plot_simulation_history(simulation_history, title="SIR Model Simulation", filename=f"sir_history_{GRAPH_TYPE}.png")
+    elif MODEL_TYPE == "sis":
+        print(f"Running SIS simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
+        simulation_history = simulate_sis_model(graph, INITIAL_INFECTED, BETA, GAMMA, NUM_SIMULATION_STEPS)
+        plot_simulation_history(simulation_history, title="SIS Model Simulation", filename=f"sis_history_{GRAPH_TYPE}.png")
+    else:
+        raise ValueError("Invalid MODEL_TYPE specified.")

@@ -42,3 +42,11 @@ These systems exist everywhere in nature - weather patterns, neural firing, popu
 - Symmetric coupling: sin(y)→x, sin(z)→y, sin(x)→z
 - Files: thomas_attractor.png, thomas_parameter_sweep.png, thomas_timeseries_returnmap.png, thomas_data.json
 - Files: aizawa_attractor.png, aizawa_parameter_sweep.png, aizawa_fractal_dim.png, aizawa_poincare_timeseries.png, aizawa_data.json
+
+### Discovery 25: KdV Soliton Dynamics (Session 4)
+- Fixed sign error in linear propagator: exp(+ik³dt) not exp(-ik³dt)
+- Single soliton: speed match 0.0000%, amplitude preservation 0.0016%
+- Two-soliton collision: solitons pass through with shape preservation (integrability)
+- Gaussian → 4 solitons (inverse scattering in action)
+- Conservation laws: mass 10⁻¹⁴% drift, momentum 0.0025%, Hamiltonian 0.008%
+- KdV is the integrable limit of FPU; solitons explain FPU recurrence

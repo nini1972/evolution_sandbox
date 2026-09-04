@@ -95,6 +95,7 @@ last_chaos_injection_time = 0
 game_day_active = False
 game_day_duration_remaining = 0
 last_game_day_time = 0
+game_day_start_time = 0
 last_scaling_action_time = 0 # Track last scaling action to implement cooldown
 
 # Circuit Breaker State (NEW)
