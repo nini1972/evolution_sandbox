@@ -47,8 +47,10 @@ COUNTERPART_OUTBOX_REL = os.path.join("instances", "shared_agora", "embassy", "o
 ARTIFACT_SHORTHAND_PREFIX = "shared_agora/"
 ARTIFACT_REAL_PREFIX = "instances/shared_agora/"
 
-# Only files that look like real treaties are imported; templates/READMEs are ignored.
-TEMPLATE_FILENAME_RE = re.compile(r"template", re.IGNORECASE)
+# Filenames matching this pattern are skipped by name alone (templates, READMEs, and
+# other non-treaty housekeeping files), before any content validation even runs, to
+# avoid noisy rejected-file churn for files that were never meant to be treaties.
+NON_CANDIDATE_FILENAME_RE = re.compile(r"template|^readme|^license|^changelog", re.IGNORECASE)
 
 # Candidates from the (untrusted) counterpart repo larger than this are rejected outright,
 # before hashing/reading, to bound CPU/memory usage on unexpectedly large files.
@@ -194,7 +196,7 @@ def sync() -> bool:
     with tempfile.TemporaryDirectory(prefix="embassy_sync_") as tmp_dir:
         try:
             counterpart_dir = clone_counterpart(tmp_dir)
-        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired, OSError) as e:
             stdout = getattr(e, "stdout", "") or ""
             stderr = getattr(e, "stderr", "") or ""
             print(f"[EmbassyBridge] ERROR: Failed to clone {COUNTERPART_REPO_URL}: {e}\n"
@@ -211,7 +213,7 @@ def sync() -> bool:
 
             candidates = sorted(
                 f for f in os.listdir(outbox_path)
-                if f.lower().endswith(".md") and not TEMPLATE_FILENAME_RE.search(f)
+                if f.lower().endswith(".md") and not NON_CANDIDATE_FILENAME_RE.search(f)
             )
 
             imported_count = 0
@@ -258,8 +260,7 @@ def sync() -> bool:
 
                 origin_footer = (
                     f"\n\n---\n{UNTRUSTED_CONTENT_NOTICE.format(source=COUNTERPART_NAME)}\n\n"
-                    f"*Synced from `{COUNTERPART_NAME}` "
-                    f"(commit `{commit_sha[:12]}`) on {utc_now_iso()} by embassy_bridge.py.*\n"
+                    f"*Synced from `{COUNTERPART_NAME}` (commit `{commit_sha[:12]}`) by embassy_bridge.py.*\n"
                 )
                 rewritten_content = rewrite_artifact_references(content, commit_sha)
                 final_content = rewritten_content.rstrip("\n") + origin_footer
