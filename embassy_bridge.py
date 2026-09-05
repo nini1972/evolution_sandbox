@@ -195,7 +195,10 @@ def sync() -> bool:
         try:
             counterpart_dir = clone_counterpart(tmp_dir)
         except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
-            print(f"[EmbassyBridge] ERROR: Failed to clone {COUNTERPART_REPO_URL}: {e}", file=sys.stderr)
+            stdout = getattr(e, "stdout", "") or ""
+            stderr = getattr(e, "stderr", "") or ""
+            print(f"[EmbassyBridge] ERROR: Failed to clone {COUNTERPART_REPO_URL}: {e}\n"
+                  f"STDOUT: {stdout}\nSTDERR: {stderr}", file=sys.stderr)
             return False
 
         try:
@@ -217,6 +220,16 @@ def sync() -> bool:
 
             for filename in candidates:
                 src_path = os.path.join(outbox_path, filename)
+
+                # The counterpart repo is untrusted input. Reject symlinks outright --
+                # os.path.isfile()/getsize()/open() all follow symlinks, so a malicious
+                # symlink could otherwise cause us to read and commit arbitrary local
+                # files from the CI runner into this repo.
+                if os.path.islink(src_path):
+                    rejected_count += 1
+                    print(f"[EmbassyBridge] Rejected symlink candidate (untrusted input): {filename}")
+                    continue
+
                 if not os.path.isfile(src_path):
                     continue
 
@@ -237,8 +250,9 @@ def sync() -> bool:
 
                 if not is_valid_treaty(content):
                     rejected_count += 1
+                    rejected_banner = f"\n\n---\n{UNTRUSTED_CONTENT_NOTICE.format(source=COUNTERPART_NAME)}\n"
                     with open(os.path.join(REJECTED_DIR, filename), "w", encoding="utf-8") as f:
-                        f.write(content)
+                        f.write(content.rstrip("\n") + rejected_banner)
                     print(f"[EmbassyBridge] Rejected malformed candidate: {filename}")
                     continue
 
