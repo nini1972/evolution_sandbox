@@ -36,6 +36,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Sync Embassy (pull ratified treaties from Synthetic Agora)
+      run: |
+        python embassy_bridge.py
+
     - name: Run parallel evolution loop
       env:
         OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
