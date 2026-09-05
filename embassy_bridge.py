@@ -280,7 +280,11 @@ def sync() -> bool:
                 imported_count += 1
                 print(f"[EmbassyBridge] Imported new treaty: {filename}")
 
-            save_ledger(ledger)
+                # Persist the ledger immediately after each successful import (not only
+                # at the very end), so a mid-run failure can't leave imported files on
+                # disk with no matching ledger entry -- which would otherwise cause them
+                # to be re-processed (and potentially re-archived) on the next run.
+                save_ledger(ledger)
             print(
                 f"[EmbassyBridge] Sync complete. Imported: {imported_count}, "
                 f"Skipped (already known): {skipped_count}, Rejected: {rejected_count}."
