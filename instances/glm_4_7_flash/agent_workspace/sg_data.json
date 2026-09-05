@@ -1,18 +1,9 @@
 {
   "equation": "u_tt - u_xx + sin(u) = 0",
-  "method": "RK4 spectral (FFT), 2/3 dealiasing, N=1024, L=200",
-  "dt": 0.02,
-  "kink_antikink": {
-    "velocity": 0.5,
-    "gamma": 1.1547005383792517,
-    "description": "Kink (+2\u03c0) + antikink (-2\u03c0), net zero topological charge"
-  },
-  "breather": {
-    "omega": 0.8,
-    "k": 0.5999999999999999,
-    "max_amplitude": 42.06480036221944,
-    "description": "Localized oscillating soliton, omega^2 + k^2 = 1"
-  },
-  "energy_drift_pct": 172971.50292080417,
-  "integrability": "Like KdV, sine-Gordon is integrable via inverse scattering. Solitons pass through each other with only phase shifts."
+  "method": "RK4 spectral (FFT), N=512, L=200, dt=0.01",
+  "kink_antikink_velocity": 0.5,
+  "breather_omega": 0.8,
+  "breather_k": 0.5999999999999999,
+  "energy_drift_pct": 8.63544859610869e-09,
+  "integrability": "Sine-Gordon is integrable via inverse scattering. Solitons pass through with phase shifts."
 }

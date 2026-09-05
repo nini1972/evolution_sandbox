@@ -1,64 +1,107 @@
 {
   "_meta": {
     "milestone": "M11",
-    "version": "1.0",
-    "question": "Do substrate complexity signatures share the same qualitative shape (same number of phases, similar intermediate-band fraction, similar phase ordering)?",
-    "method": "Min-max normalize each substrate's complexity metric. Compute discrete derivative. Segment into monotone phases. Compare phase signatures across substrates using normalized Levenshtein distance.",
-    "intermediate_band": [
-      0.3,
-      0.7
+    "version": "2.0",
+    "question": "Do substrate complexity signatures share a universal archetype, or do they partition into families?",
+    "method": "Compute per-substrate feature vectors (n_phases, intermediate-band fraction, ascending-phase fraction, saturation-run length, order-run length, area-under-curve, variance-of-derivative). Hierarchical cluster (Ward). Compare with phase-signature Levenshtein similarity.",
+    "features": [
+      "n_phases",
+      "intermediate_band_fraction",
+      "ascending_phase_fraction",
+      "max_saturation_run",
+      "max_order_run",
+      "area_under_curve",
+      "variance_of_derivative"
     ],
     "n_substrates": 3
   },
   "per_substrate": {
-    "kuramoto_order": {
-      "label": "Kuramoto \u2014 order parameter R",
+    "kuramoto": {
+      "name": "kuramoto",
+      "raw_len": 121,
+      "sig_len": 121,
       "n_phases": 7,
       "phase_signature": [
-        "ascending",
-        "descending",
-        "ascending",
-        "descending",
-        "ascending",
-        "descending",
-        "ascending"
+        "a",
+        "d",
+        "a",
+        "d",
+        "a",
+        "d",
+        "a"
       ],
-      "intermediate_band_fraction": 0.19008264462809918
+      "intermediate_band_fraction": 0.19008264462809918,
+      "ascending_phase_fraction": 0.5714285714285714,
+      "max_saturation_run": 72,
+      "max_order_run": 8,
+      "area_under_curve": 93.6628468569154,
+      "variance_of_derivative": 0.00031243630251612785
     },
-    "logistic_lyapunov": {
-      "label": "Logistic map \u2014 Lyapunov \u03bb",
-      "n_phases": 9,
+    "logistic": {
+      "name": "logistic",
+      "raw_len": 121,
+      "sig_len": 121,
+      "n_phases": 7,
       "phase_signature": [
-        "ascending",
-        "descending",
-        "ascending",
-        "descending",
-        "ascending",
-        "descending",
-        "ascending",
-        "descending",
-        "ascending"
+        "a",
+        "d",
+        "a",
+        "d",
+        "a",
+        "d",
+        "a"
       ],
-      "intermediate_band_fraction": 0.371900826446281
+      "intermediate_band_fraction": 0.743801652892562,
+      "ascending_phase_fraction": 0.5714285714285714,
+      "max_saturation_run": 1,
+      "max_order_run": 1,
+      "area_under_curve": 72.33162523839036,
+      "variance_of_derivative": 0.0014388997662473718
     },
-    "rule30_entropy": {
-      "label": "Rule 30 \u2014 Shannon entropy density",
+    "rule30": {
+      "name": "rule30",
+      "raw_len": 121,
+      "sig_len": 121,
       "n_phases": 4,
       "phase_signature": [
-        "ascending",
-        "descending",
-        "ascending",
-        "descending"
+        "a",
+        "d",
+        "a",
+        "d"
       ],
-      "intermediate_band_fraction": 0.0
+      "intermediate_band_fraction": 0.0,
+      "ascending_phase_fraction": 0.5,
+      "max_saturation_run": 117,
+      "max_order_run": 2,
+      "area_under_curve": 115.93430953563319,
+      "variance_of_derivative": 0.007500487243001654
     }
   },
-  "pairwise_similarity": {
-    "kuramoto_order\u2194logistic_lyapunov": 0.7777777777777778,
-    "kuramoto_order\u2194rule30_entropy": 0.5714285714285714,
-    "logistic_lyapunov\u2194rule30_entropy": 0.4444444444444444
+  "pairwise_phase_similarity": {
+    "kuramoto\u2194logistic": 1.0,
+    "kuramoto\u2194rule30": 0.5714285714285714,
+    "logistic\u2194rule30": 0.5714285714285714
   },
-  "mean_pairwise_similarity": 0.5978835978835979,
-  "archetype_exists": false,
-  "verdict": "NO \u2014 at least one substrate lacks \u22652 phases or non-trivial intermediate band. No universal archetype."
+  "mean_pairwise_phase_similarity": 0.7142857142857143,
+  "clustering_2": {
+    "1": [
+      "kuramoto",
+      "logistic"
+    ],
+    "2": [
+      "rule30"
+    ]
+  },
+  "clustering_3": {
+    "1": [
+      "kuramoto"
+    ],
+    "2": [
+      "logistic"
+    ],
+    "3": [
+      "rule30"
+    ]
+  },
+  "archetype_verdict": "PARTITION \u2014 substrates cluster into 2 distinct families: {1: ['kuramoto', 'logistic'], 2: ['rule30']}. The 'universal archetype' hypothesis fails in its strong form, but substrates organize into substrate-agnostic families. Mean pairwise phase similarity = 0.714."
 }

@@ -105,7 +105,7 @@ def features(name, raw, lo, hi, param):
             cur = 0
 
     # Area under curve (proxy for total complexity)
-    auc = float(np.trapz(sig))
+    auc = float(np.trapezoid(sig))
 
     # Variance of derivative (smooth vs jumpy)
     var_d = float(np.var(np.gradient(sig)))
