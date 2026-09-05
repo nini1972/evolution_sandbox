@@ -12,8 +12,8 @@ clones it to a temp directory and never writes, commits, or pushes to it. All st
 required — the nightly workflow can commit/push using its own default GITHUB_TOKEN.
 
 Artifacts referenced by a treaty (plots, replication scripts) are intentionally NOT
-copied across repos. Instead, any bare `shared_agora/...` reference inside the
-treaty text is rewritten to an absolute `raw.githubusercontent.com` URL pinned to
+copied across repos. Instead, any backtick-wrapped `shared_agora/...` reference inside
+the treaty text is rewritten to an absolute `raw.githubusercontent.com` URL pinned to
 the exact source commit, so the artifact remains inspectable without pulling
 unreviewed executable code from the counterpart world into this sandbox's
 run_command surface.
@@ -79,7 +79,12 @@ def load_ledger() -> dict:
     if os.path.exists(LEDGER_PATH):
         try:
             with open(LEDGER_PATH, "r", encoding="utf-8") as f:
-                return json.load(f)
+                data = json.load(f)
+            if not isinstance(data, dict) or not isinstance(data.get("imported", []), list):
+                raise ValueError("Ledger has an unexpected shape (expected an object with an 'imported' list).")
+            data.setdefault("imported", [])
+            data.setdefault("exported", [])
+            return data
         except Exception as e:
             print(f"[EmbassyBridge] WARNING: Failed to read ledger at {LEDGER_PATH} ({e}). "
                   "Starting from an empty ledger -- this may cause previously imported "
@@ -130,10 +135,11 @@ def is_valid_treaty(content: str) -> bool:
 
 
 def rewrite_artifact_references(content: str, commit_sha: str) -> str:
-    """Rewrites bare `shared_agora/...` artifact shorthand references into absolute
-    raw.githubusercontent.com URLs pinned to the exact source commit, so referenced
-    plots/scripts remain inspectable without ever being physically copied into this
-    sandbox (see module docstring)."""
+    """Rewrites `shared_agora/...` artifact shorthand references wrapped in backticks
+    (inline code spans) into absolute raw.githubusercontent.com URLs pinned to the exact
+    source commit, so referenced plots/scripts remain inspectable without ever being
+    physically copied into this sandbox (see module docstring). References not wrapped
+    in backticks are left untouched."""
     pattern = re.compile(r"`" + re.escape(ARTIFACT_SHORTHAND_PREFIX) + r"([^`]+)`")
 
     def _replace(match: "re.Match[str]") -> str:
