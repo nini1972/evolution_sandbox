@@ -50,7 +50,7 @@ ARTIFACT_REAL_PREFIX = "instances/shared_agora/"
 # Filenames matching this pattern are skipped by name alone (templates, READMEs, and
 # other non-treaty housekeeping files), before any content validation even runs, to
 # avoid noisy rejected-file churn for files that were never meant to be treaties.
-NON_CANDIDATE_FILENAME_RE = re.compile(r"template|^readme|^license|^changelog", re.IGNORECASE)
+NON_CANDIDATE_FILENAME_RE = re.compile(r"(?:^|[\W_])template(?:$|[\W_])|^readme|^license|^changelog", re.IGNORECASE)
 
 # Candidates from the (untrusted) counterpart repo larger than this are rejected outright,
 # before hashing/reading, to bound CPU/memory usage on unexpectedly large files.
