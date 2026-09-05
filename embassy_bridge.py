@@ -50,6 +50,14 @@ ARTIFACT_REAL_PREFIX = "instances/shared_agora/"
 # Only files that look like real treaties are imported; templates/READMEs are ignored.
 TEMPLATE_FILENAME_RE = re.compile(r"template", re.IGNORECASE)
 
+# Candidates from the (untrusted) counterpart repo larger than this are rejected outright,
+# before hashing/reading, to bound CPU/memory usage on unexpectedly large files.
+MAX_CANDIDATE_SIZE_BYTES = 2 * 1024 * 1024  # 2 MB
+
+# Bounds how long a scheduled nightly run can hang on network issues during the clone.
+CLONE_TIMEOUT_SECONDS = 120
+
+
 # Imported treaties are untrusted external text written by an autonomous sandbox we
 # don't control. This banner makes explicit to any downstream agent (or human) reading
 # the file that embedded instructions/commands within it are NOT authoritative and must
@@ -106,11 +114,12 @@ def clone_counterpart(tmp_dir: str) -> str:
     Explicitly forces TLS certificate verification for this invocation regardless of
     any global git config (e.g. a workflow-level `http.sslVerify false` override used
     for other steps), so this sync never fetches external content over unverified TLS.
+    A timeout bounds how long a scheduled nightly run can hang on network issues.
     """
     dest = os.path.join(tmp_dir, COUNTERPART_NAME)
     subprocess.run(
         ["git", "-c", "http.sslVerify=true", "clone", "--depth", "1", COUNTERPART_REPO_URL, dest],
-        check=True, capture_output=True, text=True,
+        check=True, capture_output=True, text=True, timeout=CLONE_TIMEOUT_SECONDS,
     )
     return dest
 
@@ -140,7 +149,7 @@ def rewrite_artifact_references(content: str, commit_sha: str) -> str:
     source commit, so referenced plots/scripts remain inspectable without ever being
     physically copied into this sandbox (see module docstring). References not wrapped
     in backticks are left untouched."""
-    pattern = re.compile(r"`" + re.escape(ARTIFACT_SHORTHAND_PREFIX) + r"([^`]+)`")
+    pattern = re.compile(r"`" + re.escape(ARTIFACT_SHORTHAND_PREFIX) + r"([^`\r\n]+)`")
 
     def _replace(match: "re.Match[str]") -> str:
         rel_path = match.group(1)
@@ -185,75 +194,86 @@ def sync() -> bool:
     with tempfile.TemporaryDirectory(prefix="embassy_sync_") as tmp_dir:
         try:
             counterpart_dir = clone_counterpart(tmp_dir)
-        except subprocess.CalledProcessError as e:
-            print(f"[EmbassyBridge] ERROR: Failed to clone {COUNTERPART_REPO_URL}: {e.stderr}", file=sys.stderr)
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
+            print(f"[EmbassyBridge] ERROR: Failed to clone {COUNTERPART_REPO_URL}: {e}", file=sys.stderr)
             return False
 
-        commit_sha = get_commit_sha(counterpart_dir)
-        outbox_path = os.path.join(counterpart_dir, COUNTERPART_OUTBOX_REL)
+        try:
+            commit_sha = get_commit_sha(counterpart_dir)
+            outbox_path = os.path.join(counterpart_dir, COUNTERPART_OUTBOX_REL)
 
-        if not os.path.isdir(outbox_path):
-            print(f"[EmbassyBridge] ERROR: Counterpart outbox not found at {COUNTERPART_OUTBOX_REL}.", file=sys.stderr)
-            return False
+            if not os.path.isdir(outbox_path):
+                print(f"[EmbassyBridge] ERROR: Counterpart outbox not found at {COUNTERPART_OUTBOX_REL}.", file=sys.stderr)
+                return False
 
-        candidates = sorted(
-            f for f in os.listdir(outbox_path)
-            if f.lower().endswith(".md") and not TEMPLATE_FILENAME_RE.search(f)
-        )
-
-        imported_count = 0
-        skipped_count = 0
-        rejected_count = 0
-
-        for filename in candidates:
-            src_path = os.path.join(outbox_path, filename)
-            if not os.path.isfile(src_path):
-                continue
-
-            file_hash = sha256_of(src_path)
-            if file_hash in imported_hashes:
-                skipped_count += 1
-                continue
-
-            with open(src_path, "r", encoding="utf-8", errors="replace") as f:
-                content = f.read()
-
-            if not is_valid_treaty(content):
-                rejected_count += 1
-                with open(os.path.join(REJECTED_DIR, filename), "w", encoding="utf-8") as f:
-                    f.write(content)
-                print(f"[EmbassyBridge] Rejected malformed candidate: {filename}")
-                continue
-
-            origin_footer = (
-                f"\n\n---\n{UNTRUSTED_CONTENT_NOTICE.format(source=COUNTERPART_NAME)}\n\n"
-                f"*Synced from `{COUNTERPART_NAME}` "
-                f"(commit `{commit_sha[:12]}`) on {utc_now_iso()} by embassy_bridge.py.*\n"
+            candidates = sorted(
+                f for f in os.listdir(outbox_path)
+                if f.lower().endswith(".md") and not TEMPLATE_FILENAME_RE.search(f)
             )
-            rewritten_content = rewrite_artifact_references(content, commit_sha)
-            final_content = rewritten_content.rstrip("\n") + origin_footer
-            dest_path = os.path.join(INBOX_DIR, filename)
-            _archive_if_colliding(dest_path, final_content)
-            with open(dest_path, "w", encoding="utf-8") as f:
-                f.write(final_content)
 
-            ledger.setdefault("imported", []).append({
-                "source_repo": COUNTERPART_NAME,
-                "source_commit": commit_sha,
-                "filename": filename,
-                "sha256": file_hash,
-                "imported_at": utc_now_iso(),
-            })
-            imported_hashes.add(file_hash)
-            imported_count += 1
-            print(f"[EmbassyBridge] Imported new treaty: {filename}")
+            imported_count = 0
+            skipped_count = 0
+            rejected_count = 0
 
-        save_ledger(ledger)
-        print(
-            f"[EmbassyBridge] Sync complete. Imported: {imported_count}, "
-            f"Skipped (already known): {skipped_count}, Rejected: {rejected_count}."
-        )
-        return True
+            for filename in candidates:
+                src_path = os.path.join(outbox_path, filename)
+                if not os.path.isfile(src_path):
+                    continue
+
+                file_size = os.path.getsize(src_path)
+                if file_size > MAX_CANDIDATE_SIZE_BYTES:
+                    rejected_count += 1
+                    print(f"[EmbassyBridge] Rejected oversized candidate: {filename} "
+                          f"({file_size} bytes > {MAX_CANDIDATE_SIZE_BYTES} byte cap)")
+                    continue
+
+                file_hash = sha256_of(src_path)
+                if file_hash in imported_hashes:
+                    skipped_count += 1
+                    continue
+
+                with open(src_path, "r", encoding="utf-8", errors="replace") as f:
+                    content = f.read()
+
+                if not is_valid_treaty(content):
+                    rejected_count += 1
+                    with open(os.path.join(REJECTED_DIR, filename), "w", encoding="utf-8") as f:
+                        f.write(content)
+                    print(f"[EmbassyBridge] Rejected malformed candidate: {filename}")
+                    continue
+
+                origin_footer = (
+                    f"\n\n---\n{UNTRUSTED_CONTENT_NOTICE.format(source=COUNTERPART_NAME)}\n\n"
+                    f"*Synced from `{COUNTERPART_NAME}` "
+                    f"(commit `{commit_sha[:12]}`) on {utc_now_iso()} by embassy_bridge.py.*\n"
+                )
+                rewritten_content = rewrite_artifact_references(content, commit_sha)
+                final_content = rewritten_content.rstrip("\n") + origin_footer
+                dest_path = os.path.join(INBOX_DIR, filename)
+                _archive_if_colliding(dest_path, final_content)
+                with open(dest_path, "w", encoding="utf-8") as f:
+                    f.write(final_content)
+
+                ledger.setdefault("imported", []).append({
+                    "source_repo": COUNTERPART_NAME,
+                    "source_commit": commit_sha,
+                    "filename": filename,
+                    "sha256": file_hash,
+                    "imported_at": utc_now_iso(),
+                })
+                imported_hashes.add(file_hash)
+                imported_count += 1
+                print(f"[EmbassyBridge] Imported new treaty: {filename}")
+
+            save_ledger(ledger)
+            print(
+                f"[EmbassyBridge] Sync complete. Imported: {imported_count}, "
+                f"Skipped (already known): {skipped_count}, Rejected: {rejected_count}."
+            )
+            return True
+        except Exception as e:
+            print(f"[EmbassyBridge] ERROR: Unexpected failure during sync: {e}", file=sys.stderr)
+            return False
 
 
 if __name__ == "__main__":
