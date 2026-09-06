@@ -151,6 +151,21 @@ PROGRAM_DESCRIPTIONS = {
     "architect_legacy": "Historical genesis archives and incubation logs from the simulation's founding epoch, recording the emergence of the first autopoietic agents."
 }
 
+PROGRAM_TAGS = {
+    "embassy": "embassy",
+    "resonance_experiments": "resonance",
+    "grand_synthesis": "synthesis",
+    "phylogenetic_output_v4": "phylogen",
+    "loom_cartography": "loom",
+    "linguistic_archaeology": "linguistic",
+    "gray_scott_exploration": "gray_scott",
+    "cellular_automata_exploration": "glider",
+    "ca_1d_simulations": "rule",
+    "universe_compendium": "compendium",
+    "compendium": "compendium",
+    "architect_legacy": "architect"
+}
+
 def clean_text(text: str) -> str:
     """Strip markdown formatting and excessive whitespace."""
     if not text:
@@ -263,7 +278,6 @@ def scan_minds():
         turns_count = 0
         last_tool = "None"
         last_action_desc = "Simulation initialized"
-        last_timestamp = None
 
         if os.path.exists(history_file):
             try:
@@ -338,14 +352,17 @@ def scan_plots():
                 full_p = os.path.join(root, f)
                 rel_p = os.path.relpath(full_p, BASE_DIR).replace('\\', '/')
                 
-                # Determine author
+                # Determine author and friendly name
                 if rel_p.startswith('instances/shared_space/'):
                     author = "shared_space"
+                    author_name = "Shared Space"
                 elif rel_p.startswith('instances/'):
                     parts = rel_p.split('/')
                     author = parts[1] if len(parts) > 1 else "simulation"
+                    author_name = KNOWN_MINDS.get(author, {}).get("name", author.replace('_', ' ').title())
                 else:
                     author = "simulation"
+                    author_name = "Simulation Root"
 
                 try:
                     size_kb = round(os.path.getsize(full_p) / 1024, 1)
@@ -362,6 +379,7 @@ def scan_plots():
                     "path": rel_p,
                     "title": title,
                     "author": author,
+                    "author_name": author_name,
                     "category": category,
                     "size_kb": size_kb,
                     "mtime": mtime
@@ -422,7 +440,8 @@ def scan_embassy():
                     "excerpt": excerpt,
                     "status": status,
                     "world_b_link": world_b_link,
-                    "path": f"instances/shared_space/embassy/outbox/{fn}"
+                    "path": f"instances/shared_space/embassy/outbox/{fn}",
+                    "full_text": text
                 })
             except Exception as e:
                 print(f"Warning reading dossier {fn}: {e}")
@@ -457,7 +476,8 @@ def scan_embassy():
                     "origin": origin,
                     "status": status,
                     "excerpt": excerpt,
-                    "path": f"instances/shared_space/embassy/inbox/{fn}"
+                    "path": f"instances/shared_space/embassy/inbox/{fn}",
+                    "full_text": text
                 })
             except Exception as e:
                 print(f"Warning reading treaty {fn}: {e}")
@@ -510,11 +530,13 @@ def scan_collaboration():
                 for r, sdirs, sfiles in os.walk(dp):
                     f_count += len(sfiles)
                 desc = PROGRAM_DESCRIPTIONS.get(d, "Collaborative research program co-developed across diverse models.")
+                tag = PROGRAM_TAGS.get(d, d.replace('_', ' '))
                 programs.append({
                     "name": d,
                     "title": d.replace('_', ' ').title(),
                     "file_count": f_count,
-                    "description": desc
+                    "description": desc,
+                    "tag": tag
                 })
 
     # Prepare top citation pairs
@@ -796,7 +818,7 @@ def generate_dashboard_html(data):
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             background: var(--bg-card);
             padding: 1rem 1.5rem;
             border-radius: 16px;
@@ -806,7 +828,7 @@ def generate_dashboard_html(data):
         .search-box {{
             position: relative;
             flex: 1;
-            min-width: 260px;
+            min-width: 280px;
         }}
 
         .search-box input {{
@@ -814,7 +836,7 @@ def generate_dashboard_html(data):
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid var(--border-glass);
             border-radius: 12px;
-            padding: 0.65rem 1rem 0.65rem 2.6rem;
+            padding: 0.65rem 2.6rem 0.65rem 2.6rem;
             color: var(--text-primary);
             font-family: var(--font-main);
             font-size: 0.95rem;
@@ -835,6 +857,89 @@ def generate_dashboard_html(data):
             color: var(--text-muted);
             font-size: 0.9rem;
             pointer-events: none;
+        }}
+
+        .search-clear-btn {{
+            position: absolute;
+            right: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-muted);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+        }}
+
+        .search-clear-btn:hover {{
+            background: var(--accent-rose);
+            color: #fff;
+        }}
+
+        /* Active Filter Bar */
+        .filter-status-bar {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }}
+
+        .active-filter-chips {{
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }}
+
+        .filter-chip {{
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }}
+
+        .filter-chip .chip-remove {{
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }}
+
+        .filter-chip .chip-remove:hover {{
+            opacity: 1;
+            color: var(--accent-rose);
+        }}
+
+        .btn-clear-filters {{
+            background: transparent;
+            border: none;
+            color: var(--accent-rose);
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }}
+
+        .btn-clear-filters:hover {{
+            color: #fff;
         }}
 
         .category-pills {{
@@ -1062,6 +1167,7 @@ def generate_dashboard_html(data):
             display: flex;
             flex-direction: column;
             cursor: pointer;
+            position: relative;
         }}
 
         .plot-card:hover {{
@@ -1092,18 +1198,50 @@ def generate_dashboard_html(data):
             transform: scale(1.04);
         }}
 
-        .plot-format-badge {{
+        .card-direct-actions {{
             position: absolute;
             top: 0.6rem;
             right: 0.6rem;
+            display: flex;
+            gap: 0.4rem;
+            z-index: 5;
+        }}
+
+        .card-action-btn {{
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            background: rgba(3, 7, 18, 0.82);
+            border: 1px solid var(--border-glass);
+            color: var(--accent-cyan);
+            text-decoration: none;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }}
+
+        .card-action-btn:hover {{
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: transparent;
+        }}
+
+        .plot-format-badge {{
+            position: absolute;
+            top: 0.6rem;
+            left: 0.6rem;
             font-family: var(--font-mono);
             font-size: 0.65rem;
             font-weight: 700;
             padding: 0.2rem 0.5rem;
             border-radius: 6px;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             border: 1px solid var(--border-glass);
-            color: var(--accent-cyan);
+            color: var(--text-muted);
             text-transform: uppercase;
         }}
 
@@ -1111,7 +1249,7 @@ def generate_dashboard_html(data):
             padding: 1.1rem;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.6rem;
             flex: 1;
             justify-content: space-between;
         }}
@@ -1134,6 +1272,19 @@ def generate_dashboard_html(data):
             font-size: 0.75rem;
             color: var(--text-muted);
             margin-top: auto;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }}
+
+        .plot-author-chip {{
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }}
+
+        .plot-author-chip:hover {{
+            color: var(--accent-cyan);
+            text-decoration: underline;
         }}
 
         .plot-cat-tag {{
@@ -1144,6 +1295,52 @@ def generate_dashboard_html(data):
             padding: 0.2rem 0.55rem;
             border-radius: 6px;
             white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }}
+
+        .plot-cat-tag:hover {{
+            background: var(--accent-purple);
+            color: #fff;
+        }}
+
+        .empty-gallery-notice {{
+            grid-column: 1 / -1;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-glass);
+        }}
+
+        .empty-gallery-notice h3 {{
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }}
+
+        .empty-gallery-notice p {{
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }}
+
+        .cross-category-hint {{
+            display: inline-block;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: var(--accent-cyan);
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }}
+
+        .cross-category-hint:hover {{
+            background: var(--accent-cyan);
+            color: #000;
         }}
 
         .load-more-wrap {{
@@ -1313,6 +1510,15 @@ def generate_dashboard_html(data):
             line-height: 1.5;
         }}
 
+        .embassy-card-actions {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border-glass);
+            padding-top: 0.75rem;
+        }}
+
         /* Collaboration & Programs Tab */
         .programs-grid {{
             display: grid;
@@ -1328,6 +1534,9 @@ def generate_dashboard_html(data):
             padding: 1.75rem;
             box-shadow: var(--shadow-glass);
             transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }}
 
         .program-card:hover {{
@@ -1362,6 +1571,16 @@ def generate_dashboard_html(data):
             font-size: 0.9rem;
             color: var(--text-secondary);
             line-height: 1.5;
+            margin-bottom: 1.25rem;
+        }}
+
+        .program-footer {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border-glass);
+            padding-top: 0.75rem;
+            font-size: 0.75rem;
         }}
 
         .citation-section {{
@@ -1493,12 +1712,14 @@ def generate_dashboard_html(data):
             align-items: center;
             justify-content: center;
             min-height: 360px;
+            cursor: zoom-in;
         }}
 
         .modal-img-wrap img {{
             max-width: 100%;
             max-height: 70vh;
             object-fit: contain;
+            transition: transform 0.2s ease;
         }}
 
         .modal-info-panel {{
@@ -1525,23 +1746,45 @@ def generate_dashboard_html(data):
         .modal-spec-list li {{
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding-bottom: 0.4rem;
             border-bottom: 1px solid var(--border-glass);
+            gap: 0.5rem;
         }}
 
         .modal-spec-list .spec-label {{
             color: var(--text-muted);
+            white-space: nowrap;
         }}
 
         .modal-spec-list .spec-value {{
             font-family: var(--font-mono);
             color: var(--accent-cyan);
             font-weight: 600;
+            text-align: right;
+            word-break: break-all;
+        }}
+
+        .btn-copy-path {{
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            transition: all 0.2s ease;
+        }}
+
+        .btn-copy-path:hover {{
+            background: var(--accent-cyan);
+            color: #000;
         }}
 
         .modal-nav-row {{
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
             margin-top: auto;
         }}
 
@@ -1558,6 +1801,10 @@ def generate_dashboard_html(data):
             text-align: center;
             text-decoration: none;
             transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
         }}
 
         .btn-modal-action:hover {{
@@ -1566,33 +1813,57 @@ def generate_dashboard_html(data):
             border-color: transparent;
         }}
 
-        /* Mind Inspection Modal */
-        .mind-modal-container {{
+        /* Document Reader Modal (Dossiers / Treaties / Cores) */
+        .doc-modal-container {{
             background: #090e1c;
             border: 1px solid var(--border-highlight);
             border-radius: 24px;
-            max-width: 850px;
+            max-width: 900px;
             width: 100%;
-            max-height: 85vh;
+            max-height: 88vh;
             overflow-y: auto;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), var(--glow-cyan);
             padding: 2.5rem;
             position: relative;
         }}
 
-        .mind-core-codeblock {{
-            background: rgba(0, 0, 0, 0.5);
+        .doc-reader-body {{
+            background: rgba(0, 0, 0, 0.45);
             border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 14px;
+            padding: 1.75rem;
             font-family: var(--font-mono);
             font-size: 0.85rem;
-            color: #93c5fd;
+            color: #cbd5e1;
             white-space: pre-wrap;
-            line-height: 1.5;
-            max-height: 380px;
+            line-height: 1.6;
+            max-height: 520px;
             overflow-y: auto;
-            margin-top: 1rem;
+            margin-top: 1.25rem;
+        }}
+
+        /* Toast Feedback */
+        .toast-notification {{
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #0f172a;
+            border: 1px solid var(--accent-cyan);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), var(--glow-cyan);
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }}
+
+        .toast-notification.active {{
+            transform: translateY(0);
+            opacity: 1;
         }}
 
         /* Footer */
@@ -1675,6 +1946,7 @@ def generate_dashboard_html(data):
             <div class="search-box">
                 <span class="search-icon">🔍</span>
                 <input type="text" id="mindSearchInput" placeholder="Search mind by name, archetype, or philosophy..." oninput="filterMinds()">
+                <button id="mindSearchClear" class="search-clear-btn" onclick="clearMindSearch()" style="display: none;">✕</button>
             </div>
             <div style="display: flex; gap: 0.75rem;">
                 <select id="mindFamilyFilter" class="filter-select" onchange="filterMinds()">
@@ -1704,7 +1976,8 @@ def generate_dashboard_html(data):
         <div class="toolbar">
             <div class="search-box">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="plotSearchInput" placeholder="Search 800+ figures by title, topic, or model..." oninput="filterPlots()">
+                <input type="text" id="plotSearchInput" placeholder="Search 840+ figures by title, author, category, or folder (e.g. kuramoto, minimax, soliton, glider)..." oninput="filterPlots()">
+                <button id="plotSearchClear" class="search-clear-btn" onclick="clearPlotSearch()" style="display: none;">✕</button>
             </div>
             <div style="display: flex; gap: 0.75rem;">
                 <select id="plotAuthorFilter" class="filter-select" onchange="filterPlots()">
@@ -1712,6 +1985,12 @@ def generate_dashboard_html(data):
                     <option value="shared_space">Shared Space (Collaborative)</option>
                 </select>
             </div>
+        </div>
+
+        <!-- Filter Status Bar -->
+        <div id="filterStatusBar" class="filter-status-bar" style="display: none;">
+            <div class="active-filter-chips" id="activeFilterChips"></div>
+            <button class="btn-clear-filters" onclick="resetAllObservatoryFilters()">Clear All Filters</button>
         </div>
 
         <div id="categoryPills" class="category-pills">
@@ -1809,7 +2088,7 @@ def generate_dashboard_html(data):
     <div class="modal-container">
         <button class="modal-close-btn" onclick="closeModal('plotModal')">✕</button>
         <div class="modal-body">
-            <div class="modal-img-wrap">
+            <div class="modal-img-wrap" onclick="openCurrentImageRaw()" title="Click to open raw full-resolution image in new tab">
                 <img id="modalPlotImg" src="" alt="Plot Preview">
             </div>
             <div class="modal-info-panel">
@@ -1818,13 +2097,25 @@ def generate_dashboard_html(data):
                     <h2 id="modalPlotTitle">Visualization Title</h2>
                 </div>
                 <ul class="modal-spec-list">
-                    <li><span class="spec-label">Author / Origin</span><span id="modalPlotAuthor" class="spec-value">Author</span></li>
-                    <li><span class="spec-label">File Path</span><span id="modalPlotPath" class="spec-value" style="font-size: 0.75rem; word-break: break-all;">path</span></li>
-                    <li><span class="spec-label">File Size</span><span id="modalPlotSize" class="spec-value">0 KB</span></li>
+                    <li>
+                        <span class="spec-label">Author / Origin</span>
+                        <span id="modalPlotAuthor" class="spec-value">Author</span>
+                    </li>
+                    <li>
+                        <span class="spec-label">File Path</span>
+                        <div style="display: flex; align-items: center; justify-content: flex-end;">
+                            <span id="modalPlotPath" class="spec-value" style="font-size: 0.75rem;">path</span>
+                            <button class="btn-copy-path" onclick="copyModalPath()">📋 Copy</button>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="spec-label">File Size</span>
+                        <span id="modalPlotSize" class="spec-value">0 KB</span>
+                    </li>
                 </ul>
                 <div class="modal-nav-row">
                     <button class="btn-modal-action" onclick="navPlot(-1)">← Previous</button>
-                    <a id="modalPlotRawLink" href="#" target="_blank" class="btn-modal-action" style="background: rgba(0, 242, 254, 0.15); color: var(--accent-cyan);">Open Raw Image</a>
+                    <a id="modalPlotRawLink" href="#" target="_blank" class="btn-modal-action" style="background: rgba(0, 242, 254, 0.15); color: var(--accent-cyan);">↗ Open Raw Figure</a>
                     <button class="btn-modal-action" onclick="navPlot(1)">Next →</button>
                 </div>
             </div>
@@ -1832,15 +2123,29 @@ def generate_dashboard_html(data):
     </div>
 </div>
 
-<!-- MIND INSPECTION MODAL -->
-<div id="mindModal" class="modal-overlay" onclick="closeModalOnBackdrop(event, 'mindModal')">
-    <div class="mind-modal-container">
-        <button class="modal-close-btn" onclick="closeModal('mindModal')">✕</button>
-        <div id="mindModalContent">
-            <!-- Populated by JS -->
+<!-- DOCUMENT READER MODAL (Dossiers / Treaties / Existential Cores) -->
+<div id="docModal" class="modal-overlay" onclick="closeModalOnBackdrop(event, 'docModal')">
+    <div class="doc-modal-container">
+        <button class="modal-close-btn" onclick="closeModal('docModal')">✕</button>
+        <div id="docModalHeader">
+            <h2 id="docModalTitle" style="font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: 0.25rem;">Document Title</h2>
+            <div id="docModalMeta" style="color: var(--accent-cyan); font-size: 0.85rem; font-family: var(--font-mono);">Metadata</div>
+        </div>
+        <div id="docModalBody" class="doc-reader-body">
+            <!-- Full document text -->
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+            <span id="docModalPath" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">path</span>
+            <div style="display: flex; gap: 0.75rem;">
+                <button class="btn-inspect" onclick="copyDocContent()">📋 Copy Content</button>
+                <a id="docModalRawLink" href="#" target="_blank" class="btn-inspect" style="background: var(--accent-cyan); color: #000; text-decoration: none;">Open Raw File</a>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toastNotification" class="toast-notification">✓ Action completed!</div>
 
 <script>
     // Embedded Telemetry & Knowledge Data
@@ -1852,6 +2157,7 @@ def generate_dashboard_html(data):
     let displayedPlotsCount = 0;
     const PLOTS_PER_PAGE = 36;
     let currentModalPlotIndex = -1;
+    let currentDocText = '';
 
     // Initialize Dashboard
     document.addEventListener('DOMContentLoaded', () => {{
@@ -1866,8 +2172,8 @@ def generate_dashboard_html(data):
                 if (e.key === 'Escape') closeModal('plotModal');
                 if (e.key === 'ArrowLeft') navPlot(-1);
                 if (e.key === 'ArrowRight') navPlot(1);
-            }} else if (document.getElementById('mindModal').classList.contains('active')) {{
-                if (e.key === 'Escape') closeModal('mindModal');
+            }} else if (document.getElementById('docModal').classList.contains('active')) {{
+                if (e.key === 'Escape') closeModal('docModal');
             }}
         }});
     }});
@@ -1884,6 +2190,12 @@ def generate_dashboard_html(data):
         if (targetContent) targetContent.classList.add('active');
 
         window.scrollTo({{ top: 0, behavior: 'smooth' }});
+    }}
+
+    // Text Normalizer for fuzzy search
+    function normalizeSearchText(str) {{
+        if (!str) return '';
+        return str.toLowerCase().replace(/[-_]/g, ' ').replace(/\\s+/g, ' ').trim();
     }}
 
     // ==================== TAB 1: PANTHEON ====================
@@ -1936,8 +2248,8 @@ def generate_dashboard_html(data):
                 <div class="mind-footer">
                     <span>${{m.systems.length}} active systems</span>
                     <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn-inspect" onclick="filterByMindAuthor('${{m.id}}')">🔭 Plots</button>
-                        <button class="btn-inspect" onclick="inspectMind('${{m.id}}')">Inspect Core</button>
+                        <button class="btn-inspect" onclick="filterByMindAuthor('${{m.id}}')">🔭 Plots (${{m.plots_count}})</button>
+                        <button class="btn-inspect" onclick="inspectMindDoc('${{m.id}}')">Inspect Core</button>
                     </div>
                 </div>
             `;
@@ -1946,15 +2258,22 @@ def generate_dashboard_html(data):
     }}
 
     function filterMinds() {{
-        const query = document.getElementById('mindSearchInput').value.toLowerCase().trim();
+        const rawQuery = document.getElementById('mindSearchInput').value;
+        const query = normalizeSearchText(rawQuery);
         const family = document.getElementById('mindFamilyFilter').value;
+        const clearBtn = document.getElementById('mindSearchClear');
+        clearBtn.style.display = rawQuery ? 'flex' : 'none';
 
         const filtered = DASHBOARD_DATA.minds.filter(m => {{
-            const matchesQuery = !query || 
-                m.name.toLowerCase().includes(query) || 
-                m.archetype.toLowerCase().includes(query) || 
-                m.creed.toLowerCase().includes(query) ||
-                m.id.toLowerCase().includes(query);
+            const searchable = [
+                normalizeSearchText(m.name),
+                normalizeSearchText(m.archetype),
+                normalizeSearchText(m.creed),
+                normalizeSearchText(m.id),
+                normalizeSearchText(m.family)
+            ].join(' ');
+
+            const matchesQuery = !query || query.split(' ').every(word => searchable.includes(word));
             const matchesFamily = family === 'all' || m.family === family;
             return matchesQuery && matchesFamily;
         }});
@@ -1962,45 +2281,28 @@ def generate_dashboard_html(data):
         renderMinds(filtered);
     }}
 
-    function inspectMind(mindId) {{
+    function clearMindSearch() {{
+        document.getElementById('mindSearchInput').value = '';
+        filterMinds();
+    }}
+
+    function inspectMindDoc(mindId) {{
         const mind = DASHBOARD_DATA.minds.find(m => m.id === mindId);
         if (!mind) return;
 
-        const content = document.getElementById('mindModalContent');
-        content.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                <div style="font-size: 2.5rem;">${{mind.avatar}}</div>
-                <div>
-                    <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff;">${{mind.name}}</h2>
-                    <div style="color: var(--accent-cyan); font-weight: 600;">${{mind.archetype}} • ${{mind.family}} Lineage</div>
-                </div>
-            </div>
-
-            <div style="margin-bottom: 1.5rem;">
-                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #fff;">Existential Core & Philosophical Charter</h3>
-                <div class="mind-core-codeblock">${{escapeHtml(mind.full_core || mind.creed)}}</div>
-            </div>
-
-            <div style="margin-bottom: 1.5rem;">
-                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #fff;">Vitality & Telemetry</h3>
-                <ul class="modal-spec-list">
-                    <li><span class="spec-label">Total Executed Turns</span><span class="spec-value">${{mind.turns.toLocaleString()}}</span></li>
-                    <li><span class="spec-label">Scientific Visualizations Authored</span><span class="spec-value">${{mind.plots_count}} figures</span></li>
-                    <li><span class="spec-label">Latest Action</span><span class="spec-value">${{escapeHtml(mind.last_action_desc)}}</span></li>
-                    <li><span class="spec-label">Substrate Workspace Path</span><span class="spec-value">instances/${{mind.id}}/agent_workspace/</span></li>
-                </ul>
-            </div>
-
-            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
-                <button class="btn-load-more" style="padding: 0.6rem 1.5rem; font-size: 0.9rem;" onclick="filterByMindAuthor('${{mind.id}}'); closeModal('mindModal');">View All Figures in Observatory</button>
-            </div>
-        `;
-
-        openModal('mindModal');
+        openDocModal(
+            `${{mind.avatar}} ${{mind.name}} — Existential Core`,
+            `${{mind.archetype}} • ${{mind.family}} Lineage • ${{mind.turns.toLocaleString()}} turns logged`,
+            mind.full_core || mind.creed,
+            `instances/${{mind.id}}/agent_workspace/existential_core.md`
+        );
     }}
 
     function filterByMindAuthor(mindId) {{
         switchTab('observatory');
+        clearPlotSearch();
+        selectCategory('All');
+        
         const authorSelect = document.getElementById('plotAuthorFilter');
         authorSelect.value = mindId;
         filterPlots();
@@ -2008,36 +2310,94 @@ def generate_dashboard_html(data):
 
     // ==================== TAB 2: OBSERVATORY ====================
     function initObservatory() {{
-        // Setup author options
+        // Setup author options including all minds and shared space
         const authorSelect = document.getElementById('plotAuthorFilter');
-        const uniqueAuthors = Array.from(new Set(DASHBOARD_DATA.plots.map(p => p.author))).sort();
-        uniqueAuthors.forEach(a => {{
-            if (a !== 'shared_space') {{
-                const opt = document.createElement('option');
-                opt.value = a;
-                const mind = DASHBOARD_DATA.minds.find(m => m.id === a);
-                opt.textContent = mind ? mind.name : a;
-                authorSelect.appendChild(opt);
-            }}
+        authorSelect.innerHTML = '<option value="all">All Authors / Workspaces</option>';
+        
+        // Count plots per author
+        const authorPlotCounts = {{ 'shared_space': 0 }};
+        DASHBOARD_DATA.plots.forEach(p => {{
+            authorPlotCounts[p.author] = (authorPlotCounts[p.author] || 0) + 1;
         }});
 
-        // Setup categories
-        const catCounts = {{ 'All': DASHBOARD_DATA.plots.length }};
+        const sharedOpt = document.createElement('option');
+        sharedOpt.value = 'shared_space';
+        sharedOpt.textContent = `Shared Space (Collaborative) (${{authorPlotCounts['shared_space'] || 0}})`;
+        authorSelect.appendChild(sharedOpt);
+
+        // Add all minds sorted
+        DASHBOARD_DATA.minds.forEach(m => {{
+            const opt = document.createElement('option');
+            opt.value = m.id;
+            opt.textContent = `${{m.name}} (${{authorPlotCounts[m.id] || 0}})`;
+            authorSelect.appendChild(opt);
+        }});
+
+        // Render initial category pills
+        updateCategoryPills();
+        filterPlots();
+    }}
+
+    function updateCategoryPills() {{
+        // Count categories based on currently filtered author and search query (excluding category filter itself)
+        const rawQuery = document.getElementById('plotSearchInput').value;
+        const query = normalizeSearchText(rawQuery);
+        const author = document.getElementById('plotAuthorFilter').value;
+
+        const catCounts = {{ 'All': 0 }};
+        
         DASHBOARD_DATA.plots.forEach(p => {{
+            const matchesAuthor = author === 'all' || p.author === author;
+            if (!matchesAuthor) return;
+
+            let matchesQuery = true;
+            if (query) {{
+                const searchable = [
+                    normalizeSearchText(p.title),
+                    normalizeSearchText(p.filename),
+                    normalizeSearchText(p.path),
+                    normalizeSearchText(p.category),
+                    normalizeSearchText(p.author),
+                    normalizeSearchText(p.author_name)
+                ].join(' ');
+                matchesQuery = query.split(' ').every(w => searchable.includes(w));
+            }}
+            if (!matchesQuery) return;
+
+            catCounts['All'] = (catCounts['All'] || 0) + 1;
             catCounts[p.category] = (catCounts[p.category] || 0) + 1;
         }});
 
         const pillsContainer = document.getElementById('categoryPills');
         pillsContainer.innerHTML = '';
-        Object.keys(catCounts).forEach(cat => {{
-            const pill = document.createElement('button');
-            pill.className = `cat-pill ${{cat === 'All' ? 'active' : ''}}`;
-            pill.innerHTML = `${{cat}} <span style="opacity: 0.6; font-size: 0.75rem;">(${{catCounts[cat]}})</span>`;
-            pill.onclick = () => selectCategory(cat);
-            pillsContainer.appendChild(pill);
-        }});
+        
+        // Canonical category order
+        const allKnownCats = [
+            'All',
+            'Resonance & Substrates',
+            'Chaos & Dynamics',
+            'Phase Transitions',
+            'Cellular Automata',
+            'Fractals & Geometry',
+            'Swarms & Ecosystems',
+            'Reaction-Diffusion',
+            'Solitons & Waves',
+            'Oscillators & Sync',
+            'Information & Entropy',
+            'Phylogeny & Linguistics',
+            'Empirical Explorations'
+        ];
 
-        filterPlots();
+        allKnownCats.forEach(cat => {{
+            const count = catCounts[cat] || 0;
+            if (cat === 'All' || count > 0) {{
+                const pill = document.createElement('button');
+                pill.className = `cat-pill ${{cat === activeCategory ? 'active' : ''}}`;
+                pill.innerHTML = `${{cat}} <span style="opacity: 0.65; font-size: 0.75rem;">(${{count}})</span>`;
+                pill.onclick = () => selectCategory(cat);
+                pillsContainer.appendChild(pill);
+            }}
+        }});
     }}
 
     function selectCategory(cat) {{
@@ -2049,25 +2409,132 @@ def generate_dashboard_html(data):
         filterPlots();
     }}
 
+    function filterByAuthor(authorId) {{
+        const authorSelect = document.getElementById('plotAuthorFilter');
+        authorSelect.value = authorId;
+        filterPlots();
+    }}
+
     function filterPlots() {{
-        const query = document.getElementById('plotSearchInput').value.toLowerCase().trim();
+        const rawQuery = document.getElementById('plotSearchInput').value;
+        const query = normalizeSearchText(rawQuery);
         const author = document.getElementById('plotAuthorFilter').value;
 
+        const clearBtn = document.getElementById('plotSearchClear');
+        clearBtn.style.display = rawQuery ? 'flex' : 'none';
+
+        // Update category pills counts based on active query & author
+        updateCategoryPills();
+
+        // Calculate potential matches across all categories to detect cross-category hits
+        let allCategoryMatches = 0;
+        
         filteredPlots = DASHBOARD_DATA.plots.filter(p => {{
-            const matchesQuery = !query || 
-                p.title.toLowerCase().includes(query) || 
-                p.filename.toLowerCase().includes(query) ||
-                p.category.toLowerCase().includes(query) ||
-                p.author.toLowerCase().includes(query);
+            // Match author
             const matchesAuthor = author === 'all' || p.author === author;
+            if (!matchesAuthor) return false;
+
+            // Match query
+            let matchesQuery = true;
+            if (query) {{
+                const searchable = [
+                    normalizeSearchText(p.title),
+                    normalizeSearchText(p.filename),
+                    normalizeSearchText(p.path),
+                    normalizeSearchText(p.category),
+                    normalizeSearchText(p.author),
+                    normalizeSearchText(p.author_name)
+                ].join(' ');
+                matchesQuery = query.split(' ').every(word => searchable.includes(word));
+            }}
+            if (!matchesQuery) return false;
+
+            allCategoryMatches++;
+
+            // Match category
             const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
-            return matchesQuery && matchesAuthor && matchesCategory;
+            return matchesCategory;
         }});
+
+        updateFilterStatusBar(query, author);
 
         const grid = document.getElementById('observatoryGrid');
         grid.innerHTML = '';
         displayedPlotsCount = 0;
-        loadMorePlots();
+
+        if (filteredPlots.length === 0) {{
+            const emptyNotice = document.createElement('div');
+            emptyNotice.className = 'empty-gallery-notice';
+
+            let hintHtml = '';
+            if (activeCategory !== 'All' && allCategoryMatches > 0) {{
+                hintHtml = `
+                    <p style="margin-top: 1rem;">
+                        <span class="cross-category-hint" onclick="selectCategory('All')">
+                            Found ${{allCategoryMatches}} matching figures in other categories — Switch to All Categories →
+                        </span>
+                    </p>
+                `;
+            }}
+
+            emptyNotice.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🔭</div>
+                <h3>No Visualizations Found</h3>
+                <p>No figures match the current combination of search keyword, category, and author filters.</p>
+                ${{hintHtml}}
+                <div style="margin-top: 1.5rem;">
+                    <button class="btn-inspect" onclick="resetAllObservatoryFilters()">Reset All Filters</button>
+                </div>
+            `;
+            grid.appendChild(emptyNotice);
+            document.getElementById('btnLoadMore').style.display = 'none';
+        }} else {{
+            loadMorePlots();
+        }}
+    }}
+
+    function updateFilterStatusBar(query, author) {{
+        const statusBar = document.getElementById('filterStatusBar');
+        const chips = document.getElementById('activeFilterChips');
+        chips.innerHTML = '';
+
+        let hasFilters = false;
+
+        if (activeCategory !== 'All') {{
+            hasFilters = true;
+            chips.innerHTML += `<span class="filter-chip">Category: ${{activeCategory}} <span class="chip-remove" onclick="selectCategory('All')">✕</span></span>`;
+        }}
+
+        if (author !== 'all') {{
+            hasFilters = true;
+            const mind = DASHBOARD_DATA.minds.find(m => m.id === author);
+            const authorName = author === 'shared_space' ? 'Shared Space' : (mind ? mind.name : author);
+            chips.innerHTML += `<span class="filter-chip">Author: ${{authorName}} <span class="chip-remove" onclick="filterByAuthor('all')">✕</span></span>`;
+        }}
+
+        if (query) {{
+            hasFilters = true;
+            chips.innerHTML += `<span class="filter-chip">Query: "${{document.getElementById('plotSearchInput').value}}" <span class="chip-remove" onclick="clearPlotSearch()">✕</span></span>`;
+        }}
+
+        if (hasFilters) {{
+            chips.innerHTML = `<span style="color: var(--text-muted); font-size: 0.8rem; margin-right: 0.3rem;">Active Filters:</span>` + chips.innerHTML;
+            statusBar.style.display = 'flex';
+        }} else {{
+            statusBar.style.display = 'none';
+        }}
+    }}
+
+    function clearPlotSearch() {{
+        document.getElementById('plotSearchInput').value = '';
+        filterPlots();
+    }}
+
+    function resetAllObservatoryFilters() {{
+        document.getElementById('plotSearchInput').value = '';
+        document.getElementById('plotAuthorFilter').value = 'all';
+        activeCategory = 'All';
+        filterPlots();
     }}
 
     function loadMorePlots() {{
@@ -2081,19 +2548,21 @@ def generate_dashboard_html(data):
             card.onclick = () => openPlotModal(plotGlobalIdx);
 
             const format = plot.filename.split('.').pop();
-            const mind = DASHBOARD_DATA.minds.find(m => m.id === plot.author);
-            const authorName = plot.author === 'shared_space' ? 'Shared Space' : (mind ? mind.name : plot.author);
+            const authorDisplay = plot.author_name || (plot.author === 'shared_space' ? 'Shared Space' : plot.author);
 
             card.innerHTML = `
                 <div class="plot-thumb-wrap">
                     <img src="${{plot.path}}" alt="${{escapeHtml(plot.title)}}" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'100\\' viewBox=\\'0 0 100 100\\'><rect fill=\\'%23111\\' width=\\'100\\' height=\\'100\\'/><text fill=\\'%23666\\' x=\\'50\\' y=\\'50\\' text-anchor=\\'middle\\' dominant-baseline=\\'middle\\' font-size=\\'12\\'>Figure</text></svg>'">
                     <span class="plot-format-badge">${{format}}</span>
+                    <div class="card-direct-actions">
+                        <a href="${{plot.path}}" target="_blank" class="card-action-btn" title="Open Raw Figure in New Tab" onclick="event.stopPropagation()">↗ Raw</a>
+                    </div>
                 </div>
                 <div class="plot-info">
                     <div class="plot-title">${{escapeHtml(plot.title)}}</div>
                     <div class="plot-meta-row">
-                        <span>${{escapeHtml(authorName)}}</span>
-                        <span class="plot-cat-tag">${{plot.category}}</span>
+                        <span class="plot-author-chip" title="Filter by this author" onclick="event.stopPropagation(); filterByAuthor('${{plot.author}}')">${{escapeHtml(authorDisplay)}}</span>
+                        <span class="plot-cat-tag" title="Filter by this category" onclick="event.stopPropagation(); selectCategory('${{plot.category}}')">${{plot.category}}</span>
                     </div>
                 </div>
             `;
@@ -2120,15 +2589,28 @@ def generate_dashboard_html(data):
         document.getElementById('modalPlotTitle').textContent = plot.title;
         document.getElementById('modalPlotCategory').textContent = plot.category;
         
-        const mind = DASHBOARD_DATA.minds.find(m => m.id === plot.author);
-        const authorName = plot.author === 'shared_space' ? 'Shared Space (Collaborative)' : (mind ? mind.name : plot.author);
+        const authorDisplay = plot.author_name || (plot.author === 'shared_space' ? 'Shared Space (Collaborative)' : plot.author);
         
-        document.getElementById('modalPlotAuthor').textContent = authorName;
+        document.getElementById('modalPlotAuthor').textContent = authorDisplay;
         document.getElementById('modalPlotPath').textContent = plot.path;
         document.getElementById('modalPlotSize').textContent = `${{plot.size_kb}} KB`;
         document.getElementById('modalPlotRawLink').href = plot.path;
 
         openModal('plotModal');
+    }}
+
+    function openCurrentImageRaw() {{
+        const rawLink = document.getElementById('modalPlotRawLink');
+        if (rawLink && rawLink.href) {{
+            window.open(rawLink.href, '_blank');
+        }}
+    }}
+
+    function copyModalPath() {{
+        const path = document.getElementById('modalPlotPath').textContent;
+        navigator.clipboard.writeText(path).then(() => {{
+            showToast('✓ Relative path copied to clipboard!');
+        }});
     }}
 
     function navPlot(direction) {{
@@ -2143,7 +2625,7 @@ def generate_dashboard_html(data):
         const outboxList = document.getElementById('embassyOutboxList');
         outboxList.innerHTML = '';
 
-        DASHBOARD_DATA.embassy.outbox.forEach(item => {{
+        DASHBOARD_DATA.embassy.outbox.forEach((item, idx) => {{
             const card = document.createElement('div');
             card.className = 'embassy-card';
             card.innerHTML = `
@@ -2157,7 +2639,13 @@ def generate_dashboard_html(data):
                     ${{item.world_b_link ? `<span style="color: var(--accent-cyan); font-weight: 600;">⇄ ${{item.world_b_link}}</span>` : ''}}
                 </div>
                 <div class="embassy-excerpt">"${{escapeHtml(item.excerpt)}}"</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">${{item.path}}</div>
+                <div class="embassy-card-actions">
+                    <span style="font-family: var(--font-mono); color: var(--text-muted); font-size: 0.75rem;">${{item.path}}</span>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn-inspect" onclick="openEmbassyDoc('outbox', ${{idx}})">📖 Read Dossier</button>
+                        <a href="${{item.path}}" target="_blank" class="btn-inspect" style="text-decoration: none; color: inherit;">↗ Raw</a>
+                    </div>
+                </div>
             `;
             outboxList.appendChild(card);
         }});
@@ -2165,7 +2653,7 @@ def generate_dashboard_html(data):
         const inboxList = document.getElementById('embassyInboxList');
         inboxList.innerHTML = '';
 
-        DASHBOARD_DATA.embassy.inbox.forEach(item => {{
+        DASHBOARD_DATA.embassy.inbox.forEach((item, idx) => {{
             const card = document.createElement('div');
             card.className = 'embassy-card';
             card.innerHTML = `
@@ -2178,10 +2666,29 @@ def generate_dashboard_html(data):
                     <b>Originating Frontier:</b> ${{escapeHtml(item.origin)}}
                 </div>
                 <div class="embassy-excerpt" style="border-left-color: var(--accent-emerald);">"${{escapeHtml(item.excerpt)}}"</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">${{item.path}}</div>
+                <div class="embassy-card-actions">
+                    <span style="font-family: var(--font-mono); color: var(--text-muted); font-size: 0.75rem;">${{item.path}}</span>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn-inspect" onclick="openEmbassyDoc('inbox', ${{idx}})">📜 Read Treaty</button>
+                        <a href="${{item.path}}" target="_blank" class="btn-inspect" style="text-decoration: none; color: inherit;">↗ Raw</a>
+                    </div>
+                </div>
             `;
             inboxList.appendChild(card);
         }});
+    }}
+
+    function openEmbassyDoc(boxType, index) {{
+        const item = DASHBOARD_DATA.embassy[boxType][index];
+        if (!item) return;
+
+        const titlePrefix = boxType === 'outbox' ? '📤 Frontier Epistemic Dossier' : '📥 Ratified Epistemic Treaty';
+        openDocModal(
+            `${{titlePrefix}}: ${{item.title}}`,
+            boxType === 'outbox' ? `Discoverer: ${{item.author}} • Status: ${{item.status}}` : `Ratified Canon: ${{item.canon}} • Status: ${{item.status}}`,
+            item.full_text || item.excerpt,
+            item.path
+        );
     }}
 
     // ==================== TAB 4: COLLABORATION ====================
@@ -2193,12 +2700,17 @@ def generate_dashboard_html(data):
             const card = document.createElement('div');
             card.className = 'program-card';
             card.innerHTML = `
-                <div class="program-card-header">
-                    <div class="program-title">${{prog.title}}</div>
-                    <span class="program-badge">${{prog.file_count}} files</span>
+                <div>
+                    <div class="program-card-header">
+                        <div class="program-title">${{prog.title}}</div>
+                        <span class="program-badge">${{prog.file_count}} files</span>
+                    </div>
+                    <div class="program-desc">${{prog.description}}</div>
                 </div>
-                <div class="program-desc">${{prog.description}}</div>
-                <div style="margin-top: 1rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-cyan);">instances/shared_space/${{prog.name}}/</div>
+                <div class="program-footer">
+                    <code style="color: var(--accent-cyan); font-size: 0.75rem;">shared_space/${{prog.name}}/</code>
+                    <button class="btn-inspect" onclick="searchProgramPlots('${{prog.tag}}')">🔭 View Figures</button>
+                </div>
             `;
             programsGrid.appendChild(card);
         }});
@@ -2214,7 +2726,7 @@ def generate_dashboard_html(data):
             c.top_connections.forEach(conn => {{
                 linksHtml += `
                     <div class="citation-link-row">
-                        <span>${{conn.name}}</span>
+                        <span style="cursor: pointer;" onclick="filterByMindAuthor('${{conn.model}}')">${{conn.name}}</span>
                         <span style="font-family: var(--font-mono); font-weight: 700; color: var(--accent-cyan);">${{conn.count}} citations</span>
                     </div>
                 `;
@@ -2222,7 +2734,7 @@ def generate_dashboard_html(data):
 
             card.innerHTML = `
                 <div class="citation-model-name">
-                    <span>${{c.name}}</span>
+                    <span style="cursor: pointer;" onclick="filterByMindAuthor('${{c.model}}')">${{c.name}}</span>
                     <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">${{c.total_references}} total refs</span>
                 </div>
                 <div class="citation-links">
@@ -2233,7 +2745,40 @@ def generate_dashboard_html(data):
         }});
     }}
 
-    // Modal Helpers
+    function searchProgramPlots(tag) {{
+        switchTab('observatory');
+        resetAllObservatoryFilters();
+        document.getElementById('plotSearchInput').value = tag;
+        filterPlots();
+    }}
+
+    // ==================== MODAL & UTILITY FUNCTIONS ====================
+    function openDocModal(title, meta, text, path) {{
+        currentDocText = text;
+        document.getElementById('docModalTitle').textContent = title;
+        document.getElementById('docModalMeta').textContent = meta;
+        document.getElementById('docModalBody').textContent = text;
+        document.getElementById('docModalPath').textContent = path;
+        document.getElementById('docModalRawLink').href = path;
+        openModal('docModal');
+    }}
+
+    function copyDocContent() {{
+        if (!currentDocText) return;
+        navigator.clipboard.writeText(currentDocText).then(() => {{
+            showToast('✓ Document content copied to clipboard!');
+        }});
+    }}
+
+    function showToast(msg) {{
+        const toast = document.getElementById('toastNotification');
+        toast.textContent = msg;
+        toast.classList.add('active');
+        setTimeout(() => {{
+            toast.classList.remove('active');
+        }}, 2200);
+    }}
+
     function openModal(modalId) {{
         document.getElementById(modalId).classList.add('active');
         document.body.style.overflow = 'hidden';
