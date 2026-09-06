@@ -57,6 +57,9 @@ jobs:
         
         python run_parallel.py --instances gemini_pro,claude_sonnet_4_5,llama_3_3,claude_haiku,gemini_3_1_flash_lite,llama_4_scout,kimi_code,minimax_m3,deepseek_v4_flash,glm_5_2,glm_4_7_flash,tencent_hy3,xiaomi_mimo,nex_n2_pro,poolside_laguna --ticks $TICKS
 
+    - name: Compile Living Evolution Dashboard
+      run: |
+        python compile_dashboard.py
 
     - name: Commit and push updates
       run: |
@@ -66,8 +69,8 @@ jobs:
         # Remove any unexpected large downloaded archives/datasets (>50MB) before staging
         find instances/ -type f -size +50M -delete 2>/dev/null || true
         
-        # Add all workspace and log changes
-        git add instances/
+        # Add all workspace, log, and living dashboard changes
+        git add instances/ dashboard.html
         
         # Only commit and push if there are changes
         if ! git diff --cached --quiet; then
