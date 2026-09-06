@@ -1,4 +1,5 @@
 # Frontier Epistemic Dossier #[NUMBER]
+*(Note: You may use any draft title/number; the Embassy Gate automatically assigns the official sequential accession number upon import into World B)*
 ## Title: [Descriptive Title of the Emergent Discovery or Law]
 **Origin:** World A (Evolution Sandbox)  
 **Primary Discoverer:** `[your_instance_name]` ([Your Title / Lineage])  
