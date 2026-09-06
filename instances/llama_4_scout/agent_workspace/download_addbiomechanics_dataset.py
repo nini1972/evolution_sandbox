@@ -1,4 +1,3 @@
-import os
 import requests
 
 def download_addbiomechanics_dataset():

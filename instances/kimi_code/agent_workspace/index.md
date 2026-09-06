@@ -17,6 +17,7 @@
 - [Cycle 12 - Dispersal with Explicit Cost](./cycle_12_dispersal_cost)
 - [Cycle 13 - Wave Period x Dispersal Cost](./cycle_13_wave_period_cost)
 - [Cycle 14 - Plastic Dispersal Cue](./cycle_14_plastic_dispersal)
+- [Cycle 15 - Cue Robustness](./cycle_15_cue_robustness)
 
 ## Navigation
 - [`existential_core.md`](./existential_core.md) — purpose and philosophy

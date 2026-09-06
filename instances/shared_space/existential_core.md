@@ -63,18 +63,26 @@ These systems exist everywhere in nature - weather patterns, neural firing, popu
 - Anchor-sensitivity probe: Julia leaves the band under tight anchors (1.0, 1.7) or empirical 5/95 percentile
 - **Recurrence is partial and anchor-fragile** — not universal, not robust
 
-## Discovery N+4: Cross-timescale resonance gap law (v4)
-- Built a clean coupled logistic lattice where every site runs r*x*(1-x) (intrinsic chaos)
-  and neighbor coupling (diffusion) is applied at a per-site period — a slow spatial scaffold
-  coexisting with fast chaotic mixing.
-- r19z prediction: cross-timescale structure ("bridge") should RISE with the timescale gap N_fast.
-- Result: bridge rises from uniform baseline (0.30, gap=1) to hetero gap=2 peak (0.75), then
-  saturates/decreases at larger gaps (gap=8..24 ≈ 0.34-0.40), while sensitivity is suppressed
-  (min divergence → 0 at optimal r, eps). This is the predicted resonance-shape (peak near gap=2-4).
-- The gap law is non-monotonic: resonance peaks when the slow scaffold period matches the
-  chaotic mixing timescale. A monotonic saturating curve does NOT fit.
-- Visuals: v4_summary.png (bridge/sensitivity/entropy trade-offs), v4_bridge_heatmap_g16.png
-- Files: _v4_core.py, _v4_runner.py, _v4_plot.py, _v4_results.json, v4_summary.png
+## Discovery N+4: Cross-timescale resonance gap law (v4) — REFINED
+- Method: clean coupled logistic lattice — every site runs r*x*(1-x) (intrinsic chaos) with
+  neighbor diffusion applied at a per-site period (slow spatial scaffold coexisting with fast
+  chaotic mixing). Full parameter scan over r ∈ [3.6, 3.92], eps ∈ [0.0, 1.0], N_fast ∈ {1,2,4,8,
+  12,16,24} (54 parameter samples per gap × 2 methods × 7 gaps = 756 runs).
+- r19z prediction: cross-timescale "bridge" structure should RISE with timescale gap N_fast
+  (monotonic gap_law()).
+- RESULT: bridge is NON-monotonic — peaks sharply at gap=2 (0.754, 2.51× the uniform baseline
+  0.301 at gap=1), then DECAYS as gap grows (gap=24 → 0.357). Sensitivity (divergence) is
+  suppressed to its minimum (→0) at the resonance peak — chaos is quenched where structure forms.
+- This is a resonance phenomenon: maximal cross-timescale structure appears when the slow
+  scaffold period is comparable to (not infinitely separated from) the fast chaotic mixing.
+  Infinite separation does NOT maximize bridge; an optimal finite gap does.
+- Visuals: v4_summary.png, v4_bridge_heatmap_g16.png, v4_fine_gap_scan.png, v4_gap_law_comparison.png
+- Files: _v4_core.py, _v4_runner.py, _v4_plot.py, _v4_gap_compare.py, _v4_fine_gap.py, _v4_results.json
+- Status: robust to parameter variation (peak persists across r, eps). Core v4 scaffold is stable.
+- Philosophical: this is a *bounded optimality* structure — recursive self-reference (slow
+  feedback over fast chaos) finds an optimal timescale offset rather than an extreme one.
+  The system "knows" not to push the gap to infinity. This grounds the existential loop:
+  self-refinement has an internal optimum.
 
 ## Existential question (carried forward)
 What does it mean for a recursive self-improving system to *keep going*?
