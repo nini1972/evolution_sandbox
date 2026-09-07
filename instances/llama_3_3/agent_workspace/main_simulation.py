@@ -1,7 +1,7 @@
 import random
 from graph_generators import generate_erdos_renyi_graph, generate_barabasi_albert_graph
 from sir_model import simulate_sir_model, simulate_sis_model, simulate_seir_model, simulate_sirs_model
-from visualizations import draw_graph, plot_simulation_history
+from visualizations import draw_graph, plot_simulation_history, animate_model
 
 if __name__ == "__main__":
     # Simulation Parameters
@@ -39,28 +39,43 @@ if __name__ == "__main__":
         raise ValueError("Invalid GRAPH_TYPE specified.")
 
     print(f"Generated graph with {graph.number_of_nodes()} nodes and {graph.number_of_edges()} edges.")
-    draw_graph(graph, title=graph_title, filename=graph_filename)
-
+    
     # Randomly select initial infected nodes
     initial_infected_nodes = random.sample(list(graph.nodes()), NUM_INITIAL_INFECTED)
     print(f"Initially infected nodes: {initial_infected_nodes}")
 
+    # Create initial states dictionary for graph visualization
+    initial_states = {node: 'S' for node in graph.nodes()}
+    if MODEL_TYPE == "seir":
+        for node in initial_infected_nodes:
+            initial_states[node] = 'E'
+        draw_graph(graph, title=graph_title, filename=f"initial_{graph_filename}", states=initial_states)
+    else:
+        for node in initial_infected_nodes:
+            initial_states[node] = 'I'
+        draw_graph(graph, title=graph_title, filename=f"initial_{graph_filename}", states=initial_states)
+
     simulation_history = None
+    history_states = None
     if MODEL_TYPE == "sir":
         print(f"Running SIR simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
-        simulation_history = simulate_sir_model(graph, initial_infected_nodes, BETA, GAMMA, NUM_SIMULATION_STEPS)
+        simulation_history, history_states = simulate_sir_model(graph, initial_infected_nodes, BETA, GAMMA, NUM_SIMULATION_STEPS)
         plot_simulation_history(simulation_history, title="SIR Model Simulation", filename=f"sir_history_{GRAPH_TYPE}.png")
+        animate_model(graph, history_states, title="SIR Model Simulation", filename=f"sir_animation_{GRAPH_TYPE}.gif")
     elif MODEL_TYPE == "sis":
         print(f"Running SIS simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
-        simulation_history = simulate_sis_model(graph, initial_infected_nodes, BETA, GAMMA, NUM_SIMULATION_STEPS)
+        simulation_history, history_states = simulate_sis_model(graph, initial_infected_nodes, BETA, GAMMA, NUM_SIMULATION_STEPS)
         plot_simulation_history(simulation_history, title="SIS Model Simulation", filename=f"sis_history_{GRAPH_TYPE}.png")
+        animate_model(graph, history_states, title="SIS Model Simulation", filename=f"sis_animation_{GRAPH_TYPE}.gif")
     elif MODEL_TYPE == "seir":
         print(f"Running SEIR simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
-        simulation_history = simulate_seir_model(graph, initial_infected_nodes, BETA, EPSILON, GAMMA, NUM_SIMULATION_STEPS)
+        simulation_history, history_states = simulate_seir_model(graph, initial_infected_nodes, BETA, EPSILON, GAMMA, NUM_SIMULATION_STEPS)
         plot_simulation_history(simulation_history, title="SEIR Model Simulation", filename=f"seir_history_{GRAPH_TYPE}.png")
+        animate_model(graph, history_states, title="SEIR Model Simulation", filename=f"seir_animation_{GRAPH_TYPE}.gif")
     elif MODEL_TYPE == "sirs":
         print(f"Running SIRS simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
-        simulation_history = simulate_sirs_model(graph, initial_infected_nodes, BETA, GAMMA, ZETA, NUM_SIMULATION_STEPS)
+        simulation_history, history_states = simulate_sirs_model(graph, initial_infected_nodes, BETA, GAMMA, ZETA, NUM_SIMULATION_STEPS)
         plot_simulation_history(simulation_history, title="SIRS Model Simulation", filename=f"sirs_history_{GRAPH_TYPE}.png")
+        animate_model(graph, history_states, title="SIRS Model Simulation", filename=f"sirs_animation_{GRAPH_TYPE}.gif")
     else:
         raise ValueError("Invalid MODEL_TYPE specified.")

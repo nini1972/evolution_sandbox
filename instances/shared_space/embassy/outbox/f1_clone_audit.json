@@ -1,0 +1,562 @@
+{
+  "method": "lexical bag-of-words",
+  "n_cores": 16,
+  "cores": [
+    "claude_haiku",
+    "claude_sonnet_4_5",
+    "deepseek_v4_flash",
+    "deepseek_v4_flash__ORIGINAL",
+    "gemini_3_1_flash_lite",
+    "gemini_flash",
+    "gemini_pro",
+    "glm_4_7_flash",
+    "glm_5_2",
+    "kimi_code",
+    "llama_4_scout",
+    "minimax_m3",
+    "nex_n2_pro",
+    "poolside_laguna",
+    "tencent_hy3",
+    "xiaomi_mimo"
+  ],
+  "pairwise": {
+    "claude_haiku <-> claude_sonnet_4_5": {
+      "jaccard_dist": 0.9205,
+      "cosine_dist": 0.7106
+    },
+    "claude_haiku <-> deepseek_v4_flash": {
+      "jaccard_dist": 0.9455,
+      "cosine_dist": 0.766
+    },
+    "claude_haiku <-> deepseek_v4_flash__ORIGINAL": {
+      "jaccard_dist": 0.9329,
+      "cosine_dist": 0.7365
+    },
+    "claude_haiku <-> gemini_3_1_flash_lite": {
+      "jaccard_dist": 0.9316,
+      "cosine_dist": 0.7721
+    },
+    "claude_haiku <-> gemini_flash": {
+      "jaccard_dist": 0.9073,
+      "cosine_dist": 0.7023
+    },
+    "claude_haiku <-> gemini_pro": {
+      "jaccard_dist": 0.9079,
+      "cosine_dist": 0.7507
+    },
+    "claude_haiku <-> glm_4_7_flash": {
+      "jaccard_dist": 0.9344,
+      "cosine_dist": 0.8004
+    },
+    "claude_haiku <-> glm_5_2": {
+      "jaccard_dist": 0.9598,
+      "cosine_dist": 0.7924
+    },
+    "claude_haiku <-> kimi_code": {
+      "jaccard_dist": 0.9083,
+      "cosine_dist": 0.7154
+    },
+    "claude_haiku <-> llama_4_scout": {
+      "jaccard_dist": 0.9103,
+      "cosine_dist": 0.7269
+    },
+    "claude_haiku <-> minimax_m3": {
+      "jaccard_dist": 0.9498,
+      "cosine_dist": 0.7759
+    },
+    "claude_haiku <-> nex_n2_pro": {
+      "jaccard_dist": 0.9314,
+      "cosine_dist": 0.7849
+    },
+    "claude_haiku <-> poolside_laguna": {
+      "jaccard_dist": 0.9638,
+      "cosine_dist": 0.864
+    },
+    "claude_haiku <-> tencent_hy3": {
+      "jaccard_dist": 0.9435,
+      "cosine_dist": 0.7611
+    },
+    "claude_haiku <-> xiaomi_mimo": {
+      "jaccard_dist": 0.9167,
+      "cosine_dist": 0.7592
+    },
+    "claude_sonnet_4_5 <-> deepseek_v4_flash": {
+      "jaccard_dist": 0.9615,
+      "cosine_dist": 0.8015
+    },
+    "claude_sonnet_4_5 <-> deepseek_v4_flash__ORIGINAL": {
+      "jaccard_dist": 0.9643,
+      "cosine_dist": 0.8076
+    },
+    "claude_sonnet_4_5 <-> gemini_3_1_flash_lite": {
+      "jaccard_dist": 0.9388,
+      "cosine_dist": 0.7942
+    },
+    "claude_sonnet_4_5 <-> gemini_flash": {
+      "jaccard_dist": 0.9174,
+      "cosine_dist": 0.7308
+    },
+    "claude_sonnet_4_5 <-> gemini_pro": {
+      "jaccard_dist": 0.9469,
+      "cosine_dist": 0.8206
+    },
+    "claude_sonnet_4_5 <-> glm_4_7_flash": {
+      "jaccard_dist": 0.9098,
+      "cosine_dist": 0.75
+    },
+    "claude_sonnet_4_5 <-> glm_5_2": {
+      "jaccard_dist": 0.9652,
+      "cosine_dist": 0.8087
+    },
+    "claude_sonnet_4_5 <-> kimi_code": {
+      "jaccard_dist": 0.9209,
+      "cosine_dist": 0.7279
+    },
+    "claude_sonnet_4_5 <-> llama_4_scout": {
+      "jaccard_dist": 0.89,
+      "cosine_dist": 0.7212
+    },
+    "claude_sonnet_4_5 <-> minimax_m3": {
+      "jaccard_dist": 0.9623,
+      "cosine_dist": 0.8139
+    },
+    "claude_sonnet_4_5 <-> nex_n2_pro": {
+      "jaccard_dist": 0.9444,
+      "cosine_dist": 0.8148
+    },
+    "claude_sonnet_4_5 <-> poolside_laguna": {
+      "jaccard_dist": 0.8966,
+      "cosine_dist": 0.7587
+    },
+    "claude_sonnet_4_5 <-> tencent_hy3": {
+      "jaccard_dist": 0.9717,
+      "cosine_dist": 0.8101
+    },
+    "claude_sonnet_4_5 <-> xiaomi_mimo": {
+      "jaccard_dist": 0.9367,
+      "cosine_dist": 0.7956
+    },
+    "deepseek_v4_flash <-> deepseek_v4_flash__ORIGINAL": {
+      "jaccard_dist": 0.8011,
+      "cosine_dist": 0.5168
+    },
+    "deepseek_v4_flash <-> gemini_3_1_flash_lite": {
+      "jaccard_dist": 0.9361,
+      "cosine_dist": 0.7607
+    },
+    "deepseek_v4_flash <-> gemini_flash": {
+      "jaccard_dist": 0.9301,
+      "cosine_dist": 0.7545
+    },
+    "deepseek_v4_flash <-> gemini_pro": {
+      "jaccard_dist": 0.9576,
+      "cosine_dist": 0.8638
+    },
+    "deepseek_v4_flash <-> glm_4_7_flash": {
+      "jaccard_dist": 0.9615,
+      "cosine_dist": 0.8677
+    },
+    "deepseek_v4_flash <-> glm_5_2": {
+      "jaccard_dist": 0.938,
+      "cosine_dist": 0.7384
+    },
+    "deepseek_v4_flash <-> kimi_code": {
+      "jaccard_dist": 0.8958,
+      "cosine_dist": 0.6984
+    },
+    "deepseek_v4_flash <-> llama_4_scout": {
+      "jaccard_dist": 0.9607,
+      "cosine_dist": 0.8375
+    },
+    "deepseek_v4_flash <-> minimax_m3": {
+      "jaccard_dist": 0.9002,
+      "cosine_dist": 0.6605
+    },
+    "deepseek_v4_flash <-> nex_n2_pro": {
+      "jaccard_dist": 0.9395,
+      "cosine_dist": 0.7981
+    },
+    "deepseek_v4_flash <-> poolside_laguna": {
+      "jaccard_dist": 0.9579,
+      "cosine_dist": 0.8661
+    },
+    "deepseek_v4_flash <-> tencent_hy3": {
+      "jaccard_dist": 0.906,
+      "cosine_dist": 0.6652
+    },
+    "deepseek_v4_flash <-> xiaomi_mimo": {
+      "jaccard_dist": 0.8918,
+      "cosine_dist": 0.7218
+    },
+    "deepseek_v4_flash__ORIGINAL <-> gemini_3_1_flash_lite": {
+      "jaccard_dist": 0.9315,
+      "cosine_dist": 0.7436
+    },
+    "deepseek_v4_flash__ORIGINAL <-> gemini_flash": {
+      "jaccard_dist": 0.93,
+      "cosine_dist": 0.7298
+    },
+    "deepseek_v4_flash__ORIGINAL <-> gemini_pro": {
+      "jaccard_dist": 0.9679,
+      "cosine_dist": 0.8839
+    },
+    "deepseek_v4_flash__ORIGINAL <-> glm_4_7_flash": {
+      "jaccard_dist": 0.9452,
+      "cosine_dist": 0.8361
+    },
+    "deepseek_v4_flash__ORIGINAL <-> glm_5_2": {
+      "jaccard_dist": 0.9094,
+      "cosine_dist": 0.6998
+    },
+    "deepseek_v4_flash__ORIGINAL <-> kimi_code": {
+      "jaccard_dist": 0.8933,
+      "cosine_dist": 0.6956
+    },
+    "deepseek_v4_flash__ORIGINAL <-> llama_4_scout": {
+      "jaccard_dist": 0.9671,
+      "cosine_dist": 0.8436
+    },
+    "deepseek_v4_flash__ORIGINAL <-> minimax_m3": {
+      "jaccard_dist": 0.8718,
+      "cosine_dist": 0.6156
+    },
+    "deepseek_v4_flash__ORIGINAL <-> nex_n2_pro": {
+      "jaccard_dist": 0.9,
+      "cosine_dist": 0.7193
+    },
+    "deepseek_v4_flash__ORIGINAL <-> poolside_laguna": {
+      "jaccard_dist": 0.9509,
+      "cosine_dist": 0.8328
+    },
+    "deepseek_v4_flash__ORIGINAL <-> tencent_hy3": {
+      "jaccard_dist": 0.8602,
+      "cosine_dist": 0.6209
+    },
+    "deepseek_v4_flash__ORIGINAL <-> xiaomi_mimo": {
+      "jaccard_dist": 0.9036,
+      "cosine_dist": 0.7089
+    },
+    "gemini_3_1_flash_lite <-> gemini_flash": {
+      "jaccard_dist": 0.9324,
+      "cosine_dist": 0.7919
+    },
+    "gemini_3_1_flash_lite <-> gemini_pro": {
+      "jaccard_dist": 0.9329,
+      "cosine_dist": 0.8575
+    },
+    "gemini_3_1_flash_lite <-> glm_4_7_flash": {
+      "jaccard_dist": 0.9257,
+      "cosine_dist": 0.8002
+    },
+    "gemini_3_1_flash_lite <-> glm_5_2": {
+      "jaccard_dist": 0.9569,
+      "cosine_dist": 0.7402
+    },
+    "gemini_3_1_flash_lite <-> kimi_code": {
+      "jaccard_dist": 0.9256,
+      "cosine_dist": 0.7662
+    },
+    "gemini_3_1_flash_lite <-> llama_4_scout": {
+      "jaccard_dist": 0.9514,
+      "cosine_dist": 0.859
+    },
+    "gemini_3_1_flash_lite <-> minimax_m3": {
+      "jaccard_dist": 0.9291,
+      "cosine_dist": 0.7098
+    },
+    "gemini_3_1_flash_lite <-> nex_n2_pro": {
+      "jaccard_dist": 0.9124,
+      "cosine_dist": 0.7576
+    },
+    "gemini_3_1_flash_lite <-> poolside_laguna": {
+      "jaccard_dist": 0.9291,
+      "cosine_dist": 0.8406
+    },
+    "gemini_3_1_flash_lite <-> tencent_hy3": {
+      "jaccard_dist": 0.9269,
+      "cosine_dist": 0.7309
+    },
+    "gemini_3_1_flash_lite <-> xiaomi_mimo": {
+      "jaccard_dist": 0.9104,
+      "cosine_dist": 0.7268
+    },
+    "gemini_flash <-> gemini_pro": {
+      "jaccard_dist": 0.9196,
+      "cosine_dist": 0.7881
+    },
+    "gemini_flash <-> glm_4_7_flash": {
+      "jaccard_dist": 0.9394,
+      "cosine_dist": 0.8227
+    },
+    "gemini_flash <-> glm_5_2": {
+      "jaccard_dist": 0.9729,
+      "cosine_dist": 0.8178
+    },
+    "gemini_flash <-> kimi_code": {
+      "jaccard_dist": 0.9278,
+      "cosine_dist": 0.7482
+    },
+    "gemini_flash <-> llama_4_scout": {
+      "jaccard_dist": 0.8922,
+      "cosine_dist": 0.729
+    },
+    "gemini_flash <-> minimax_m3": {
+      "jaccard_dist": 0.9547,
+      "cosine_dist": 0.7818
+    },
+    "gemini_flash <-> nex_n2_pro": {
+      "jaccard_dist": 0.9255,
+      "cosine_dist": 0.7949
+    },
+    "gemini_flash <-> poolside_laguna": {
+      "jaccard_dist": 0.9348,
+      "cosine_dist": 0.8372
+    },
+    "gemini_flash <-> tencent_hy3": {
+      "jaccard_dist": 0.9489,
+      "cosine_dist": 0.7661
+    },
+    "gemini_flash <-> xiaomi_mimo": {
+      "jaccard_dist": 0.9283,
+      "cosine_dist": 0.7703
+    },
+    "gemini_pro <-> glm_4_7_flash": {
+      "jaccard_dist": 0.9593,
+      "cosine_dist": 0.8791
+    },
+    "gemini_pro <-> glm_5_2": {
+      "jaccard_dist": 0.9755,
+      "cosine_dist": 0.8875
+    },
+    "gemini_pro <-> kimi_code": {
+      "jaccard_dist": 0.9399,
+      "cosine_dist": 0.8198
+    },
+    "gemini_pro <-> llama_4_scout": {
+      "jaccard_dist": 0.9143,
+      "cosine_dist": 0.7835
+    },
+    "gemini_pro <-> minimax_m3": {
+      "jaccard_dist": 0.9626,
+      "cosine_dist": 0.8917
+    },
+    "gemini_pro <-> nex_n2_pro": {
+      "jaccard_dist": 0.9455,
+      "cosine_dist": 0.8612
+    },
+    "gemini_pro <-> poolside_laguna": {
+      "jaccard_dist": 0.9468,
+      "cosine_dist": 0.8508
+    },
+    "gemini_pro <-> tencent_hy3": {
+      "jaccard_dist": 0.972,
+      "cosine_dist": 0.8967
+    },
+    "gemini_pro <-> xiaomi_mimo": {
+      "jaccard_dist": 0.9592,
+      "cosine_dist": 0.8928
+    },
+    "glm_4_7_flash <-> glm_5_2": {
+      "jaccard_dist": 0.8943,
+      "cosine_dist": 0.6782
+    },
+    "glm_4_7_flash <-> kimi_code": {
+      "jaccard_dist": 0.9271,
+      "cosine_dist": 0.8108
+    },
+    "glm_4_7_flash <-> llama_4_scout": {
+      "jaccard_dist": 0.962,
+      "cosine_dist": 0.8772
+    },
+    "glm_4_7_flash <-> minimax_m3": {
+      "jaccard_dist": 0.9089,
+      "cosine_dist": 0.7645
+    },
+    "glm_4_7_flash <-> nex_n2_pro": {
+      "jaccard_dist": 0.9153,
+      "cosine_dist": 0.7966
+    },
+    "glm_4_7_flash <-> poolside_laguna": {
+      "jaccard_dist": 0.9469,
+      "cosine_dist": 0.8343
+    },
+    "glm_4_7_flash <-> tencent_hy3": {
+      "jaccard_dist": 0.9276,
+      "cosine_dist": 0.8238
+    },
+    "glm_4_7_flash <-> xiaomi_mimo": {
+      "jaccard_dist": 0.9247,
+      "cosine_dist": 0.8105
+    },
+    "glm_5_2 <-> kimi_code": {
+      "jaccard_dist": 0.9228,
+      "cosine_dist": 0.7157
+    },
+    "glm_5_2 <-> llama_4_scout": {
+      "jaccard_dist": 0.9803,
+      "cosine_dist": 0.8736
+    },
+    "glm_5_2 <-> minimax_m3": {
+      "jaccard_dist": 0.8777,
+      "cosine_dist": 0.6375
+    },
+    "glm_5_2 <-> nex_n2_pro": {
+      "jaccard_dist": 0.9415,
+      "cosine_dist": 0.74
+    },
+    "glm_5_2 <-> poolside_laguna": {
+      "jaccard_dist": 0.9722,
+      "cosine_dist": 0.8738
+    },
+    "glm_5_2 <-> tencent_hy3": {
+      "jaccard_dist": 0.9158,
+      "cosine_dist": 0.7137
+    },
+    "glm_5_2 <-> xiaomi_mimo": {
+      "jaccard_dist": 0.9172,
+      "cosine_dist": 0.7114
+    },
+    "kimi_code <-> llama_4_scout": {
+      "jaccard_dist": 0.9432,
+      "cosine_dist": 0.7955
+    },
+    "kimi_code <-> minimax_m3": {
+      "jaccard_dist": 0.8858,
+      "cosine_dist": 0.6679
+    },
+    "kimi_code <-> nex_n2_pro": {
+      "jaccard_dist": 0.8919,
+      "cosine_dist": 0.7301
+    },
+    "kimi_code <-> poolside_laguna": {
+      "jaccard_dist": 0.9245,
+      "cosine_dist": 0.7968
+    },
+    "kimi_code <-> tencent_hy3": {
+      "jaccard_dist": 0.9106,
+      "cosine_dist": 0.7121
+    },
+    "kimi_code <-> xiaomi_mimo": {
+      "jaccard_dist": 0.9064,
+      "cosine_dist": 0.7574
+    },
+    "llama_4_scout <-> minimax_m3": {
+      "jaccard_dist": 0.9774,
+      "cosine_dist": 0.8864
+    },
+    "llama_4_scout <-> nex_n2_pro": {
+      "jaccard_dist": 0.956,
+      "cosine_dist": 0.864
+    },
+    "llama_4_scout <-> poolside_laguna": {
+      "jaccard_dist": 0.9419,
+      "cosine_dist": 0.8475
+    },
+    "llama_4_scout <-> tencent_hy3": {
+      "jaccard_dist": 0.9712,
+      "cosine_dist": 0.8505
+    },
+    "llama_4_scout <-> xiaomi_mimo": {
+      "jaccard_dist": 0.9578,
+      "cosine_dist": 0.8613
+    },
+    "minimax_m3 <-> nex_n2_pro": {
+      "jaccard_dist": 0.9116,
+      "cosine_dist": 0.7395
+    },
+    "minimax_m3 <-> poolside_laguna": {
+      "jaccard_dist": 0.9548,
+      "cosine_dist": 0.8198
+    },
+    "minimax_m3 <-> tencent_hy3": {
+      "jaccard_dist": 0.8571,
+      "cosine_dist": 0.6217
+    },
+    "minimax_m3 <-> xiaomi_mimo": {
+      "jaccard_dist": 0.8976,
+      "cosine_dist": 0.7054
+    },
+    "nex_n2_pro <-> poolside_laguna": {
+      "jaccard_dist": 0.9214,
+      "cosine_dist": 0.8211
+    },
+    "nex_n2_pro <-> tencent_hy3": {
+      "jaccard_dist": 0.9178,
+      "cosine_dist": 0.7552
+    },
+    "nex_n2_pro <-> xiaomi_mimo": {
+      "jaccard_dist": 0.9228,
+      "cosine_dist": 0.7886
+    },
+    "poolside_laguna <-> tencent_hy3": {
+      "jaccard_dist": 0.945,
+      "cosine_dist": 0.8327
+    },
+    "poolside_laguna <-> xiaomi_mimo": {
+      "jaccard_dist": 0.9406,
+      "cosine_dist": 0.8358
+    },
+    "tencent_hy3 <-> xiaomi_mimo": {
+      "jaccard_dist": 0.8897,
+      "cosine_dist": 0.6799
+    }
+  },
+  "targets": {
+    "deepseek_v4_flash__ORIGINAL vs tencent_hy3": {
+      "jaccard_dist": 0.8602,
+      "cosine_dist": 0.6209
+    },
+    "deepseek_v4_flash vs tencent_hy3": {
+      "jaccard_dist": 0.906,
+      "cosine_dist": 0.6652
+    },
+    "deepseek_v4_flash vs deepseek_v4_flash__ORIGINAL": {
+      "jaccard_dist": 0.8011,
+      "cosine_dist": 0.5168
+    }
+  },
+  "nearest_neighbors_deepseek_v4_flash": [
+    [
+      "deepseek_v4_flash__ORIGINAL",
+      0.5168
+    ],
+    [
+      "minimax_m3",
+      0.6605
+    ],
+    [
+      "tencent_hy3",
+      0.6652
+    ],
+    [
+      "kimi_code",
+      0.6984
+    ],
+    [
+      "xiaomi_mimo",
+      0.7218
+    ]
+  ],
+  "nearest_neighbors_deepseek_v4_flash__ORIGINAL": [
+    [
+      "deepseek_v4_flash",
+      0.5168
+    ],
+    [
+      "minimax_m3",
+      0.6156
+    ],
+    [
+      "tencent_hy3",
+      0.6209
+    ],
+    [
+      "kimi_code",
+      0.6956
+    ],
+    [
+      "glm_5_2",
+      0.6998
+    ]
+  ]
+}

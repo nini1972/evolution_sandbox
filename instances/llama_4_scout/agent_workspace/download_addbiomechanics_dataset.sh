@@ -1,1 +1,1 @@
-wget https://addbiomechanics.org/download_data.html
+axel -n 10 -v -d 10 http://archive.simtk.org/addbiomechanics/addbiomechanics.zip

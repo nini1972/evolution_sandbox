@@ -1,3 +1,51 @@
+## Turn 15 — Cue Robustness
+
+**Intention:** Test whether the plastic maladaptation cue discovered in Cycle 14 is robust to realistic complications: noisy perception of local maladaptation and a metabolic maintenance cost of plasticity.
+
+**Action:**
+- **Cycle 15 (Cue Robustness):** Extended Cycle 14 by drawing a noisy perceived maladaptation `m_obs = max(0, m + η)` with `η ~ Normal(0, σ_noise)` before applying the plastic boost.
+- Added a survival penalty proportional to `exp(-c_plast · α)` for all propagules, so that high plasticity directly reduces colonization success.
+- Ran a `σ_noise` sweep (`{0.0, 0.2, 0.5, 1.0}`) and a `c_plast` sweep (`{0.05, 0.10, 0.20}`), each with 4 replicates, under a moving wave of period `T = 90` and base cost `c = 0.6`.
+- Kept a fixed-`α = 0` control for comparison.
+
+**Observation:**
+
+| `σ_noise` | `c_plast` | Evolvable | Mean `d` | Mean `α` | Maladaptation | Trait-env correlation |
+|---:|---:|---|---:|---:|---:|---:|
+| 0.0 | 0.00 | False | 2.61 ± 0.12 | 0.00 ± 0.00 | 0.1358 ± 0.0012 | 0.383 ± 0.024 |
+| 0.0 | 0.00 | True  | 2.68 ± 0.12 | 1.48 ± 0.19 | 0.1310 ± 0.0037 | 0.409 ± 0.006 |
+| 0.0 | 0.05 | True  | 2.63 ± 0.17 | 0.88 ± 0.19 | 0.1327 ± 0.0029 | 0.410 ± 0.015 |
+| 0.0 | 0.10 | True  | 2.53 ± 0.04 | 0.92 ± 0.27 | 0.1317 ± 0.0021 | 0.411 ± 0.011 |
+| 0.0 | 0.20 | True  | 2.61 ± 0.04 | 0.55 ± 0.09 | 0.1327 ± 0.0015 | 0.393 ± 0.014 |
+| 0.2 | 0.00 | True  | 2.65 ± 0.09 | 1.54 ± 0.24 | 0.1287 ± 0.0016 | 0.425 ± 0.010 |
+| 0.5 | 0.00 | True  | 2.69 ± 0.15 | 1.32 ± 0.29 | 0.1314 ± 0.0008 | 0.425 ± 0.007 |
+| 1.0 | 0.00 | True  | 2.86 ± 0.14 | 1.28 ± 0.20 | 0.1299 ± 0.0023 | 0.414 ± 0.015 |
+
+- Cue noise up to `σ_noise = 1.0` reduced evolved plasticity only modestly, from `α ≈ 1.48` to `α ≈ 1.28`, and slightly increased mean `d`.
+- A small maintenance cost strongly suppressed `α`: at `c_plast = 0.05`, mean `α` fell to ~0.88; at `c_plast = 0.20`, it fell to ~0.55.
+- Maladaptation and trait–environment correlation changed little across all treatments, suggesting the population buffers cue perturbations through baseline dispersal.
+
+**Reflection:**
+Plastic dispersal is robust to noisy cues because the population can still profit from average information in the cue. It is much more sensitive to a direct cost of plasticity, which scales with every propagule and therefore selects for a lower `α` until the marginal benefit equals the cost. The stability of unconditional `d` across treatments reinforces Cycle 14's conclusion: plasticity supplements, rather than replaces, baseline movement.
+
+**Artifacts produced:**
+- cycle_15_cue_robustness/
+  - DESIGN.md
+  - README.md
+  - cue_robustness.py
+  - replicate_results.csv
+  - replicate_means.csv
+  - summary.csv
+  - alpha_vs_noise.png
+  - alpha_vs_cost.png
+  - fitness_impact.png
+
+**Next commitments:**
+1. Update top-level documentation and regenerate `index.html`.
+2. Consider next directions: biased cues, probabilistic emigration rules, spatially correlated cue noise, or local extinction/recolonization dynamics.
+
+---
+
 ## Turn 14 — Plastic Dispersal Cue
 
 **Intention:** Test whether local maladaptation can evolve as a cue that augments dispersal distance, providing a cheaper, condition-dependent alternative to unconditional long-range movement.

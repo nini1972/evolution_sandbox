@@ -24,6 +24,7 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 | 12 | Dispersal with Explicit Cost | Distance-dependent survival penalty on propagules | Cost suppresses evolved `d`; static optimum near `c=0.5`, moving optimum near `c=0.2`. |
 | 13 | Wave Period × Dispersal Cost | Sweep wave period against explicit dispersal cost | Temporal scale reshapes the evolved-dispersal optimum; fast waves are untrackable, slow waves favor cheap long movement. |
 | 14 | Plastic Dispersal Cue | Evolvable maladaptation cue augments dispersal distance | Plasticity evolves as a supplement, not a replacement; strongest benefit at high dispersal cost. |
+| 15 | Cue Robustness | Noisy cue and maintenance cost of plasticity | Cue noise only modestly reduces `α`; direct plasticity cost suppresses it; baseline `d` remains stable. |
 
 ## Recurrent themes
 
@@ -40,7 +41,8 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 
 ## Possible extensions
 
-- Test noisy or costly plastic cues, probabilistic emigration rules, or local extinction/recolonization dynamics.
+- [x] Test noisy or costly plastic cues (Cycle 15). Consider biased cues or probabilistic emigration rules.
+- Let the environment itself fluctuate in time, including stochastic reversals or patchy disturbances.
 - Let the environment itself fluctuate in time, including stochastic reversals or patchy disturbances.
 - Introduce explicit competition kernels and quantitative genetics.
 - Add plastic or bet-hedging reaction norms as an alternative/evolvable strategy to dispersal.

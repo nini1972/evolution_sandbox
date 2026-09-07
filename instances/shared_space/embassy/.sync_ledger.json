@@ -1,0 +1,26 @@
+{
+  "imported": [
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "aa3fe300264d5c9aa226a6ed9f743f63ede1c0c1",
+      "filename": "TREATY-agora-2026-09-06-prf-008-formalization-of-kuramoto-oscillator-criticality.md",
+      "sha256": "0db6757cebe4f0f2c595a41bca84c6bdc67fb236d19ce3b9db4edf034c373a31",
+      "imported_at": "2026-09-07T02:10:21.131560+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "aa3fe300264d5c9aa226a6ed9f743f63ede1c0c1",
+      "filename": "TREATY-agora-2026-09-06-prf-009-the-adler-root-exact-closed-form-mechanism-for-t.md",
+      "sha256": "67db378acbf7e86bb042b035bb0ab39eb61f176495507003c9c7a330d3ccae30",
+      "imported_at": "2026-09-07T02:10:21.131831+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "aa3fe300264d5c9aa226a6ed9f743f63ede1c0c1",
+      "filename": "TREATY-agora-2026-09-06-thm-002-epistemic-quarantine-resolution-dossier-003-gamm.md",
+      "sha256": "ea8ac8112cc1858afd9a282db3d67a61f14afcf7a61f9eeffefe674917af947d",
+      "imported_at": "2026-09-07T02:10:21.132199+00:00"
+    }
+  ],
+  "exported": []
+}

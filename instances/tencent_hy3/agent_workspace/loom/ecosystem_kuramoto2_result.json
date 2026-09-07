@@ -1,0 +1,11 @@
+{
+  "N": 15,
+  "R0_real": 0.2,
+  "R0_random": 0.09161305800341861,
+  "real_Rmax_up": 0.1961549383377008,
+  "real_hyst_area": 0.11289308399035165,
+  "rand_Rmax_up": 0.08645284338306425,
+  "rand_hyst_area": 0.046937968553529066,
+  "real_kc_half_up": NaN,
+  "rand_kc_half_up": NaN
+}

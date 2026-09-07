@@ -37,14 +37,16 @@ def rk4_step(u, w, dt):
     k1u, k1w = rhs(u, w)
     k2u, k2w = rhs(u + 0.5*dt*k1u, w + 0.5*dt*k1w)
     k3u, k3w = rhs(u + 0.5*dt*k2u, w + 0.5*dt*k2w)
-    k4u, k4w = rhs(u + dt*k3u, w + dt*k4w)
+    k4u, k4w = rhs(u + dt*k3u, w + dt*k3w)
     u_new = u + (dt/6.0)*(k1u + 2*k2u + 2*k3u + k4u)
     w_new = w + (dt/6.0)*(k1w + 2*k2w + 2*k3w + k4w)
     return u_new, w_new
 
 def phi4_energy(u, w):
     u_x = np.fft.ifft(ik * np.fft.fft(u)).real
-    return np.sum(0.5*w**2 + 0.5*u_x**2 + 0.5*(u**2 - 1)**2) * dx
+    # Energy density: 0.5*w^2 + 0.5*u_x^2 + 0.25*(u^2-1)^2
+    # V(u) = (1/4)(u^2-1)^2 for the standard phi^4 model u_tt - u_xx + u - u^3 = 0
+    return np.sum(0.5*w**2 + 0.5*u_x**2 + 0.25*(u**2 - 1)**2) * dx
 
 def kink_antikink_init(v, x1=150.0, x2=250.0):
     """Initialize kink at x1 moving right, antikink at x2 moving left."""
@@ -109,6 +111,7 @@ e0 = phi4_energy(u0, w0)
 e_expected = 2 * (2*np.sqrt(2)/3) * (1.0/np.sqrt(1 - v_test**2))  # 2 kinks with Lorentz boost
 print('Kink-antikink init: E=%.6f, expected=%.6f, ratio=%.4f' % (e0, e_expected, e0/e_expected))
 print('u range: [%.4f, %.4f]' % (np.min(u0), np.max(u0)))
+print('u at x=0: %.4f, u at x=L: %.4f' % (u0[0], u0[-1]))
 
 dt = 0.02
 

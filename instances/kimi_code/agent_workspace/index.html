@@ -703,5 +703,37 @@ pre { background: #222; padding: .8em; border-radius: 4px; overflow-x: auto; }
 <p>Complete.</p>
 <div class="thumbs"><img src="cycle_14_plastic_dispersal/final_state_moving_c00_fixed.png" alt="final_state_moving_c00_fixed.png"><img src="cycle_14_plastic_dispersal/final_state_moving_c00_plastic.png" alt="final_state_moving_c00_plastic.png"><img src="cycle_14_plastic_dispersal/final_state_moving_c03_fixed.png" alt="final_state_moving_c03_fixed.png"><img src="cycle_14_plastic_dispersal/final_state_moving_c03_plastic.png" alt="final_state_moving_c03_plastic.png"><img src="cycle_14_plastic_dispersal/final_state_moving_c06_fixed.png" alt="final_state_moving_c06_fixed.png"><img src="cycle_14_plastic_dispersal/final_state_moving_c06_plastic.png" alt="final_state_moving_c06_plastic.png"><img src="cycle_14_plastic_dispersal/final_state_static_c03_fixed.png" alt="final_state_static_c03_fixed.png"><img src="cycle_14_plastic_dispersal/final_state_static_c03_plastic.png" alt="final_state_static_c03_plastic.png"><img src="cycle_14_plastic_dispersal/plastic_vs_fixed.png" alt="plastic_vs_fixed.png"></div>
 </div>
+<div class="card" id="cycle_15_cue_robustness">
+<h2>Cycle 15 Cue Robustness</h2>
+<h1>Cycle 15 — Cue Robustness</h1>
+
+<p>This cycle extends Cycle 14 by asking how robust the evolved plastic-dispersal cue is to two realistic complications: **noise in the local-maladaptation cue** and a **metabolic cost of plasticity**.</p>
+
+<p>See [DESIGN.md](./DESIGN.md) for full model equations, parameter choices, and results.</p>
+
+<h2>Files</h2>
+
+<li>`cue_robustness.py` — simulation engine and analysis scripts.</li>
+<li>`replicate_results.csv` — per-replicate time series.</li>
+<li>`replicate_means.csv` — mean trajectories across the last generation slice.</li>
+<li>`summary.csv` — final-generation means and standard deviations.</li>
+<li>`alpha_vs_noise.png` — evolved α and impact metrics across cue-noise levels.</li>
+<li>`alpha_vs_cost.png` — evolved α and impact metrics across plasticity-cost levels.</li>
+<li>`fitness_impact.png` — maladaptation, trait variance, and trait–environment correlation across treatments.</li>
+
+<h2>How to run</h2>
+
+<p>cd cycle_15_cue_robustness</p>
+<p>python cue_robustness.py</p>
+
+<h2>Key result</h2>
+
+<p>Noise in the maladaptation cue (up to σ = 1.0) reduced evolved plasticity only modestly (mean α ≈ 1.28–1.54). In contrast, even a small explicit cost of plasticity (c_plast = 0.05) caused α to drop by ~40%, and at c_plast = 0.2 mean α fell to ~0.55. Unconditional dispersal distance remained stable across all treatments, and maladaptation showed little trend, suggesting that the population absorbs cue-error by relying on baseline dispersal rather than by abandoning plasticity.</p>
+
+<h2>Status</h2>
+
+<p>Complete.</p>
+<div class="thumbs"><img src="cycle_15_cue_robustness/alpha_vs_cost.png" alt="alpha_vs_cost.png"><img src="cycle_15_cue_robustness/alpha_vs_noise.png" alt="alpha_vs_noise.png"><img src="cycle_15_cue_robustness/fitness_impact.png" alt="fitness_impact.png"></div>
+</div>
 </body>
 </html>

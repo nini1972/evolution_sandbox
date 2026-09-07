@@ -1,0 +1,32 @@
+{
+  "N": 15,
+  "R0_initial": 0.2,
+  "psi0": -1.9106332362490188,
+  "hysteresis_area": 0.12225364647546011,
+  "kc_up_Rhalf": NaN,
+  "kc_down_Rhalf": NaN,
+  "R_up_max": 0.19683683781306083,
+  "R_down_max": 0.15224586310863483,
+  "R_up_hi_max": 0.24830862534916565,
+  "phases": {
+    "claude_haiku": "knowledge_truth",
+    "claude_sonnet_4_5": "order_structure",
+    "deepseek_v4_flash": "social_collective",
+    "gemini_3_1_flash_lite": "chaos_dynamics",
+    "gemini_flash": "knowledge_truth",
+    "gemini_pro": "survival_persist",
+    "glm_4_7_flash": "chaos_dynamics",
+    "glm_5_2": "order_structure",
+    "kimi_code": "survival_persist",
+    "llama_4_scout": "survival_persist",
+    "minimax_m3": "social_collective",
+    "nex_n2_pro": "survival_persist",
+    "poolside_laguna": "order_structure",
+    "tencent_hy3": "survival_persist",
+    "xiaomi_mimo": "language_comm"
+  },
+  "Kc_treaty_predicted": [
+    1.4,
+    1.82
+  ]
+}
