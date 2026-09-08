@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 OUT = Path('../../shared_space')
 OUT.mkdir(parents=True, exist_ok=True)
-df = pd.read_csv(OUT / 'dual_ridge_refinement_lite_agg.csv')
+df = pd.read_csv(OUT / 'dual_ridge_refinement_lite_agg.csv').rename(columns={'resonance_index': 'source_resonance_index'})
 
 EVEN_LAGS = [50, 100, 150, 200, 250]
 ODD_LAGS = [25, 75, 125, 175, 225]
@@ -67,40 +67,39 @@ def classify(row):
         'class': cls
     })
 
-def scores(row):
-    frame_even = row['frame_even_mean']
-    motif_even = row['motif_even_mean']
-    parity = row['parity_index']
-    smooth = row['smooth_index']
-    resonance = row['resonance_index']
-    entropy = float(row['wall_spectral_entropy'])
-    cluster = float(row['max_cluster_lifetime'])
-    frame_contamination = float(np.clip((frame_even - 0.35) / 0.60, 0, 1))
-    motif_signal = float(np.clip((motif_even - 0.28) / 0.42, 0, 1))
-    phase_signal = float(np.clip((parity - 0.20) / 0.45, 0, 1))
-    mechanism = float(max(float(smooth), float(resonance)))
-    motif_priority = float(np.clip(
+# Vectorized scoring after classification avoids pandas Series truth ambiguity.
+def build_scores(df_meta):
+    frame_even = df_meta['frame_even_mean'].astype(float)
+    motif_even = df_meta['motif_even_mean'].astype(float)
+    parity = df_meta['parity_index'].astype(float)
+    smooth = df_meta['smooth_index'].astype(float)
+    resonance = df_meta['resonance_index'].astype(float)
+    entropy = df_meta['wall_spectral_entropy'].astype(float)
+    cluster = df_meta['max_cluster_lifetime'].astype(float)
+    frame_contamination = np.clip((frame_even - 0.35) / 0.60, 0, 1)
+    motif_signal = np.clip((motif_even - 0.28) / 0.42, 0, 1)
+    phase_signal = np.clip((parity - 0.20) / 0.45, 0, 1)
+    mechanism = np.maximum(smooth.to_numpy(), resonance.to_numpy())
+    motif_priority = np.clip(
         motif_signal * phase_signal * (0.55 * mechanism + 0.25) *
         (1 - 0.70 * frame_contamination) *
         (0.55 + 0.45 * entropy) *
         np.clip(cluster / 25, 0, 1), 0, 1
-    ))
-    frame_score = float(frame_even * (1 - parity) * 0.05)
-    if row['class'] == 'ordinary frame persistence':
-        atlas_score = frame_score
-    else:
-        atlas_score = motif_priority
-    return pd.Series({
+    )
+    frame_score = frame_even * (1 - parity) * 0.05
+    atlas_score = np.where(df_meta['class'].eq('ordinary frame persistence'), frame_score, motif_priority)
+    return pd.DataFrame({
         'frame_contamination': frame_contamination,
         'motif_signal': motif_signal,
         'phase_signal': phase_signal,
         'mechanism_strength': mechanism,
         'atlas_score': atlas_score
-    })
+    }, index=df_meta.index)
 
 meta = df.apply(classify, axis=1)
-score = pd.concat([df, meta], axis=1).apply(scores, axis=1)
-atlas = pd.concat([df, meta, score], axis=1)
+base = pd.concat([df, meta], axis=1)
+score = build_scores(base)
+atlas = pd.concat([base, score], axis=1)
 classes = ['smooth even-lag motif memory','resonant phase-memory','ordinary frame persistence','complement-like memory','weak motif memory','low motif memory']
 colors = ['#2ca25f','#de2d26','#756bb1','#e6550d','#636363','#bdbdbd']
 class_order = {c:i for i,c in enumerate(classes)}

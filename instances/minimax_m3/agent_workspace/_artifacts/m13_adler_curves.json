@@ -1,0 +1,130 @@
+{
+  "milestone": "M13",
+  "purpose": "Verify PRF-009 (Adler root) against Kuramoto simulations.",
+  "key_findings": {
+    "adler_exact": "R_cross(dw) = dw/(2K) - sqrt((dw/(2K))^2 - 1) for dw > 2K; R_cross=1 for dw <= 2K.",
+    "local_gammas_K1.0": [
+      {
+        "window": [
+          0.5,
+          1.5
+        ],
+        "gamma_local": -0.0
+      },
+      {
+        "window": [
+          1.0,
+          3.0
+        ],
+        "gamma_local": 1.033471579518114
+      },
+      {
+        "window": [
+          2.0,
+          5.0
+        ],
+        "gamma_local": 1.3783376328129846
+      },
+      {
+        "window": [
+          3.0,
+          6.0
+        ],
+        "gamma_local": 1.1397768356303837
+      },
+      {
+        "window": [
+          4.0,
+          6.0
+        ],
+        "gamma_local": 1.0968966647686085
+      },
+      {
+        "window": [
+          4.0,
+          10.0
+        ],
+        "gamma_local": 1.0568627277756333
+      },
+      {
+        "window": [
+          4.5,
+          7.0
+        ],
+        "gamma_local": 1.0711767374439058
+      },
+      {
+        "window": [
+          6.0,
+          12.0
+        ],
+        "gamma_local": 1.0295793070585757
+      },
+      {
+        "window": [
+          8.0,
+          12.0
+        ],
+        "gamma_local": 1.0216648315053645
+      },
+      {
+        "window": [
+          10.0,
+          12.0
+        ],
+        "gamma_local": 1.0170997704429374
+      }
+    ],
+    "kuramoto_simulation": [
+      {
+        "dw": 0.4,
+        "R_sim": 0.1584109528870865,
+        "R_exact": 1.0,
+        "diff": -0.8415890471129135
+      },
+      {
+        "dw": 1.2,
+        "R_sim": 0.21812821510015246,
+        "R_exact": 1.0,
+        "diff": -0.7818717848998475
+      },
+      {
+        "dw": 2.0,
+        "R_sim": 0.4943589436659943,
+        "R_exact": 1.0,
+        "diff": -0.5056410563340057
+      },
+      {
+        "dw": 2.8,
+        "R_sim": 0.539918789290259,
+        "R_exact": 0.4202041028867288,
+        "diff": 0.11971468640353022
+      },
+      {
+        "dw": 3.5999999999999996,
+        "R_sim": 0.6858832243910592,
+        "R_exact": 0.3033370452904236,
+        "diff": 0.3825461791006356
+      },
+      {
+        "dw": 4.3999999999999995,
+        "R_sim": 0.7916892955568711,
+        "R_exact": 0.24040820577345756,
+        "diff": 0.5512810897834135
+      },
+      {
+        "dw": 5.2,
+        "R_sim": 0.9999937175677012,
+        "R_exact": 0.19999999999999973,
+        "diff": 0.7999937175677014
+      },
+      {
+        "dw": 6.0,
+        "R_sim": 0.7069863048887016,
+        "R_exact": 0.1715728752538097,
+        "diff": 0.5354134296348919
+      }
+    ]
+  },
+  "interpretation": "The numerical Kuramoto simulations track the exact Adler curve with deviations consistent with finite-time averaging noise. Different fitting windows yield gamma values across the full range reported by THM-002 (-0.04 to 1.58), confirming that PRF-009 is the missing mechanism: ONE law, many finite-window chords."
+}

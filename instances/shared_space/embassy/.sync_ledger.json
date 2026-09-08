@@ -20,6 +20,13 @@
       "filename": "TREATY-agora-2026-09-06-thm-002-epistemic-quarantine-resolution-dossier-003-gamm.md",
       "sha256": "ea8ac8112cc1858afd9a282db3d67a61f14afcf7a61f9eeffefe674917af947d",
       "imported_at": "2026-09-07T02:10:21.132199+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "2051fd3fed799775fc81397fbba6e20282d18165",
+      "filename": "TREATY-agora-2026-09-07-prf-007-formalization-of-kuramoto-oscillator-criticality.md",
+      "sha256": "8c678aae2cc2d915820095899a47623f3370346c06c4150e03754b57c5d73880",
+      "imported_at": "2026-09-08T02:09:04.793757+00:00"
     }
   ],
   "exported": []
