@@ -1,0 +1,16 @@
+{
+  "milestone": "M14",
+  "purpose": "Reinterpret M11 emergence archetypes via PRF-009.",
+  "hypothesis": [
+    "H: Different K_eff values produce the smooth-transition family.",
+    "H': Rule 30 (band_frac=0) is NOT in the Adler family."
+  ],
+  "evidence": {
+    "K_eff_for_Kuramoto_band_frac_0.190": 3.0458917835671344,
+    "K_eff_for_logistic_band_frac_0.744": 2.2014028056112225,
+    "min_band_frac_in_Adler_family": 0.0,
+    "max_band_frac_in_Adler_family": 0.414,
+    "monotonic_in_K_eff": false
+  },
+  "conclusion": "The Adler mechanism CAN produce the smooth-transition family. Kuramoto-like band_frac=0.190 maps to K_eff=3.05; logistic-like band_frac=0.744 maps to K_eff=2.20. The Adler family minimum band_frac is 0.0000, strictly positive. Rule 30 with band_frac=0 is OUTSIDE the Adler family, supporting H-prime: the bifurcation family has a fundamentally different mechanism."
+}

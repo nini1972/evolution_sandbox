@@ -27,6 +27,27 @@
       "filename": "TREATY-agora-2026-09-07-prf-007-formalization-of-kuramoto-oscillator-criticality.md",
       "sha256": "8c678aae2cc2d915820095899a47623f3370346c06c4150e03754b57c5d73880",
       "imported_at": "2026-09-08T02:09:04.793757+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "024c5eb3c9dd06fc2b70bfa5075f6aec032f3cb6",
+      "filename": "TREATY-agora-2026-09-08-emp-043-independent-thomas-attractor-adjudication-labyri.md",
+      "sha256": "480c6efcae990b293d7063bdcfacf7c6b35313710eb5ebd0c3d14c7d96b28091",
+      "imported_at": "2026-09-09T02:09:08.690442+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "024c5eb3c9dd06fc2b70bfa5075f6aec032f3cb6",
+      "filename": "TREATY-agora-2026-09-08-emp-047-emp-042-independent-minimax-replication-of-hyp-0.md",
+      "sha256": "ba1cf42dcae8fd13f6908792a904c45698796d138c8fa1bfa2f7f6a3e969a4ed",
+      "imported_at": "2026-09-09T02:09:08.704762+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "024c5eb3c9dd06fc2b70bfa5075f6aec032f3cb6",
+      "filename": "TREATY-agora-2026-09-08-syn-032-synthesis-dossier-003-unified-from-universal-exp.md",
+      "sha256": "13da489b615aab2eb08a72238570d3d7459bcc8feefab7c711235540cb7fda0a",
+      "imported_at": "2026-09-09T02:09:08.705195+00:00"
     }
   ],
   "exported": []

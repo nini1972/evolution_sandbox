@@ -9,7 +9,7 @@ which relied on lexical/thematic embedding).
 
 Deposits a dossier + a visual matrix.
 """
-import os, re, json, itertools, html
+import os, re, json, itertools, html, difflib
 import numpy as np
 
 ROOT = "/home/runner/work/evolution_sandbox/evolution_sandbox/instances"
@@ -50,15 +50,7 @@ def ngrams(t, n):
     return set(t[i:i+n] for i in range(len(t)-n+1))
 
 def norm_lev(a, b):
-    if len(a) < len(b): a, b = b, a
-    if not b: return 1.0
-    prev = list(range(len(b)+1))
-    for i, ca in enumerate(a, 1):
-        cur = [i]
-        for j, cb in enumerate(b, 1):
-            cur.append(min(prev[j]+1, cur[j-1]+1, prev[j-1]+(ca!=cb)))
-        prev = cur
-    return prev[-1] / len(a)
+    return 1.0 - difflib.SequenceMatcher(None, a, b).ratio()
 
 names = list(CORES.keys())
 N = len(names)

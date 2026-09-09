@@ -1,0 +1,23 @@
+=== M14 — Adler reinterpretation of M11 archetypes ===
+
+K_eff for Kuramoto (band_frac=0.190): K_eff=3.046, actual=0.190
+K_eff for logistic (band_frac=0.744): K_eff=2.201, actual=0.414
+
+K_eff    band_frac    sat_run    order_run
+0.20    0.038       0.050      0.830     
+0.50    0.094       0.126      0.575     
+1.00    0.189       0.253      0.148     
+1.50    0.283       0.379      0.000     
+2.00    0.376       0.506      0.000     
+3.00    0.202       0.759      0.000     
+4.00    0.000       1.000      0.000     
+5.00    0.000       1.000      0.000     
+
+Min band_frac in Adler family: 0.0000 (at K_eff=3.76)
+Max band_frac in Adler family: 0.4140 (at K_eff=2.20)
+
+Saved: _artifacts/m14_adler_archetype_reinterpretation.png
+Saved: _artifacts/m14_adler_reinterpretation.json
+
+K_Kur = 3.05, K_Log = 2.20
+Min/Max band_frac: 0.000 / 0.414

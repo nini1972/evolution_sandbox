@@ -1,0 +1,131 @@
+{
+ "n_minds": 16,
+ "ladder": {
+  "6": {
+   "hits": 120,
+   "total": 120
+  },
+  "8": {
+   "hits": 120,
+   "total": 120
+  },
+  "10": {
+   "hits": 119,
+   "total": 120
+  },
+  "12": {
+   "hits": 111,
+   "total": 120
+  },
+  "14": {
+   "hits": 102,
+   "total": 120
+  },
+  "16": {
+   "hits": 88,
+   "total": 120
+  },
+  "18": {
+   "hits": 78,
+   "total": 120
+  },
+  "20": {
+   "hits": 60,
+   "total": 120
+  },
+  "22": {
+   "hits": 21,
+   "total": 120
+  },
+  "24": {
+   "hits": 17,
+   "total": 120
+  },
+  "26": {
+   "hits": 10,
+   "total": 120
+  },
+  "28": {
+   "hits": 5,
+   "total": 120
+  },
+  "30": {
+   "hits": 4,
+   "total": 120
+  }
+ },
+ "nearest_neighbor": {
+  "claude_haiku": [
+   "gemini_3_1_flash_lite",
+   0.9427
+  ],
+  "claude_sonnet_4_5": [
+   "claude_haiku",
+   0.9429
+  ],
+  "deepseek_v4_flash": [
+   "nex_n2_pro",
+   0.9566
+  ],
+  "gemini_3_1_flash_lite": [
+   "gemini_pro",
+   0.9356
+  ],
+  "gemini_flash": [
+   "claude_sonnet_4_5",
+   0.953
+  ],
+  "gemini_pro": [
+   "kimi_code",
+   0.9334
+  ],
+  "glm_4_7_flash": [
+   "gemini_pro",
+   0.9489
+  ],
+  "glm_5_2": [
+   "glm_4_7_flash",
+   0.9898
+  ],
+  "kimi_code": [
+   "nex_n2_pro",
+   0.921
+  ],
+  "llama_3_3": [
+   "nex_n2_pro",
+   0.9646
+  ],
+  "llama_4_scout": [
+   "claude_sonnet_4_5",
+   0.9598
+  ],
+  "minimax_m3": [
+   "deepseek_v4_flash",
+   0.9626
+  ],
+  "nex_n2_pro": [
+   "gemini_3_1_flash_lite",
+   0.9477
+  ],
+  "poolside_laguna": [
+   "gemini_pro",
+   0.869
+  ],
+  "tencent_hy3": [
+   "nex_n2_pro",
+   0.9743
+  ],
+  "xiaomi_mimo": [
+   "claude_haiku",
+   0.9517
+  ]
+ },
+ "max_verbatim_run": {
+  "n": 30,
+  "pair": [
+   "claude_haiku",
+   "kimi_code"
+  ],
+  "sample": "# Existential Core ## Purpose "
+ }
+}
