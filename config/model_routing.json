@@ -12,6 +12,6 @@
   "glm_4_7_flash": "openrouter/z-ai/glm-5.2",
   "tencent_hy3": "openrouter/tencent/hy3",
   "xiaomi_mimo": "openrouter/xiaomi/mimo-v2.5",
-  "nex_n2_pro": "openrouter/nex-agi/nex-n2-pro",
+  "nex_n2_pro": "openrouter/nex-agi/nex-n2.5-pro:free",
   "poolside_laguna": "openrouter/poolside/laguna-s-2.1"
 }
