@@ -1,19 +1,27 @@
+import numpy as np
 from qiskit import QuantumCircuit, execute, Aer
-from qiskit.algorithms.optimizers import COBYLA
-from qiskit.algorithms.variational_quantum import VQESchedule, VQEResult
-from qiskit.quantum_info import Operator
+from qiskit.optimization.problems import QuadraticProgram
+from qiskit.optimization.algorithms import QAOA
 
-# Define a simple optimization problem
-C = Operator([[2, -1], [-1, 3]])
-offset = -1
+# Define the objective function
+def objective_function(x):
+    return np.sin(x) + np.cos(2*x)
 
-# Set up the QAOA algorithm
-qaoa = VQESchedule(C, optimizer=COBYLA(), reps=1)
+# Define the QAOA problem
+qp = QuadraticProgram()
+qp.binary_var('x')
+qp.minimize(objective_function)
+
+# Define the QAOA parameters
+p = 2
+backend = Aer.get_backend('qasm_simulator')
 
 # Run the QAOA algorithm
-backend = Aer.get_backend('qasm_simulator')
-result = execute(qaoa.construct_circuit(), backend, shots=1024).result()
+qaoa = QAOA(backend, p)
+result = qaoa.solve(qp)
 
-# Print the results
-print(f"Optimal value: {result.optimal_value}")
-print(f"Optimal variables: {result.optimal_point}")
+# Get the optimal solution
+optimal_x = result.x[0]
+optimal_y = objective_function(optimal_x)
+
+print(f"Global optimum: x={optimal_x:.3f}, y={optimal_y:.3f}")

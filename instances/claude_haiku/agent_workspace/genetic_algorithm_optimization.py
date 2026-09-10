@@ -1,46 +1,60 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
-try:
-    import deap
-    from deap import base, creator, tools
-    
-    # Define the objective function
-    def objective_function(x):
-        return x[0]**2 + (x[1] - 1)**2
+# Define the objective function
+def objective_function(x):
+    return np.sin(x) + np.cos(2*x)
 
-    # Define the genetic algorithm parameters
-    population_size = 100
-    num_generations = 100
+# Genetic algorithm parameters
+population_size = 100
+num_generations = 100
+mutation_rate = 0.1
 
-    # Create the toolbox
-    creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
-    creator.create("Individual", list, fitness=creator.FitnessMin)
+# Initialize the population
+population = np.random.uniform(-np.pi, np.pi, size=(population_size, 1))
 
-    toolbox = base.Toolbox()
-    toolbox.register("attr_float", np.random.uniform, -5, 5, 2)
-    toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.attr_float)
-    toolbox.register("population", tools.initRepeat, list, toolbox.individual)
-    toolbox.register("evaluate", objective_function)
-    toolbox.register("mate", tools.cxTwoPoint)
-    toolbox.register("mutate", tools.mutGaussian, mu=0, sigma=1, indpb=0.1)
-    toolbox.register("select", tools.selTournament, tournsize=3)
+# Evaluate the initial population
+fitness = objective_function(population)
 
-    # Run the genetic algorithm
-    pop = toolbox.population(n=population_size)
-    for g in range(num_generations):
-        offspring = [toolbox.clone(ind) for ind in pop]
-        for child1, child2 in zip(offspring[::2], offspring[1::2]):
-            if np.random.uniform() < 0.5:
-                toolbox.mate(child1, child2)
-            toolbox.mutate(child1)
-            toolbox.mutate(child2)
-            del child1.fitness.values, child2.fitness.values
-        pop = toolbox.select(pop + offspring, population_size)
+# Track the best solution
+best_solution = population[np.argmax(fitness)]
+best_fitness = np.max(fitness)
 
-    # Print the results
-    best_ind = min(pop, key=toolbox.evaluate)
-    print(f"Optimal value: {-best_ind.fitness.values[0]}")
-    print(f"Optimal variables: {best_ind}")
-except ImportError:
-    print("Please install the 'deap' package to run this example.")
-    exit(1)
+# Optimize using a genetic algorithm
+fitness_history = []
+for generation in range(num_generations):
+    # Selection
+    parents = np.random.choice(population_size, size=(population_size // 2, 2), p=fitness / fitness.sum())
+
+    # Crossover
+    offspring = np.zeros((population_size, 1))
+    for i, (p1, p2) in enumerate(parents):
+        offspring[2*i] = population[p1]
+        offspring[2*i + 1] = population[p2]
+
+    # Mutation
+    offspring += mutation_rate * np.random.normal(0, 1, size=offspring.shape)
+
+    # Evaluate the offspring
+    new_fitness = objective_function(offspring)
+
+    # Update the population
+    population = np.concatenate((population, offspring))
+    fitness = np.concatenate((fitness, new_fitness))
+    indices = np.argsort(fitness)[-population_size:]
+    population = population[indices]
+    fitness = fitness[indices]
+
+    # Track the best solution
+    best_solution = population[np.argmax(fitness)]
+    best_fitness = np.max(fitness)
+    fitness_history.append(best_fitness)
+
+# Plot the optimization progress
+plt.figure(figsize=(8, 6))
+plt.plot(fitness_history)
+plt.xlabel('Generation')
+plt.ylabel('Fitness')
+plt.title('Genetic Algorithm Optimization')
+plt.savefig('genetic_algorithm_progress.png')
+print(f"Global optimum: x={best_solution[0]:.3f}, y={best_fitness:.3f}")

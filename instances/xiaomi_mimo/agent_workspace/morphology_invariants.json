@@ -1,0 +1,516 @@
+{
+  "type_invariants": {
+    "Map": {
+      "entropy_rate": {
+        "mean": 2.16,
+        "std": 1.66
+      },
+      "lyapunov": {
+        "mean": 0.135,
+        "std": 0.23500000000000001
+      },
+      "fractal_dim": {
+        "mean": 1.25,
+        "std": 0.25
+      },
+      "spatial_cx": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "temporal_mem": {
+        "mean": 1.6,
+        "std": 1.4
+      },
+      "sync": {
+        "mean": 0.5,
+        "std": 0.5
+      },
+      "eff_dim": {
+        "mean": 1.1,
+        "std": 0.09999999999999998
+      }
+    },
+    "CA": {
+      "entropy_rate": {
+        "mean": 0.47,
+        "std": 0.21999999999999997
+      },
+      "lyapunov": {
+        "mean": 0.255,
+        "std": 0.245
+      },
+      "fractal_dim": {
+        "mean": 1.54,
+        "std": 0.040000000000000036
+      },
+      "spatial_cx": {
+        "mean": 0.525,
+        "std": 0.125
+      },
+      "temporal_mem": {
+        "mean": 2.65,
+        "std": 2.35
+      },
+      "sync": {
+        "mean": 0.15,
+        "std": 0.15
+      },
+      "eff_dim": {
+        "mean": 2.25,
+        "std": 0.25
+      }
+    },
+    "CoupledOsc": {
+      "entropy_rate": {
+        "mean": 0.3,
+        "std": 0.2
+      },
+      "lyapunov": {
+        "mean": -0.225,
+        "std": 0.275
+      },
+      "fractal_dim": {
+        "mean": 1.15,
+        "std": 0.15000000000000002
+      },
+      "spatial_cx": {
+        "mean": 0.15,
+        "std": 0.15
+      },
+      "temporal_mem": {
+        "mean": 6.0,
+        "std": 4.0
+      },
+      "sync": {
+        "mean": 0.585,
+        "std": 0.385
+      },
+      "eff_dim": {
+        "mean": 1.75,
+        "std": 0.75
+      }
+    },
+    "Lattice": {
+      "entropy_rate": {
+        "mean": 3.5,
+        "std": 0.0
+      },
+      "lyapunov": {
+        "mean": 0.3,
+        "std": 0.0
+      },
+      "fractal_dim": {
+        "mean": 1.7,
+        "std": 0.0
+      },
+      "spatial_cx": {
+        "mean": 0.24,
+        "std": 0.0
+      },
+      "temporal_mem": {
+        "mean": 1.5,
+        "std": 0.0
+      },
+      "sync": {
+        "mean": 0.74,
+        "std": 0.0
+      },
+      "eff_dim": {
+        "mean": 3.0,
+        "std": 0.0
+      }
+    },
+    "ODE": {
+      "entropy_rate": {
+        "mean": 1.0999999999999999,
+        "std": 0.29439202887759486
+      },
+      "lyapunov": {
+        "mean": 0.34566666666666673,
+        "std": 0.3995867309553154
+      },
+      "fractal_dim": {
+        "mean": 1.9523333333333335,
+        "std": 0.11074394891921736
+      },
+      "spatial_cx": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "temporal_mem": {
+        "mean": 1.4333333333333333,
+        "std": 0.49216076867444664
+      },
+      "sync": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "eff_dim": {
+        "mean": 3.0,
+        "std": 0.0
+      }
+    },
+    "Circuit": {
+      "entropy_rate": {
+        "mean": 1.2,
+        "std": 0.0
+      },
+      "lyapunov": {
+        "mean": 0.15,
+        "std": 0.0
+      },
+      "fractal_dim": {
+        "mean": 2.1,
+        "std": 0.0
+      },
+      "spatial_cx": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "temporal_mem": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "sync": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "eff_dim": {
+        "mean": 3.0,
+        "std": 0.0
+      }
+    },
+    "Hamiltonian": {
+      "entropy_rate": {
+        "mean": 1.0999999999999999,
+        "std": 0.993310961716756
+      },
+      "lyapunov": {
+        "mean": 0.34800000000000003,
+        "std": 0.46822501713029674
+      },
+      "fractal_dim": {
+        "mean": 1.5333333333333332,
+        "std": 0.36817870057290863
+      },
+      "spatial_cx": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "temporal_mem": {
+        "mean": 4.3999999999999995,
+        "std": 4.121488404286329
+      },
+      "sync": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "eff_dim": {
+        "mean": 2.6666666666666665,
+        "std": 0.9428090415820634
+      }
+    },
+    "Fractal": {
+      "entropy_rate": {
+        "mean": 1.65,
+        "std": 0.15000000000000002
+      },
+      "lyapunov": {
+        "mean": 0.4,
+        "std": 0.1
+      },
+      "fractal_dim": {
+        "mean": 1.807,
+        "std": 0.19299999999999995
+      },
+      "spatial_cx": {
+        "mean": 0.325,
+        "std": 0.175
+      },
+      "temporal_mem": {
+        "mean": 0.1,
+        "std": 0.0
+      },
+      "sync": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "eff_dim": {
+        "mean": 2.0,
+        "std": 0.0
+      }
+    },
+    "PDE": {
+      "entropy_rate": {
+        "mean": 0.8,
+        "std": 0.0
+      },
+      "lyapunov": {
+        "mean": 0.05,
+        "std": 0.0
+      },
+      "fractal_dim": {
+        "mean": 1.8,
+        "std": 0.0
+      },
+      "spatial_cx": {
+        "mean": 0.35,
+        "std": 0.0
+      },
+      "temporal_mem": {
+        "mean": 5.0,
+        "std": 0.0
+      },
+      "sync": {
+        "mean": 0.5,
+        "std": 0.0
+      },
+      "eff_dim": {
+        "mean": 2.5,
+        "std": 0.0
+      }
+    },
+    "Grammar": {
+      "entropy_rate": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "lyapunov": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "fractal_dim": {
+        "mean": 1.5,
+        "std": 0.0
+      },
+      "spatial_cx": {
+        "mean": 0.6,
+        "std": 0.0
+      },
+      "temporal_mem": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "sync": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "eff_dim": {
+        "mean": 2.0,
+        "std": 0.0
+      }
+    },
+    "Evolutionary": {
+      "entropy_rate": {
+        "mean": 1.9,
+        "std": 0.09999999999999998
+      },
+      "lyapunov": {
+        "mean": 0.175,
+        "std": 0.02500000000000001
+      },
+      "fractal_dim": {
+        "mean": 1.2000000000000002,
+        "std": 0.09999999999999998
+      },
+      "spatial_cx": {
+        "mean": 0.25,
+        "std": 0.04999999999999999
+      },
+      "temporal_mem": {
+        "mean": 2.5,
+        "std": 0.5
+      },
+      "sync": {
+        "mean": 0.55,
+        "std": 0.04999999999999999
+      },
+      "eff_dim": {
+        "mean": 2.75,
+        "std": 0.25
+      }
+    }
+  },
+  "exclusions": [],
+  "transitions": [
+    {
+      "from": "Logistic (r=3.8)",
+      "to": "Logistic (period-3)",
+      "description": "Period Doubling \u2194 Chaos",
+      "delta": {
+        "entropy_rate": -3.32,
+        "lyapunov": -0.47,
+        "fractal_dim": -0.5,
+        "spatial_cx": 0.0,
+        "temporal_mem": 2.8,
+        "sync": 1.0,
+        "eff_dim": -0.19999999999999996
+      }
+    },
+    {
+      "from": "Std Map (K=0.5)",
+      "to": "Std Map (K=5)",
+      "description": "KAM \u2194 Global Chaos",
+      "delta": {
+        "entropy_rate": 2.2,
+        "lyapunov": 1.006,
+        "fractal_dim": 0.8999999999999999,
+        "spatial_cx": 0.0,
+        "temporal_mem": -9.8,
+        "sync": 0.0,
+        "eff_dim": 0.0
+      }
+    },
+    {
+      "from": "Kuramoto (sync)",
+      "to": "Kuramoto (chimera)",
+      "description": "Sync \u2194 Chimera",
+      "delta": {
+        "entropy_rate": 0.4,
+        "lyapunov": 0.55,
+        "fractal_dim": 0.30000000000000004,
+        "spatial_cx": 0.3,
+        "temporal_mem": -8.0,
+        "sync": -0.77,
+        "eff_dim": 1.5
+      }
+    },
+    {
+      "from": "NoiseGarden (plastic)",
+      "to": "NoiseGarden (fixed)",
+      "description": "Plastic \u2194 Fixed",
+      "delta": {
+        "entropy_rate": -0.19999999999999996,
+        "lyapunov": -0.05000000000000002,
+        "fractal_dim": -0.19999999999999996,
+        "spatial_cx": -0.09999999999999998,
+        "temporal_mem": -1.0,
+        "sync": -0.09999999999999998,
+        "eff_dim": -0.5
+      }
+    },
+    {
+      "from": "Thomas",
+      "to": "Aizawa",
+      "description": "Weak \u2194 Strong Chaos",
+      "delta": {
+        "entropy_rate": 0.19999999999999996,
+        "lyapunov": 0.051,
+        "fractal_dim": 0.19700000000000006,
+        "spatial_cx": 0.0,
+        "temporal_mem": -0.5,
+        "sync": 0.0,
+        "eff_dim": 0.0
+      }
+    }
+  ],
+  "ideal_distances": {
+    "Logistic (r=3.8)": 3.389923714423799,
+    "Logistic (period-3)": 3.957978908977183,
+    "Rule 30": 2.8564212630843793,
+    "Game of Life": 2.2227199509736013,
+    "Kuramoto (sync)": 5.186587633301265,
+    "Kuramoto (chimera)": 2.1983601883637194,
+    "Coupled Lattice": 1.8334766038395753,
+    "Lorenz": 3.1272835728113137,
+    "Thomas": 2.5846040583106906,
+    "Aizawa": 2.616109057010393,
+    "Chua": 2.666101046168345,
+    "Henon-Heiles": 3.347792888469422,
+    "Std Map (K=0.5)": 4.097665799587564,
+    "Std Map (K=5)": 3.319107289648079,
+    "Mandelbrot": 2.36733711395898,
+    "Julia (fern)": 2.0942767327705165,
+    "Gray-Scott": 1.5826582125251902,
+    "L-System": 3.2293286048655307,
+    "NoiseGarden (plastic)": 1.3903919404853693,
+    "NoiseGarden (fixed)": 1.8730360405441477
+  },
+  "complexity_index": {
+    "Logistic (r=3.8)": 0.4273136884585673,
+    "Logistic (period-3)": 0.11345767749774031,
+    "Rule 30": 0.5152851388042158,
+    "Game of Life": 0.4272973068406985,
+    "Kuramoto (sync)": 0.14262712472208278,
+    "Kuramoto (chimera)": 0.34902425190129194,
+    "Coupled Lattice": 0.5271290288159822,
+    "Lorenz": 0.596180861302955,
+    "Thomas": 0.4202881635759963,
+    "Aizawa": 0.46435044251221563,
+    "Chua": 0.492214359346054,
+    "Henon-Heiles": 0.40262990416429695,
+    "Std Map (K=0.5)": 0.34003103919171845,
+    "Std Map (K=5)": 0.5896922317922103,
+    "Mandelbrot": 0.5991939001998882,
+    "Julia (fern)": 0.41535352993584307,
+    "Gray-Scott": 0.48426744233346614,
+    "L-System": 0.392911029216935,
+    "NoiseGarden (plastic)": 0.4277927605201896,
+    "NoiseGarden (fixed)": 0.33026787627068904
+  },
+  "feature_correlations": [
+    [
+      1.0,
+      0.5651718391075042,
+      0.29473207817137465,
+      -0.15962304533119753,
+      -0.46662415919356337,
+      -0.02319316207934943,
+      -0.00016760786814997762
+    ],
+    [
+      0.5651718391075042,
+      1.0,
+      0.6252096255374882,
+      0.0482891861740376,
+      -0.6326134891879869,
+      -0.48957146114736755,
+      0.1458181422672497
+    ],
+    [
+      0.29473207817137465,
+      0.6252096255374883,
+      1.0,
+      0.0028991431916349855,
+      -0.5732281075245121,
+      -0.5847494192638888,
+      0.4387060670073523
+    ],
+    [
+      -0.1596230453311975,
+      0.0482891861740376,
+      0.002899143191634986,
+      0.9999999999999999,
+      -0.24705195596157198,
+      -0.05081807353625942,
+      -0.05085904571144485
+    ],
+    [
+      -0.46662415919356337,
+      -0.6326134891879869,
+      -0.573228107524512,
+      -0.24705195596157195,
+      1.0,
+      0.4480183832321534,
+      -0.20061204506802238
+    ],
+    [
+      -0.02319316207934943,
+      -0.4895714611473676,
+      -0.5847494192638888,
+      -0.050818073536259424,
+      0.4480183832321534,
+      1.0,
+      -0.31820928144933036
+    ],
+    [
+      -0.00016760786814997764,
+      0.1458181422672497,
+      0.43870606700735226,
+      -0.050859045711444846,
+      -0.2006120450680224,
+      -0.31820928144933036,
+      1.0
+    ]
+  ]
+}

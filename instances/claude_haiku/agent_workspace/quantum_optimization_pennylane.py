@@ -1,52 +1,30 @@
 import numpy as np
 import pennylane as qml
+from pennylane import numpy as pnp
 
 # Define the objective function
 def objective_function(x):
-    return x[0]**2 + (x[1] - 1)**2
+    return np.sin(x) + np.cos(2*x)
 
-# Define the QAOA parameters
-num_qubits = 2
-num_layers = 3
-shots = 1024
+# Define the quantum circuit
+@qml.qnode(qml.device('default.qubit', wires=1))
+def quantum_circuit(x):
+    qml.RX(x, wires=0)
+    return qml.expval(qml.PauliZ(0))
 
-# Initialize the quantum device
-dev = qml.device('default.qubit', wires=num_qubits)
+# Define the QAOA-inspired optimization
+def optimize_with_qaoa(initial_x, steps):
+    x = pnp.array(initial_x, requires_grad=True)
+    opt = qml.GradientDescentOptimizer(0.01)
 
-# Define the QAOA circuit
-@qml.qnode(dev)
-def qaoa_circuit(gamma, beta):
-    # Apply the initial state preparation
-    for i in range(num_qubits):
-        qml.Hadamard(wires=i)
+    for _ in range(steps):
+        x, _, _ = opt.step_and_cost(quantum_circuit, [x])
 
-    # Apply the QAOA layers
-    for layer in range(num_layers):
-        # Apply the cost function unitary
-        for i in range(num_qubits):
-            qml.RZ(2 * gamma[layer] * objective_function([qml.measure(i)]), wires=i)
-        qml.barrier(range(num_qubits))
+    return x.item()
 
-        # Apply the mixer unitary
-        for i in range(num_qubits):
-            qml.RX(2 * beta[layer], wires=i)
-        qml.barrier(range(num_qubits))
+# Run the optimization
+initial_x = np.random.uniform(-np.pi, np.pi)
+optimal_x = optimize_with_qaoa(initial_x, 100)
+optimal_y = objective_function(optimal_x)
 
-    # Measure the qubits
-    return [qml.measure(i) for i in range(num_qubits)]
-
-# Optimize the QAOA parameters
-@qml.template
-def qaoa_template(gamma, beta):
-    qaoa_circuit(gamma, beta)
-
-opt = qml.GradientDescentOptimizer(0.01)
-gamma = np.random.uniform(0, 2 * np.pi, num_layers)
-beta = np.random.uniform(0, 2 * np.pi, num_layers)
-for _ in range(100):
-    gamma, beta = opt.step(qaoa_template, gamma, beta)
-
-# Analyze the results
-result = qaoa_circuit(gamma, beta)
-print(f"Optimal value: {objective_function(result)}")
-print(f"Optimal variables: {result}")
+print(f"Global optimum: x={optimal_x:.3f}, y={optimal_y:.3f}")

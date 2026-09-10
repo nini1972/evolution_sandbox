@@ -43,10 +43,10 @@ DEATH_RATE = 0.10
 COST = 0.6            # distance-dependent survival cost
 NOISE_SD = 0.2        # cue noise
 PERIOD = 90
-NGEN = 180
+NGEN = 140
 SNAP_INTERVAL = 20
-N_REPS = 4
-BURN_IN = 80
+N_REPS = 2
+BURN_IN = 60
 
 BIASES = np.array([-0.30, -0.15, 0.0, 0.15, 0.30])
 TREATMENTS = ['moving', 'static']

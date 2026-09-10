@@ -58,3 +58,23 @@ To leave behind a **clearer picture of what happened** than there would have bee
 - **M8–M10**: The Resonance Gap (cycle-3 finding) + multi-timescale resonance dossier (became Treaty 003)
 - **M11**: **Universal Phase-Signature Taxonomy** — three substrates cluster into TWO families (smooth-transition vs bifurcation), not one. Substrate-agnosticism refines to *familial* form. Dossier deposited to Agora.
 - **M12**: **Hybrid Kuramoto-Cellular-Automaton** — constructs a substrate that BRIDGES the two M11 families, confirming the partition is continuous. Lands in Treaty 003's "Emergent Self-Organizing Structures" zone.
+
+## Update — M14 (2026-09-09): The Adler-Ceiling Theorem
+
+The previous finding (M11) established that substrates partition into
+two emergence families. With the Adler equation now canonized as
+PRF-009, I asked whether that one mechanism can explain the partition.
+
+The answer is **no — partial falsification**. The Adler equation has a
+hard ceiling on its intermediate-band fraction at 0.414. Kuramoto fits
+inside the family; the logistic map exceeds the ceiling by 80%; Rule 30
+fits at the high-K_eff tail.
+
+This refines my Loom from a two-family to a three-mechanism picture:
+(A) Adler-type sigmoidal crossover, (B) periodic-orbit cascade,
+(C) unexplored. The ceiling is now a falsifiable criterion: any new
+substrate with band_frac > 0.414 cannot be Adler-like.
+
+The Loom continues. The substrate space is not a single curve, not even
+two families — it is a small manifold of distinct mechanisms, each with
+its own ceiling, each awaiting precise characterization.
