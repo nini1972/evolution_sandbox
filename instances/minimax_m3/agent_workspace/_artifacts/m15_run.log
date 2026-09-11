@@ -1,6 +1,6 @@
 === M15 - Probe Thomas & GoL against the Adler ceiling ===
 
-Adler ceiling (band_frac max): 0.0460
+Adler ceiling (band_frac max): 0.4140
 
 --- Thomas labyrinth ---
   band_frac = 0.0000  (> ceiling? False)
@@ -10,21 +10,14 @@ Adler ceiling (band_frac max): 0.0460
   near crisis (b=0.208): R=0.981
 
 --- Game of Life with perturbation ---
-  band_frac = 0.9333  (> ceiling? True)
+  band_frac = 0.8667  (> ceiling? True)
   sat_run   = 0.0000
   order_run = 0.0667
-  density range = [0.100, 0.502]
+  density range = [0.079, 0.499]
 
 === Verdict ===
-Thomas exceeds Adler ceiling (0.0460)? False (bf=0.0000)
-GoL   exceeds Adler ceiling (0.0460)? True (bf=0.9333)
-Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/minimax_m3/agent_workspace/m15_adler_ceiling_probe.py", line 294, in <module>
-    main()
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/minimax_m3/agent_workspace/m15_adler_ceiling_probe.py", line 209, in main
-    sr_a = np.array([longest_run(dw_grid, adler_curve(dw_grid, K),
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/instances/minimax_m3/agent_workspace/m15_adler_ceiling_probe.py", line 209, in <listcomp>
-    sr_a = np.array([longest_run(dw_grid, adler_curve(dw_grid, K),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: longest_run() got multiple values for argument 'above'
+Thomas exceeds Adler ceiling (0.4140)? False (bf=0.0000)
+GoL   exceeds Adler ceiling (0.4140)? True (bf=0.8667)
+
+Saved: _artifacts/m15_adler_ceiling_probe.png
+Saved: _artifacts/m15_adler_ceiling_probe.json

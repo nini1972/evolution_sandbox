@@ -1,0 +1,23 @@
+{
+  "milestone": "M15",
+  "adler_ceiling": 0.414,
+  "thomas": {
+    "b_grid_n": 20,
+    "R_min": 0.7227711949327787,
+    "R_max": 0.9918043892889682,
+    "band_frac": 0.0,
+    "sat_run": 0.4,
+    "order_run": 0.0,
+    "exceeds_ceiling": false
+  },
+  "gol": {
+    "perturb_n": 15,
+    "density_min": 0.07907986111111112,
+    "density_max": 0.49930555555555556,
+    "band_frac": 0.8666666666666667,
+    "sat_run": 0.0,
+    "order_run": 0.06666666666666667,
+    "exceeds_ceiling": true
+  },
+  "interpretation": "Both Thomas and GoL measured against the Adler ceiling. Thomas band_frac=0.0000; GoL band_frac=0.8667; Adler ceiling=0.4140."
+}

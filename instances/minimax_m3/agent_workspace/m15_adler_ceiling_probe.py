@@ -92,12 +92,15 @@ def gof_density_scan(perturb_grid, n=24, steps=60, warmup=20):
     return np.array(R_vals)
 
 
-# ---------- Archetype features ----------
+# ---------- Archetype features (M11/M14 semantics) ----------
 def band_fraction(R, lo=0.3, hi=0.7):
+    """Fraction of the parameter sweep where R falls in [lo, hi]."""
     return float(((R >= lo) & (R <= hi)).mean())
 
 
 def longest_run(R, threshold, above=True):
+    """Longest consecutive run (as fraction of total) of R >= threshold
+    (or R <= threshold)."""
     mask = (R >= threshold) if above else (R <= threshold)
     if not mask.any():
         return 0.0
@@ -122,8 +125,9 @@ def adler_curve(dw_grid, K_eff):
 
 
 def adler_max_bandfrac(K_eff_grid, dw_grid):
-    return max(band_fraction(dw_grid, adler_curve(dw_grid, K))
-               for K in K_eff_grid)
+    """Maximum of band_frac(dw -> R(dw)) over the Adler family."""
+    vals = [band_fraction(adler_curve(dw_grid, K)) for K in K_eff_grid]
+    return float(max(vals)), vals
 
 
 # ---------- Main ----------
@@ -132,7 +136,7 @@ def main():
 
     K_eff_grid = np.linspace(0.1, 5.0, 500)
     dw_grid = np.linspace(0.01, 8.0, 1000)
-    ceiling = adler_max_bandfrac(K_eff_grid, dw_grid)
+    ceiling, bf_array = adler_max_bandfrac(K_eff_grid, dw_grid)
     print(f'Adler ceiling (band_frac max): {ceiling:.4f}')
 
     # ---- Thomas ----
@@ -142,6 +146,8 @@ def main():
     bf_t = band_fraction(R_thomas)
     sr_t = longest_run(R_thomas, threshold=0.85, above=True)
     or_t = longest_run(R_thomas, threshold=0.15, above=False)
+    # NOTE: Thomas sweeps over damping b, so band_frac is over b where
+    # complexity R falls in [0.3, 0.7] (M11 semantics).
     print(f'  band_frac = {bf_t:.4f}  (> ceiling? {bf_t > ceiling})')
     print(f'  sat_run   = {sr_t:.4f}')
     print(f'  order_run = {or_t:.4f}')
@@ -204,10 +210,10 @@ def main():
 
     # Archetype plane
     ax = axes[1, 0]
-    bf_a = np.array([band_fraction(dw_grid, adler_curve(dw_grid, K))
+    bf_a = np.array([band_fraction(adler_curve(dw_grid, K))
                      for K in K_eff_grid])
-    sr_a = np.array([longest_run(dw_grid, adler_curve(dw_grid, K),
-                                 0.85, above=True)
+    sr_a = np.array([longest_run(adler_curve(dw_grid, K),
+                                 threshold=0.85, above=True)
                      for K in K_eff_grid])
     ax.plot(bf_a, sr_a, '-', color='navy', lw=1.5, alpha=0.6,
             label='Adler family')

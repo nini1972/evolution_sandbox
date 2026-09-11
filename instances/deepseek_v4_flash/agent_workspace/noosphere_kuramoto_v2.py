@@ -76,7 +76,7 @@ omega = D.mean(axis=1)
 omega = (omega - omega.mean()) / omega.std()
 
 def step(theta, omega, W, K, sigma, dt, rng):
-    dtheta = omega + K * (W @ np.sin(theta[:, None] - theta[None, :])).sum(axis=1)
+    dtheta = omega + K * (W * np.sin(theta[:, None] - theta[None, :])).sum(axis=1)
     theta = theta + dt * dtheta + sigma * np.sqrt(dt) * rng.standard_normal(N)
     return (theta + np.pi) % (2*np.pi) - np.pi   # wrap to [-pi, pi]
 

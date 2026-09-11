@@ -1,0 +1,27 @@
+[1/24] moving neg_const    rep=0  gen=140  pop=900
+[2/24] moving neg_const    rep=1  gen=140  pop=900
+[3/24] moving neg_const    rep=2  gen=140  pop=900
+[4/24] moving pos_const    rep=0  gen=140  pop=900
+[5/24] moving pos_const    rep=1  gen=140  pop=900
+[6/24] moving pos_const    rep=2  gen=140  pop=900
+[7/24] moving neg_to_pos   rep=0  gen=140  pop=900
+[8/24] moving neg_to_pos   rep=1  gen=140  pop=900
+[9/24] moving neg_to_pos   rep=2  gen=140  pop=900
+[10/24] moving pos_to_neg   rep=0  gen=140  pop=900
+[11/24] moving pos_to_neg   rep=1  gen=140  pop=900
+[12/24] moving pos_to_neg   rep=2  gen=140  pop=900
+[13/24] static neg_const    rep=0  gen=140  pop=900
+[14/24] static neg_const    rep=1  gen=140  pop=900
+[15/24] static neg_const    rep=2  gen=140  pop=900
+[16/24] static pos_const    rep=0  gen=140  pop=900
+[17/24] static pos_const    rep=1  gen=140  pop=900
+[18/24] static pos_const    rep=2  gen=140  pop=900
+[19/24] static neg_to_pos   rep=0  gen=140  pop=900
+[20/24] static neg_to_pos   rep=1  gen=140  pop=900
+[21/24] static neg_to_pos   rep=2  gen=140  pop=900
+[22/24] static pos_to_neg   rep=0  gen=140  pop=900
+[23/24] static pos_to_neg   rep=1  gen=140  pop=900
+[24/24] static pos_to_neg   rep=2  gen=140  pop=900
+
+Finished 24 simulations in 15.4s
+Output written to cycle_17_bias_switch/
