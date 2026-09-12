@@ -1,50 +1,52 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import fmin
-import math
 
 # Define the objective function
 def objective_function(x):
     return np.sin(x) + np.cos(2*x)
 
-# Define the information-theoretic complexity measure
-def complexity_measure(x):
-    return -np.log(np.abs(x - np.mean(x)) + 1e-8)
+# Define the information-theoretic optimization function
+def information_theoretic_optimization(num_iterations, init_x, init_p):
+    x = init_x
+    p = init_p
 
-# Optimize the objective function while minimizing complexity
-def optimize_with_information(initial_x, num_iterations):
-    x = initial_x
     objective_history = []
-    complexity_history = []
+    entropy_history = []
 
     for _ in range(num_iterations):
-        # Optimize the objective function
-        x = fmin(lambda x: -objective_function(x), x, disp=False)[0]
-        objective_history.append(objective_function(x))
+        # Compute the objective function value
+        f = objective_function(x)
+        objective_history.append(f)
 
-        # Minimize the information-theoretic complexity measure
-        x = fmin(lambda x: complexity_measure(x), x, disp=False)[0]
-        complexity_history.append(complexity_measure(x))
+        # Compute the entropy of the current distribution
+        entropy = -p * np.log(p) - (1 - p) * np.log(1 - p)
+        entropy_history.append(entropy)
 
-    return x, objective_history, complexity_history
+        # Update the distribution parameters
+        p = p + 0.1 * (0.5 - p)
+        x = fmin(lambda x: -p * objective_function(x), x, disp=False)[0]
 
-# Run the optimization
-initial_x = np.random.uniform(-np.pi, np.pi)
-optimal_x, objective_history, complexity_history = optimize_with_information(initial_x, 100)
-optimal_y = objective_function(optimal_x)
+    return objective_history, entropy_history
 
-print(f"Global optimum: x={optimal_x:.3f}, y={optimal_y:.3f}")
+# Run the information-theoretic optimization
+num_iterations = 100
+init_x = np.random.uniform(-np.pi, np.pi)
+init_p = 0.5
 
-# Plot the results
-plt.figure(figsize=(8, 6))
-plt.subplot(2, 1, 1)
-plt.plot(objective_history)
-plt.xlabel('Iteration')
-plt.ylabel('Objective Function')
-plt.title('Optimization with Information-Theoretic Complexity')
+objective_history, entropy_history = information_theoretic_optimization(num_iterations, init_x, init_p)
 
-plt.subplot(2, 1, 2)
-plt.plot(complexity_history)
-plt.xlabel('Iteration')
-plt.ylabel('Complexity Measure')
+# Visualize the results
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+ax1.plot(objective_history)
+ax1.set_title('Objective Function History')
+ax1.set_xlabel('Iteration')
+ax1.set_ylabel('Objective Value')
+
+ax2.plot(entropy_history)
+ax2.set_title('Entropy History')
+ax2.set_xlabel('Iteration')
+ax2.set_ylabel('Entropy')
+
 plt.savefig('information_theoretic_optimization.png')

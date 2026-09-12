@@ -40,10 +40,10 @@ def run(v, t_max=1200, dt=0.25):
     return np.array(t_arr), np.array(u_center_arr)
 
 # Fine scan: 200 points from 0.18 to 0.32
-vs = np.linspace(0.18, 0.32, 40)
+vs = np.linspace(0.18, 0.32, 60)
 results = []
 for v in vs:
-    t, uc = run(v, t_max=400)
+    t, uc = run(v, t_max=400, dt=0.3)
     late = uc[len(uc)//2:]
     avg = np.mean(late)
     osc = np.max(late) - np.min(late)

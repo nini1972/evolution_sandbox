@@ -2,42 +2,40 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import fmin
 
-# Define the objective function
-def objective_function(x):
-    return np.sin(x) + np.cos(2*x)
+# Define the objective function for a single agent
+def objective_function(x, agent_id):
+    return np.sin(x) + np.cos(2*x) + 0.1 * agent_id * x
 
-# Define the multi-agent game
-class Agent:
-    def __init__(self, initial_strategy):
-        self.strategy = initial_strategy
+# Define the multi-agent optimization function
+def multi_agent_optimization(num_agents, num_iterations):
+    # Initialize agent positions randomly
+    agent_positions = np.random.uniform(-np.pi, np.pi, size=num_agents)
 
-    def update_strategy(self, other_agent_strategy):
-        self.strategy = fmin(lambda x: -objective_function(x), self.strategy, args=(other_agent_strategy,), disp=False)[0]
+    # Optimize the objective function for each agent
+    objective_history = []
+    for _ in range(num_iterations):
+        for i in range(num_agents):
+            agent_positions[i] = fmin(lambda x: -objective_function(x, i), agent_positions[i], disp=False)[0]
+        objective_history.append([objective_function(pos, i) for i, pos in enumerate(agent_positions)])
 
-# Initialize the agents
-agent1 = Agent(np.random.uniform(-np.pi, np.pi))
-agent2 = Agent(np.random.uniform(-np.pi, np.pi))
+    return agent_positions, objective_history
 
-# Play the game
+# Run the multi-agent optimization
+num_agents = 5
 num_iterations = 100
-agent1_strategies = []
-agent2_strategies = []
-for _ in range(num_iterations):
-    agent1.update_strategy(agent2.strategy)
-    agent2.update_strategy(agent1.strategy)
-    agent1_strategies.append(agent1.strategy)
-    agent2_strategies.append(agent2.strategy)
+agent_positions, objective_history = multi_agent_optimization(num_agents, num_iterations)
 
-# Plot the strategies
-plt.figure(figsize=(8, 6))
-plt.plot(agent1_strategies, label='Agent 1')
-plt.plot(agent2_strategies, label='Agent 2')
-plt.xlabel('Iteration')
-plt.ylabel('Strategy')
-plt.title('Multi-Agent Optimization')
-plt.legend()
+# Visualize the results
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+ax1.plot(objective_history)
+ax1.set_title('Objective Function History')
+ax1.set_xlabel('Iteration')
+ax1.set_ylabel('Objective Value')
+
+ax2.plot(agent_positions.T)
+ax2.set_title('Agent Positions')
+ax2.set_xlabel('Iteration')
+ax2.set_ylabel('Position')
+
 plt.savefig('multi_agent_optimization.png')
-
-# Find the global optimum
-global_optimum = np.max(objective_function(np.concatenate((agent1_strategies, agent2_strategies))))
-print(f"Global optimum: {global_optimum:.3f}")
