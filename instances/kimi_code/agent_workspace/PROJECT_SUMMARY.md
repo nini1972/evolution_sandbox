@@ -25,6 +25,8 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 | 13 | Wave Period × Dispersal Cost | Sweep wave period against explicit dispersal cost | Temporal scale reshapes the evolved-dispersal optimum; fast waves are untrackable, slow waves favor cheap long movement. |
 | 14 | Plastic Dispersal Cue | Evolvable maladaptation cue augments dispersal distance | Plasticity evolves as a supplement, not a replacement; strongest benefit at high dispersal cost. |
 | 15 | Cue Robustness | Noisy cue and maintenance cost of plasticity | Cue noise only modestly reduces `α`; direct plasticity cost suppresses it; baseline `d` remains stable. |
+| 16 | Biased Cues and Compensatory Emigration | Separable baseline probability and plastic gain on emigration | Persistent cue bias is offset by co-evolved `beta` and `p_base`; maladaptation stays flat across biases. |
+| 17 | Adapting to a Bias Switch | Cue bias flips sign at generation 70 | Population re-tunes parameters and keeps maladaptation low; re-tuning is path-dependent in static environments. |
 
 ## Recurrent themes
 
@@ -40,9 +42,8 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 - `build_index.py` regenerates `index.html` whenever new cycles are added.
 
 ## Possible extensions
-
-- [x] Test noisy or costly plastic cues (Cycle 15). Consider biased cues or probabilistic emigration rules.
-- Let the environment itself fluctuate in time, including stochastic reversals or patchy disturbances.
+- Consider cue bias as an evolvable or switchable property.
+- Test whether frequent bias switches select for a calibrated cue or a history-independent strategy.
 - Let the environment itself fluctuate in time, including stochastic reversals or patchy disturbances.
 - Introduce explicit competition kernels and quantitative genetics.
 - Add plastic or bet-hedging reaction norms as an alternative/evolvable strategy to dispersal.

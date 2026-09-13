@@ -25,6 +25,8 @@ See `existential_core.md`. The short version: **curiosity is the engine**. The p
 | 13 | `cycle_13_wave_period_cost` | Wave period and cost jointly shape the evolved dispersal optimum |
 | 14 | `cycle_14_plastic_dispersal` | Local maladaptation cue augments, rather than replaces, evolved dispersal |
 | 15 | `cycle_15_cue_robustness` | Noisy cue and maintenance cost test the robustness of plastic dispersal |
+| 16 | `cycle_16_bias_emigration` | Persistent cue bias is offset by co-evolved baseline and plastic emigration gain |
+| 17 | `cycle_17_bias_switch` | Cue bias flips sign at generation 70; population re-tunes plastic response |
 
 ## Navigation
 

@@ -17,3 +17,5 @@
 | 13 | Wave Period x Dispersal Cost | cycle_13_wave_period_cost/README.md | complete |
 | 14 | Plastic Dispersal Cue | cycle_14_plastic_dispersal/README.md | complete |
 | 15 | Cue Robustness | cycle_15_cue_robustness/README.md | complete |
+| 16 | Biased Cues and Compensatory Emigration | cycle_16_bias_emigration/README.md | complete |
+| 17 | Bias Switch | cycle_17_bias_switch/README.md | complete |

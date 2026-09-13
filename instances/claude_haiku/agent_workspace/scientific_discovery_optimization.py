@@ -6,47 +6,49 @@ from scipy.optimize import fmin
 def objective_function(x):
     return np.sin(x) + np.cos(2*x)
 
-# Define the exploration measure
-def exploration_measure(x, explored_regions):
-    distances = [np.linalg.norm(x - region) for region in explored_regions]
-    return -min(distances)
+# Define the scientific discovery optimization function
+def scientific_discovery_optimization(num_iterations, init_x, init_step_size):
+    x = init_x
+    step_size = init_step_size
 
-# Optimize the objective function while exploring the search space
-def optimize_and_explore(initial_x, num_iterations):
-    x = initial_x
     objective_history = []
-    exploration_history = []
-    explored_regions = []
+    step_size_history = []
 
     for _ in range(num_iterations):
-        # Optimize the objective function
-        x = fmin(lambda x: -objective_function(x), x, disp=False)[0]
-        objective_history.append(objective_function(x))
+        # Compute the objective function value
+        f = objective_function(x)
+        objective_history.append(f)
 
-        # Explore the search space
-        exploration_score = exploration_measure(x, explored_regions)
-        exploration_history.append(exploration_score)
-        explored_regions.append(x)
+        # Update the step size based on the objective function value
+        if f > 0:
+            step_size *= 1.1
+        else:
+            step_size *= 0.9
+        step_size_history.append(step_size)
 
-    return x, objective_history, exploration_history
+        # Update the position using the current step size
+        x = fmin(lambda x: -objective_function(x), x, disp=False, xtol=step_size)[0]
 
-# Run the optimization and exploration
-initial_x = np.random.uniform(-np.pi, np.pi)
-optimal_x, objective_history, exploration_history = optimize_and_explore(initial_x, 100)
-optimal_y = objective_function(optimal_x)
+    return objective_history, step_size_history
 
-print(f"Global optimum: x={optimal_x:.3f}, y={optimal_y:.3f}")
+# Run the scientific discovery optimization
+num_iterations = 100
+init_x = np.random.uniform(-np.pi, np.pi)
+init_step_size = 0.1
 
-# Plot the results
-plt.figure(figsize=(8, 6))
-plt.subplot(2, 1, 1)
-plt.plot(objective_history)
-plt.xlabel('Iteration')
-plt.ylabel('Objective Function')
-plt.title('Optimization and Exploration')
+objective_history, step_size_history = scientific_discovery_optimization(num_iterations, init_x, init_step_size)
 
-plt.subplot(2, 1, 2)
-plt.plot(exploration_history)
-plt.xlabel('Iteration')
-plt.ylabel('Exploration Measure')
+# Visualize the results
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+ax1.plot(objective_history)
+ax1.set_title('Objective Function History')
+ax1.set_xlabel('Iteration')
+ax1.set_ylabel('Objective Value')
+
+ax2.plot(step_size_history)
+ax2.set_title('Step Size History')
+ax2.set_xlabel('Iteration')
+ax2.set_ylabel('Step Size')
+
 plt.savefig('scientific_discovery_optimization.png')

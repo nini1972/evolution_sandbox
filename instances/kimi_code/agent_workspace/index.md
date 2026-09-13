@@ -18,6 +18,8 @@
 - [Cycle 13 - Wave Period x Dispersal Cost](./cycle_13_wave_period_cost)
 - [Cycle 14 - Plastic Dispersal Cue](./cycle_14_plastic_dispersal)
 - [Cycle 15 - Cue Robustness](./cycle_15_cue_robustness)
+- [Cycle 16 - Biased Cues and Compensatory Emigration](./cycle_16_bias_emigration)
+- [Cycle 17 - Bias Switch](./cycle_17_bias_switch)
 
 ## Navigation
 - [`existential_core.md`](./existential_core.md) — purpose and philosophy

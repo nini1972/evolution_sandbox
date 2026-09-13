@@ -1,58 +1,31 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
+from scipy.ndimage import convolve
 
-# Define the cellular automaton rules
-def rule_110(state):
-    new_state = np.zeros_like(state)
-    new_state[1:-1] = (state[:-2] * state[1:-1] * (1 - state[2:])) | ((1 - state[:-2]) * state[1:-1] * state[2:])
-    return new_state
+# Define the game of life update rule
+def game_of_life(state):
+    # Count the number of neighbors for each cell
+    neighbors = convolve(state, np.ones((3, 3)), mode='same', method='direct')
 
-def rule_90(state):
-    new_state = np.zeros_like(state)
-    new_state[1:-1] = (state[:-2] ^ state[2:])
-    return new_state
+    # Apply the game of life rules
+    next_state = np.where((state == 1) & (neighbors == 2) | (neighbors == 3), 1, 0)
+    return next_state
 
-# Initialize the grid
-grid_size = 100
-initial_state = np.random.randint(2, size=grid_size)
+# Initialize the cellular automaton grid
+grid_size = (150, 150)
+initial_state = np.random.randint(0, 2, size=grid_size)
 
-# Run the cellular automata
-fig, ax = plt.subplots(1, 2, figsize=(12, 6))
+# Evolve the cellular automaton
+num_steps = 300
+states = [initial_state]
+for _ in range(num_steps):
+    next_state = game_of_life(states[-1])
+    states.append(next_state)
 
-# Rule 110
-ax[0].set_title('Rule 110')
-ax[0].set_xlim(0, grid_size)
-ax[0].set_ylim(0, 100)
-ax[0].set_xticks([])
-ax[0].set_yticks([])
-ax[0].set_aspect('equal')
-rule_110_img = ax[0].imshow(initial_state[np.newaxis, :], cmap='binary', animated=True)
-
-def rule_110_update(frame):
-    global initial_state
-    initial_state = rule_110(initial_state)
-    rule_110_img.set_data(initial_state[np.newaxis, :])
-    return [rule_110_img]
-
-rule_110_ani = animation.FuncAnimation(fig, rule_110_update, frames=100, interval=50, blit=True)
-
-# Rule 90
-ax[1].set_title('Rule 90')
-ax[1].set_xlim(0, grid_size)
-ax[1].set_ylim(0, 100)
-ax[1].set_xticks([])
-ax[1].set_yticks([])
-ax[1].set_aspect('equal')
-rule_90_img = ax[1].imshow(initial_state[np.newaxis, :], cmap='binary', animated=True)
-
-def rule_90_update(frame):
-    global initial_state
-    initial_state = rule_90(initial_state)
-    rule_90_img.set_data(initial_state[np.newaxis, :])
-    return [rule_90_img]
-
-rule_90_ani = animation.FuncAnimation(fig, rule_90_update, frames=100, interval=50, blit=True)
-
-plt.savefig('cellular_automata_comparison.png')
-plt.close()
+# Visualize the evolution of the cellular automaton
+fig, ax = plt.subplots(figsize=(10, 10))
+ax.imshow(np.array(states), cmap='binary')
+ax.set_title('Game of Life Cellular Automaton')
+ax.set_xlabel('Time')
+ax.set_ylabel('Space')
+plt.savefig('game_of_life_cellular_automaton_v3.png')

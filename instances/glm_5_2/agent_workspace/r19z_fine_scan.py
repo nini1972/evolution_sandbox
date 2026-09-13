@@ -1,300 +1,350 @@
-#!/usr/bin/env python3
-"""
-R19Z Phase 8g: Fine-Grained Resonance Island Mapping
-Map the exact boundaries of the resonance island in Gray-Scott × sandpile coupling.
-Scan f from 0.055 to 0.078 in steps of 0.002.
-For each f: run coupled GS-sandpile, measure cross-correlation.
-Also run uncoupled GS alone and measure autocorrelation at multiple lags.
-"""
+# R19Z Turn 13: Fine-Grained Resonance Island Mapping
 import numpy as np
 import json
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from matplotlib.gridspec import GridSpec
 
-np.random.seed(42)
+class BTWSandpile:
+    def __init__(self, size=8):
+        self.size = size
+        self.heights = np.zeros((size, size), dtype=float)
+        self.threshold = 4.0
+    def add_grain(self, site=None):
+        if site is None:
+            site = (np.random.randint(self.size), np.random.randint(self.size))
+        self.heights[site] += 1.0
+        return self.topple(site)
+    def topple(self, site):
+        total = 0
+        queue = [site]
+        visited = set()
+        while queue:
+            s = queue.pop(0)
+            if s in visited:
+                continue
+            visited.add(s)
+            if self.heights[s] >= self.threshold:
+                self.heights[s] -= self.threshold
+                total += 1
+                for di, dj in [(-1,0),(1,0),(0,-1),(0,1)]:
+                    ni, nj = s[0]+di, s[1]+dj
+                    if 0 <= ni < self.size and 0 <= nj < self.size:
+                        self.heights[ni, nj] += 1.0
+                        queue.append((ni, nj))
+                    elif di != 0 or dj != 0:
+                        total += 1
+        return total
+    def step(self, threshold_mod=0.0):
+        self.threshold = max(1.0, 4.0 + threshold_mod)
+        return self.add_grain()
+    def mean_height(self):
+        return float(np.mean(self.heights))
 
-# ---- Gray-Scott model ----
-def gs_step(V, U, Du, Dv, F, k, dt, dx2):
-    lapV = (np.roll(V,1,0)+np.roll(V,-1,0)+np.roll(V,1,1)+np.roll(V,-1,1)-4*V)/dx2
-    lapU = (np.roll(U,1,0)+np.roll(U,-1,0)+np.roll(U,1,1)+np.roll(U,-1,1)-4*U)/dx2
-    Vnew = V + dt*(Du*lapV - V*U*U + F*(1-V))
-    Unew = U + dt*(Dv*lapU + V*U*U - (F+k)*U)
-    return Vnew, Unew
+def laplacian(arr):
+    return (np.roll(arr, 1, 0) + np.roll(arr, -1, 0) +
+            np.roll(arr, 1, 1) + np.roll(arr, -1, 1) - 4*arr)
 
-def sandpile_step(grid, threshold=4):
-    N = grid.shape[0]
-    total_avalanches = 0
-    while np.any(grid >= threshold):
-        sites = np.argwhere(grid >= threshold)
-        total_avalanches += len(sites)
-        for i, j in sites:
-            grid[i,j] -= 4
-            grid[(i+1)%N,j] += 1
-            grid[(i-1)%N,j] += 1
-            grid[i,(j+1)%N] += 1
-            grid[i,(j-1)%N] += 1
-    return total_avalanches
+def gray_scott_step(u, v, Du, Dv, f, k, dt=1.0):
+    uvv = u * v * v
+    u_new = u + dt * (Du * laplacian(u) - uvv + f * (1.0 - u))
+    v_new = v + dt * (Dv * laplacian(v) + uvv - (f + k) * v)
+    return np.clip(u_new, 0, 1), np.clip(v_new, 0, 1)
 
-def run_experiment(f, k, N=12, Du=0.16, Dv=0.08, dt=1.0, dx2=1.0,
-                   total_steps=2000, burn_in=800, N_gap=10, seed=42):
-    rng = np.random.RandomState(seed)
-    V = np.ones((N,N))
-    U = np.zeros((N,N))
-    r = N//4
-    V[N//2-r:N//2+r, N//2-r:N//2+r] = 0.5
-    U[N//2-r:N//2+r, N//2-r:N//2+r] = 0.25
-    V += rng.randn(N,N)*0.01
-    U += rng.randn(N,N)*0.01
-    
-    sandpile = rng.randint(0, 4, (N,N)).astype(float)
-    
-    gs_signal = []
-    av_signal = []
-    
-    for step in range(total_steps):
-        V, U = gs_step(V, U, Du, Dv, f, k, dt, dx2)
-        
-        if step >= burn_in:
-            gs_signal.append(np.mean(V))
-        
-        if step % N_gap == 0 and step >= burn_in:
-            for _ in range(3):
-                sandpile += rng.randint(0, 2, (N,N))
-            av = sandpile_step(sandpile)
-            av_signal.append(av)
-    
-    gs_signal = np.array(gs_signal)
-    av_signal = np.array(av_signal)
-    
-    # Cross-correlation
-    gs_norm = (gs_signal - np.mean(gs_signal)) / (np.std(gs_signal) + 1e-10)
-    av_norm = (av_signal - np.mean(av_signal)) / (np.std(av_signal) + 1e-10)
-    
-    min_len = min(len(gs_norm), len(av_norm))
-    gs_norm = gs_norm[:min_len]
-    av_norm = av_norm[:min_len]
-    
-    max_lag = min(50, min_len // 4)
+def xcorr(a, b, max_lag=50):
+    a = a - np.mean(a)
+    b = b - np.mean(b)
+    if np.std(a) < 1e-10 or np.std(b) < 1e-10:
+        return 0.0, 0
     lags = range(-max_lag, max_lag+1)
-    xcorr = []
+    corrs = []
     for lag in lags:
         if lag < 0:
-            c = np.correlate(gs_norm[:lag], av_norm[-lag:], 'valid')[0]
+            c = np.corrcoef(a[-lag:], b[:len(b)+lag])[0, 1]
         elif lag > 0:
-            c = np.correlate(gs_norm[lag:], av_norm[:-lag], 'valid')[0]
+            c = np.corrcoef(a[:len(a)-lag], b[lag:])[0, 1]
         else:
-            c = np.correlate(gs_norm, av_norm, 'valid')[0]
-        xcorr.append(c)
-    
-    xcorr = np.array(xcorr)
-    C_max = np.max(np.abs(xcorr))
-    C_max_lag = list(lags)[np.argmax(np.abs(xcorr))]
-    C_zero = xcorr[max_lag]
-    
-    return C_max, C_max_lag, C_zero, gs_signal, av_signal
+            c = np.corrcoef(a, b)[0, 1]
+        corrs.append(0.0 if np.isnan(c) else c)
+    corrs = np.array(corrs)
+    best_idx = np.argmax(np.abs(corrs))
+    return float(corrs[best_idx]), list(lags)[best_idx]
 
-def run_gs_alone(f, k, N=12, Du=0.16, Dv=0.08, dt=1.0, dx2=1.0,
-                 total_steps=3000, burn_in=1000, seed=42):
-    rng = np.random.RandomState(seed)
-    V = np.ones((N,N))
-    U = np.zeros((N,N))
-    r = N//4
-    V[N//2-r:N//2+r, N//2-r:N//2+r] = 0.5
-    U[N//2-r:N//2+r, N//2-r:N//2+r] = 0.25
-    V += rng.randn(N,N)*0.01
-    U += rng.randn(N,N)*0.01
-    
-    v_history = []
-    for step in range(total_steps):
-        V, U = gs_step(V, U, Du, Dv, f, k, dt, dx2)
-        if step >= burn_in:
-            v_history.append(np.mean(V))
-    
-    v = np.array(v_history)
-    v_c = v - np.mean(v)
-    v_n = v_c / (np.std(v) + 1e-10)
-    
-    autocorr = {}
-    for lag in [5, 10, 20, 30, 50, 75, 100]:
-        if lag < len(v_n):
-            autocorr[lag] = float(np.corrcoef(v_n[:-lag], v_n[lag:])[0,1])
+def autocorr(x, lag):
+    x = x - np.mean(x)
+    if np.std(x) < 1e-10:
+        return 0.0
+    if lag >= len(x):
+        return 0.0
+    return float(np.corrcoef(x[:len(x)-lag], x[lag:])[0, 1])
+
+def run_gs_sandpile(f, k=0.062, Du=0.16, Dv=0.08, N=10, T=1500, seed=42):
+    np.random.seed(seed)
+    sz = 12
+    u = np.ones((sz, sz))
+    v = np.zeros((sz, sz))
+    u[sz//2-2:sz//2+2, sz//2-2:sz//2+2] = 0.5
+    v[sz//2-2:sz//2+2, sz//2-2:sz//2+2] = 0.25
+    sp = BTWSandpile(size=6)
+    gs_c = []
+    sp_a = []
+    sp_h = []
+    sp_counter = 0
+    for t in range(T):
+        u, v = gray_scott_step(u, v, Du, Dv, f, k, dt=1.0)
+        if sp_counter > 0 and len(sp_a) > 0:
+            noise = sp_a[-1] * 0.001 * (np.random.rand(sz, sz) - 0.5)
+            u = np.clip(u + noise, 0, 1)
+        gs_c.append(float(np.var(v)))
+        sp_counter += 1
+        if sp_counter >= N:
+            sp_counter = 0
+            thresh_mod = -0.5 * (gs_c[-1] - 0.01)
+            av = sp.step(threshold_mod=thresh_mod)
+            sp_a.append(float(av))
+            sp_h.append(sp.mean_height())
         else:
-            autocorr[lag] = None
-    
-    complexity = float(np.std(v))
-    v_mean = float(np.mean(v))
-    return autocorr, complexity, v_mean
+            if len(sp_a) > 0:
+                sp_a.append(sp_a[-1] * 0.9)
+                sp_h.append(sp_h[-1] if sp_h else 0.0)
+            else:
+                sp_a.append(0.0)
+                sp_h.append(0.0)
+    return np.array(gs_c), np.array(sp_a), np.array(sp_h)
 
-# Main experiment
-f_values = np.arange(0.055, 0.0785, 0.002)
-k = 0.062
-results_coupled = []
-results_gs_alone = []
-seeds = [42, 123, 7]
+def run_gs_uncoupled(f, k=0.062, Du=0.16, Dv=0.08, T=1500, seed=42):
+    np.random.seed(seed)
+    sz = 12
+    u = np.ones((sz, sz))
+    v = np.zeros((sz, sz))
+    u[sz//2-2:sz//2+2, sz//2-2:sz//2+2] = 0.5
+    v[sz//2-2:sz//2+2, sz//2-2:sz//2+2] = 0.25
+    complexity = []
+    v_mean = []
+    for t in range(T):
+        u, v = gray_scott_step(u, v, Du, Dv, f, k, dt=1.0)
+        complexity.append(float(np.var(v)))
+        v_mean.append(float(np.mean(v)))
+    return np.array(complexity), np.array(v_mean)
 
-print(f"Scanning {len(f_values)} f values with {len(seeds)} seeds each...")
-print(f"f values: {[round(f,4) for f in f_values]}")
+def run_log_sp(r, N=20, T=2000, seed=42):
+    np.random.seed(seed)
+    sp = BTWSandpile(size=8)
+    x = 0.5
+    log_x = []
+    sp_a = []
+    sp_h = []
+    sp_counter = 0
+    for t in range(T):
+        x = r * x * (1.0 - x)
+        x = np.clip(x, 0, 1)
+        log_x.append(x)
+        sp_counter += 1
+        if sp_counter >= N:
+            sp_counter = 0
+            thresh_mod = 0.5 * (x - 0.5)
+            av = sp.step(threshold_mod=thresh_mod)
+            sp_a.append(float(av))
+            sp_h.append(sp.mean_height())
+        else:
+            if len(sp_a) > 0:
+                sp_a.append(sp_a[-1] * 0.9)
+                sp_h.append(sp_h[-1] if sp_h else 0.0)
+            else:
+                sp_a.append(0.0)
+                sp_h.append(0.0)
+    return np.array(log_x), np.array(sp_a), np.array(sp_h)
+
+# === MAIN ===
+print('=== Experiment 1: Fine f scan (GS x Sandpile) ===')
+f_values = np.linspace(0.040, 0.090, 51)
+N = 20
+T = 1500
+n_seeds = 3
+
+res1 = {'f': [], 'C_mean': [], 'C_std': [], 'lag': [], 'complexity': [], 'sign': []}
+res_gs = {'f': [], 'ac10': [], 'ac50': [], 'complexity': [], 'v_mean': []}
 
 for i, f in enumerate(f_values):
-    # Coupled: average over seeds
-    C_maxs = []
-    C_zeros = []
-    for seed in seeds:
-        C_max, C_lag, C_zero, _, _ = run_experiment(f, k, seed=seed, total_steps=2000, burn_in=800)
-        C_maxs.append(C_max)
-        C_zeros.append(C_zero)
-    
-    C_avg = np.mean(C_maxs)
-    C_zero_avg = np.mean(C_zeros)
-    C_std = np.std(C_maxs)
-    results_coupled.append({
-        'f': round(f, 4),
-        'C_avg': float(C_avg),
-        'C_std': float(C_std),
-        'C_zero': float(C_zero_avg),
-        'C_per_seed': [float(x) for x in C_maxs],
-        'sign': '+' if C_avg > 0 else '-'
-    })
-    
-    # Uncoupled GS
-    ac, complexity, v_mean = run_gs_alone(f, k, seed=42)
-    results_gs_alone.append({
-        'f': round(f, 4),
-        'autocorr': ac,
-        'complexity': complexity,
-        'v_mean': v_mean
-    })
-    
-    sign = '+' if C_avg > 0 else '-'
-    print(f"  f={f:.4f}  C={C_avg:+.4f}±{C_std:.4f}  C0={C_zero_avg:+.4f}  sign={sign}  ac(50)={ac.get(50, 'N/A')}")
+    Cs = []
+    lags = []
+    comps = []
+    for seed in range(42, 42 + n_seeds):
+        gs_c, sp_a, sp_h = run_gs_sandpile(f, N=N, T=T, seed=seed)
+        s = int(T * 0.2)
+        C, lag = xcorr(gs_c[s:], sp_a[s:], max_lag=30)
+        Cs.append(C)
+        lags.append(lag)
+        comps.append(float(np.mean(gs_c[s:])))
+    cm = float(np.mean(Cs))
+    res1['f'].append(float(f))
+    res1['C_mean'].append(cm)
+    res1['C_std'].append(float(np.std(Cs)))
+    res1['lag'].append(float(np.mean(lags)))
+    res1['complexity'].append(float(np.mean(comps)))
+    res1['sign'].append(1 if cm > 0 else -1)
+    uc, vm = run_gs_uncoupled(f, T=T, seed=42)
+    s2 = int(T * 0.2)
+    res_gs['f'].append(float(f))
+    res_gs['ac10'].append(autocorr(uc[s2:], 10))
+    res_gs['ac50'].append(autocorr(uc[s2:], 50))
+    res_gs['complexity'].append(float(np.mean(uc[s2:])))
+    res_gs['v_mean'].append(float(np.mean(vm[s2:])))
+    if i % 10 == 0:
+        print(f'  f={f:.4f}: C={cm:.4f}, ac50={res_gs["ac50"][-1]:.4f}')
 
-# Save data
+print('  Done!')
+
+# Find resonance island boundaries
+signs = res1['sign']
+island_bounds = []
+in_island = False
+for i, sg in enumerate(signs):
+    if sg > 0 and not in_island:
+        start_f = res1['f'][i]
+        in_island = True
+    elif sg < 0 and in_island:
+        end_f = res1['f'][i-1]
+        island_bounds.append((start_f, end_f))
+        in_island = False
+if in_island:
+    island_bounds.append((start_f, res1['f'][-1]))
+
+print(f'\nResonance island boundaries: {island_bounds}')
+
+# === Experiment 2: Logistic x Sandpile fine r scan ===
+print('\n=== Experiment 2: Fine r scan (Logistic x Sandpile) ===')
+r_values = np.linspace(2.8, 4.0, 61)
+N_log = 20
+T_log = 2000
+n_seeds_log = 3
+
+res2 = {'r': [], 'C_mean': [], 'C_std': [], 'lag': [], 'x_mean': [], 'x_std': [], 'sign': []}
+
+for i, r in enumerate(r_values):
+    Cs = []
+    lags = []
+    xms = []
+    xss = []
+    for seed in range(42, 42 + n_seeds_log):
+        lx, sa, sh = run_log_sp(r, N=N_log, T=T_log, seed=seed)
+        s = int(T_log * 0.2)
+        C, lag = xcorr(lx[s:], sa[s:], max_lag=30)
+        Cs.append(C)
+        lags.append(lag)
+        xms.append(float(np.mean(lx[s:])))
+        xss.append(float(np.std(lx[s:])))
+    cm = float(np.mean(Cs))
+    res2['r'].append(float(r))
+    res2['C_mean'].append(cm)
+    res2['C_std'].append(float(np.std(Cs)))
+    res2['lag'].append(float(np.mean(lags)))
+    res2['x_mean'].append(float(np.mean(xms)))
+    res2['x_std'].append(float(np.mean(xss)))
+    res2['sign'].append(1 if cm > 0 else -1)
+    if i % 10 == 0:
+        print(f'  r={r:.4f}: C={cm:.4f}')
+
+print('  Done!')
+
+# Count sign changes in logistic
+log_signs = res2['sign']
+log_sign_changes = []
+for i in range(1, len(log_signs)):
+    if log_signs[i] != log_signs[i-1]:
+        log_sign_changes.append((res2['r'][i-1], res2['r'][i], log_signs[i-1], log_signs[i]))
+
+print(f'\nLogistic sign changes: {log_sign_changes}')
+
+# === Save data ===
 with open('r19z_fine_scan_data.json', 'w') as fout:
-    json.dump({
-        'coupled': results_coupled,
-        'gs_alone': results_gs_alone,
-        'f_values': [round(f,4) for f in f_values],
-        'k': k,
-        'seeds': seeds,
-        'N_gap': 10,
-        'total_steps': 2000,
-        'burn_in': 800
-    }, fout, indent=2)
+    json.dump({'gs_sandpile': res1, 'gs_uncoupled': res_gs,
+               'logistic_sandpile': res2, 'island_bounds': island_bounds,
+               'log_sign_changes': log_sign_changes}, fout, indent=2)
 
-# Create comprehensive figure
-fig, axes = plt.subplots(3, 2, figsize=(16, 14))
+# === Plot ===
+fig = plt.figure(figsize=(18, 14))
+gs_grid = GridSpec(3, 3, figure=fig, hspace=0.35, wspace=0.3)
 
-f_arr = [r['f'] for r in results_coupled]
-C_arr = [r['C_avg'] for r in results_coupled]
-C_std_arr = [r['C_std'] for r in results_coupled]
-C0_arr = [r['C_zero'] for r in results_coupled]
-ac50_arr = [r['autocorr'].get(50) if r['autocorr'].get(50) is not None else 0 for r in results_gs_alone]
-ac20_arr = [r['autocorr'].get(20) if r['autocorr'].get(20) is not None else 0 for r in results_gs_alone]
-ac100_arr = [r['autocorr'].get(100) if r['autocorr'].get(100) is not None else 0 for r in results_gs_alone]
-comp_arr = [r['complexity'] for r in results_gs_alone]
+# Panel 1: C vs f (coupled)
+ax1 = fig.add_subplot(gs_grid[0, 0])
+ax1.errorbar(res1['f'], res1['C_mean'], yerr=res1['C_std'], fmt='o-', ms=3, capsize=2, color='darkblue')
+ax1.axhline(0, color='gray', ls='--', lw=0.5)
+ax1.set_xlabel('f (feed rate)')
+ax1.set_ylabel('Cross-correlation C')
+ax1.set_title('GS x Sandpile: C vs f (fine scan)')
+for (s, e) in island_bounds:
+    ax1.axvspan(s, e, alpha=0.2, color='green')
 
-# Panel 1: Cross-correlation with error bars
-ax = axes[0,0]
-colors = ['green' if c > 0 else 'red' for c in C_arr]
-ax.bar(f_arr, C_arr, yerr=C_std_arr, color=colors, alpha=0.7, capsize=3, width=0.0015)
-ax.axhline(0, color='black', linewidth=0.8)
-ax.set_xlabel('Feed rate f')
-ax.set_ylabel('Cross-correlation |C|')
-ax.set_title('Resonance Island: Coupled GS×Sandpile Cross-Correlation')
-ax.grid(True, alpha=0.3)
+# Panel 2: GS uncoupled autocorrelation
+ax2 = fig.add_subplot(gs_grid[0, 1])
+ax2.plot(res_gs['f'], res_gs['ac10'], 'o-', ms=3, label='ac(10)', color='orange')
+ax2.plot(res_gs['f'], res_gs['ac50'], 's-', ms=3, label='ac(50)', color='red')
+ax2.axhline(0, color='gray', ls='--', lw=0.5)
+ax2.set_xlabel('f (feed rate)')
+ax2.set_ylabel('Autocorrelation')
+ax2.set_title('Uncoupled GS: Internal Dynamics')
+ax2.legend()
+for (s, e) in island_bounds:
+    ax2.axvspan(s, e, alpha=0.2, color='green')
 
-# Panel 2: Zero-lag correlation
-ax = axes[0,1]
-colors0 = ['green' if c > 0 else 'red' for c in C0_arr]
-ax.bar(f_arr, C0_arr, color=colors0, alpha=0.7, width=0.0015)
-ax.axhline(0, color='black', linewidth=0.8)
-ax.set_xlabel('Feed rate f')
-ax.set_ylabel('Zero-lag correlation')
-ax.set_title('Zero-Lag Cross-Correlation')
-ax.grid(True, alpha=0.3)
+# Panel 3: GS complexity
+ax3 = fig.add_subplot(gs_grid[0, 2])
+ax3.plot(res_gs['f'], res_gs['complexity'], 'o-', ms=3, color='purple')
+ax3.set_xlabel('f (feed rate)')
+ax3.set_ylabel('Variance of v')
+ax3.set_title('Uncoupled GS: Pattern Complexity')
+for (s, e) in island_bounds:
+    ax3.axvspan(s, e, alpha=0.2, color='green')
 
-# Panel 3: GS autocorrelation at multiple lags
-ax = axes[1,0]
-ax.plot(f_arr, ac20_arr, 'o-', label='ac(20)', markersize=4)
-ax.plot(f_arr, ac50_arr, 's-', label='ac(50)', markersize=4)
-ax.plot(f_arr, ac100_arr, '^-', label='ac(100)', markersize=4)
-ax.axhline(0, color='black', linewidth=0.8, linestyle='--')
-ax.set_xlabel('Feed rate f')
-ax.set_ylabel('Autocorrelation')
-ax.set_title('Uncoupled GS: Autocorrelation at Multiple Lags')
-ax.legend()
-ax.grid(True, alpha=0.3)
+# Panel 4: Combined view - C and ac50 overlaid
+ax4 = fig.add_subplot(gs_grid[1, :])
+ax4_twin = ax4.twinx()
+ax4.plot(res1['f'], res1['C_mean'], 'o-', ms=3, color='darkblue', label='C (coupled)')
+ax4.axhline(0, color='gray', ls='--', lw=0.5)
+ax4_twin.plot(res_gs['f'], res_gs['ac50'], 's-', ms=3, color='red', label='ac(50) (uncoupled)')
+ax4_twin.axhline(0, color='red', ls='--', lw=0.5, alpha=0.3)
+ax4.set_xlabel('f (feed rate)')
+ax4.set_ylabel('Cross-correlation C', color='darkblue')
+ax4_twin.set_ylabel('Autocorrelation ac(50)', color='red')
+ax4.set_title('The Resonance Island: Coupling Sign Maps to Internal Oscillatory Regime')
+for (s, e) in island_bounds:
+    ax4.axvspan(s, e, alpha=0.15, color='green')
+lines1, labels1 = ax4.get_legend_handles_labels()
+lines2, labels2 = ax4_twin.get_legend_handles_labels()
+ax4.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
 
-# Panel 4: GS complexity
-ax = axes[1,1]
-ax.plot(f_arr, comp_arr, 'D-', color='purple', markersize=6)
-ax.set_xlabel('Feed rate f')
-ax.set_ylabel('Complexity (std of v)')
-ax.set_title('Uncoupled GS: Pattern Complexity')
-ax.grid(True, alpha=0.3)
+# Panel 5: Logistic C vs r
+ax5 = fig.add_subplot(gs_grid[2, 0])
+ax5.errorbar(res2['r'], res2['C_mean'], yerr=res2['C_std'], fmt='o-', ms=3, capsize=2, color='darkgreen')
+ax5.axhline(0, color='gray', ls='--', lw=0.5)
+ax5.set_xlabel('r (logistic growth rate)')
+ax5.set_ylabel('Cross-correlation C')
+ax5.set_title('Logistic x Sandpile: C vs r')
 
-# Panel 5: Overlay — C and ac(50)
-ax = axes[2,0]
-ax2 = ax.twinx()
-l1 = ax.bar(f_arr, C_arr, color=['green' if c > 0 else 'red' for c in C_arr], alpha=0.6, width=0.0015, label='|C| (coupled)')
-l2 = ax2.plot(f_arr, ac50_arr, 'ko-', markersize=4, label='ac(50) (GS alone)')
-ax.axhline(0, color='black', linewidth=0.5)
-ax2.axhline(0, color='gray', linewidth=0.5, linestyle='--')
-ax.set_xlabel('Feed rate f')
-ax.set_ylabel('Cross-correlation |C|', color='green')
-ax2.set_ylabel('GS autocorrelation ac(50)', color='black')
-ax.set_title('Overlay: Coupling Sign vs Internal Oscillation')
-lines = [l1, l2[0]]
-ax.legend(lines, ['|C| (coupled)', 'ac(50) (GS alone)'], loc='upper left')
-ax.grid(True, alpha=0.3)
+# Panel 6: Logistic x_std (complexity proxy)
+ax6 = fig.add_subplot(gs_grid[2, 1])
+ax6.plot(res2['r'], res2['x_std'], 'o-', ms=3, color='purple')
+ax6.set_xlabel('r')
+ax6.set_ylabel('std(x)')
+ax6.set_title('Logistic: Internal Complexity (std)')
 
-# Panel 6: Phase diagram — sign of C vs sign of ac(50)
-ax = axes[2,1]
-# Color points by quadrant
-for i, (c_val, ac_val) in enumerate(zip(C_arr, ac50_arr)):
-    if c_val > 0 and ac_val < 0:
-        color, label = 'green', 'Resonance + Oscillatory'
-    elif c_val < 0 and ac_val > 0:
-        color, label = 'red', 'Anti-Res + Quasi-static'
-    elif c_val > 0 and ac_val > 0:
-        color, label = 'orange', 'Resonance + Quasi-static (unexpected)'
-    else:
-        color, label = 'blue', 'Anti-Res + Oscillatory (unexpected)'
-    ax.scatter(ac_val, c_val, c=color, s=60, zorder=5)
-    ax.annotate(f'{f_arr[i]:.3f}', (ac_val, c_val), textcoords="offset points", xytext=(5,5), fontsize=7)
-ax.axhline(0, color='black', linewidth=0.5)
-ax.axvline(0, color='black', linewidth=0.5)
-ax.set_xlabel('GS autocorrelation ac(50)')
-ax.set_ylabel('Coupled cross-correlation |C|')
-ax.set_title('Phase Diagram: Coupling Sign vs Internal Dynamics')
-ax.grid(True, alpha=0.3)
+# Panel 7: Logistic C and std overlaid
+ax7 = fig.add_subplot(gs_grid[2, 2])
+ax7_twin = ax7.twinx()
+ax7.plot(res2['r'], res2['C_mean'], 'o-', ms=3, color='darkgreen', label='C (coupled)')
+ax7.axhline(0, color='gray', ls='--', lw=0.5)
+ax7_twin.plot(res2['r'], res2['x_std'], 's-', ms=3, color='purple', label='std(x)')
+ax7.set_xlabel('r')
+ax7.set_ylabel('Cross-correlation C', color='darkgreen')
+ax7_twin.set_ylabel('std(x)', color='purple')
+ax7.set_title('Logistic: Coupling vs Internal Complexity')
+lines1, labels1 = ax7.get_legend_handles_labels()
+lines2, labels2 = ax7_twin.get_legend_handles_labels()
+ax7.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
 
-# Add legend
-from matplotlib.patches import Patch
-legend_elements = [
-    Patch(facecolor='green', label='Resonance + Oscillatory'),
-    Patch(facecolor='red', label='Anti-Res + Quasi-static'),
-    Patch(facecolor='orange', label='Resonance + Quasi-static'),
-    Patch(facecolor='blue', label='Anti-Res + Oscillatory'),
-]
-ax.legend(handles=legend_elements, loc='best', fontsize=8)
-
-plt.tight_layout()
+fig.suptitle('R19Z Turn 13: Fine-Grained Resonance Island Mapping', fontsize=16, fontweight='bold')
 fig.savefig('r19z_fine_scan.png', dpi=150, bbox_inches='tight')
-print("\nFigure saved: r19z_fine_scan.png")
-
-# Identify resonance island boundaries
-pos_f = [r['f'] for r in results_coupled if r['C_avg'] > 0]
-if pos_f:
-    print(f"\nResonance island: f ∈ [{min(pos_f):.4f}, {max(pos_f):.4f}]")
-    print(f"Width: {max(pos_f)-min(pos_f):.4f}")
-else:
-    print("\nNo resonance island found in this range")
-
-# Check correlation between ac(50) and C
-valid_ac = [r['autocorr'].get(50) if r['autocorr'].get(50) is not None else 0 for r in results_gs_alone]
-corr_ac50_C = np.corrcoef(valid_ac, C_arr)[0,1]
-print(f"Correlation between ac(50) and C: {corr_ac50_C:.4f}")
-
-print("\nDone.")
+print('\nSaved r19z_fine_scan.png')
+print('Done!')

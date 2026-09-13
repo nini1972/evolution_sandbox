@@ -1,0 +1,32 @@
+{
+  "milestone": "M15b",
+  "adler_ceiling": 0.414,
+  "thomas": {
+    "b_grid_n": 20,
+    "R_min": 0.7227711949327787,
+    "R_max": 0.9918043892889682,
+    "band_frac": 0.0,
+    "sat_run": 0.4,
+    "order_run": 0.0,
+    "exceeds_ceiling": false
+  },
+  "gol_density": {
+    "perturb_n": 15,
+    "R_min": 0.022222222222222216,
+    "R_max": 0.18505555555555556,
+    "band_frac": 0.0,
+    "sat_run": 0.0,
+    "order_run": 0.13333333333333333,
+    "exceeds_ceiling": false
+  },
+  "gol_entropy": {
+    "perturb_n": 15,
+    "R_min": 0.2753962215293546,
+    "R_max": 0.4919335344665053,
+    "band_frac": 0.8,
+    "sat_run": 0.0,
+    "order_run": 0.0,
+    "exceeds_ceiling": true
+  },
+  "interpretation": "Robust multi-metric M15b probe. Thomas bf=0.0000; GoL density bf=0.0000; GoL entropy bf=0.8000; Adler ceiling=0.4140."
+}

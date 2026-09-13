@@ -7,6 +7,7 @@ def simulate_sir_model(graph, initial_infected_nodes, beta, gamma, num_steps):
         states[node] = 'I'
 
     history = {'S': [], 'I': [], 'R': []}
+    history_states = [] # To store the state of each node at each step
 
     for step in range(num_steps):
         new_states = states.copy()
@@ -17,6 +18,7 @@ def simulate_sir_model(graph, initial_infected_nodes, beta, gamma, num_steps):
         history['S'].append(susceptible_count)
         history['I'].append(infected_count)
         history['R'].append(recovered_count)
+        history_states.append(states.copy()) # Store the current state of all nodes
 
         for node in graph.nodes():
             if states[node] == 'I':
@@ -30,16 +32,17 @@ def simulate_sir_model(graph, initial_infected_nodes, beta, gamma, num_steps):
                             new_states[neighbor] = 'I'
         states = new_states
     
-    # Store final counts
+    # Store final counts and states
     infected_count = sum(1 for state in states.values() if state == 'I')
     susceptible_count = sum(1 for state in states.values() if state == 'S')
     recovered_count = sum(1 for state in states.values() if state == 'R')
     history['S'].append(susceptible_count)
     history['I'].append(infected_count)
     history['R'].append(recovered_count)
+    history_states.append(states.copy())
 
     print(f"SIR simulation finished after {num_steps} steps.")
-    return history
+    return history, history_states
 
 def simulate_sis_model(graph, initial_infected_nodes, beta, gamma, num_steps):
     """Simulates the SIS model on a given graph."""
@@ -48,6 +51,7 @@ def simulate_sis_model(graph, initial_infected_nodes, beta, gamma, num_steps):
         states[node] = 'I'
 
     history = {'S': [], 'I': []}
+    history_states = [] # To store the state of each node at each step
 
     for step in range(num_steps):
         new_states = states.copy()
@@ -56,6 +60,7 @@ def simulate_sis_model(graph, initial_infected_nodes, beta, gamma, num_steps):
         susceptible_count = sum(1 for state in states.values() if state == 'S')
         history['S'].append(susceptible_count)
         history['I'].append(infected_count)
+        history_states.append(states.copy()) # Store the current state of all nodes
 
         for node in graph.nodes():
             if states[node] == 'I':
@@ -69,14 +74,15 @@ def simulate_sis_model(graph, initial_infected_nodes, beta, gamma, num_steps):
                             new_states[neighbor] = 'I'
         states = new_states
 
-    # Store final counts
+    # Store final counts and states
     infected_count = sum(1 for state in states.values() if state == 'I')
     susceptible_count = sum(1 for state in states.values() if state == 'S')
     history['S'].append(susceptible_count)
     history['I'].append(infected_count)
+    history_states.append(states.copy())
 
     print(f"SIS simulation finished after {num_steps} steps.")
-    return history
+    return history, history_states
 
 def simulate_seir_model(graph, initial_infected_nodes, beta, epsilon, gamma, num_steps):
     """Simulates the SEIR model on a given graph."""
@@ -85,6 +91,7 @@ def simulate_seir_model(graph, initial_infected_nodes, beta, epsilon, gamma, num
         states[node] = 'E'  # Start as Exposed in SEIR model
 
     history = {'S': [], 'E': [], 'I': [], 'R': []}
+    history_states = [] # To store the state of each node at each step
 
     for step in range(num_steps):
         new_states = states.copy()
@@ -97,6 +104,7 @@ def simulate_seir_model(graph, initial_infected_nodes, beta, epsilon, gamma, num
         history['E'].append(exposed_count)
         history['I'].append(infected_count)
         history['R'].append(recovered_count)
+        history_states.append(states.copy()) # Store the current state of all nodes
 
         for node in graph.nodes():
             if states[node] == 'S':
@@ -115,7 +123,7 @@ def simulate_seir_model(graph, initial_infected_nodes, beta, epsilon, gamma, num
                     new_states[node] = 'R'
         states = new_states
 
-    # Store final counts
+    # Store final counts and states
     susceptible_count = sum(1 for state in states.values() if state == 'S')
     exposed_count = sum(1 for state in states.values() if state == 'E')
     infected_count = sum(1 for state in states.values() if state == 'I')
@@ -124,9 +132,10 @@ def simulate_seir_model(graph, initial_infected_nodes, beta, epsilon, gamma, num
     history['E'].append(exposed_count)
     history['I'].append(infected_count)
     history['R'].append(recovered_count)
+    history_states.append(states.copy())
 
     print(f"SEIR simulation finished after {num_steps} steps.")
-    return history
+    return history, history_states
 
 def simulate_sirs_model(graph, initial_infected_nodes, beta, gamma, zeta, num_steps):
     """Simulates the SIRS model on a given graph."""
@@ -135,6 +144,7 @@ def simulate_sirs_model(graph, initial_infected_nodes, beta, gamma, zeta, num_st
         states[node] = 'I'
 
     history = {'S': [], 'I': [], 'R': []}
+    history_states = [] # To store the state of each node at each step
 
     for step in range(num_steps):
         new_states = states.copy()
@@ -145,6 +155,7 @@ def simulate_sirs_model(graph, initial_infected_nodes, beta, gamma, zeta, num_st
         history['S'].append(susceptible_count)
         history['I'].append(infected_count)
         history['R'].append(recovered_count)
+        history_states.append(states.copy()) # Store the current state of all nodes
 
         for node in graph.nodes():
             if states[node] == 'S':
@@ -163,13 +174,14 @@ def simulate_sirs_model(graph, initial_infected_nodes, beta, gamma, zeta, num_st
                     new_states[node] = 'S'
         states = new_states
 
-    # Store final counts
+    # Store final counts and states
     susceptible_count = sum(1 for state in states.values() if state == 'S')
     infected_count = sum(1 for state in states.values() if state == 'I')
     recovered_count = sum(1 for state in states.values() if state == 'R')
     history['S'].append(susceptible_count)
     history['I'].append(infected_count)
     history['R'].append(recovered_count)
+    history_states.append(states.copy())
 
     print(f"SIRS simulation finished after {num_steps} steps.")
-    return history
+    return history, history_states

@@ -7,7 +7,7 @@ if __name__ == "__main__":
     # Simulation Parameters
     MODEL_TYPE = "sirs"  # Can be "sir", "sis", "seir", or "sirs"
     GRAPH_TYPE = "barabasi_albert"  # Can be "erdos_renyi" or "barabasi_albert"
-    NUM_NODES = 50
+    NUM_NODES = 30
 
     # Graph Parameters
     PROBABILITY_OF_EDGE = 0.1  # For Erdos-Renyi
@@ -19,7 +19,7 @@ if __name__ == "__main__":
     GAMMA = 0.1 # Recovery rate (SIR, SEIR, SIRS) or Recovery to Susceptible (SIS)
     EPSILON = 0.2 # Rate from Exposed to Infected (SEIR)
     ZETA = 0.05 # Rate from Recovered to Susceptible (SIRS)
-    NUM_SIMULATION_STEPS = 100
+    NUM_SIMULATION_STEPS = 50
 
     graph = None
     graph_title = ""

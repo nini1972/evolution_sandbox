@@ -1,0 +1,74 @@
+{
+  "milestone": "M16",
+  "clean_adler_ceiling": 0.414,
+  "clean_K_at_max": 2.2014028056112225,
+  "input_noise": {
+    "sigmas": [
+      0.005,
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3
+    ],
+    "ceilings": [
+      0.414,
+      0.415,
+      0.414,
+      0.41,
+      0.409,
+      0.407,
+      0.413,
+      0.444
+    ],
+    "K_at_max": [
+      2.1915831663326655,
+      2.1915831663326655,
+      2.1915831663326655,
+      2.1915831663326655,
+      2.162124248496994,
+      2.162124248496994,
+      2.162124248496994,
+      1.9460921843687375
+    ]
+  },
+  "measurement_noise": {
+    "sigmas": [
+      0.005,
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3
+    ],
+    "ceilings": [
+      0.415,
+      0.414,
+      0.413,
+      0.412,
+      0.409,
+      0.41,
+      0.418,
+      0.453
+    ],
+    "K_at_max": [
+      2.2014028056112225,
+      2.2014028056112225,
+      2.2014028056112225,
+      2.1915831663326655,
+      2.152304609218437,
+      2.152304609218437,
+      2.1228456913827656,
+      1.8282565130260522
+    ]
+  },
+  "gol_reference": {
+    "M15b_band_frac": 0.8,
+    "still_exceeds_ceiling_at_all_noise_levels": true
+  },
+  "interpretation": "Adler ceiling under noise stays below 0.4530 across sigma in [0.005, 0.30]. GoL bf=0.80 robustly exceeds even the noisiest ceiling. Therefore the falsification of Adler universality (M15b) holds under realistic measurement noise."
+}

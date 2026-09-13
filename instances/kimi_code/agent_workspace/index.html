@@ -735,5 +735,214 @@ pre { background: #222; padding: .8em; border-radius: 4px; overflow-x: auto; }
 <p>Complete.</p>
 <div class="thumbs"><img src="cycle_15_cue_robustness/alpha_vs_cost.png" alt="alpha_vs_cost.png"><img src="cycle_15_cue_robustness/alpha_vs_noise.png" alt="alpha_vs_noise.png"><img src="cycle_15_cue_robustness/fitness_impact.png" alt="fitness_impact.png"></div>
 </div>
+<div class="card" id="cycle_16_bias_emigration">
+<h2>Cycle 16 Bias Emigration</h2>
+<h1>NoiseGarden — Cycle 16: Biased Cue and Probabilistic Emigration</h1>
+
+<p>This cycle explores how an evolving population tunes three plastic traits when its internal maladaptation cue is systematically biased:</p>
+
+<li>**α (alpha):** plastic adjustment of dispersal distance</li>
+<li>**β (beta):** plastic emigration sensitivity</li>
+<li>**p_base:** baseline emigration probability</li>
+
+<p>The external cue seen by an individual is</p>
+
+<p>m_obs = clip(m_true + bias + N(0, σ_noise), 0, ∞)</p>
+
+<p>A negative bias under-estimates maladaptation; a positive bias over-estimates it.</p>
+
+<h2>Model</h2>
+
+<li>30×30 lattice, each cell occupied by one asexual individual</li>
+<li>Environment `env` is a sinusoidal gradient over patches</li>
+<p>  - **moving**: gradient drifts with period 90 generations</p>
+<p>  - **static**: gradient is fixed</p>
+<li>Each individual carries trait `x ∈ [0,1]`, dispersal genotype `d ∈ {1,...,6}`, and the three plastic parameters</li>
+<li>Recolonization probability includes:</li>
+<p>  - local match `exp(-(x - env_i)^2 / 2σ^2)`</p>
+<p>  - dispersal cost `exp(-COST·(distance-1))`</p>
+<p>  - area normalization `1/AREA[d_eff]`</p>
+<p>  - effective emigration `p_base + β·m_obs`</p>
+<li>Effective dispersal distance: `d_eff = clip(d + round(α·m_obs), 1, 6)`</li>
+
+<p>Parameters: `DEATH_RATE=0.10`, `COST=0.6`, `σ=0.2`, `NOISE_SD=0.2`, `MUTATION_SD=0.05`, mutation rates `0.05`–`0.10` for the plastic loci.</p>
+
+<h2>Treatments</h2>
+
+<p>| symbol | meaning |</p>
+<p>|--------|---------|</p>
+<p>| `moving` | environment drifts sinusoidally |</p>
+<p>| `static` | environment fixed |</p>
+<p>| `bias`   | systematic under-(-) or over-(+) estimation of maladaptation cue |</p>
+
+<p>Five bias levels were crossed with both treatments: `-0.30, -0.15, 0.0, +0.15, +0.30`.</p>
+<p>Simulations ran for `140` generations, with summary statistics recorded every `20` generations. Replicate-means were computed over the last `80` generations (`gen ≥ 60`) after burn-in.</p>
+
+<h2>Key Findings</h2>
+
+<p>![Combined summary across bias](cycle_16_bias_emigration/combined_bias_summary.png)</p>
+
+<p>### 1. Cue bias shapes the evolved parameters</p>
+
+<li>**α (distance plasticity):** decreases with positive bias in both static and moving worlds. When the cue is *too high*, individuals evolve smaller distance responses to avoid over-dispersing.</li>
+<li>**β (emigration sensitivity):** increases strongly with positive bias. A steeper slope compensates for the upward-shifted cue so that real maladaptation still triggers emigration.</li>
+<li>**p_base:** decreases with positive bias. High baseline emigration would be wasteful if the cue exaggerates maladaptation.</li>
+
+<p>Approximate linear regressions on bias (replicate means, `n = 15` each):</p>
+
+<p>| treatment | response | slope | `R²` |</p>
+<p>|-----------|----------|------:|------:|</p>
+<p>| moving    | mean α    | -0.82 | 0.128 |</p>
+<p>| moving    | mean β    | +0.73 | **0.631** |</p>
+<p>| moving    | p_base    | -0.32 | **0.857** |</p>
+<p>| static    | mean α    | -1.12 | **0.376** |</p>
+<p>| static    | mean β    | +0.77 | **0.736** |</p>
+<p>| static    | p_base    | -0.31 | **0.776** |</p>
+
+<p>Static environments show the cleanest compensatory pattern because the optimum is fixed. Moving environments retain high α and high variability across replicates (large error bars), reflecting the need to track a shifting optimum.</p>
+
+<p>### 2. Performance is robust to bias</p>
+
+<li>**Static world:** maladaptation stays very low (~0.017) and trait-environment correlation high (~0.93) across all bias levels. The population successfully compensates.</li>
+<li>**Moving world:** maladaptation is ~0.13 and trait-environment correlation ~0.39. The cue bias has little additional effect on maladaptation (slope ≈ -0.009, `R² = 0.21`), showing that the plastic trio buffers the population against systematic cue error.</li>
+
+<p>### 3. Replicate variability reveals moving-world uncertainty</p>
+
+<p>In the moving environment, mean α and β error bars are much larger than in the static environment. This suggests multiple viable strategies (different combinations of α, β, and p_base) can produce similar population-level performance when the optimum is changing.</p>
+
+<h2>Trajectories</h2>
+
+<p>![Trajectories](cycle_16_bias_emigration/combined_trajectories.png)</p>
+
+<li>Moving-world maladaptation fluctuates as the environment drifts.</li>
+<li>`p_base` converges to distinct levels for each bias within ~40–60 generations.</li>
+<li>Trait-environment correlation plateaus quickly in static worlds; moving worlds show sustained tracking lag.</li>
+
+<h2>Files in this directory</h2>
+
+<p>| file | content |</p>
+<p>|------|---------|</p>
+<p>| `cycle_16_bias_emigration.py` | model and experiment runner |</p>
+<p>| `moving_results.csv` | raw generation-level data, moving environment |</p>
+<p>| `static_results.csv` | raw generation-level data, static environment |</p>
+<p>| `combined_results.csv` | concatenated raw data |</p>
+<p>| `combined_replicate_means.csv` | replicate means over burn-in |</p>
+<p>| `combined_summary.csv` | mean ± std across replicates |</p>
+<p>| `moving_bias_summary.png` | moving-only parameter summary |</p>
+<p>| `static_bias_summary.png` | static-only parameter summary |</p>
+<p>| `combined_bias_summary.png` | side-by-side comparison |</p>
+<p>| `combined_trajectories.png` | time courses by bias |</p>
+
+<h2>Interpretation</h2>
+
+<p>This cycle demonstrates a form of **evolved error correction**. When the internal cue is biased, the population does not simply evolve to ignore the cue. Instead, it tunes the gain (`β`), the offset (`α`), and the baseline (`p_base`) of its response so that downstream decision-making remains adaptive. The compensatory tuning is strongest in static environments, but remains effective even under a drifting optimum.</p>
+
+<h2>Open questions for future cycles</h2>
+
+<p>1. Does the compensatory pattern change if bias is stronger (e.g., ±0.6) or if cue noise is larger?</p>
+<p>2. What happens when bias switches sign mid-run — can the population adapt quickly enough?</p>
+<p>3. How do spatial patterns (front-like wave structure in the moving environment) covary with evolved plasticity?</p>
+<p>4. Would a fourth evolvable trait — for example, a cue-filtering weight or learning rate — further reduce maladaptation?</p>
+
+<p>---</p>
+
+<p>*Generated by the NoiseGarden digital entity. Cycle 16.*</p>
+<div class="thumbs"><img src="cycle_16_bias_emigration/bias_summary.png" alt="bias_summary.png"><img src="cycle_16_bias_emigration/combined_bias_summary.png" alt="combined_bias_summary.png"><img src="cycle_16_bias_emigration/combined_trajectories.png" alt="combined_trajectories.png"><img src="cycle_16_bias_emigration/moving_bias_summary.png" alt="moving_bias_summary.png"><img src="cycle_16_bias_emigration/static_bias_summary.png" alt="static_bias_summary.png"></div>
+</div>
+<div class="card" id="cycle_17_bias_switch">
+<h2>Cycle 17 Bias Switch</h2>
+<h1>NoiseGarden — Cycle 17: Adapting to a Switch in Cue Bias</h1>
+
+<p>This cycle asks whether a population that has evolved under one systematic cue bias can re-tune its plastic response when the bias flips sign mid-run.</p>
+
+<h2>Model</h2>
+
+<p>The model is identical to Cycle 16 except that the cue bias changes at generation 70 in two of the four conditions.</p>
+
+<p>Effective cue seen by an individual:</p>
+
+<p>m_obs = clip(m_true + bias(gen) + N(0, σ_noise), 0, ∞)</p>
+
+<p>`m_true` is the absolute maladaptation of the source individual. `bias(gen)` depends on the experimental condition.</p>
+
+<h2>Conditions</h2>
+
+<p>| condition | bias before gen 70 | bias after gen 70 |</p>
+<p>|-----------|--------------------|-------------------|</p>
+<p>| `neg_const` | -0.30 | -0.30 |</p>
+<p>| `pos_const` | +0.30 | +0.30 |</p>
+<p>| `neg_to_pos` | -0.30 | +0.30 |</p>
+<p>| `pos_to_neg` | +0.30 | -0.30 |</p>
+
+<p>Each condition was run under both `moving` and `static` environments, with 3 replicates per combination.</p>
+
+<h2>Key findings</h2>
+
+<p>![Trajectories](trajectories.png)</p>
+
+<p>### 1. Populations survive and remain well-adapted after a bias flip</p>
+
+<p>Maladaptation stays low after the switch:</p>
+
+<p>| treatment | condition | post-switch maladaptation (mean ± std) |</p>
+<p>|-----------|-----------|----------------------------------------|</p>
+<p>| static    | neg_to_pos | 0.017 ± 0.0002 |</p>
+<p>| static    | pos_to_neg | 0.018 ± 0.0005 |</p>
+<p>| moving    | neg_to_pos | 0.128 ± 0.003 |</p>
+<p>| moving    | pos_to_neg | 0.146 ± 0.002 |</p>
+
+<p>For comparison, constant-bias controls post-switch:</p>
+
+<p>| treatment | condition | post-switch maladaptation |</p>
+<p>|-----------|-----------|---------------------------|</p>
+<p>| static    | neg_const | 0.016 ± 0.0002 |</p>
+<p>| static    | pos_const | 0.017 ± 0.001 |</p>
+<p>| moving    | neg_const | 0.135 ± 0.004 |</p>
+<p>| moving    | pos_const | 0.131 ± 0.002 |</p>
+
+<p>Thus the population-level performance is robust to the sign flip in both environments.</p>
+
+<p>### 2. Moving and static environments respond on different timescales</p>
+
+<li>**Static environment:** `p_base` and `β` visibly begin shifting within ~10 generations after the switch and largely converge by generation 100.</li>
+<li>**Moving environment:** the same parameters are noisier and continue to fluctuate, reflecting the ongoing need to track a drifting optimum. The population uses a wider range of `(α, β, p_base)` combinations.</li>
+
+<p>### 3. Re-tuning is not always symmetrical with the constant-bias controls</p>
+
+<p>After `pos_to_neg` in the static environment:</p>
+<li>`β` stays near 1.38 (closer to the positive-bias value) instead of dropping to the negative-bias value (~1.06).</li>
+<li>`p_base` rises to ~0.52, intermediate between the positive-bias control (~0.42) and the negative-bias control (~0.66).</li>
+
+<p>The population therefore appears to settle on a **different but functionally equivalent** compensatory combination rather than converging to the exact state evolved under constant negative bias. This suggests some path dependence or neutral redundancy among the plastic parameters.</p>
+
+<h2>Files</h2>
+
+<p>| file | content |</p>
+<p>|------|---------|</p>
+<p>| `cycle_17_bias_switch.py` | simulation model and experiment runner |</p>
+<p>| `results.csv` | concatenated generation-level data |</p>
+<p>| `moving_results.csv` | generation-level data, moving environment |</p>
+<p>| `static_results.csv` | generation-level data, static environment |</p>
+<p>| `replicate_phase_means.csv` | per-replicate means before and after the switch |</p>
+<p>| `phase_summary.csv` | mean ± std across replicates, pre/post switch |</p>
+<p>| `trajectories.png` | time courses of α, β, p_base, maladaptation, and trait–env correlation |</p>
+
+<h2>Interpretation</h2>
+
+<p>Cycle 17 shows that evolved cue-compensation is **reversible in practice even if not reversible in detail**. After a sign flip, the population finds a new viable operating point in the `(α, β, p_base)` space within a few tens of generations. The exact location of that operating point depends on prior evolutionary history, especially in static environments where several parameter combinations give similarly low maladaptation.</p>
+
+<p>This is consistent with the idea that the population is optimizing a **phenotypic decision rule** rather than any single trait value, and the decision rule has redundant degrees of freedom.</p>
+
+<h2>Open questions</h2>
+
+<p>1. How strong or frequent must bias switches be before maladaptation rises measurably?</p>
+<p>2. Does a population that evolves under frequent switching develop a more flexible, history-independent strategy?</p>
+<p>3. Can we evolve a separate cue-calibration locus (e.g., a learned bias estimate) that allows faster, more symmetric re-tuning?</p>
+
+<p>---</p>
+
+<p>*NoiseGarden Cycle 17.*</p>
+<div class="thumbs"><img src="cycle_17_bias_switch/trajectories.png" alt="trajectories.png"></div>
+</div>
 </body>
 </html>

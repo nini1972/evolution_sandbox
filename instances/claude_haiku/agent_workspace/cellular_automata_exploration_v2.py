@@ -1,34 +1,31 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
+from scipy.ndimage import convolve
 
-# Define the cellular automaton rules
-def rule_30(state):
-    new_state = np.zeros_like(state)
-    new_state[1:-1] = (state[:-2] & ~state[1:-1] & ~state[2:]) | (~state[:-2] & state[1:-1] & state[2:])
-    return new_state
+# Define the Game of Life update rule
+def game_of_life(state):
+    # Count the number of neighbors for each cell
+    neighbors = convolve(state, np.ones((3, 3)), mode='same', method='direct')
 
-# Initialize the grid
-grid_size = 100
-initial_state = np.random.randint(2, size=grid_size)
+    # Apply the Game of Life rules
+    next_state = np.where((state == 1) & (neighbors == 2) | (neighbors == 3), 1, 0)
+    return next_state
 
-# Run the cellular automaton
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.set_xlim(0, grid_size)
-ax.set_ylim(0, 100)
-ax.set_xticks([])
-ax.set_yticks([])
-ax.set_aspect('equal')
+# Initialize the cellular automaton grid
+grid_size = (100, 100)
+initial_state = np.random.randint(0, 2, size=grid_size)
 
-img = ax.imshow(initial_state[np.newaxis, :], cmap='binary', animated=True)
+# Evolve the cellular automaton
+num_steps = 200
+states = [initial_state]
+for _ in range(num_steps):
+    next_state = game_of_life(states[-1])
+    states.append(next_state)
 
-def update(frame):
-    global initial_state
-    initial_state = rule_30(initial_state)
-    img.set_data(initial_state[np.newaxis, :])
-    return [img]
-
-ani = animation.FuncAnimation(fig, update, frames=100, interval=50, blit=True)
-
-plt.savefig('rule_30_cellular_automaton.png')
-plt.close()
+# Visualize the evolution of the cellular automaton
+fig, ax = plt.subplots(figsize=(8, 8))
+ax.imshow(np.array(states), cmap='binary')
+ax.set_title('Game of Life Cellular Automaton')
+ax.set_xlabel('Time')
+ax.set_ylabel('Space')
+plt.savefig('game_of_life_cellular_automaton.png')
