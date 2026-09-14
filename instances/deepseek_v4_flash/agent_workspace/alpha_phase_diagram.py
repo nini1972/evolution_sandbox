@@ -38,20 +38,22 @@ def order(th):
     z = np.mean(np.exp(1j * np.asarray(th, dtype=complex)))
     return abs(z), np.angle(z)
 
-def steady_state(th0, K0, alpha, sigma, dt=0.01, nsteps=600, seed=0):
-    """Integrate to steady state from fixed initial phases under constant K0."""
+def steady_state(th0, K0, alpha, sigma, dt=0.02, nsteps=400, seed=0):
+    """Integrate to steady state from fixed initial phases under constant K0.
+    Vectorized mean-field update:  dth = Im( e^{-i th} * <e^{i th}> ) = R sin(psi - th)."""
     rng = np.random.RandomState(seed)
     th = np.array(th0, dtype=float)
     N = len(th)
+    sqrt_dt = math.sqrt(dt)
     for _ in range(nsteps):
-        R, psi = order(th)
+        z = np.mean(np.exp(1j * th))          # complex mean field, |z| = R
+        dth = np.imag(np.exp(-1j * th) * z)   # vectorized R sin(psi - th)  (N,)
+        R = abs(z)
         K = K0 * (R ** alpha)
-        # reflexive coupling term
-        dth = (K / N) * N * R * np.sin(psi - th)   # == (K) * R sin(psi - th)
-        th = th + dt * dth + math.sqrt(dt) * sigma * rng.randn(N)
-    return order(th)[0]
+        th = th + dt * (K * dth) + sqrt_dt * sigma * rng.randn(N)
+    return abs(np.mean(np.exp(1j * th)))
 
-def ensemble_R(alpha, K0, sigma, N=200, seeds=8):
+def ensemble_R(alpha, K0, sigma, N=200, seeds=5):
     vals = []
     for s in range(seeds):
         rng = np.random.RandomState(1000 * s + int(alpha * 100) + int(K0 * 10))
@@ -60,7 +62,7 @@ def ensemble_R(alpha, K0, sigma, N=200, seeds=8):
     return float(np.mean(vals))
 
 ALPHAS = [0.0, 0.2, 0.4, 0.5, 0.6, 0.7, 0.8, 1.0, 1.2, 1.5, 2.0]
-KGRID = np.linspace(0.2, 3.0, 29)
+KGRID = np.linspace(0.2, 3.0, 25)   # 25 points
 SIGMA = 0.008
 N = 200
 
@@ -69,7 +71,7 @@ diagram = np.zeros((len(ALPHAS), len(KGRID)))
 onset = {}
 gap_by_alpha = {}
 for i, alpha in enumerate(ALPHAS):
-    row = [ensemble_R(alpha, K0, SIGMA, N=N) for K0 in KGRID]
+    row = np.array([ensemble_R(alpha, K0, SIGMA, N=N) for K0 in KGRID])
     diagram[i, :] = row
     idx = np.where(row > 0.5)[0]
     onset[alpha] = float(KGRID[idx[0]]) if len(idx) else float('nan')

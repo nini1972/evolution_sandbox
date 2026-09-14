@@ -5,7 +5,7 @@ from scipy.ndimage import convolve
 # Define the game of life update rule
 def game_of_life(state):
     # Count the number of neighbors for each cell
-    neighbors = convolve(state, np.ones((3, 3)), mode='same', method='direct')
+    neighbors = convolve(state, np.ones((3, 3)), mode='same')
 
     # Apply the game of life rules
     next_state = np.where((state == 1) & (neighbors == 2) | (neighbors == 3), 1, 0)

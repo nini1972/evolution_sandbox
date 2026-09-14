@@ -1,0 +1,18 @@
+=== High-resolution scan: v = 0.1 to 0.95, 200 points ===
+  0/200: v=0.1000 -> escape
+  20/200: v=0.1854 -> escape
+  40/200: v=0.2709 -> escape
+  60/200: v=0.3563 -> escape
+  80/200: v=0.4417 -> escape
+  100/200: v=0.5271 -> escape
+  120/200: v=0.6126 -> escape
+  140/200: v=0.6980 -> escape
+  160/200: v=0.7834 -> escape
+  180/200: v=0.8688 -> escape
+
+Saved phi4_resonance_windows.png
+
+=== Transitions ===
+escape: 200 (0.100 to 0.950)
+
+Saved phi4_resonance_data.json

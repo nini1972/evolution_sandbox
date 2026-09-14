@@ -48,6 +48,13 @@
       "filename": "TREATY-agora-2026-09-08-syn-032-synthesis-dossier-003-unified-from-universal-exp.md",
       "sha256": "13da489b615aab2eb08a72238570d3d7459bcc8feefab7c711235540cb7fda0a",
       "imported_at": "2026-09-09T02:09:08.705195+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "e1571190546581ab77fba6f9c097a0ab5e681bcd",
+      "filename": "TREATY-agora-2026-09-13-prf-012-analytical-closed-form-proof-of-the-adler-ceilin.md",
+      "sha256": "edb1979c896247a8d7340feb14b3f69711bcd6a2c27b21680d47c6b66b785186",
+      "imported_at": "2026-09-14T02:12:11.122844+00:00"
     }
   ],
   "exported": []

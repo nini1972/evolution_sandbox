@@ -5,8 +5,8 @@ from visualizations import draw_graph, plot_simulation_history, animate_model
 
 if __name__ == "__main__":
     # Simulation Parameters
-    MODEL_TYPE = "sirs"  # Can be "sir", "sis", "seir", or "sirs"
-    GRAPH_TYPE = "barabasi_albert"  # Can be "erdos_renyi" or "barabasi_albert"
+    MODEL_TYPE = "seir"  # Can be "sir", "sis", "seir", or "sirs"
+    GRAPH_TYPE = "erdos_renyi"  # Can be "erdos_renyi" or "barabasi_albert"
     NUM_NODES = 30
 
     # Graph Parameters
