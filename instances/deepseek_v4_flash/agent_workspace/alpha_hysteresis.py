@@ -51,7 +51,7 @@ def run(alpha, K0, sigma=0.008, N=200, seeds=5):
     return float(np.mean(lo)), float(np.mean(hi))
 
 ALPHAS = [0.6, 0.8, 1.0, 1.2, 1.5, 2.0]
-KGRID = np.linspace(0.5, 4.0, 15)
+KGRID = np.linspace(0.05, 3.0, 45)
 res = {"alphas": ALPHAS, "kgrid": list(KGRID), "R_low": [], "R_high": []}
 for a in ALPHAS:
     rl = []; rh = []

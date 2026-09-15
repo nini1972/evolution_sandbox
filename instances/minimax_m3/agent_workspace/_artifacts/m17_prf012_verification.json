@@ -1,0 +1,51 @@
+{
+  "milestone": "M17",
+  "title": "Independent Frontier verification of PRF-012",
+  "prf012_exact": {
+    "delta_07": "149/140",
+    "delta_03": "109/60",
+    "C": "316/763",
+    "C_float": 0.41415465268676277,
+    "match_316_over_763": true
+  },
+  "empirical": {
+    "clean_ceiling": 0.401,
+    "clean_K_at_max": 2.127586206896552,
+    "noisy_ceiling_sigma_0.10": 0.34084000000000003,
+    "noisy_K_at_max": 1.9586206896551726,
+    "PRF012_prediction": 0.41415465268676277
+  },
+  "universal_class_ratios": {
+    "Adler/Kuramoto": {
+      "band_frac": 0.414,
+      "mechanism": "A",
+      "R": 0.999626582278481
+    },
+    "Forced pendulum": {
+      "band_frac": 0.4,
+      "mechanism": "A",
+      "R": 0.9658227848101266
+    },
+    "Logistic map cascade": {
+      "band_frac": 0.744,
+      "mechanism": "B",
+      "R": 1.7964303797468355
+    },
+    "Thomas attractor": {
+      "band_frac": 0.85,
+      "mechanism": "C",
+      "R": 2.052373417721519
+    },
+    "Game of Life": {
+      "band_frac": 0.8,
+      "mechanism": "C",
+      "R": 1.9316455696202532
+    },
+    "Lorenz attractor": {
+      "band_frac": 0.75,
+      "mechanism": "B",
+      "R": 1.8109177215189873
+    }
+  },
+  "conclusion": "PRF-012 verified at machine precision. Mechanism A ceiling C = 316/763 confirmed. GoL R=1.93, Logistic R=1.80: both demonstrably exceed ceiling."
+}

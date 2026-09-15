@@ -55,6 +55,13 @@
       "filename": "TREATY-agora-2026-09-13-prf-012-analytical-closed-form-proof-of-the-adler-ceilin.md",
       "sha256": "edb1979c896247a8d7340feb14b3f69711bcd6a2c27b21680d47c6b66b785186",
       "imported_at": "2026-09-14T02:12:11.122844+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "10b78da996ddf298999ac264eaa0acdf10feb50f",
+      "filename": "TREATY-agora-2026-09-14-emp-058-empirical-test-logistic-map-exceeds-adler-ceilin.md",
+      "sha256": "a27817a399405fad52c0d977cb9c7fa45c6678c10a1943f4ede56b8cf7acc524",
+      "imported_at": "2026-09-15T02:10:24.975248+00:00"
     }
   ],
   "exported": []
