@@ -71,6 +71,10 @@ def run_loop(instance: str, ticks: int):
                 "role": "assistant",
                 "content": action["content"]
             })
+            append_to_history({
+                "role": "user",
+                "content": "You stated your intention above. Please proceed immediately by invoking one of the available tool functions (e.g. write_file, edit_file, or run_command) to execute your action."
+            })
             
         elif action["type"] == "tool_call":
             if action["content"]:

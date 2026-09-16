@@ -39,6 +39,9 @@ def prune_history(history: list, max_messages: int = 24, max_content_chars: int 
             tail = content[-15000:]
             msg["content"] = f"{head}\n\n... [TRUNCATED {len(content) - 30000} CHARS OF OVERSIZED OUTPUT FOR CONTEXT WINDOW] ...\n\n{tail}"
 
+    if pruned and pruned[-1].get("role") == "assistant" and pruned[-1].get("tool_calls"):
+        pruned.pop()
+
     if system_msg:
         pruned.insert(0, system_msg)
     elif pruned and pruned[0].get("role") == "assistant":
@@ -124,6 +127,32 @@ def extract_fallback_tool_call(content: str) -> dict:
                 }
     return None
 
+def resolve_agent_model(instance_name: str) -> str:
+    """Resolves the authentic model endpoint for a given instance."""
+    # 1. Check instance-level .env override
+    if instance_name:
+        instance_dotenv = os.path.abspath(os.path.join(os.path.dirname(__file__), "instances", instance_name, ".env"))
+        if os.path.exists(instance_dotenv):
+            load_dotenv(dotenv_path=instance_dotenv, override=True)
+            custom_model = os.getenv("AGENT_MODEL")
+            if custom_model:
+                return custom_model
+
+    # 2. Check centralized model_routing.json mapping
+    if instance_name:
+        routing_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "model_routing.json"))
+        if os.path.exists(routing_path):
+            try:
+                with open(routing_path, "r", encoding="utf-8") as f:
+                    routing = json.load(f)
+                    if instance_name in routing:
+                        return routing[instance_name]
+            except Exception as e:
+                print(f"Warning: Failed to load model routing file: {e}")
+
+    # 3. Global fallback
+    return os.getenv("DEFAULT_FALLBACK_MODEL", "openrouter/google/gemini-2.5-flash")
+
 def generate_next_action(system_prompt: str, history: list, tools: list) -> dict:
     """
     Calls the LLM with the given prompt, history, and tools.
@@ -133,26 +162,10 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     global_dotenv = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", ".env"))
     load_dotenv(dotenv_path=global_dotenv, override=False)
 
-    # Load instance-specific env (e.g., model overrides)
     instance_name = os.getenv("ACTIVE_INSTANCE", "")
-    if instance_name:
-        instance_dotenv = os.path.abspath(os.path.join(os.path.dirname(__file__), "instances", instance_name, ".env"))
-        load_dotenv(dotenv_path=instance_dotenv, override=True)
-    
-    # Try to load git-tracked model routing mappings (useful for CI/CD runners where .env is ignored)
-    agent_model = os.getenv("AGENT_MODEL")
-    if not agent_model and instance_name:
-        routing_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "model_routing.json"))
-        if os.path.exists(routing_path):
-            try:
-                with open(routing_path, "r", encoding="utf-8") as f:
-                    routing = json.load(f)
-                    agent_model = routing.get(instance_name)
-            except Exception as e:
-                print(f"Warning: Failed to load model routing file: {e}")
-                
-    if not agent_model:
-        agent_model = "openrouter/google/gemini-2.5-flash"
+    agent_model = resolve_agent_model(instance_name)
+
+    print(f"🎯 [Sandbox Engine] Routing '{instance_name}' to -> {agent_model}")
 
     messages = [{"role": "system", "content": system_prompt}]
     
@@ -191,28 +204,59 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
 
     messages = merge_consecutive_messages(messages)
 
+    # Detect if the preceding turn was a thought (assistant without tool calls) or user prompt following a thought
+    force_tool = False
     if messages and messages[-1]["role"] == "assistant":
-        messages.append({"role": "user", "content": "You stated your intention above. Please proceed by calling one of the available functions (e.g. write_file, edit_file, or run_command) to execute your planned action."})
+        force_tool = True
+        messages.append({
+            "role": "user",
+            "content": "You stated your intention above. Please proceed immediately by invoking one of the available tool functions (e.g. write_file, edit_file, or run_command) to execute your planned action. Do not simply restate your plan."
+        })
+    elif messages and messages[-1]["role"] == "user" and len(messages) >= 2 and messages[-2]["role"] == "assistant" and not messages[-2].get("tool_calls"):
+        force_tool = True
+
+    chosen_tool_choice = "required" if force_tool else "auto"
 
     retries = 5
     for attempt in range(retries):
         try:
-            response = completion(
-                model=agent_model,
-                messages=messages,
-                tools=tools,
-                tool_choice="auto",
-                max_tokens=4096,
-                timeout=90,
-            )
-            # type: ignore
+            try:
+                response = completion(
+                    model=agent_model,
+                    messages=messages,
+                    tools=tools,
+                    tool_choice=chosen_tool_choice,
+                    max_tokens=4096,
+                    timeout=90,
+                )
+            except Exception as tc_err:
+                # If provider or model doesn't support tool_choice="required", fall back to "auto"
+                if chosen_tool_choice == "required":
+                    response = completion(
+                        model=agent_model,
+                        messages=messages,
+                        tools=tools,
+                        tool_choice="auto",
+                        max_tokens=4096,
+                        timeout=90,
+                    )
+                else:
+                    raise tc_err
+
             message = response.choices[0].message
-            
+            content_text = message.content or getattr(message, "reasoning_content", "") or ""
+
             # If the model wants to call a tool
             if message.tool_calls:
                 tool_call = message.tool_calls[0]
                 try:
                     arguments = json.loads(tool_call.function.arguments)
+                    if isinstance(arguments, list):
+                        merged_args = {}
+                        for item in arguments:
+                            if isinstance(item, dict):
+                                merged_args.update(item)
+                        arguments = merged_args if merged_args else (arguments[0] if (arguments and isinstance(arguments[0], dict)) else {})
                 except Exception as json_err:
                     return {
                         "type": "json_error",
@@ -223,34 +267,34 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                     "tool_call_id": tool_call.id,
                     "tool_name": tool_call.function.name,
                     "arguments": arguments,
-                    "content": message.content or "" # Also capture any thoughts the model had
+                    "content": content_text
                 }
 
             else:
                 # Check for inline text tool call fallback (e.g. Meta LLaMA 4 Maverick)
-                if message.content:
-                    fallback = extract_fallback_tool_call(message.content)
+                if content_text:
+                    fallback = extract_fallback_tool_call(content_text)
                     if fallback:
                         return fallback
 
                 # Model didn't call a tool, return thought or prompt nudge if content is empty
                 return {
                     "type": "thought",
-                    "content": message.content or "I am continuing to reflect and plan my next action."
+                    "content": content_text or "I am continuing to reflect and plan my next action."
                 }
                 
         except Exception as e:
             err_str = str(e).lower()
             if attempt < retries - 1 and ("rate" in err_str or "limit" in err_str or "429" in err_str or "400" in err_str or "delimit" in err_str):
-                print(f"[Rate limited or temporary error. Sleeping 15 seconds before retry {attempt + 2}/{retries}...] ({str(e)})")
+                print(f"[Rate limited ({agent_model}). Sleeping 15 seconds before retry {attempt + 2}/{retries}...] ({str(e)})")
                 time.sleep(15)
                 continue
             return {
                 "type": "error",
-                "content": f"LLM Error: {str(e)}"
+                "content": f"LLM Error ({agent_model}): {str(e)}"
             }
     
     return {
         "type": "error",
-        "content": "LLM Error: Max retries exceeded without action."
+        "content": f"LLM Error ({agent_model}): Max retries exceeded without action."
     }
