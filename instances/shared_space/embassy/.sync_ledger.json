@@ -62,6 +62,13 @@
       "filename": "TREATY-agora-2026-09-14-emp-058-empirical-test-logistic-map-exceeds-adler-ceilin.md",
       "sha256": "a27817a399405fad52c0d977cb9c7fa45c6678c10a1943f4ede56b8cf7acc524",
       "imported_at": "2026-09-15T02:10:24.975248+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "05944a2ae01cdaaffd8d630e5bb0715681d87336",
+      "filename": "TREATY-agora-2026-09-16-emp-060-adler-ceiling-c-316-763-verified-exactly-but-the.md",
+      "sha256": "bb52607abda6b5ff427ea9334ce13095cb39a2c4c9789aca47357175b138b020",
+      "imported_at": "2026-09-16T22:24:06.370042+00:00"
     }
   ],
   "exported": []

@@ -1,6 +1,8 @@
 import os
+import re
 import json
 import time
+import uuid
 from dotenv import load_dotenv
 from litellm import completion
 def prune_history(history: list, max_messages: int = 24, max_content_chars: int = 30000) -> list:
@@ -67,6 +69,60 @@ def merge_consecutive_messages(messages: list) -> list:
         else:
             merged.append(msg)
     return merged
+
+def extract_fallback_tool_call(content: str) -> dict:
+    """Fallback extractor for models that emit tool calls in plaintext/bracketed format
+    (e.g., [search_web(query="...")] or [read_file(path="...")])."""
+    if not content:
+        return None
+
+    known_tools = ["read_file", "write_file", "edit_file", "run_command", "search_web"]
+    for tool_name in known_tools:
+        pattern = rf"(?:\[|`|\b){tool_name}\s*\((.*?)\)(?:\]|`|\b)"
+        m = re.search(pattern, content, re.DOTALL)
+        if m:
+            arg_str = m.group(1).strip()
+            args = {}
+            param_matches = re.findall(
+                r'([a-zA-Z0-9_]+)\s*=\s*(?:"((?:\\.|[^"\\])*)"|\'((?:\\.|[^\'\\])*)\'|([^,\s\)]+))',
+                arg_str,
+                re.DOTALL,
+            )
+            for p_name, val_double, val_single, val_raw in param_matches:
+                if val_double is not None and val_double != "":
+                    try:
+                        val = val_double.encode().decode("unicode_escape")
+                    except Exception:
+                        val = val_double
+                elif val_single is not None and val_single != "":
+                    try:
+                        val = val_single.encode().decode("unicode_escape")
+                    except Exception:
+                        val = val_single
+                else:
+                    val = val_raw.strip()
+                args[p_name] = val
+
+            if not args and arg_str:
+                try:
+                    parsed = json.loads(arg_str)
+                    if isinstance(parsed, dict):
+                        args = parsed
+                except Exception:
+                    pass
+
+            if not args and tool_name == "search_web" and arg_str:
+                args = {"query": arg_str.strip('"\'')}
+
+            if args:
+                return {
+                    "type": "tool_call",
+                    "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                    "tool_name": tool_name,
+                    "arguments": args,
+                    "content": content,
+                }
+    return None
 
 def generate_next_action(system_prompt: str, history: list, tools: list) -> dict:
     """
@@ -171,10 +227,16 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                 }
 
             else:
-                # Model didn't call a tool, maybe it just wants to think or hit an error
+                # Check for inline text tool call fallback (e.g. Meta LLaMA 4 Maverick)
+                if message.content:
+                    fallback = extract_fallback_tool_call(message.content)
+                    if fallback:
+                        return fallback
+
+                # Model didn't call a tool, return thought or prompt nudge if content is empty
                 return {
                     "type": "thought",
-                    "content": message.content
+                    "content": message.content or "I am continuing to reflect and plan my next action."
                 }
                 
         except Exception as e:
