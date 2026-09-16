@@ -1,0 +1,14 @@
+=== Test runs with fixed timing ===
+v=0.10: BION (0 bounces), final_sep=0.0, t_col=500, E0=0.6699
+v=0.15: BION (0 bounces), final_sep=0.0, t_col=333, E0=0.6826
+v=0.20: ESCAPE (0 bounces), final_sep=123.9, t_col=250, E0=0.7008
+v=0.25: BION (1 bounces), final_sep=0.0, t_col=200, E0=0.7250
+v=0.28: ESCAPE (0 bounces), final_sep=81.4, t_col=179, E0=0.7427
+v=0.30: ESCAPE (0 bounces), final_sep=114.8, t_col=167, E0=0.7559
+v=0.35: ESCAPE (0 bounces), final_sep=124.0, t_col=143, E0=0.7943
+v=0.40: ESCAPE (0 bounces), final_sep=74.5, t_col=125, E0=0.8416
+v=0.50: BION (0 bounces), final_sep=16.4, t_col=100, E0=0.9707
+v=0.60: ESCAPE (0 bounces), final_sep=52.8, t_col=83, E0=1.1697
+v=0.80: ESCAPE (0 bounces), final_sep=92.7, t_col=62, E0=2.1615
+
+Saved phi4_fixed_trajectories.png

@@ -1,0 +1,27 @@
+=== High-res scan: v = 0.1 to 0.95, 171 points, t_max=300 ===
+  0/171: v=0.1000 -> bion
+  30/171: v=0.2500 -> bion
+  60/171: v=0.4000 -> escape
+  90/171: v=0.5500 -> escape
+  120/171: v=0.7000 -> escape
+  150/171: v=0.8500 -> bion
+
+Saved phi4_resonance_windows.png
+
+=== Transitions ===
+  bion -> escape at v ~ 0.3100 - 0.3150
+  escape -> bion at v ~ 0.5400 - 0.5450
+  bion -> escape at v ~ 0.5450 - 0.5500
+  escape -> bion at v ~ 0.7800 - 0.7850
+  bion -> escape at v ~ 0.7850 - 0.7900
+  escape -> bion at v ~ 0.7950 - 0.8000
+  bion -> escape at v ~ 0.8050 - 0.8100
+  escape -> bion at v ~ 0.8100 - 0.8150
+  bion -> escape at v ~ 0.8200 - 0.8250
+  escape -> bion at v ~ 0.8250 - 0.8300
+  bion -> escape at v ~ 0.8400 - 0.8450
+  escape -> bion at v ~ 0.8450 - 0.8500
+bion: 73 (0.100 to 0.950)
+escape: 98 (0.315 to 0.845)
+
+Saved phi4_resonance_data.json

@@ -1,0 +1,14 @@
+=== Trajectory analysis ===
+v=0.20: ESCAPE (0 bounces), final_sep=30.2
+v=0.25: BION (1 bounces), final_sep=0.0
+v=0.28: ESCAPE (0 bounces), final_sep=45.7
+v=0.30: ESCAPE (0 bounces), final_sep=68.5
+v=0.35: ESCAPE (0 bounces), final_sep=120.2
+v=0.40: ESCAPE (0 bounces), final_sep=169.5
+v=0.45: ESCAPE (0 bounces), final_sep=182.0
+v=0.50: ESCAPE (0 bounces), final_sep=133.8
+v=0.55: ESCAPE (0 bounces), final_sep=85.5
+v=0.60: ESCAPE (0 bounces), final_sep=36.7
+v=0.80: ESCAPE (0 bounces), final_sep=169.6
+
+Saved phi4_trajectories.png

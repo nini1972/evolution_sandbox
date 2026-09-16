@@ -1,0 +1,120 @@
+=== Zoom 1: v=0.45 to 0.60, 151 points, t_max=600 ===
+  0: v=0.4500 -> escape sep=164.5
+  30: v=0.4800 -> bion sep=14.5
+  60: v=0.5100 -> escape sep=140.2
+  90: v=0.5400 -> bion sep=56.6
+  120: v=0.5700 -> escape sep=141.0
+  150: v=0.6000 -> bion sep=2.7
+
+=== Zoom 2: v=0.75 to 0.85, 101 points, t_max=600 ===
+  0: v=0.7500 -> escape sep=180.9
+  20: v=0.7700 -> escape sep=87.9
+  40: v=0.7900 -> escape sep=138.7
+  60: v=0.8100 -> escape sep=174.6
+  80: v=0.8300 -> escape sep=190.2
+  100: v=0.8500 -> escape sep=12.1
+
+Saved phi4_zoom_windows.png
+
+=== Zoom1 transitions ===
+  escape -> bion at v ~ 0.4500
+  bion -> escape at v ~ 0.4520
+  escape -> bion at v ~ 0.4530
+  bion -> escape at v ~ 0.4540
+  escape -> bion at v ~ 0.4550
+  bion -> escape at v ~ 0.4570
+  escape -> bion at v ~ 0.4590
+  bion -> escape at v ~ 0.4600
+  escape -> bion at v ~ 0.4610
+  bion -> escape at v ~ 0.4630
+  escape -> bion at v ~ 0.4640
+  bion -> escape at v ~ 0.4690
+  escape -> bion at v ~ 0.4710
+  bion -> escape at v ~ 0.4750
+  escape -> bion at v ~ 0.4760
+  bion -> escape at v ~ 0.4770
+  escape -> bion at v ~ 0.4780
+  bion -> escape at v ~ 0.4810
+  escape -> bion at v ~ 0.4830
+  bion -> escape at v ~ 0.4880
+  escape -> bion at v ~ 0.4890
+  bion -> escape at v ~ 0.4900
+  escape -> bion at v ~ 0.4910
+  bion -> escape at v ~ 0.4970
+  escape -> bion at v ~ 0.4980
+  bion -> escape at v ~ 0.5020
+  escape -> bion at v ~ 0.5050
+  bion -> escape at v ~ 0.5090
+  escape -> bion at v ~ 0.5100
+  bion -> escape at v ~ 0.5170
+  escape -> bion at v ~ 0.5180
+  bion -> escape at v ~ 0.5240
+  escape -> bion at v ~ 0.5260
+  bion -> escape at v ~ 0.5270
+  escape -> bion at v ~ 0.5280
+  bion -> escape at v ~ 0.5290
+  escape -> bion at v ~ 0.5300
+  bion -> escape at v ~ 0.5330
+  escape -> bion at v ~ 0.5360
+  bion -> escape at v ~ 0.5370
+  escape -> bion at v ~ 0.5380
+  bion -> escape at v ~ 0.5410
+  escape -> bion at v ~ 0.5420
+  bion -> escape at v ~ 0.5430
+  escape -> bion at v ~ 0.5440
+  bion -> escape at v ~ 0.5450
+  escape -> bion at v ~ 0.5490
+  bion -> escape at v ~ 0.5500
+  escape -> bion at v ~ 0.5520
+  bion -> escape at v ~ 0.5550
+  escape -> bion at v ~ 0.5580
+  bion -> escape at v ~ 0.5610
+  escape -> bion at v ~ 0.5620
+  bion -> escape at v ~ 0.5630
+  escape -> bion at v ~ 0.5670
+  bion -> escape at v ~ 0.5690
+  escape -> bion at v ~ 0.5700
+  bion -> escape at v ~ 0.5710
+  escape -> bion at v ~ 0.5720
+  bion -> escape at v ~ 0.5730
+  escape -> bion at v ~ 0.5770
+  bion -> escape at v ~ 0.5790
+  escape -> bion at v ~ 0.5820
+  bion -> escape at v ~ 0.5830
+  escape -> bion at v ~ 0.5880
+  bion -> escape at v ~ 0.5890
+  escape -> bion at v ~ 0.5900
+  bion -> escape at v ~ 0.5910
+  escape -> bion at v ~ 0.5920
+  bion -> escape at v ~ 0.5930
+  escape -> bion at v ~ 0.5970
+  bion -> escape at v ~ 0.5980
+  escape -> bion at v ~ 0.5990
+
+=== Zoom2 transitions ===
+  escape -> bion at v ~ 0.7750
+  bion -> escape at v ~ 0.7760
+  escape -> bion at v ~ 0.7780
+  bion -> escape at v ~ 0.7790
+  escape -> bion at v ~ 0.7950
+  bion -> escape at v ~ 0.7960
+  escape -> bion at v ~ 0.7980
+  bion -> escape at v ~ 0.7990
+  escape -> bion at v ~ 0.8040
+  bion -> escape at v ~ 0.8050
+  escape -> bion at v ~ 0.8100
+  bion -> escape at v ~ 0.8110
+  escape -> bion at v ~ 0.8140
+  bion -> escape at v ~ 0.8160
+  escape -> bion at v ~ 0.8180
+  bion -> escape at v ~ 0.8190
+  escape -> bion at v ~ 0.8240
+  bion -> escape at v ~ 0.8260
+  escape -> bion at v ~ 0.8340
+  bion -> escape at v ~ 0.8360
+  escape -> bion at v ~ 0.8370
+  bion -> escape at v ~ 0.8380
+  escape -> bion at v ~ 0.8420
+  bion -> escape at v ~ 0.8430
+  escape -> bion at v ~ 0.8460
+  bion -> escape at v ~ 0.8480

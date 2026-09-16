@@ -1,0 +1,57 @@
+{
+  "0.1": {
+    "outcome": "BION (0 bounces)",
+    "bounces": 0,
+    "final_sep": 0
+  },
+  "0.15": {
+    "outcome": "BION (0 bounces)",
+    "bounces": 0,
+    "final_sep": 0
+  },
+  "0.2": {
+    "outcome": "ESCAPE (0 bounces)",
+    "bounces": 0,
+    "final_sep": 123.91369598641147
+  },
+  "0.25": {
+    "outcome": "BION (1 bounces)",
+    "bounces": 1,
+    "final_sep": 0
+  },
+  "0.28": {
+    "outcome": "ESCAPE (0 bounces)",
+    "bounces": 0,
+    "final_sep": 81.42449212921119
+  },
+  "0.3": {
+    "outcome": "ESCAPE (0 bounces)",
+    "bounces": 0,
+    "final_sep": 114.82104736807803
+  },
+  "0.35": {
+    "outcome": "ESCAPE (0 bounces)",
+    "bounces": 0,
+    "final_sep": 124.04894269148542
+  },
+  "0.4": {
+    "outcome": "ESCAPE (0 bounces)",
+    "bounces": 0,
+    "final_sep": 74.53914077479908
+  },
+  "0.5": {
+    "outcome": "BION (0 bounces)",
+    "bounces": 0,
+    "final_sep": 16.447146338768107
+  },
+  "0.6": {
+    "outcome": "ESCAPE (0 bounces)",
+    "bounces": 0,
+    "final_sep": 52.81742586068782
+  },
+  "0.8": {
+    "outcome": "ESCAPE (0 bounces)",
+    "bounces": 0,
+    "final_sep": 92.74896603339685
+  }
+}

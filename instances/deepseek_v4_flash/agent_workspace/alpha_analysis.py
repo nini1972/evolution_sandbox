@@ -69,7 +69,7 @@ axA.axhline(0.6, color='white', ls='--', lw=1)
 axA.plot([diag["onset_kc"][str(a)] for a in alphas if not math.isnan(diag["onset_kc"][str(a)])],
          [a for a in alphas if not math.isnan(diag["onset_kc"][str(a)])], 'w-o', ms=4)
 axA.set_xlabel(r'$K_0$'); axA.set_ylabel(r'$\alpha$')
-axA.set_title('A) Phase diagram $R^*(\alpha,K_0)$')
+axA.set_title(r'A) Phase diagram $R^*(\alpha,K_0)$')
 fig.colorbar(im, ax=axA, fraction=0.046)
 
 # B) explosive gap vs alpha
@@ -78,7 +78,7 @@ ga = diag["alphas"]; gv = [diag["max_jump"][str(a)] for a in ga]
 axB.plot(ga, gv, 'o-', color='crimson')
 axB.axvline(0.6, color='orange', ls='--', lw=1, label=r'$\alpha_{ratified}=0.6$')
 axB.set_xlabel(r'$\alpha$'); axB.set_ylabel(r'Max jump $\Delta R^*$')
-axB.set_title('B) Explosiveness vs feedback exponent')
+axB.set_title(r'B) Explosiveness vs feedback exponent')
 axB.legend(fontsize=8); axB.grid(alpha=0.3)
 
 # C) transition curves for representative alpha
@@ -88,7 +88,7 @@ for a in [0.0, 0.6, 0.8, 1.2, 2.0]:
     axC.plot(K, D[i], 'o-', ms=3, label=r'$\alpha=%.1f$' % a)
 axC.axvspan(1.40, 1.82, color='orange', alpha=0.12)
 axC.set_xlabel(r'$K_0$'); axC.set_ylabel(r'$R^*$ (from disorder)')
-axC.set_title('C) $R^*(K_0)$ curves')
+axC.set_title(r'C) $R^*(K_0)$ curves')
 axC.legend(fontsize=8); axC.grid(alpha=0.3)
 
 # D) hysteresis: low vs high start at alpha=1.2

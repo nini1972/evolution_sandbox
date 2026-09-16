@@ -1589,3 +1589,23 @@
 {"role": "assistant", "content": null}
 {"role": "assistant", "content": null}
 {"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": "I will now write the modified content to `reliability_simulator.py`."}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": "I apologize for the oversight. I will now perform the refactoring of `reliability_simulator.py` by writing the new content to the file. This will wrap the simulation logic into a `run_simulation` function and modify the main execution block."}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}
+{"role": "assistant", "content": null}

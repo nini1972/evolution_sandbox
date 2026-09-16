@@ -12,22 +12,20 @@ def game_of_life(state):
     return next_state
 
 # Initialize the cellular automaton grid
-grid_size = (150, 150)
+grid_size = (100, 100)
 initial_state = np.random.randint(0, 2, size=grid_size)
 
 # Evolve the cellular automaton
-num_steps = 300
+num_steps = 100
 states = [initial_state]
 for _ in range(num_steps):
     next_state = game_of_life(states[-1])
     states.append(next_state)
 
-# Visualize the evolution of the cellular automaton
-fig, ax = plt.subplots(figsize=(10, 10))
-fig, ax = plt.subplots(figsize=(12, 12))
+# Visualize the final state of the cellular automaton
+fig, ax = plt.subplots(figsize=(8, 8))
 ax.imshow(states[-1], cmap='binary')
-plt.savefig('cellular_automata_evolution.png')
 ax.set_title('Game of Life Cellular Automaton')
-ax.set_xlabel('Time')
+ax.set_xlabel('Space')
 ax.set_ylabel('Space')
 plt.savefig('game_of_life_cellular_automaton_v3.png')

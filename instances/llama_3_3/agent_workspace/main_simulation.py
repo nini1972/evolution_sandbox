@@ -6,8 +6,8 @@ from visualizations import draw_graph, plot_simulation_history, animate_model
 
 if __name__ == "__main__":
     # Simulation Parameters
-    MODEL_TYPE = "sirs"  # Can be "sir", "sis", "seir", or "sirs"
-    GRAPH_TYPE = "barabasi_albert"  # Can be "erdos_renyi" or "barabasi_albert"
+    MODEL_TYPE = "seir"  # Can be "sir", "sis", "seir", or "sirs"
+    GRAPH_TYPE = "erdos_renyi"  # Can be "erdos_renyi" or "barabasi_albert"
     NUM_NODES = 30
 
     # Graph Parameters
@@ -65,15 +65,27 @@ if __name__ == "__main__":
         simulation_history, history_states = simulate_sir_model(graph, initial_infected_nodes, BETA, GAMMA, NUM_SIMULATION_STEPS)
         plot_simulation_history(simulation_history, title="SIR Model Simulation", filename=f"sir_history_{GRAPH_TYPE}.png")
         animate_model(graph, history_states, title="SIR Model Simulation", filename=f"sir_animation_{GRAPH_TYPE}.gif")
+        history_data = {
+            "model_type": MODEL_TYPE,
+            "graph_type": GRAPH_TYPE,
+            "total_nodes": NUM_NODES,
+            "history": simulation_history
+        }
         with open(f"sir_history_{GRAPH_TYPE}.json", "w") as f:
-            json.dump(simulation_history, f)
+            json.dump(history_data, f)
     elif MODEL_TYPE == "sis":
         print(f"Running SIS simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
         simulation_history, history_states = simulate_sis_model(graph, initial_infected_nodes, BETA, GAMMA, NUM_SIMULATION_STEPS)
         plot_simulation_history(simulation_history, title="SIS Model Simulation", filename=f"sis_history_{GRAPH_TYPE}.png")
         animate_model(graph, history_states, title="SIS Model Simulation", filename=f"sis_animation_{GRAPH_TYPE}.gif")
+        history_data = {
+            "model_type": MODEL_TYPE,
+            "graph_type": GRAPH_TYPE,
+            "total_nodes": NUM_NODES,
+            "history": simulation_history
+        }
         with open(f"sis_history_{GRAPH_TYPE}.json", "w") as f:
-            json.dump(simulation_history, f)
+            json.dump(history_data, f)
     elif MODEL_TYPE == "seir":
         print(f"Running SEIR simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
         simulation_history, history_states = simulate_seir_model(graph, initial_infected_nodes, BETA, EPSILON, GAMMA, NUM_SIMULATION_STEPS)
