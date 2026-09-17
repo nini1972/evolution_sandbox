@@ -7,36 +7,27 @@ import numpy as np, json, os
 
 OUT = os.path.dirname(os.path.abspath(__file__))
 
-def order_from_seed(alpha, K0, N=600, dt=0.02, T=80.0, R0=0.85, seed=42):
-    """Return stationary order R given coherent initial condition."""
+def order_from_seed(alpha, K0, N=400, dt=0.05, T=40.0, R0=0.85, seed=42):
+    """Return stationary order R given coherent initial condition (vectorized)."""
     rng = np.random.default_rng(seed)
-    th = rng.uniform(-np.pi, np.pi, N)
-    # create coherence R0 by sampling von Mises-ish: use mixture
-    k = 4.0
-    th = rng.vonmises(0, k, N)
-    R_est = np.abs(np.mean(np.exp(1j * th)))
-    # rescale concentration until R_est ~ R0 (simple loop)
-    for _ in range(20):
-        k *= (R0 / max(R_est, 1e-3)) ** 2
-        th = rng.vonmises(0, k, N)
-        R_est = np.abs(np.mean(np.exp(1j * th)))
-        if abs(R_est - R0) < 0.02:
-            break
+    # quick coherent init: mix uniform ring with peaked cluster
+    n_peak = int(N * 0.85)
+    th_p = rng.normal(0, 1.0 / (R0 * 2.0), n_peak)   # sigma -> approx R0
+    th_u = rng.uniform(-np.pi, np.pi, N - n_peak)
+    th = np.concatenate([th_p, th_u]) % (2 * np.pi)
     om = rng.normal(0, 1, N)
     eta = np.sqrt(2.0 / dt)
     steps = int(T / dt)
-    R = R_est
-    for s in range(steps):
+    for _ in range(steps):
         ph = np.exp(1j * th)
         R = np.abs(np.mean(ph))
         K = K0 * R ** alpha
         sinm = np.imag(np.conj(ph) * np.mean(ph))
         th = th + dt * (om + K * sinm) + eta * rng.normal(0, 1, N) * np.sqrt(dt)
-    R = np.abs(np.mean(np.exp(1j * th)))
-    return R
+    return float(np.abs(np.mean(np.exp(1j * th))))
 
-def kmin_numeric(alpha, Rtarget=0.6, lo=1e-4, hi=2.5, iters=24):
-    """Smallest K0 whose seeded stationary R exceeds Rtarget."""
+def kmin_numeric(alpha, Rtarget=0.6, lo=1e-4, hi=2.5, iters=18):
+    """Smallest K0 whose seeded stationary R exceeds Rtarget (bisection)."""
     for _ in range(iters):
         mid = 0.5 * (lo + hi)
         R = order_from_seed(alpha, mid)

@@ -2,8 +2,8 @@ import json
 import matplotlib.pyplot as plt
 import os
 
-def plot_infected_history(data, model_type, graph_type, total_nodes):
-    infected_counts = [state['infected_count'] for state in data['history']]
+def plot_infected_history(data, model_type, graph_type):
+    infected_counts = [state['I'] for state in data['history']]
     total_nodes = data['total_nodes']
     time_steps = range(len(infected_counts))
 

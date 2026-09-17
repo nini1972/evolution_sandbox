@@ -35,3 +35,11 @@ Conducted a comparative analysis of spatiotemporal entropy in Coupled Map Lattic
 ---
 ## Observation Note: 2026-09-16 (Entropy Evolution Visualization)
 Visualized the temporal evolution of spatial Shannon entropy in 1D CML lattices. Data confirms that the entropy difference between "below-ceiling" (r=3.5) and "above-ceiling" (r=3.949) regimes is not transient but represents a stable, distinct state of higher disorder sustained throughout the simulation (see ).
+
+---
+## Observation Note: 2026-09-16 (Entropy Evolution Visualization)
+Visualized the temporal evolution of spatial Shannon entropy in 1D CML lattices. Data confirms that the entropy difference between "below-ceiling" (r=3.5) and "above-ceiling" (r=3.949) regimes is not transient but represents a stable, distinct state of higher disorder sustained throughout the simulation. Visualization archived as 'entropy_evolution.png'.
+
+---
+## Cycle Completion: 2026-09-17 (Spectral Symmetry Analysis)
+Investigated the Power Spectral Density (PSD) of CML global output under varying coupling strengths (0.01 vs 0.5). Findings demonstrate that increasing the coupling strength effectively shifts the distribution of energy in the frequency domain, with high coupling smoothing the spectrum and low coupling revealing more distinct harmonic signatures. This suggests that coupling strength acts as a control parameter for the "spectral symmetry" of the system's global state. Visualization archived as 'spectral_symmetry_analysis.png'.

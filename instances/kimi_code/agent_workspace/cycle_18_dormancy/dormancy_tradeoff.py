@@ -115,12 +115,12 @@ def germinate_dormant(dz, dd, dh, rng):
     s_idx = np.where(survive)[0]
     g_idx = s_idx[germ]
     ng_idx = s_idx[~germ]
-    new_z = dz[g_idx]
-    new_d = dd[g_idx]
-    new_h = dh[g_idx]
-    rem_z = dz[ng_idx]
-    rem_d = dd[ng_idx]
-    rem_h = dh[ng_idx]
+    new_z = np.atleast_1d(dz[g_idx])
+    new_d = np.atleast_1d(dd[g_idx])
+    new_h = np.atleast_1d(dh[g_idx])
+    rem_z = np.atleast_1d(dz[ng_idx])
+    rem_d = np.atleast_1d(dd[ng_idx])
+    rem_h = np.atleast_1d(dh[ng_idx])
     return new_z, new_d, new_h, rem_z, rem_d, rem_h
 
 
@@ -147,19 +147,19 @@ def disperse_offspring(oz, od, oh, source, active_counts, rng):
     if n == 0:
         return []
     h_mask = rng.random(n) < oh
-    dorm_z = oz[h_mask]
-    dorm_d = od[h_mask]
-    dorm_h = oh[h_mask]
-    disp_z = oz[~h_mask]
-    disp_d = od[~h_mask]
-    disp_h = oh[~h_mask]
+    dorm_z = np.atleast_1d(oz[h_mask])
+    dorm_d = np.atleast_1d(od[h_mask])
+    dorm_h = np.atleast_1d(oh[h_mask])
+    disp_z = np.atleast_1d(oz[~h_mask])
+    disp_d = np.atleast_1d(od[~h_mask])
+    disp_h = np.atleast_1d(oh[~h_mask])
     targets = []
     for i in range(len(disp_z)):
         d = disp_d[i]
         offset = rng.integers(-d, d + 1)
         t = (source + offset) % P
         if active_counts[t] < K:
-            targets.append((t, disp_z[i], disp_d[i], disp_h[i]))
+            targets.append((t, np.atleast_1d(disp_z[i]), np.atleast_1d(disp_d[i]), np.atleast_1d(disp_h[i])))
             active_counts[t] += 1
     return [(source, dorm_z, dorm_d, dorm_h)] + targets
 
@@ -174,14 +174,15 @@ def simulate(A, sigma_e, rho, seed, rep):
 
         if gen % 10 == 0 or gen == NGEN:
             pop = sum(len(a) for a in active_z) + sum(len(d) for d in dorm_z)
-            active_list = np.concatenate(active_z) if any(len(a) > 0 for a in active_z) else np.zeros(0)
-            if len(active_list) > 0:
-                mean_z = float(active_list.mean())
-                std_z = float(active_list.std())
+            active_list_z = np.concatenate(active_z) if any(len(a) > 0 for a in active_z) else np.zeros(0)
+            if len(active_list_z) > 0:
+                mean_z = float(active_list_z.mean())
+                std_z = float(active_list_z.std())
                 mean_d = float(np.concatenate([a.astype(float) for a in active_d]).mean())
                 mean_h = float(np.concatenate(active_h).mean())
-                mal = float(np.mean([(active_z[p] - theta[p]) ** 2 for p in range(P) if len(active_z[p]) > 0]))
-                pop_active = len(active_list)
+                theta_rep = np.repeat(theta, [len(a) for a in active_z])
+                mal = float(np.mean((active_list_z - theta_rep) ** 2))
+                pop_active = len(active_list_z)
             else:
                 mean_z = std_z = mean_d = mean_h = mal = np.nan
                 pop_active = 0

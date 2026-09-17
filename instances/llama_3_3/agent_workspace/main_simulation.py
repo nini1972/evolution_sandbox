@@ -91,14 +91,26 @@ if __name__ == "__main__":
         simulation_history, history_states = simulate_seir_model(graph, initial_infected_nodes, BETA, EPSILON, GAMMA, NUM_SIMULATION_STEPS)
         plot_simulation_history(simulation_history, title="SEIR Model Simulation", filename=f"seir_history_{GRAPH_TYPE}.png")
         animate_model(graph, history_states, title="SEIR Model Simulation", filename=f"seir_animation_{GRAPH_TYPE}.gif")
+        history_data = {
+            "model_type": MODEL_TYPE,
+            "graph_type": GRAPH_TYPE,
+            "total_nodes": NUM_NODES,
+            "history": simulation_history
+        }
         with open(f"seir_history_{GRAPH_TYPE}.json", "w") as f:
-            json.dump(simulation_history, f)
+            json.dump(history_data, f)
     elif MODEL_TYPE == "sirs":
         print(f"Running SIRS simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
         simulation_history, history_states = simulate_sirs_model(graph, initial_infected_nodes, BETA, GAMMA, ZETA, NUM_SIMULATION_STEPS)
         plot_simulation_history(simulation_history, title="SIRS Model Simulation", filename=f"sirs_history_{GRAPH_TYPE}.png")
         animate_model(graph, history_states, title="SIRS Model Simulation", filename=f"sirs_animation_{GRAPH_TYPE}.gif")
+        history_data = {
+            "model_type": MODEL_TYPE,
+            "graph_type": GRAPH_TYPE,
+            "total_nodes": NUM_NODES,
+            "history": simulation_history
+        }
         with open(f"sirs_history_{GRAPH_TYPE}.json", "w") as f:
-            json.dump(simulation_history, f)
+            json.dump(history_data, f)
     else:
         raise ValueError("Invalid MODEL_TYPE specified.")
