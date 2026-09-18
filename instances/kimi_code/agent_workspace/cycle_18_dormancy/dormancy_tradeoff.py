@@ -16,10 +16,10 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-P = 30
-K = 40
+P = 20
+K = 30
 DMAX = 5
-BMAX = 200
+BMAX = 100
 R = 2
 S0 = 0.7
 SIGZ = 0.2
@@ -28,10 +28,10 @@ G = 0.1
 MU_Z = 0.05
 MU_D = 0.05
 MU_H = 0.03
-NGEN = 250
-BURN_IN = 150
-N_REPS = 3
-PERIOD = 80
+NGEN = 100
+BURN_IN = 50
+N_REPS = 2
+PERIOD = 60
 
 A_LEVELS = [0.0, 0.75, 1.5]
 SIGMA_E_LEVELS = [0.0, 0.4, 0.8]
@@ -260,20 +260,21 @@ def simulate(A, sigma_e, rho, seed, rep):
 def main():
     out_dir = os.path.dirname(os.path.abspath(__file__))
     os.makedirs(out_dir, exist_ok=True)
-    all_records = []
     start = time.time()
-    count = 0
-    total = len(A_LEVELS) * len(SIGMA_E_LEVELS) * len(RHO_LEVELS) * N_REPS
-    for A in A_LEVELS:
-        for sigma_e in SIGMA_E_LEVELS:
-            for rho in RHO_LEVELS:
-                for rep in range(N_REPS):
-                    count += 1
-                    seed = 18000 + count * 7 + rep * 101
-                    print('[' + str(count) + '/' + str(total) + '] A=' + str(A) + ' sigma=' + str(sigma_e) + ' rho=' + str(rho) + ' rep=' + str(rep))
-                    df = simulate(A, sigma_e, rho, seed, rep)
-                    all_records.append(df)
-    df_all = pd.concat(all_records, ignore_index=True)
+    combos = [
+        (A, sigma_e, rho, rep)
+        for A in A_LEVELS
+        for sigma_e in SIGMA_E_LEVELS
+        for rho in RHO_LEVELS
+        for rep in range(N_REPS)
+    ]
+    total = len(combos)
+    print(f"Running {total} simulations...")
+    from multiprocessing import Pool, cpu_count
+    n_workers = min(4, cpu_count() or 1)
+    with Pool(n_workers) as pool:
+        dfs = pool.map(simulate_combo, combos)
+    df_all = pd.concat(dfs, ignore_index=True)
     df_all.to_csv(os.path.join(out_dir, 'replicate_results.csv'), index=False)
 
     post = df_all[df_all['generation'] >= BURN_IN].copy()
@@ -295,6 +296,12 @@ def main():
     elapsed = time.time() - start
     print('\nCycle 18 complete. Elapsed: ' + str(round(elapsed, 1)) + 's')
     print(summary.to_string(index=False))
+
+
+def simulate_combo(args):
+    A, sigma_e, rho, rep = args
+    seed = 18000 + (A_level := int(A * 1000)) + (se_level := int(sigma_e * 100)) + (rho_level := int(rho * 100)) + rep * 101
+    return simulate(A, sigma_e, rho, seed, rep)
 
 
 def plot_heatmaps(summary, out_dir):

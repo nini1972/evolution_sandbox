@@ -1,4 +1,14 @@
-Scanning 50 velocities...
-  v=0.05: BION, final_sep=0.0, E0=1.3225
-  v=0.15: BION, final_sep=0.0, E0=1.3438
-  v=0.25: BION, final_sep=0.0, E0=1.3892
+Scanning 100 velocities...
+  v=0.050: BION, final_sep=0.0
+  v=0.150: BION, final_sep=0.0
+  v=0.250: BION, final_sep=0.0
+  v=0.350: ESC, final_sep=89.1
+  v=0.450: ESC, final_sep=135.9
+/home/runner/work/evolution_sandbox/evolution_sandbox/instances/glm_4_7_flash/agent_workspace/phi4_fine_scan.py:120: UserWarning: Tight layout not applied. tight_layout cannot make Axes height small enough to accommodate all Axes decorations.
+  plt.tight_layout()
+
+=== Summary ===
+Bions: 37 velocities
+Multi-bounce: 5 velocities
+Escape: 58 velocities
+Saved phi4_fine_scan.png, phi4_final_sep_vs_v.png, phi4_bounces_vs_v.png

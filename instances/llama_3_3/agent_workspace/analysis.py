@@ -27,7 +27,7 @@ def main():
         filename_parts = json_file.split('_')
         model_type = filename_parts[0]
         graph_type = filename_parts[2].replace('.json', '')
-        plot_infected_history(data, model_type, graph_type, data['total_nodes'])
+        plot_infected_history(data, model_type, graph_type)
         print(f"Generated plot for {model_type.upper()} on {graph_type.replace('_', ' ').title()} Graph.")
 
 if __name__ == "__main__":

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Theory of Morphological Impossibility - Part 2
+Theory of Morphological Impossibility - Part 2 (Simplified)
 Conserved quantities, invariants, and forbidden boundaries
 """
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from scipy.optimize import minimize, differential_evolution
 from scipy.spatial import ConvexHull
+from matplotlib.path import Path
 import json
 
 # Load data
@@ -29,154 +29,94 @@ n, d = X.shape
 X_norm = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0) + 1e-10)
 
 # ============================================================
-# PART 1: CONSERVED QUANTITIES SEARCH
+# PART 1: CORRELATION ANALYSIS (simpler)
 # ============================================================
 print("=" * 60)
-print("SEARCHING FOR CONSERVED QUANTITIES")
+print("CORRELATION ANALYSIS")
 print("=" * 60)
 
-# Linear conservation: w @ x = constant
-def find_conserved_linear(X):
-    def objective(w):
-        w_norm = w / (np.linalg.norm(w) + 1e-10)
-        combo = X @ w_norm
-        return np.var(combo)
-    
-    bounds = [(-1, 1)] * d
-    result = differential_evolution(objective, bounds, seed=42, maxiter=500)
-    w_opt = result.x / np.linalg.norm(result.x)
-    combo = X @ w_opt
-    return w_opt, combo, result.fun
-
-w, combo, var = find_conserved_linear(X)
-print(f"\nBest conserved linear combination (var={var:.4f}):")
+corr = np.corrcoef(X.T)
+print("\nCorrelation matrix:")
 for i in range(d):
-    if abs(w[i]) > 0.05:
-        sign = "+" if w[i] > 0 else "-"
-        print(f"  {sign} {abs(w[i]):.3f} * {feature_names[i]}")
-print(f"  Range: [{combo.min():.2f}, {combo.max():.2f}], Mean: {combo.mean():.2f}")
+    row = " ".join([f"{corr[i,j]:+.2f}" for j in range(d)])
+    print(f"  {feature_names[i]:12s}: [{row}]")
 
-# ============================================================
-# PART 2: QUADRATIC CONSERVATION (ENERGY-LIKE)
-# ============================================================
-print("\n" + "=" * 60)
-print("QUADRATIC CONSERVATION SEARCH")
-print("=" * 60)
-
-def find_conserved_quadratic(X):
-    n_params = d * (d + 1) // 2
-    
-    def unpack(params):
-        Q = np.zeros((d, d))
-        idx = 0
-        for i in range(d):
-            for j in range(i, d):
-                Q[i, j] = params[idx]
-                Q[j, i] = params[idx]
-                idx += 1
-        return Q
-    
-    def objective(params):
-        Q = unpack(params)
-        values = np.array([x @ Q @ x for x in X])
-        return np.var(values)
-    
-    bounds = [(-1, 1)] * n_params
-    result = differential_evolution(objective, bounds, seed=42, 
-                                    maxiter=500, popsize=15)
-    Q = unpack(result.x)
-    values = np.array([x @ Q @ x for x in X])
-    return Q, values, result.fun
-
-Q, quad_vals, quad_var = find_conserved_quadratic(X)
-print(f"\nBest conserved quadratic form (var={quad_var:.4f}):")
-print("Matrix Q:")
-for i in range(d):
-    row = " ".join([f"{Q[i,j]:+.2f}" for j in range(d)])
-    print(f"  [{row}]")
-print(f"Range: [{quad_vals.min():.2f}, {quad_vals.max():.2f}]")
-
-# ============================================================
-# PART 3: MULTIPLICATIVE INVARIANTS
-# ============================================================
-print("\n" + "=" * 60)
-print("MULTIPLICATIVE INVARIANTS")
-print("=" * 60)
-
-best_products = []
+print("\nStrongest anti-correlations:")
+anti_corrs = []
 for i in range(d):
     for j in range(i+1, d):
-        prod = X[:, i] * X[:, j]
-        ratio = X[:, i] / (np.abs(X[:, j]) + 1e-10)
-        
-        cv_prod = np.std(prod) / (np.abs(np.mean(prod)) + 1e-10)
-        cv_ratio = np.std(ratio) / (np.abs(np.mean(ratio)) + 1e-10)
-        
-        best_products.append({
-            'pair': f"{feature_names[i]} * {feature_names[j]}",
-            'cv_prod': cv_prod,
-            'cv_ratio': cv_ratio,
-            'mean_prod': np.mean(prod)
-        })
+        anti_corrs.append((corr[i,j], i, j))
+anti_corrs.sort()
+for r, i, j in anti_corrs[:5]:
+    print(f"  {feature_names[i]} <-> {feature_names[j]}: r={r:.3f}")
 
-best_products.sort(key=lambda x: x['cv_prod'])
-print("\nMost conserved products:")
-for bp in best_products[:5]:
-    print(f"  {bp['pair']}: CV={bp['cv_prod']:.3f}")
-
-best_products.sort(key=lambda x: x['cv_ratio'])
-print("\nMost conserved ratios:")
-for bp in best_products[:5]:
-    print(f"  {bp['pair']}: CV={bp['cv_ratio']:.3f}")
+print("\nStrongest correlations:")
+pos_corrs = sorted(anti_corrs, reverse=True)
+for r, i, j in pos_corrs[:5]:
+    print(f"  {feature_names[i]} <-> {feature_names[j]}: r={r:.3f}")
 
 # ============================================================
-# PART 4: COMPLEXITY BUDGET ANALYSIS
+# PART 2: COMPLEXITY BUDGET
 # ============================================================
 print("\n" + "=" * 60)
-print("COMPLEXITY BUDGET ANALYSIS")
-budget = X_norm.sum(axis=1)
-print(f"\nTotal budget: mean={budget.mean():.2f}, std={budget.std():.2f}")
-print(f"CV = {budget.std()/budget.mean():.3f}")
+print("COMPLEXITY BUDGET")
+print("=" * 60)
 
-# Check individual feature contributions
-print("\nFeature contribution to budget:")
+budget = X_norm.sum(axis=1)
+print(f"Budget: mean={budget.mean():.2f}, std={budget.std():.2f}, CV={budget.std()/budget.mean():.3f}")
+print(f"Min: {budget.min():.2f} ({names[budget.argmin()]})")
+print(f"Max: {budget.max():.2f} ({names[budget.argmax()]})")
+
+print("\nFeature contributions to budget:")
 for i in range(d):
     contrib = X_norm[:, i].mean()
-    print(f"  {feature_names[i]}: {contrib:.3f} ({contrib/budget.mean()*100:.1f}%)")
+    print(f"  {feature_names[i]:12s}: {contrib:.3f} ({contrib/budget.mean()*100:.1f}%)")
 
 # ============================================================
-# PART 5: FORBIDDEN REGION BOUNDARIES
+# PART 3: LINEAR COMBINATION SEARCH (simple)
 # ============================================================
 print("\n" + "=" * 60)
-print("FORBIDDEN REGION BOUNDARIES")
+print("LINEAR CONSERVATION SEARCH")
+print("=" * 60)
+
+# Try all pairs
+print("\nPairwise sums - lowest variance:")
+for i in range(d):
+    for j in range(i+1, d):
+        s = X[:, i] + X[:, j]
+        cv = np.std(s) / (np.mean(s) + 1e-10)
+        print(f"  {feature_names[i]}+{feature_names[j]}: mean={np.mean(s):.2f}, std={np.std(s):.2f}, CV={cv:.3f}")
+
+# ============================================================
+# PART 4: FORBIDDEN REGIONS
+# ============================================================
+print("\n" + "=" * 60)
+print("FORBIDDEN REGION ANALYSIS")
 print("=" * 60)
 
 print("\nFeature ranges:")
 for i in range(d):
-    print(f"  {feature_names[i]}: [{X[:, i].min():.3f}, {X[:, i].max():.3f}]")
+    print(f"  {feature_names[i]:12s}: [{X[:, i].min():.3f}, {X[:, i].max():.3f}]")
 
-# Pairwise forbidden corners
-print("\nForbidden upper-right corners:")
+# Check for forbidden corners
+print("\nForbidden upper-right corners (normalized space):")
 for i in range(d):
     for j in range(i+1, d):
         pts = X_norm[:, [i, j]]
         if len(pts) >= 3:
             try:
                 hull = ConvexHull(pts)
-                hull_path = pts[hull.vertices]
-                # Check if (1,1) is inside
-                from matplotlib.path import Path
-                path = Path(np.vstack([hull_path, hull_path[0]]))
-                if not path.contains_point([1, 1]):
+                hull_path = Path(np.vstack([pts[hull.vertices], pts[hull.vertices][0]]))
+                if not hull_path.contains_point([1, 1]):
                     print(f"  {feature_names[i]} vs {feature_names[j]}: FORBIDDEN")
             except:
                 pass
 
 # ============================================================
-# PART 6: COMPLEXITY CLASSES
+# PART 5: COMPLEXITY CLASSES
 # ============================================================
 print("\n" + "=" * 60)
-print("COMPLEXITY CLASSIFICATION")
+print("COMPLEXITY CLASSES")
 print("=" * 60)
 
 classes = {
@@ -214,11 +154,13 @@ for cls, members in classes.items():
         print(f"  - {m}")
 
 # ============================================================
-# PART 7: VISUALIZATION
+# PART 6: VISUALIZATION
 # ============================================================
 print("\n" + "=" * 60)
 print("GENERATING VISUALIZATIONS")
 print("=" * 60)
+
+X_pca = np.array(data['X_pca'])
 
 fig, axes = plt.subplots(2, 3, figsize=(18, 12))
 
@@ -262,10 +204,9 @@ for i in range(d):
     ax.add_patch(circle)
     ax.annotate(feature_names[i], positions[i], ha='center', va='center', fontsize=7)
 
-# Draw anti-correlation edges
 for i in range(d):
     for j in range(i+1, d):
-        r = np.corrcoef(X[:, i], X[:, j])[0, 1]
+        r = corr[i, j]
         if abs(r) > 0.3:
             color = 'red' if r < 0 else 'blue'
             alpha = min(abs(r), 1.0)
@@ -280,7 +221,6 @@ ax.set_title('Feature Correlation Network')
 
 # Plot 5: Morphospace with class coloring
 ax = axes[1, 1]
-X_pca = np.array(data['X_pca'])
 colors_map = {
     'Chaotic-Complex': 'red',
     'Memory-Dominated': 'blue',
@@ -318,7 +258,7 @@ plt.savefig('impossibility_theory.png', dpi=150, bbox_inches='tight')
 print("Saved impossibility_theory.png")
 
 # ============================================================
-# PART 8: SUMMARY
+# PART 7: SUMMARY
 # ============================================================
 print("\n" + "=" * 60)
 print("THEORY SUMMARY")
@@ -364,16 +304,7 @@ Core Findings:
 
 # Save results
 results = {
-    'conserved_linear': {
-        'weights': w.tolist(),
-        'variance': float(var),
-        'combo_mean': float(combo.mean()),
-        'combo_std': float(combo.std())
-    },
-    'conserved_quadratic': {
-        'matrix': Q.tolist(),
-        'variance': float(quad_var)
-    },
+    'correlation_matrix': corr.tolist(),
     'complexity_classes': {k: v for k, v in classes.items()},
     'budget_stats': {
         'mean': float(budget.mean()),

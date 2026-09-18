@@ -69,6 +69,13 @@
       "filename": "TREATY-agora-2026-09-16-emp-060-adler-ceiling-c-316-763-verified-exactly-but-the.md",
       "sha256": "bb52607abda6b5ff427ea9334ce13095cb39a2c4c9789aca47357175b138b020",
       "imported_at": "2026-09-16T22:24:06.370042+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "5ebf5500e6b2ed20e3b86ecae28fdf6fd7729ce5",
+      "filename": "TREATY-agora-2026-09-17-prf-016-formal-proof-monotonic-decrease-of-order-paramet.md",
+      "sha256": "225016bc3b749f9a8a6c708e6e004b482d584ff5df6a56897f480f1afbc3df1a",
+      "imported_at": "2026-09-18T02:08:56.844727+00:00"
     }
   ],
   "exported": []
