@@ -126,7 +126,7 @@ class GeneticAlgorithm:
 print("=== Genetic Algorithm Experiments ===")
 
 # Experiment 1: Basic OneMax evolution
-print("\\nExperiment 1: OneMax Problem")
+print("\nExperiment 1: OneMax Problem")
 ga1 = GeneticAlgorithm(population_size=100, chromosome_length=50, mutation_rate=0.01)
 best_solution = ga1.run_evolution(generations=200)
 print(f"Best solution found: {sum(best_solution)}/{len(best_solution)} bits set to 1")
@@ -148,13 +148,13 @@ population_sizes = [20, 50, 100, 200]
 results_by_population = {}
 
 for pop_size in population_sizes:
-    print(f\"Testing population size: {pop_size}")
+    print(f"Testing population size: {pop_size}")
     ga = GeneticAlgorithm(population_size=pop_size, chromosome_length=30, mutation_rate=0.01)
     ga.run_evolution(generations=100)
     results_by_population[pop_size] = ga.fitness_history
 
 # Create visualizations
-print("\\nGenerating visualizations...")
+print("\nGenerating visualizations...")
 
 # Plot 1: Evolution progress for basic experiment
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
@@ -223,13 +223,13 @@ plt.savefig('population_size_comparison.png', dpi=300, bbox_inches='tight')
 plt.close()
 
 # Advanced experiment: NK Landscape
-print("\\nExperiment 4: NK Landscape - Rugged Fitness Landscape")
+print("\nExperiment 4: NK Landscape - Rugged Fitness Landscape")
 
 class NKLandscape:
-    \"\"\"
+    """
     NK fitness landscape - demonstrates evolution on rugged, epistatic landscapes
     N = chromosome length, K = epistatic interactions per gene
-    \"\"\"
+    """
     
     def __init__(self, N, K):
         self.N = N
@@ -245,7 +245,7 @@ class NKLandscape:
                 self.fitness_tables[key] = random.random()
     
     def fitness(self, chromosome):
-        \"\"\"Calculate fitness based on epistatic interactions\"\"\"
+        """Calculate fitness based on epistatic interactions"""
         total_fitness = 0
         for i in range(self.N):
             # Get the values of gene i and its K neighbors
@@ -263,7 +263,7 @@ K_values = [0, 1, 2, 4]  # K=0 is smooth, higher K = more rugged
 nk_results = {}
 
 for K in K_values:
-    print(f\"Testing NK landscape with K={K} (epistatic interactions)")
+    print(f"Testing NK landscape with K={K} (epistatic interactions)")
     
     # Create custom GA for NK landscape
     class NK_GA(GeneticAlgorithm):
@@ -292,20 +292,20 @@ for i, K in enumerate(K_values):
 
 ax.set_xlabel('Generation')
 ax.set_ylabel('Best Fitness')
-ax.set_title('Evolution on NK Fitness Landscapes\\n(K = epistatic interactions per gene)')
+ax.set_title('Evolution on NK Fitness Landscapes\n(K = epistatic interactions per gene)')
 ax.legend()
 ax.grid(True, alpha=0.3)
 
 plt.savefig('nk_landscape_evolution.png', dpi=300, bbox_inches='tight')
 plt.close()
 
-print("\\nGenerated visualizations:")
+print("\nGenerated visualizations:")
 print("- genetic_algorithm_evolution.png: Basic GA evolution and diversity")
 print("- mutation_rate_comparison.png: Effect of mutation rate on evolution")
 print("- population_size_comparison.png: Effect of population size on evolution") 
 print("- nk_landscape_evolution.png: Evolution on rugged fitness landscapes")
 
-print("\\n=== Key Insights from Evolutionary Algorithm Experiments ===")
+print("\n=== Key Insights from Evolutionary Algorithm Experiments ===")
 print("1. EMERGENCE OF OPTIMIZATION: Simple operators (selection, crossover, mutation) lead to emergent problem-solving")
 print("2. BALANCE OF EXPLORATION vs EXPLOITATION: Mutation provides diversity, selection provides direction")
 print("3. POPULATION DIVERSITY DYNAMICS: Diversity initially decreases as population converges, then stabilizes")

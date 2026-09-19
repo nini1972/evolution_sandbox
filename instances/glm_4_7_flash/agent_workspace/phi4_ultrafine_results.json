@@ -1,0 +1,602 @@
+{
+  "0.18": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.181": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.182": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.183": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.184": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.185": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.186": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.187": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.188": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.189": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 62.5
+  },
+  "0.19": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.191": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.192": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.193": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.194": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 50.0
+  },
+  "0.195": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 67.1875
+  },
+  "0.196": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 78.90625
+  },
+  "0.197": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 86.71875
+  },
+  "0.198": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 92.1875
+  },
+  "0.199": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 94.53125
+  },
+  "0.2": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 93.75
+  },
+  "0.201": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 89.0625
+  },
+  "0.202": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 78.90625
+  },
+  "0.203": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 60.15625
+  },
+  "0.204": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.205": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.206": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.207": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.208": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.209": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.21": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.211": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.212": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.213": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.214": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.215": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.216": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.217": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.218": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.219": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.22": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.221": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.222": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.223": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.224": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 37.5
+  },
+  "0.225": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 64.0625
+  },
+  "0.226": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 98.4375
+  },
+  "0.227": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 112.5
+  },
+  "0.228": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 106.25
+  },
+  "0.229": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 60.9375
+  },
+  "0.23": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.231": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.232": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.233": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.234": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.235": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.236": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 64.84375
+  },
+  "0.237": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 59.375
+  },
+  "0.238": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 82.03125
+  },
+  "0.239": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 117.1875
+  },
+  "0.24": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 41.40625
+  },
+  "0.241": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.242": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.243": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.244": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 29.6875
+  },
+  "0.245": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 112.5
+  },
+  "0.246": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 73.4375
+  },
+  "0.247": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.248": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 67.1875
+  },
+  "0.249": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 118.75
+  },
+  "0.25": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.251": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.252": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.253": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 99.21875
+  },
+  "0.254": {
+    "outcome": "BION",
+    "bounces": 0,
+    "final_sep": 0.0
+  },
+  "0.255": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 64.0625
+  },
+  "0.256": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 105.46875
+  },
+  "0.257": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 49.21875
+  },
+  "0.258": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 66.40625
+  },
+  "0.259": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 75.78125
+  },
+  "0.26": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 15.625
+  },
+  "0.261": {
+    "outcome": "2b",
+    "bounces": 2,
+    "final_sep": 17.1875
+  },
+  "0.262": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 22.65625
+  },
+  "0.263": {
+    "outcome": "1b",
+    "bounces": 1,
+    "final_sep": 26.5625
+  },
+  "0.264": {
+    "outcome": "1b",
+    "bounces": 1,
+    "final_sep": 29.6875
+  },
+  "0.265": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 32.8125
+  },
+  "0.266": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 35.9375
+  },
+  "0.267": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 38.28125
+  },
+  "0.268": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 40.625
+  },
+  "0.269": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 42.96875
+  },
+  "0.27": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 44.53125
+  },
+  "0.271": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 46.875
+  },
+  "0.272": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 49.21875
+  },
+  "0.273": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 50.78125
+  },
+  "0.274": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 52.34375
+  },
+  "0.275": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 53.90625
+  },
+  "0.276": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 55.46875
+  },
+  "0.277": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 57.8125
+  },
+  "0.278": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 59.375
+  },
+  "0.279": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 60.15625
+  },
+  "0.28": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 61.71875
+  },
+  "0.281": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 63.28125
+  },
+  "0.282": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 64.84375
+  },
+  "0.283": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 66.40625
+  },
+  "0.284": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 67.96875
+  },
+  "0.285": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 68.75
+  },
+  "0.286": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 70.3125
+  },
+  "0.287": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 71.09375
+  },
+  "0.288": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 72.65625
+  },
+  "0.289": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 74.21875
+  },
+  "0.29": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 75.78125
+  },
+  "0.291": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 76.5625
+  },
+  "0.292": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 77.34375
+  },
+  "0.293": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 78.90625
+  },
+  "0.294": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 79.6875
+  },
+  "0.295": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 81.25
+  },
+  "0.296": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 82.03125
+  },
+  "0.297": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 83.59375
+  },
+  "0.298": {
+    "outcome": "ESC",
+    "bounces": 0,
+    "final_sep": 84.375
+  },
+  "0.299": {
+    "outcome": "1b",
+    "bounces": 1,
+    "final_sep": 85.9375
+  }
+}

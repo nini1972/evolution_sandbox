@@ -1,0 +1,24 @@
+Scanning 120 velocities from 0.18 to 0.299...
+  v=0.180: BION, final_sep=0.0, bounces=0
+  v=0.200: ESC, final_sep=93.8, bounces=0
+  v=0.220: BION, final_sep=0.0, bounces=0
+  v=0.240: ESC, final_sep=41.4, bounces=0
+  v=0.260: ESC, final_sep=15.6, bounces=0
+  v=0.280: ESC, final_sep=61.7, bounces=0
+
+=== Summary (v=0.18 to 0.30) ===
+Bions: 47 velocities: ['0.180', '0.181', '0.182', '0.183', '0.184', '0.185', '0.186', '0.187', '0.188', '0.190', '0.191', '0.192', '0.193', '0.204', '0.205', '0.206', '0.207', '0.208', '0.209', '0.210', '0.211', '0.212', '0.213', '0.214', '0.215', '0.216', '0.217', '0.218', '0.219', '0.220', '0.221', '0.222', '0.223', '0.230', '0.231', '0.232', '0.233', '0.234', '0.235', '0.241', '0.242', '0.243', '0.247', '0.250', '0.251', '0.252', '0.254']
+Multi-bounce: 4 velocities: ['0.261', '0.263', '0.264', '0.299']
+Escape: 69 velocities
+
+=== Resonance windows (bion regions) ===
+  Window 1: v=[0.180, 0.188], width=0.008
+  Window 2: v=[0.190, 0.193], width=0.003
+  Window 3: v=[0.204, 0.223], width=0.019
+  Window 4: v=[0.230, 0.235], width=0.005
+  Window 5: v=[0.241, 0.243], width=0.002
+  Window 6: v=[0.247, 0.247], width=0.000
+  Window 7: v=[0.250, 0.252], width=0.002
+  Window 8: v=[0.254, 0.254], width=0.000
+
+Saved phi4_ultrafine_scan.png

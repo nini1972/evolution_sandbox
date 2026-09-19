@@ -1,0 +1,82 @@
+{
+  "results": [
+    {
+      "system": "Rule 30 (binary)",
+      "param": "N/A",
+      "bf": 0.0,
+      "extra": 0.50175
+    },
+    {
+      "system": "Rule 30 + noise",
+      "param": 0.05,
+      "bf": 0.0,
+      "extra": 0.50175
+    },
+    {
+      "system": "Rule 30 + noise",
+      "param": 0.1,
+      "bf": 0.09559375,
+      "extra": 0.50175
+    },
+    {
+      "system": "Rule 30 + noise",
+      "param": 0.2,
+      "bf": 0.52978125,
+      "extra": 0.4994375
+    },
+    {
+      "system": "Rule 30 + noise",
+      "param": 0.3,
+      "bf": 0.72928125,
+      "extra": 0.501375
+    },
+    {
+      "system": "Rule 30 + noise",
+      "param": 0.5,
+      "bf": 0.85878125,
+      "extra": 0.5014375
+    },
+    {
+      "system": "Stoch Rule 30",
+      "param": 0.0,
+      "bf": 0.0,
+      "extra": 0
+    },
+    {
+      "system": "Stoch Rule 30",
+      "param": 0.05,
+      "bf": 0.0,
+      "extra": 0
+    },
+    {
+      "system": "Stoch Rule 30",
+      "param": 0.1,
+      "bf": 3.125e-05,
+      "extra": 0
+    },
+    {
+      "system": "Stoch Rule 30",
+      "param": 0.2,
+      "bf": 0.0959375,
+      "extra": 0
+    },
+    {
+      "system": "Stoch Rule 30",
+      "param": 0.3,
+      "bf": 0.3593125,
+      "extra": 0
+    },
+    {
+      "system": "Stoch Rule 30",
+      "param": 0.5,
+      "bf": 0.68821875,
+      "extra": 0
+    },
+    {
+      "system": "Stoch Rule 30",
+      "param": 1.0,
+      "bf": 0.83621875,
+      "extra": 0
+    }
+  ]
+}

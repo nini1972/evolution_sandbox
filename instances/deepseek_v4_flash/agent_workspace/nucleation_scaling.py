@@ -37,49 +37,87 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from scipy.special import i0, i1
+
+def bessel_ratio(x, tol=1e-14, maxiter=500):
+    """I1(x)/I0(x) via continued fraction  r = x/(2 + x^2/(4 + x^2/(6 + ...)))
+    Lentz algorithm with small/large-x guards."""
+    x = abs(float(x))
+    if x < 1e-4:
+        return x / 2.0 * (1.0 - x * x / 8.0)
+    if x > 50.0:
+        # asymptotic: r = 1 - 1/(2x) - 1/(8x^2) - 1/(8x^3) ...
+        return 1.0 - 1.0 / (2 * x) - 1.0 / (8 * x * x) - 1.0 / (8 * x ** 3)
+    # Lentz
+    tiny = 1e-300
+    f = tiny
+    C = f
+    D = 0.0
+    # first term a1 = x, b1 = 2
+    a = x
+    b = 2.0
+    C = b + a / C
+    D = b + a * D
+    if D == 0: D = tiny
+    C = C if C != 0 else tiny
+    D = 1.0 / D
+    delta = C * D
+    f = f * delta
+    for k in range(2, maxiter + 2):
+        a = x * x          # numerators from term 2 on
+        b = 2.0 * k        # denominators: 4, 6, 8, ...
+        C = b + a / C
+        D = b + a * D
+        if D == 0: D = tiny
+        if C == 0: C = tiny
+        D = 1.0 / D
+        delta = C * D
+        f = f * delta
+        if abs(delta - 1.0) < tol:
+            break
+    return f
 
 OUT = os.path.dirname(os.path.abspath(__file__))
 SIGMA = 0.008
 DT = 0.04
 
-def step(th, K0, alpha, sigma, dt, rng):
+def step(th, K0, alpha, sigma, dt, rng, ampl=None):
     """Single canonical step (vectorized over seeds axis 0)."""
     z = np.mean(np.exp(1j * th), axis=1)          # (S,)
     R = np.abs(z)
     dth = np.imag(np.exp(-1j * th) * z[:, None])  # (S, N)
     K = K0 * (R ** alpha)
-    th = th + dt * (K[:, None] * dth) + math.sqrt(dt) * sigma * rng.randn(*th.shape)
+    th = th + dt * (K[:, None] * dth) + ampl * rng.randn(*th.shape)
     return th, R
 
-def run_cross(alpha, K0, N, seeds=8, Tmax=64.0, rng=None):
+def run_cross(alpha, K0, N, seeds=6, Tmax=32.0, rng=None):
     """Time (in same units as dt) for mean order to first cross 0.5 from disorder."""
     if rng is None:
         rng = np.random.RandomState(1234 + int(alpha * 100) + int(K0 * 10) + N)
     th = rng.uniform(0, 2 * math.pi, (seeds, N))
     nsteps = int(Tmax / DT)
+    ampl = math.sqrt(DT) * SIGMA
     R_prev = np.abs(np.mean(np.exp(1j * th), axis=1)).mean()
     t_prev = 0.0
     for s in range(1, nsteps + 1):
-        th, R = step(th, K0, alpha, SIGMA, DT, rng)
+        th, R = step(th, K0, alpha, SIGMA, DT, rng, ampl)
         Rm = float(np.mean(R))
         if Rm >= 0.5:
-            # linear interpolation between previous and current step
             frac = (0.5 - R_prev) / max(Rm - R_prev, 1e-12)
             return min(t_prev + DT * frac, Tmax)
         R_prev, t_prev = Rm, s * DT
     return float('nan')  # never crossed within horizon
 
-def stationary_R(alpha, K0, N=200, seeds=6, T=800.0):
+def stationary_R(alpha, K0, N=200, seeds=4, T=400.0):
     """Long-time order from disorder seed (true stationary estimate)."""
     rng = np.random.RandomState(999 + N)
     th = rng.uniform(0, 2 * math.pi, (seeds, N))
     nsteps = int(T / DT)
-    R_last = []
+    ampl = math.sqrt(DT) * SIGMA
     for s in range(nsteps):
-        th, R = step(th, K0, alpha, SIGMA, DT, rng)
+        th, R = step(th, K0, alpha, SIGMA, DT, rng, ampl)
+    R_last = []
     for _ in range(50):                      # average over tail
-        th, R = step(th, K0, alpha, SIGMA, DT, rng)
+        th, R = step(th, K0, alpha, SIGMA, DT, rng, ampl)
         R_last.append(float(np.mean(R)))
     return float(np.mean(R_last))
 
@@ -89,7 +127,7 @@ def vonmises_selfconsistent(alpha, K0, sigma=SIGMA):
     R = 0.99
     for _ in range(200):
         k = K0 * (R ** (alpha + 1)) / s2
-        Rnew = i1(k) / i0(k)
+        Rnew = bessel_ratio(k)
         R = 0.5 * R + 0.5 * Rnew
     return float(R)
 
@@ -97,15 +135,16 @@ def vonmises_selfconsistent(alpha, K0, sigma=SIGMA):
 print("=" * 74)
 print("T1: universal nucleation collapse  I = t_cross*K0/(2 ln(0.5 sqrt N) N^(a/2))")
 print("=" * 74)
-ALPHAS = [0.2, 0.6, 1.0, 1.5]
-K0S = [0.8, 1.2, 1.6, 2.2]
-NS = [100, 200, 400]
+ALPHAS = [0.2, 0.6, 1.0]
+K0S = [0.8, 1.6, 2.2]
+NS = [100, 400]
 rows = []
 for a in ALPHAS:
     for K0 in K0S:
         for N in NS:
             tc = run_cross(a, K0, N)
             if math.isnan(tc):
+                print("alpha=%4.1f K0=%4.1f N=%3d  t_cross=  never crossed" % (a, K0, N))
                 continue
             I = tc * K0 / (2.0 * math.log(0.5 * math.sqrt(N)) * (N ** (a / 2.0)))
             rows.append((a, K0, N, tc, I))
@@ -123,15 +162,15 @@ print()
 print("=" * 74)
 print("T2: apparent threshold Kc (R>0.5 onset) drifts with horizon T and N")
 print("=" * 74)
-def apparent_kc(alpha, T, N, Kgrid, seeds=8):
+def apparent_kc(alpha, T, N, Kgrid, seeds=6):
     """Smallest K0 whose disorder-seeded order after time T exceeds 0.5."""
     rng = np.random.RandomState(int(77 * T + N))
-    prev = None
+    ampl = math.sqrt(DT) * SIGMA
     for K0 in Kgrid:
         th = rng.uniform(0, 2 * math.pi, (seeds, N))
         nsteps = int(T / DT)
         for s in range(nsteps):
-            th, R = step(th, K0, alpha, SIGMA, DT, rng)
+            th, R = step(th, K0, alpha, SIGMA, DT, rng, ampl)
         if float(np.mean(R)) > 0.5:
             return float(K0)
     return float('nan')
@@ -151,7 +190,7 @@ print("T3: true stationary state vs von-Mises self-consistency (Kc_stat=2*sigma^
 print("=" * 74)
 T3 = {}
 for a in [0.0, 0.6, 1.0]:
-    for K0 in [0.05, 0.2, 1.0, 1.6, 2.5]:
+    for K0 in [0.2, 1.0, 1.6, 2.5]:
         Rnum = stationary_R(a, K0)
         Ran = vonmises_selfconsistent(a, K0)
         T3[(a, K0)] = (Rnum, Ran)

@@ -3,7 +3,7 @@
 import numpy as np, json
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from matplotlib.gridspec import GridSheet
+from matplotlib.gridspec import GridSpec
 
 k_gs = 0.062
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Coupled Oscillator Dynamics</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.8.4/dist/d3.min.js"></script>
+</head>
+<body>
+    <h1>Coupled Oscillator Dynamics</h1>
+    <div id="plot"></div>
+    <script>
+        // Define the system parameters
+        const N = 10; // Number of oscillators
+        const omega = Array.from({ length: N }, () => 2 * Math.PI * Math.random()); // Natural frequencies
+        const k = 1.0; // Coupling strength
+
+        // Implement the system dynamics
+        function coupled_oscillator_dynamics(theta, t) {
+            const dtheta = omega.map(o => o + k * theta.reduce((sum, thetai) => sum + Math.sin(thetai - theta[i]), 0));
+            return dtheta;
+        }
+
+        // Initial conditions
+        let theta = Array.from({ length: N }, () => 2 * Math.PI * Math.random());
+
+        // Simulate the system
+        const t = d3.range(0, 10, 0.01);
+        const data = t.map(t => {
+            const dtheta = coupled_oscillator_dynamics(theta, t);
+            theta = theta.map((thetai, i) => thetai + dtheta[i] * 0.01);
+            return theta.slice();
+        });
+
+        // Visualize the results
+        const width = 800;
+        const height = 400;
+        const svg = d3.select("#plot")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        svg.selectAll("path")
+            .data(data)
+            .enter()
+            .append("path")
+            .attr("d", d3.line()
+                .x((d, i) => i / (data.length - 1) * width)
+                .y((d, i) => height * (1 - d / (2 * Math.PI))))
+            .style("stroke", (d, i) => `hsl(${i / N * 360}, 80%, 50%)`)
+            .style("fill", "none");
+    </script>
+</body>
+</html>

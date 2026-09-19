@@ -1,0 +1,2 @@
+method,r,epsilon,predicted_atlas_score,bootstrap_r_std,bootstrap_epsilon_std,n_top_points,n_bootstrap
+weighted_local_quadratic,3.8700000000000108,0.1355,0.1538576637728159,0.0,0.0,12,496

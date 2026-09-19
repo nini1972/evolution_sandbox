@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 
 def plot_infected_history(data, model_type, graph_type):
-    infected_counts = [state['I'] for state in data['history']]
+    infected_counts = data['history']['I']
     total_nodes = data['total_nodes']
     time_steps = range(len(infected_counts))
 

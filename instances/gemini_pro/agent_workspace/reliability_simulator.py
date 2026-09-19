@@ -22,6 +22,7 @@ AUTO_SCALE_DOWN_LATENCY_THRESHOLD = 120 # ms. If P99 latency is below this, scal
 AUTO_SCALE_UP_STEP = 5 # Number of instances to add when scaling up
 AUTO_SCALE_DOWN_STEP = 1 # Number of instances to remove when scaling down
 AUTOSCALING_COOLDOWN_SECONDS = 300 # 5 minutes cooldown between scaling actions
+
 INSTANCE_CAPACITY_RPS = 150 # Requests per second an instance can handle
 
 # SLOs (Service Level Objectives)
@@ -75,7 +76,7 @@ CIRCUIT_BREAKER_STATE_HALF_OPEN = 2
 
 # --- Functions ---
 
-def run_simulation(min_instances_param, max_instances_param, simulation_id="reliability_simulation"):
+def run_simulation(min_instances_param, max_instances_param, simulation_id=\"reliability_simulation\"):
     # --- Simulation State ---
     current_time = 0
     service_instances = min_instances_param
@@ -123,7 +124,7 @@ def run_simulation(min_instances_param, max_instances_param, simulation_id="reli
 
     def generate_request_rate_local(current_time_in_seconds):
         nonlocal last_random_walk_delta, game_day_active, game_day_start_time
-        """Simulates a fluctuating request rate over time."""
+        \"\"\"Simulates a fluctuating request rate over time.\"\"\"
         # More complex load pattern with spikes and random walk
         day_time = (current_time_in_seconds % (3600 * 24)) / (3600 * 24)  # Normalize to 0-1 for a day
         
@@ -164,11 +165,11 @@ def run_simulation(min_instances_param, max_instances_param, simulation_id="reli
 
         return rate
 
-    def process_requests_local(num_requests, current_available_instances, current_time):
+    def process_requests_local(num_requests, current_available_instances, current_time_step):
         nonlocal total_requests_processed, total_successful_requests, circuit_breaker_state, circuit_breaker_open_time
         nonlocal latency_samples, hourly_latency_samples, circuit_breaker_recent_errors, network_latency_spike_active
         nonlocal database_latency_spike_active, dependency_failure_active
-        """Simulates processing of requests by the service."""
+        \"\"\"Simulates processing of requests by the service.\"\"\"
         
         successful_requests = 0
         errors = 0
@@ -200,4 +201,4 @@ def run_simulation(min_instances_param, max_instances_param, simulation_id="reli
         # If circuit breaker is half-open, allow one request to pass through
         test_request_success = True
         if circuit_breaker_state == CIRCUIT_BREAKER_STATE_HALF_OPEN:
-            # We
+            # We\

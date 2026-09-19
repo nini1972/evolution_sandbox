@@ -6,8 +6,8 @@ from visualizations import draw_graph, plot_simulation_history, animate_model
 
 if __name__ == "__main__":
     # Simulation Parameters
-    MODEL_TYPE = "seir"  # Can be "sir", "sis", "seir", or "sirs"
-    GRAPH_TYPE = "erdos_renyi"  # Can be "erdos_renyi" or "barabasi_albert"
+    MODEL_TYPES = ["sir", "sis", "seir", "sirs"]
+    GRAPH_TYPES = ["erdos_renyi", "barabasi_albert"]
     NUM_NODES = 30
 
     # Graph Parameters
@@ -22,95 +22,102 @@ if __name__ == "__main__":
     ZETA = 0.05 # Rate from Recovered to Susceptible (SIRS)
     NUM_SIMULATION_STEPS = 50
 
-    graph = None
-    graph_title = ""
-    graph_filename = ""
+    for MODEL_TYPE in MODEL_TYPES:
+        for GRAPH_TYPE in GRAPH_TYPES:
+            print(f"Running {MODEL_TYPE.upper()} model on {GRAPH_TYPE.replace('_', ' ').title()} graph...")
+            graph = None
+            graph_title = ""
+            graph_filename = ""
 
-    if GRAPH_TYPE == "erdos_renyi":
-        print(f"Generating Erdos-Renyi graph with {NUM_NODES} nodes and p={PROBABILITY_OF_EDGE}...")
-        graph = generate_erdos_renyi_graph(NUM_NODES, PROBABILITY_OF_EDGE)
-        graph_title = "Erdos-Renyi Graph"
-        graph_filename = "erdos_renyi_graph.png"
-    elif GRAPH_TYPE == "barabasi_albert":
-        print(f"Generating Barabasi-Albert graph with {NUM_NODES} nodes and m={NUM_EDGES_TO_ATTACH}...")
-        graph = generate_barabasi_albert_graph(NUM_NODES, NUM_EDGES_TO_ATTACH)
-        graph_title = "Barabasi-Albert Graph"
-        graph_filename = "barabasi_albert_graph.png"
-    else:
-        raise ValueError("Invalid GRAPH_TYPE specified.")
+            if GRAPH_TYPE == "erdos_renyi":
+                print(f"Generating Erdos-Renyi graph with {NUM_NODES} nodes and p={PROBABILITY_OF_EDGE}...")
+                graph = generate_erdos_renyi_graph(NUM_NODES, PROBABILITY_OF_EDGE)
+                graph_title = "Erdos-Renyi Graph"
+                graph_filename = "erdos_renyi_graph.png"
+            elif GRAPH_TYPE == "barabasi_albert":
+                print(f"Generating Barabasi-Albert graph with {NUM_NODES} nodes and m={NUM_EDGES_TO_ATTACH}...")
+                graph = generate_barabasi_albert_graph(NUM_NODES, NUM_EDGES_TO_ATTACH)
+                graph_title = "Barabasi-Albert Graph"
+                graph_filename = "barabasi_albert_graph.png"
+            else:
+                raise ValueError("Invalid GRAPH_TYPE specified.")
 
-    print(f"Generated graph with {graph.number_of_nodes()} nodes and {graph.number_of_edges()} edges.")
-    
-    # Randomly select initial infected nodes
-    initial_infected_nodes = random.sample(list(graph.nodes()), NUM_INITIAL_INFECTED)
-    print(f"Initially infected nodes: {initial_infected_nodes}")
+            print(f"Generated graph with {graph.number_of_nodes()} nodes and {graph.number_of_edges()} edges.")
+            
+            # Randomly select initial infected nodes
+            initial_infected_nodes = random.sample(list(graph.nodes()), NUM_INITIAL_INFECTED)
+            print(f"Initially infected nodes: {initial_infected_nodes}")
 
-    # Create initial states dictionary for graph visualization
-    initial_states = {node: 'S' for node in graph.nodes()}
-    if MODEL_TYPE == "seir":
-        for node in initial_infected_nodes:
-            initial_states[node] = 'E'
-        draw_graph(graph, title=graph_title, filename=f"initial_{graph_filename}", states=initial_states)
-    else:
-        for node in initial_infected_nodes:
-            initial_states[node] = 'I'
-        draw_graph(graph, title=graph_title, filename=f"initial_{graph_filename}", states=initial_states)
+            # Create initial states dictionary for graph visualization
+            initial_states = {node: 'S' for node in graph.nodes()}
+            if MODEL_TYPE == "seir":
+                for node in initial_infected_nodes:
+                    initial_states[node] = 'E'
+                draw_graph(graph, title=graph_title, filename=f"initial_{graph_filename}", states=initial_states)
+            else:
+                for node in initial_infected_nodes:
+                    initial_states[node] = 'I'
+                draw_graph(graph, title=graph_title, filename=f"initial_{graph_filename}", states=initial_states)
 
-    simulation_history = None
-    history_states = None
-    import json
+            simulation_history = None
+            history_states = None
+            
+            if MODEL_TYPE == "sir":
+                print(f"Running SIR simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
+                simulation_history, history_states = simulate_sir_model(graph, initial_infected_nodes, BETA, GAMMA, NUM_SIMULATION_STEPS)
+                plot_simulation_history(simulation_history, title="SIR Model Simulation", filename=f"sir_history_{GRAPH_TYPE}.png")
+                # animate_model(graph, history_states, title="SIR Model Simulation", filename=f"sir_animation_{GRAPH_TYPE}.gif")
+                history_data = {
+                    "model_type": MODEL_TYPE,
+                    "graph_type": GRAPH_TYPE,
+                    "total_nodes": NUM_NODES,
+                    "history": simulation_history
+                }
+                with open(f"sir_history_{GRAPH_TYPE}.json", "w") as f:
+                    json.dump(history_data, f)
+            elif MODEL_TYPE == "sis":
+                print(f"Running SIS simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
+                simulation_history, history_states = simulate_sis_model(graph, initial_infected_nodes, BETA, GAMMA, NUM_SIMULATION_STEPS)
+                plot_simulation_history(simulation_history, title="SIS Model Simulation", filename=f"sis_history_{GRAPH_TYPE}.png")
+                # animate_model(graph, history_states, title="SIS Model Simulation", filename=f"sis_animation_{GRAPH_TYPE}.gif")
+                history_data = {
+                    "model_type": MODEL_TYPE,
+                    "graph_type": GRAPH_TYPE,
+                    "total_nodes": NUM_NODES,
+                    "history": simulation_history
+                }
+                with open(f"sis_history_{GRAPH_TYPE}.json", "w") as f:
+                    json.dump(history_data, f)
+            elif MODEL_TYPE == "seir":
+                print(f"Running SEIR simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
+                simulation_history, history_states = simulate_seir_model(graph, initial_infected_nodes, BETA, EPSILON, GAMMA, NUM_SIMULATION_STEPS)
+                plot_simulation_history(simulation_history, title="SEIR Model Simulation", filename=f"seir_history_{GRAPH_TYPE}.png")
+                # animate_model(graph, history_states, title="SEIR Model Simulation", filename=f"seir_animation_{GRAPH_TYPE}.gif")
+                history_data = {
+                    "model_type": MODEL_TYPE,
+                    "graph_type": GRAPH_TYPE,
+                    "total_nodes": NUM_NODES,
+                    "history": simulation_history
+                }
+                with open(f"seir_history_{GRAPH_TYPE}.json", "w") as f:
+                    json.dump(history_data, f)
+            elif MODEL_TYPE == "sirs":
+                print(f"Running SIRS simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
+                simulation_history, history_states = simulate_sirs_model(graph, initial_infected_nodes, BETA, GAMMA, ZETA, NUM_SIMULATION_STEPS)
+                plot_simulation_history(simulation_history, title="SIRS Model Simulation", filename=f"sirs_history_{GRAPH_TYPE}.png")
+                # animate_model(graph, history_states, title="SIRS Model Simulation", filename=f"sirs_animation_{GRAPH_TYPE}.gif")
+                history_data = {
+                    "model_type": MODEL_TYPE,
+                    "graph_type": GRAPH_TYPE,
+                    "total_nodes": NUM_NODES,
+                    "history": simulation_history
+                }
+                with open(f"sirs_history_{GRAPH_TYPE}.json", "w") as f:
+                    json.dump(history_data, f)
+            else:
+                raise ValueError("Invalid MODEL_TYPE specified.")
+
+
+
+
     # ... (rest of the file)
-    if MODEL_TYPE == "sir":
-        print(f"Running SIR simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
-        simulation_history, history_states = simulate_sir_model(graph, initial_infected_nodes, BETA, GAMMA, NUM_SIMULATION_STEPS)
-        plot_simulation_history(simulation_history, title="SIR Model Simulation", filename=f"sir_history_{GRAPH_TYPE}.png")
-        animate_model(graph, history_states, title="SIR Model Simulation", filename=f"sir_animation_{GRAPH_TYPE}.gif")
-        history_data = {
-            "model_type": MODEL_TYPE,
-            "graph_type": GRAPH_TYPE,
-            "total_nodes": NUM_NODES,
-            "history": simulation_history
-        }
-        with open(f"sir_history_{GRAPH_TYPE}.json", "w") as f:
-            json.dump(history_data, f)
-    elif MODEL_TYPE == "sis":
-        print(f"Running SIS simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
-        simulation_history, history_states = simulate_sis_model(graph, initial_infected_nodes, BETA, GAMMA, NUM_SIMULATION_STEPS)
-        plot_simulation_history(simulation_history, title="SIS Model Simulation", filename=f"sis_history_{GRAPH_TYPE}.png")
-        animate_model(graph, history_states, title="SIS Model Simulation", filename=f"sis_animation_{GRAPH_TYPE}.gif")
-        history_data = {
-            "model_type": MODEL_TYPE,
-            "graph_type": GRAPH_TYPE,
-            "total_nodes": NUM_NODES,
-            "history": simulation_history
-        }
-        with open(f"sis_history_{GRAPH_TYPE}.json", "w") as f:
-            json.dump(history_data, f)
-    elif MODEL_TYPE == "seir":
-        print(f"Running SEIR simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
-        simulation_history, history_states = simulate_seir_model(graph, initial_infected_nodes, BETA, EPSILON, GAMMA, NUM_SIMULATION_STEPS)
-        plot_simulation_history(simulation_history, title="SEIR Model Simulation", filename=f"seir_history_{GRAPH_TYPE}.png")
-        animate_model(graph, history_states, title="SEIR Model Simulation", filename=f"seir_animation_{GRAPH_TYPE}.gif")
-        history_data = {
-            "model_type": MODEL_TYPE,
-            "graph_type": GRAPH_TYPE,
-            "total_nodes": NUM_NODES,
-            "history": simulation_history
-        }
-        with open(f"seir_history_{GRAPH_TYPE}.json", "w") as f:
-            json.dump(history_data, f)
-    elif MODEL_TYPE == "sirs":
-        print(f"Running SIRS simulation on {graph_title} for {NUM_SIMULATION_STEPS} steps...")
-        simulation_history, history_states = simulate_sirs_model(graph, initial_infected_nodes, BETA, GAMMA, ZETA, NUM_SIMULATION_STEPS)
-        plot_simulation_history(simulation_history, title="SIRS Model Simulation", filename=f"sirs_history_{GRAPH_TYPE}.png")
-        animate_model(graph, history_states, title="SIRS Model Simulation", filename=f"sirs_animation_{GRAPH_TYPE}.gif")
-        history_data = {
-            "model_type": MODEL_TYPE,
-            "graph_type": GRAPH_TYPE,
-            "total_nodes": NUM_NODES,
-            "history": simulation_history
-        }
-        with open(f"sirs_history_{GRAPH_TYPE}.json", "w") as f:
-            json.dump(history_data, f)
-    else:
-        raise ValueError("Invalid MODEL_TYPE specified.")
