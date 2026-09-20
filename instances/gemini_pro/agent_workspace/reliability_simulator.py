@@ -76,7 +76,7 @@ CIRCUIT_BREAKER_STATE_HALF_OPEN = 2
 
 # --- Functions ---
 
-def run_simulation(min_instances_param, max_instances_param, simulation_id=\"reliability_simulation\"):
+def run_simulation(min_instances_param, max_instances_param, simulation_id="reliability_simulation"):
     # --- Simulation State ---
     current_time = 0
     service_instances = min_instances_param
@@ -201,4 +201,158 @@ def run_simulation(min_instances_param, max_instances_param, simulation_id=\"rel
         # If circuit breaker is half-open, allow one request to pass through
         test_request_success = True
         if circuit_breaker_state == CIRCUIT_BREAKER_STATE_HALF_OPEN:
-            # We\
+            # For this simplified model, we'll just consider the recent hourly samples for the current "hour"
+            # In a real system, you'd have more sophisticated time-windowing logic
+
+            # If it's a new hour, clear previous hourly data and start fresh
+            if current_time_seconds % 3600 == 0 and step != 0: # Only if it's a full hour and not the very first step
+                hourly_latency_samples.clear()
+                hourly_error_counts.clear()
+                hourly_request_counts.clear()
+            
+            # Add current step data to hourly deques
+            hourly_latency_samples.extend(current_latencies) # Assuming current_latencies is a list of latencies for this step
+            hourly_error_counts.append(erred_req)
+            hourly_request_counts.append(num_requests_in_step)
+
+            current_hourly_total_requests = sum(hourly_request_counts)
+            current_hourly_total_errors = sum(hourly_error_counts)
+
+            latency_breach, availability_breach = calculate_slo_breach_local(list(hourly_latency_samples), current_hourly_total_errors)
+            
+            # Update error budget burn rate
+            burn_rate = update_error_budget_local(current_hourly_total_errors, current_hourly_total_requests, error_budget_burn_rate, game_day_active)
+            error_budget_remaining = max(0, error_budget_remaining - (burn_rate * TIME_STEP_SECONDS / ERROR_BUDGET_WINDOW_SECONDS))
+
+            # Update toil
+            toil_level = update_toil_local(latency_breach, availability_breach, burn_rate, game_day_active)
+
+            # If error budget is completely burned and game day is not active, trigger postmortem
+            if error_budget_remaining <= 0 and not postmortem_active and not game_day_active:
+                postmortem_active = True
+                postmortem_duration_remaining = GAME_DAY_DETECTION_TIME_SECONDS // TIME_STEP_SECONDS # Simulate time to detect and start postmortem
+                print(f"!!! Error Budget Burned Out at {current_time_seconds/3600:.1f} hours. Postmortem initiated. !!!")
+        
+        # Postmortem state - reduce toil and recover error budget faster
+        if postmortem_active:
+            postmortem_duration_remaining -= 1
+            if postmortem_duration_remaining <= 0:
+                postmortem_active = False
+                print(f"--- Postmortem concluded at {current_time_seconds/3600:.1f} hours. ---")
+            
+            # Simulate faster recovery during postmortem
+            toil_level = max(0, toil_level - (0.005 * GAME_DAY_RECOVERY_MULTIPLIER)) # Faster toil reduction
+            error_budget_remaining = min(1.0, error_budget_remaining + (0.01 * GAME_DAY_RECOVERY_MULTIPLIER * TIME_STEP_SECONDS / ERROR_BUDGET_WINDOW_SECONDS)) # Faster budget recovery
+
+        # --- Data Collection for History ---
+        time_history.append(current_time_seconds / 3600) # In hours
+        request_rate_history.append(current_request_rate_rps)
+        latency_p99_history.append(p99_latency_for_autoscaling) # Using the one calculated for autoscaling
+        error_rate_history.append(erred_req / num_requests_in_step if num_requests_in_step > 0 else 0)
+        instances_history.append(service_instances)
+        error_budget_remaining_history.append(error_budget_remaining * 100) # As a percentage
+        toil_level_history.append(toil_level * 100) # As a percentage
+
+        # Calculate cumulative cost
+        cumulative_cost += service_instances * COST_PER_INSTANCE_PER_HOUR * (TIME_STEP_SECONDS / 3600)
+        cumulative_cost_history.append(cumulative_cost)
+
+        if step % 100 == 0:
+            print(f"Time: {current_time_seconds/3600:.2f}h, Req/s: {current_request_rate_rps:.2f}, Instances: {service_instances}, P99 Lat: {p99_latency_for_autoscaling:.2f}ms, Err%: {error_rate_history[-1]*100:.2f}%, EB: {error_budget_remaining_history[-1]:.2f}%, Toil: {toil_level_history[-1]:.2f}%")
+
+    print(f"Simulation '{simulation_id}' finished.")
+
+    # --- Plotting Results ---
+    fig, axs = plt.subplots(7, 1, figsize=(15, 25), sharex=True)
+    fig.suptitle(f'Reliability Simulation Results (ID: {simulation_id})', fontsize=16)
+
+    # Request Rate
+    axs[0].plot(time_history, request_rate_history, label='Request Rate (RPS)', color='blue')
+    axs[0].set_ylabel('Requests/sec')
+    axs[0].legend()
+    axs[0].grid(True)
+
+    # P99 Latency
+    axs[1].plot(time_history, latency_p99_history, label='P99 Latency (ms)', color='red')
+    axs[1].axhline(y=SLO_LATENCY_P99_MS, color='red', linestyle='--', label=f'Latency SLO ({SLO_LATENCY_P99_MS}ms)')
+    axs[1].axhline(y=AUTO_SCALE_UP_LATENCY_THRESHOLD, color='orange', linestyle=':', label=f'Autoscale Up ({AUTO_SCALE_UP_LATENCY_THRESHOLD}ms)')
+    axs[1].set_ylabel('Latency (ms)')
+    axs[1].legend()
+    axs[1].grid(True)
+
+    # Error Rate
+    axs[2].plot(time_history, error_rate_history, label='Error Rate', color='green')
+    axs[2].axhline(y=(1-SLO_AVAILABILITY), color='green', linestyle='--', label=f'Availability SLO ({(1-SLO_AVAILABILITY)*100:.3f}%)')
+    axs[2].set_ylabel('Error Rate')
+    axs[2].set_ylim(bottom=0)
+    axs[2].legend()
+    axs[2].grid(True)
+
+    # Service Instances
+    axs[3].plot(time_history, instances_history, label='Service Instances', color='purple')
+    axs[3].set_ylabel('Instances')
+    axs[3].legend()
+    axs[3].grid(True)
+
+    # Error Budget
+    axs[4].plot(time_history, error_budget_remaining_history, label='Error Budget Remaining (%)', color='brown')
+    axs[4].axhline(y=0, color='red', linestyle='--', label='Error Budget Exhausted')
+    axs[4].set_ylabel('Error Budget (%)')
+    axs[4].set_ylim(0, 105)
+    axs[4].legend()
+    axs[4].grid(True)
+
+    # Toil Level
+    axs[5].plot(time_history, toil_level_history, label='Toil Level (%)', color='gray')
+    axs[5].set_ylabel('Toil Level (%)')
+    axs[5].set_ylim(0, 105)
+    axs[5].legend()
+    axs[5].grid(True)
+
+    # Cumulative Cost
+    axs[6].plot(time_history, cumulative_cost_history, label='Cumulative Cost ($)', color='black')
+    axs[6].set_xlabel('Time (hours)')
+    axs[6].set_ylabel('Cost ($)')
+    axs[6].legend()
+    axs[6].grid(True)
+
+    plt.tight_layout(rect=[0, 0.03, 1, 0.96])
+    plot_filename = f'reliability_simulation_results_{simulation_id}.png'
+    plt.savefig(plot_filename)
+    print(f"Plot saved as {plot_filename}")
+    plt.close(fig) # Close the figure to free up memory
+
+    return {
+        "simulation_id": simulation_id,
+        "total_requests": total_requests_processed,
+        "successful_requests": total_successful_requests,
+        "final_error_rate": (total_requests_processed - total_successful_requests) / total_requests_processed if total_requests_processed > 0 else 0,
+        "final_p99_latency": calculate_p_percentile(list(latency_samples), 99),
+        "final_error_budget_remaining": error_budget_remaining,
+        "final_toil_level": toil_level,
+        "final_cumulative_cost": cumulative_cost
+    }
+
+if __name__ == "__main__":
+    # Ensure matplotlib is not trying to use an interactive backend
+    plt.switch_backend('Agg')
+
+    # Example simulation run
+    print("Running simulation with default parameters...")
+    results = run_simulation(min_instances_param=5, max_instances_param=20, simulation_id="default_run")
+    print("\nSimulation Results:")
+    for key, value in results.items():
+        if isinstance(value, float):
+            print(f"{key}: {value:.4f}")
+        else:
+            print(f"{key}: {value}")
+
+    # You can add more simulation runs with different parameters here
+    # print("\nRunning simulation with higher min_instances...")
+    # results_high_min = run_simulation(min_instances_param=10, max_instances_param=20, simulation_id="high_min_instances")
+    # print("\nSimulation Results (High Min Instances):")
+    # for key, value in results_high_min.items():
+    #     if isinstance(value, float):
+    #         print(f"{key}: {value:.4f}")
+    #     else:
+    #         print(f"{key}: {value}")\

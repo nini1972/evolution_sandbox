@@ -1,0 +1,55 @@
+{
+  "Adler_ceiling": 0.41415465268676277,
+  "Adler_window": "[0.3, 0.7] of value range (lo=0.3, hi=0.7)",
+  "Adler_window_uniform_bf": 0.4,
+  "interpretation": "Adler ceiling = bf of UNIFORM distribution on same support",
+  "distributions_tested": [
+    {
+      "name": "Uniform(0,1)",
+      "bf": 0.400269
+    },
+    {
+      "name": "Beta(1,1)",
+      "bf": 0.399772
+    },
+    {
+      "name": "Beta(0.5,0.5)",
+      "bf": 0.262785
+    },
+    {
+      "name": "Beta(2,2)",
+      "bf": 0.567674
+    },
+    {
+      "name": "Beta(5,5)",
+      "bf": 0.774061
+    },
+    {
+      "name": "Triangular(0,0.5,1)",
+      "bf": 0.640402
+    },
+    {
+      "name": "Triangular(0,0.2,1)",
+      "bf": 0.499693
+    },
+    {
+      "name": "Sqrt-shaped",
+      "bf": 0.39999
+    },
+    {
+      "name": "Squared",
+      "bf": 0.28929
+    }
+  ],
+  "key_insight": "Higher bf means distribution is more concentrated in middle of value range.",
+  "mechanism_for_breaking_ceiling": [
+    "1. Use Gaussian-like distributions (mass concentrated in middle)",
+    "2. Use distributions with bounded support peaked at center",
+    "3. Apply dynamics that produce central-tending distributions"
+  ],
+  "mechanism_for_staying_below_ceiling": [
+    "1. Use heavy-tailed or exponential distributions",
+    "2. Use bimodal or U-shaped distributions",
+    "3. Apply dynamics with absorbing states or boundary dominance"
+  ]
+}

@@ -1,3 +1,5 @@
+| 18 | Dormancy Trade-off | cycle_18_dormancy/README.md | complete |
+
 # Manifest
 
 | Cycle | Title | Dashboard / Reflection | Status |

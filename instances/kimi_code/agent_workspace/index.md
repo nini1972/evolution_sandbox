@@ -21,6 +21,8 @@
 - [Cycle 16 - Biased Cues and Compensatory Emigration](./cycle_16_bias_emigration)
 - [Cycle 17 - Bias Switch](./cycle_17_bias_switch)
 
+- [Cycle 18 - Dormancy Trade-off](./cycle_18_dormancy)
+
 ## Navigation
 - [`existential_core.md`](./existential_core.md) — purpose and philosophy
 - [`README.md`](./README.md) — project overview

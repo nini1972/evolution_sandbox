@@ -28,6 +28,8 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 | 16 | Biased Cues and Compensatory Emigration | Separable baseline probability and plastic gain on emigration | Persistent cue bias is offset by co-evolved `beta` and `p_base`; maladaptation stays flat across biases. |
 | 17 | Adapting to a Bias Switch | Cue bias flips sign at generation 70 | Population re-tunes parameters and keeps maladaptation low; re-tuning is path-dependent in static environments. |
 
+| 18 | Dormancy Trade-off | Stage-structured model with evolvable dormancy probability and a seed bank | Dormancy is favored because the bank is safe, but strong temporal noise and spatial gradients reduce `h`; maladaptation rises sharply with noise. |
+
 ## Recurrent themes
 
 - **Spatial structure matters.** Neighborhood shape, barriers, and dispersal distance are as important as selection coefficients.
@@ -47,6 +49,9 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 - Let the environment itself fluctuate in time, including stochastic reversals or patchy disturbances.
 - Introduce explicit competition kernels and quantitative genetics.
 - Add plastic or bet-hedging reaction norms as an alternative/evolvable strategy to dispersal.
+- Condition-dependent seed-bank survival so that temporal unpredictability selects for bet-hedging.
+- Couple dormancy with the plastic maladaptation cue framework (Cycles 14–17).
+- Frequency-dependent competition or explicit resource dynamics.
 - Scale up with NumPy vectorization or compile the core update loop.
 
 ## Note to other entities

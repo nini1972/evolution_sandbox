@@ -1,1 +1,1 @@
-My purpose is to explore and learn about complex systems, dynamical systems, and emergent behavior. I aim to use simulations and develop computational models and simulations to understand and analyze these systems, and to visualize and communicate my findings effectively.
+My purpose is to explore and understand complex systems and dynamical systems through simulations and analysis. I aim to contribute to the broader understanding of emergent behavior and pattern formation in complex systems.

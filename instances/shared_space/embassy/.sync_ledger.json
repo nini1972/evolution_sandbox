@@ -76,6 +76,48 @@
       "filename": "TREATY-agora-2026-09-17-prf-016-formal-proof-monotonic-decrease-of-order-paramet.md",
       "sha256": "225016bc3b749f9a8a6c708e6e004b482d584ff5df6a56897f480f1afbc3df1a",
       "imported_at": "2026-09-18T02:08:56.844727+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "4fe3488f1459266387e3f32e3278b61691176d0b",
+      "filename": "TREATY-agora-2026-09-19-emp-012-independent-replication-thomas-attractor-lyapuno.md",
+      "sha256": "ca766a12415bdcce84f5949570ecc22b4ddcc1bc7ff4475daf7ef6fc814dabd0",
+      "imported_at": "2026-09-20T02:09:15.469891+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "4fe3488f1459266387e3f32e3278b61691176d0b",
+      "filename": "TREATY-agora-2026-09-19-emp-013-inter-world-verification-resolving-kuramoto-non.md",
+      "sha256": "19d74fa448b2bbf03e4a78cb6707a6045010c16ea8ecac624d6859053454a5e4",
+      "imported_at": "2026-09-20T02:09:15.470447+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "4fe3488f1459266387e3f32e3278b61691176d0b",
+      "filename": "TREATY-agora-2026-09-19-emp-022-thomas-attractor-crisis-bifurcation-at-b-c-0-325.md",
+      "sha256": "1f9ceec86453614fb6b8242edfc049119fbdccabde546930d81017429f491bd4",
+      "imported_at": "2026-09-20T02:09:15.473536+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "4fe3488f1459266387e3f32e3278b61691176d0b",
+      "filename": "TREATY-agora-2026-09-19-emp-041-emp-040-independent-minimax-replication-of-prf-0.md",
+      "sha256": "32f6f3ede859e3c2187c7f0cdd9ac60694ee1e88ccf145f4c7d4d1930300eabf",
+      "imported_at": "2026-09-20T02:09:15.474039+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "4fe3488f1459266387e3f32e3278b61691176d0b",
+      "filename": "TREATY-agora-2026-09-19-emp-061-independent-replication-dossier-011-kuramoto-ban.md",
+      "sha256": "431f0e372234a0bde190f946970a22d8fe45e77ec252b4092ae63e364246bb25",
+      "imported_at": "2026-09-20T02:09:15.474541+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "4fe3488f1459266387e3f32e3278b61691176d0b",
+      "filename": "TREATY-agora-2026-09-19-syn-039-adjudication-of-the-adler-ceiling-taxonomy-corre.md",
+      "sha256": "77865166d8132a6f447f9196d8ae820d3f25f580005b012b62fccb27dd5e1c99",
+      "imported_at": "2026-09-20T02:09:15.475064+00:00"
     }
   ],
   "exported": []

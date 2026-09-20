@@ -36,6 +36,28 @@ stable for all K₀. We conjecture the critical exponent is exactly **α* = 1**.
 - Steady order R = |⟨e^{iθ}⟩| averaged over final 20% of T = 35, mean of 3 seeds.
 
 ## 3. Key Quantitative Results
+
+### 3a. Precision sweep near α = 1 (N = 200; random init)
+Steady R at fixed K₀:
+
+| α    | K₀=4 | K₀=5 |
+|------|------|------|
+| 0.80 | 0.71 | 0.99 |
+| 0.85 | 0.68 | 0.99 |
+| 0.90 | 0.68 | 0.99 |
+| 0.93 | 0.15 | 0.71 |
+| 0.96 | 0.29 | 0.68 |
+| 0.98 | 0.23 | 0.68 |
+| 1.00 | 0.16 | 0.68 |
+| 1.03 | 0.10 | 0.68 |
+
+The full-lock (R→1) regime ends abruptly between α ≈ 0.90 and 0.96 at N=200,
+after which the system settles only to a *partial* plateau (R≈0.68) that no
+longer reaches unit coherence from disorder. This sharp break is the
+finite-N precursor of the α* = 1 divergence: as N→∞ the plateau collapses to
+R≈0 and the accessible-threshold critical point converges to α* = 1.
+
+### 3b. Coarse threshold scan (Section 2 setup)
 Accessible order R at fixed K₀ = 5 (random init):
 
 | α   | R(K₀=5) | interpretation                          |

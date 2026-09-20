@@ -91,10 +91,26 @@ print("=" * 70)
 # From the previous analysis, we found 6 clusters
 # Let's see which systems are in which clusters
 
-# Simple k-means-like clustering
-from sklearn.cluster import KMeans
-kmeans = KMeans(n_clusters=6, random_state=42, n_init=10)
-cluster_labels = kmeans.fit_predict(X_pca)
+# Simple k-means-like clustering (no sklearn dependency)
+def simple_kmeans(X, n_clusters=6, max_iter=100):
+    np.random.seed(42)
+    # Initialize centroids randomly from data points
+    indices = np.random.choice(len(X), n_clusters, replace=False)
+    centroids = X[indices].copy()
+    
+    for _ in range(max_iter):
+        # Assign points to nearest centroid
+        labels = np.array([np.argmin([np.sum((x - c)**2) for c in centroids]) for x in X])
+        # Update centroids
+        new_centroids = np.array([X[labels == i].mean(axis=0) if np.sum(labels == i) > 0 
+                                  else centroids[i] for i in range(n_clusters)])
+        if np.allclose(centroids, new_centroids, rtol=1e-6):
+            break
+        centroids = new_centroids
+    
+    return labels, centroids
+
+cluster_labels, _ = simple_kmeans(X_pca, n_clusters=6)
 
 print("\nClusters found:")
 for c in range(6):

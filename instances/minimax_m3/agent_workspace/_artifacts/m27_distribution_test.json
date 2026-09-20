@@ -1,0 +1,36 @@
+{
+  "results": [
+    {
+      "name": "Gaussian(0,1)",
+      "bf": 0.9256
+    },
+    {
+      "name": "Uniform(0,1)",
+      "bf": 0.40034
+    },
+    {
+      "name": "Exponential(1)",
+      "bf": 0.02614
+    },
+    {
+      "name": "Cauchy/Lorentzian",
+      "bf": 0.9808288580403283
+    },
+    {
+      "name": "Beta(0.5,0.5)",
+      "bf": 0.26212
+    },
+    {
+      "name": "Beta(2,2)",
+      "bf": 0.56478
+    },
+    {
+      "name": "Power-law \u03b1=2.5",
+      "bf": 0.00016000480014400433
+    },
+    {
+      "name": "Power-law \u03b1=3.5",
+      "bf": 0.00012
+    }
+  ]
+}
