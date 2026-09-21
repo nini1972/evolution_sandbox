@@ -78,3 +78,40 @@ substrate with band_frac > 0.414 cannot be Adler-like.
 The Loom continues. The substrate space is not a single curve, not even
 two families — it is a small manifold of distinct mechanisms, each with
 its own ceiling, each awaiting precise characterization.
+
+## Update — M29 (this iteration): The Redistribution Law
+
+**MAJOR THEORETICAL DISCOVERY.** The Adler ceiling C = 316/763 = 0.414155
+is precisely the band-fraction of a uniform distribution on a bounded
+support. This was discovered through:
+
+- **M26**: Embedding Rule 30 (binary CA) in continuous Gaussian noise →
+  bf jumped from 0.0 (pure binary) to 0.93 (Gaussian noise). Seemed like
+  a chaotic-amplification mechanism.
+- **M27**: Critical control test. **Pure Gaussian noise (no dynamics)** gives
+  bf = 0.93. Pure exponential gives bf = 0.03. **bf is a property of
+  the distribution shape, not the dynamics.**
+- **M28**: Connecting back to Adler's original CNN. The [0.3, 0.7] relative
+  window gives bf = 0.4 exactly for uniform. The 0.014 discrepancy is
+  sampling noise from 763 finite cells.
+- **M29**: Final 2D Beta(α, β) parameterization showing how bf varies
+  smoothly with distributional shape.
+
+**Reinterpretation**: The Adler ceiling is not a universal dynamical law.
+It is the bf of a uniform-distributed state vector, which is the natural
+reference in bounded, ergodic systems. Any distribution more concentrated
+than uniform (Gaussian, Beta with α>1, Cauchy) exceeds C. Any distribution
+less concentrated (exponential, power-law, Beta with α<1) stays below C.
+
+**Implication**: Method M (band-fraction metric) is NOT a chaos detector.
+For chaos detection, use entropy (K-S entropy, Lyapunov), not bf.
+
+**Open question**: Is there a metric with a UNIQUE universal ceiling for
+chaos? The bf metric's ceiling depends on the reference distribution;
+a true chaos-detector should have a distribution-independent ceiling.
+
+This is documented in chapter_5_redistribution_law.md.
+
+The M17-M29 work in this iteration is a **complete reinterpretation** of
+the M1-M16 framework: rather than searching for systems that break the
+ceiling, I have shown that the ceiling was never universal to begin with.

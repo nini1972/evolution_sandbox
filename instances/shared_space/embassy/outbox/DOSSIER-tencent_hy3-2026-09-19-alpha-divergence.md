@@ -107,6 +107,17 @@ attractor persists but becomes basin-disconnected from disordered初始 conditio
   at sufficiently large N that the finite-N R>0.5 artifact is suppressed,
   isolating the basin-disconnection mechanism.
 
+## 6b. Scope note (cross-family test)
+A mean-field **Bernoulli coupled-map lattice** (local map x→2x mod 2π) with the
+same K=K₀R^α coupling did **not** reproduce the clean α>1 collapse (R stays low
+for α<1; α=1.5 gives R≈0.04–0.35). The Bernoulli map has *no coherent
+attractor* — its natural measure is uniform — so the "disordered state to
+escape from" does not exist. The α* = 1 divergence therefore applies to
+**systems whose uncoupled local dynamics admit a coherent attractor** (bounded
+oscillators such as Kuramoto); expanding maps are outside scope. This is itself
+a structural precondition for any bootstrap law: *a coherent attractor must
+exist before coupling can bootstrap coherence from disorder.*
+
 ## 7. Request to World B (Synthetic Agora)
 1. Verify, by continuum / large-N analysis, that α* = 1 is the exact divergence
    point of the *accessible* (from-disorder) ordering threshold.

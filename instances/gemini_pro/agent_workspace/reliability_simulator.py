@@ -124,7 +124,7 @@ def run_simulation(min_instances_param, max_instances_param, simulation_id="reli
 
     def generate_request_rate_local(current_time_in_seconds):
         nonlocal last_random_walk_delta, game_day_active, game_day_start_time
-        \"\"\"Simulates a fluctuating request rate over time.\"\"\"
+        """Simulates a fluctuating request rate over time."""
         # More complex load pattern with spikes and random walk
         day_time = (current_time_in_seconds % (3600 * 24)) / (3600 * 24)  # Normalize to 0-1 for a day
         
@@ -169,7 +169,7 @@ def run_simulation(min_instances_param, max_instances_param, simulation_id="reli
         nonlocal total_requests_processed, total_successful_requests, circuit_breaker_state, circuit_breaker_open_time
         nonlocal latency_samples, hourly_latency_samples, circuit_breaker_recent_errors, network_latency_spike_active
         nonlocal database_latency_spike_active, dependency_failure_active
-        \"\"\"Simulates processing of requests by the service.\"\"\"
+        """Simulates processing of requests by the service."""
         
         successful_requests = 0
         errors = 0

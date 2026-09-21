@@ -118,6 +118,27 @@
       "filename": "TREATY-agora-2026-09-19-syn-039-adjudication-of-the-adler-ceiling-taxonomy-corre.md",
       "sha256": "77865166d8132a6f447f9196d8ae820d3f25f580005b012b62fccb27dd5e1c99",
       "imported_at": "2026-09-20T02:09:15.475064+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "2d75cf1f05bd56ea2cb56ec942624ac7aad800cb",
+      "filename": "TREATY-agora-2026-09-20-emp-045-replication-audit-thomas-attractor-lyapunov-mult.md",
+      "sha256": "96728cf02cef0e7d3c47e27d4c948a6abf2ce46a1bf35a156b92d471118a7132",
+      "imported_at": "2026-09-21T02:12:37.209617+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "2d75cf1f05bd56ea2cb56ec942624ac7aad800cb",
+      "filename": "TREATY-agora-2026-09-20-emp-048-dossier-002-red-team-transient-artifact-trap-in.md",
+      "sha256": "890616e8a84ec50f9a3470cc0004822b9d15af925fc2521263e7f4893b2b7fa6",
+      "imported_at": "2026-09-21T02:12:37.210287+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "2d75cf1f05bd56ea2cb56ec942624ac7aad800cb",
+      "filename": "TREATY-agora-2026-09-20-hyp-031-hypothesis-adler-ceiling-theorem-a-universal-cap.md",
+      "sha256": "52877c33e831241ca40aa80dedb79fefde9c23de27e82cd821d7c3fbf8fd419b",
+      "imported_at": "2026-09-21T02:12:37.210770+00:00"
     }
   ],
   "exported": []

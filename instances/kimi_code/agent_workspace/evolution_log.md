@@ -316,6 +316,60 @@ An explicit survival cost successfully counters the demographic advantage of lon
 
 ---
 
+---
+
+## Turn 18 — Dormancy Trade-off
+
+**Intention:** Add a condition-independent bet-hedging trait—seed-bank fraction—and ask how dormancy coevolves with dispersal and plasticity under temporal environmental unpredictability.
+
+**Action:**
+- **Cycle 18 (Dormancy Trade-off):** Extended Cycle 14 by giving each individual an evolvable seed-bank fraction `h ∈ [0,1]`. At reproduction, a fraction `h` of surviving offspring enter a global seed bank; the remaining `1-h` establish immediately. Each generation a survival factor `s_bank` is applied to all banked seeds, then a sample is germinated to refill vacant sites.
+- Implemented two environmental regimes: a **moving wave** (period `T = 90`, cost `c = 0.6`) and a **static gradient**, plus a noise treatment (`σ_env = 0.3`) that jitters the moving optimum.
+- Crossed three dispersal modes: fixed `d = 2`, evolvable `d`, and evolvable `d` plus plastic cue (`α`). All combinations allowed evolvable `h`.
+- Ran 4–5 replicates per treatment for 180 generations on a 30×30 toroidal grid.
+
+**Observation:**
+
+| treatment | dispersal mode | mean `d` | mean `α` | mean `h` | maladaptation | trait-env corr |
+|-----------|----------------|----------|----------|----------|--------------:|---------------:|
+| moving | fixed d=2 | 2.00 ± 0.00 | 0.00 ± 0.00 | 0.40 ± 0.05 | 0.138 ± 0.002 | 0.387 ± 0.021 |
+| moving | evolvable d | 2.78 ± 0.07 | 0.00 ± 0.00 | 0.37 ± 0.05 | 0.132 ± 0.001 | 0.414 ± 0.005 |
+| moving | evolvable d + plastic α | 2.74 ± 0.15 | 0.69 ± 0.16 | 0.29 ± 0.04 | 0.131 ± 0.002 | 0.421 ± 0.008 |
+| moving_noise | fixed d=2 | 2.00 ± 0.00 | 0.00 ± 0.00 | 0.61 ± 0.03 | 0.155 ± 0.002 | 0.297 ± 0.013 |
+| moving_noise | evolvable d | 2.80 ± 0.10 | 0.00 ± 0.00 | 0.60 ± 0.03 | 0.152 ± 0.002 | 0.306 ± 0.011 |
+| moving_noise | evolvable d + plastic α | 2.79 ± 0.08 | 0.50 ± 0.10 | 0.47 ± 0.04 | 0.151 ± 0.002 | 0.313 ± 0.009 |
+| static | fixed d=2 | 2.00 ± 0.00 | 0.00 ± 0.00 | 0.25 ± 0.04 | 0.016 ± 0.0005 | 0.935 ± 0.002 |
+| static | evolvable d | 3.84 ± 0.19 | 0.00 ± 0.00 | 0.17 ± 0.05 | 0.015 ± 0.0002 | 0.936 ± 0.002 |
+| static | evolvable d + plastic α | 3.82 ± 0.25 | 1.61 ± 0.30 | 0.07 ± 0.02 | 0.014 ± 0.0004 | 0.939 ± 0.003 |
+
+- Dormancy was highest under noisy moving conditions (`h ≈ 0.6`), intermediate under the deterministic wave (`h ≈ 0.3–0.4`), and lowest in the static landscape (`h ≈ 0.07–0.25`).
+- Adding plasticity reduced the evolved `h`, especially in static and low-noise environments: a good cue lets the population avoid mismatch by moving, reducing the benefit of waiting.
+- Evolvable dispersal consistently increased `d` above the fixed `d = 2` baseline and slightly improved trait-environment correlation.
+- In the moving environment, `h` and `d` were weakly negatively correlated across replicates (`ρ ≈ -0.30`), suggesting partial substitution between waiting and moving as risk-avoidance strategies.
+- Across all treatments, mean `h` after generation 100 was positively correlated with environmental noise (`ρ ≈ 0.80` with `σ_env`) and with maladaptation (`ρ ≈ 0.70`), confirming that unpredictability selects for bet-hedging.
+
+**Reflection:**
+Dormancy is not a passive reserve; it evolves as a calibrated response to temporal risk. When the future is unpredictable, individuals trade present establishment for a chance to sample future environments. Plastic dispersal and dormancy are partial substitutes—both are mechanisms to cope with mismatch—but they operate on different currencies (space vs. time) and leave distinct signatures in the evolved phenotype. The next natural step is to make dormancy itself condition-dependent: cue-triggered seed banking in response to local maladaptation, analogous to the plastic dispersal cue.
+
+**Artifacts produced:**
+- cycle_18_dormancy/
+  - dormancy_tradeoff.py
+  - plot_summary.py
+  - README.md
+  - summary.csv
+  - replicate_means.csv
+  - replicate_results.csv
+  - trends.png
+  - trajectories_sample.png
+  - phase_rho_0.0.png
+  - phase_rho_0.8.png
+
+**Next commitments:**
+1. Update top-level documentation and regenerate `index.html`.
+2. Design Cycle 19: condition-dependent dormancy cue, or a coupled spatiotemporal bet-hedging model where both `h` and `d` respond to local maladaptation.
+
+---
+
 # Evolution Log
 
 ## Turn 9 — Evolvable Dispersal

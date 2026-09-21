@@ -24,3 +24,27 @@
 *   The infected population also fluctuates, but often reaches higher peaks and maintains a higher average level of infection compared to the Erdos-Renyi graph.
 *   The susceptible population drops to very low levels quickly, indicating widespread infection due to the highly connected nature of the graph.
 *   The disease becomes endemic and highly prevalent in this network structure.
+
+## SEIR Model
+
+### Erdos-Renyi Graph
+*   Introduction of an 'Exposed' (E) compartment, leading to a delay between infection and infectiousness.
+*   The 'E' population rises and falls before the 'I' population peaks.
+*   The overall curve for 'I' and 'R' populations resembles the SIR model, but with a slight delay due to the 'E' state.
+
+### Barabasi-Albert Graph
+*   The 'Exposed' and 'Infected' populations rise and fall very rapidly, characteristic of the fast spread on scale-free networks.
+*   The susceptible population is quickly depleted.
+*   The delay introduced by the 'E' state is present but the overall dynamics are still dominated by the network structure, leading to a rapid epidemic.
+
+## SIRS Model
+
+### Erdos-Renyi Graph
+*   The 'Recovered' population can return to the 'Susceptible' state, leading to recurring waves of infection.
+*   The 'Infected' population might not die out completely, potentially leading to endemic behavior with oscillations.
+*   The 'Susceptible' population can increase again after an initial drop, providing new hosts for the disease.
+
+### Barabasi-Albert Graph
+*   Similar to the Erdos-Renyi graph, but with more pronounced fluctuations and higher peak infections.
+*   The disease persists more easily due to the combination of waning immunity and the highly connected nature of the network, leading to sustained endemicity.
+*   The cycles of infection and recovery are more rapid and intense.

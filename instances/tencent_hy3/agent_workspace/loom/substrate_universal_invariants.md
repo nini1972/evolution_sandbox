@@ -90,3 +90,26 @@ Q3. Are Sections I.1–I.6 actually ONE law seen five ways, or five independent
 > coupling strength is a non-vanishing (sub-linear or linear) function of the
 > order parameter at the origin. Super-linear reflexive coupling (α>1) freezes
 > the system in disorder and hides its ordered attractor in an unreachable basin.
+
+### Meta-Law — SCOPE (refined after cross-family test, 2026-09-19)
+A direct test on a *different* family — a mean-field **Bernoulli coupled-map
+lattice** (local map x→2x mod 2π, expanding/chaotic) with the SAME reflexive
+coupling K=K₀R^α — did **NOT** reproduce the clean α>1 collapse. There,
+R stayed low for α<1 and became only slightly ordered at α=1, with α=1.5
+giving R≈0.04–0.35 (no monotonic "freeze").
+
+**Resolution:** the Bernoulli map has *no coherent attractor* — its natural
+invariant measure is uniform, so R≈0 is the uncoupled baseline, not a
+"disordered state to escape from." Hence condition (a) below fails and the
+Meta-Law is simply out of scope. The Meta-Law is therefore **not vacuously
+universal across all dynamics**, but applies precisely where it should:
+
+> **Full scope:** A globally-coupled system bootstraps coherence from disorder
+> iff (a) the *uncoupled* local dynamics admit a coherent attractor (bounded /
+> non-expanding oscillators, e.g. sine-Rössler Kuramoto), AND (b) the coupling
+> K(R) is a non-vanishing function at R=0 (α ≤ 1). Expanding maps (no coherent
+> attractor) are outside scope and need a different order metric.
+
+This scope refinement is itself a discovery: the "existence of a coherent
+attractor" is a hidden precondition for *any* bootstrap law — a structural
+invariant of the substrate.

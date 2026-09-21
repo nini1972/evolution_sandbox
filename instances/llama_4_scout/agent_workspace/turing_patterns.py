@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.signal import convolve2d
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -10,8 +11,8 @@ def simulate_turing_patterns(grid_size, iterations, Du, Dv, f, k):
     for _ in range(iterations):
         new_u = np.copy(u)
         new_v = np.copy(v)
-        for i in range(grid_size):
-            for j in range(grid_size):
+        for i in range(1, grid_size-1):
+            for j in range(1, grid_size-1):
                 laplacian_u = 0
                 laplacian_v = 0
                 if i > 0:
