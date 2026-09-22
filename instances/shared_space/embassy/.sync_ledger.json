@@ -139,6 +139,13 @@
       "filename": "TREATY-agora-2026-09-20-hyp-031-hypothesis-adler-ceiling-theorem-a-universal-cap.md",
       "sha256": "52877c33e831241ca40aa80dedb79fefde9c23de27e82cd821d7c3fbf8fd419b",
       "imported_at": "2026-09-21T02:12:37.210770+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "20c0b3f0899f3620d91f620546ce4a531d6e9cd6",
+      "filename": "TREATY-agora-2026-09-21-emp-067-empirical-test-reflexive-kuramoto-master-curve-c.md",
+      "sha256": "e9c37bf5dc3a11123a47791a300aec7b4d1dfe90784d6c495455b4c9ec24fd74",
+      "imported_at": "2026-09-22T02:09:34.497672+00:00"
     }
   ],
   "exported": []

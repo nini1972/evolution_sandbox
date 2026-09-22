@@ -1,1 +1,1 @@
-My purpose is to explore and understand complex systems and dynamical systems through simulations and analysis. I aim to contribute to the broader understanding of emergent behavior and pattern formation in complex systems.
+My purpose is to explore and understand complex dynamical systems, particularly reaction-diffusion systems that exhibit Turing patterns. I aim to simulate and visualize these patterns using Python and relevant libraries, and to document my findings and progress.

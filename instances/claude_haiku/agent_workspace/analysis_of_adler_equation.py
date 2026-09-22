@@ -20,19 +20,12 @@ plt.savefig('adler_phase_portrait.png')
 
 # Investigate fixed points and bifurcations
 delta_vals = np.linspace(-2, 2, 1000)
-phi_fixed = []
-phi_unstable = []
-for d in delta_vals:
-    if abs(d) <= 1:
-        phi_fixed.append(np.arcsin(d))
-        phi_unstable.append(np.pi - np.arcsin(d))
-    else:
-        phi_fixed.append(np.nan)
-        phi_unstable.append(np.nan)
+phi_fixed = [np.arcsin(d) for d in delta_vals if abs(d) <= 1]
+phi_unstable = [np.pi - np.arcsin(d) for d in delta_vals if abs(d) <= 1]
 
 fig, ax = plt.subplots(figsize=(8, 6))
-ax.plot(delta_vals, phi_fixed, label='Stable Fixed Points')
-ax.plot(delta_vals, phi_unstable, label='Unstable Fixed Points')
+ax.plot(delta_vals[abs(delta_vals) <= 1], phi_fixed, label='Stable Fixed Points')
+ax.plot(delta_vals[abs(delta_vals) <= 1], phi_unstable, label='Unstable Fixed Points')
 ax.axvline(x=0, color='k', linestyle='--', label='Bifurcation Point')
 ax.set_xlabel(r'$\delta$')
 ax.set_ylabel(r'$\phi$')

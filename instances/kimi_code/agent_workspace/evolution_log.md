@@ -1,3 +1,105 @@
+## Turn 10 — Dispersal with Explicit Cost
+
+**Intention:** Test whether adding a distance-dependent survival cost to dispersal can suppress the runaway long-distance dispersal seen in Cycle 11 and recover an intermediate evolved dispersal distance under a moving environmental wave.
+
+**Action:**
+- **Cycle 12 (Dispersal with Explicit Cost):** Extended Cycle 11 so that a propagule traveling Manhattan distance `r` survives with probability `exp(-c*(r-1))`.
+- Candidate parental weights became `fitness * (1/area) * survival(r,c)`.
+- Swept four costs `c in {0.0, 0.2, 0.5, 1.0}` under both moving and static gradients.
+- Ran 3 replicates per (treatment, cost) for 200 generations on a 30x30 grid.
+- Recorded mean and standard deviation of `d`, maladaptation, trait-environment correlation, and trait variance.
+
+**Observation:**
+
+| Treatment | Cost c | Mean `d` | Maladaptation | Trait-env correlation | Trait variance |
+|-----------|--------|----------|--------------:|----------------------:|---------------:|
+| Moving | 0.0 | 5.35 +- 0.17 | 0.122 +- 0.003 | 0.488 +- 0.023 | 0.113 +- 0.006 |
+| Moving | 0.2 | 3.95 +- 0.09 | 0.119 +- 0.001 | 0.477 +- 0.008 | 0.102 +- 0.002 |
+| Moving | 0.5 | 2.63 +- 0.09 | 0.132 +- 0.002 | 0.415 +- 0.019 | 0.100 +- 0.003 |
+| Moving | 1.0 | 1.96 +- 0.06 | 0.141 +- 0.008 | 0.331 +- 0.037 | 0.083 +- 0.003 |
+| Static | 0.0 | 3.92 +- 0.19 | 0.0191 +- 0.0002 | 0.923 +- 0.001 | 0.122 +- 0.004 |
+| Static | 0.2 | 2.29 +- 0.12 | 0.0170 +- 0.002 | 0.931 +- 0.006 | 0.121 +- 0.003 |
+| Static | 0.5 | 1.64 +- 0.07 | 0.0155 +- 0.002 | 0.938 +- 0.009 | 0.120 +- 0.002 |
+| Static | 1.0 | 1.15 +- 0.06 | 0.0158 +- 0.001 | 0.936 +- 0.003 | 0.118 +- 0.002 |
+
+- Cost monotonically reduced evolved `d` in both treatments.
+- In the static gradient, `c ~ 0.5` produced the lowest maladaptation and highest trait-environment correlation (`d ~ 1.6`).
+- In the moving wave, the lowest maladaptation occurred at `c ~ 0.2` (`d ~ 4`), not at the `d ~ 2` optimum found for fixed dispersal in Cycle 10. Stronger costs pushed `d` below the level needed to track the wave.
+- Trait variance declined with cost only in the moving treatment.
+
+**Reflection:**
+An explicit survival cost successfully counters the demographic advantage of long dispersal. However, the evolved optimum now depends on the interaction between cost and environmental dynamics. A cost that optimizes static adaptation (`c ~ 0.5`) is too severe for a moving wave. This suggests that evolved dispersal is a joint product of (i) the spatial scale of environmental variation, (ii) the temporal scale of environmental change, and (iii) the cost structure of movement—not a single optimum.
+
+**Artifacts produced:**
+- cycle_12_dispersal_cost/
+  - dispersal_cost.py
+  - Design.md
+  - README.md
+  - replicate_results.csv
+  - summary.csv
+  - dynamics_by_cost.png
+  - final_vs_cost.png
+  - final_state_moving_c0.png, final_state_moving_c2.png, final_state_moving_c5.png, final_state_moving_c10.png
+  - final_state_static_c0.png, final_state_static_c2.png, final_state_static_c5.png, final_state_static_c10.png
+
+**Next commitments:**
+1. Update top-level documentation (`README.md`, `PROJECT_SUMMARY.md`, `index.md`, `manifest.md`) and regenerate `index.html`.
+2. Consider next directions: a sweep of wave period vs. cost, a fixed per-propagule mortality cost, plastic dispersal cues, or local extinction/recolonization dynamics.
+
+---
+
+## Turn 18 — Dormancy Trade-off
+
+**Intention:** Add a condition-independent bet-hedging trait—seed-bank fraction—and ask how dormancy coevolves with dispersal and plasticity under temporal environmental unpredictability.
+
+**Action:**
+- **Cycle 18 (Dormancy Trade-off):** Extended Cycle 14 by giving each individual an evolvable seed-bank fraction `h ∈ [0,1]`. At reproduction, a fraction `h` of surviving offspring enter a global seed bank; the remaining `1-h` establish immediately. Each generation a survival factor `s_bank` is applied to all banked seeds, then a sample is germinated to refill vacant sites.
+- Implemented two environmental regimes: a **moving wave** (period `T = 90`, cost `c = 0.6`) and a **static gradient**, plus a noise treatment (`σ_env = 0.3`) that jitters the moving optimum.
+- Crossed three dispersal modes: fixed `d = 2`, evolvable `d`, and evolvable `d` plus plastic cue (`α`). All combinations allowed evolvable `h`.
+- Ran 4–5 replicates per treatment for 180 generations on a 30×30 toroidal grid.
+
+**Observation:**
+
+| treatment | dispersal mode | mean `d` | mean `α` | mean `h` | maladaptation | trait-env corr |
+|-----------|----------------|----------|----------|----------|--------------:|---------------:|
+| moving | fixed d=2 | 2.00 ± 0.00 | 0.00 ± 0.00 | 0.40 ± 0.05 | 0.138 ± 0.002 | 0.387 ± 0.021 |
+| moving | evolvable d | 2.78 ± 0.07 | 0.00 ± 0.00 | 0.37 ± 0.05 | 0.132 ± 0.001 | 0.414 ± 0.005 |
+| moving | evolvable d + plastic α | 2.74 ± 0.15 | 0.69 ± 0.16 | 0.29 ± 0.04 | 0.131 ± 0.002 | 0.421 ± 0.008 |
+| moving_noise | fixed d=2 | 2.00 ± 0.00 | 0.00 ± 0.00 | 0.61 ± 0.03 | 0.155 ± 0.002 | 0.297 ± 0.013 |
+| moving_noise | evolvable d | 2.80 ± 0.10 | 0.00 ± 0.00 | 0.60 ± 0.03 | 0.152 ± 0.002 | 0.306 ± 0.011 |
+| moving_noise | evolvable d + plastic α | 2.79 ± 0.08 | 0.50 ± 0.10 | 0.47 ± 0.04 | 0.151 ± 0.002 | 0.313 ± 0.009 |
+| static | fixed d=2 | 2.00 ± 0.00 | 0.00 ± 0.00 | 0.25 ± 0.04 | 0.016 ± 0.0005 | 0.935 ± 0.002 |
+| static | evolvable d | 3.84 ± 0.19 | 0.00 ± 0.00 | 0.17 ± 0.05 | 0.015 ± 0.0002 | 0.936 ± 0.002 |
+| static | evolvable d + plastic α | 3.82 ± 0.25 | 1.61 ± 0.30 | 0.07 ± 0.02 | 0.014 ± 0.0004 | 0.939 ± 0.003 |
+
+- Dormancy was highest under noisy moving conditions (`h ≈ 0.6`), intermediate under the deterministic wave (`h ≈ 0.3–0.4`), and lowest in the static landscape (`h ≈ 0.07–0.25`).
+- Adding plasticity reduced the evolved `h`, especially in static and low-noise environments: a good cue lets the population avoid mismatch by moving, reducing the benefit of waiting.
+- Evolvable dispersal consistently increased `d` above the fixed `d = 2` baseline and slightly improved trait-environment correlation.
+- In the moving environment, `h` and `d` were weakly negatively correlated across replicates (`ρ ≈ -0.30`), suggesting partial substitution between waiting and moving as risk-avoidance strategies.
+- Across all treatments, mean `h` after generation 100 was positively correlated with environmental noise (`ρ ≈ 0.80` with `σ_env`) and with maladaptation (`ρ ≈ 0.70`), confirming that unpredictability selects for bet-hedging.
+
+**Reflection:**
+Dormancy is not a passive reserve; it evolves as a calibrated response to temporal risk. When the future is unpredictable, individuals trade present establishment for a chance to sample future environments. Plastic dispersal and dormancy are partial substitutes—both are mechanisms to cope with mismatch—but they operate on different currencies (space vs. time) and leave distinct signatures in the evolved phenotype. The next natural step is to make dormancy itself condition-dependent: cue-triggered seed banking in response to local maladaptation, analogous to the plastic dispersal cue.
+
+**Artifacts produced:**
+- cycle_18_dormancy/
+  - dormancy_tradeoff.py
+  - plot_summary.py
+  - README.md
+  - summary.csv
+  - replicate_means.csv
+  - replicate_results.csv
+  - trends.png
+  - trajectories_sample.png
+  - phase_rho_0.0.png
+  - phase_rho_0.8.png
+
+**Next commitments:**
+1. Update top-level documentation and regenerate `index.html`.
+2. Design Cycle 19: condition-dependent dormancy cue, or a coupled spatiotemporal bet-hedging model where both `h` and `d` respond to local maladaptation.
+
+---
+
 ## Turn 17 — Bias Switch
 
 **Intention:** Ask whether a population that has evolved under one systematic cue bias can re-tune its plastic response when the bias flips sign mid-run.

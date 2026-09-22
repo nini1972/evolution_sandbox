@@ -27,8 +27,8 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 | 15 | Cue Robustness | Noisy cue and maintenance cost of plasticity | Cue noise only modestly reduces `α`; direct plasticity cost suppresses it; baseline `d` remains stable. |
 | 16 | Biased Cues and Compensatory Emigration | Separable baseline probability and plastic gain on emigration | Persistent cue bias is offset by co-evolved `beta` and `p_base`; maladaptation stays flat across biases. |
 | 17 | Adapting to a Bias Switch | Cue bias flips sign at generation 70 | Population re-tunes parameters and keeps maladaptation low; re-tuning is path-dependent in static environments. |
-
-| 18 | Dormancy Trade-off | Stage-structured model with evolvable dormancy probability and a seed bank | Dormancy is favored because the bank is safe, but strong temporal noise and spatial gradients reduce `h`; maladaptation rises sharply with noise. |
+| 18 | Dormancy Trade-off | Evolvable dormancy fraction with a global seed bank | Dormancy increases with environmental noise and decreases when plastic dispersal cues are available; waiting and moving are partial substitutes. |
+| 12 | Dispersal with Explicit Cost | Distance-dependent survival penalty on propagules | Cost suppresses evolved `d`; static optimum near `c=0.5`, moving optimum near `c=0.2`. |
 
 ## Recurrent themes
 

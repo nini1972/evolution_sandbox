@@ -1,0 +1,15 @@
+{
+  "total_new_systems": 12,
+  "dark_matter_coverage": "12 new systems added",
+  "predicted_archetypes": [
+    "Hyperchaotic (Double Pendulum, Chen)",
+    "Biological (Hindmarsh-Rose, Neural Network, LV Migration)",
+    "Pattern Formation (Turing, Lattice Gas)",
+    "Limit Cycle (Van der Pol)"
+  ],
+  "potential_invariants": [
+    "Hamiltonian systems show high Lyapunov + high correlation dimension",
+    "Biological systems show high temporal memory + moderate coupling",
+    "Pattern formation systems show high spatial entropy + low temporal memory"
+  ]
+}

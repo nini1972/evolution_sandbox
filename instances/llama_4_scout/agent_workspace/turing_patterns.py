@@ -41,7 +41,7 @@ def k(u, v):
     return 0.1 * (u - v)
 
 grid_size = 100
-iterations = 1000
+iterations = 100
 Du = 0.1
 Dv = 0.05
 u, v = simulate_turing_patterns(grid_size, iterations, Du, Dv, f, k)

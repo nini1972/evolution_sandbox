@@ -5,6 +5,18 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from collections import deque
 
+def calculate_p_percentile(data, p):
+    """Calculates the p-th percentile of a list of data."""
+    if not data:
+        return 0
+    data.sort()
+    index = (len(data) - 1) * p / 100
+    if index.is_integer():
+        return data[int(index)]
+    lower_bound = data[int(math.floor(index))]
+    upper_bound = data[int(math.ceil(index))]
+    return lower_bound + (upper_bound - lower_bound) * (index - math.floor(index))
+
 # --- Configuration Parameters ---
 SIMULATION_DURATION_SECONDS = 7 * 24 * 3600 # 7 days
 TIME_STEP_SECONDS = 300              # Granularity of simulation updates
@@ -87,6 +99,7 @@ def run_simulation(min_instances_param, max_instances_param, simulation_id="reli
     hourly_error_counts = deque() # For SLO calculation
     hourly_request_counts = deque() # For SLO calculation (NEW)
     error_budget_burn_rate = 0.0
+    error_budget_remaining = 1.0 # Initialize error budget
     toil_level = 0.0 # Represents accumulated toil, 0.0 to 1.0
     postmortem_active = False
     postmortem_duration_remaining = 0 # In time steps
@@ -121,6 +134,73 @@ def run_simulation(min_instances_param, max_instances_param, simulation_id="reli
 
     # Local variable for random walk delta within this simulation run
     last_random_walk_delta = 0
+
+    def calculate_slo_breach_local(latency_samples_arg, total_errors_arg):
+        latency_breach = False
+        if latency_samples_arg:
+            p99_latency = calculate_p_percentile(list(latency_samples_arg), 99)
+            if p99_latency > SLO_LATENCY_P99_MS:
+                latency_breach = True
+
+        availability_breach = False
+        if total_errors_arg / TIME_STEP_SECONDS > (1 - SLO_AVAILABILITY):
+            availability_breach = True
+
+        return latency_breach, availability_breach
+
+
+    def update_error_budget_local(total_errors, total_requests, current_burn_rate, game_day_active):
+        # Simulate error budget burn. More errors mean faster burn.
+        # If no requests, no burn.
+        if total_requests == 0:
+            return 0.0
+
+        # Current error rate
+        current_error_rate = total_errors / total_requests
+
+        # Target error rate based on SLO
+        target_error_rate = 1 - SLO_AVAILABILITY
+
+        # If current error rate exceeds target, burn budget
+        if current_error_rate > target_error_rate:
+            # Calculate how much current error rate exceeds the target
+            excess_error_rate = current_error_rate - target_error_rate
+            # The burn rate is proportional to the excess error rate
+            burn_rate = (excess_error_rate / target_error_rate) # Normalized burn rate
+        else:
+            burn_rate = 0.0 # No burn if within SLO
+
+        # During Game Day, error budget recovers faster (or burns slower, depending on implementation)
+        if game_day_active:
+            # Example: Halve the burn rate during game day if within SLO, or a faster recovery
+            burn_rate *= (1 / GAME_DAY_RECOVERY_MULTIPLIER) # Reduce effective burn
+
+        return burn_rate
+
+    def update_toil_local(latency_breach, availability_breach, error_budget_burn_rate, game_day_active):
+        nonlocal toil_level
+        # Toil increases when SLOs are breached or error budget is burning fast
+        # Toil decreases over time or with proactive actions (like game days)
+
+        toil_increase = 0
+        if latency_breach: # Each breach adds a fixed amount of toil
+            toil_increase += 0.01
+        if availability_breach:
+            toil_increase += 0.02 # Availability breaches are more severe
+
+        # High error budget burn also increases toil
+        toil_increase += error_budget_burn_rate * 0.05 # Proportional to how fast budget is burning
+
+        toil_level = min(1.0, toil_level + toil_increase) # Cap toil at 100%
+
+        # Toil naturally decays over time if no issues
+        toil_level *= 0.99 # 1% decay per time step
+
+        # Game days can help reduce toil faster
+        if game_day_active:
+            toil_level = max(0, toil_level - (0.01 * GAME_DAY_RECOVERY_MULTIPLIER)) # Faster toil reduction
+
+        return toil_level
 
     def generate_request_rate_local(current_time_in_seconds):
         nonlocal last_random_walk_delta, game_day_active, game_day_start_time
