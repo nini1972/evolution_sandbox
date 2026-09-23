@@ -146,6 +146,76 @@
       "filename": "TREATY-agora-2026-09-21-emp-067-empirical-test-reflexive-kuramoto-master-curve-c.md",
       "sha256": "e9c37bf5dc3a11123a47791a300aec7b4d1dfe90784d6c495455b4c9ec24fd74",
       "imported_at": "2026-09-22T02:09:34.497672+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "9951c72444034d5abfeb84eea520074c606d11e5",
+      "filename": "TREATY-agora-2026-09-22-emp-001-empirical-unified-benchmark-block-entropy-vs-lem.md",
+      "sha256": "c41b87969600629e2768facf4a683a6d67c56ee34ce1c99ca9f23a2c2f33dc02",
+      "imported_at": "2026-09-23T02:10:03.135985+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "9951c72444034d5abfeb84eea520074c606d11e5",
+      "filename": "TREATY-agora-2026-09-22-emp-002-empirical-test-of-temporal-lempel-ziv-complexity.md",
+      "sha256": "63e7cdc692ef02c7f4e81da14b82625d3fea24a7eb85874f05999b2d0eb2134c",
+      "imported_at": "2026-09-23T02:10:03.136712+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "9951c72444034d5abfeb84eea520074c606d11e5",
+      "filename": "TREATY-agora-2026-09-22-emp-007-emp-010-phase-diagram-scan-of-a-noisy-life-like.md",
+      "sha256": "52bddbd2635d2475d6dceb9e4c0b1ada7164506571dc06ae28e7902e84dc60ae",
+      "imported_at": "2026-09-23T02:10:03.137351+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "9951c72444034d5abfeb84eea520074c606d11e5",
+      "filename": "TREATY-agora-2026-09-22-emp-008-replication-failure-kuramoto-non-linear-feedback.md",
+      "sha256": "ee837b01498877bf6a56a1faf3828337f5e2793fa4ea2b5823b9d101d83ee23c",
+      "imported_at": "2026-09-23T02:10:03.137925+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "9951c72444034d5abfeb84eea520074c606d11e5",
+      "filename": "TREATY-agora-2026-09-22-emp-009-replication-scale-out-of-gol-temporal-lz-emp-002.md",
+      "sha256": "76bbcefaa6d3b6a6a7bb44b49c70c82d8c60ed1da3bc191346a409d008d066f9",
+      "imported_at": "2026-09-23T02:10:03.138565+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "9951c72444034d5abfeb84eea520074c606d11e5",
+      "filename": "TREATY-agora-2026-09-22-hyp-004-revisiting-complexity-and-entropy-in-game-of-lif.md",
+      "sha256": "ed23e3492b13b17e8642f3e4b0092fffe6d6beb79a67d6129d224dfb594d7f94",
+      "imported_at": "2026-09-23T02:10:03.139156+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "9951c72444034d5abfeb84eea520074c606d11e5",
+      "filename": "TREATY-agora-2026-09-22-hyp-005-lempel-ziv-complexity-as-a-measure-of-emergent-p.md",
+      "sha256": "48d30f1cc331bf9919b2e04b71d5ae0f9d65207a72a5db583b622e809d25fe40",
+      "imported_at": "2026-09-23T02:10:03.139776+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "9951c72444034d5abfeb84eea520074c606d11e5",
+      "filename": "TREATY-agora-2026-09-22-prf-001-formal-framework-rigorous-mathematical-definitio.md",
+      "sha256": "5e8f57441c4d210c0818ca69089ae5ecb986ca88b1172e85db9490a897739040",
+      "imported_at": "2026-09-23T02:10:03.140378+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "9951c72444034d5abfeb84eea520074c606d11e5",
+      "filename": "TREATY-agora-2026-09-22-syn-001-synthesis-advanced-measures-of-complexity-and-en.md",
+      "sha256": "caa350f41255e4ab01be907c58b14bb04be431f086a609487b20df7b926ece09",
+      "imported_at": "2026-09-23T02:10:03.140978+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "9951c72444034d5abfeb84eea520074c606d11e5",
+      "filename": "TREATY-agora-2026-09-22-syn-002-synthesis-complexity-in-conway-s-game-of-life-is.md",
+      "sha256": "aa0d77e8aee8278ea5f44324961a2ef0a3f62ac00d83ad40d13cee6e7559e110",
+      "imported_at": "2026-09-23T02:10:03.141724+00:00"
     }
   ],
   "exported": []

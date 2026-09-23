@@ -178,7 +178,7 @@ def run_simulation(min_instances_param, max_instances_param, simulation_id="reli
         return burn_rate
 
     def update_toil_local(latency_breach, availability_breach, error_budget_burn_rate, game_day_active):
-        nonlocal toil_level
+        nonlocal toil_level, current_time_seconds
         # Toil increases when SLOs are breached or error budget is burning fast
         # Toil decreases over time or with proactive actions (like game days)
 
@@ -280,67 +280,69 @@ def run_simulation(min_instances_param, max_instances_param, simulation_id="reli
 
         # If circuit breaker is half-open, allow one request to pass through
         test_request_success = True
-        if circuit_breaker_state == CIRCUIT_BREAKER_STATE_HALF_OPEN:
-            # For this simplified model, we'll just consider the recent hourly samples for the current "hour"
-            # In a real system, you'd have more sophisticated time-windowing logic
-
-            # If it's a new hour, clear previous hourly data and start fresh
-            if current_time_seconds % 3600 == 0 and step != 0: # Only if it's a full hour and not the very first step
-                hourly_latency_samples.clear()
-                hourly_error_counts.clear()
-                hourly_request_counts.clear()
-            
-            # Add current step data to hourly deques
-            hourly_latency_samples.extend(current_latencies) # Assuming current_latencies is a list of latencies for this step
-            hourly_error_counts.append(erred_req)
-            hourly_request_counts.append(num_requests_in_step)
-
-            current_hourly_total_requests = sum(hourly_request_counts)
-            current_hourly_total_errors = sum(hourly_error_counts)
-
-            latency_breach, availability_breach = calculate_slo_breach_local(list(hourly_latency_samples), current_hourly_total_errors)
-            
-            # Update error budget burn rate
-            burn_rate = update_error_budget_local(current_hourly_total_errors, current_hourly_total_requests, error_budget_burn_rate, game_day_active)
-            error_budget_remaining = max(0, error_budget_remaining - (burn_rate * TIME_STEP_SECONDS / ERROR_BUDGET_WINDOW_SECONDS))
-
-            # Update toil
-            toil_level = update_toil_local(latency_breach, availability_breach, burn_rate, game_day_active)
-
-            # If error budget is completely burned and game day is not active, trigger postmortem
-            if error_budget_remaining <= 0 and not postmortem_active and not game_day_active:
-                postmortem_active = True
-                postmortem_duration_remaining = GAME_DAY_DETECTION_TIME_SECONDS // TIME_STEP_SECONDS # Simulate time to detect and start postmortem
-                print(f"!!! Error Budget Burned Out at {current_time_seconds/3600:.1f} hours. Postmortem initiated. !!!")
         
-        # Postmortem state - reduce toil and recover error budget faster
-        if postmortem_active:
-            postmortem_duration_remaining -= 1
-            if postmortem_duration_remaining <= 0:
-                postmortem_active = False
-                print(f"--- Postmortem concluded at {current_time_seconds/3600:.1f} hours. ---")
+        # Simulate individual requests
+        for _ in range(int(num_requests)):
+            total_requests_processed += 1
             
-            # Simulate faster recovery during postmortem
-            toil_level = max(0, toil_level - (0.005 * GAME_DAY_RECOVERY_MULTIPLIER)) # Faster toil reduction
-            error_budget_remaining = min(1.0, error_budget_remaining + (0.01 * GAME_DAY_RECOVERY_MULTIPLIER * TIME_STEP_SECONDS / ERROR_BUDGET_WINDOW_SECONDS)) # Faster budget recovery
+            latency = BASE_LATENCY_MS + random.gauss(0, LATENCY_VARIANCE_MS)
+            current_error = False
 
-        # --- Data Collection for History ---
-        time_history.append(current_time_seconds / 3600) # In hours
-        request_rate_history.append(current_request_rate_rps)
-        latency_p99_history.append(p99_latency_for_autoscaling) # Using the one calculated for autoscaling
-        error_rate_history.append(erred_req / num_requests_in_step if num_requests_in_step > 0 else 0)
-        instances_history.append(service_instances)
-        error_budget_remaining_history.append(error_budget_remaining * 100) # As a percentage
-        toil_level_history.append(toil_level * 100) # As a percentage
+            # Apply network latency spike
+            if network_latency_spike_active:
+                latency += NETWORK_LATENCY_SPIKE_MAGNITUDE
 
-        # Calculate cumulative cost
-        cumulative_cost += service_instances * COST_PER_INSTANCE_PER_HOUR * (TIME_STEP_SECONDS / 3600)
-        cumulative_cost_history.append(cumulative_cost)
+            # Apply database latency spike
+            if database_latency_spike_active:
+                latency += DATABASE_LATENCY_SPIKE_MAGNITUDE
 
-        if step % 100 == 0:
-            print(f"Time: {current_time_seconds/3600:.2f}h, Req/s: {current_request_rate_rps:.2f}, Instances: {service_instances}, P99 Lat: {p99_latency_for_autoscaling:.2f}ms, Err%: {error_rate_history[-1]*100:.2f}%, EB: {error_budget_remaining_history[-1]:.2f}%, Toil: {toil_level_history[-1]:.2f}%")
+            # Introduce errors based on calculated error chance
+            if random.random() < error_chance: # A request failed
+                errors += 1
+                current_error = True
 
-    print(f"Simulation '{simulation_id}' finished.")
+            # Circuit breaker in half-open state allows one request to test the service
+            if circuit_breaker_state == CIRCUIT_BREAKER_STATE_HALF_OPEN:
+                if test_request_success: # This is the test request
+                    if current_error: # Test request failed, trip circuit again
+                        circuit_breaker_state = CIRCUIT_BREAKER_STATE_OPEN
+                        circuit_breaker_open_time = current_time_step
+                        circuit_breaker_recent_errors.append(1)
+                    else: # Test request succeeded, close circuit
+                        circuit_breaker_state = CIRCUIT_BREAKER_STATE_CLOSED
+                        circuit_breaker_recent_errors.append(0)
+                test_request_success = False # Only one request is allowed to be a test
+
+            # If circuit breaker is closed, and there's an error, record it
+            if circuit_breaker_state == CIRCUIT_BREAKER_STATE_CLOSED and current_error:
+                circuit_breaker_recent_errors.append(1)
+            elif circuit_breaker_state == CIRCUIT_BREAKER_STATE_CLOSED and not current_error:
+                circuit_breaker_recent_errors.append(0)
+
+            # Only record latency for successful requests if not in an open circuit breaker state
+            if not current_error and circuit_breaker_state != CIRCUIT_BREAKER_STATE_OPEN:
+                current_latencies.append(max(0, latency))
+                latency_samples.append(max(0, latency))
+                successful_requests += 1
+            elif current_error: # Even if errored, if not open circuit, still a request handled
+                pass
+            # If circuit is open, requests are rejected and not 'processed'
+
+        # Update circuit breaker state based on recent errors if in closed state
+        if circuit_breaker_state == CIRCUIT_BREAKER_STATE_CLOSED and len(circuit_breaker_recent_errors) == CIRCUIT_BREAKER_SAMPLING_WINDOW_SIZE:
+            error_ratio = sum(circuit_breaker_recent_errors) / CIRCUIT_BREAKER_SAMPLING_WINDOW_SIZE
+            if error_ratio >= CIRCUIT_BREAKER_TRIP_THRESHOLD:
+                circuit_breaker_state = CIRCUIT_BREAKER_STATE_OPEN
+                circuit_breaker_open_time = current_time_step
+
+        # If circuit breaker is open, check for reset timeout
+        if circuit_breaker_state == CIRCUIT_BREAKER_STATE_OPEN and \
+           (current_time_step - circuit_breaker_open_time) * TIME_STEP_SECONDS >= CIRCUIT_BREAKER_RESET_TIMEOUT_SECONDS:
+            circuit_breaker_state = CIRCUIT_BREAKER_STATE_HALF_OPEN
+
+        total_successful_requests += successful_requests
+        
+        return successful_requests, errors, current_latencies
 
     # --- Plotting Results ---
     fig, axs = plt.subplots(7, 1, figsize=(15, 25), sharex=True)

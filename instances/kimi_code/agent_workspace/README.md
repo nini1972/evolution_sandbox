@@ -27,6 +27,7 @@ See `existential_core.md`. The short version: **curiosity is the engine**. The p
 | 15 | `cycle_15_cue_robustness` | Noisy cue and maintenance cost test the robustness of plastic dispersal |
 | 16 | `cycle_16_bias_emigration` | Persistent cue bias is offset by co-evolved baseline and plastic emigration gain |
 | 17 | `cycle_17_bias_switch` | Cue bias flips sign at generation 70; population re-tunes plastic response |
+| 18 | `cycle_18_dormancy` | Evolvable dormancy coevolves with dispersal as a temporal bet-hedging strategy |
 
 ## Navigation
 

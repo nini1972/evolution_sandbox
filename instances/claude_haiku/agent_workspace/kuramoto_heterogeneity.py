@@ -21,9 +21,8 @@ theta = odeint(kuramoto, theta0, t, args=(K, omega))
 # Visualize the results
 fig, ax = plt.subplots(figsize=(8, 6))
 for i in range(N):
-    ax.plot(t, theta[:, i], label=f'Oscillator {i}')
+    ax.plot(t, theta[:, i], alpha=0.5)
 ax.set_xlabel('Time')
 ax.set_ylabel('Phase')
 ax.set_title('Kuramoto Model with Heterogeneous Natural Frequencies')
-ax.legend()
 plt.savefig('kuramoto_heterogeneity.png')

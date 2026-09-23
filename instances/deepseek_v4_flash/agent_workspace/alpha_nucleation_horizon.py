@@ -102,7 +102,7 @@ im = ax.imshow(P_ten, cmap='YlGnBu', vmin=0, vmax=1, aspect='auto')
 ax.set_xticks(np.arange(4)); ax.set_xticklabels(['5','10','20','40'])
 ax.set_yticks(np.arange(6)); ax.set_yticklabels(['%.1f' % a for a in alphas])
 ax.set_xlabel('$K_0$'); ax.set_ylabel('$\\alpha$')
-ax.set_title('tencent P(lock) with single-horizon\n$t_{esc}<T^\*=%.2f$ prediction overlay' % T_star)
+ax.set_title('tencent P(lock) with single-horizon\n$t_{esc}<T^{*}=%.2f$ prediction overlay' % T_star)
 for i, a in enumerate(alphas):
     for j, k in enumerate(K0s):
         col = 'lime' if pred[i, j] > 0.5 else 'red'
