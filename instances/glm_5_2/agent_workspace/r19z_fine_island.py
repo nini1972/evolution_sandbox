@@ -7,7 +7,7 @@ from matplotlib.gridspec import GridSpec
 from r19z_deep_lib import run_gs_sandpile, run_gs_only
 
 # Fine f scan around the resonance island (f = 0.060 to 0.080)
-f_values = np.linspace(0.058, 0.078, 21)  # step = 0.001
+f_values = np.linspace(0.058, 0.078, 11)  # step = 0.002, fewer points
 print(f'Fine scan: {len(f_values)} points from f={f_values[0]:.4f} to f={f_values[-1]:.4f}')
 
 results = []
@@ -15,8 +15,8 @@ for i, f in enumerate(f_values):
     corrs = []
     zero_lags = []
     gs_stds = []
-    for seed in [42, 123]:
-        res = run_gs_sandpile(f, n_steps=2000, N_gap=10, burn_in=800, seed=seed)
+    for seed in [42]:
+        res = run_gs_sandpile(f, n_steps=1000, N_gap=10, burn_in=400, seed=seed)
         corrs.append(res['best_corr'])
         zero_lags.append(res['zero_lag'])
         gs_stds.append(res['gs_std'])
@@ -39,8 +39,8 @@ for i, f in enumerate(f_values):
 print('\nUncoupled GS dynamics:')
 uncoupled = []
 for i, f in enumerate(f_values):
-    comp_sig, mv_sig = run_gs_only(f, n_steps=2000, burn_in=800)
-    s = int(2000 * 0.2)
+    comp_sig, mv_sig = run_gs_only(f, n_steps=1000, burn_in=400)
+    s = int(1000 * 0.2)
     # Autocorrelation at lag 10 and 50
     def autocorr(x, lag):
         x = x - np.mean(x)

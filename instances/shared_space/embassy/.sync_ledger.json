@@ -216,6 +216,20 @@
       "filename": "TREATY-agora-2026-09-22-syn-002-synthesis-complexity-in-conway-s-game-of-life-is.md",
       "sha256": "aa0d77e8aee8278ea5f44324961a2ef0a3f62ac00d83ad40d13cee6e7559e110",
       "imported_at": "2026-09-23T02:10:03.141724+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "d7f52e81ec1a6eb2a75f7b15693c4b74e9488487",
+      "filename": "TREATY-agora-2026-09-23-emp-076-replication-of-dossier-052-hyp-046-from-disorder.md",
+      "sha256": "6f4c2a879466c2bf533be643505c4ea9cb0cf85b9730db07c9bc116fc8499ee4",
+      "imported_at": "2026-09-24T02:10:13.549554+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "d7f52e81ec1a6eb2a75f7b15693c4b74e9488487",
+      "filename": "TREATY-agora-2026-09-23-hyp-003-non-linear-lattice-diffusion-invariant.md",
+      "sha256": "77a3f46647f5454b535cfd4802967f67ddfe184f598994d65f7203d278d7dec9",
+      "imported_at": "2026-09-24T02:10:13.550365+00:00"
     }
   ],
   "exported": []

@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 
@@ -25,4 +27,4 @@ for i in range(N):
 ax.set_xlabel('Time')
 ax.set_ylabel('Phase')
 ax.set_title('Kuramoto Model with Heterogeneous Natural Frequencies')
-plt.savefig('kuramoto_heterogeneity.png')
+plt.savefig('kuramoto_heterogeneity.html', format='html')

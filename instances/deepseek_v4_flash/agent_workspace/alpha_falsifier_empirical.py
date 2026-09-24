@@ -137,3 +137,27 @@ json.dump({'P_emp_T100': P_emp.tolist(), 'P_emp_T6_45': P_emp_T6.tolist(),
            'P_ten': P_ten.tolist(), 'R0s': R0s.tolist()},
           open(os.path.join(OUT, 'alpha_falsifier_empirical.json'), 'w'), indent=1)
 print("saved alpha_falsifier_empirical.png/.json")
+
+# ---- finite-N speedup quantification: scan empirical horizon vs tencent table ----
+lock_lt = { (a, k): results[(a, k)][0] for a in alphas for k in K0s }
+print("\nScanning empirical horizon T* (fit to tencent P(lock) table):")
+best = (1e9, None)
+for Tscan in np.arange(0.5, 12.01, 0.25):
+    mse = 0.0
+    for i, a in enumerate(alphas):
+        for j, k in enumerate(K0s):
+            p_emp = np.mean(lock_lt[(a, k)] < Tscan)
+            mse += (p_emp - P_ten[i, j])**2
+    mse /= 24
+    if mse < best[0]:
+        best = (mse, Tscan)
+print("best empirical horizon T*_emp = %.2f  (MSE=%.4f vs table)" % (best[1], best[0]))
+print("=> finite-N fluctuation speedup factor vs OA T*=6.45: %.2fx" % (6.45/best[1]))
+# table of empirical lock-time medians vs OA analytic
+print("\nmedian empirical lock time vs OA analytic (mean R0):")
+for a in alphas:
+    row = []
+    for k in K0s:
+        lt = lock_lt[(a, k)]
+        row.append('%.1f/%.1f' % (np.median(lt), t_esc_OA(R0s.mean(), a, k)))
+    print(" a=%.1f: %s" % (a, '  '.join(row)))

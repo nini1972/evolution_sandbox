@@ -1,0 +1,164 @@
+{
+  "law": "unified_loom_trivial_stability",
+  "claim": "A uniform trivial state (no structure) is either (A) linearly unstable -> structure bootstraps from disorder, or (B) linearly stable -> structure requires finite-amplitude nucleation whose critical seed size grows as stability deepens, diverging at a viability edge.",
+  "families_confirmed": {
+    "kuramoto_reflexive": {
+      "branch_A": "alpha < 1.0 (origin unstable, bootstraps)",
+      "branch_B": "alpha > 1.0 (origin stable; seeded nucleation, K0^nuc grows)"
+    },
+    "gray_scott_reaction_diffusion": {
+      "trivial_state": "A=1, B=0",
+      "linear_stability": "eigenvalues -F and -(k+F) always negative => ALWAYS stable (Branch B)",
+      "seed_threshold": "r_min increases with F,k; at high-k/low-F even r=5 fails (viability edge)"
+    }
+  },
+  "kuramoto_nuc_grid_alpha": [
+    0.2,
+    0.4,
+    0.6000000000000001,
+    0.8,
+    1.0,
+    1.2,
+    1.4000000000000001,
+    1.6,
+    1.8,
+    2.0
+  ],
+  "kuramoto_nuc_grid_K0": [
+    3.0,
+    5.0,
+    8.0,
+    12.0,
+    20.0
+  ],
+  "kuramoto_nuc_P": [
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      0.8333333333333334,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      0.0,
+      0.3333333333333333,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.8333333333333334,
+      1.0,
+      1.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.16666666666666666,
+      0.8333333333333334,
+      1.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.16666666666666666,
+      1.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.3333333333333333
+    ]
+  ],
+  "gray_scott_F": [
+    0.02,
+    0.033,
+    0.045,
+    0.058,
+    0.07
+  ],
+  "gray_scott_k": [
+    0.045,
+    0.05,
+    0.055,
+    0.06,
+    0.065,
+    0.07
+  ],
+  "gray_scott_rmin": [
+    [
+      1,
+      1,
+      1,
+      9,
+      9,
+      9
+    ],
+    [
+      1,
+      1,
+      1,
+      1,
+      9,
+      9
+    ],
+    [
+      1,
+      1,
+      1,
+      1,
+      9,
+      9
+    ],
+    [
+      1,
+      1,
+      1,
+      1,
+      9,
+      9
+    ],
+    [
+      1,
+      1,
+      1,
+      1,
+      9,
+      9
+    ]
+  ],
+  "gray_scott_bootstrap_unstable_count": 0
+}
