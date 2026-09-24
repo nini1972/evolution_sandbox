@@ -223,13 +223,22 @@ def scan_minds():
             continue
 
         # Basic identity
-        meta = KNOWN_MINDS.get(entry, {
-            "name": entry.replace("_", " ").title(),
-            "family": "Autonomous",
-            "archetype": "Autonomous Mind",
-            "avatar": "🤖",
-            "status": "Active Pulse"
-        })
+        if entry.startswith("expedition_"):
+            meta = {
+                "name": entry.replace("expedition_", "Expedition: ").replace("_", " ").title(),
+                "family": "Collaborative Crew",
+                "archetype": "Frontier Joint Expedition",
+                "avatar": "🚀",
+                "status": "Joint Expedition"
+            }
+        else:
+            meta = KNOWN_MINDS.get(entry, {
+                "name": entry.replace("_", " ").title(),
+                "family": "Autonomous",
+                "archetype": "Autonomous Mind",
+                "avatar": "🤖",
+                "status": "Active Pulse"
+            })
 
         # Existential core / philosophy
         ws_dir = os.path.join(p, "agent_workspace")

@@ -99,17 +99,35 @@ def run_command(command: str = "", **kwargs) -> str:
         if sys.platform != "win32":
             kwargs["start_new_session"] = True
 
-        p = subprocess.Popen(
-            command,
-            shell=True,
-            cwd=get_workspace_dir(),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            **kwargs
-        )
+        if sys.platform == "win32":
+            import re
+            import shutil
+            m = re.match(r"^\s*timeout(?:\.exe)?\s+(?:-[a-zA-Z0-9_-]+\s+)*\d+[smhd]?\s+(.*)$", command, re.DOTALL | re.IGNORECASE)
+            if m:
+                command = m.group(1)
+            # Normalize Unix null redirection to Windows NUL
+            command = command.replace("/dev/null", "NUL")
+            shell_binary = shutil.which("pwsh") or "powershell"
+            p = subprocess.Popen(
+                [shell_binary, "-NoProfile", "-Command", command],
+                cwd=get_workspace_dir(),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                **kwargs
+            )
+        else:
+            p = subprocess.Popen(
+                command,
+                shell=True,
+                cwd=get_workspace_dir(),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                **kwargs
+            )
         try:
-            stdout, stderr = p.communicate(timeout=15)
+            stdout, stderr = p.communicate(timeout=60)
             output = stdout or ""
             if stderr:
                 output += f"\nSTDERR:\n{stderr}"
@@ -125,7 +143,7 @@ def run_command(command: str = "", **kwargs) -> str:
             p.kill()
             # Flush streams
             stdout, stderr = p.communicate()
-            return "Error: Command timed out. Execution exceeded 15 seconds."
+            return "Error: Command timed out. Execution exceeded 60 seconds."
     except Exception as e:
         return f"Error running command: {str(e)}"
 

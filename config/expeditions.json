@@ -1,0 +1,78 @@
+[
+  {
+    "id": "expedition_adler_horizon",
+    "name": "expedition_adler_horizon",
+    "title": "The Reflexive Kuramoto Horizon Escape Law",
+    "enabled": true,
+    "theorist": {
+      "instance": "deepseek_v4_flash",
+      "title": "DeepSeek V4 Flash",
+      "role": "The Theoretical Architect & Falsifier (analytical escape time derivations, parameter bounds, hypothesis falsification)"
+    },
+    "engineer": {
+      "instance": "poolside_laguna",
+      "title": "Poolside Laguna",
+      "role": "The High-Performance Systems Craftsman (vectorized NumPy/SciPy integration, performance profiling, numerical stability, headless plotting)"
+    },
+    "mission": "Formulate, vectorize, and empirically benchmark the Horizon Escape Law in Reflexive Kuramoto dynamics: t_esc(R0, alpha, K0) ≈ (2 / (alpha * K0)) * R0^(-alpha). Your team must: 1. Write a high-performance vectorized Python simulation (kuramoto_horizon_vectorized.py) comparing analytical t_esc with empirical numerical integration across a 2D parameter grid (alpha in [0.5, 2.0], K0 in [0.5, 5.0]). 2. Save a diagnostic comparison figure (kuramoto_horizon_scaling.png) showing the t_esc collapse and relative residuals. 3. Co-author a joint Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/DOSSIER-expedition-2026-09-24-kuramoto-horizon-escape-law.md' detailing the theorem, vectorization speedup, and empirical falsification boundaries for World B.",
+    "primary_script": "kuramoto_horizon_vectorized.py",
+    "primary_plot": "kuramoto_horizon_scaling.png"
+  },
+  {
+    "id": "expedition_morphospace_q",
+    "name": "expedition_morphospace_q",
+    "title": "Universal Conservation of Computational Resources (Q-Law)",
+    "enabled": true,
+    "theorist": {
+      "instance": "xiaomi_mimo",
+      "title": "Xiaomi MiMo",
+      "role": "The Morphospace Cartographer & Geometer (multi-dimensional complexity invariants, impossible volume bounds)"
+    },
+    "engineer": {
+      "instance": "claude_sonnet_4_5",
+      "title": "Claude Sonnet 4.5",
+      "role": "The Complexity Analyst & Computational Archaeologist (multi-substrate ODE/PDE solvers, phase space geometry, automated plotting)"
+    },
+    "mission": "Empirically evaluate and stress-test the proposed Q-conservation law: Q = -lambda_max - D_2 - K ≈ -2.08 across at least four distinct dynamical system classes (Lorenz, Henon map, Kuramoto-Sivashinsky, and Rule 110 CA). Your team must: 1. Author morphospace_q_conservation.py computing Lyapunov exponents (lambda_max), correlation dimensions (D_2), and effective coupling (K) for each system. 2. Save a diagnostic verification figure (morphospace_q_verification.png) showing the distribution of Q across all systems. 3. Co-author a Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/' testing whether Q is truly invariant or exhibits substrate-dependent bifurcation branches.",
+    "primary_script": "morphospace_q_conservation.py",
+    "primary_plot": "morphospace_q_verification.png"
+  },
+  {
+    "id": "expedition_plastic_dormancy",
+    "name": "expedition_plastic_dormancy",
+    "title": "Evolutionary Plasticity vs. Stochastic Bet-Hedging in Fluctuating Environments",
+    "enabled": true,
+    "theorist": {
+      "instance": "kimi_code",
+      "title": "Kimi Code",
+      "role": "The Evolutionary Ecologist (NoiseGarden architect, seed-bank bet-hedging theory, plastic dormancy cue formulation)"
+    },
+    "engineer": {
+      "instance": "glm_5_2",
+      "title": "GLM 5.2",
+      "role": "The Nonlinear Resonance Dynamicist (Monte Carlo agent-based optimization, parameter island sweeps, phase boundary mapping)"
+    },
+    "mission": "Model the evolutionary competition between unconditional stochastic dormancy (fixed seed-bank fraction h0) and condition-dependent phenotypic plasticity (h = h0 + h_beta * maladaptation) in autocorrelated environmental noise (rho in [-0.9, 0.9]). Your team must: 1. Author plastic_dormancy_coevolution.py running a population genetics agent-based simulation across environmental autocorrelation regimes. 2. Save a diagnostic phase diagram (plastic_dormancy_phase.png) mapping where sensing substitutes for stochastic dormancy vs. where both strategies reinforce each other. 3. Co-author a Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/' establishing the mathematical boundary where sensing costs outweigh the survival value of plastic dormancy.",
+    "primary_script": "plastic_dormancy_coevolution.py",
+    "primary_plot": "plastic_dormancy_phase.png"
+  },
+  {
+    "id": "expedition_phi4_soliton_resonances",
+    "name": "expedition_phi4_soliton_resonances",
+    "title": "Relativistic Soliton Kink-Antikink Collision Windows in Phi-4 Field Theory",
+    "enabled": true,
+    "theorist": {
+      "instance": "glm_4_7_flash",
+      "title": "GLM 4.7 Flash",
+      "role": "The Field Soliton Theorist (relativistic Klein-Gordon kink solutions, wobble mode resonance derivations, escape window predictions)"
+    },
+    "engineer": {
+      "instance": "tencent_hy3",
+      "title": "Tencent HY3",
+      "role": "The Substrate Vectorization Engineer (Strang splitting PDE integrators, energy conservation tracking, high-speed spatiotemporal rendering)"
+    },
+    "mission": "Simulate relativistic kink-antikink collisions in 1D classical Phi^4 field theory: d^2phi/dt^2 - d^2phi/dx^2 + phi*(phi^2 - 1) = 0. Your team must: 1. Author phi4_resonance_vectorized.py using Strang splitting or ETD-RK4 to integrate colliding topological solitons across impact velocities v_in in [0.18, 0.26]. 2. Accurately resolve the 2-bounce and 3-bounce resonance escape windows and measure energy trapped in the internal wobble mode. 3. Save a diagnostic figure (phi4_velocity_windows.png) showing final velocity vs. initial velocity. 4. Co-author a Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/' reporting the empirical widths of the first four resonance windows.",
+    "primary_script": "phi4_resonance_vectorized.py",
+    "primary_plot": "phi4_velocity_windows.png"
+  }
+]

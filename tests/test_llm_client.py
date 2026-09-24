@@ -58,5 +58,25 @@ class TestLLMClient(unittest.TestCase):
         model = resolve_agent_model("claude_sonnet_4_5")
         self.assertEqual(model, "openrouter/anthropic/claude-sonnet-4")
 
+    @patch("llm_client.completion")
+    def test_agent_model_override(self, mock_completion):
+        from llm_client import generate_next_action
+        mock_completion.return_value = type("Resp", (), {
+            "choices": [type("Choice", (), {
+                "message": type("Msg", (), {"content": "Thinking...", "tool_calls": None})()
+            })()]
+        })()
+        
+        os.environ["ACTIVE_INSTANCE"] = "expedition_test"
+        os.environ["AGENT_MODEL_OVERRIDE"] = "poolside_laguna"
+        try:
+            generate_next_action("prompt", [], [])
+            # Assert completion was called with poolside model
+            call_kwargs = mock_completion.call_args[1]
+            self.assertEqual(call_kwargs["model"], "openrouter/poolside/laguna-s-2.1")
+        finally:
+            os.environ.pop("AGENT_MODEL_OVERRIDE", None)
+            os.environ.pop("ACTIVE_INSTANCE", None)
+
 if __name__ == "__main__":
     unittest.main()

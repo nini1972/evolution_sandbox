@@ -35,3 +35,6 @@ AddBiomechanics/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Runtime state
+instances/.expedition_state.json

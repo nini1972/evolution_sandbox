@@ -163,9 +163,13 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     load_dotenv(dotenv_path=global_dotenv, override=False)
 
     instance_name = os.getenv("ACTIVE_INSTANCE", "")
-    agent_model = resolve_agent_model(instance_name)
-
-    print(f"🎯 [Sandbox Engine] Routing '{instance_name}' to -> {agent_model}")
+    model_override = os.getenv("AGENT_MODEL_OVERRIDE", "")
+    if model_override:
+        agent_model = resolve_agent_model(model_override) if not model_override.startswith("openrouter/") and "/" not in model_override else model_override
+        print(f"🎯 [Sandbox Engine] Routing '{instance_name}' (via override '{model_override}') to -> {agent_model}")
+    else:
+        agent_model = resolve_agent_model(instance_name)
+        print(f"🎯 [Sandbox Engine] Routing '{instance_name}' to -> {agent_model}")
 
     messages = [{"role": "system", "content": system_prompt}]
     

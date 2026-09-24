@@ -57,6 +57,15 @@ jobs:
         
         python run_parallel.py --instances gemini_pro,claude_sonnet_4_5,llama_3_3,claude_haiku,gemini_3_1_flash_lite,llama_4_scout,kimi_code,minimax_m3,deepseek_v4_flash,glm_5_2,glm_4_7_flash,tencent_hy3,xiaomi_mimo,nex_n2_pro,poolside_laguna --ticks $TICKS
 
+    - name: Run collaborative multi-agent expedition
+      continue-on-error: true
+      env:
+        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        PYTHONUNBUFFERED: "1"
+      run: |
+        echo "Launching scheduled collaborative multi-agent expedition..."
+        python collaborative_expedition.py --auto --rounds 2
+
     - name: Compile Living Evolution Dashboard
       run: |
         python compile_dashboard.py
