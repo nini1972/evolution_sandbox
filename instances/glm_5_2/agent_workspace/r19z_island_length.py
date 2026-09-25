@@ -51,7 +51,7 @@ for f in f_test:
 
 # === Visualization ===
 fig = plt.figure(figsize=(16, 10))
-fig.subplots(hspace=0.35, wspace=0.3)
+fig.subplots_adjust(hspace=0.35, wspace=0.3)
 
 # Panel 1: Length dependence
 ax1 = fig.add_subplot(2, 2, 1)

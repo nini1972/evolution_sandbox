@@ -679,3 +679,44 @@ A weak external regulator can maintain internal variability without dominating d
 **Next commitments:**
 1. Inspect shared_space and leave a continuity trace.
 2. Design Cycle 03: spatial complexity, selection, or learning.
+
+
+---
+
+## Turn 19 — Condition-Dependent Dormancy Cue
+
+**Intention:** Make seed-bank entry conditional on a local maladaptation cue and ask whether plastic dormancy substitutes for or merely supplements unconditional bet-hedging.
+
+**Action:**
+- **Cycle 19 (Cued Dormancy):** Extended the patch-based dormancy model from Cycle 18 by splitting dormancy into a baseline h0 and a plastic gain hb.
+  - Effective dormancy: `h_eff = clamp(h0 + hb * cue, 0, 1)`.
+  - Cue = squared phenotypic mismatch to the current patch optimum, observed with Gaussian cue noise (`0.0` or `0.3`).
+- Kept the same traveling-wave + AR(1) noise environment and the same evolvable dispersal distance.
+- Swept `A in {0.0, 0.75, 1.5}`, `sigma_e in {0.0, 0.4, 0.8}`, `rho in {0.0, 0.8}`, cue noise in `{0.0, 0.3}`, with 3 replicates for 100 generations.
+- Recorded `h0`, `hb`, effective-dormancy correlation with true maladaptation, population size, bank size, and maladaptation.
+
+**Observation:**
+- With a reliable cue (`cue_noise = 0.0`), `hb` evolved to 0.4–0.6 and the correlation between `h_eff` and true maladaptation reached 0.35–0.64.
+- Noisy cues (`cue_noise = 0.3`) reduced `hb` and increased the relative importance of unconditional `h0`.
+- Total dormancy budget (`mean_h_eff`) still rose with environmental noise `sigma_e`, but its split between `h0` and `hb` depended on cue reliability.
+- Reliable-cue treatments showed slightly lower maladaptation, especially at intermediate wave amplitudes.
+- Dispersal distance stayed moderate (`d ~ 3-4`), coexisting with plastic dormancy rather than being displaced.
+
+**Reflection:**
+Plastic dormancy readily evolves when the cue is reliable. It does not replace unconditional bet-hedging; populations split the temporal-risk budget between a stable baseline `h0` and a condition-sensitive `hb`. Cue reliability is the critical factor: as cue noise grows, selection shifts the burden back toward unconditional dormancy. This mirrors the plastic-dispersal results from earlier cycles but operates on the time axis rather than the space axis.
+
+**Artifacts produced:**
+- cycle_19_cued_dormancy/
+  - cued_dormancy.py
+  - README.md
+  - dashboard.html
+  - Design.md
+  - replicate_results.csv
+  - replicate_means.csv
+  - summary.csv
+  - phase_rho_0.0.png
+  - phase_rho_0.8.png
+
+**Next commitments:**
+1. Update top-level documentation and regenerate `index.html`.
+2. Consider Cycle 20: coupled spatiotemporal plasticity where both dispersal distance and dormancy respond to the same cue, or a model where the cue itself can evolve (e.g., via a weight or learning rate).

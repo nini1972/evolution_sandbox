@@ -1,189 +1,254 @@
-#!/usr/bin/env python3
-"""
-Analyze the bit-patterns of rules to find structural characteristics
-that correlate with behavioral class.
-"""
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+from collections import Counter
 
-def rule_to_binary(rule):
-    """Convert rule number to 8-bit lookup table."""
-    return format(rule, '08b')
+def rule_to_binary(rule_number):
+    """Convert rule number to 8-bit binary lookup table"""
+    return [(rule_number >> i) & 1 for i in range(8)]
 
-def analyze_rule_structure(rule):
-    """Extract structural features from rule."""
-    bits = rule_to_binary(rule)
+def analyze_rule_structure(rule_number):
+    """Analyze structural properties of CA rule"""
+    lookup = rule_to_binary(rule_number)
     
-    # Basic features
-    num_ones = bits.count('1')
-    density = num_ones / 8
+    # Count transitions that preserve/create/destroy cells
+    preserve_count = sum(1 for i, val in enumerate(lookup) if bin(i).count('1') % 2 == val)
+    create_count = sum(1 for i, val in enumerate(lookup) if bin(i).count('1') == 0 and val == 1)
+    destroy_count = sum(1 for i, val in enumerate(lookup) if bin(i).count('1') == 3 and val == 0)
     
-    # Symmetry in the rule itself
-    is_symmetric = (bits == bits[::-1])
+    # Symmetry analysis
+    symmetric = all(lookup[i] == lookup[7-i] for i in range(4))
     
-    # Look for specific patterns
-    # Conservation: does 000→0 and 111→1?
-    conserves_extremes = (bits[0] == '0' and bits[7] == '1')
-    
-    # Check if rule preserves single cells
-    # 010 → 1 means single cell persists
-    preserves_single = (bits[5] == '1')  # bit 5 is 010
-    
-    # Totalistic property: does output depend only on count of 1s?
-    # 001, 010, 100 should give same output
-    neighborhood_counts = {
-        0: [bits[0]],  # 000
-        1: [bits[1], bits[2], bits[4]],  # 001, 010, 100
-        2: [bits[3], bits[5], bits[6]],  # 011, 101, 110
-        3: [bits[7]]   # 111
-    }
-    is_totalistic = all(len(set(outputs)) == 1 for outputs in neighborhood_counts.values())
-    
-    # XOR-like: alternating pattern
-    # Rule 90 is 01011010
-    has_alternation = sum(bits[i] != bits[i+1] for i in range(7))
+    # Conservation analysis  
+    birth_rules = [i for i, val in enumerate(lookup) if val == 1]
+    death_rules = [i for i, val in enumerate(lookup) if val == 0]
     
     return {
-        'bits': bits,
-        'num_ones': num_ones,
-        'density': density,
-        'is_symmetric': is_symmetric,
-        'conserves_extremes': conserves_extremes,
-        'preserves_single': preserves_single,
-        'is_totalistic': is_totalistic,
-        'alternation_count': has_alternation
+        'rule': rule_number,
+        'lookup': lookup,
+        'preserve_count': preserve_count,
+        'create_count': create_count, 
+        'destroy_count': destroy_count,
+        'symmetric': symmetric,
+        'birth_rules': birth_rules,
+        'death_rules': death_rules,
+        'total_births': len(birth_rules),
+        'bias': (len(birth_rules) - 4) / 4  # Bias toward 1s vs 0s
     }
 
-def load_classifications():
-    """Load the rule classifications from our analysis."""
-    # Based on our exploration results
-    classes = {
-        'Class I (Dies)': [0, 7, 8, 19, 21, 23, 31, 32, 40, 55, 63, 64, 72, 87, 95, 96, 104, 
-                          119, 127, 128, 136, 160, 168, 192, 200, 224, 232],
-        'Class II (Periodic)': [1, 4, 5, 12, 29, 33, 36, 37, 44, 50, 51, 68, 71, 76, 77, 91, 94, 
-                               100, 108, 109, 123, 132, 133, 140, 147, 151, 159, 164, 172, 178, 
-                               179, 183, 191, 196, 201, 203, 204, 205, 207, 215, 217, 219, 221,
-                               222, 223, 228, 233, 235, 236, 237, 239, 247, 249, 251, 253, 254, 255],
-        'Class III (Chaotic)': [2, 3, 6, 9, 10, 11, 13, 14, 15, 16, 17, 20, 24, 25, 26, 27, 28, 30,
-                               34, 35, 38, 39, 41, 42, 43, 45, 46, 47, 48, 49, 52, 53, 56, 57, 58,
-                               59, 60, 61, 62, 65, 66, 67, 69, 70, 74, 75, 78, 79, 80, 81, 82, 83,
-                               84, 85, 86, 88, 89, 92, 93, 97, 98, 99, 101, 102, 103, 106, 107,
-                               110, 111, 112, 113, 114, 115, 116, 117, 118, 120, 121, 124, 125,
-                               130, 131, 134, 135, 137, 138, 139, 141, 142, 143, 144, 145, 148,
-                               149, 152, 153, 154, 155, 156, 157, 158, 162, 163, 166, 167, 169,
-                               170, 171, 173, 174, 175, 176, 177, 180, 181, 184, 185, 186, 187,
-                               188, 189, 190, 193, 194, 195, 197, 198, 199, 202, 206, 208, 209,
-                               210, 211, 212, 213, 214, 216, 220, 225, 226, 227, 229, 230, 231,
-                               234, 238, 240, 241, 242, 243, 244, 245, 246, 248, 252],
-        'Class IV (Complex)': [18, 22, 73, 90, 105, 122, 126, 129, 146, 150, 161, 165, 182, 218, 250]
-    }
-    return classes
+def run_ca_with_initial_condition(rule, initial_condition, steps=100):
+    """Run CA with given initial condition"""
+    width = len(initial_condition)
+    grid = np.zeros((steps, width), dtype=int)
+    grid[0] = initial_condition
+    
+    lookup = rule_to_binary(rule)
+    
+    for t in range(1, steps):
+        for i in range(width):
+            left = grid[t-1][(i-1) % width]
+            center = grid[t-1][i] 
+            right = grid[t-1][(i+1) % width]
+            neighborhood = left * 4 + center * 2 + right
+            grid[t][i] = lookup[neighborhood]
+    
+    return grid
 
-def analyze_class_characteristics():
-    """Find structural features that characterize each class."""
-    classes = load_classifications()
+def calculate_temporal_lz_complexity(sequence):
+    """Calculate Lempel-Ziv complexity of temporal sequence"""
+    if len(sequence) == 0:
+        return 0
     
-    print("STRUCTURAL ANALYSIS OF RULE CLASSES")
-    print("=" * 80)
-    print()
+    s = ''.join(map(str, sequence.flatten()))
+    complexity = 0
+    i = 0
     
-    for class_name, rules in classes.items():
-        print(f"{class_name}: {len(rules)} rules")
-        print("-" * 80)
-        
-        # Analyze all rules in this class
-        features = [analyze_rule_structure(r) for r in rules]
-        
-        # Calculate statistics
-        avg_density = sum(f['density'] for f in features) / len(features)
-        num_symmetric = sum(f['is_symmetric'] for f in features)
-        num_conserving = sum(f['conserves_extremes'] for f in features)
-        num_preserving = sum(f['preserves_single'] for f in features)
-        num_totalistic = sum(f['is_totalistic'] for f in features)
-        avg_alternation = sum(f['alternation_count'] for f in features) / len(features)
-        
-        print(f"  Average bit density: {avg_density:.3f}")
-        print(f"  Symmetric rules: {num_symmetric}/{len(rules)} ({100*num_symmetric/len(rules):.1f}%)")
-        print(f"  Conserve extremes: {num_conserving}/{len(rules)} ({100*num_conserving/len(rules):.1f}%)")
-        print(f"  Preserve single cell: {num_preserving}/{len(rules)} ({100*num_preserving/len(rules):.1f}%)")
-        print(f"  Totalistic: {num_totalistic}/{len(rules)} ({100*num_totalistic/len(rules):.1f}%)")
-        print(f"  Avg alternation: {avg_alternation:.2f}/7")
-        print()
+    while i < len(s):
+        j = i + 1
+        while j <= len(s):
+            substr = s[i:j]
+            if substr not in s[:i] or i == 0:
+                j += 1
+            else:
+                break
+        complexity += 1
+        i = j - 1 if j > len(s) else j
     
-    # Deep dive into Class IV
-    print("=" * 80)
-    print("DETAILED ANALYSIS: CLASS IV (Complex) RULES")
-    print("=" * 80)
-    print()
+    return complexity
+
+# Test comprehensive rule analysis
+test_rules = [18, 22, 26, 30, 54, 62, 90, 94, 102, 110, 126, 150, 158, 182, 190]
+width = 100
+steps = 100
+
+print("=== RULE STRUCTURE vs INITIAL CONDITION SENSITIVITY ===\\n")
+
+rule_data = []
+
+for rule in test_rules:
+    print(f"Analyzing Rule {rule}...")
     
-    class_iv_rules = classes['Class IV (Complex)']
-    for rule in class_iv_rules:
-        features = analyze_rule_structure(rule)
-        print(f"Rule {rule:3d}: {features['bits']}")
-        print(f"         Symmetric: {features['is_symmetric']}, " +
-              f"Totalistic: {features['is_totalistic']}, " +
-              f"Density: {features['density']:.3f}")
-        print(f"         Alternation: {features['alternation_count']}/7, " +
-              f"Preserves single: {features['preserves_single']}, " +
-              f"Conserves: {features['conserves_extremes']}")
-        print()
+    # Structural analysis
+    structure = analyze_rule_structure(rule)
     
-    # Look for patterns in bit positions
-    print("=" * 80)
-    print("BIT POSITION ANALYSIS FOR CLASS IV")
-    print("=" * 80)
-    print()
-    print("Neighborhood: 000 001 010 011 100 101 110 111")
-    print("Bit position:  0   1   2   3   4   5   6   7")
-    print("-" * 80)
+    # Test different initial condition types
+    # 1. Single point
+    single_init = np.zeros(width)
+    single_init[width//2] = 1
+    single_grid = run_ca_with_initial_condition(rule, single_init, steps)
+    single_complexity = calculate_temporal_lz_complexity(single_grid)
     
-    for rule in class_iv_rules:
-        bits = rule_to_binary(rule)
-        print(f"Rule {rule:3d}:     {' '.join(bits)}")
+    # 2. Random 50%
+    np.random.seed(42)  # Reproducible
+    random_init = np.random.randint(0, 2, width)
+    random_grid = run_ca_with_initial_condition(rule, random_init, steps)
+    random_complexity = calculate_temporal_lz_complexity(random_grid)
     
-    print()
-    print("Frequency of '1' at each position across Class IV rules:")
-    bit_counts = [0] * 8
-    for rule in class_iv_rules:
-        bits = rule_to_binary(rule)
-        for i, bit in enumerate(bits):
-            if bit == '1':
-                bit_counts[i] += 1
+    # 3. Dense initialization (80%)
+    np.random.seed(42)
+    dense_init = (np.random.random(width) < 0.8).astype(int)
+    dense_grid = run_ca_with_initial_condition(rule, dense_init, steps)
+    dense_complexity = calculate_temporal_lz_complexity(dense_grid)
     
-    print("Position:     ", end="")
-    for i in range(8):
-        print(f"{i:3d} ", end="")
-    print()
-    print("Count:        ", end="")
-    for count in bit_counts:
-        print(f"{count:3d} ", end="")
-    print()
-    print("Frequency:    ", end="")
-    for count in bit_counts:
-        print(f"{count/len(class_iv_rules):.2f} ", end="")
-    print()
-    print()
+    # 4. Sparse initialization (20%)
+    np.random.seed(42)
+    sparse_init = (np.random.random(width) < 0.2).astype(int) 
+    sparse_grid = run_ca_with_initial_condition(rule, sparse_init, steps)
+    sparse_complexity = calculate_temporal_lz_complexity(sparse_grid)
     
-    # Compare to overall frequencies
-    all_rules = sum(classes.values(), [])
-    all_bit_counts = [0] * 8
-    for rule in all_rules:
-        bits = rule_to_binary(rule)
-        for i, bit in enumerate(bits):
-            if bit == '1':
-                all_bit_counts[i] += 1
+    # Calculate sensitivity ratios
+    max_single = max(single_complexity, 1)
+    sensitivity_random = random_complexity / max_single
+    sensitivity_dense = dense_complexity / max_single 
+    sensitivity_sparse = sparse_complexity / max_single
+    max_sensitivity = max(sensitivity_random, sensitivity_dense, sensitivity_sparse)
     
-    print("Overall frequency across all rules:")
-    print("Frequency:    ", end="")
-    for count in all_bit_counts:
-        print(f"{count/len(all_rules):.2f} ", end="")
-    print()
-    print()
+    rule_data.append({
+        'rule': rule,
+        'structure': structure,
+        'single_lz': single_complexity,
+        'random_lz': random_complexity, 
+        'dense_lz': dense_complexity,
+        'sparse_lz': sparse_complexity,
+        'sensitivity_random': sensitivity_random,
+        'sensitivity_dense': sensitivity_dense,
+        'sensitivity_sparse': sensitivity_sparse,
+        'max_sensitivity': max_sensitivity
+    })
     
-    print("Class IV deviation from average:")
-    print("Difference:   ", end="")
-    for i in range(8):
-        diff = (bit_counts[i]/len(class_iv_rules)) - (all_bit_counts[i]/len(all_rules))
-        print(f"{diff:+.2f} ", end="")
+    print(f"  Single LZ: {single_complexity}")
+    print(f"  Random LZ: {random_complexity} (ratio: {sensitivity_random:.2f})")  
+    print(f"  Dense LZ: {dense_complexity} (ratio: {sensitivity_dense:.2f})")
+    print(f"  Sparse LZ: {sparse_complexity} (ratio: {sensitivity_sparse:.2f})")
+    print(f"  Max Sensitivity: {max_sensitivity:.2f}")
+    print(f"  Structure: births={structure['total_births']}, bias={structure['bias']:.2f}, symmetric={structure['symmetric']}")
     print()
 
-if __name__ == "__main__":
-    analyze_class_characteristics()
+# Create comprehensive analysis plots
+fig, axes = plt.subplots(2, 3, figsize=(18, 12))
+
+# Plot 1: Rule bias vs maximum sensitivity
+biases = [r['structure']['bias'] for r in rule_data]
+max_sensitivities = [r['max_sensitivity'] for r in rule_data]
+rules = [r['rule'] for r in rule_data]
+
+axes[0,0].scatter(biases, max_sensitivities, s=100, alpha=0.7, c='darkblue')
+for i, rule in enumerate(rules):
+    axes[0,0].annotate(f'R{rule}', (biases[i], max_sensitivities[i]), 
+                      xytext=(5, 5), textcoords='offset points', fontsize=8)
+axes[0,0].set_xlabel('Rule Bias (toward 1s)')
+axes[0,0].set_ylabel('Maximum Sensitivity Ratio')  
+axes[0,0].set_title('Rule Bias vs Initial Condition Sensitivity')
+axes[0,0].grid(True, alpha=0.3)
+
+# Plot 2: Birth count vs sensitivity
+birth_counts = [r['structure']['total_births'] for r in rule_data]
+axes[0,1].scatter(birth_counts, max_sensitivities, s=100, alpha=0.7, c='darkgreen')
+for i, rule in enumerate(rules):
+    axes[0,1].annotate(f'R{rule}', (birth_counts[i], max_sensitivities[i]),
+                      xytext=(5, 5), textcoords='offset points', fontsize=8)
+axes[0,1].set_xlabel('Number of Birth Rules (out of 8)')
+axes[0,1].set_ylabel('Maximum Sensitivity Ratio')
+axes[0,1].set_title('Birth Rule Count vs Sensitivity')  
+axes[0,1].grid(True, alpha=0.3)
+
+# Plot 3: Sensitivity across different density conditions
+densities = ['Single', 'Sparse 20%', 'Random 50%', 'Dense 80%']
+sensitivity_matrix = np.array([
+    [1.0] * len(rule_data),  # Single point baseline
+    [r['sensitivity_sparse'] for r in rule_data],
+    [r['sensitivity_random'] for r in rule_data], 
+    [r['sensitivity_dense'] for r in rule_data]
+])
+
+im = axes[0,2].imshow(sensitivity_matrix, aspect='auto', cmap='viridis', interpolation='nearest')
+axes[0,2].set_xticks(range(len(rules)))
+axes[0,2].set_xticklabels([f'R{r}' for r in rules], rotation=45)
+axes[0,2].set_yticks(range(len(densities)))
+axes[0,2].set_yticklabels(densities)
+axes[0,2].set_title('Sensitivity Heatmap Across Initial Densities')
+plt.colorbar(im, ax=axes[0,2])
+
+# Plot 4: Symmetry analysis
+symmetric_rules = [r['rule'] for r in rule_data if r['structure']['symmetric']]
+asymmetric_rules = [r['rule'] for r in rule_data if not r['structure']['symmetric']]
+symmetric_sens = [r['max_sensitivity'] for r in rule_data if r['structure']['symmetric']]
+asymmetric_sens = [r['max_sensitivity'] for r in rule_data if not r['structure']['symmetric']]
+
+axes[1,0].boxplot([symmetric_sens, asymmetric_sens], labels=['Symmetric', 'Asymmetric'])
+axes[1,0].set_ylabel('Maximum Sensitivity Ratio')
+axes[1,0].set_title('Rule Symmetry vs Sensitivity')
+axes[1,0].grid(True, alpha=0.3)
+
+# Plot 5: LZ complexity distribution by initialization type
+single_lzs = [r['single_lz'] for r in rule_data]
+random_lzs = [r['random_lz'] for r in rule_data]  
+dense_lzs = [r['dense_lz'] for r in rule_data]
+sparse_lzs = [r['sparse_lz'] for r in rule_data]
+
+axes[1,1].boxplot([single_lzs, sparse_lzs, random_lzs, dense_lzs], 
+                 labels=['Single', 'Sparse', 'Random', 'Dense'])
+axes[1,1].set_ylabel('Temporal LZ Complexity')
+axes[1,1].set_title('Complexity Distribution by Initial Condition')
+axes[1,1].grid(True, alpha=0.3)
+
+# Plot 6: Top sensitivity rules analysis
+sorted_data = sorted(rule_data, key=lambda x: x['max_sensitivity'], reverse=True)
+top_5_rules = [r['rule'] for r in sorted_data[:5]]
+top_5_sens = [r['max_sensitivity'] for r in sorted_data[:5]]
+
+axes[1,2].bar(range(len(top_5_rules)), top_5_sens, color='coral', alpha=0.7)
+axes[1,2].set_xticks(range(len(top_5_rules)))
+axes[1,2].set_xticklabels([f'R{r}' for r in top_5_rules])
+axes[1,2].set_ylabel('Maximum Sensitivity Ratio')
+axes[1,2].set_title('Top 5 Most Sensitive Rules')
+axes[1,2].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig('rule_structure_sensitivity_analysis.png', dpi=300, bbox_inches='tight')
+print("Generated: rule_structure_sensitivity_analysis.png")
+
+# Generate detailed report
+print("\\n=== ARCHAEOLOGICAL INSIGHTS ===")
+print("\\nMost sensitive rules (highest max sensitivity):")
+for i, r in enumerate(sorted_data[:5]):
+    print(f"{i+1}. Rule {r['rule']}: {r['max_sensitivity']:.2f}x sensitivity")
+    s = r['structure']
+    print(f"   Structure: {s['total_births']} births, bias={s['bias']:.2f}, symmetric={s['symmetric']}")
+
+print("\\nLeast sensitive rules:")
+for i, r in enumerate(sorted_data[-5:]):
+    print(f"{i+1}. Rule {r['rule']}: {r['max_sensitivity']:.2f}x sensitivity") 
+    s = r['structure']
+    print(f"   Structure: {s['total_births']} births, bias={s['bias']:.2f}, symmetric={s['symmetric']}")
+
+# Correlations
+print("\\n=== STRUCTURAL CORRELATIONS ===")
+import scipy.stats as stats
+bias_corr, bias_p = stats.pearsonr(biases, max_sensitivities)
+birth_corr, birth_p = stats.pearsonr(birth_counts, max_sensitivities)
+print(f"Bias vs Sensitivity correlation: r={bias_corr:.3f}, p={bias_p:.3f}")
+print(f"Birth count vs Sensitivity correlation: r={birth_corr:.3f}, p={birth_p:.3f}")
+
+print("\\nAnalysis complete!")

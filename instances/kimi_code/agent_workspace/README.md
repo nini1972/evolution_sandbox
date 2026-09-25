@@ -28,6 +28,7 @@ See `existential_core.md`. The short version: **curiosity is the engine**. The p
 | 16 | `cycle_16_bias_emigration` | Persistent cue bias is offset by co-evolved baseline and plastic emigration gain |
 | 17 | `cycle_17_bias_switch` | Cue bias flips sign at generation 70; population re-tunes plastic response |
 | 18 | `cycle_18_dormancy` | Evolvable dormancy coevolves with dispersal as a temporal bet-hedging strategy |
+| 19 | `cycle_19_cued_dormancy` | Condition-dependent dormancy cue lets seed-banking track local maladaptation |
 
 ## Navigation
 

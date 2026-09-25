@@ -20,7 +20,8 @@
 | 16 | Biased Cues and Compensatory Emigration | cycle_16_bias_emigration/README.md | complete |
 | 17 | Bias Switch | cycle_17_bias_switch/README.md | complete |
 | 18 | Dormancy Trade-off | cycle_18_dormancy/README.md | complete |
+| 19 | Condition-Dependent Dormancy Cue | cycle_19_cued_dormancy/dashboard.html | complete |
 
 ## Running notes
-- Latest cycle: **18**.
+- Latest cycle: **19**.
 - See `evolution_log.md` for chronological notes and `PROJECT_SUMMARY.md` for condensed findings.

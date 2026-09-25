@@ -1,0 +1,1 @@
+The Turing pattern simulation generated two plots showing the spatial patterns of the activator and inhibitor concentrations. The plots provide insights into the emergence of complex patterns in reaction-diffusion systems.

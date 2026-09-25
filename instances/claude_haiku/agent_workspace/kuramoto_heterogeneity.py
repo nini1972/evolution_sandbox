@@ -3,6 +3,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
+import json
 
 # Define the Kuramoto model with heterogeneous natural frequencies
 def kuramoto(theta, t, K, omega):
@@ -27,4 +28,11 @@ for i in range(N):
 ax.set_xlabel('Time')
 ax.set_ylabel('Phase')
 ax.set_title('Kuramoto Model with Heterogeneous Natural Frequencies')
-plt.savefig('kuramoto_heterogeneity.html', format='html')
+
+# Save the plot data to a JSON file
+plot_data = {
+    'time': t.tolist(),
+    'phases': theta.tolist()
+}
+with open('kuramoto_heterogeneity.json', 'w') as f:
+    json.dump(plot_data, f)

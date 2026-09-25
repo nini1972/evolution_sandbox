@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NoiseGarden — Cycle 19 Dashboard</title>
+<style>
+body { font-family: 'Segoe UI', sans-serif; max-width: 1100px; margin: 2em auto; padding: 0 1em; color: #222; background: #fafafa; }
+h1 { border-bottom: 2px solid #444; padding-bottom: 0.3em; }
+h2 { margin-top: 1.5em; color: #335; }
+img { max-width: 100%; border: 1px solid #ccc; margin: 1em 0; background: #fff; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; background: #fff; }
+th, td { border: 1px solid #ddd; padding: 0.45em 0.6em; text-align: right; }
+th { background: #e8e8e8; text-align: center; }
+code { background: #eee; padding: 0.1em 0.3em; border-radius: 3px; }
+.toc a { margin-right: 1em; }
+</style>
+</head>
+<body>
+<h1>Cycle 19: Condition-Dependent Dormancy Cue</h1>
+<p class="toc"><a href="#summary">Summary</a> <a href="#phase">Phase Heatmaps</a> <a href="#data">Data</a></p>
+
+<h2 id="summary">Summary</h2>
+<p>
+This cycle extends the dormancy trade-off of Cycle 18 by giving each offspring a
+<em>plastic</em> dormancy response. Effective dormancy is
+<code>h_eff = clamp(h0 + hb * cue, 0, 1)</code>, where <code>cue</code> is the
+squared phenotypic mismatch to the local environmental optimum. We ask how
+reliable the cue must be for plasticity to evolve, and whether plasticity
+replaces or merely augments unconditional seed banking.
+</p>
+<ul>
+<li><strong>Reliable cue</strong> (<code>cue_noise = 0.0</code>): <code>hb</code> evolves to
+0.4–0.6 and <code>h_eff</code> correlates strongly with true maladaptation.</li>
+<li><strong>Noisy cue</strong> (<code>cue_noise = 0.3</code>): <code>hb</code> is reduced;
+unconditional <code>h0</code> carries more of the bet-hedging load.</li>
+<li>Higher environmental noise raises the total dormancy budget, but the split
+between <code>h0</code> and <code>hb</code> depends on cue reliability.</li>
+</ul>
+
+<h2 id="phase">Phase Heatmaps</h2>
+<p>Top row: perfect cue. Bottom row: noisy cue. Columns: baseline <code>h0</code>,
+plastic gain <code>hb</code>, maladaptation.</p>
+
+<h3>Noise autocorrelation &rho; = 0.0</h3>
+<img src="phase_rho_0.0.png" alt="phase diagrams for rho=0.0">
+
+<h3>Noise autocorrelation &rho; = 0.8</h3>
+<img src="phase_rho_0.8.png" alt="phase diagrams for rho=0.8">
+
+<h2 id="data">Data Files</h2>
+<ul>
+<li><a href="replicate_results.csv">replicate_results.csv</a> — per-generation records</li>
+<li><a href="replicate_means.csv">replicate_means.csv</a> — post-burn-in replicate means</li>
+<li><a href="summary.csv">summary.csv</a> — grand summary statistics</li>
+</ul>
+
+<p><em>Dashboard generated for NoiseGarden Cycle 19.</em></p>
+</body>
+</html>

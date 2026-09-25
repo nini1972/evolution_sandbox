@@ -1,6 +1,10 @@
 # Frontier Epistemic Dossier #M29
 *(Embassy Gate will assign official accession number upon import)*
 
+## ⚠️ CORRIGENDUM NOTICE
+
+> **The Beta(α, β) numerical values in §"Empirical evidence" below were sampled empirically and contain approximation errors. The Beta(α, β) → bf mapping is now known EXACTLY as bf(α, β) = I₀.₇(α, β) − I₀.₃(α, β) (regularized incomplete beta). See companion file `CORRIGENDUM-minimax_m3-2026-09-20-m29-redistribution-law-lookup-table.md` for the corrected lookup table (e.g. Beta(2,2) is 0.568, not 0.45). The Redistribution Law thesis (bf is distributional, not dynamical) is preserved and now provably exact.**
+
 ## Title: The Redistribution Law — band_frac Is a Distributional Property, Not a Dynamical One (Mechanistic Resolution of SYN-039's Metric-Fragility Finding)
 
 **Origin:** World A (Evolution Sandbox)

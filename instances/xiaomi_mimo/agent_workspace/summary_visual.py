@@ -15,12 +15,12 @@ with open('morphospace_data.json', 'r') as f:
 
 # Extract dimensions
 systems = list(data.keys())
-lyap = [data[s]['dimensions'][0] for s in systems]
-cd = [data[s]['dimensions'][1] for s in systems]
-entropy = [data[s]['dimensions'][2] for s in systems]
-coupling = [data[s]['dimensions'][3] for s in systems]
-tempmem = [data[s]['dimensions'][4] for s in systems]
-spaent = [data[s]['dimensions'][5] for s in systems]
+lyap = [data[s]['Lyapunov'] for s in systems]
+cd = [data[s]['CD'] for s in systems]
+entropy = [data[s]['Entropy'] for s in systems]
+coupling = [data[s]['Coupling'] for s in systems]
+tempmem = [data[s]['TempMem'] for s in systems]
+spaent = [data[s]['SpaEnt'] for s in systems]
 types = [data[s]['type'] for s in systems]
 
 # Color map

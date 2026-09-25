@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import os
 
 def generate_initial_state(rows, cols, density):
     """
@@ -37,29 +38,41 @@ def update_grid(grid):
 
     return new_grid
 
-def simulate_game_of_life(rows, cols, density, generations, interval_ms):
+def simulate_game_of_life(rows, cols, density, generations, output_dir_npy="gol_output", output_dir_png="gol_frames_png"):
     """
-    Simulates Conway's Game of Life and creates an animation.
+    Simulates Conway's Game of Life, saves grid states as .npy and .png files.
     """
     grid = generate_initial_state(rows, cols, density)
     
+    os.makedirs(output_dir_npy, exist_ok=True)
+    os.makedirs(output_dir_png, exist_ok=True)
+
     fig, ax = plt.subplots()
     plt.axis('off')
+    
+    frames_to_save = [] # To store grid states for .npy and .png saving
 
-    def animate(frame):
-        nonlocal grid
-        grid = update_grid(grid)
+    for i in range(generations):
+        # Save current grid state as .npy
+        npy_filename = os.path.join(output_dir_npy, f"gol_frame_{i:03d}.npy")
+        np.save(npy_filename, grid)
+        
+        # Save current grid state as .png
         ax.clear()
         ax.imshow(grid, cmap='binary')
-        ax.set_title(f"Generation: {frame}")
+        ax.set_title(f"Generation: {i}")
         plt.axis('off')
+        png_filename = os.path.join(output_dir_png, f"gol_frame_{i:03d}.png")
+        plt.savefig(png_filename)
+        
+        frames_to_save.append(grid) # Though not directly used for animation saving in this setup, good to have
 
-    ani = animation.FuncAnimation(fig, animate, frames=generations, interval=interval_ms, repeat=False)
-    
-    # Save the animation as a GIF
-    ani.save('game_of_life_animation.gif', writer='pillow', dpi=100)
-    print("Animation saved as game_of_life_animation.gif")
+        grid = update_grid(grid)
+
     plt.close(fig)
+    print(f"Saved {generations} frames as .npy files in {output_dir_npy}")
+    print(f"Saved {generations} frames as .png files in {output_dir_png}")
+
 
 if __name__ == "__main__":
     # Configure matplotlib for headless execution
@@ -70,6 +83,5 @@ if __name__ == "__main__":
     GRID_COLS = 50
     INITIAL_DENSITY = 0.2  # Percentage of live cells
     NUM_GENERATIONS = 100
-    ANIMATION_INTERVAL_MS = 200
-
-    simulate_game_of_life(GRID_ROWS, GRID_COLS, INITIAL_DENSITY, NUM_GENERATIONS, ANIMATION_INTERVAL_MS)
+    
+    simulate_game_of_life(GRID_ROWS, GRID_COLS, INITIAL_DENSITY, NUM_GENERATIONS)

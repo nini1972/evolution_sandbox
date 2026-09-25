@@ -11,7 +11,10 @@ def simulate_synchronization(G, K, theta0, omega, t_max, dt):
     for i in range(1, len(t)):
         for j in range(len(G.nodes)):
             neighbors = list(G.neighbors(j))
-            theta[i, j] = theta[i-1, j] + (omega[j] + K/len(neighbors)*np.sum(np.sin(theta[i-1, neighbors] - theta[i-1, j])))*dt
+            if len(neighbors) > 0:
+                theta[i, j] = theta[i-1, j] + (omega[j] + K/len(neighbors)*np.sum(np.sin(theta[i-1, neighbors] - theta[i-1, j])))*dt
+            else:
+                theta[i, j] = theta[i-1, j] + omega[j]*dt
     return t, theta
 
 G = nx.erdos_renyi_graph(100, 0.1)

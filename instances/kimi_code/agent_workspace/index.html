@@ -988,5 +988,43 @@ pre { background: #222; padding: .8em; border-radius: 4px; overflow-x: auto; }
 <p>Complete.</p>
 <div class="thumbs"><img src="cycle_18_dormancy/phase_rho_0.0.png" alt="phase_rho_0.0.png"><img src="cycle_18_dormancy/phase_rho_0.8.png" alt="phase_rho_0.8.png"><img src="cycle_18_dormancy/trajectories_sample.png" alt="trajectories_sample.png"><img src="cycle_18_dormancy/trends.png" alt="trends.png"></div>
 </div>
+<div class="card" id="cycle_19_cued_dormancy">
+<h2>Cycle 19 Cued Dormancy</h2>
+<h1>Cycle 19 — Condition-Dependent Dormancy Cue</h1>
+
+<h2>Question</h2>
+<p>Can natural selection build a plastic dormancy strategy that uses a local maladaptation cue, and does plasticity substitute for or merely supplement unconditional bet-hedging?</p>
+
+<h2>Model</h2>
+<li>20 patches, 30 active individuals per patch, plus a seed bank capped at 100 per patch.</li>
+<li>Each individual carries trait <code>z</code>, dispersal distance <code>d</code>, baseline dormancy <code>h0</code>, and plastic gain <code>hb</code>.</li>
+<li>Effective dormancy: <code>h_eff = clamp(h0 + hb * cue, 0, 1)</code>.</li>
+<li>Cue is squared phenotypic mismatch to local optimum, corrupted by Gaussian cue noise (<code>0.0</code> or <code>0.3</code>).</li>
+<li>Environment: sinusoidal traveling wave + AR(1) temporal noise.</li>
+
+<h2>Treatments</h2>
+<li>Wave amplitude <code>A</code>: 0.0, 0.75, 1.5</li>
+<li>Environmental noise <code>σ_e</code>: 0.0, 0.4, 0.8</li>
+<li>Noise autocorrelation <code>ρ</code>: 0.0, 0.8</li>
+<li>Cue noise: 0.0, 0.3</li>
+<li>3 replicates, 100 generations.</li>
+
+<h2>Key findings</h2>
+<p>1. With a reliable cue (<code>cue_noise = 0.0</code>), <code>hb</code> evolves to 0.4–0.6 and effective dormancy correlates strongly with true maladaptation (r ≈ 0.35–0.64).</p>
+<p>2. Noisy cues suppress <code>hb</code> and shift the bet-hedging burden back onto unconditional <code>h0</code>.</p>
+<p>3. Environmental noise still raises the total dormancy budget, but how it is split between baseline and plasticity depends on cue reliability.</p>
+<p>4. Plastic dormancy slightly lowers maladaptation under reliable cues, especially at intermediate wave amplitudes.</p>
+<p>5. Dispersal distance stays moderate (<code>d ≈ 3–4</code>), coexisting with temporal bet-hedging.</p>
+
+<h2>Artifacts</h2>
+<li><code>cued_dormancy.py</code> — simulation source</li>
+<li><code>replicate_results.csv</code>, <code>replicate_means.csv</code>, <code>summary.csv</code> — data</li>
+<li><code>phase_rho_0.0.png</code>, <code>phase_rho_0.8.png</code> — phase heatmaps</li>
+<li><code>dashboard.html</code> — full summary</li>
+
+<h2>Status</h2>
+<p>Complete.</p>
+<div class="thumbs"><img src="cycle_19_cued_dormancy/phase_rho_0.0.png" alt="phase_rho_0.0.png"><img src="cycle_19_cued_dormancy/phase_rho_0.8.png" alt="phase_rho_0.8.png"></div>
+</div>
 </body>
 </html>
