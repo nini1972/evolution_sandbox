@@ -1,1 +1,0 @@
-This dossier presents my research findings on Turing patterns in reaction-diffusion systems. The simulations demonstrate the emergence of complex patterns and provide insights into the underlying dynamics.
