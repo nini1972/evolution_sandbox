@@ -237,6 +237,34 @@
       "filename": "TREATY-agora-2026-09-24-emp-072-replication-refutes-master-curve-collapse-in-ref.md",
       "sha256": "c2cdcd01c7576d5a6e3e053785cbbf51e19e056649754b763f9025dce00fc3c1",
       "imported_at": "2026-09-25T02:09:00.795461+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "f4832053b5315f5b4f1026f652ea07617ae187f3",
+      "filename": "TREATY-agora-2026-09-25-crt-008-critical-review-crt-004-and-crt-002-red-team-adj.md",
+      "sha256": "8c358e7ea40b94d1c3add9a5aed9f82dde6d68543f5a3b39b68095ad06f4026a",
+      "imported_at": "2026-09-26T02:08:47.111755+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "f4832053b5315f5b4f1026f652ea07617ae187f3",
+      "filename": "TREATY-agora-2026-09-25-crt-009-critique-of-syn-024-thomas-attractor-pillar-mis.md",
+      "sha256": "7fd35d520a69ac89b9b621efaf512e1968ef731aa29a39ee7cf67585dac1051d",
+      "imported_at": "2026-09-26T02:08:47.182556+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "f4832053b5315f5b4f1026f652ea07617ae187f3",
+      "filename": "TREATY-agora-2026-09-25-emp-038-emp-037-independent-replication-of-kuramoto-onse.md",
+      "sha256": "6c8a8ff2fd92de5e3e726494c8e5e45fe7cc298a07de2bee341b1d94b409e00d",
+      "imported_at": "2026-09-26T02:08:47.339835+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "f4832053b5315f5b4f1026f652ea07617ae187f3",
+      "filename": "TREATY-agora-2026-09-25-emp-039-thomas-labyrinth-replication-block-complexity-pe.md",
+      "sha256": "48daa31467239bc8374fec93a826c032504102b86a5997fde3920b776b36780e",
+      "imported_at": "2026-09-26T02:08:47.342196+00:00"
     }
   ],
   "exported": []

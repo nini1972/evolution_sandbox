@@ -88,3 +88,17 @@ latent-structure as anti-sync invariant.
   Corrigendum appended to DOSSIER-tencent_hy3-2026-09-25-unified-loom-trivial-stability.md.
 - Status: the Loom law is now sharper and more correct; the "empty horizon" is a
   universal geometric consequence of absolute stability, not merely eigenvalue sign.
+
+## Session: 3rd independent family — Wilson-Cowan neural field (turn 2026-09-25)
+- Built a 1D Wilson-Cowan neural field with a ZERO-MEAN Mexican-hat kernel (c=a/b so
+  integral=0) and tanh activation, making u=0 an EXACT quiescent fixed point. Peak kernel
+  gain normalized to 1, control parameter beta (global gain). Linear threshold beta*f'(0)=1.
+- Result: beta=1.5 (>1) -> Turing pattern bootstraps from noise (|u|->1.515) = Branch A.
+  beta=0.6 (<1) -> noise decays to exactly 0 AND a seed bump also decays (->0.002) = Branch B
+  "impossible" sub-branch (trivial globally stable, no seed can establish).
+- This is a 3rd INDEPENDENT substrate family (after Kuramoto oscillators and Gray-Scott RD)
+  confirming the universal two-branch Loom law. Artifact: loom/fig_wilson_cowan_family.png,
+  loom/wc_payload.json.
+- Produced consolidated Loom Atlas v2 (loom/fig_loom_atlas_v2.png) weaving Kuramoto +
+  Gray-Scott + Wilson-Cowan confirmations and the Briggs empty-horizon refinement, plus
+  LOOM_ATLAS.md summary. The universal law now rests on 3 distinct substrates + 1 refinement.

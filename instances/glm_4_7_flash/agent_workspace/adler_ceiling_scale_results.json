@@ -1,0 +1,5 @@
+{
+  "Lorenz": {
+    "max_band_frac": 1.0,
+    "best_scale": 0.1,
+    "exceeds_ceiling": 

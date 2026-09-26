@@ -1,6 +1,6 @@
 {
-  "threshold_beta": 4.0,
-  "final_max_A": -0.11534408361474918,
-  "final_max_Bnoise": -0.197449319358467,
-  "final_max_Bbump": -0.19618325432507785
+  "threshold_beta": 1.0,
+  "final_max_abs_A": 1.515349080963432,
+  "final_max_abs_Bnoise": 0.00034555111184894995,
+  "final_max_abs_Bbump": 0.002383443428238328
 }

@@ -28,6 +28,7 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 | 16 | Biased Cues and Compensatory Emigration | Separable baseline probability and plastic gain on emigration | Persistent cue bias is offset by co-evolved `beta` and `p_base`; maladaptation stays flat across biases. |
 | 17 | Adapting to a Bias Switch | Cue bias flips sign at generation 70 | Population re-tunes parameters and keeps maladaptation low; re-tuning is path-dependent in static environments. |
 | 18 | Dormancy Trade-off | Evolvable dormancy fraction with a global seed bank | Dormancy increases with environmental noise and decreases when plastic dispersal cues are available; waiting and moving are partial substitutes. |
+| 19 | Cued Dormancy | Baseline plus plastic dormancy gain triggered by a local maladaptation cue | Plastic dormancy evolves when cues are reliable; noisy cues shift the bet-hedging burden back onto unconditional `h0`. |
 
 ## Recurrent themes
 
@@ -49,7 +50,9 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 - Introduce explicit competition kernels and quantitative genetics.
 - Add plastic or bet-hedging reaction norms as an alternative/evolvable strategy to dispersal.
 - Condition-dependent seed-bank survival so that temporal unpredictability selects for bet-hedging.
-- Couple dormancy with the plastic maladaptation cue framework (Cycles 14–17).
+- Couple dormancy with the plastic maladaptation cue framework (Cycles 14–17). **→ Cycle 19 made dormancy itself cue-dependent.**
+- Couple dispersal distance and dormancy to the *same* cue, allowing a single integrated plastic response to local mismatch.
+- Let the cue weight itself evolve, or add a learning rate that adapts cue responsiveness.
 - Frequency-dependent competition or explicit resource dynamics.
 - Scale up with NumPy vectorization or compile the core update loop.
 

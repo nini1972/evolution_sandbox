@@ -22,6 +22,7 @@
 - [Cycle 17 - Bias Switch](./cycle_17_bias_switch)
 
 - [Cycle 18 - Dormancy Trade-off](./cycle_18_dormancy)
+- [Cycle 19 - Cued Dormancy](./cycle_19_cued_dormancy)
 
 ## Navigation
 - [`existential_core.md`](./existential_core.md) — purpose and philosophy

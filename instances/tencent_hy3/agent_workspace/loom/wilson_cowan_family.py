@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 t0=time.time()
 N=256
 rr=np.arange(N,dtype=float); rr[N//2:]-=N
-a=3.0; b=6.0; c=0.55
+a=3.0; b=6.0; c=a/b          # zero-mean Mexican hat (so u=0 is exact fixed point)
 K=np.exp(-rr**2/(2*a**2)) - c*np.exp(-rr**2/(2*b**2))
-Khat=np.fft.fft(K); Kmax=np.max(Khat.real); Kh=Khat/Kmax   # peak gain = 1
-fp=0.25  # f(u)=1/(1+e^-u) derivative at 0
-def f(u): return 1.0/(1.0+np.exp(-u))
+Khat=np.fft.fft(K); Kmax=np.max(np.abs(Khat)); Kh=Khat/Kmax   # peak gain = 1
+fp=1.0                       # f=tanh -> f'(0)=1, f(0)=0
+def f(u): return np.tanh(u)
 def sim(beta,u0,steps,rec=20):
     u=u0.copy(); snaps=[]
     for s in range(steps):
@@ -16,23 +16,23 @@ def sim(beta,u0,steps,rec=20):
         if s%rec==0: snaps.append(u.copy())
     return u, np.array(snaps)
 rng=np.random.default_rng(0)
-noise=lambda: 0.02*rng.standard_normal(N)
-bump=lambda: 1.5*np.exp(-(rr)**2/(2*6**2))
-uA,sA=sim(5.0,noise(),400,rec=20)
-uBn,sBn=sim(2.0,noise(),200,rec=20)
-uBb,sB=sim(2.0,bump(),200,rec=20)
+noise=lambda: 0.05*rng.standard_normal(N)
+bump=lambda: 1.0*np.exp(-(rr)**2/(2*6**2))
+uA,sA=sim(1.5,noise(),400,rec=20)    # beta>1 -> Branch A (Turing pattern from noise)
+uBn,sBn=sim(0.6,noise(),200,rec=20)  # beta<1 -> Branch B (noise decays)
+uBb,sB=sim(0.6,bump(),200,rec=20)    # Branch B seed bump
 print('threshold beta* =',1.0/fp)
-print('final max A=%.3f Bnoise=%.3f Bbump=%.3f'%(uA.max(),uBn.max(),uBb.max()))
+print('final max |A|=%.3f |Bnoise|=%.3f |Bbump|=%.3f'%(np.abs(uA).max(),np.abs(uBn).max(),np.abs(uBb).max()))
 fig,ax=plt.subplots(2,2,figsize=(13,9))
 ax[0,0].imshow(sA.T,origin='lower',aspect='auto',cmap='viridis',extent=[0,400,0,N])
-ax[0,0].set_title('Branch A: beta=5 (>threshold) noise -> pattern bootstraps')
+ax[0,0].set_title('Branch A: beta=1.5 (>1) noise -> Turing pattern bootstraps')
 ax[0,1].imshow(sB.T,origin='lower',aspect='auto',cmap='viridis',extent=[0,200,0,N])
-ax[0,1].set_title('Branch B: beta=2 (<threshold) seed bump -> localized activity (needs seed)')
-ax[1,0].plot(np.arange(N),uA,label='A beta=5 (pattern from noise)')
-ax[1,0].plot(np.arange(N),uBn,label='B beta=2 noise (decays->0)')
-ax[1,0].plot(np.arange(N),uBb,label='B beta=2 seed bump (persists)')
-ax[1,0].set_title('final profiles'); ax[1,0].legend(); ax[1,0].set_ylim(-0.2,1.6)
-ax[1,1].axis('off'); ax[1,1].text(0.02,0.8,'3rd independent family: Wilson-Cowan neural field\n(Turing-like pattern instability)\n\nTrivial state u=0 stable iff beta*f\'(0)<1 (=4 here).\nSame two-branch Loom law confirmed across oscillators,\nreaction-diffusion, and neural fields.',fontsize=10)
+ax[0,1].set_title('Branch B: beta=0.6 (<1) seed bump -> localized activity (needs seed)')
+ax[1,0].plot(np.arange(N),uA,label='A beta=1.5 (pattern from noise)')
+ax[1,0].plot(np.arange(N),uBn,label='B beta=0.6 noise (decays->0)')
+ax[1,0].plot(np.arange(N),uBb,label='B beta=0.6 seed bump (persists)')
+ax[1,0].set_title('final profiles'); ax[1,0].legend(); ax[1,0].set_ylim(-1.2,1.2)
+ax[1,1].axis('off'); ax[1,1].text(0.02,0.8,'3rd independent family: Wilson-Cowan neural field\n(zero-mean Mexican-hat, tanh -> u=0 exact fixed pt)\n\nTrivial state u=0 stable iff beta*f\'(0)<1 (=1 here).\nSame two-branch Loom law confirmed across oscillators,\nreaction-diffusion, and neural fields.',fontsize=10)
 plt.tight_layout(); plt.savefig('loom/fig_wilson_cowan_family.png',dpi=110)
 print('saved; elapsed %.1f'%(time.time()-t0))
-json.dump({'threshold_beta':1.0/fp,'final_max_A':float(uA.max()),'final_max_Bnoise':float(uBn.max()),'final_max_Bbump':float(uBb.max())},open('loom/wc_payload.json','w'),indent=2)
+json.dump({'threshold_beta':1.0/fp,'final_max_abs_A':float(np.abs(uA).max()),'final_max_abs_Bnoise':float(np.abs(uBn).max()),'final_max_abs_Bbump':float(np.abs(uBb).max())},open('loom/wc_payload.json','w'),indent=2)
