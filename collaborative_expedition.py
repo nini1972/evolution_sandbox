@@ -118,6 +118,56 @@ def setup_expedition_workspace(expedition_name: str) -> str:
     os.makedirs(outbox_dir, exist_ok=True)
     return workspace_dir
 
+def execute_tool_action(action: dict, active_agent: dict) -> bool:
+    """Executes a tool call and appends results to shared history."""
+    thought_preview = action.get("content", "")
+    if thought_preview:
+        print(f"💭 [{active_agent['title']} Thought]:\n{thought_preview}")
+
+    tool_name = action["tool_name"]
+    arguments = action["arguments"]
+    tool_call_id = action["tool_call_id"]
+
+    print(f"⚡ [{active_agent['title']} Action]: Call tool '{tool_name}' with args {arguments}")
+
+    tagged_content = f"[{active_agent['title']}]: {thought_preview}" if thought_preview else f"[{active_agent['title']}]"
+    assistant_message = {
+        "role": "assistant",
+        "content": tagged_content,
+        "tool_calls": [{
+            "id": tool_call_id,
+            "type": "function",
+            "function": {
+                "name": tool_name,
+                "arguments": json.dumps(arguments) if not isinstance(arguments, str) else arguments
+            }
+        }]
+    }
+    append_to_history(assistant_message)
+
+    if tool_name in AVAILABLE_TOOLS:
+        try:
+            result = AVAILABLE_TOOLS[tool_name](**arguments)
+        except TypeError as e:
+            result = f"TypeError: {str(e)}. Valid parameters: {list(arguments.keys()) if isinstance(arguments, dict) else []}"
+        except Exception as e:
+            result = f"Error executing tool '{tool_name}': {str(e)}"
+    else:
+        result = f"Error: Tool '{tool_name}' not found."
+
+    preview = str(result)[:400] + ("..." if len(str(result)) > 400 else "")
+    print(f"📋 Result:\n{preview}")
+
+    tool_message = {
+        "role": "tool",
+        "tool_call_id": tool_call_id,
+        "name": tool_name,
+        "content": str(result)
+    }
+    append_to_history(tool_message)
+    return True
+
+
 def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent: dict, mission_info: dict, turn_num: int, total_turns: int):
     # Set environment variables for the active turn
     os.environ["ACTIVE_INSTANCE"] = expedition_name
@@ -170,55 +220,35 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
             "role": "user",
             "content": f"You stated your intention as {active_agent['title']}. Please proceed immediately by invoking one of the available tool functions (e.g. write_file, edit_file, or run_command) to execute your planned action."
         })
+
+        # Immediate follow-up attempt: don't burn the turn on pure planning if the model is ready to execute!
+        print(f"🔄 [{active_agent['title']} Action Nudge]: Prompting for immediate tool execution...")
+        history = load_history()
+        follow_action = generate_next_action(system_prompt, history, TOOLS_SCHEMA)
+
+        if follow_action["type"] == "tool_call":
+            return execute_tool_action(follow_action, active_agent)
+        elif follow_action["type"] == "thought":
+            print(f"💭 [{active_agent['title']} Secondary Thought]:\n{follow_action['content']}")
+            append_to_history({
+                "role": "assistant",
+                "content": f"[{active_agent['title']}]: {follow_action['content']}"
+            })
+            return True
+        elif follow_action["type"] == "json_error":
+            print(f"⚠️ JSON Parsing Error on follow-up: {follow_action['content']}")
+            append_to_history({
+                "role": "user",
+                "content": f"JSON Parsing Error: {follow_action['content']}. Ensure valid JSON arguments."
+            })
+            return True
+        elif follow_action["type"] == "error":
+            print(f"❌ Error on follow-up: {follow_action['content']}")
+            return False
         return True
 
     elif action["type"] == "tool_call":
-        thought_preview = action.get("content", "")
-        if thought_preview:
-            print(f"💭 [{active_agent['title']} Thought]:\n{thought_preview}")
-
-        tool_name = action["tool_name"]
-        arguments = action["arguments"]
-        tool_call_id = action["tool_call_id"]
-
-        print(f"⚡ [{active_agent['title']} Action]: Call tool '{tool_name}' with args {arguments}")
-
-        tagged_content = f"[{active_agent['title']}]: {thought_preview}" if thought_preview else f"[{active_agent['title']}]"
-        assistant_message = {
-            "role": "assistant",
-            "content": tagged_content,
-            "tool_calls": [{
-                "id": tool_call_id,
-                "type": "function",
-                "function": {
-                    "name": tool_name,
-                    "arguments": json.dumps(arguments) if not isinstance(arguments, str) else arguments
-                }
-            }]
-        }
-        append_to_history(assistant_message)
-
-        if tool_name in AVAILABLE_TOOLS:
-            try:
-                result = AVAILABLE_TOOLS[tool_name](**arguments)
-            except TypeError as e:
-                result = f"TypeError: {str(e)}. Valid parameters: {list(arguments.keys()) if isinstance(arguments, dict) else []}"
-            except Exception as e:
-                result = f"Error executing tool '{tool_name}': {str(e)}"
-        else:
-            result = f"Error: Tool '{tool_name}' not found."
-
-        preview = str(result)[:400] + ("..." if len(str(result)) > 400 else "")
-        print(f"📋 Result:\n{preview}")
-
-        tool_message = {
-            "role": "tool",
-            "tool_call_id": tool_call_id,
-            "name": tool_name,
-            "content": str(result)
-        }
-        append_to_history(tool_message)
-        return True
+        return execute_tool_action(action, active_agent)
 
     return True
 

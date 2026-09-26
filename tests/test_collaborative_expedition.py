@@ -106,5 +106,41 @@ class TestCollaborativeExpedition(unittest.TestCase):
         exp_dir = os.path.join(os.path.dirname(__file__), "..", "instances", "test_turn_tool_exp")
         shutil.rmtree(exp_dir, ignore_errors=True)
 
+    @patch("collaborative_expedition.generate_next_action")
+    def test_run_expedition_turn_thought_then_tool(self, mock_action):
+        # First call returns a thought, second call returns a tool_call via follow-up nudge
+        mock_action.side_effect = [
+            {"type": "thought", "content": "I plan to write the simulation file now."},
+            {
+                "type": "tool_call",
+                "tool_name": "write_file",
+                "arguments": {"path": "simulation.py", "content": "print('collaborative simulation')"},
+                "tool_call_id": "call_67890",
+                "content": "Writing the planned simulation file."
+            }
+        ]
+        exp = get_expedition_by_id("expedition_adler_horizon")
+        setup_expedition_workspace("test_turn_nudge_exp")
+        result = run_expedition_turn(
+            expedition_name="test_turn_nudge_exp",
+            active_agent=exp["engineer"],
+            partner_agent=exp["theorist"],
+            mission_info=exp,
+            turn_num=1,
+            total_turns=2
+        )
+        self.assertTrue(result)
+        self.assertEqual(mock_action.call_count, 2)
+
+        # Verify simulation.py was written by the follow-up tool call
+        ws_file = os.path.join(os.path.dirname(__file__), "..", "instances", "test_turn_nudge_exp", "agent_workspace", "simulation.py")
+        self.assertTrue(os.path.exists(ws_file))
+
+        # Cleanup
+        import shutil
+        exp_dir = os.path.join(os.path.dirname(__file__), "..", "instances", "test_turn_nudge_exp")
+        shutil.rmtree(exp_dir, ignore_errors=True)
+
 if __name__ == "__main__":
     unittest.main()
+

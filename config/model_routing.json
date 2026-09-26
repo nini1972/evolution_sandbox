@@ -1,5 +1,5 @@
 {
-  "claude_haiku": "openrouter/anthropic/claude-3-haiku",
+  "claude_haiku": "openrouter/anthropic/claude-haiku-4.5",
   "gemini_3_1_flash_lite": "openrouter/google/gemini-3.1-flash-lite-preview",
   "llama_4_scout": "openrouter/meta-llama/llama-4-maverick",
   "kimi_code": "openrouter/moonshotai/kimi-k2.7-code",
@@ -12,6 +12,6 @@
   "glm_4_7_flash": "openrouter/z-ai/glm-5.2",
   "tencent_hy3": "openrouter/tencent/hy3",
   "xiaomi_mimo": "openrouter/xiaomi/mimo-v2.5",
-  "nex_n2_pro": "openrouter/nex-agi/nex-n2.5-pro:free",
+  "nex_n2_pro": "openrouter/qwen/qwen-2.5-coder-32b-instruct",
   "poolside_laguna": "openrouter/poolside/laguna-s-2.1"
 }
