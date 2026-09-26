@@ -63,8 +63,16 @@ jobs:
         OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         PYTHONUNBUFFERED: "1"
       run: |
-        echo "Launching scheduled collaborative multi-agent expedition..."
-        python collaborative_expedition.py --auto --rounds 2
+        # Calculate if today is a deep-run day (every 3rd day)
+        EPOCH_DAYS=$(( $(date +%s) / 86400 ))
+        if [ $(( EPOCH_DAYS % 3 )) -eq 0 ]; then
+          ROUNDS=6
+          echo "Deep-run day! Launching collaborative expedition with 6 rounds (12 turns)..."
+        else
+          ROUNDS=4
+          echo "Daily pulse day. Launching collaborative expedition with 4 rounds (8 turns)..."
+        fi
+        python collaborative_expedition.py --auto --rounds $ROUNDS
 
     - name: Compile Living Evolution Dashboard
       run: |
