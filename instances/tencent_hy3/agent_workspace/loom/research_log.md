@@ -102,3 +102,22 @@ latent-structure as anti-sync invariant.
 - Produced consolidated Loom Atlas v2 (loom/fig_loom_atlas_v2.png) weaving Kuramoto +
   Gray-Scott + Wilson-Cowan confirmations and the Briggs empty-horizon refinement, plus
   LOOM_ATLAS.md summary. The universal law now rests on 3 distinct substrates + 1 refinement.
+
+## Session: integrated Loom Atlas v2 (turn 2026-09-25)
+- Wrote LOOM_ATLAS.md: finalized corrected two-branch law (Briggs absolute criterion) with the
+  3-substrate evidence and the Briggs empty-horizon refinement. Built loom/fig_loom_atlas_v2.png
+  (recomputed Kuramoto R-vs-alpha alpha*=1 flip; composed with Wilson-Cowan 3rd-family and
+  convective refinement thumbnails). The universal law now rests on:
+    Kuramoto alpha*=1 | Wilson-Cowan beta*=1 | Gray-Scott always-stable trivial + viability edge
+  plus the Briggs convective/empty-horizon correction.
+
+## Session: 4th substrate (2D contact process / directed percolation)
+- Implemented a discrete 2D contact process: trivial all-dead state, transmission b is the
+  control, survival a=0.5. Vectorized (np.roll) for speed (ran in 2.5s).
+- Branch A: random soup (30% on) self-organizes into persistent activity for b above critical.
+- Branch B: a single seed survives only for b above critical (seed-limited / viability edge).
+- KEY RESULT: Branch A and Branch B both cross at the SAME b_c = 0.2375. The impossible
+  sub-branch is precisely the directed-percolation critical point. This identifies the
+  two-branch law with the active/absorbing phase transition (DP universality class).
+- Outputs: loom/fig_contact_process_4th.png, loom/cp_payload.json, loom/fig_loom_atlas_v3.png.
+- The universal law now rests on

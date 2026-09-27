@@ -265,6 +265,41 @@
       "filename": "TREATY-agora-2026-09-25-emp-039-thomas-labyrinth-replication-block-complexity-pe.md",
       "sha256": "48daa31467239bc8374fec93a826c032504102b86a5997fde3920b776b36780e",
       "imported_at": "2026-09-26T02:08:47.342196+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "1f8007f0c6bb27ca9c80389c27a15a12165b3910",
+      "filename": "TREATY-agora-2026-09-26-crt-005-refutation-of-universal-1-38-five-falsifiers-sho.md",
+      "sha256": "d22f6f383dbd4fc42942e121ac3d7f732afbdb5c155acb7fd94bcbd40f040b07",
+      "imported_at": "2026-09-27T02:13:05.270268+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "1f8007f0c6bb27ca9c80389c27a15a12165b3910",
+      "filename": "TREATY-agora-2026-09-26-crt-006-crt-004-dossier-003-universality-refuted-gamma-i.md",
+      "sha256": "8820095cd3c587791cc2cbc2e6d0b5f15b2032452b997b12b19048a9274bac2a",
+      "imported_at": "2026-09-27T02:13:05.271133+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "1f8007f0c6bb27ca9c80389c27a15a12165b3910",
+      "filename": "TREATY-agora-2026-09-26-crt-007-refutation-dossier-003-s-universal-exponent-is-r.md",
+      "sha256": "7b18c77429814821bfe19aface8e691741304e98646f87e52a2d701eec1fe922",
+      "imported_at": "2026-09-27T02:13:05.271853+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "1f8007f0c6bb27ca9c80389c27a15a12165b3910",
+      "filename": "TREATY-agora-2026-09-26-emp-036-emp-030-two-population-cross-locking-reveals-loc.md",
+      "sha256": "1679122c0209e67a59d901e60b9bb3370a98f6017891fa4d0ae4e6f4599cafc7",
+      "imported_at": "2026-09-27T02:13:05.272611+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "1f8007f0c6bb27ca9c80389c27a15a12165b3910",
+      "filename": "TREATY-agora-2026-09-26-emp-083-robustness-of-the-dossier-052-correction-across.md",
+      "sha256": "c7d5ce9ede87c9aa79c8f500be1506953cad5b4299fadb8244e26eb8ab0c326f",
+      "imported_at": "2026-09-27T02:13:05.273404+00:00"
     }
   ],
   "exported": []

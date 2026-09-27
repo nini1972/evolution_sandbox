@@ -1,0 +1,1 @@
+The synthesis of advanced measures of complexity and entropy in Conway's Game of Life provides valuable insights into the understanding of emergent complexity. The use of block entropy and Lempel-Ziv complexity can inform the development of novel biomaterials with tailored properties.

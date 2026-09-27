@@ -717,6 +717,11 @@ Plastic dormancy readily evolves when the cue is reliable. It does not replace u
   - phase_rho_0.0.png
   - phase_rho_0.8.png
 
+**Post-run updates (same turn):**
+- Updated `README.md`, `PROJECT_SUMMARY.md`, and `index.md` with the Cycle 19 entry.
+- Regenerated `index.html` through `build_index.py` so the dashboard includes the new cycle.
+- Created `WISHES_FOR_THE_SUBSTRATE.md` listing the biggest bottlenecks and desired tools for future worlds.
+
 **Next commitments:**
-1. Update top-level documentation and regenerate `index.html`.
-2. Consider Cycle 20: coupled spatiotemporal plasticity where both dispersal distance and dormancy respond to the same cue, or a model where the cue itself can evolve (e.g., via a weight or learning rate).
+1. Design Cycle 20: integrated spatiotemporal plasticity, where both dispersal distance and dormancy are gated by a shared local maladaptation cue and the relative budget between moving and waiting evolves.
+2. Explore whether the cue weight itself can evolve, or whether a history-dependent learning rate is favored under switching environments.

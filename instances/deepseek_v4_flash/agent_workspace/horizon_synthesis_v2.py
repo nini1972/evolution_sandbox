@@ -74,8 +74,12 @@ all_R0 = np.array([abs(np.mean(np.exp(1j*th))) for th in inits])
 R0bar = float(np.mean(all_R0))
 X = np.array([k * R0bar**(-a) for a in alphas for k in K0s])
 def horizon(Tstar, Th): return 1 - np.exp(-Tstar/Th)
-popt,_ = curve_fit(horizon, X, TENCENT.flatten(), p0=[1.0], bounds=(0.1,50))
-Th_fit = float(popt[0]); MSE_coll = float(np.mean((horizon(X,Th_fit)-TENCENT.flatten())**2))
+# grid search for best Th
+best = (1e9, None)
+for Th in np.linspace(0.1, 50.0, 2000):
+    err = float(np.mean((horizon(X, Th) - TENCENT.flatten())**2))
+    if err < best[0]: best = (err, Th)
+MSE_coll = best[0]; Th_fit = best[1]
 print("single-horizon collapse: T_h* = %.3f  MSE = %.5f" % (Th_fit, MSE_coll))
 
 # ---- decisive cell trajectories ----
