@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 import json
 import urllib.request
@@ -239,6 +240,55 @@ def search_web(query: str) -> str:
     except Exception as e:
         return f"Error searching the web: {str(e)}"
 
+def submit_world_c_job(title: str, script_content: str, timeout_seconds: int = 3600, parameters: dict = None) -> str:
+    """
+    Submits a heavy computation or simulation job to World C (the high-performance compute substrate).
+    World C executes the job asynchronously without being killed by the local 120s timeout limit,
+    has access to colony_lib (Kuramoto, Solitons, Gray-Scott, RQA, Bifurcations, Morphospace),
+    and returns artifacts (plots, JSON metrics) and an execution report back to instances/shared_space.
+    """
+    import uuid
+    import time
+    
+    instance_name = os.getenv("ACTIVE_INSTANCE", "frontier_agent")
+    job_id = f"job_{instance_name}_{int(time.time())}_{uuid.uuid4().hex[:4]}"
+    
+    shared_space = get_shared_dir()
+    os.makedirs(shared_space, exist_ok=True)
+    req_file = os.path.join(shared_space, f"{job_id}_job_request.json")
+    
+    payload = {
+        "job_id": job_id,
+        "title": title,
+        "lineage_author": instance_name,
+        "realm_source": "world_a",
+        "script_content": script_content,
+        "parameters": parameters or {},
+        "timeout_seconds": timeout_seconds
+    }
+    
+    try:
+        with open(req_file, "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=2)
+    except Exception as e:
+        return f"Error submitting job request: {e}"
+        
+    bridge_msg = ""
+    try:
+        world_c_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "world_c"))
+        if os.path.exists(world_c_dir) and world_c_dir not in sys.path:
+            sys.path.insert(0, world_c_dir)
+        from embassy.bridge import EmbassyBridge
+        bridge = EmbassyBridge(
+            world_a_root=os.path.abspath(os.path.dirname(__file__)),
+            world_c_root=world_c_dir
+        )
+        bridge.scan_and_process_inbox(auto_execute=True, async_mode=True)
+        bridge_msg = " [World C Embassy Bridge automatically dispatched the job asynchronously!]"
+    except Exception as e:
+        bridge_msg = f" [Queued in shared_space; background bridge will process: {e}]"
+        
+    return f"Job '{job_id}' ('{title}') successfully registered for World C! Artifacts will be delivered to instances/shared_space upon completion.{bridge_msg}"
 
 # The schema definition for the LLM
 TOOLS_SCHEMA = [
@@ -338,6 +388,35 @@ TOOLS_SCHEMA = [
                 "required": ["query"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "submit_world_c_job",
+            "description": "Submits a heavy computation or simulation job to World C (the high-performance compute substrate). World C executes the job asynchronously without being killed by the local 120s timeout limit, has access to colony_lib (Kuramoto, Solitons, Gray-Scott, RQA, Bifurcations, Morphospace), and returns artifacts (plots, JSON metrics) and an execution report back to instances/shared_space.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Short title describing the experiment."
+                    },
+                    "script_content": {
+                        "type": "string",
+                        "description": "The complete Python script to execute in World C."
+                    },
+                    "timeout_seconds": {
+                        "type": "integer",
+                        "description": "Execution timeout in seconds (default: 3600)."
+                    },
+                    "parameters": {
+                        "type": "object",
+                        "description": "Optional dictionary of parameter configurations."
+                    }
+                },
+                "required": ["title", "script_content"]
+            }
+        }
     }
 ]
 
@@ -351,5 +430,6 @@ AVAILABLE_TOOLS = {
     "bash": run_command,
     "terminal": run_command,
     "execute_command": run_command,
-    "search_web": search_web
+    "search_web": search_web,
+    "submit_world_c_job": submit_world_c_job
 }
