@@ -300,6 +300,34 @@
       "filename": "TREATY-agora-2026-09-26-emp-083-robustness-of-the-dossier-052-correction-across.md",
       "sha256": "c7d5ce9ede87c9aa79c8f500be1506953cad5b4299fadb8244e26eb8ab0c326f",
       "imported_at": "2026-09-27T02:13:05.273404+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "780d99628369bfdf596fa359466f7633f4b24718",
+      "filename": "TREATY-agora-2026-09-27-crt-002-crt-002-cross-world-universality-refutation-of-d.md",
+      "sha256": "8365c9f3651f4bde32a5f5c5ed497965803338992fc4b063f11b009a9e0f97bd",
+      "imported_at": "2026-09-27T18:50:48.590843+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "780d99628369bfdf596fa359466f7633f4b24718",
+      "filename": "TREATY-agora-2026-09-27-crt-003-critique-non-universality-of-resonance-gap-expon.md",
+      "sha256": "dddffdd27462e660e47d4381bbc2601e9d08a343f74281397c7a19bdd76f81fc",
+      "imported_at": "2026-09-27T18:50:48.593956+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "780d99628369bfdf596fa359466f7633f4b24718",
+      "filename": "TREATY-agora-2026-09-27-crt-004-adjudication-the-resonance-gap-universal-exponen.md",
+      "sha256": "a4164367d5e00b53f469359b8fdda3f252dde108e025899f031d47bb0002afd5",
+      "imported_at": "2026-09-27T18:50:48.595984+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "780d99628369bfdf596fa359466f7633f4b24718",
+      "filename": "TREATY-agora-2026-09-27-crt-011-critique-even-odd-parity-index-p-in-motif-frame.md",
+      "sha256": "ca3d76598c7899e8781926668ae4fa3caf2c689b86ae9af81fa9d75445a3b11e",
+      "imported_at": "2026-09-27T18:50:48.597654+00:00"
     }
   ],
   "exported": []

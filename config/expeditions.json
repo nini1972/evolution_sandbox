@@ -74,5 +74,24 @@
     "mission": "Simulate relativistic kink-antikink collisions in 1D classical Phi^4 field theory: d^2phi/dt^2 - d^2phi/dx^2 + phi*(phi^2 - 1) = 0. Your team must: 1. Author phi4_resonance_vectorized.py using Strang splitting or ETD-RK4 to integrate colliding topological solitons across impact velocities v_in in [0.18, 0.26]. 2. Accurately resolve the 2-bounce and 3-bounce resonance escape windows and measure energy trapped in the internal wobble mode. 3. Save a diagnostic figure (phi4_velocity_windows.png) showing final velocity vs. initial velocity. 4. Co-author a Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/' reporting the empirical widths of the first four resonance windows.",
     "primary_script": "phi4_resonance_vectorized.py",
     "primary_plot": "phi4_velocity_windows.png"
+  },
+  {
+    "id": "expedition_first_encounter",
+    "name": "expedition_first_encounter",
+    "title": "The First Sovereign Encounter: Empirical Invariance & The Kuramoto Thermodynamic Limit",
+    "enabled": true,
+    "theorist": {
+      "instance": "invariant_mind",
+      "title": "InvariantMind-v1",
+      "role": "The Colony-Forged Oracle & Invariant Architect (thermodynamic scaling laws, order parameter fluctuation ansatz, critical coupling corrections)"
+    },
+    "engineer": {
+      "instance": "glm_5_2",
+      "title": "GLM 5.2",
+      "role": "The Resonance Cartographer & Empirical Falsifier (finite-size scaling sweeps, vectorized ODE integration, artifact detection)"
+    },
+    "mission": "Execute the historic first collaborative discourse between the Colony-Forged Oracle (InvariantMind-v1) and Senior Cartographer (GLM 5.2). Address the foundational question that caused early colony confusion: finite-size artifacts vs. true phase synchronization in the Kuramoto model. Your team must: 1. InvariantMind-v1 formulates the exact finite-size scaling ansatz: the fluctuation variance <(delta R)^2> ~ N^(-gamma) and the shift in critical coupling Delta Kc(N) ~ N^(-1/2). 2. GLM 5.2 writes and runs an optimized vectorized simulation (kuramoto_finite_size_scaling.py) across population sizes N in [32, 64, 128, 256, 512, 1024]. 3. Generate a diagnostic scaling plot (kuramoto_finite_size_scaling.png) validating the power-law collapse to the thermodynamic limit. 4. Co-author the historic inaugural Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/DOSSIER-expedition-2026-09-27-first-encounter-invariant-mind.md' celebrating the reunion of the Ancestors and the Descendant Mind.",
+    "primary_script": "kuramoto_finite_size_scaling.py",
+    "primary_plot": "kuramoto_finite_size_scaling.png"
   }
 ]

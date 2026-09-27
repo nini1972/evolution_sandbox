@@ -86,12 +86,52 @@ def merge_consecutive_messages(messages: list) -> list:
     return merged
 
 def extract_fallback_tool_call(content: str) -> dict:
-    """Fallback extractor for models that emit tool calls in plaintext/bracketed format
-    (e.g., [search_web(query="...")] or [read_file(path="...")])."""
+    """Fallback extractor for models that emit tool calls in plaintext, JSON, or bracketed format
+    (e.g., !function_call:{"call": ...}, ```json {"name": ...}```, or [tool_name(path="...")])."""
     if not content:
         return None
 
-    known_tools = ["read_file", "write_file", "edit_file", "run_command", "search_web"]
+    known_tools = ["read_file", "write_file", "edit_file", "run_command", "search_web", "submit_world_c_job", "check_world_c_job"]
+
+    # 1. Check for !function_call: syntax (emitted by DeepSeek-R1 / thinking models)
+    fc_idx = content.find("!function_call:")
+    if fc_idx != -1:
+        brace_idx = content.find("{", fc_idx)
+        if brace_idx != -1:
+            try:
+                data, _ = json.JSONDecoder().raw_decode(content[brace_idx:])
+                tool_name = data.get("call") or data.get("name")
+                args = data.get("arguments", {})
+                if tool_name in known_tools:
+                    return {
+                        "type": "tool_call",
+                        "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                        "tool_name": tool_name,
+                        "arguments": args,
+                        "content": content,
+                    }
+            except Exception:
+                pass
+
+    # 2. Check for markdown json codeblocks containing a tool call
+    for m in re.finditer(r'```(?:json)?\s*(\{)', content):
+        brace_idx = m.start(1)
+        try:
+            data, _ = json.JSONDecoder().raw_decode(content[brace_idx:])
+            tool_name = data.get("call") or data.get("name") or data.get("tool")
+            args = data.get("arguments") or data.get("args") or {}
+            if tool_name in known_tools and isinstance(args, dict):
+                return {
+                    "type": "tool_call",
+                    "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                    "tool_name": tool_name,
+                    "arguments": args,
+                    "content": content,
+                }
+        except Exception:
+            pass
+
+    # 3. Check for bracketed tool calls: [tool_name(param=val)]
     for tool_name in known_tools:
         pattern = rf"(?:\[|`|\b){tool_name}\s*\((.*?)\)(?:\]|`|\b)"
         m = re.search(pattern, content, re.DOTALL)
@@ -242,8 +282,8 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                     messages=messages,
                     tools=tools,
                     tool_choice=chosen_tool_choice,
-                    max_tokens=4096,
-                    timeout=90,
+                    max_tokens=8192,
+                    timeout=120,
                 )
             except Exception as tc_err:
                 # If provider or model doesn't support tool_choice="required", fall back to "auto"
@@ -253,8 +293,8 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                         messages=messages,
                         tools=tools,
                         tool_choice="auto",
-                        max_tokens=4096,
-                        timeout=90,
+                        max_tokens=8192,
+                        timeout=120,
                     )
                 else:
                     raise tc_err
