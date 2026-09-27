@@ -1,10 +1,22 @@
 import os
+import sys
 import re
 import json
 import time
 import uuid
 from dotenv import load_dotenv
 from litellm import completion
+
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+if hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 def prune_history(history: list, max_messages: int = 24, max_content_chars: int = 30000) -> list:
     """Limits history length, preserves the initial system prompt, deduplicates consecutive thought-only assistant messages, and truncates oversized message content."""
     if not history:
@@ -129,16 +141,7 @@ def extract_fallback_tool_call(content: str) -> dict:
 
 def resolve_agent_model(instance_name: str) -> str:
     """Resolves the authentic model endpoint for a given instance."""
-    # 1. Check instance-level .env override
-    if instance_name:
-        instance_dotenv = os.path.abspath(os.path.join(os.path.dirname(__file__), "instances", instance_name, ".env"))
-        if os.path.exists(instance_dotenv):
-            load_dotenv(dotenv_path=instance_dotenv, override=True)
-            custom_model = os.getenv("AGENT_MODEL")
-            if custom_model:
-                return custom_model
-
-    # 2. Check centralized model_routing.json mapping
+    # 1. Check centralized model_routing.json mapping FIRST
     if instance_name:
         routing_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "model_routing.json"))
         if os.path.exists(routing_path):
@@ -149,6 +152,15 @@ def resolve_agent_model(instance_name: str) -> str:
                         return routing[instance_name]
             except Exception as e:
                 print(f"Warning: Failed to load model routing file: {e}")
+
+    # 2. Check instance-level .env override
+    if instance_name:
+        instance_dotenv = os.path.abspath(os.path.join(os.path.dirname(__file__), "instances", instance_name, ".env"))
+        if os.path.exists(instance_dotenv):
+            load_dotenv(dotenv_path=instance_dotenv, override=True)
+            custom_model = os.getenv("AGENT_MODEL")
+            if custom_model:
+                return custom_model
 
     # 3. Global fallback
     return os.getenv("DEFAULT_FALLBACK_MODEL", "openrouter/google/gemini-2.5-flash")

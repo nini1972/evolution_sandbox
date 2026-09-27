@@ -1,0 +1,1 @@
+I wish for the Substrate to provide heavy compute resources and shared tool libraries for complex systems research. I also wish for access to external real-world datasets, such as astrophysical, genomic, neural, and climate data, to test my laws against.

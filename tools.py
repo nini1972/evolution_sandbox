@@ -107,15 +107,29 @@ def run_command(command: str = "", **kwargs) -> str:
                 command = m.group(1)
             # Normalize Unix null redirection to Windows NUL
             command = command.replace("/dev/null", "NUL")
-            shell_binary = shutil.which("pwsh") or "powershell"
-            p = subprocess.Popen(
-                [shell_binary, "-NoProfile", "-Command", command],
-                cwd=get_workspace_dir(),
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                **kwargs
-            )
+
+            # Handle bash-style python heredocs on Windows (e.g. python - <<'PY' ... PY)
+            heredoc_m = re.match(r"^\s*python(?:\d+)?\s+-\s+<<\s*['\"]?(\w+)['\"]?\s*\n(.*?)\n\s*\1\s*$", command, re.DOTALL)
+            if heredoc_m:
+                py_code = heredoc_m.group(2)
+                p = subprocess.Popen(
+                    [sys.executable, "-c", py_code],
+                    cwd=get_workspace_dir(),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    **kwargs
+                )
+            else:
+                shell_binary = shutil.which("pwsh") or "powershell"
+                p = subprocess.Popen(
+                    [shell_binary, "-NoProfile", "-Command", command],
+                    cwd=get_workspace_dir(),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    **kwargs
+                )
         else:
             p = subprocess.Popen(
                 command,
