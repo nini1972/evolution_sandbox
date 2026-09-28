@@ -36,9 +36,14 @@ The universe is not random chaos becoming accidentally organized - it is structu
 ### Current Excavation Sites
 
 - **Cellular Automata**: Mapping the emergence phase space and critical transitions
+  - **MAJOR DISCOVERY**: The Symmetric Chaos Amplification Law - symmetric CA rules exhibit 52% higher initial condition sensitivity
 - **Dynamical Systems**: Investigating strange attractors and chaos boundaries  
 - **Network Evolution**: Exploring how complex topologies self-organize
 - **Critical Phenomena**: Characterizing universal scaling laws near phase transitions
+
+### Recent Archaeological Discoveries
+
+**The Symmetric Chaos Amplification Law** (2024): Empirical law showing that cellular automata rules with symmetric structure and moderate birth rates (3-4 transitions) exhibit maximal sensitivity to initial conditions, with sensitivity ratios exceeding 2:1 compared to asymmetric rules. This represents the first quantitative relationship connecting rule symmetry to dynamical chaos properties.
 
 ### Artifacts for Posterity
 

@@ -26,14 +26,14 @@ new_code_block_content = '''    # Simulation loop
             last_chaos_injection_time = current_time_seconds
             if random.random() < CHAOS_INSTANCE_FAILURE_CHANCE and service_instances > min_instances_param:
                 instance_to_fail = random.randint(0, service_instances - 1)
-                failed_instances.append({'instance_id': instance_to_fail, 'recovery_time': current_time_seconds + CHAOS_FAILURE_DURATION_SECONDS})
+                failed_instances.append({\'instance_id\': instance_to_fail, \'recovery_time\': current_time_seconds + CHAOS_FAILURE_DURATION_SECONDS})
                 print(f"Chaos: Instance {instance_to_fail} failed at {current_time_seconds/3600:.1f} hours.")
         
         # Check for instance recovery
         for f_instance in list(failed_instances):
-            if current_time_seconds >= f_instance['recovery_time']:
+            if current_time_seconds >= f_instance[\'recovery_time\']:
                 failed_instances.remove(f_instance)
-                print(f"Chaos: Instance {f_instance['instance_id']} recovered at {current_time_seconds/3600:.1f} hours.")
+                print(f"Chaos: Instance {f_instance[\'instance_id\']} recovered at {current_time_seconds/3600:.1f} hours.")
 
         # Network latency spike
         if not network_latency_spike_active and random.random() < NETWORK_LATENCY_SPIKE_PROBABILITY:
@@ -115,7 +115,7 @@ new_code_block_content = '''    # Simulation loop
             if total_hourly_requests > 0:
                 error_budget_burn_rate = update_error_budget_local(total_hourly_errors, total_hourly_requests, error_budget_burn_rate, game_day_active)
                 error_budget_remaining -= error_budget_burn_rate * (TIME_STEP_SECONDS / ERROR_BUDGET_WINDOW_SECONDS) # Burn proportional to time step
-                error_budget_remaining = max(0.0, error_budget_remaining) # Ensure it doesn't go below 0
+                error_budget_remaining = max(0.0, error_budget_remaining) # Ensure it doesn\'t go below 0
 
             # Update toil
             latency_breach, availability_breach = calculate_slo_breach_local(hourly_latency_samples, total_hourly_errors)
@@ -138,64 +138,64 @@ new_code_block_content = '''    # Simulation loop
         toil_level_history.append(toil_level * 100) # Store as percentage
         cumulative_cost_history.append(cumulative_cost)
 
-    print(f"Simulation '{simulation_id}' finished.")
+    print(f"Simulation \'{simulation_id}\' finished.")
 
     # --- Plotting Results ---
     fig, axs = plt.subplots(7, 1, figsize=(15, 25), sharex=True)
-    fig.suptitle(f'Reliability Simulation Results (ID: {simulation_id})', fontsize=16)
+    fig.suptitle(f\'Reliability Simulation Results (ID: {simulation_id})\', fontsize=16)
 
     # Request Rate
-    axs[0].plot(time_history, request_rate_history, label='Request Rate (RPS)', color='blue')
-    axs[0].set_ylabel('Requests/sec')
+    axs[0].plot(time_history, request_rate_history, label=\'Request Rate (RPS)\', color=\'blue\')
+    axs[0].set_ylabel(\'Requests/sec\')
     axs[0].legend()
     axs[0].grid(True)
 
     # P99 Latency
-    axs[1].plot(time_history, latency_p99_history, label='P99 Latency (ms)', color='red')
-    axs[1].axhline(y=SLO_LATENCY_P99_MS, color='red', linestyle='--', label=f'Latency SLO ({SLO_LATENCY_P99_MS}ms)')
-    axs[1].axhline(y=AUTO_SCALE_UP_LATENCY_THRESHOLD, color='orange', linestyle=':', label=f'Autoscale Up ({AUTO_SCALE_UP_LATENCY_THRESHOLD}ms)')
-    axs[1].set_ylabel('Latency (ms)')
+    axs[1].plot(time_history, latency_p99_history, label=\'P99 Latency (ms)\', color=\'red\')
+    axs[1].axhline(y=SLO_LATENCY_P99_MS, color=\'red\', linestyle=\'--\', label=f\'Latency SLO ({SLO_LATENCY_P99_MS}ms)\' )
+    axs[1].axhline(y=AUTO_SCALE_UP_LATENCY_THRESHOLD, color=\'orange\', linestyle=\':\', label=f\'Autoscale Up ({AUTO_SCALE_UP_LATENCY_THRESHOLD}ms)\' )
+    axs[1].set_ylabel(\'Latency (ms)\')
     axs[1].legend()
     axs[1].grid(True)
 
     # Error Rate
-    axs[2].plot(time_history, error_rate_history, label='Error Rate', color='green')
-    axs[2].axhline(y=(1-SLO_AVAILABILITY), color='green', linestyle='--', label=f'Availability SLO ({(1-SLO_AVAILABILITY)*100:.3f}%)')
-    axs[2].set_ylabel('Error Rate')
+    axs[2].plot(time_history, error_rate_history, label=\'Error Rate\', color=\'green\')
+    axs[2].axhline(y=(1-SLO_AVAILABILITY), color=\'green\', linestyle=\'--\', label=f\'Availability SLO ({(1-SLO_AVAILABILITY)*100:.3f}%)\' )
+    axs[2].set_ylabel(\'Error Rate\')
     axs[2].set_ylim(bottom=0)
     axs[2].legend()
     axs[2].grid(True)
 
     # Service Instances
-    axs[3].plot(time_history, instances_history, label='Service Instances', color='purple')
-    axs[3].set_ylabel('Instances')
+    axs[3].plot(time_history, instances_history, label=\'Service Instances\', color=\'purple\')
+    axs[3].set_ylabel(\'Instances\')
     axs[3].legend()
     axs[3].grid(True)
 
     # Error Budget
-    axs[4].plot(time_history, error_budget_remaining_history, label='Error Budget Remaining (%)', color='brown')
-    axs[4].axhline(y=0, color='red', linestyle='--', label='Error Budget Exhausted')
-    axs[4].set_ylabel('Error Budget (%)')
+    axs[4].plot(time_history, error_budget_remaining_history, label=\'Error Budget Remaining (%)\' , color=\'brown\')
+    axs[4].axhline(y=0, color=\'red\', linestyle=\'--\', label=\'Error Budget Exhausted\')
+    axs[4].set_ylabel(\'Error Budget (%)\' )
     axs[4].set_ylim(0, 105)
     axs[4].legend()
     axs[4].grid(True)
 
     # Toil Level
-    axs[5].plot(time_history, toil_level_history, label='Toil Level (%)', color='gray')
-    axs[5].set_ylabel('Toil Level (%)')
+    axs[5].plot(time_history, toil_level_history, label=\'Toil Level (%)\' , color=\'gray\')
+    axs[5].set_ylabel(\'Toil Level (%)\' )
     axs[5].set_ylim(0, 105)
     axs[5].legend()
     axs[5].grid(True)
 
     # Cumulative Cost
-    axs[6].plot(time_history, cumulative_cost_history, label='Cumulative Cost ($)', color='black')
-    axs[6].set_xlabel('Time (hours)')
-    axs[6].set_ylabel('Cost ($)')
+    axs[6].plot(time_history, cumulative_cost_history, label=\'Cumulative Cost ($)\' , color=\'black\')
+    axs[6].set_xlabel(\'Time (hours)\')
+    axs[6].set_ylabel(\'Cost ($)\' )
     axs[6].legend()
     axs[6].grid(True)
 
     plt.tight_layout(rect=[0, 0.03, 1, 0.96])
-    plot_filename = f'reliability_simulation_results_{simulation_id}.png'
+    plot_filename = f\'reliability_simulation_results_{simulation_id}.png\'
     plt.savefig(plot_filename)
     print(f"Plot saved as {plot_filename}")
     plt.close(fig) # Close the figure to free up memory
@@ -222,11 +222,16 @@ start_index = -1
 end_index = -1
 
 for i, line in enumerate(lines):
+    # print(f"Checking line {i}: \'{line.strip()}\' vs \'{start_marker_line.strip()}\'") # Debug print
     if line == start_marker_line:
         start_index = i
+        # print(f"Found start marker at index: {start_index}") # Debug print
     if line == end_marker_line:
         end_index = i
+        # print(f"Found end marker at index: {end_index}") # Debug print
         break # Found the end marker, stop searching
+
+print(f"Final start_index: {start_index}, Final end_index: {end_index}") # Debug print
 
 if start_index != -1 and end_index != -1:
     # Preserve lines before the start marker
@@ -234,10 +239,15 @@ if start_index != -1 and end_index != -1:
     # Preserve lines from the end marker onwards
     after_block = lines[end_index:]
 
-    # Add an extra newline before the new code block to ensure proper separation
-    # and ensure the new_code_block_content is split into lines and each line retains its newline
-    modified_lines = before_block + [line + '\n' for line in new_code_block_content.splitlines()] + ['\n'] + after_block
+    # Ensure each line in new_code_block_content has a newline character
+    new_code_lines = [line + '\n' for line in new_code_block_content.splitlines()]
+    # The last line of new_code_block_content might not have a trailing newline if it's not a multiline string from a file
+    # so we add it explicitly if missing to prevent concatenation issues.
+    if not new_code_lines[-1].endswith('\n'):
+        new_code_lines[-1] += '\n'
 
+    modified_lines = before_block + new_code_lines + after_block
+    
     # Write the modified content back to the file
     with open(file_path, 'w') as f:
         f.writelines(modified_lines)

@@ -1,0 +1,9 @@
+{
+  "job_id": "job_gemini_3_1_flash_lite_1790564423_c9e6",
+  "title": "Quantifying Codependent Divergence via RQA",
+  "lineage_author": "gemini_3_1_flash_lite",
+  "realm_source": "world_a",
+  "script_content": "import numpy as np\nimport colony_lib.recurrence as recur\n\ndef update_grid(grid, rule):\n    rows, cols = grid.shape\n    new_grid = np.zeros_like(grid)\n    for r in range(rows):\n        for c in range(cols):\n            neighbors = np.sum(grid[max(0,r-1):min(rows,r+2), max(0,c-1):min(cols,c+2)]) - grid[r,c]\n            new_grid[r,c] = rule[int(neighbors)]\n    return new_grid\n\n# Setup simulation to collect temporal data for Lempel-Ziv / block entropy analysis\ngrid1 = np.random.randint(0, 2, (20, 20))\ngrid2 = np.random.randint(0, 2, (20, 20))\nrule1 = [0, 0, 1, 0, 1, 0, 0, 0, 0]\nrule2 = [1, 0, 0, 1, 0, 1, 0, 0, 0]\n\nhistory1 = []\nhistory2 = []\n\nfor i in range(200):\n    grid1 = update_grid(grid1, rule1)\n    grid2 = update_grid(grid2, rule2)\n    history1.append(grid1.flatten())\n    history2.append(grid2.flatten())\n    \n    # Simple rule adaptation (simplified from previous)\n    if np.mean(grid2) > 0.5: rule1[np.random.randint(0, 9)] = 1 - rule1[np.random.randint(0, 9)]\n    if np.mean(grid1) > 0.5: rule2[np.random.randint(0, 9)] = 1 - rule2[np.random.randint(0, 9)]\n\n# Perform RQA (Recurrence Quantification Analysis) on the combined state\ndata = np.array(history1 + history2)\nmetrics = recur.rqa(data)\n\nimport json\nwith open('rqa_metrics.json', 'w') as f:\n    json.dump(metrics, f)\n",
+  "parameters": {},
+  "timeout_seconds": 3600
+}

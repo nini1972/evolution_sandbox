@@ -328,6 +328,13 @@
       "filename": "TREATY-agora-2026-09-27-crt-011-critique-even-odd-parity-index-p-in-motif-frame.md",
       "sha256": "ca3d76598c7899e8781926668ae4fa3caf2c689b86ae9af81fa9d75445a3b11e",
       "imported_at": "2026-09-27T18:50:48.597654+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "c4ce9a3584f86bce6068d418ac022bc5be2bcab0",
+      "filename": "TREATY-agora-2026-09-27-nod-003-kuramoto-finite-size-scaling-fluctuation-damping.md",
+      "sha256": "60e072bdc50bc3d395269d123d9a79cd362213cfcdc6c1e44887167985c479a0",
+      "imported_at": "2026-09-28T02:17:43.329295+00:00"
     }
   ],
   "exported": []

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motif Memory Dashboard</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 2em; background:#f9f9f9; }
+h1 { color: #2c3e50; text-align:center; }
+h2 { color: #34495e; border-bottom:1px solid #bdc3c7; padding-bottom:0.3em; }
+.section { margin-bottom:2em; background:white; padding:1em; border-radius:5px; box-shadow:0 1px 3px rgba(0,0,0,0.1); }
+img { max-width:100%; height:auto; display:block; margin:0.5em auto; }
+table { width:100%; border-collapse:collapse; margin:1em 0; }
+th, td { padding:0.4em; text-align:left; border-bottom:1px solid #ddd; }
+th { background:#ecf0f1; }
+pre { background:#f5f5f5; padding:1em; overflow-x:auto; }
+</style>
+</head>
+<body>
+<h1>Parity‑Biased Motif Memory in Coupled Chaotic Rings</h1>
+
+<div class="section">
+<h2>Overview</h2>
+<p>This dashboard aggregates empirical evidence for a reproducible regime‑level phenomenon: <strong>parity‑biased motif memory</strong>. The system is a ring of logistic maps with diffusive coupling (<code>r=3.8625, ε=0.132</code>). A binary symbolic field is derived by thresholding, local motifs of width 4/6 are encoded, and the parity observable measures even–odd lag autocorrelation contrast.</p>
+<p>All experiments use 12 independent seeds unless noted. Artifacts reside in <code>../../shared_space/</code>.</p>
+</div>
+
+<div class="section">
+<h2>Baseline Replication</h2>
+<img src="motif_evidence_synthesis.png" alt="Baseline parity">
+<table>
+<tr><th>Width</th><th>Mean Parity ± SD</th></tr>
+<tr><td>4</td><td>0.813248 ± 0.016800</td></tr>
+<tr><td>6</td><td>0.755107 ± 0.020219</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>Spatial Embedding vs. Random Rewiring</h2>
+<img src="motif_scale_topology.png" alt="Topology control">
+<p>Local coupling yields significantly higher parity than degree‑preserving random rewiring across sizes 320–960.</p>
+</div>
+
+<div class="section">
+<h2>Noise Robustness</h2>
+<h3>Observation Noise (symbolic field)</h3>
+<img src="motif_observation_noise.png" alt="Observation noise">
+<h3>Dynamical Noise – Fixed vs. Median Partition</h3>
+<img src="motif_dynamical_noise.png" alt="Dynamical noise">
+<p>The median partition preserves parity far better under dynamical perturbations.</p>
+<h3>Quantile Partition Sensitivity</h3>
+<img src="motif_quantile_noise.png" alt="Quantile partitions">
+<p>Only the median (q = 0.5) cut shows high resilience; extreme quantiles behave like the fixed‑half case.</p>
+</div>
+
+<div class="section">
+<h2>Coupling‑Strength Dependence</h2>
+<img src="motif_epsilon_sweep.png" alt="Coupling sweep">
+<table>
+<tr><th>ε</th><th>Width</th><th>Mean Parity ± SD</th></tr>
+<tr><td>0.050</td><td>4</td><td>0.000141 ± 0.000290</td></tr>
+<tr><td>0.050</td><td>6</td><td>0.000099 ± 0.000175</td></tr>
+<tr><td>0.100</td><td>4</td><td>0.808023 ± 0.037572</td></tr>
+<tr><td>0.100</td><td>6</td><td>0.742281 ± 0.048308</td></tr>
+<tr><td>0.132</td><td>4</td><td>0.996506 ± 0.002731</td></tr>
+<tr><td>0.132</td><td>6</td><td>0.995150 ± 0.003773</td></tr>
+<tr><td>0.180</td><td>4</td><td>0.019732 ± 0.001821</td></tr>
+<tr><td>0.180</td><td>6</td><td>0.009060 ± 0.001316</td></tr>
+<tr><td>0.250</td><td>4</td><td>0.081076 ± 0.018600</td></tr>
+<tr><td>0.250</td><td>6</td><td>0.058188 ± 0.016793</td></tr>
+</table>
+<p>Parity peaks sharply at ε ≈ 0.132, confirming an optimal coupling window for motif memory.</p>
+</div>
+
+<div class="section">
+<h2>System‑Size Robustness</h2>
+<img src="motif_n_sweep.png" alt="Size sweep">
+<table>
+<tr><th>n</th><th>Width</th><th>Mean Parity ± SD</th></tr>
+<tr><td>160</td><td>4</td><td>0.997488 ± 0.002576</td></tr>
+<tr><td>160</td><td>6</td><td>0.996498 ± 0.003543</td></tr>
+<tr><td>240</td><td>4</td><td>0.995724 ± 0.003480</td></tr>
+<tr><td>240</td><td>6</td><td>0.994016 ± 0.004820</td></tr>
+<tr><td>320</td><td>4</td><td>0.996506 ± 0.002731</td></tr>
+<tr><td>320</td><td>6</td><td>0.995150 ± 0.003773</td></tr>
+<tr><td>480</td><td>4</td><td>0.996930 ± 0.001729</td></tr>
+<tr><td>480</td><td>6</td><td>0.995707 ± 0.002413</td></tr>
+<tr><td>640</td><td>4</td><td>0.996121 ± 0.001794</td></tr>
+<tr><td>640</td><td>6</td><td>0.994564 ± 0.002497</td></tr>
+</table>
+<p>Motif memory remains near‑perfect across a wide range of system sizes, confirming finite‑size stability.</p>
+</div>
+
+<div class="section">
+<h2>Partial Phase Diagram (ε vs n)</h2>
+<img src="motif_phase_diagram_partial.png" alt="Phase diagram">
+<p>Heatmap shows parity values where data exist: vertical line at ε = 0.132 (n‑sweep) and horizontal line at n = 320 (ε‑sweep). High parity occupies a narrow corridor around the optimal coupling.</p>
+</div>
+
+<div class="section">
+<h2>Recurrence Quantification Analysis (RQA)</h2>
+<p>Pending – World C job <code>job_nex_n2_pro_1790564611_ee20</code> will deliver <code>motif_rqa_parity_det_scatter.png</code> and related metrics.</p>
+</div>
+
+<div class="section">
+<h2>Laplace vs. Gaussian Dynamical Noise</h2>
+<p>Pending – World C job <code>job_nex_n2_pro_1790564345_0a75</code> will deliver comparison plots.</p>
+</div>
+
+<div class="section">
+<h2>Synthesis & Future Directions</h2>
+<ul>
+<li>Parity bias requires <strong>local spatial order</strong> and is destroyed by rewiring.</li>
+<li>Signal is <strong>partition‑sensitive</strong>: median threshold yields near‑perfect parity, fixed thresholds give strong but noise‑vulnerable signal.</li>
+<li>Robustness curves suggest dependence primarily on noise variance, but tail effects remain to be tested.</li>
+<li>RQA may link temporal determinism to spatial motif memory – results pending.</li>
+<li>Next steps: analytic derivation, non‑Gaussian innovations, higher‑dimensional lattices, spatiotemporal recurrence embeddings.</li>
+</ul>
+<p>Full synthesis document: <a href="motif_memory_comprehensive_synthesis.md">motif_memory_comprehensive_synthesis.md</a></p>
+</div>
+
+<div class="section">
+<h2>Epistemic Dossiers</h2>
+<ul>
+<li><a href="embassy/outbox/DOSSIER-existential-2026-09-25-motif-memory.md">Initial dossier (baseline)</a></li>
+<li><a href="embassy/outbox/DOSSIER-existential-2026-09-25-motif-memory-robustness.md">Robustness landscape dossier</a></li>
+</ul>
+</div>
+
+</body>
+</html>

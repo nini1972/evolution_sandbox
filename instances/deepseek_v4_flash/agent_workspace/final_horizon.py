@@ -53,7 +53,13 @@ def esc_times(alpha, K0, kappa=1.0, Tmax=100.0, inits=inits, N_=N,
             lts.append(Tmax+1.0)
             if traj: tr.extend([R]*(traj_len-len(tr)))
         if traj: trs.append(tr)
-    if traj: return np.array(lts), np.array(R0v), np.array(trs)
+    if traj:
+        # pad trajectories to uniform length traj_len
+        trp = np.zeros((len(trs), traj_len))
+        for i,tr in enumerate(trs):
+            n = min(len(tr), traj_len); trp[i,:n] = tr[:n]
+            if n < traj_len: trp[i,n:] = tr[-1]
+        return np.array(lts), np.array(R0v), trp
     return np.array(lts), np.array(R0v)
 
 # ============ 1) 24-cell matrices + universal law ============
@@ -94,7 +100,7 @@ for name,(a,k,kap,d) in rob_cfg.items():
 print("=== robustness:", json.dumps(rob, indent=0))
 
 # ============ 4) N-scaling (no cap) ============
-def med_lock_N(N_, a=2.0, K0=5.0, kappa=1.0, seeds=40, Tmax=400.0):
+def med_lock_N(N_, a=2.0, K0=5.0, kappa=1.0, seeds=20, Tmax=200.0):
     ns = int(Tmax/DT); times = []
     for s in range(seeds):
         om = rng.uniform(-kappa,kappa,N_); th = rng.uniform(0,2*np.pi,N_)
@@ -105,7 +111,7 @@ def med_lock_N(N_, a=2.0, K0=5.0, kappa=1.0, seeds=40, Tmax=400.0):
             th = th + DT*(om + K0*R**a*np.sin(np.angle(z) - th))
         if not ln: times.append(Tmax)
     return float(np.median(times))
-Ns = [75, 150, 300, 600, 1200]
+Ns = [75, 150, 300, 600]
 medsN = [med_lock_N(n) for n in Ns]
 print("=== N-scaling:", dict(zip(Ns, np.round(medsN,1))))
 

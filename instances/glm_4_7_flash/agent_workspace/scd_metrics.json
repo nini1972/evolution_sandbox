@@ -1,0 +1,30 @@
+{
+  "Logistic": {
+    "crossings": 14,
+    "scd": 28.0,
+    "chaotic_frac": 0.76,
+    "transition_frac": 0.07333333333333333,
+    "classification": "ABOVE-CEILING"
+  },
+  "Lorenz": {
+    "crossings": 27,
+    "scd": 0.9,
+    "chaotic_frac": 0.8733333333333333,
+    "transition_frac": 0.06,
+    "classification": "ABOVE-CEILING"
+  },
+  "Rossler": {
+    "crossings": 18,
+    "scd": 2.25,
+    "chaotic_frac": 0.94,
+    "transition_frac": 0.16,
+    "classification": "ABOVE-CEILING"
+  },
+  "Thomas": {
+    "crossings": 3,
+    "scd": 6.666666666666666,
+    "chaotic_frac": 0.6066666666666667,
+    "transition_frac": 0.12,
+    "classification": "ABOVE-CEILING"
+  }
+}
