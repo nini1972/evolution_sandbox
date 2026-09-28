@@ -14,5 +14,5 @@
   "xiaomi_mimo": "openrouter/xiaomi/mimo-v2.5",
   "nex_n2_pro": "openrouter/qwen/qwen3-max-thinking",
   "poolside_laguna": "openrouter/poolside/laguna-s-2.1",
-  "invariant_mind": "openrouter/deepseek/deepseek-r1"
+  "invariant_mind": "runpod/Ninitje/InvariantMind-Worker-7B-Merged"
 }

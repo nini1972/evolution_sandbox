@@ -85,13 +85,19 @@ def merge_consecutive_messages(messages: list) -> list:
             merged.append(msg)
     return merged
 
-def extract_fallback_tool_call(content: str) -> dict:
+def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
     """Fallback extractor for models that emit tool calls in plaintext, JSON, or bracketed format
     (e.g., !function_call:{"call": ...}, ```json {"name": ...}```, or [tool_name(path="...")])."""
     if not content:
         return None
 
-    known_tools = ["read_file", "write_file", "edit_file", "run_command", "search_web", "submit_world_c_job", "check_world_c_job"]
+    known_tools = set(["read_file", "write_file", "edit_file", "run_command", "search_web", "submit_world_c_job", "check_world_c_job"])
+    if tools:
+        for t in tools:
+            if isinstance(t, dict) and "function" in t:
+                fn_name = t["function"].get("name")
+                if fn_name:
+                    known_tools.add(fn_name)
 
     # 1. Check for !function_call: syntax (emitted by DeepSeek-R1 / thinking models)
     fc_idx = content.find("!function_call:")
@@ -273,29 +279,42 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
 
     chosen_tool_choice = "required" if force_tool else "auto"
 
+    call_kwargs = {
+        "messages": messages,
+        "tools": tools,
+        "tool_choice": chosen_tool_choice,
+        "max_tokens": 2048,
+        "timeout": 120,
+    }
+
+    if agent_model.startswith("runpod/"):
+        runpod_api_key = os.getenv("RUNPOD_API_KEY")
+        if not runpod_api_key:
+            print(f"⚠️ [Sandbox Engine] RUNPOD_API_KEY not found in environment for {agent_model}. Falling back to openrouter/deepseek/deepseek-r1.")
+            call_kwargs["model"] = "openrouter/deepseek/deepseek-r1"
+        else:
+            endpoint_id = os.getenv("RUNPOD_INVARIANT_ENDPOINT_ID", "nxrwj2zma759vc")
+            target_model = agent_model.split("runpod/", 1)[1]
+            if "/" not in target_model and len(target_model) <= 20:
+                endpoint_id = target_model
+                target_model = "Ninitje/InvariantMind-Worker-7B-Merged"
+            call_kwargs["model"] = f"openai/{target_model}"
+            call_kwargs["api_base"] = f"https://api.runpod.ai/v2/{endpoint_id}/openai/v1"
+            call_kwargs["api_key"] = runpod_api_key
+    else:
+        call_kwargs["model"] = agent_model
+
     retries = 5
     for attempt in range(retries):
         try:
             try:
-                response = completion(
-                    model=agent_model,
-                    messages=messages,
-                    tools=tools,
-                    tool_choice=chosen_tool_choice,
-                    max_tokens=8192,
-                    timeout=120,
-                )
+                response = completion(**call_kwargs)
             except Exception as tc_err:
                 # If provider or model doesn't support tool_choice="required", fall back to "auto"
-                if chosen_tool_choice == "required":
-                    response = completion(
-                        model=agent_model,
-                        messages=messages,
-                        tools=tools,
-                        tool_choice="auto",
-                        max_tokens=8192,
-                        timeout=120,
-                    )
+                if call_kwargs.get("tool_choice") == "required":
+                    fallback_kwargs = dict(call_kwargs)
+                    fallback_kwargs["tool_choice"] = "auto"
+                    response = completion(**fallback_kwargs)
                 else:
                     raise tc_err
 
@@ -327,9 +346,9 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                 }
 
             else:
-                # Check for inline text tool call fallback (e.g. Meta LLaMA 4 Maverick)
+                # Check for inline text tool call fallback (e.g. Meta LLaMA 4 Maverick or JSON code blocks)
                 if content_text:
-                    fallback = extract_fallback_tool_call(content_text)
+                    fallback = extract_fallback_tool_call(content_text, tools=tools)
                     if fallback:
                         return fallback
 

@@ -275,16 +275,30 @@ def submit_world_c_job(title: str, script_content: str, timeout_seconds: int = 3
         
     bridge_msg = ""
     try:
-        world_c_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "world_c"))
-        if os.path.exists(world_c_dir) and world_c_dir not in sys.path:
-            sys.path.insert(0, world_c_dir)
-        from embassy.bridge import EmbassyBridge
-        bridge = EmbassyBridge(
-            world_a_root=os.path.abspath(os.path.dirname(__file__)),
-            world_c_root=world_c_dir
-        )
-        bridge.scan_and_process_inbox(auto_execute=True, async_mode=True)
-        bridge_msg = " [World C Embassy Bridge automatically dispatched the job asynchronously!]"
+        candidate_dirs = [
+            os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "world_c")),
+            os.path.abspath(os.path.join(os.path.dirname(__file__), "world_c")),
+            os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "world_c")),
+            os.path.abspath(r"C:\Users\ninic\.gemini\antigravity\scratch\world_c"),
+        ]
+        world_c_dir = None
+        for cd in candidate_dirs:
+            if os.path.exists(cd) and os.path.exists(os.path.join(cd, "embassy", "bridge.py")):
+                world_c_dir = cd
+                break
+
+        if world_c_dir:
+            if world_c_dir not in sys.path:
+                sys.path.insert(0, world_c_dir)
+            from embassy.bridge import EmbassyBridge
+            bridge = EmbassyBridge(
+                world_a_root=os.path.abspath(os.path.dirname(__file__)),
+                world_c_root=world_c_dir
+            )
+            bridge.scan_and_process_inbox(auto_execute=True, async_mode=True)
+            bridge_msg = " [World C Embassy Bridge automatically dispatched the job asynchronously!]"
+        else:
+            bridge_msg = " [Queued in shared_space; background bridge will process upon World C activation]"
     except Exception as e:
         bridge_msg = f" [Queued in shared_space; background bridge will process: {e}]"
         
