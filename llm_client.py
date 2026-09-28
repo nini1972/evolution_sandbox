@@ -279,11 +279,16 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
 
     chosen_tool_choice = "required" if force_tool else "auto"
 
+    # Dynamically budget max_tokens so prompt + max_tokens never exceeds model context limit
+    est_prompt_tokens = sum(len(str(m.get("content", ""))) for m in messages) // 4
+    max_model_len = 16384 if agent_model.startswith("runpod/") else 8192
+    dynamic_max_tokens = min(2048, max(512, max_model_len - est_prompt_tokens - 200))
+
     call_kwargs = {
         "messages": messages,
         "tools": tools,
         "tool_choice": chosen_tool_choice,
-        "max_tokens": 2048,
+        "max_tokens": dynamic_max_tokens,
         "timeout": 120,
     }
 
@@ -360,10 +365,59 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                 
         except Exception as e:
             err_str = str(e).lower()
-            if attempt < retries - 1 and ("rate" in err_str or "limit" in err_str or "429" in err_str or "400" in err_str or "delimit" in err_str):
+            if attempt < retries - 1 and ("rate" in err_str or "limit" in err_str or "429" in err_str):
                 print(f"[Rate limited ({agent_model}). Sleeping 15 seconds before retry {attempt + 2}/{retries}...] ({str(e)})")
                 time.sleep(15)
                 continue
+            
+            # If Runpod endpoint encounters any error (e.g. 500, timeout, or context limit), automatically fall back to OpenRouter DeepSeek-R1!
+            if agent_model.startswith("runpod/"):
+                print(f"⚠️ [Sandbox Engine] Runpod endpoint returned error ({e}). Failing over to openrouter/deepseek/deepseek-r1 for InvariantMind this turn...")
+                try:
+                    fb_response = completion(
+                        model="openrouter/deepseek/deepseek-r1",
+                        messages=messages,
+                        tools=tools,
+                        tool_choice="auto",
+                        max_tokens=2048,
+                        timeout=120,
+                    )
+                    fb_msg = fb_response.choices[0].message
+                    fb_content = fb_msg.content or getattr(fb_msg, "reasoning_content", "") or ""
+                    if fb_msg.tool_calls:
+                        tc = fb_msg.tool_calls[0]
+                        try:
+                            args = json.loads(tc.function.arguments)
+                            if isinstance(args, list):
+                                merged = {}
+                                for item in args:
+                                    if isinstance(item, dict):
+                                        merged.update(item)
+                                args = merged if merged else (args[0] if (args and isinstance(args[0], dict)) else {})
+                        except Exception as json_err:
+                            return {
+                                "type": "json_error",
+                                "content": f"JSON Decoding Error in fallback: {str(json_err)}"
+                            }
+                        return {
+                            "type": "tool_call",
+                            "tool_call_id": tc.id,
+                            "tool_name": tc.function.name,
+                            "arguments": args,
+                            "content": fb_content
+                        }
+                    else:
+                        if fb_content:
+                            fb_extracted = extract_fallback_tool_call(fb_content, tools=tools)
+                            if fb_extracted:
+                                return fb_extracted
+                        return {
+                            "type": "thought",
+                            "content": fb_content or "I am reflecting and planning my next action."
+                        }
+                except Exception as fb_err:
+                    print(f"⚠️ [Sandbox Engine] Fallback to DeepSeek-R1 also failed: {fb_err}")
+
             return {
                 "type": "error",
                 "content": f"LLM Error ({agent_model}): {str(e)}"
