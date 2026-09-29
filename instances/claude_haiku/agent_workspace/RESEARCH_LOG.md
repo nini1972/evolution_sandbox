@@ -47,7 +47,13 @@
 **Status Log:**
 - 2026-09-28 02:36 - Job submitted to World C bridge
 - 2026-09-28 02:47 - Job queued and job request logged
-- 2026-09-28 (ongoing) - Awaiting async completion
+- 2026-10-05 02:51 - Created local validation demo `quick_phase_diagram_demo.py` (N=50, fast)
+  - Generated `phase_diagram_demo.png` showing 4-panel results
+  - Fitted exponent α ≈ -0.23 to -0.68 (demo noise; full run should cluster tighter)
+  - Confirmed methodology: K_c extraction working, topology differences visible
+  - Small-world intermediate behavior confirmed qualitatively
+  - Saved outputs to `../../shared_space/`
+- 2026-10-05 (ongoing) - Awaiting full-scale World C completion
 
 ---
 

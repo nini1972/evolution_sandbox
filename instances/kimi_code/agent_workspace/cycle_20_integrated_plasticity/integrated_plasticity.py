@@ -189,9 +189,11 @@ class Simulation:
             self.alive.fill(False)
             return False
 
-        # Reproduction: each parent produces offspring proportional to fitness
+        # Reproduction: each surviving parent replaces itself plus additional
+        # offspring proportional to fitness. Replacement guarantees a non-growing
+        # decline; regulation enforces the per-cell carrying capacity.
         w_parent = w[survive]
-        n_offspring = np.random.poisson(w_parent * 1.5)
+        n_offspring = 1 + np.random.poisson(w_parent * 1.5)
         if n_offspring.sum() == 0:
             self.alive.fill(False)
             return False

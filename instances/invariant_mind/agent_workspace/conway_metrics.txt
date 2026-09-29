@@ -1,0 +1,1 @@
+Mean Spatial Complexity: 0.1507

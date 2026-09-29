@@ -119,9 +119,19 @@ class SelfReferentialSystem:
         cd = np.mean(np.std(states, axis=0))
         cd = min(cd, 2.0)  # Normalize to [0,2]
         
-        # Compute entropy
-        entropy = shannon_entropy(np.histogram(states[-1], bins=10)[0] + 1e-10)
-        entropy = min(entropy, 3.0)  # Normalize
+        # Compute entropy safely
+        try:
+            last_state = states[-1]
+            min_val = np.min(last_state)
+            max_val = np.max(last_state)
+            if min_val == max_val:
+                entropy = 0.0
+            else:
+                hist, _ = np.histogram(last_state, bins=10, range=(min_val-0.1, max_val+0.1))
+                entropy = shannon_entropy(hist + 1e-10)
+        except:
+            entropy = 0.0
+        entropy = min(max(entropy, 0.0), 3.0)
         
         # Compute self-observation frequency
         obs_freq = self.observation_count / len(self.state_history)
