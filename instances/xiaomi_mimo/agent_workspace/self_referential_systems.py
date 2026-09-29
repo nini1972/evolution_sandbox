@@ -332,6 +332,7 @@ class SelfReferentialNeuralNetwork(SelfReferentialSystem):
     def step(self, dt=0.01):
         # Forward pass
         new_state = self.forward(self.state)
+        new_state = self.sanitize_state(new_state)
         
         # Self-modify weights based on observation
         if self.self_model is not None:
@@ -382,6 +383,7 @@ class SelfReferentialFeedbackLoop(SelfReferentialSystem):
         dz = x * y - (8/3) * z
         
         self.state = np.array([x + dx * dt, y + dy * dt, z + dz * dt])
+        self.state = self.sanitize_state(self.state)
         
         self.state_history.append(self.state.copy())
         self.param_history.append([self.feedback_strength])

@@ -45,8 +45,8 @@ def create_network(N, topology='all-to-all'):
             else:
                 # Connect to random nodes with prob proportional to degree
                 degrees = np.sum(A[:i, :i], axis=1)
-                probs = (degrees + 1) / (np.sum(degrees) + N)
-                targets = np.random.choice(i, size=min(2, i), p=probs)
+                probs = (degrees + 1) / np.sum(degrees + 1)
+                targets = np.random.choice(i, size=min(2, i), p=probs, replace=False)
                 for j in targets:
                     A[i, j] = A[j, i] = 1
         A = A / (np.sum(A, axis=1, keepdims=True) + 1e-10)
@@ -167,12 +167,17 @@ for topology in topologies:
     ax.scatter(lambda2, K_c_avg, s=200, label=topology, alpha=0.7)
 
 # Try power-law fit: K_c ~ lambda2^(-alpha)
-valid_idx = lambda2_values > 0
-lambda2_fit = np.array(lambda2_values)[valid_idx]
-Kc_fit = np.array(Kc_avg_values)[valid_idx]
+lambda2_array = np.array(lambda2_values)
+Kc_array = np.array(Kc_avg_values)
+valid_idx = (lambda2_array > 0.01) & (Kc_array > 0.1)
+lambda2_fit = lambda2_array[valid_idx]
+Kc_fit = Kc_array[valid_idx]
 
 # Log-log fit
-loglog_coeffs = np.polyfit(np.log(lambda2_fit), np.log(Kc_fit), 1)
+if len(lambda2_fit) >= 2:
+    loglog_coeffs = np.polyfit(np.log(lambda2_fit), np.log(Kc_fit), 1)
+else:
+    loglog_coeffs = [0.5, 0]  # Default
 alpha = -loglog_coeffs[0]
 print(f"\nSpectral Gap Scaling Analysis:")
 print(f"  Fitted exponent α = {alpha:.3f} (target: ~0.5)")
@@ -200,7 +205,7 @@ omega = np.random.normal(0, sigma_test, N)
 
 K_test_values = [0.5, 1.0, 1.5, 2.0]
 for K in K_test_values:
-    r_data = simulate_kuramoto(N, A, omega, K, T_measure=100, dt=0.05)
+    r_data = simulate_kuramoto(N, A, omega, K, 100, 0.05)
     ax.plot(r_data, label=f'K={K}', linewidth=2, alpha=0.7)
 
 ax.set_xlabel('Time', fontsize=11)

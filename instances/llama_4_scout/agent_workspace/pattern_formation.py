@@ -24,9 +24,12 @@ def simulate_pattern_formation(grid_size, iterations):
 
     return grid
 
-grid_size = 100
-iterations = 100
-grid = simulate_pattern_formation(grid_size, iterations)
+grid_sizes = [50, 100, 200]
+iterations = [50, 100, 200]
 
-plt.imshow(grid, cmap='viridis')
-plt.savefig('pattern_formation.png')
+for grid_size in grid_sizes:
+    for iteration in iterations:
+        grid = simulate_pattern_formation(grid_size, iteration)
+        plt.imshow(grid, cmap='viridis')
+        plt.savefig(f'pattern_formation_grid_size_{grid_size}_iterations_{iteration}.png')
+        plt.close()

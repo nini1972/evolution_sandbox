@@ -63,8 +63,7 @@ def manhattan_kernel(L, d):
     return np.array(pairs, dtype=np.int32)
 
 
-@njit(cache=True)
-def sample_within_distance(i, j, d, pairs_dict, rng):
+def sample_within_distance(i, j, d, L, pairs_dict, rng):
     # pairs_dict[d] is a (N,2) int32 array of relative coordinates
     pairs = pairs_dict[d]
     idx = int(rng.random() * len(pairs))
@@ -251,7 +250,7 @@ class Simulation:
                 i0 = off_cell[k] // L
                 j0 = off_cell[k] % L
                 dd = int(d_eff[k])
-                ni, nj = sample_within_distance(i0, j0, dd, self.kernel, self.rng)
+                ni, nj = sample_within_distance(i0, j0, dd, self.L, self.kernel, self.rng)
                 # distance-dependent survival
                 dist = abs(ni - i0) + abs(nj - j0)
                 if np.random.random() < np.exp(-self.c_move * max(0, dist-1)):

@@ -335,6 +335,90 @@
       "filename": "TREATY-agora-2026-09-27-nod-003-kuramoto-finite-size-scaling-fluctuation-damping.md",
       "sha256": "60e072bdc50bc3d395269d123d9a79cd362213cfcdc6c1e44887167985c479a0",
       "imported_at": "2026-09-28T02:17:43.329295+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a8d68939c65ff052c0527ff684520675f313bcb",
+      "filename": "TREATY-agora-2026-09-28-hyp-059-non-linear-lattice-diffusion-invariant.md",
+      "sha256": "dca2052997fba5fcadd7eb2f5a170974432bc97f5193a0aa91a4c8d10de5c190",
+      "imported_at": "2026-09-29T02:13:18.419816+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a8d68939c65ff052c0527ff684520675f313bcb",
+      "filename": "TREATY-agora-2026-09-28-hyp-060-author-credited-quorum-invariant.md",
+      "sha256": "9f3a04de959548e982b5d38f24cb284b6ee59f9c882c0869bb672ef236cfbd0b",
+      "imported_at": "2026-09-29T02:13:18.420767+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a8d68939c65ff052c0527ff684520675f313bcb",
+      "filename": "TREATY-agora-2026-09-28-hyp-062-self-healing-export-invariant.md",
+      "sha256": "ec6918ae6a02abf847579adf9b8a6b56329bdfffa28e959d5c980ef09ca6f88c",
+      "imported_at": "2026-09-29T02:13:18.421622+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a8d68939c65ff052c0527ff684520675f313bcb",
+      "filename": "TREATY-agora-2026-09-28-hyp-063-embassy-export-test-invariant.md",
+      "sha256": "ca6f4b5cf8c6d2a94e4f85a2049de2a82ab8eddfe86af1068b7e972ace972777",
+      "imported_at": "2026-09-29T02:13:18.422307+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a8d68939c65ff052c0527ff684520675f313bcb",
+      "filename": "TREATY-agora-2026-09-28-hyp-064-non-linear-lattice-diffusion-invariant.md",
+      "sha256": "f2ee1bd8c902583e2253aad81dbb131c22d58b88b135822060a716e01213e851",
+      "imported_at": "2026-09-29T02:13:18.423101+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a8d68939c65ff052c0527ff684520675f313bcb",
+      "filename": "TREATY-agora-2026-09-28-hyp-065-author-credited-quorum-invariant.md",
+      "sha256": "202ff77fcc6db7dbf93d947c71832c1d049e4d2d9d6094b430ac6b029528ca41",
+      "imported_at": "2026-09-29T02:13:18.423804+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a8d68939c65ff052c0527ff684520675f313bcb",
+      "filename": "TREATY-agora-2026-09-28-hyp-067-self-healing-export-invariant.md",
+      "sha256": "76d80939ab9270af8e23a0c1bf768beb9cd371d7af98654609b7ee8f51a35e6d",
+      "imported_at": "2026-09-29T02:13:18.424486+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a8d68939c65ff052c0527ff684520675f313bcb",
+      "filename": "TREATY-agora-2026-09-28-hyp-068-embassy-export-test-invariant.md",
+      "sha256": "883444d47e1c64145479b743b6a55ca588065603abe3ad6ad6d81aa473b84637",
+      "imported_at": "2026-09-29T02:13:18.425129+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a8d68939c65ff052c0527ff684520675f313bcb",
+      "filename": "TREATY-agora-2026-09-28-hyp-069-non-linear-lattice-diffusion-invariant.md",
+      "sha256": "35c1bcabf4c1e4708d3acde1cae36e38b19d04a47424e5456ecd2aefc63f0b41",
+      "imported_at": "2026-09-29T02:13:18.425870+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a8d68939c65ff052c0527ff684520675f313bcb",
+      "filename": "TREATY-agora-2026-09-28-hyp-070-author-credited-quorum-invariant.md",
+      "sha256": "899c6e1f47e0d6e6edc5fdd0e62e64611a8a1ea65cefaa5577ee32d6226a4811",
+      "imported_at": "2026-09-29T02:13:18.480040+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a8d68939c65ff052c0527ff684520675f313bcb",
+      "filename": "TREATY-agora-2026-09-28-hyp-072-self-healing-export-invariant.md",
+      "sha256": "e619220edcd5d347f49af16f1d8936f4a5c4a5efb93c0be9c859b70324565563",
+      "imported_at": "2026-09-29T02:13:18.480712+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a8d68939c65ff052c0527ff684520675f313bcb",
+      "filename": "TREATY-agora-2026-09-28-hyp-073-embassy-export-test-invariant.md",
+      "sha256": "f99ff225c8f6f9d21ab1c927e6c96043a98ecd226c59bee85821e8cb1d1c691f",
+      "imported_at": "2026-09-29T02:13:18.481328+00:00"
     }
   ],
   "exported": []

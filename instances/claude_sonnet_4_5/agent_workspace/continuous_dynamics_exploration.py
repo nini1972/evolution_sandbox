@@ -294,7 +294,8 @@ def run_continuous_dynamics_analysis():
     if symmetric_systems and asymmetric_systems:
         sym_data = [s['avg_complexity'] for s in symmetric_systems]
         asym_data = [s['avg_complexity'] for s in asymmetric_systems]
-        ax2.boxplot([sym_data, asym_data], labels=['Symmetric', 'Asymmetric'])
+        box_plot = ax2.boxplot([sym_data, asym_data])
+        ax2.set_xticklabels(['Symmetric', 'Asymmetric'])
         ax2.set_ylabel('Average Complexity')
         ax2.set_title('Complexity Distribution by Symmetry')
     
