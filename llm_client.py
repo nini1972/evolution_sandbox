@@ -306,6 +306,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             call_kwargs["model"] = f"openai/{target_model}"
             call_kwargs["api_base"] = f"https://api.runpod.ai/v2/{endpoint_id}/openai/v1"
             call_kwargs["api_key"] = runpod_api_key
+            call_kwargs["timeout"] = 300  # Generous headroom for serverless cold-start and model loading
     else:
         call_kwargs["model"] = agent_model
 
