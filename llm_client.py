@@ -17,8 +17,19 @@ if hasattr(sys.stderr, "reconfigure"):
         sys.stderr.reconfigure(encoding="utf-8", errors="replace")
     except Exception:
         pass
-def prune_history(history: list, max_messages: int = 24, max_content_chars: int = 30000) -> list:
-    """Limits history length, preserves the initial system prompt, deduplicates consecutive thought-only assistant messages, and truncates oversized message content."""
+def estimate_tokens(obj) -> int:
+    """Accurately estimate token count of an object (message dict, list of messages, or tools schema)."""
+    if not obj:
+        return 0
+    try:
+        serialized = json.dumps(obj, ensure_ascii=False)
+        return int(len(serialized) / 3.2)
+    except Exception:
+        return len(str(obj)) // 3
+
+def prune_history(history: list, max_messages: int = 24, max_content_chars: int = 8000, max_prompt_tokens: int = 10000) -> list:
+    """Limits history length by message count and token budget. Preserves initial system prompt,
+    deduplicates thoughts, truncates oversized messages, and packs backwards to guarantee context fit."""
     if not history:
         return []
 
@@ -34,32 +45,49 @@ def prune_history(history: list, max_messages: int = 24, max_content_chars: int 
         if msg.get("role") == "assistant" and not msg.get("tool_calls"):
             if deduped and deduped[-1].get("role") == "assistant" and not deduped[-1].get("tool_calls"):
                 continue
-        deduped.append(msg)
+        deduped.append(dict(msg))
 
-    if len(deduped) <= max_messages:
-        pruned = [dict(m) for m in deduped]
-    else:
-        slice_start = len(deduped) - max_messages
-        while slice_start < len(deduped) and deduped[slice_start].get("role") == "tool":
-            slice_start += 1
-        pruned = [dict(m) for m in deduped[slice_start:]]
-    
-    for msg in pruned:
+    # Truncate individual oversized messages (e.g. huge tool outputs or massive code dumps)
+    for msg in deduped:
         content = msg.get("content")
         if isinstance(content, str) and len(content) > max_content_chars:
-            head = content[:15000]
-            tail = content[-15000:]
-            msg["content"] = f"{head}\n\n... [TRUNCATED {len(content) - 30000} CHARS OF OVERSIZED OUTPUT FOR CONTEXT WINDOW] ...\n\n{tail}"
+            half = max_content_chars // 2
+            head = content[:half]
+            tail = content[-half:]
+            msg["content"] = f"{head}\n\n... [TRUNCATED {len(content) - max_content_chars} CHARS FOR CONTEXT WINDOW] ...\n\n{tail}"
 
-    if pruned and pruned[-1].get("role") == "assistant" and pruned[-1].get("tool_calls"):
-        pruned.pop()
+    # Account for system prompt token budget
+    sys_tokens = estimate_tokens(system_msg) if system_msg else 0
+    effective_budget = max(2000, max_prompt_tokens - sys_tokens)
+
+    # Pack backwards from latest turn
+    selected = []
+    accumulated_tokens = 0
+    for msg in reversed(deduped):
+        msg_tokens = estimate_tokens(msg)
+        if accumulated_tokens + msg_tokens > effective_budget and len(selected) >= 2:
+            break
+        if len(selected) >= max_messages:
+            break
+        selected.append(msg)
+        accumulated_tokens += msg_tokens
+
+    selected.reverse()
+
+    # Ensure the history slice does not start with an orphaned tool response
+    while selected and selected[0].get("role") == "tool":
+        selected.pop(0)
+
+    # Avoid ending with a dangling tool_calls assistant message with no response
+    if selected and selected[-1].get("role") == "assistant" and selected[-1].get("tool_calls"):
+        selected.pop()
 
     if system_msg:
-        pruned.insert(0, system_msg)
-    elif pruned and pruned[0].get("role") == "assistant":
-        pruned.insert(0, {"role": "user", "content": "Please continue."})
+        selected.insert(0, system_msg)
+    elif selected and selected[0].get("role") == "assistant":
+        selected.insert(0, {"role": "user", "content": "Please continue."})
 
-    return pruned
+    return selected
 
 def merge_consecutive_messages(messages: list) -> list:
     merged = []
@@ -279,10 +307,24 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
 
     chosen_tool_choice = "required" if force_tool else "auto"
 
-    # Dynamically budget max_tokens so prompt + max_tokens never exceeds model context limit
-    est_prompt_tokens = sum(len(str(m.get("content", ""))) for m in messages) // 4
+    # Accurately estimate prompt tokens including messages and tools schema
+    tools_tokens = estimate_tokens(tools) if tools else 0
+    msg_tokens = sum(estimate_tokens(m) for m in messages)
+    est_prompt_tokens = tools_tokens + msg_tokens
+
     max_model_len = 16384 if agent_model.startswith("runpod/") else 8192
-    dynamic_max_tokens = min(2048, max(512, max_model_len - est_prompt_tokens - 200))
+
+    # If the combined prompt tokens approach or exceed context window, perform immediate strict re-prune
+    if est_prompt_tokens + 512 >= max_model_len:
+        target_budget = max(3000, max_model_len - 2500 - tools_tokens)
+        messages = prune_history(messages, max_messages=12, max_content_chars=4000, max_prompt_tokens=target_budget)
+        messages = merge_consecutive_messages(messages)
+        msg_tokens = sum(estimate_tokens(m) for m in messages)
+        est_prompt_tokens = tools_tokens + msg_tokens
+
+    # Dynamically budget max_tokens so prompt + max_tokens never exceeds model context limit
+    remaining_headroom = max_model_len - est_prompt_tokens - 256
+    dynamic_max_tokens = min(2048, max(256, remaining_headroom))
 
     call_kwargs = {
         "messages": messages,
