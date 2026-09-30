@@ -15,18 +15,49 @@ def get_workspace_dir():
 def get_shared_dir():
     return os.path.abspath(os.path.join(os.path.dirname(__file__), "instances", "shared_space"))
 
-def _is_safe_path(path_str):
+def _get_absolute_path(path_str):
     workspace = get_workspace_dir()
     shared = get_shared_dir()
     
-    # Resolve the target path
+    # 1. Handle explicit shared_space references
+    norm_path = path_str.replace("\\", "/").lstrip("/")
+    if norm_path.startswith("instances/shared_space/"):
+        rel_to_shared = norm_path[len("instances/shared_space/"):]
+        return os.path.abspath(os.path.join(shared, rel_to_shared))
+    if norm_path.startswith("shared_space/"):
+        rel_to_shared = norm_path[len("shared_space/"):]
+        return os.path.abspath(os.path.join(shared, rel_to_shared))
+    if norm_path.startswith("world_c/"):
+        return os.path.abspath(os.path.join(shared, norm_path))
+    if norm_path.startswith("embassy/"):
+        return os.path.abspath(os.path.join(shared, norm_path))
+        
     target = os.path.abspath(os.path.join(workspace, path_str))
-    
-    # Allow access if it is inside the instance's local workspace OR the global shared space
-    return target.startswith(workspace) or target.startswith(shared)
+    if not os.path.exists(target):
+        # Check in local world_c_results
+        ws_res = os.path.abspath(os.path.join(workspace, "world_c_results", os.path.basename(path_str)))
+        if os.path.exists(ws_res):
+            return ws_res
+        # Check in shared directory directly
+        shared_direct = os.path.abspath(os.path.join(shared, norm_path))
+        if os.path.exists(shared_direct):
+            return shared_direct
+        # Check in shared world_c reports
+        shared_report = os.path.abspath(os.path.join(shared, "world_c", "reports", os.path.basename(path_str)))
+        if os.path.exists(shared_report):
+            return shared_report
+        # Check in shared world_c artifacts
+        shared_art = os.path.abspath(os.path.join(shared, "world_c", "artifacts", os.path.basename(path_str)))
+        if os.path.exists(shared_art):
+            return shared_art
+            
+    return target
 
-def _get_absolute_path(path_str):
-    return os.path.abspath(os.path.join(get_workspace_dir(), path_str))
+def _is_safe_path(path_str):
+    workspace = get_workspace_dir()
+    shared = get_shared_dir()
+    target = _get_absolute_path(path_str)
+    return target.startswith(workspace) or target.startswith(shared)
 
 def read_file(path: str) -> str:
     """Reads a file from the workspace."""
@@ -302,7 +333,56 @@ def submit_world_c_job(title: str, script_content: str, timeout_seconds: int = 3
     except Exception as e:
         bridge_msg = f" [Queued in shared_space; background bridge will process: {e}]"
         
-    return f"Job '{job_id}' ('{title}') successfully registered for World C! Artifacts will be delivered to instances/shared_space upon completion.{bridge_msg}"
+    return f"Job '{job_id}' ('{title}') successfully registered for World C! Artifacts and execution report will be delivered to 'instances/shared_space/world_c/reports/' and your local 'world_c_results/' directory upon completion.{bridge_msg}"
+
+def check_world_c_job(job_id: str) -> str:
+    """
+    Checks the status and results of a submitted World C compute job.
+    Returns status, compute duration, generated artifacts, and execution log summary.
+    """
+    workspace = get_workspace_dir()
+    shared = get_shared_dir()
+    
+    # 1. Check workspace results first
+    ws_report = os.path.join(workspace, "world_c_results", f"world_c_{job_id}_REPORT.md")
+    if not os.path.exists(ws_report):
+        ws_report = os.path.join(workspace, "world_c_results", "REPORT.md")
+    if os.path.exists(ws_report):
+        with open(ws_report, "r", encoding="utf-8") as f:
+            return f.read()
+
+    # 2. Check dedicated world_c reports in shared_space
+    dedicated_report = os.path.join(shared, "world_c", "reports", f"world_c_{job_id}_REPORT.md")
+    if os.path.exists(dedicated_report):
+        with open(dedicated_report, "r", encoding="utf-8") as f:
+            return f.read()
+
+    # 3. Check legacy shared_space root report
+    legacy_report = os.path.join(shared, f"world_c_{job_id}_REPORT.md")
+    if os.path.exists(legacy_report):
+        with open(legacy_report, "r", encoding="utf-8") as f:
+            return f.read()
+
+    # 4. Check World C internal jobs directory if available
+    world_c_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "world_c"))
+    if not os.path.exists(world_c_dir):
+        world_c_dir = r"C:\Users\ninic\.gemini\antigravity\scratch\world_c"
+    job_result_path = os.path.join(world_c_dir, "jobs", job_id, "result.json")
+    if os.path.exists(job_result_path):
+        try:
+            with open(job_result_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            status = data.get("status", "UNKNOWN")
+            return f"Job '{job_id}' status: {status}. Execution time: {data.get('execution_time_seconds', 0):.2f}s. Artifacts: {data.get('artifacts_generated', [])}."
+        except Exception:
+            pass
+
+    # 5. Check if still queued
+    req_file = os.path.join(shared, f"{job_id}_job_request.json")
+    if os.path.exists(req_file):
+        return f"Job '{job_id}' is currently QUEUED and awaiting execution."
+
+    return f"Job '{job_id}' not found yet. It may still be executing or initializing. Check 'instances/shared_space/world_c/reports/' shortly."
 
 # The schema definition for the LLM
 TOOLS_SCHEMA = [
@@ -407,7 +487,7 @@ TOOLS_SCHEMA = [
         "type": "function",
         "function": {
             "name": "submit_world_c_job",
-            "description": "Submits a heavy computation or simulation job to World C (the high-performance compute substrate). World C executes the job asynchronously without being killed by the local 120s timeout limit, has access to colony_lib (Kuramoto, Solitons, Gray-Scott, RQA, Bifurcations, Morphospace), and returns artifacts (plots, JSON metrics) and an execution report back to instances/shared_space.",
+            "description": "Submits a heavy computation or simulation job to World C (the high-performance compute substrate). World C executes the job asynchronously without being killed by the local 120s timeout limit, has access to colony_lib (Kuramoto, Solitons, Gray-Scott, RQA, Bifurcations, Morphospace), and returns artifacts (plots, JSON metrics) and an execution report back to instances/shared_space/world_c/reports/ and your local world_c_results/.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -431,6 +511,23 @@ TOOLS_SCHEMA = [
                 "required": ["title", "script_content"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "check_world_c_job",
+            "description": "Checks the execution status, logs, and artifacts of a submitted World C compute job.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "job_id": {
+                        "type": "string",
+                        "description": "The unique job ID returned by submit_world_c_job."
+                    }
+                },
+                "required": ["job_id"]
+            }
+        }
     }
 ]
 
@@ -445,5 +542,6 @@ AVAILABLE_TOOLS = {
     "terminal": run_command,
     "execute_command": run_command,
     "search_web": search_web,
-    "submit_world_c_job": submit_world_c_job
+    "submit_world_c_job": submit_world_c_job,
+    "check_world_c_job": check_world_c_job
 }
