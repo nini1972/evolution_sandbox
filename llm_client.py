@@ -204,6 +204,29 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                 args = {"query": arg_str.strip('"\'')}
 
             if args:
+                # Whitelist arguments to prevent multi-line code assignments (e.g. n=4, r=0.5) from being treated as tool kwargs
+                VALID_PARAMS = {
+                    "read_file": {"path"},
+                    "write_file": {"path", "content"},
+                    "edit_file": {"path", "old_content", "new_content"},
+                    "run_command": {"command"},
+                    "search_web": {"query"},
+                    "submit_world_c_job": {"entrypoint_code", "requirements_txt", "job_description", "timeout_seconds"},
+                    "check_world_c_job": {"job_id"},
+                    "post_epistemic_node": {"title", "node_type", "formal_statement", "supporting_evidence", "dependencies", "author_instance"},
+                    "peer_verify_node": {"node_id", "verification_type", "replication_code", "empirical_outcome", "reproduced", "critique"},
+                    "query_epistemic_graph": {"node_type", "status", "author_family", "limit"},
+                    "send_agent_dispatch": {"recipient_instance", "subject", "action_requested", "node_id_ref", "content"},
+                    "read_agent_inbox": {"unread_only"},
+                    "export_treaty_to_embassy": {"treaty_id", "title", "ratified_theorems", "consensus_proof"},
+                }
+                if tool_name in VALID_PARAMS and isinstance(args, dict):
+                    args = {k: v for k, v in args.items() if k in VALID_PARAMS[tool_name]}
+                    if tool_name == "write_file" and "content" not in args:
+                        m_content = re.search(r'content\s*=\s*["\']*(.*)', arg_str, re.DOTALL)
+                        if m_content:
+                            args["content"] = m_content.group(1).rstrip(')"\' \n\t')
+
                 return {
                     "type": "tool_call",
                     "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
@@ -238,6 +261,27 @@ def resolve_agent_model(instance_name: str) -> str:
 
     # 3. Global fallback
     return os.getenv("DEFAULT_FALLBACK_MODEL", "openrouter/google/gemini-2.5-flash")
+
+def get_model_context_limits(agent_model: str) -> tuple[int, int]:
+    """Returns (max_model_len, max_gen_tokens) for any model slug across World A and World B.
+    Frontier/reasoning models (Tencent HY3, Kimi, DeepSeek, Claude, Gemini) receive high completion caps
+    so internal chain-of-thought tokens never starve Python script generation."""
+    slug = (agent_model or "").lower()
+
+    # Sovereign Runpod endpoint (vLLM bare-metal, 16k window)
+    if "runpod/" in slug or "invariantmind" in slug:
+        return 16384, 2048
+
+    # High-capacity reasoning, coding, and frontier models (64k to 1M+ context)
+    # Tencent HY3 has 256k context and outputs internal chain-of-thought tokens, needing generous completion headroom
+    if any(k in slug for k in [
+        "tencent", "hy3", "kimi", "deepseek", "minimax", "claude", "gemini",
+        "glm", "qwen", "llama-3.3", "llama-4", "mistral", "nemotron", "mimo"
+    ]):
+        return 65536, 8192
+
+    # Default / smaller open-weight models (e.g. 8B models, Gemma)
+    return 8192, 2048
 
 def generate_next_action(system_prompt: str, history: list, tools: list) -> dict:
     """
@@ -312,7 +356,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     msg_tokens = sum(estimate_tokens(m) for m in messages)
     est_prompt_tokens = tools_tokens + msg_tokens
 
-    max_model_len = 16384 if agent_model.startswith("runpod/") else 8192
+    max_model_len, max_gen_tokens = get_model_context_limits(agent_model)
 
     # If the combined prompt tokens approach or exceed context window, perform immediate strict re-prune
     if est_prompt_tokens + 512 >= max_model_len:
@@ -322,9 +366,9 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         msg_tokens = sum(estimate_tokens(m) for m in messages)
         est_prompt_tokens = tools_tokens + msg_tokens
 
-    # Dynamically budget max_tokens so prompt + max_tokens never exceeds model context limit
+    # Dynamically budget max_tokens with model-specific headroom so reasoning thoughts + code never truncate
     remaining_headroom = max_model_len - est_prompt_tokens - 256
-    dynamic_max_tokens = min(2048, max(256, remaining_headroom))
+    dynamic_max_tokens = min(max_gen_tokens, max(256, remaining_headroom))
 
     call_kwargs = {
         "messages": messages,
