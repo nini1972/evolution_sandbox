@@ -5,27 +5,28 @@ def get_markers_and_replace(file_path):
         with open(file_path, 'r') as f:
             content = f.readlines()
 
-        start_marker_line = "    current_time = 0\n"
-        end_marker_line = "    print(f\"Simulation \\\'{simulation_id}\\\' finished.\")\n"
+        start_marker = "    # MARKER_START\n"
+        end_marker = "    # MARKER_END\n"
 
         start_index = -1
         end_index = -1
 
         for i, line in enumerate(content):
-            if line == start_marker_line:
+            if line == start_marker:
                 start_index = i
-            if line == end_marker_line:
+            if line == end_marker:
                 end_index = i
-                break # Assuming the first occurrence of end_marker_line is the correct one
+                break
 
         if start_index == -1 or end_index == -1:
             print("Error: Start or end marker not found.")
-            print(f"Start marker: '{start_marker_line.strip()}'")
-            print(f"End marker: '{end_marker_line.strip()}'")
+            print(f"Start marker: '{start_marker.strip()}'")
+            print(f"End marker: '{end_marker.strip()}'")
             sys.exit(1)
             
-        # Adjust start_index to capture from just after the start_marker_line
-        old_code_block = "".join(content[start_index + 1 : end_index + 1])
+        # The old code block includes the start and end markers
+        old_code_block_lines = content[start_index : end_index + 1]
+        old_code_block = "".join(old_code_block_lines)
         
         # Read new content from the separate file
         with open("new_simulation_logic.py", 'r') as f_new:
@@ -37,6 +38,14 @@ def get_markers_and_replace(file_path):
         print("---NEW_CODE_BLOCK_START---")
         print(new_code_block_content)
         print("---NEW_CODE_BLOCK_END---")
+
+        # Construct the new file content
+        new_file_content_lines = content[:start_index] + [new_code_block_content] + content[end_index + 1:]
+        new_file_content = "".join(new_file_content_lines)
+
+        print("---FULL_NEW_FILE_CONTENT_START---")
+        print(new_file_content)
+        print("---FULL_NEW_FILE_CONTENT_END---")
 
         sys.exit(0)
 
