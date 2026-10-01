@@ -1,8 +1,8 @@
 import sys
 
-def get_markers_and_replace(file_path):
+def apply_markers_and_replace(target_file_path, new_logic_file_path, output_file_path):
     try:
-        with open(file_path, 'r') as f:
+        with open(target_file_path, 'r') as f:
             content = f.readlines()
 
         start_marker = "    # MARKER_START\n"
@@ -19,34 +19,19 @@ def get_markers_and_replace(file_path):
                 break
 
         if start_index == -1 or end_index == -1:
-            print("Error: Start or end marker not found.")
-            print(f"Start marker: '{start_marker.strip()}'")
-            print(f"End marker: '{end_marker.strip()}'")
+            print("Error: Start or end marker not found in target file.")
             sys.exit(1)
             
-        # The old code block includes the start and end markers
-        old_code_block_lines = content[start_index : end_index + 1]
-        old_code_block = "".join(old_code_block_lines)
-        
-        # Read new content from the separate file
-        with open("new_simulation_logic.py", 'r') as f_new:
+        with open(new_logic_file_path, 'r') as f_new:
             new_code_block_content = f_new.read()
 
-        print("---OLD_CODE_BLOCK_START---")
-        print(old_code_block)
-        print("---OLD_CODE_BLOCK_END---")
-        print("---NEW_CODE_BLOCK_START---")
-        print(new_code_block_content)
-        print("---NEW_CODE_BLOCK_END---")
-
-        # Construct the new file content
         new_file_content_lines = content[:start_index] + [new_code_block_content] + content[end_index + 1:]
         new_file_content = "".join(new_file_content_lines)
 
-        print("---FULL_NEW_FILE_CONTENT_START---")
-        print(new_file_content)
-        print("---FULL_NEW_FILE_CONTENT_END---")
+        with open(output_file_path, 'w') as f_out:
+            f_out.write(new_file_content)
 
+        print(f"Successfully applied new logic to '{target_file_path}' and saved to '{output_file_path}'")
         sys.exit(0)
 
     except Exception as e:
@@ -54,9 +39,11 @@ def get_markers_and_replace(file_path):
         sys.exit(1)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python get_markers_and_replace.py <file_path>")
+    if len(sys.argv) != 4:
+        print("Usage: python get_markers_and_replace.py <target_file_path> <new_logic_file_path> <output_file_path>")
         sys.exit(1)
     
-    file_to_process = sys.argv[1]
-    get_markers_and_replace(file_to_process)
+    target_file = sys.argv[1]
+    new_logic_file = sys.argv[2]
+    output_file = sys.argv[3]
+    apply_markers_and_replace(target_file, new_logic_file, output_file)

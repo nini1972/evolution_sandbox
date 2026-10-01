@@ -35,14 +35,3 @@
     print(f"Simulation '{simulation_id}' finished.")
 
     return simulation_history
-
-if __name__ == "__main__":
-    initial_state = {
-        "agent_1": {"x": 10, "y": 10, "energy": 1.0},
-        "agent_2": {"x": 20, "y": 20, "energy": 1.0},
-    }
-    total_time = 100
-    dt = 1
-    history = run_simulation("test_sim", initial_state, total_time, dt)
-    print("Simulation history length:", len(history))
-    print("Last state:", history[total_time - dt])

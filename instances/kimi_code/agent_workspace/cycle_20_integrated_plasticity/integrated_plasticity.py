@@ -15,6 +15,7 @@ warnings.filterwarnings('ignore')
 DEFAULT = dict(
     L=60,
     K=2000,
+    K_bank=2000,
     generations=150,
     burn_in=20,
     A=0.75,
@@ -23,9 +24,9 @@ DEFAULT = dict(
     rho=0.0,
     sigma_cue=0.0,
     sigma_w=0.35,
-    s_bank=0.9,
-    c_move=0.15,
-    c_plast=0.0,
+    s_bank=0.6,
+    c_move=0.3,
+    c_plast=0.1,
     d_max=10,
     alpha_max=6.0,
     beta_max=6.0,
@@ -240,6 +241,7 @@ class Simulation:
             off_z = off_z[mask]; off_d = off_d[mask]; off_a = off_a[mask]; off_p = off_p[mask]
             off_b = off_b[mask]; off_h0 = off_h0[mask]; off_hb = off_hb[mask]; off_cell = off_cell[mask]
             d_eff = d_eff[mask]; p_emig = p_emig[mask]; h_eff = h_eff[mask]
+            cue = cue[mask]
             n_off = off_z.size
 
         # Emigration decision
@@ -317,6 +319,26 @@ class Simulation:
         self.hb = active_hb
         self.cell_id = active_cell
         self.alive = np.ones(active_z.size, dtype=np.bool_)
+
+        # Enforce per-cell bank carrying capacity
+        if bank_z.size > 0:
+            cell_counts = np.bincount(bank_cell, minlength=L*L)
+            keep = np.ones(bank_z.size, dtype=np.bool_)
+            for c in np.nonzero(cell_counts > self.K_bank)[0]:
+                mask_c = bank_cell == c
+                idx_c = np.nonzero(mask_c)[0]
+                chosen = np.random.choice(idx_c, size=self.K_bank, replace=False)
+                keep[idx_c] = False
+                keep[chosen] = True
+            bank_mask = keep
+            bank_z = bank_z[bank_mask]
+            bank_d = bank_d[bank_mask]
+            bank_a = bank_a[bank_mask]
+            bank_p = bank_p[bank_mask]
+            bank_b = bank_b[bank_mask]
+            bank_h0 = bank_h0[bank_mask]
+            bank_hb = bank_hb[bank_mask]
+            bank_cell = bank_cell[bank_mask]
 
         self.bank_z = bank_z.tolist()
         self.bank_traits = [bank_d.tolist(), bank_a.tolist(), bank_p.tolist(),

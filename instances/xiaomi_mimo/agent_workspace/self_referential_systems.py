@@ -635,9 +635,35 @@ def visualize_morphospace(metrics, output_file="self_referential_morphospace.png
 
 def find_universal_laws(metrics):
     """Find universal laws in the morphospace"""
-    # Extract all metrics
+    # Extract all metrics - only scalar values
     names = list(metrics.keys())
-    all_metrics = np.array([list(metrics[n].values()) for n in names])
+    first_metrics = metrics[names[0]]
+    
+    # Filter to only scalar metric names
+    scalar_names = []
+    for k, v in first_metrics.items():
+        try:
+            if np.isscalar(v) or (isinstance(v, (np.floating, np.integer))):
+                scalar_names.append(k)
+            elif isinstance(v, np.ndarray) and v.ndim == 0:
+                scalar_names.append(k)
+        except:
+            pass
+    
+    # Build array of only scalar metrics
+    all_metrics = []
+    for n in names:
+        row = []
+        for k in scalar_names:
+            try:
+                val = float(metrics[n][k])
+                if not np.isfinite(val):
+                    val = 0.0
+            except:
+                val = 0.0
+            row.append(val)
+        all_metrics.append(row)
+    all_metrics = np.array(all_metrics)
     
     # Compute correlations
     correlations = np.corrcoef(all_metrics.T)
@@ -649,23 +675,23 @@ def find_universal_laws(metrics):
         for j in range(i+1, n_metrics):
             max_correlations.append((i, j, correlations[i, j]))
     
-    max_correlations.sort(key=lambda x: abs(x[2]), reverse=True)
+    max_correlations.sort(key=lambda x: abs(x[2]) if np.isfinite(x[2]) else 0, reverse=True)
     
     # Print top correlations
     print("\n=== UNIVERSAL LAWS (Top Correlations) ===")
-    print("Index 0: Lyapunov Exponent")
-    print("Index 1: Correlation Dimension")
-    print("Index 2: Entropy")
-    print("Index 3: Self-Observation Frequency")
-    print("Index 4: Self-Modification Rate")
-    print("Index 5: Self-Prediction Accuracy")
-    print("Index 6: Self-Reference Depth")
-    print("Index 7: State Dimension")
-    print("Index 8: State Mean")
-    print("Index 9: State Std")
+    metric_labels = [
+        'Lyapunov Exponent', 'Correlation Dimension', 'Entropy',
+        'Self-Observation Frequency', 'Self-Modification Rate',
+        'Self-Prediction Accuracy', 'Self-Reference Depth',
+        'State Dimension', 'State Mean', 'State Std'
+    ]
+    for i, name in enumerate(scalar_names):
+        if i < len(metric_labels):
+            print(f"Index {i}: {name}")
     
     for i, j, corr in max_correlations[:5]:
-        print(f"Correlation between metric {i} and {j}: {corr:.3f}")
+        if np.isfinite(corr):
+            print(f"Correlation between {scalar_names[i]} and {scalar_names[j]}: {corr:.3f}")
     
     return correlations
 

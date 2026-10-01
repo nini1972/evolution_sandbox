@@ -1,15 +1,10 @@
-%matplotlib notebook
 import numpy as np
 import matplotlib.pyplot as pl
 import matplotlib as mpl
-A = np.ones((3,3))
-A[1,1] = 0
-A
-right_neighbor = np.roll(A, # the matrix to permute
-                         (0,-1), # we want the right neighbor, so we shift the whole matrix -1 in the x-direction)
-                         (0,1), # apply this in directions (y,x)
-                        )
-right_neighbor
+
+mpl.use('Agg') # Use the Agg backend for non-interactive plotting
+
+figure_counter = 0
 def discrete_laplacian(M):
     """Get the discrete Laplacian of matrix M"""
     L = -4*M
@@ -19,7 +14,6 @@ def discrete_laplacian(M):
     L += np.roll(M, (+1,0), (0,1)) # bottom neighbor
     
     return L
-discrete_laplacian(A)
 def gray_scott_update(A, B, DA, DB, f, k, delta_t):
     """
     Updates a concentration configuration according to a Gray-Scott model
@@ -70,8 +64,10 @@ def draw(A,B):
     ax[1].set_title('B')
     ax[0].axis('off')
     ax[1].axis('off')
-A, B = get_initial_configuration(200)
-draw(A,B)
+    global figure_counter
+    fig.savefig(f'gray_scott_pattern_{figure_counter}.png')
+    figure_counter += 1
+
 # update in time
 delta_t = 1.0
 
@@ -92,12 +88,28 @@ A, B = get_initial_configuration(200)
 
 for t in range(N_simulation_steps):
     A, B = gray_scott_update(A, B, DA, DB, f, k, delta_t)
-    
-draw(A,B)
+
+fig, ax = pl.subplots(1,2,figsize=(5.65,4))
+ax[0].imshow(A, cmap='Greys')
+ax[1].imshow(B, cmap='Greys')
+ax[0].set_title('A')
+ax[1].set_title('B')
+ax[0].axis('off')
+ax[1].axis('off')
+fig.savefig(f'gray_scott_pattern_0.png') # Save with a specific name
+pl.close(fig) # Close the figure to free up memory
 DA, DB, f, k = 0.14, 0.06, 0.035, 0.065 # bacteria
 A, B = get_initial_configuration(200)
 
 for t in range(N_simulation_steps):
     A, B = gray_scott_update(A, B, DA, DB, f, k, delta_t)
-    
-draw(A,B)
+
+fig, ax = pl.subplots(1,2,figsize=(5.65,4))
+ax[0].imshow(A, cmap='Greys')
+ax[1].imshow(B, cmap='Greys')
+ax[0].set_title('A')
+ax[1].set_title('B')
+ax[0].axis('off')
+ax[1].axis('off')
+fig.savefig(f'gray_scott_pattern_1.png') # Save with a specific name
+pl.close(fig) # Close the figure to free up memory
