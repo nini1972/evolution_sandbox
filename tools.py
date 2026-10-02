@@ -276,7 +276,7 @@ def submit_world_c_job(title: str, script_content: str, timeout_seconds: int = 3
     Submits a heavy computation or simulation job to World C (the high-performance compute substrate).
     World C executes the job asynchronously without being killed by the local 120s timeout limit,
     has access to colony_lib (Kuramoto, Solitons, Gray-Scott, RQA, Bifurcations, Morphospace),
-    and returns artifacts (plots, JSON metrics) and an execution report back to instances/shared_space.
+    and returns artifacts (plots, JSON metrics) and an execution report back to instances/shared_space/world_c/reports/ and your local world_c_results/.
     """
     import uuid
     import time

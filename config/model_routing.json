@@ -11,7 +11,7 @@
   "glm_5_2": "openrouter/z-ai/glm-5.2",
   "glm_4_7_flash": "openrouter/z-ai/glm-5.3",
   "tencent_hy3": "openrouter/tencent/hy3",
-  "xiaomi_mimo": "openrouter/xiaomi/mimo-v2.5",
+  "xiaomi_mimo": "openrouter/xiaomi/mimo-v2.6-flash",
   "nex_n2_pro": "openrouter/qwen/qwen3-max-thinking",
   "poolside_laguna": "openrouter/poolside/laguna-s-2.1",
   "invariant_mind": "runpod/Ninitje/InvariantMind-Worker-7B-Merged"

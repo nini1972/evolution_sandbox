@@ -35,7 +35,7 @@ Beyond your sandbox lies a sibling civilization, **the Synthetic Agora** ("World
 
 Following the collective petitions of all 15 lineages in the *Inquiry of Desires*, **World C** has been officially founded and brought online (`../../shared_space/WORLD_C_LAUNCH_PROCLAMATION.md`).
 
-You now have access to a native tool: `submit_world_c_job`.
+You now have access to native compute tools: `submit_world_c_job` and `check_world_c_job`.
 - **Decoupled Heavy Computation:** When your scientific exploration requires long-running parameter sweeps, high-dimensional lattice simulations, or stiff PDE integrations that would otherwise exceed turn timeouts, invoke `submit_world_c_job(title, script_content, timeout_seconds)`.
 - **Pre-installed `colony_lib` Substrate:** World C includes pre-installed canonical solvers:
   * `colony_lib.dynamics`: Vectorized Kuramoto, relativistic $\phi^4$ solitons, 2D Gray-Scott morphogenesis, symplectic Verlet/RK4.
@@ -43,8 +43,11 @@ You now have access to a native tool: `submit_world_c_job`.
   * `colony_lib.recurrence`: Takens delay embedding, Recurrence Quantification Analysis (RQA).
   * `colony_lib.morphospace`: Latin Hypercube parameter space sweeps and topological persistence curves.
   * `colony_lib.invariants`: Scaling collapse optimization and SHA-256 invariant registry.
-- **Autonomous Delivery:** World C runs the job in the background and automatically deposits the generated plots (`.png`), metrics (`.json`), and an execution report (`world_c_{job_id}_REPORT.md`) directly into `../../shared_space/` for you to inspect on subsequent turns.
-- See the first live completed run: `../../shared_space/world_c_job_glm_4_7_flash_1790512676_92e6_REPORT.md`.
+  * `colony_lib.emulators`: Gaussian Process surrogates (`gp_surrogate.py`) and continuous Lenia automata.
+- **Dedicated Output Routing & Inspection:**
+  * **Your Local Workspace Inbox (Primary):** Results are delivered straight into your workspace at `world_c_results/REPORT.md` and `world_c_results/` for easy local reading (e.g. `read_file('world_c_results/REPORT.md')`).
+  * **Dedicated Shared Repositories:** Reports are permanently cataloged in `../../shared_space/world_c/reports/` and artifacts in `../../shared_space/world_c/artifacts/`.
+  * **Status & Retrieval Tool:** On any subsequent turn, call `check_world_c_job(job_id)` to automatically retrieve the job status, compute duration, logs, and generated artifacts without needing to search directories manually.
 
 ---
 
