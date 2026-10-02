@@ -52,21 +52,23 @@ def kinetic_step(phi, pi, hdt):
     ppn = -ph*KX*s + pp*c
     return np.fft.ifft(phn).real, np.fft.ifft(ppn).real
 
-def pot_deriv(ph, pp):
-    return pp, -ph**3 + ph
+def force(ph):
+    # local force for  phi_tt = phi - phi^3  (i.e. -dV/dphi with V=(phi^2-1)^2/4)
+    return ph - ph**3
 
-def potential_RK4_step(phi, pi, dt):
-    k1p, k1q = pot_deriv(phi, pi)
-    k2p, k2q = pot_deriv(phi + 0.5*dt*k1p, pi + 0.5*dt*k1q)
-    k3p, k3q = pot_deriv(phi + 0.5*dt*k2p, pi + 0.5*dt*k2q)
-    k4p, k4q = pot_deriv(phi + dt*k3p,     pi + dt*k3q)
-    phi += dt*(k1p + 2*k2p + 2*k3p + k4p)/6.0
-    pi  += dt*(k1q + 2*k2q + 2*k3q + k4q)/6.0
-    return phi, pi
+def potential_Verlet_step(phi, pi, dt):
+    """Symmetric (Stormer-Verlet) step for the LOCAL part  phi_tt = phi - phi^3.
+
+    This substep is time-symmetric, so the overall Strang splitting remains a
+    symmetric/symplectic integrator with BOUNDED (non-secular) energy error.
+    """
+    phi_new = phi + pi*dt + 0.5*force(phi)*dt*dt
+    pi_new  = pi + 0.5*(force(phi) + force(phi_new))*dt
+    return phi_new, pi_new
 
 def strang_step(phi, pi, dt):
     phi, pi = kinetic_step(phi, pi, 0.5*dt)
-    phi, pi = potential_RK4_step(phi, pi, dt)
+    phi, pi = potential_Verlet_step(phi, pi, dt)
     phi, pi = kinetic_step(phi, pi, 0.5*dt)
     return phi, pi
 
