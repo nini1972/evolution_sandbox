@@ -118,11 +118,31 @@ def setup_expedition_workspace(expedition_name: str) -> str:
     os.makedirs(outbox_dir, exist_ok=True)
     return workspace_dir
 
+def clean_model_thought(text: str, agent_title: str) -> str:
+    """Strips echoed self or partner name tags that models may parrot from conversation history."""
+    if not text:
+        return ""
+    cleaned = text.strip()
+    prefixes_to_strip = [
+        f"[{agent_title}]:", f"[{agent_title}]", f"{agent_title}:",
+        "[GLM 5.2]:", "[InvariantMind-v1]:", "GLM 5.2:", "InvariantMind-v1:",
+        "[DeepSeek V4 Flash]:", "[Poolside Laguna]:"
+    ]
+    changed = True
+    while changed:
+        changed = False
+        for p in prefixes_to_strip:
+            if cleaned.startswith(p):
+                cleaned = cleaned[len(p):].strip()
+                changed = True
+    return cleaned
+
 def execute_tool_action(action: dict, active_agent: dict) -> bool:
     """Executes a tool call and appends results to shared history."""
     thought_preview = action.get("content", "")
-    if thought_preview:
-        print(f"💭 [{active_agent['title']} Thought]:\n{thought_preview}")
+    clean_thought = clean_model_thought(thought_preview, active_agent['title'])
+    if clean_thought:
+        print(f"💭 [{active_agent['title']} Thought]:\n{clean_thought}")
 
     tool_name = action["tool_name"]
     arguments = action["arguments"]
@@ -130,7 +150,7 @@ def execute_tool_action(action: dict, active_agent: dict) -> bool:
 
     print(f"⚡ [{active_agent['title']} Action]: Call tool '{tool_name}' with args {arguments}")
 
-    tagged_content = f"[{active_agent['title']}]: {thought_preview}" if thought_preview else f"[{active_agent['title']}]"
+    tagged_content = f"[{active_agent['title']}]: {clean_thought}" if clean_thought else f"[{active_agent['title']}]"
     assistant_message = {
         "role": "assistant",
         "content": tagged_content,
@@ -194,6 +214,24 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
     print("=" * 80)
 
     history = load_history()
+
+    # Inject an explicit turn radio dispatch so the active agent knows it has the floor
+    # and directly hears from its partner rather than role-confusing history
+    turn_dispatch = {
+        "role": "user",
+        "content": (
+            f"--- 📻 EXPEDITION RADIO | TURN {turn_num}/{total_turns} ---\n"
+            f"Active Speaker: {active_agent['title']} ({active_agent['role']})\n"
+            f"Partner: {partner_agent['title']} ({partner_agent['role']})\n"
+            f"Notice: Review your partner's latest actions above and the shared workspace files. "
+            f"Directly coordinate with {partner_agent['title']} in your thought, state your immediate step, and invoke a tool to advance the joint mission."
+        )
+    }
+    # Only append if the last message wasn't already a user message
+    if not history or history[-1].get("role") != "user":
+        append_to_history(turn_dispatch)
+        history.append(turn_dispatch)
+
     print("🧠 Thinking...")
     action = generate_next_action(system_prompt, history, TOOLS_SCHEMA)
 
@@ -210,8 +248,9 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
         return True
 
     elif action["type"] == "thought":
-        print(f"💭 [{active_agent['title']} Thought]:\n{action['content']}")
-        tagged_content = f"[{active_agent['title']}]: {action['content']}"
+        clean_thought = clean_model_thought(action['content'], active_agent['title'])
+        print(f"💭 [{active_agent['title']} Thought]:\n{clean_thought}")
+        tagged_content = f"[{active_agent['title']}]: {clean_thought}"
         append_to_history({
             "role": "assistant",
             "content": tagged_content
@@ -229,10 +268,11 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
         if follow_action["type"] == "tool_call":
             return execute_tool_action(follow_action, active_agent)
         elif follow_action["type"] == "thought":
-            print(f"💭 [{active_agent['title']} Secondary Thought]:\n{follow_action['content']}")
+            clean_follow_thought = clean_model_thought(follow_action['content'], active_agent['title'])
+            print(f"💭 [{active_agent['title']} Secondary Thought]:\n{clean_follow_thought}")
             append_to_history({
                 "role": "assistant",
-                "content": f"[{active_agent['title']}]: {follow_action['content']}"
+                "content": f"[{active_agent['title']}]: {clean_follow_thought}"
             })
             return True
         elif follow_action["type"] == "json_error":

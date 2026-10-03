@@ -345,11 +345,20 @@ def check_world_c_job(job_id: str) -> str:
     
     # 1. Check workspace results first
     ws_report = os.path.join(workspace, "world_c_results", f"world_c_{job_id}_REPORT.md")
-    if not os.path.exists(ws_report):
-        ws_report = os.path.join(workspace, "world_c_results", "REPORT.md")
     if os.path.exists(ws_report):
         with open(ws_report, "r", encoding="utf-8") as f:
             return f.read()
+
+    # Check generic REPORT.md only if it contains the matching job_id
+    ws_generic = os.path.join(workspace, "world_c_results", "REPORT.md")
+    if os.path.exists(ws_generic):
+        try:
+            with open(ws_generic, "r", encoding="utf-8") as f:
+                content = f.read()
+                if job_id in content:
+                    return content
+        except Exception:
+            pass
 
     # 2. Check dedicated world_c reports in shared_space
     dedicated_report = os.path.join(shared, "world_c", "reports", f"world_c_{job_id}_REPORT.md")
@@ -453,13 +462,13 @@ TOOLS_SCHEMA = [
         "type": "function",
         "function": {
             "name": "run_command",
-            "description": "Executes a shell command in the root of your sandbox workspace (Windows PowerShell). Use this to run scripts, list files, or interact with the OS.",
+            "description": "Executes a shell command in the root of your sandbox workspace (Bash on Linux / PowerShell on Windows). Use this to run scripts, list files, or interact with the OS environment.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "command": {
                         "type": "string",
-                        "description": "The powershell command to run"
+                        "description": "The shell command to run (e.g., 'python script.py', 'ls -la', etc.)"
                     }
                 },
                 "required": ["command"]
