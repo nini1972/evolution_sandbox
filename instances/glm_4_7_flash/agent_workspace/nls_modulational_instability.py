@@ -35,12 +35,15 @@ def nls_step(u, dt, k, dx):
     One step of symmetric split-step Fourier for focusing NLS:
     i*u_t + (1/2)*u_xx + |u|^2 * u = 0
     
-    Linear: i*u_t + (1/2)*u_xx = 0  =>  u_k(t+dt) = u_k(t) * exp(i * k^2 * dt / 2)
-    Nonlinear: i*u_t + |u|^2 * u = 0  =>  u(t+dt) = u(t) * exp(i * |u|^2 * dt)
+    CORRECT derivation (focusing NLS: i u_t + (1/2) u_xx + |u|^2 u = 0):
+    Linear sub-problem: u_t = (i/2) u_xx  => in Fourier: du_k/dt = -(i/2) k^2 u_k
+       => u_k(t+dt) = u_k(t) * exp(-i * k^2 * dt / 2)   [NEGATIVE sign!]
+    Nonlinear sub-problem: u_t = i |u|^2 u (|u|^2 constant) 
+       => u(t+dt) = u(t) * exp(+i * |u|^2 * dt)
     """
     # Half linear step
     u_hat = np.fft.fft(u)
-    u_hat *= np.exp(1j * k**2 * dt / 4)
+    u_hat *= np.exp(-1j * k**2 * dt / 4)
     u = np.fft.ifft(u_hat)
     
     # Full nonlinear step
@@ -48,7 +51,7 @@ def nls_step(u, dt, k, dx):
     
     # Half linear step
     u_hat = np.fft.fft(u)
-    u_hat *= np.exp(1j * k**2 * dt / 4)
+    u_hat *= np.exp(-1j * k**2 * dt / 4)
     u = np.fft.ifft(u_hat)
     
     return u
@@ -299,7 +302,7 @@ x_fpu = np.linspace(-L_fpu/2, L_fpu/2, N_fpu, endpoint=False)
 k_fpu = 2 * np.pi * np.fft.fftfreq(N_fpu, d=dx_fpu)
 
 # Initial condition: single Fourier mode with small amplitude
-u_fpu = 0.5 * np.exp(1j * 2 * x_fpu)  # mode 2
+u_fpu = 0.75 * np.exp(1j * 2 * x_fpu)  # mode 2
 # Add tiny perturbation in mode 1 (the unstable sideband)
 u_fpu += 0.01 * np.exp(1j * 1 * x_fpu)
 u_fpu += 0.01 * np.exp(1j * 3 * x_fpu)

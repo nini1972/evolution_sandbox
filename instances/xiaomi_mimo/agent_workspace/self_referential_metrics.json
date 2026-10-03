@@ -1,0 +1,152 @@
+{
+  "SelfAdjustingOscillator_1": {
+    "lyapunov": 0.011507644581437387,
+    "correlation_dim": 1.0756215856762248,
+    "entropy": 0.6931471901702857,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": 0.32380723374374565,
+    "self_prediction_accuracy": 0.9505015555723185,
+    "self_reference_depth": 4.9,
+    "state_dim": 2.0
+  },
+  "SelfModifyingMap_1": {
+    "lyapunov": 0.21660797185736616,
+    "correlation_dim": 0.1315224283387994,
+    "entropy": 0.0,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": NaN,
+    "self_prediction_accuracy": 0.9679607095534141,
+    "self_reference_depth": 4.9,
+    "state_dim": 1.0
+  },
+  "SelfPredictingAttractor_1": {
+    "lyapunov": 1.0,
+    "correlation_dim": 2.0,
+    "entropy": 0.6365141748326342,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": 1.0,
+    "self_prediction_accuracy": 1.07761142585068e-11,
+    "self_reference_depth": 4.9,
+    "state_dim": 3.0
+  },
+  "SelfReferentialCA_1": {
+    "lyapunov": 0.8977955911823647,
+    "correlation_dim": 0.4974324983773626,
+    "entropy": 0.19851524357598263,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": NaN,
+    "self_prediction_accuracy": 0.6747638326585695,
+    "self_reference_depth": 4.9,
+    "state_dim": 1.0
+  },
+  "SelfReferentialNN_1": {
+    "lyapunov": 8.237688578236483e-05,
+    "correlation_dim": 0.0006957951295039609,
+    "entropy": 0.0,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": 0.024135459510209123,
+    "self_prediction_accuracy": 1.0,
+    "self_reference_depth": 4.9,
+    "state_dim": 3.0
+  },
+  "SelfReferentialFeedbackLoop_1": {
+    "lyapunov": 1.0,
+    "correlation_dim": 2.0,
+    "entropy": 0.6365141748326342,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": NaN,
+    "self_prediction_accuracy": 4.883906157089144e-303,
+    "self_reference_depth": 4.9,
+    "state_dim": 3.0
+  },
+  "SelfReferentialEvolution_1": {
+    "lyapunov": 0.008404914529091964,
+    "correlation_dim": 0.01907443695387779,
+    "entropy": 0.6931471901702856,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": 0.9488777874557958,
+    "self_prediction_accuracy": 0.9964240496121635,
+    "self_reference_depth": 4.9,
+    "state_dim": 2.0
+  },
+  "SelfAdjustingOscillator_2": {
+    "lyapunov": 0.013390437283330373,
+    "correlation_dim": 1.1648838719964187,
+    "entropy": 0.6931471901702857,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": 0.27595513393817483,
+    "self_prediction_accuracy": 0.9465558625666356,
+    "self_reference_depth": 4.9,
+    "state_dim": 2.0
+  },
+  "SelfModifyingMap_2": {
+    "lyapunov": 0.0799414397691514,
+    "correlation_dim": 0.06491260031632042,
+    "entropy": 0.0,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": NaN,
+    "self_prediction_accuracy": 0.988568061909431,
+    "self_reference_depth": 4.9,
+    "state_dim": 1.0
+  },
+  "SelfPredictingAttractor_2": {
+    "lyapunov": 1.0,
+    "correlation_dim": 2.0,
+    "entropy": 0.0,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": 1.0,
+    "self_prediction_accuracy": 4.399774671936426e-34,
+    "self_reference_depth": 4.9,
+    "state_dim": 3.0
+  },
+  "SelfReferentialCA_2": {
+    "lyapunov": 0.0781563126252505,
+    "correlation_dim": 0.3169336661157744,
+    "entropy": 0.6589556809069776,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": NaN,
+    "self_prediction_accuracy": 0.851063829787234,
+    "self_reference_depth": 4.9,
+    "state_dim": 1.0
+  },
+  "SelfReferentialNN_2": {
+    "lyapunov": 0.0001069999706080633,
+    "correlation_dim": 0.0008693213031015929,
+    "entropy": 0.0,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": 0.0012925945193513822,
+    "self_prediction_accuracy": 1.0,
+    "self_reference_depth": 4.9,
+    "state_dim": 3.0
+  },
+  "SelfReferentialFeedbackLoop_2": {
+    "lyapunov": 1.0,
+    "correlation_dim": 2.0,
+    "entropy": 0.6365141748326342,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": NaN,
+    "self_prediction_accuracy": 5.431278769386899e-305,
+    "self_reference_depth": 4.9,
+    "state_dim": 3.0
+  },
+  "SelfReferentialEvolution_2": {
+    "lyapunov": 0.01168743233360916,
+    "correlation_dim": 0.019140890098838455,
+    "entropy": 0.6931471901702856,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": 0.9485775317507066,
+    "self_prediction_accuracy": 0.9813666781642039,
+    "self_reference_depth": 4.9,
+    "state_dim": 2.0
+  },
+  "SelfAdjustingOscillator_3": {
+    "lyapunov": 0.01889645460449257,
+    "correlation_dim": 1.6178148266374184,
+    "entropy": 0.6931471901702857,
+    "self_observation_freq": 0.098,
+    "self_modification_rate": 0.4090126564989442,
+    "self_prediction_accuracy": 0.9296966023504485,
+    "self_reference_depth": 4.9,
+    "state_dim": 2.0
+  }
+}

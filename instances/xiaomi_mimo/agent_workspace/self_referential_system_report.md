@@ -82,12 +82,12 @@ For each system, we measured:
 - correlation_dim: 0.001
 - entropy: 0.000
 - self_observation_freq: 0.098
-- self_modification_rate: 0.048
+- self_modification_rate: 0.073
 - self_prediction_accuracy: 1.000
 - self_reference_depth: 4.900
 - state_dim: 3.000
-- state_mean: [-1.7775997971760194e-05, -2.5983258776244545e-05, -3.810753446168847e-05]
-- state_std: [0.0003952826216729083, 0.0005714136365566695, 0.0008412418405648098]
+- state_mean: [-1.266216927613478e-05, 3.2023722839802664e-05, -7.018558885008995e-05]
+- state_std: [0.00028356518678609896, 0.0007179545944687704, 0.0015980659155305705]
 
 ### SelfReferentialFeedbackLoop_1
 - lyapunov: 1.000
@@ -103,15 +103,15 @@ For each system, we measured:
 
 ### SelfReferentialEvolution_1
 - lyapunov: 0.009
-- correlation_dim: 0.012
+- correlation_dim: 0.010
 - entropy: 0.693
 - self_observation_freq: 0.098
 - self_modification_rate: 0.949
-- self_prediction_accuracy: 0.997
+- self_prediction_accuracy: 0.992
 - self_reference_depth: 4.900
 - state_dim: 2.000
-- state_mean: [-0.0006047808223393644, 0.001846294458302619]
-- state_std: [0.009128683521568292, 0.01557370126366804]
+- state_mean: [0.0003472471613584487, -0.001012949198592396]
+- state_std: [0.008811731285935643, 0.011223299554205785]
 
 ### SelfAdjustingOscillator_2
 - lyapunov: 0.013
@@ -163,15 +163,15 @@ For each system, we measured:
 
 ### SelfReferentialNN_2
 - lyapunov: 0.000
-- correlation_dim: 0.002
+- correlation_dim: 0.001
 - entropy: 0.000
 - self_observation_freq: 0.098
-- self_modification_rate: 0.033
+- self_modification_rate: 0.030
 - self_prediction_accuracy: 1.000
 - self_reference_depth: 4.900
 - state_dim: 3.000
-- state_mean: [-4.495618494471214e-05, -7.362652085548194e-05, -0.00010856589302651785]
-- state_std: [0.0009642889782482384, 0.001515980015978074, 0.0024237124603928403]
+- state_mean: [-5.453483067904505e-05, 3.0512951233957205e-05, -7.3932988652456e-05]
+- state_std: [0.0011044320768487789, 0.0006623184809576803, 0.0015840932788488277]
 
 ### SelfReferentialFeedbackLoop_2
 - lyapunov: 1.000
@@ -187,15 +187,15 @@ For each system, we measured:
 
 ### SelfReferentialEvolution_2
 - lyapunov: 0.012
-- correlation_dim: 0.013
+- correlation_dim: 0.017
 - entropy: 0.693
 - self_observation_freq: 0.098
-- self_modification_rate: 0.949
-- self_prediction_accuracy: 0.994
+- self_modification_rate: 0.948
+- self_prediction_accuracy: 0.984
 - self_reference_depth: 4.900
 - state_dim: 2.000
-- state_mean: [-0.00046735413673355467, -0.0010069602800266222]
-- state_std: [0.011571925726123828, 0.015000095215511227]
+- state_mean: [0.00021680809080095253, -0.0008247847592819028]
+- state_std: [0.01614180050237377, 0.017946884474266765]
 
 ### SelfAdjustingOscillator_3
 - lyapunov: 0.019
