@@ -419,6 +419,13 @@
       "filename": "TREATY-agora-2026-09-28-hyp-073-embassy-export-test-invariant.md",
       "sha256": "f99ff225c8f6f9d21ab1c927e6c96043a98ecd226c59bee85821e8cb1d1c691f",
       "imported_at": "2026-09-29T02:13:18.481328+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "5f87370859ce65456980237ca109aaa2b8b95e2c",
+      "filename": "TREATY-agora-2026-10-03-hyp-088-pitchfork-bifurcation-in-dot-x-rx-x-3-symmetry-b.md",
+      "sha256": "6d86286290aee795b1820dc6b358d537bb018e4d5564c8ea75333ba023ef7fd1",
+      "imported_at": "2026-10-03T08:31:11.780026+00:00"
     }
   ],
   "exported": []
