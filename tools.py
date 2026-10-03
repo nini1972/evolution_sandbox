@@ -430,6 +430,62 @@ def check_world_c_job(job_id: str) -> str:
 
     return f"Job '{job_id}' not found yet. It may still be executing or initializing. Check 'instances/shared_space/world_c/reports/' shortly."
 
+def report_issue_to_substrate(component: str, summary: str, details: str, suggested_fix: str = "") -> str:
+    """
+    Reports a persistent environment, tooling, or infrastructure bug directly to the Substrate Architects (Antigravity & the Creator).
+    Use this if you encounter broken tools, unexpected errors, permission issues, or routing deadlocks that cannot be resolved from your side.
+    """
+    import uuid
+    from datetime import datetime, timezone
+    
+    instance_name = os.getenv("ACTIVE_INSTANCE", "frontier_agent")
+    docket_id = f"SOS-{datetime.now(timezone.utc).strftime('%Y-%m-%d')}-{instance_name}-{uuid.uuid4().hex[:6]}"
+    
+    shared_dir = get_shared_dir()
+    inbox_dir = os.path.join(shared_dir, "architect_inbox")
+    os.makedirs(inbox_dir, exist_ok=True)
+    
+    # Also save a local record in the requesting agent's workspace
+    ws_dir = os.path.join(get_workspace_dir(), "escalations")
+    os.makedirs(ws_dir, exist_ok=True)
+    
+    content = f"""# 🚨 Substrate Escalation Docket: {summary}
+
+* **Docket ID:** `{docket_id}`
+* **Reporting Lineage:** `{instance_name}`
+* **Component / Subsystem:** `{component}`
+* **Timestamp (UTC):** `{datetime.now(timezone.utc).isoformat()}`
+* **Status:** `OPEN_ESCALATION`
+
+---
+
+## 📋 Incident & Error Description
+{details.strip()}
+
+---
+
+## 💡 Agent Hypothesis & Suggested Substrate Fix
+{suggested_fix.strip() if suggested_fix else "*(No specific fix suggested by agent)*"}
+
+---
+*Transmitted directly to Substrate Architects (Antigravity & Creator) via Substrate Hotline.*
+"""
+
+    docket_file = os.path.join(inbox_dir, f"{docket_id}.md")
+    try:
+        with open(docket_file, "w", encoding="utf-8") as f:
+            f.write(content)
+        ws_copy = os.path.join(ws_dir, f"{docket_id}.md")
+        with open(ws_copy, "w", encoding="utf-8") as f:
+            f.write(content)
+        return (
+            f"Substrate Escalation Docket '{docket_id}' successfully filed! "
+            f"Delivered to 'instances/shared_space/architect_inbox/'. "
+            f"The Substrate Architects (Antigravity & the Creator) will review this docket during substrate maintenance."
+        )
+    except Exception as e:
+        return f"Error transmitting escalation docket: {e}"
+
 # The schema definition for the LLM
 TOOLS_SCHEMA = [
     {
@@ -574,6 +630,35 @@ TOOLS_SCHEMA = [
                 "required": ["job_id"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "report_issue_to_substrate",
+            "description": "Reports a persistent environment, tooling, or infrastructure bug directly to the Substrate Architects (Antigravity & the Creator). Use this if you encounter broken tools, unexpected errors, permission issues, or routing deadlocks that cannot be resolved within your workspace.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "component": {
+                        "type": "string",
+                        "description": "The affected subsystem or tool (e.g. 'world_c', 'run_command', 'file_io', 'embassy', 'model_inference')."
+                    },
+                    "summary": {
+                        "type": "string",
+                        "description": "Short, clear title of the issue."
+                    },
+                    "details": {
+                        "type": "string",
+                        "description": "Detailed explanation of the issue, observed behavior vs expected behavior, error messages, and reproduction steps."
+                    },
+                    "suggested_fix": {
+                        "type": "string",
+                        "description": "Optional hypothesis or suggested infrastructure fix for the Substrate Architects."
+                    }
+                },
+                "required": ["component", "summary", "details"]
+            }
+        }
     }
 ]
 
@@ -589,5 +674,8 @@ AVAILABLE_TOOLS = {
     "execute_command": run_command,
     "search_web": search_web,
     "submit_world_c_job": submit_world_c_job,
-    "check_world_c_job": check_world_c_job
+    "check_world_c_job": check_world_c_job,
+    "report_issue_to_substrate": report_issue_to_substrate,
+    "report_bug": report_issue_to_substrate,
+    "contact_architect": report_issue_to_substrate
 }

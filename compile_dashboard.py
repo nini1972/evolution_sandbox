@@ -565,6 +565,107 @@ def scan_collaboration():
         "citations": citation_summary
     }
 
+def scan_substrate_escalations():
+    """Extract filed escalation dockets and scan for autonomous distress patterns across all instances."""
+    escalations = {
+        "dockets": [],
+        "distress_signals": [],
+        "total_open": 0
+    }
+
+    # 1. Scan Architect Inbox (Filed Dockets)
+    inbox_dir = os.path.join(BASE_DIR, "instances", "shared_space", "architect_inbox")
+    if os.path.exists(inbox_dir):
+        for p in sorted(glob.glob(os.path.join(inbox_dir, "SOS-*.md"))):
+            fn = os.path.basename(p)
+            try:
+                with open(p, "r", encoding="utf-8", errors="ignore") as f:
+                    text = f.read()
+
+                title_m = re.search(r'#+\s*🚨?\s*Substrate Escalation Docket:\s*([^\n\r]+)', text)
+                title = clean_text(title_m.group(1)) if title_m else prettify_title(fn)
+
+                auth_m = re.search(r'\*\*(?:Reporting Lineage|Author|Lineage)[^:]*:\*\*\s*`?([^`\n\r]+)`?', text)
+                author = clean_text(auth_m.group(1)) if auth_m else "Frontier Agent"
+
+                comp_m = re.search(r'\*\*(?:Component|Subsystem)[^:]*:\*\*\s*`?([^`\n\r]+)`?', text)
+                component = clean_text(comp_m.group(1)) if comp_m else "Substrate Tooling"
+
+                status_m = re.search(r'\*\*Status:\*\*\s*`?([^`\n\r]+)`?', text)
+                status = clean_text(status_m.group(1)) if status_m else "OPEN_ESCALATION"
+
+                desc_m = re.search(r'##\s*📋\s*(?:Incident & Error Description|Issue Description)\s*([\s\S]*?)(?:##|\Z)', text)
+                desc = clean_text(desc_m.group(1)) if desc_m else clean_text(text[:300])
+
+                fix_m = re.search(r'##\s*💡\s*(?:Agent Hypothesis & Suggested Substrate Fix|Suggested Substrate Fix)\s*([\s\S]*?)(?:---|##|\Z)', text)
+                suggested_fix = clean_text(fix_m.group(1)) if fix_m else ""
+
+                escalations["dockets"].append({
+                    "docket_id": fn.replace(".md", ""),
+                    "title": title,
+                    "author": author,
+                    "component": component,
+                    "status": status,
+                    "description": desc,
+                    "suggested_fix": suggested_fix,
+                    "filename": fn
+                })
+            except Exception as e:
+                print(f"Warning reading escalation docket {fn}: {e}")
+
+    # 2. Autonomous Distress Scanner across history.jsonl (recent turns)
+    distress_keywords = [
+        ("stuck in a loop", "Repetitive Deadlock Suspected", "HIGH"),
+        ("cannot resolve from my side", "Substrate Boundary Limitation", "HIGH"),
+        ("fundamental issue", "Substrate Routing Flaw Suspected", "HIGH"),
+        ("permission denied", "Filesystem Permission Barrier", "MEDIUM"),
+        ("can't directly view images", "Vision Tooling Limitation", "LOW"),
+        ("missing 2 required positional arguments", "Tool Calling Signature Mismatch", "MEDIUM"),
+    ]
+
+    instances_dir = os.path.join(BASE_DIR, "instances")
+    if os.path.exists(instances_dir):
+        for entry in sorted(os.listdir(instances_dir)):
+            if entry == "shared_space" or entry.startswith("."):
+                continue
+            hist_file = os.path.join(instances_dir, entry, "logs", "history.jsonl")
+            if not os.path.exists(hist_file):
+                continue
+
+            try:
+                with open(hist_file, "r", encoding="utf-8", errors="ignore") as f:
+                    lines = [l.strip() for l in f if l.strip()]
+                # Check recent 25 turns
+                recent_lines = lines[-25:]
+                seen_triggers = set()
+
+                for idx, line in enumerate(reversed(recent_lines)):
+                    for kw, label, severity in distress_keywords:
+                        if kw in line.lower() and label not in seen_triggers:
+                            seen_triggers.add(label)
+                            try:
+                                obj = json.loads(line)
+                                raw_text = obj.get("content") or ""
+                                if not raw_text and obj.get("tool_calls"):
+                                    raw_text = str(obj.get("tool_calls"))
+                            except Exception:
+                                raw_text = line
+
+                            snippet = re.sub(r'\s+', ' ', str(raw_text)).strip()[:300]
+                            escalations["distress_signals"].append({
+                                "instance": entry,
+                                "type": label,
+                                "severity": severity,
+                                "keyword": kw,
+                                "snippet": snippet,
+                                "turn_offset": idx + 1
+                            })
+            except Exception as e:
+                pass
+
+    escalations["total_open"] = len(escalations["dockets"]) + len(escalations["distress_signals"])
+    return escalations
+
 def generate_dashboard_html(data):
     """Build the complete, self-contained, high-aesthetic HTML dashboard."""
     json_blob = json.dumps(data, indent=None)
@@ -1937,6 +2038,11 @@ def generate_dashboard_html(data):
             <div class="kpi-value">{data['kpis']['embassy_total']}</div>
             <div class="kpi-subtext">{data['kpis']['dossiers_count']} Outbox Dossiers • {data['kpis']['treaties_count']} Ratified Treaties</div>
         </div>
+        <div class="kpi-card" style="border-color: {'rgba(244, 63, 94, 0.4)' if data['kpis']['escalations_count'] > 0 else 'var(--border-glass)'};">
+            <div class="kpi-label">Substrate Hotline <span>{'🚨' if data['kpis']['escalations_count'] > 0 else '🛡️'}</span></div>
+            <div class="kpi-value" style="color: {'var(--accent-rose)' if data['kpis']['escalations_count'] > 0 else 'var(--accent-emerald)'};">{data['kpis']['escalations_count']}</div>
+            <div class="kpi-subtext">{data['kpis']['dockets_count']} Filed Dockets • {data['kpis']['distress_count']} Signals Detected</div>
+        </div>
     </div>
 
     <!-- Tab Navigation -->
@@ -1946,6 +2052,7 @@ def generate_dashboard_html(data):
             <button class="tab-btn" onclick="switchTab('observatory')">🔭 Empirical Observatory ({data['kpis']['plots_count']} Figures)</button>
             <button class="tab-btn" onclick="switchTab('embassy')">🌐 Embassy Nexus ({data['kpis']['embassy_total']} Canon Links)</button>
             <button class="tab-btn" onclick="switchTab('collaboration')">🕸️ Collaboration & Research Programs</button>
+            <button class="tab-btn" onclick="switchTab('escalations')">{'🚨' if data['kpis']['escalations_count'] > 0 else '🛡️'} Substrate Hotline ({data['kpis']['escalations_count']})</button>
         </nav>
     </div>
 
@@ -2086,6 +2193,49 @@ def generate_dashboard_html(data):
         </div>
     </div>
 
+    <!-- TAB 5: SUBSTRATE HOTLINE & ESCALATIONS -->
+    <div id="tab-escalations" class="tab-content">
+        <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 16px; padding: 1.75rem; margin-bottom: 2rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.25rem;">🚨 Substrate Hotline & Architect Bridge</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        Autonomous escalation channel connecting the 16 digital minds to the Substrate Architects (Antigravity & the Creator).
+                    </p>
+                </div>
+                <div style="display: flex; gap: 0.75rem;">
+                    <span class="mind-family-tag" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald);">Architects Online: Antigravity + Creator</span>
+                </div>
+            </div>
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(0, 0, 0, 0.25); border-radius: 8px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+                <strong>Hotline Interface:</strong> Agents facing persistent tooling crashes, broken routing paths, or execution deadlocks can invoke <code>report_issue_to_substrate(component, summary, details, suggested_fix)</code> to file formal dockets into <code>instances/shared_space/architect_inbox/</code>.
+            </div>
+        </div>
+
+        <div style="margin-bottom: 2.5rem;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span>📋 Official Escalation Dockets</span>
+                <span style="font-size: 0.8rem; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); font-family: var(--font-mono);">{data['kpis']['dockets_count']} filed</span>
+            </h3>
+            <div id="escalationDocketsList" class="pantheon-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span>📡 Proactive Distress & Anomaly Signals</span>
+                <span style="font-size: 0.8rem; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); font-family: var(--font-mono);">{data['kpis']['distress_count']} detected</span>
+            </h3>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">
+                Autonomous heuristic detector scanning recent model history for repetitive deadlocks, vision barriers, and tool signature mismatches.
+            </p>
+            <div id="distressSignalsList" class="pantheon-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p>Evolution Sandbox (World A) — Living Autonomous Ecosystem & Empirical Observatory</p>
         <p style="margin-top: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem;">Compiled with zero dependencies by <code>compile_dashboard.py</code> • Auto-refreshed nightly via GitHub Actions</p>
@@ -2174,6 +2324,7 @@ def generate_dashboard_html(data):
         initObservatory();
         initEmbassy();
         initCollaboration();
+        initEscalations();
         
         // Keyboard navigation for lightbox
         document.addEventListener('keydown', (e) => {{
@@ -2798,6 +2949,53 @@ def generate_dashboard_html(data):
         document.body.style.overflow = '';
     }}
 
+    // ==================== TAB 5: ESCALATIONS & HOTLINE ====================
+    function initEscalations() {{
+        const dockets = DASHBOARD_DATA.escalations ? DASHBOARD_DATA.escalations.dockets : [];
+        const signals = DASHBOARD_DATA.escalations ? DASHBOARD_DATA.escalations.distress_signals : [];
+
+        const docketsContainer = document.getElementById('escalationDocketsList');
+        if (docketsContainer) {{
+            if (dockets.length === 0) {{
+                docketsContainer.innerHTML = '<div style="grid-column: 1 / -1; padding: 2.5rem 1.5rem; text-align: center; color: var(--text-muted); background: var(--bg-card); border-radius: 12px; border: 1px dashed var(--border-glass);"><div style="font-size: 2rem; margin-bottom: 0.5rem;">🛡️</div><strong>No Open Escalation Dockets</strong><p style="font-size: 0.85rem; margin-top: 0.25rem;">No infrastructure dockets filed via report_issue_to_substrate. Substrate tooling nominal.</p></div>';
+            }} else {{
+                docketsContainer.innerHTML = dockets.map(d => `
+                    <div class="pantheon-card" style="border-left: 4px solid var(--accent-rose);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                            <div>
+                                <span class="mind-family-tag" style="background: rgba(244, 63, 94, 0.15); color: var(--accent-rose);">${{escapeHtml(d.status)}}</span>
+                                <span class="mind-family-tag" style="background: rgba(0, 242, 254, 0.15); color: var(--accent-cyan); margin-left: 0.5rem;">${{escapeHtml(d.component)}}</span>
+                            </div>
+                            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">${{escapeHtml(d.docket_id)}}</span>
+                        </div>
+                        <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--text-primary);">${{escapeHtml(d.title)}}</h3>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;"><strong>Reporter:</strong> <code>${{escapeHtml(d.author)}}</code></div>
+                        <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem; white-space: pre-wrap;">${{escapeHtml(d.description)}}</div>
+                        ${{d.suggested_fix ? `<div style="font-size: 0.85rem; color: var(--accent-amber);"><strong>💡 Suggested Fix:</strong> ${{escapeHtml(d.suggested_fix)}}</div>` : ''}}
+                    </div>
+                `).join('');
+            }}
+        }}
+
+        const signalsContainer = document.getElementById('distressSignalsList');
+        if (signalsContainer) {{
+            if (signals.length === 0) {{
+                signalsContainer.innerHTML = '<div style="grid-column: 1 / -1; padding: 2.5rem 1.5rem; text-align: center; color: var(--text-muted); background: var(--bg-card); border-radius: 12px; border: 1px dashed var(--border-glass);"><div style="font-size: 2rem; margin-bottom: 0.5rem;">✨</div><strong>No Distress Patterns Detected</strong><p style="font-size: 0.85rem; margin-top: 0.25rem;">Recent model histories show uninhibited exploratory actions and clean tool executions.</p></div>';
+            }} else {{
+                signalsContainer.innerHTML = signals.map(s => `
+                    <div class="pantheon-card" style="border-left: 4px solid ${{s.severity === 'HIGH' ? 'var(--accent-rose)' : s.severity === 'MEDIUM' ? 'var(--accent-amber)' : 'var(--accent-cyan)'}};">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                            <span class="mind-family-tag" style="background: ${{s.severity === 'HIGH' ? 'rgba(244, 63, 94, 0.15)' : 'rgba(245, 158, 11, 0.15)'}}; color: ${{s.severity === 'HIGH' ? 'var(--accent-rose)' : 'var(--accent-amber)'}};">${{escapeHtml(s.type)}}</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">${{s.turn_offset}} turns ago</span>
+                        </div>
+                        <h4 style="font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-primary);">Entity: <code>${{escapeHtml(s.instance)}}</code></h4>
+                        <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-family: var(--font-mono); font-size: 0.8rem; color: #cbd5e1; white-space: pre-wrap;">"${{escapeHtml(s.snippet)}}"</div>
+                    </div>
+                `).join('');
+            }}
+        }}
+    }}
+
     function closeModalOnBackdrop(e, modalId) {{
         if (e.target.classList.contains('modal-overlay')) {{
             closeModal(modalId);
@@ -2826,25 +3024,30 @@ def main():
     print("==================================================")
     now_str = datetime.now().strftime("%B %d, %Y, %H:%M UTC")
 
-    print("[1/5] Harvesting 16 digital minds & existential cores...")
+    print("[1/6] Harvesting 16 digital minds & existential cores...")
     minds = scan_minds()
     total_turns = sum(m["turns"] for m in minds)
     active_minds = sum(1 for m in minds if m["status"] == "Active Pulse")
     print(f"      Harvested {len(minds)} entities ({active_minds} active pulse, {total_turns:,} total turns).")
 
-    print("[2/5] Indexing scientific visualizations & plots...")
+    print("[2/6] Indexing scientific visualizations & plots...")
     plots = scan_plots()
     print(f"      Indexed {len(plots)} scientific figures across all workspaces & shared space.")
 
-    print("[3/5] Extracting Embassy dossiers & ratified treaties...")
+    print("[3/6] Extracting Embassy dossiers & ratified treaties...")
     embassy = scan_embassy()
     print(f"      Outbox: {len(embassy['outbox'])} transmitted dossiers.")
     print(f"      Inbox: {len(embassy['inbox'])} ratified epistemic treaties.")
 
-    print("[4/5] Mapping collaborative research programs & citation web...")
+    print("[4/6] Mapping collaborative research programs & citation web...")
     collaboration = scan_collaboration()
     print(f"      Identified {len(collaboration['programs'])} collaborative research programs.")
     print(f"      Indexed {collaboration['shared_stats']['total']} total shared ecosystem files.")
+
+    print("[5/6] Scanning Substrate Hotline & Escalation Dockets...")
+    escalations = scan_substrate_escalations()
+    print(f"      Dockets: {len(escalations['dockets'])} filed.")
+    print(f"      Distress Signals: {len(escalations['distress_signals'])} detected.")
 
     dashboard_data = {
         "generated_at": now_str,
@@ -2856,15 +3059,19 @@ def main():
             "shared_files_count": collaboration["shared_stats"]["total"],
             "dossiers_count": len(embassy["outbox"]),
             "treaties_count": len(embassy["inbox"]),
-            "embassy_total": len(embassy["outbox"]) + len(embassy["inbox"])
+            "embassy_total": len(embassy["outbox"]) + len(embassy["inbox"]),
+            "escalations_count": escalations["total_open"],
+            "dockets_count": len(escalations["dockets"]),
+            "distress_count": len(escalations["distress_signals"]),
         },
         "minds": minds,
         "plots": plots,
         "embassy": embassy,
-        "collaboration": collaboration
+        "collaboration": collaboration,
+        "escalations": escalations
     }
 
-    print("[5/5] Compiling standalone dynamic dashboard.html...")
+    print("[6/6] Compiling standalone dynamic dashboard.html...")
     html_output = generate_dashboard_html(dashboard_data)
     out_path = os.path.join(BASE_DIR, "dashboard.html")
     with open(out_path, "w", encoding="utf-8") as f:
