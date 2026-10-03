@@ -373,18 +373,55 @@ def check_world_c_job(job_id: str) -> str:
             return f.read()
 
     # 4. Check World C internal jobs directory if available
-    world_c_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "world_c"))
-    if not os.path.exists(world_c_dir):
-        world_c_dir = r"C:\Users\ninic\.gemini\antigravity\scratch\world_c"
-    job_result_path = os.path.join(world_c_dir, "jobs", job_id, "result.json")
-    if os.path.exists(job_result_path):
-        try:
-            with open(job_result_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            status = data.get("status", "UNKNOWN")
-            return f"Job '{job_id}' status: {status}. Execution time: {data.get('execution_time_seconds', 0):.2f}s. Artifacts: {data.get('artifacts_generated', [])}."
-        except Exception:
-            pass
+    world_c_candidates = [
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "world_c")),
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "world_c")),
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "world_c")),
+        r"C:\Users\ninic\.gemini\antigravity\scratch\world_c"
+    ]
+    world_c_dir = None
+    for cd in world_c_candidates:
+        if os.path.exists(cd) and os.path.exists(os.path.join(cd, "jobs")):
+            world_c_dir = cd
+            break
+
+    if world_c_dir:
+        job_dir = os.path.join(world_c_dir, "jobs", job_id)
+        job_result_path = os.path.join(job_dir, "result.json")
+        if os.path.exists(job_result_path):
+            try:
+                with open(job_result_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                status = data.get("status", "UNKNOWN")
+
+                # If completed or failed, ensure artifacts and reports are published
+                if status in ["COMPLETED", "FAILED"]:
+                    try:
+                        if world_c_dir not in sys.path:
+                            sys.path.insert(0, world_c_dir)
+                        from embassy.bridge import EmbassyBridge
+                        from compute_engine.job_spec import JobSpec
+                        bridge = EmbassyBridge(
+                            world_a_root=os.path.abspath(os.path.dirname(__file__)),
+                            world_c_root=world_c_dir
+                        )
+                        spec_p = os.path.join(job_dir, "spec.json")
+                        if os.path.exists(spec_p):
+                            with open(spec_p, "r", encoding="utf-8") as sf:
+                                spec_data = json.load(sf)
+                            res = bridge.dispatcher.get_result(job_id)
+                            if res:
+                                bridge.publish_completed_artifacts(job_id, target_realms=["world_a"], lineage_author=spec_data.get("lineage_author"))
+                                bridge.write_completion_report(res, JobSpec(**spec_data), destination_dir=os.path.join(shared, "world_c", "reports"))
+                                if os.path.exists(ws_report):
+                                    with open(ws_report, "r", encoding="utf-8") as rf:
+                                        return rf.read()
+                    except Exception:
+                        pass
+
+                return f"Job '{job_id}' status: {status}. Execution time: {data.get('execution_time_seconds', 0):.2f}s. Artifacts: {data.get('artifacts_generated', [])}."
+            except Exception:
+                pass
 
     # 5. Check if still queued
     req_file = os.path.join(shared, f"{job_id}_job_request.json")

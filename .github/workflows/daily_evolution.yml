@@ -119,7 +119,8 @@ jobs:
             from embassy.bridge import EmbassyBridge
             bridge = EmbassyBridge(world_a_root=os.path.abspath('.'), world_c_root=world_c_path)
             results = bridge.scan_and_process_inbox(auto_execute=True, async_mode=False)
-            print(f'[CI] World C executed {len(results)} jobs successfully.')
+            reconciled = bridge.reconcile_active_jobs(timeout=60.0)
+            print(f'[CI] World C executed {len(results)} pending jobs, reconciled {len(reconciled)} async jobs successfully.')
         else:
             print('[CI] World C path not found, skipping compute queue execution.')
         "
