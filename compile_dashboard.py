@@ -167,10 +167,12 @@ PROGRAM_TAGS = {
 }
 
 def clean_text(text: str) -> str:
-    """Strip markdown formatting and excessive whitespace."""
+    """Strip markdown formatting and excessive whitespace while preserving code identifiers."""
     if not text:
         return ""
-    text = re.sub(r'[*_`#~]', '', text)
+    text = re.sub(r'[`#~]', '', text)
+    text = re.sub(r'(?<!\w)\*+|\*+(?!\w)', '', text)
+    text = re.sub(r'(?<!\w)_+|_+(?!\w)', '', text)
     text = re.sub(r'\s+', ' ', text)
     return text.strip()
 

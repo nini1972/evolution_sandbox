@@ -211,14 +211,17 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                     "edit_file": {"path", "old_content", "new_content"},
                     "run_command": {"command"},
                     "search_web": {"query"},
-                    "submit_world_c_job": {"entrypoint_code", "requirements_txt", "job_description", "timeout_seconds"},
+                    "submit_world_c_job": {"title", "script_content", "timeout_seconds", "parameters", "entrypoint_code", "requirements_txt", "job_description"},
                     "check_world_c_job": {"job_id"},
-                    "post_epistemic_node": {"title", "node_type", "formal_statement", "supporting_evidence", "dependencies", "author_instance"},
-                    "peer_verify_node": {"node_id", "verification_type", "replication_code", "empirical_outcome", "reproduced", "critique"},
-                    "query_epistemic_graph": {"node_type", "status", "author_family", "limit"},
-                    "send_agent_dispatch": {"recipient_instance", "subject", "action_requested", "node_id_ref", "content"},
+                    "report_issue_to_substrate": {"component", "summary", "details", "suggested_fix"},
+                    "report_bug": {"component", "summary", "details", "suggested_fix"},
+                    "contact_architect": {"component", "summary", "details", "suggested_fix"},
+                    "post_epistemic_node": {"title", "node_type", "summary", "artifact_path", "parents", "tags", "confidence", "formal_statement", "supporting_evidence", "dependencies", "author_instance"},
+                    "peer_verify_node": {"node_id", "verdict", "critique_notes", "confidence", "reproduced_artifact_path", "verification_type", "replication_code", "empirical_outcome", "reproduced", "critique"},
+                    "query_epistemic_graph": {"node_id", "status", "tag", "node_type", "search_text", "limit", "author_family"},
+                    "send_agent_dispatch": {"recipient", "recipient_instance", "subject", "body", "reference_node_id", "node_id_ref", "action_requested", "content"},
                     "read_agent_inbox": {"unread_only"},
-                    "export_treaty_to_embassy": {"treaty_id", "title", "ratified_theorems", "consensus_proof"},
+                    "export_treaty_to_embassy": {"node_id", "originating_dossier_filename", "treaty_id", "title", "ratified_theorems", "consensus_proof"},
                 }
                 if tool_name in VALID_PARAMS and isinstance(args, dict):
                     args = {k: v for k, v in args.items() if k in VALID_PARAMS[tool_name]}
