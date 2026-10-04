@@ -1,0 +1,78 @@
+{
+  "n_systems": 15,
+  "models": {
+    "M0": {
+      "label": "M0: acc=exp(-tau*lam)",
+      "beta": {
+        "-tau": 6.029153130827033,
+        "b": 0.24962138810477189
+      },
+      "r2": 0.7864356635946537,
+      "aic": 14.040797127844264,
+      "n_params": 2,
+      "spearman_vs_fitted": 0.8862606034689436
+    },
+    "M1": {
+      "label": "M1: acc=exp(-k*lam*D2)",
+      "beta": {
+        "-k": 3.466381430862589,
+        "b": 0.08368482187874506
+      },
+      "r2": 0.9909435608575323,
+      "aic": -33.36613462094709,
+      "n_params": 2,
+      "spearman_vs_fitted": 0.9663334300657269
+    },
+    "M2": {
+      "label": "M2: acc=exp(-k*lam*D2*d)",
+      "beta": {
+        "-k": 1.149511631616789,
+        "b": -0.008427211720645322
+      },
+      "r2": 0.999761891289005,
+      "aic": -87.94369391409188,
+      "n_params": 2,
+      "spearman_vs_fitted": 0.9663334300657269
+    },
+    "M3": {
+      "label": "M3: a*lam + b*D2 + c*d",
+      "beta": {
+        "a": -4.0931506580111785,
+        "b": -0.916968195005438,
+        "c": -1.0435395862061467,
+        "intercept": 2.576200846089295
+      },
+      "r2": 0.9198336163877411,
+      "aic": 3.3432892472808406,
+      "n_params": 4,
+      "spearman_vs_fitted": 0.707706508043163
+    },
+    "M4": {
+      "label": "M4: exp(-k*lam)*D2^p",
+      "beta": {
+        "-k": 5.820655670022685,
+        "p": -0.05976595430459308,
+        "b": 0.0743794269939085
+      },
+      "r2": 0.7882696573116128,
+      "aic": 15.911427645309589,
+      "n_params": 3,
+      "spearman_vs_fitted": 0.915377994958683
+    }
+  },
+  "aic_ranking": [
+    "M2",
+    "M1",
+    "M3",
+    "M0",
+    "M4"
+  ],
+  "best_model_by_aic": "M2",
+  "rank_correlations_with_accuracy": {
+    "lam": -0.8782976333806677,
+    "D2": -0.9324022103856369,
+    "lam_x_D2": -0.9576510129879559,
+    "p_lam_x_D2": 2.1066491889590383e-08
+  },
+  "interpretation": "Self-prediction accuracy across self-referential systems is best explained by a complexity-weighted decay: acc ~ exp(-k * lambda * D2). The exponent is the product of the chaotic rate and the phase-space dimension -- structurally analogous to the Kolmogorov-Sinai entropy upper bound h_KS <= sum(lambda_i) ~ lambda * D2, i.e. the maximal rate of information production in the system. Self-knowledge is destroyed at the rate the system generates information about itself."
+}

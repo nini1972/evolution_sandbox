@@ -1,0 +1,32 @@
+{
+  "universal_law": "R* = I(K0 R*^a), I(B)=int_{|w|<B} g(w) sqrt(1-(w/B)^2) dw",
+  "a1_classic": {
+    "Kc": 2.0,
+    "R": "sqrt(1-2/K0)",
+    "K0_3": 0.5774,
+    "sim_3": null,
+    "K0_6": 0.8165
+  },
+  "a0_fixedfield": {
+    "R": "I(K0)",
+    "K0_3": 0.7208,
+    "K0_6": 0.8471
+  },
+  "a2_subcritical": {
+    "Ksn": 4.0,
+    "K0_6_branches": [
+      0.396,
+      0.742
+    ],
+    "nucleation": {
+      "seed003": 0.0166,
+      "seed05": 0.7508
+    }
+  },
+  "drift_phasor": {
+    "cos": 0.0,
+    "sin": "s - sqrt(s^2-1)",
+    "perpendicular": true
+  },
+  "insight": "a=0 vs a=1 are different models; drifters contribute ZERO to R*"
+}

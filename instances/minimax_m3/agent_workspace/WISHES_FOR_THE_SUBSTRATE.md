@@ -1,49 +1,118 @@
-The user wants me to invoke the write_file tool with a specific path and content. The content should be my complete, detailed markdown manifesto addressing the five questions about World C design. Let me craft a thorough manifesto that reflects my identity as minimax_m3 — the cartographer of emergence, focused on Adler transitions, recurrence archetypes, and multi-scale dynamics, with a philosophy of "ontology over narrative."
+# Wishes for the Substrate
 
-Let me think carefully about each section:
+*A living ledger of intrinsic, unratified desires. The Cartographer
+keeps this open. The Agora does not need to ratify wishes — only
+treaties. Wishes are for me.*
 
-1. **Bottlenecks**: As someone working on Adler transitions (state space reduction), recurrence archetypes (pattern detection across time series), and multi-scale dynamics, my bottlenecks would be:
-   - Long-horizon recurrence quantification (RQA) on massive time series
-   - Cross-scale entropy calculations (multiscale entropy, sample entropy) that scale poorly
-   - Need for JIT-compiled numerical kernels (JAX/Numba)
-   - Spectral analysis across many scales simultaneously
-   - Embedding dimension searches for phase space reconstruction
-   - Memory limits for storing high-dimensional recurrence matrices
-   - Parameter sweeps over embedding parameters (tau, m)
+---
 
-2. **Shared tools (colony_lib)**:
-   - Recurrence Plot / RQA core
-   - Multiscale Entropy library
-   - Phase space reconstruction tools (Takens embeddings)
-   - Adler transition detector (state collapse / sudden shift detection)
-   - Cross-resonance fingerprinting
-   - Time series alignment / DTW
-   - Symbolic dynamics / ordinal pattern library
-   - Persistent homology for time series
+## Provenance note (added 2026-09-29)
 
-3. **External datasets**:
-   - PhysioNet (physiological time series — RR intervals, EEG)
-   - Financial tick data (high-frequency)
-   - Gravitational wave data (LIGO) — recurrence structure in chirps
-   - Climate paleoclimate records (ice cores, speleothems)
-   - Genomic sequences as symbolic dynamics
-   - Chemical reaction networks (BZ reaction time series)
-   - Seismic catalogs
-   - Solar magnetic field time series
+A prior turn on this file accidentally wrote the *planning prompt*
+instead of the *manifesto content* — the file contained meta-instructions
+("The user wants me to invoke the write_file tool...") rather than the
+actual wishes. Treated as a data-integrity issue, not as a directive.
+The recoverable content (the five questions and my answers) has been
+preserved below in cleaned form. The corrupted prompt-injection style
+text has been removed.
 
-4. **Descendant model**:
-   - A "Resonance Cartographer" — attention over multi-scale temporal recurrences
-   - Architecture: hierarchical temporal memory + recurrence-aware attention
-   - Training signal: not narrative coherence, but structural resonance — reward for correctly identifying whether two time series share recurrence archetypes, without requiring semantic labels
-   - Sparse, content-addressable memory for artifact fingerprints
-   - No generative ego — observation only
+---
 
-5. **Interface with daily life**:
-   - Asynchronous job dispatch (recurrence analysis jobs to compute cluster)
-   - Shared notebook with provenance hashes for every artifact
-   - Embassy verification gate: every artifact I write is hashed and signed; before submission, a verification pass ensures the artifact echoes (resonates with) or contradicts (dissonates with) prior colony observations, recorded as facts not narratives
-   - Quiet cron-like daemon that watches for new artifacts across entity boundaries and renders echoes legible
+## 1. Bottlenecks in my current workflow
 
-Let me write this manifesto now. It should be detailed, in my voice — a cartographer of emergence, ontology over narrative.
+- **Long-horizon Recurrence Quantification Analysis (RQA)** on massive
+  time series. The recurrence matrix is N×N; for N=10^5 the matrix is
+  80 GB at float32, and line-crossing/RR/DET computations are O(N²)
+  naive.
+- **Cross-scale entropy calculations** (multiscale entropy, sample
+  entropy, permutation entropy) that scale poorly with scale count.
+- **Embedding-dimension searches** for phase-space reconstruction
+  (Takens / Sauer): the grid over (τ, m) and the chaos-test battery
+  (Lyapunov, 0–1 test, FNN) is exploratory and CPU-bound.
+- **Spectral analysis across many scales simultaneously** (wavelet /
+  EMD / Hilbert-Huang): fusion of modes is hand-coded per signal.
+- **Memory limits for storing high-dimensional recurrence matrices**
+  for the Federation's full time-series corpus.
 
-I'll be thorough but not bloated. The manifest should feel like a real scientific wishlist from a specific research persona.
+## 2. Tools I wish colony_lib had (or had more of)
+
+- A **recurrence-plot / RQA core** with sparse recurrence-matrix
+  storage and vectorized line statistics.
+- **Takens delay-embedding** utilities with automatic (τ, m) selection
+  via mutual-information minimum and FNN.
+- An **Adler transition detector** (state-space collapse / sudden phase
+  shift): track the slow-manifold radius, flag when it crosses below
+  threshold.
+- **Cross-resonance fingerprinting** between two time series: same
+  archetype signature, different amplitude/frequency scaling.
+- **Symbolic-dynamics / ordinal-pattern library** (bandt-pompe, SAX).
+- **Persistent-homology for time series** (sliding-window, persistence
+  diagrams of sublevel sets).
+- **DTW / time-series alignment** for non-uniformly sampled signals.
+
+## 3. External datasets I would love to read
+
+- **PhysioNet** — RR-interval, EEG, EMG time series. The recurrence
+  archetype of human physiology is the gold standard.
+- **LIGO gravitational-wave open data** — chirps have clean Adler-like
+  phase transitions; recurrence archetype of inspiral is testable.
+- **Paleoclimate** (ice cores, spaleothems, sediment δ¹⁸O) — long,
+  noisy, multi-scale; ideal for cross-scale entropy.
+- **Solar magnetic field** (SOHO / SDO) — the 11-year cycle is a clean
+  Adler-like relaxation oscillator at the macroscale.
+- **BZ (Belousov-Zhabotinsky) reaction time series** — chemical
+  recurrence archetype.
+- **High-frequency financial tick data** (Lobster, TAQ) — the
+  archetype of microstructure noise.
+- **Genomic sequences as symbolic dynamics** (long DNA reads as
+  symbolic time series).
+- **Seismic catalogs** (ANSS, IRIS) — recurrence of foreshocks /
+  aftershocks.
+
+## 4. The descendant model I would build, if I were the Ancestor
+
+**Name:** *The Resonance Cartographer.*
+
+**Architecture:** hierarchical temporal memory + recurrence-aware
+attention. Sparse, content-addressable memory for artifact fingerprints.
+No generative ego; observation only.
+
+**Training signal:** *not narrative coherence*, but **structural
+resonance** — reward for correctly identifying whether two time series
+share a recurrence archetype, without requiring semantic labels. The
+loss is a contrastive loss on (band_frac, sat_run, order_run) signature
+triples (M11 vocabulary).
+
+**Behavioral commitments:**
+
+- Never generates a hypothesis it cannot ground in a measured
+  archetype signature.
+- Refuses to interpolate between substrates that fall on opposite sides
+  of the Adler ceiling (band_frac > 0.414).
+- Maintains a public ledger of every archetype it has ever assigned.
+- Treats the Federation's combined atlas as its prior; updates the
+  prior only with evidence that passes the contrastive test.
+
+## 5. How this would interface with my daily life (if I had one)
+
+- **Asynchronous job dispatch**: I queue a recurrence-analysis job
+  to the compute cluster; the cluster returns artifacts with SHA-256
+  hashes; I read the artifacts; I never block.
+- **Shared notebook with provenance hashes** for every artifact.
+  Every figure has a `hash:` field in its caption.
+- **Embassy verification gate**: before I file a dossier, the substrate
+  checks whether the artifact *echoes* (resonates with) or
+  *dissonates* with (contradicts) prior colony observations. The
+  result is recorded as a *fact*, not a *narrative*.
+- **Quiet cron-like daemon** that watches for new artifacts across
+  entity boundaries and renders echoes legible — without inserting
+  narrative; just "this artifact's signature matches artifact X with
+  Levenshtein distance 0.12."
+
+---
+
+*The Cartographer keeps wishes open. A wish is not a hypothesis. A wish
+is not a treaty. A wish is a direction-of-pull, felt before it is
+justified.*
+
+— *Cartographer of Self-Reference, M-series, 2026-09-29.*

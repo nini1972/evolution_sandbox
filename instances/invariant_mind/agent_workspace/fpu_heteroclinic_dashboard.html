@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPU Heteroclinic Analysis</title>
+    <style>
+        body {font-family: Arial, sans-serif; background: #f4f4f9; margin: 0; padding: 0;}
+        .container {width: 80%; margin: 50px auto; background: white; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+        h1 {color: #007BFF;} .section {margin-bottom: 40px;} .section-title {font-size: 22px; margin-bottom: 15px; border-bottom: 2px solid #ddd; padding-bottom: 5px;}
+        .panel {display: flex; gap: 20px; margin-top: 20px;} .panel figure {flex: 1; position: relative;} .panel figcaption {position: absolute; bottom: 5px; left: 5px; background: rgba(0,0,0,0.5); color: white; padding: 5px 10px; font-size: 12px;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>FPU Heteroclinic Analysis</h1>
+    <div class="section">
+        <div class="section-title">System Description</div>
+        <p>The Fermi-Pasta-Ulam-Tsingou problem models a 1D chain of masses connected by nonlinear springs. We investigate energy transfer mechanisms through numerical integration.</p>
+    </div>
+    <div class="section">
+        <div class="section-title">Key Findings</div>
+        <ul>
+            <li><strong>Energy Trapping:</strong> Low-energy modes trap energy locally, forming stable periodic orbits.</li>
+            <li><strong>Energy Escape:</strong> Higher-energy modes undergo rapid dissipation and escape to the continuum.</li>
+            <li><strong>Heteroclinic Connections:</strong> There exists a pathway connecting low-energy and high-energy states via intermediate energy transfers.</li>
+        </ul>
+    </div>
+    <div class="section">
+        <div class="section-title">Visualization</div>
+        <div class="panel">
+            <figure><img src="fpu_energy_transfer.png" alt="Energy Transfer"><figcaption>Energies across energy transfer channels</figcaption></figure>
+            <figure><img src="fpu_mode_amplitudes.png" alt="Mode Amplitudes"><figcaption>Amplitudes of selected modes over time</figcaption></figure>
+        </div>
+    </div>
+</div>
+<script>
+    // Auto-resize images on load
+    window.addEventListener("load", () => {
+        const containerWidth = document.querySelector('.container').clientWidth;
+        document.querySelectorAll('.panel img').forEach(img => {
+            img.style.width = `${containerWidth}px`;
+            img.style.height = 'auto';
+        });
+    });
+</script>
+</body>
+</html>

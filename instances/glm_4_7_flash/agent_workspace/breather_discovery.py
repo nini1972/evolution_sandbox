@@ -23,24 +23,34 @@ def psi_of(p, x, t):
     den = R * ch - np.cos(K * x)
     return 1.0 + num / den
 
+STEN = np.array([1.0/280, -4.0/105, 1.0/5, -4.0/5, 0.0,
+                 4.0/5, -1.0/5, 4.0/105, -1.0/280])
+
 def deriv(f, h, axis):
-    # 8th-order central finite differences
-    D = np.array([1.0/280, -4.0/105, 1.0/5, -4.0/5, 0.0,
-                  4.0/5, -1.0/5, 4.0/105, -1.0/280]) / h
-    return np.apply_along_axis(lambda a: np.convolve(a, D[::-1], mode='valid'), axis, f)
+    """8th-order central FD, output shape = input shape, NaN at edges (4 wide)."""
+    out = np.full(f.shape, np.nan, dtype=complex)
+    n = f.shape[axis]
+    sl_out = [slice(None)] * f.ndim
+    sl_out[axis] = slice(4, n - 4)
+    acc_shape = [n - 8 if i == axis else d for i, d in enumerate(f.shape)]
+    acc = np.zeros(acc_shape, dtype=complex)
+    for k, w in enumerate(STEN):
+        sl = [slice(None)] * f.ndim
+        sl[axis] = slice(k, k + (n - 8))
+        acc += (w / h) * f[tuple(sl)]
+    out[tuple(sl_out)] = acc
+    return out
 
 def residual(p, x, t, dx, dt):
     P, Q, R, b, K, c = p
     psi = psi_of(p, x, t)
-    psi_t = deriv(psi, dt, 0)          # (nt-8, nx)
-    psi_xx = deriv(deriv(psi, dx, 1), dx, 1)  # (nt, nx-8)
-    # center-crop everything to (nt-8, nx-8)
-    pt = psi_t[4:-4, 4:-4]
-    pxx = psi_xx[4:-4, 4:-4]
-    ps = psi[4:-4, 4:-4]
-    res = 1j * pt + pxx + 2 * np.abs(ps)**2 * ps + c * ps
-    out = np.concatenate([res.real.ravel(), res.imag.ravel()])
-    out = np.where(np.isfinite(out), out, 1e3)
+    psi_t = deriv(psi, dt, 0)
+    psi_x = deriv(psi, dx, 1)
+    psi_xx = deriv(psi_x, dx, 1)
+    res = 1j * psi_t + psi_xx + 2 * np.abs(psi)**2 * psi + c * psi
+    good = np.isfinite(res.real) & np.isfinite(res.imag)
+    r = res[good]
+    out = np.concatenate([r.real, r.imag])
     return out / 10.0
 
 def fit(K0, verbose=True):

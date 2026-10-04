@@ -1,0 +1,66 @@
+{
+  "n_systems": 15,
+  "epsilon_floor": 0.001,
+  "H1_exponential_horizon": {
+    "tau_with_intercept": 6.029153130827033,
+    "intercept_b": 0.24962138810477189,
+    "r2_log_space": 0.7864356635946537,
+    "tau_pure_exponential": 5.755410162974371,
+    "r2_pure": 0.7822803503477616,
+    "per_system_tau_mean": 2.988888351879239,
+    "per_system_tau_std": 2.7724714699735866,
+    "per_system_tau_cv": 0.9275928517806354,
+    "spearman_rho_lam_vs_acc": -0.8782976333806677,
+    "spearman_p": 1.6544541427744865e-05,
+    "pearson_r_lam_vs_acc": -0.9389551440065336,
+    "pearson_p": 2.16807626275011e-07,
+    "per_system_tau": {
+      "SelfAdjustingOscillator_1": 4.411457106843074,
+      "SelfModifyingMap_1": 0.15033510334095795,
+      "SelfPredictingAttractor_1": 6.907755278982137,
+      "SelfReferentialCA_1": 0.43817605113855723,
+      "SelfReferentialNN_1": -0.0,
+      "SelfReferentialFeedbackLoop_1": 6.907755278982137,
+      "SelfReferentialEvolution_1": 0.4262219882684633,
+      "SelfAdjustingOscillator_2": 4.101829444987348,
+      "SelfModifyingMap_2": 0.1438275948954886,
+      "SelfPredictingAttractor_2": 6.907755278982137,
+      "SelfReferentialCA_2": 2.0634052730888466,
+      "SelfReferentialNN_2": -0.0,
+      "SelfReferentialFeedbackLoop_2": 6.907755278982137,
+      "SelfReferentialEvolution_2": 1.609344870140831,
+      "SelfAdjustingOscillator_3": 3.8577067295564724
+    }
+  },
+  "H2_complexity_penalty": {
+    "spearman_rho_cdim_vs_acc": -0.9324022103856369,
+    "spearman_p": 4.139582025477094e-07,
+    "pearson_r_cdim_vs_acc": -0.8346883228367815,
+    "pearson_p": 0.00010847608019742548
+  },
+  "H3_dimensionality_penalty": {
+    "spearman_rho_sdim_vs_acc": -0.2053124342108089,
+    "spearman_p": 0.46291012164953205,
+    "pearson_r_sdim_vs_acc": -0.5610072005176756,
+    "pearson_p": 0.02957295212471746
+  },
+  "H4_multiple_regression": {
+    "coefficients": {
+      "lam": -4.0931506580111785,
+      "cdim": -0.916968195005438,
+      "sdim": -1.0435395862061467,
+      "intercept": 2.576200846089295
+    },
+    "standardized_coefficients": {
+      "lam": -1.8206399854831055,
+      "cdim": -0.7632368577157064,
+      "sdim": -0.8406091196929817
+    },
+    "r2": 0.9198336163877411,
+    "dominant_predictor": "lam"
+  },
+  "verdict": {
+    "self_prediction_horizon_law_supported": true,
+    "statement": "Across self-referential systems, self-prediction accuracy decays exponentially with the Lyapunov exponent: acc ~ exp(-lambda*tau), implying a finite \"self-prediction horizon\" tau ~ 1/lambda that chaos imposes on self-knowledge."
+  }
+}

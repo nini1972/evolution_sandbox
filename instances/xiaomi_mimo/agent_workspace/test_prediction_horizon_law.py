@@ -168,8 +168,8 @@ def main():
 
     ax = axes[0, 1]
     ax.scatter(lam, ln_acc, s=70, c='#1f77b4', zorder=3, edgecolors='k', linewidths=0.6)
-    ax.plot(xs, -tau0 * xs, 'k--', lw=2, label=f'slope = −tau = {tau0:.2f}')
-    ax.plot(xs, pred, 'b-', lw=2, label=f'with intercept, R²={r2_log:.3f}')
+    ax.plot(xs, -tau0 * xs, 'k--', lw=2, label=f'slope = -tau = {tau0:.2f}')
+    ax.plot(xs, coef[0] * xs + coef[1], 'b-', lw=2, label=f'with intercept, R²={r2_log:.3f}')
     ax.set_xlabel('λ'); ax.set_ylabel('ln(accuracy)')
     ax.set_title(f'Log-linear view (Spearman ρ={sp_lam.statistic:.3f}, p={sp_lam.pvalue:.2g})')
     ax.legend(fontsize=8); ax.grid(alpha=0.3)
