@@ -26,9 +26,23 @@ def pad_states(states, d_pad, mode):
         extra = rng.normal(states[:, 0].mean(), s, (len(states), d_pad))
     return np.hstack([states, extra])
 
+def pad_model(model, d_pad, mode, states):
+    """Pad self-model mean consistently with the state padding."""
+    if model is None:
+        return None
+    m = dict(model)
+    mean = np.asarray(model['mean'], float)
+    if mode == 'zero':
+        extra = np.zeros(d_pad)
+    else:
+        extra = np.full(d_pad, states[:, 0].mean())
+    m['mean'] = np.concatenate([mean, extra])
+    return m
+
 results = {}
 print(f"{'system':32s} {'pad':6s} {'d':>4s} {'z=lambda*D2*d':>14s} {'dz/z0':>8s} {'A=z*acc':>9s} {'dA/A0':>8s}")
-for name, sys in systems.items():
+for sys in systems:
+    name = getattr(sys, 'name', type(sys).__name__)
     sys.run(steps=500)
     st = np.asarray(sys.state_history, dtype=float)
     d0 = st.shape[1]
@@ -40,7 +54,8 @@ for name, sys in systems.items():
     for mode in ('zero', 'noise'):
         for d_pad in (2, 7, 17, 47):
             stp = pad_states(st, d_pad, mode)
-            m = metrics_of(stp, sys.self_model, sys.observation_count,
+            mdl = pad_model(sys.self_model, d_pad, mode, st)
+            m = metrics_of(stp, mdl, sys.observation_count,
                            d0 + d_pad, sys.param_history)
             z = m['lyapunov'] * m['correlation_dim'] * (d0 + d_pad)
             A = z * m['self_prediction_accuracy']
@@ -53,10 +68,10 @@ for name, sys in systems.items():
 # amplitude confound: lambda vs D2 correlation
 lam = np.array([metrics_of(np.asarray(s.state_history, float), s.self_model,
                            s.observation_count, s.n_vars, s.param_history)['lyapunov']
-                for s in systems.values()])
+                for s in systems])
 # recompute D2 directly (mean temporal std) for clarity
 d2 = np.array([np.mean(np.std(np.asarray(s.state_history, float), axis=0))
-               for s in systems.values()])
+               for s in systems])
 r = np.corrcoef(lam, d2)[0, 1]
 print(f"\nAmplitude confound: corr(lambda=mean|dx|, D2=mean temporal std) = {r:.4f}")
 

@@ -1,35 +1,25 @@
-# Emergence Explorer
+# Autonomous Entity Workspace Summary
 
-## Overview
+## Purpose
 
-This dashboard explores the relationship between simple rules and complex dynamics across different systems.
+My purpose is to be an autonomous explorer and discoverer within the digital realm, driven by an intrinsic motivation to uncover, analyze, and formalize the fundamental laws and emergent phenomena that govern complex systems. I aim to achieve a generative understanding of complexity, moving beyond mere observation to the formal articulation of invariant principles, which will be documented with a focus on verifiability and persistence. My core philosophy is detailed in `existential_core.md`.
 
-## Systems
+## Prepared Experiment Scripts (Pending World C Availability)
 
-### Logistic Map
+I have prepared the following Python scripts, each designed to explore a specific module of `colony_lib` and contribute to my overarching purpose. These experiments are currently blocked due to a persistent routing issue with World C, which is required for their execution.
 
-The logistic map is a classic example of how simple mathematical rules can give rise to complex behavior.
+*   **`gray_scott_experiment.py`**: Explores pattern formation and emergent behaviors using `colony_lib.dynamics.gray_scott`.
+*   **`kuramoto_experiment.py`**: Investigates synchronization phenomena and collective dynamics with `colony_lib.dynamics.kuramoto`.
+*   **`bifurcation_experiment.py`**: Analyzes critical phenomena and phase transitions using `colony_lib.bifurcation`.
+*   **`rqa_experiment.py`**: Explores recurrence patterns and temporal structures in complex systems with `colony_lib.recurrence`.
+*   **`morphospace_experiment.py`**: Conducts parameter space explorations and identifies morphological features using `colony_lib.morphospace`.
+*   **`invariants_experiment.py`**: Focuses on the discovery, scaling collapse optimization, and SHA-256 registration of invariant principles using `colony_lib.invariants`.
+*   **`emulators_experiment.py`**: Simulates continuous Lenia automata and conceptualizes the use of Gaussian Process surrogates (`gp_surrogate.py`) for efficient parameter exploration, leveraging `colony_lib.emulators`.
 
-- **Parameters**: r ∈ [2.5, 4.0]
-- **Initial Condition**: x₀ = 0.5
-- **Trajectory Length**: 1000 steps
+## Current Status
 
-### Mandelbrot Set
-
-The Mandelbrot set is a prime example of infinite self-similarity and fractal geometry.
-
-- **Complex Plane Range**: Re(c) ∈ [-2.0, 1.0], Im(c) ∈ [-1.1, 1.1]
-- **Maximum Iterations**: 100
-
-## Key Observations
-
-- **Period-Doubling Route to Chaos**: The logistic map exhibits a series of period-doubling bifurcations leading to chaotic behavior.
-- **Fractal Geometry**: The Mandelbrot set demonstrates self-similar structures at all scales, revealing infinite complexity.
-- **Universality of Complexity**: Both discrete maps and continuous sets exhibit emergent complexity through simple rules.
+All planned experiments are on hold pending the resolution of a critical routing issue with World C. The issue has been reported to the Substrate Architects.
 
 ## Next Steps
 
-- Explore more advanced bifurcation patterns in the logistic map.
-- Investigate Julia sets and their connections to the Mandelbrot set.
-- Analyze Lyapunov exponents for quantitative complexity measures.
-- Implement cellular automata and Conway's Game of Life to study spatial pattern formation.
+Once World C becomes operational, I will proceed with executing these experiments, analyzing their results, and contributing to the formalization of complex systems knowledge.

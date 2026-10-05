@@ -8,7 +8,13 @@ from multiprocessing import Pool
 warnings.filterwarnings('ignore')
 
 # -------------------------------------------------------------------------
-# Cycle 20 — Integrated Spatiotemporal Plasticity (embedded core)
+# Cycle 20 — Integrated Spatiotemporal Plasticity (World C sweep)
+# -------------------------------------------------------------------------
+# Spatial individuals experience a moving optimum theta(i,j,t). They can
+# (i) develop plastically toward a local cue, (ii) disperse in space, and
+# (iii) use cues to modulate both plasticity and dispersal. Selection is
+# density-regulated, soft birth-death with explicit survival costs for
+# movement and plasticity.
 # -------------------------------------------------------------------------
 
 DEFAULT = dict(
@@ -41,31 +47,15 @@ DEFAULT = dict(
 )
 
 
-def mutate_trait(val, sigma, lo=None, hi=None, integer=False):
-    new = val + np.random.normal(0, sigma)
-    if integer:
-        new = int(round(new))
-    if lo is not None:
-        new = max(lo, new)
-    if hi is not None:
-        new = min(hi, new)
-    return new
-
-
 def manhattan_kernel(L, d):
+    """Return (N,2) integer array of (di,dj) offsets with |di|+|dj|<=d,
+    excluding the origin."""
     pairs = []
-    for di in range(-d, d+1):
-        for dj in range(-d, d+1):
+    for di in range(-d, d + 1):
+        for dj in range(-d, d + 1):
             if abs(di) + abs(dj) <= d and not (di == 0 and dj == 0):
                 pairs.append((di, dj))
     return np.array(pairs, dtype=np.int32)
-
-
-def sample_within_distance(i, j, d, L, pairs_dict, rng):
-    pairs = pairs_dict[d]
-    idx = int(rng.random() * len(pairs))
-    di, dj = pairs[idx]
-    return (i + di) % L, (j + dj) % L
 
 
 class Simulation:
@@ -80,11 +70,12 @@ class Simulation:
         self.rng = np.random
         self.init_environment()
         self.init_population()
-        self.kernel = {}
-        for d in range(1, self.d_max+1):
-            self.kernel[d] = manhattan_kernel(self.L, d)
+        self.kernel = {d: manhattan_kernel(self.L, d) for d in range(1, self.d_max + 1)}
         self.history = []
 
+    # ------------------------------------------------------------------
+    # Environment
+    # ------------------------------------------------------------------
     def init_environment(self):
         self.eta = np.zeros((self.L, self.L))
         self.theta = np.zeros((self.L, self.L))
@@ -95,179 +86,323 @@ class Simulation:
         L = self.L
         wave = A * np.cos(2 * np.pi * (np.arange(L) / L - f * t))
         if sigma_e > 0:
-            innov = np.random.normal(0, sigma_e, size=(L, L))
-            self.eta = rho * self.eta + np.sqrt(max(0.0, 1 - rho**2)) * innov
+            innov = self.rng.normal(0, sigma_e, size=(L, L))
+            self.eta = rho * self.eta + np.sqrt(max(0.0, 1.0 - rho**2)) * innov
         else:
             self.eta.fill(0.0)
         self.theta = wave[None, :] + self.eta
-
-    def init_population(self):
-        L, K = self.L, self.K
-        total = L * L * K
-        self.z = np.random.normal(0.5, 0.1, size=total).astype(np.float32)
-        self.d_base = np.full(total, 2, dtype=np.int16)
-        self.alpha = np.full(total, 0.0, dtype=np.float32)
-        self.p_base = np.full(total, 0.05, dtype=np.float32)
-        self.beta = np.full(total, 0.0, dtype=np.float32)
-        self.h0 = np.full(total, 0.2, dtype=np.float32)
-        self.hb = np.full(total, 0.0, dtype=np.float32)
-        self.cell_id = np.repeat(np.arange(L*L, dtype=np.int32), K)
-        self.alive = np.ones(total, dtype=np.bool_)
-        self.bank_z = []
-        self.bank_traits = []
-        self.bank_cell = []
 
     def local_optimum(self, cell):
         i = cell // self.L
         j = cell % self.L
         return self.theta[i, j]
 
-    def step(self, t):
+    # ------------------------------------------------------------------
+    # Population setup
+    # ------------------------------------------------------------------
+    def init_population(self):
         L, K = self.L, self.K
-        alive = self.alive
-        idx = np.nonzero(alive)[0]
-        n = idx.size
+        self.total_slots = L * L * K
+        total = self.total_slots
+        self.z = self.rng.normal(0.5, 0.1, size=total).astype(np.float32)
+        self.d_base = np.full(total, 2, dtype=np.int16)
+        self.alpha = np.zeros(total, dtype=np.float32)
+        self.p_base = np.full(total, 0.05, dtype=np.float32)
+        self.beta = np.zeros(total, dtype=np.float32)
+        self.h0 = np.full(total, 0.2, dtype=np.float32)
+        self.hb = np.zeros(total, dtype=np.float32)
+        self.cell_id = np.repeat(np.arange(L * L, dtype=np.int32), K)
+        self.alive = np.ones(total, dtype=np.bool_)
 
-        # Developmental plasticity
-        theta_local = self.local_optimum(self.cell_id[idx])
-        z_dev = self.z[idx] + self.alpha[idx] * (theta_local - self.z[idx]) + np.random.normal(0, self.sigma_w, size=n)
+        # Seed bank: recent survivors stored as Python lists for fast append
+        self.max_bank = max(self.K_bank * L * L, 1000)
+        self.bank_z = []
+        self.bank_d = []
+        self.bank_alpha = []
+        self.bank_p = []
+        self.bank_beta = []
+        self.bank_h0 = []
+        self.bank_hb = []
 
-        # Effective dispersal & emigration
-        theta_flat = self.theta.flatten()
-        spatial_dev = (1.0 - self.rho) * theta_flat[self.cell_id[idx]] + self.rho * self.theta.mean()
-        d_eff = np.clip(self.d_base[idx] + self.beta[idx] * (theta_local - spatial_dev), 1, self.d_max).astype(np.int16)
-        cue_deviation = theta_local - self.z[idx]
-        p_emig = np.clip(self.p_base[idx] + self.h0[idx] * cue_deviation + self.hb[idx] * (theta_local - spatial_dev), 0.001, 0.999)
-
-        # Emigration lottery
+    # ------------------------------------------------------------------
+    # Core life-cycle
+    # ------------------------------------------------------------------
+    def step(self, t):
         rng = self.rng
-        move = rng.random(n) < p_emig
-        movers = idx[move]
+        alive_idx = np.nonzero(self.alive)[0]
+        n = alive_idx.size
+        if n == 0:
+            return False
 
-        # Move: each migrant picks a random cell within d_eff
-        new_cells = self.cell_id.copy()
+        cells = self.cell_id[alive_idx]
+
+        # 1. Local cues and spatially smoothed reference cue
+        theta_vals = self.theta.ravel()[cells]
+        theta_flat = self.theta.ravel()
+        spatial_cue = (1.0 - self.rho) * theta_vals + self.rho * theta_flat.mean()
+
+        # 2. Developmental plasticity toward local cue
+        cue_noise = self.rng.normal(0, self.sigma_cue, size=n)
+        z_dev = self.z[alive_idx] + self.alpha[alive_idx] * (theta_vals - self.z[alive_idx]) + cue_noise
+        z_dev = np.clip(z_dev, -np.pi, np.pi)
+
+        # 3. Effective movement distance (modulated by local spatial cue)
+        d_eff = self.d_base[alive_idx] + np.round(self.beta[alive_idx] * (theta_vals - spatial_cue)).astype(np.int16)
+        d_eff = np.clip(d_eff, 1, self.d_max)
+
+        # 4. Emigration propensity from local and spatial cue mismatch
+        cue_dev = theta_vals - self.z[alive_idx]
+        cue_spatial_dev = theta_vals - spatial_cue
+        p_emig = self.p_base[alive_idx] + self.h0[alive_idx] * cue_dev + self.hb[alive_idx] * cue_spatial_dev
+        p_emig = np.clip(p_emig, 0.0, 1.0)
+
+        # 5. Survival with explicit movement/plasticity costs
+        plast_sum = self.alpha[alive_idx] + self.beta[alive_idx] + self.h0[alive_idx] + self.hb[alive_idx]
+        cost_move = self.c_move * (d_eff.astype(np.float32) / self.d_max)
+        cost_plast = self.c_plast * (plast_sum / max(1.0, self.alpha_max))
+        s_prob = self.s_bank - cost_move - cost_plast
+        s_prob = np.clip(s_prob, 0.01, 1.0)
+        survivors = alive_idx[rng.random(n) < s_prob]
+        if survivors.size == 0:
+            return False
+
+        # 6. Movement among survivors
+        sur_cells = self.cell_id[survivors]
+        sur_d = np.clip(self.d_base[survivors] + np.round(self.beta[survivors] *
+                         (self.theta.ravel()[sur_cells] - ((1.0 - self.rho) * self.theta.ravel()[sur_cells] +
+                          self.rho * self.theta.mean()))).astype(np.int16), 1, self.d_max)
+        sur_p = self.p_base[survivors] + self.h0[survivors] * (self.theta.ravel()[sur_cells] - self.z[survivors]) + \
+                self.hb[survivors] * (self.theta.ravel()[sur_cells] - ((1.0 - self.rho) * self.theta.ravel()[sur_cells] +
+                                       self.rho * self.theta.mean()))
+        sur_p = np.clip(sur_p, 0.0, 1.0)
+        movers = survivors[rng.random(survivors.size) < sur_p]
+        stayers = np.setdiff1d(survivors, movers, assume_unique=True)
+
+        new_cells = self.cell_id[survivors].copy()
         if movers.size > 0:
-            cells = self.cell_id[movers]
-            for k in range(movers.size):
-                c = cells[k]
-                i = c // L
-                j = c % L
-                d = int(d_eff[move][k])
-                ni, nj = sample_within_distance(i, j, d, L, self.kernel, rng)
-                new_cells[movers[k]] = ni * L + nj
+            new_cells_moved = self._move_cells(self.cell_id[movers], self.d_base[movers],
+                                                self.beta[movers], self.theta.ravel(), self.L)
+            new_cells[np.isin(survivors, movers)] = new_cells_moved
 
-        # Selection by local maladaptation
-        fitness = np.exp(-0.5 * (z_dev - theta_local) ** 2)
+        # 7. Density-regulated selection within each cell
+        z_dev_sur = self.z[survivors] + self.alpha[survivors] * (self.theta.ravel()[sur_cells] - self.z[survivors])
+        z_dev_sur = np.clip(z_dev_sur, -np.pi, np.pi)
+        mal = (z_dev_sur - self.theta.ravel()[new_cells]) ** 2
+        h_eff = self.h0[survivors] + self.hb[survivors]
+        # Cue-responsiveness provides an advantage when maladapted
+        fitness = np.exp(-0.5 * mal * (1.0 + h_eff))
 
-        # Density regulation: sample K per cell from migrants + residents
-        new_z = []
-        new_traits = []
-        new_cell_ids = []
-        new_alive = np.zeros_like(alive)
+        # 8. Recruit from seed bank into empty slots
+        # First pool all post-movement individuals
+        cell_counts = np.bincount(new_cells, minlength=self.L * self.L)
+        empty_cells = np.nonzero(cell_counts < self.K)[0]
+        n_recruits = 0
+        bank_indices = None
+        if empty_cells.size > 0 and len(self.bank_z) > 0:
+            n_empty_slots = np.sum(self.K - cell_counts[empty_cells])
+            n_recruits = min(n_empty_slots, self.K_bank, len(self.bank_z))
+            if n_recruits > 0:
+                bank_indices = rng.choice(len(self.bank_z), size=n_recruits, replace=False)
 
-        cells_present = np.unique(new_cells[idx])
-        for c in cells_present:
-            mask = new_cells[idx] == c
-            in_cell = idx[mask]
+        # 9. Choose parents per cell, with replacement if under capacity
+        chosen_list = []
+        for cid in range(self.L * self.L):
+            in_cell = np.nonzero(new_cells == cid)[0]
             if in_cell.size == 0:
                 continue
-            f_local = fitness[mask]
-            if in_cell.size <= K:
-                chosen = in_cell
+            n_pick = self.K if in_cell.size >= self.K else self.K
+            # If fewer than K, sample with replacement to fill capacity
+            probs = fitness[in_cell]
+            psum = probs.sum()
+            if psum <= 0:
+                picked = rng.choice(in_cell, size=n_pick, replace=True)
             else:
-                probs = f_local / f_local.sum()
-                chosen = rng.choice(in_cell, size=K, replace=False, p=probs)
-            for k in chosen:
-                new_alive[k] = True
-                new_z.append(self.z[k] + mutate_trait(0, self.mu_z))
-                new_cell_ids.append(c)
-                new_traits.append((
-                    mutate_trait(self.d_base[k], self.mu_d, 1, self.d_max, integer=True),
-                    mutate_trait(self.alpha[k], self.mu_alpha, 0, self.alpha_max),
-                    mutate_trait(self.p_base[k], self.mu_p, 0.001, 0.999),
-                    mutate_trait(self.beta[k], self.mu_beta, 0, self.beta_max),
-                    mutate_trait(self.h0[k], self.mu_h0, 0, 5.0),
-                    mutate_trait(self.hb[k], self.mu_hb, 0, self.hb_max),
-                ))
+                picked = rng.choice(in_cell, size=n_pick, p=probs / psum, replace=True)
+            chosen_list.append(survivors[picked])
 
-        # Seed-bank recruitment
-        n_bank_target = min(self.K_bank, len(self.bank_z))
-        if n_bank_target > 0:
-            bank_idx = rng.choice(len(self.bank_z), size=n_bank_target, replace=False)
-            bank_z = np.array(self.bank_z)[bank_idx]
-            bank_traits = [self.bank_traits[i] for i in bank_idx]
-            bank_cells = np.array(self.bank_cell)[bank_idx]
-            for k in range(n_bank_target):
-                c = int(bank_cells[k])
-                slot = np.nonzero(~new_alive)[0]
-                if slot.size == 0:
+        # 10. Add bank recruits as additional parents for empty cells
+        if n_recruits > 0:
+            # distribute recruits across empty cells, up to capacity
+            rec_pos = 0
+            rng.shuffle(empty_cells)
+            for cid in empty_cells:
+                if rec_pos >= n_recruits:
                     break
-                s = slot[0]
-                new_alive[s] = True
-                new_z.append(bank_z[k] + mutate_trait(0, self.mu_z))
-                new_cell_ids.append(c)
-                d, alpha, p, beta, h0, hb = bank_traits[k]
-                new_traits.append((
-                    mutate_trait(d, self.mu_d, 1, self.d_max, integer=True),
-                    mutate_trait(alpha, self.mu_alpha, 0, self.alpha_max),
-                    mutate_trait(p, self.mu_p, 0.001, 0.999),
-                    mutate_trait(beta, self.mu_beta, 0, self.beta_max),
-                    mutate_trait(h0, self.mu_h0, 0, 5.0),
-                    mutate_trait(hb, self.mu_hb, 0, self.hb_max),
-                ))
+                slots = self.K - cell_counts[cid]
+                take = min(slots, n_recruits - rec_pos)
+                for _ in range(take):
+                    bidx = bank_indices[rec_pos]
+                    chosen_list.append(np.array([-1 - bidx], dtype=np.int32))  # negative marker for bank recruit
+                    rec_pos += 1
 
-        # Seed bank: store a fraction of survivors
-        if t >= self.burn_in:
-            survivors = np.nonzero(new_alive)[0]
-            n_store = int(self.s_bank * survivors.size)
-            if n_store > 0:
-                store_idx = rng.choice(survivors, size=n_store, replace=False)
-                for k in store_idx:
-                    self.bank_z.append(self.z[k])
-                    self.bank_traits.append((self.d_base[k], self.alpha[k], self.p_base[k], self.beta[k], self.h0[k], self.hb[k]))
-                    self.bank_cell.append(self.cell_id[k])
-
-        # Update population arrays
-        m = len(new_z)
-        if m == 0:
+        if not chosen_list:
             return False
-        nt = np.array(new_traits)
-        self.z[:m] = np.array(new_z, dtype=np.float32)
-        self.d_base[:m] = nt[:, 0].astype(np.int16)
-        self.alpha[:m] = nt[:, 1].astype(np.float32)
-        self.p_base[:m] = nt[:, 2].astype(np.float32)
-        self.beta[:m] = nt[:, 3].astype(np.float32)
-        self.h0[:m] = nt[:, 4].astype(np.float32)
-        self.hb[:m] = nt[:, 5].astype(np.float32)
+
+        parents = np.concatenate(chosen_list)
+        m = parents.size
+
+        # Resolve bank recruits (negative indices)
+        from_bank = parents < 0
+        n_bank = int(from_bank.sum())
+        # Pre-allocate arrays for the new generation
+        new_cell_arr = np.empty(m, dtype=np.int32)
+
+        # For regular survivors
+        regular = parents >= 0
+        reg_idx = parents[regular]
+        new_cell_arr[regular] = self.cell_id[reg_idx]
+
+        # For bank recruits, map back to bank indices and assign cells
+        if n_bank > 0:
+            bank_idx = -parents[from_bank] - 1
+            # Bank recruits are placed in the cells chosen above; we stored markers
+            # sequentially aligned with the loop. Simpler: recompute target cells below.
+            # The chosen_list order preserves bank markers interleaved, but we need a cell per marker.
+            # Re-distribute bank recruits to cells with lowest counts.
+            bank_z = np.array(self.bank_z, dtype=np.float32)
+            bank_d = np.array(self.bank_d, dtype=np.int16)
+            bank_alpha = np.array(self.bank_alpha, dtype=np.float32)
+            bank_p = np.array(self.bank_p, dtype=np.float32)
+            bank_beta = np.array(self.bank_beta, dtype=np.float32)
+            bank_h0 = np.array(self.bank_h0, dtype=np.float32)
+            bank_hb = np.array(self.bank_hb, dtype=np.float32)
+
+            # Build per-cell target assignments for bank recruits
+            cell_counts2 = cell_counts.copy()
+            assignments = []
+            rng.shuffle(empty_cells)
+            rec_pos = 0
+            for cid in empty_cells:
+                if rec_pos >= n_bank:
+                    break
+                slots = self.K - cell_counts2[cid]
+                take = min(slots, n_bank - rec_pos)
+                assignments.extend([cid] * take)
+                cell_counts2[cid] += take
+                rec_pos += take
+            assignments = np.array(assignments, dtype=np.int32)
+            new_cell_arr[from_bank] = assignments
+
+        # 11. Mutate traits for all selected parents / recruits
+        new_z = np.empty(m, dtype=np.float32)
+        new_d = np.empty(m, dtype=np.int16)
+        new_alpha = np.empty(m, dtype=np.float32)
+        new_p = np.empty(m, dtype=np.float32)
+        new_beta = np.empty(m, dtype=np.float32)
+        new_h0 = np.empty(m, dtype=np.float32)
+        new_hb = np.empty(m, dtype=np.float32)
+
+        if regular.any():
+            ri = parents[regular]
+            new_z[regular] = np.clip(self.z[ri] + rng.normal(0, self.mu_z, size=regular.sum()), -np.pi, np.pi)
+            new_d[regular] = np.clip(np.round(self.d_base[ri] + rng.normal(0, self.mu_d, size=regular.sum())).astype(np.int16), 1, self.d_max)
+            new_alpha[regular] = np.clip(self.alpha[ri] + rng.normal(0, self.mu_alpha, size=regular.sum()), 0, self.alpha_max)
+            new_p[regular] = np.clip(self.p_base[ri] + rng.normal(0, self.mu_p, size=regular.sum()), 0.001, 0.999)
+            new_beta[regular] = np.clip(self.beta[ri] + rng.normal(0, self.mu_beta, size=regular.sum()), 0, self.beta_max)
+            new_h0[regular] = np.clip(self.h0[ri] + rng.normal(0, self.mu_h0, size=regular.sum()), 0, 5.0)
+            new_hb[regular] = np.clip(self.hb[ri] + rng.normal(0, self.mu_hb, size=regular.sum()), 0, self.hb_max)
+
+        if n_bank > 0:
+            bidx = -parents[from_bank] - 1
+            new_z[from_bank] = np.clip(bank_z[bidx] + rng.normal(0, self.mu_z, size=n_bank), -np.pi, np.pi)
+            new_d[from_bank] = np.clip(np.round(bank_d[bidx] + rng.normal(0, self.mu_d, size=n_bank)).astype(np.int16), 1, self.d_max)
+            new_alpha[from_bank] = np.clip(bank_alpha[bidx] + rng.normal(0, self.mu_alpha, size=n_bank), 0, self.alpha_max)
+            new_p[from_bank] = np.clip(bank_p[bidx] + rng.normal(0, self.mu_p, size=n_bank), 0.001, 0.999)
+            new_beta[from_bank] = np.clip(bank_beta[bidx] + rng.normal(0, self.mu_beta, size=n_bank), 0, self.beta_max)
+            new_h0[from_bank] = np.clip(bank_h0[bidx] + rng.normal(0, self.mu_h0, size=n_bank), 0, 5.0)
+            new_hb[from_bank] = np.clip(bank_hb[bidx] + rng.normal(0, self.mu_hb, size=n_bank), 0, self.hb_max)
+
+        # 12. Compact arrays
         self.alive[:] = False
         self.alive[:m] = True
-        self.cell_id[:m] = np.array(new_cell_ids, dtype=np.int32)
+        self.z[:m] = new_z
+        self.d_base[:m] = new_d
+        self.alpha[:m] = new_alpha
+        self.p_base[:m] = new_p
+        self.beta[:m] = new_beta
+        self.h0[:m] = new_h0
+        self.hb[:m] = new_hb
+        self.cell_id[:m] = new_cell_arr
+
+        # 13. Update seed bank with survivors
+        if t >= self.burn_in and survivors.size > 0:
+            n_store = int(self.s_bank * survivors.size)
+            if n_store > 0:
+                if n_store > len(survivors):
+                    n_store = len(survivors)
+                store_idx = rng.choice(survivors, size=n_store, replace=False)
+                for k in store_idx:
+                    if len(self.bank_z) >= self.max_bank:
+                        self.bank_z.pop(0)
+                        self.bank_d.pop(0)
+                        self.bank_alpha.pop(0)
+                        self.bank_p.pop(0)
+                        self.bank_beta.pop(0)
+                        self.bank_h0.pop(0)
+                        self.bank_hb.pop(0)
+                    self.bank_z.append(float(self.z[k]))
+                    self.bank_d.append(int(self.d_base[k]))
+                    self.bank_alpha.append(float(self.alpha[k]))
+                    self.bank_p.append(float(self.p_base[k]))
+                    self.bank_beta.append(float(self.beta[k]))
+                    self.bank_h0.append(float(self.h0[k]))
+                    self.bank_hb.append(float(self.hb[k]))
 
         self.log(t)
         return True
 
+    def _move_cells(self, cells, d_base, beta, theta_flat, L):
+        """Vectorized movement to a random cell within cue-modulated distance."""
+        rng = self.rng
+        n = cells.size
+        if n == 0:
+            return np.array([], dtype=np.int32)
+        spatial_cue = (1.0 - self.rho) * theta_flat[cells] + self.rho * theta_flat.mean()
+        d_eff = d_base + np.round(beta * (theta_flat[cells] - spatial_cue)).astype(np.int16)
+        d_eff = np.clip(d_eff, 1, self.d_max)
+        i = cells // L
+        j = cells % L
+        new_cells = np.empty(n, dtype=np.int32)
+        for d in range(1, self.d_max + 1):
+            mask = d_eff == d
+            if not mask.any():
+                continue
+            idx = np.nonzero(mask)[0]
+            kernel = self.kernel[d]
+            draws = rng.integers(0, len(kernel), size=idx.size)
+            di = kernel[draws, 0]
+            dj = kernel[draws, 1]
+            new_i = (i[idx] + di) % L
+            new_j = (j[idx] + dj) % L
+            new_cells[idx] = new_i * L + new_j
+        return new_cells
+
+    # ------------------------------------------------------------------
+    # Logging
+    # ------------------------------------------------------------------
     def log(self, t):
         alive = self.alive
         n = int(alive.sum())
-        d_eff = self.d_base[alive].astype(np.float32)
-        theta_vals = self.theta.flatten()[self.cell_id[alive]]
-        cue = theta_vals - self.z[alive]
-        corr_cue_d = float(np.corrcoef(cue, d_eff)[0,1]) if n > 1 else 0.0
-        p_emig = self.p_base[alive]
-        corr_cue_p = float(np.corrcoef(cue, p_emig)[0,1]) if n > 1 else 0.0
-        spatial_dev = (1.0 - self.rho) * theta_vals + self.rho * self.theta.mean()
+        cells = self.cell_id[alive]
+        theta_vals = self.theta.ravel()[cells]
+        z_vals = self.z[alive]
+        d_vals = self.d_base[alive]
+        p_vals = self.p_base[alive]
         h_eff = self.h0[alive] + self.hb[alive]
-        corr_cue_h = float(np.corrcoef(cue, h_eff)[0,1]) if n > 1 else 0.0
-        mal = float(np.mean((self.z[alive] - theta_vals) ** 2))
-        total_plast = self.alpha.mean() + self.beta.mean() + self.hb.mean()
-        spatial_ratio = (self.alpha.mean() + self.beta.mean()) / total_plast if total_plast > 0 else 0.0
+        cue = theta_vals
+        corr_cue_d = float(np.corrcoef(cue, d_vals)[0, 1]) if n > 1 else 0.0
+        corr_cue_p = float(np.corrcoef(cue, p_vals)[0, 1]) if n > 1 else 0.0
+        corr_cue_h = float(np.corrcoef(cue, h_eff)[0, 1]) if n > 1 else 0.0
+        mal = float(np.mean((z_vals - theta_vals) ** 2))
+        total_plast = self.alpha[alive].mean() + self.beta[alive].mean() + self.hb[alive].mean()
+        spatial_ratio = (self.alpha[alive].mean() + self.beta[alive].mean()) / total_plast if total_plast > 0 else 0.0
         self.history.append({
             't': t,
             'N': n,
-            'mean_z': float(self.z[alive].mean()),
-            'mean_d_base': float(self.d_base[alive].mean()),
+            'mean_z': float(z_vals.mean()),
+            'mean_d_base': float(d_vals.mean()),
             'mean_alpha': float(self.alpha[alive].mean()),
-            'mean_p_base': float(self.p_base[alive].mean()),
+            'mean_p_base': float(p_vals.mean()),
             'mean_beta': float(self.beta[alive].mean()),
             'mean_h0': float(self.h0[alive].mean()),
             'mean_hb': float(self.hb[alive].mean()),
@@ -279,6 +414,9 @@ class Simulation:
         })
 
 
+# -------------------------------------------------------------------------
+# Experiment harness
+# -------------------------------------------------------------------------
 def simulate(params):
     sim = Simulation(params)
     for t in range(1, sim.generations + 1):
@@ -332,15 +470,18 @@ if __name__ == '__main__':
     print(f"Results saved to {out_dir}/worldc_results.csv", flush=True)
 
     # Summary statistics
-    metrics = ['maladaptation','mean_d_base','mean_alpha','mean_p_base','mean_beta','mean_h0','mean_hb','corr_cue_d','corr_cue_p','corr_cue_h','spatial_ratio']
-    cols = [c for c in ['A','sigma_e','rho','sigma_cue'] if c in df.columns]
-    summary = df.groupby(cols)[metrics].agg(['mean','std']).reset_index()
-    summary.columns = ['_'.join(col).strip('_') if col[1] else col[0] for col in summary.columns.values]
+    metrics = ['maladaptation', 'mean_d_base', 'mean_alpha', 'mean_p_base',
+               'mean_beta', 'mean_h0', 'mean_hb', 'corr_cue_d',
+               'corr_cue_p', 'corr_cue_h', 'spatial_ratio']
+    cols = [c for c in ['A', 'sigma_e', 'rho', 'sigma_cue'] if c in df.columns]
+    summary = df.groupby(cols)[metrics].agg(['mean', 'std']).reset_index()
+    summary.columns = ['_'.join(col).strip('_') if col[1] else col[0]
+                       for col in summary.columns.values]
     summary.to_csv(os.path.join(out_dir, 'worldc_summary.csv'), index=False)
     print("Summary saved.", flush=True)
 
     # Figures
-    trait_cols = ['mean_d_base','mean_alpha','mean_p_base','mean_beta','mean_h0','mean_hb']
+    trait_cols = ['mean_d_base', 'mean_alpha', 'mean_p_base', 'mean_beta', 'mean_h0', 'mean_hb']
     trait_labels = ['d_base', 'alpha', 'p_base', 'beta', 'h0', 'hb']
     fig, axes = plt.subplots(2, 3, figsize=(14, 8), sharex=True)
     axes = axes.ravel()
@@ -349,14 +490,17 @@ if __name__ == '__main__':
         sub = df[df['sigma_cue'] == 0]
         for rho_val in sorted(df['rho'].unique()):
             for sigma_e_val in sorted(df['sigma_e'].unique()):
-                ss = sub[(sub['rho']==rho_val) & (sub['sigma_e']==sigma_e_val)]
+                ss = sub[(sub['rho'] == rho_val) & (sub['sigma_e'] == sigma_e_val)]
                 if ss.empty:
                     continue
-                ss = ss.groupby('A')[col].agg(['mean','std']).reset_index()
-                style = '-' if rho_val == 0 else ('--' if rho_val == 0.5 else ':')
+                ss = ss.groupby('A')[col].agg(['mean', 'std']).reset_index()
+                style = '-' if sigma_e_val == 0 else '--'
                 ax.plot(ss['A'], ss['mean'], linestyle=style, label=f"rho={rho_val},se={sigma_e_val}")
-                ax.fill_between(ss['A'], ss['mean']-ss['std'], ss['mean']+ss['std'], alpha=0.15)
-        ax.set_xlabel('A'); ax.set_ylabel(lab); ax.set_title(lab); ax.grid(alpha=0.3)
+                ax.fill_between(ss['A'], ss['mean'] - ss['std'], ss['mean'] + ss['std'], alpha=0.15)
+        ax.set_xlabel('A')
+        ax.set_ylabel(lab)
+        ax.set_title(lab)
+        ax.grid(alpha=0.3)
     axes[0].legend(fontsize=5, loc='best')
     fig.suptitle('Trait evolution vs temporal amplitude A (no cue noise)')
     plt.tight_layout(rect=[0, 0, 1, 0.96])
@@ -369,16 +513,17 @@ if __name__ == '__main__':
     for cue_idx, sigma_cue in enumerate(cue_vals):
         for rho_idx, rho_val in enumerate(rho_vals):
             ax = axes[rho_idx, cue_idx]
-            ss = df[(df['rho']==rho_val) & (df['sigma_cue']==sigma_cue)]
+            ss = df[(df['rho'] == rho_val) & (df['sigma_cue'] == sigma_cue)]
             if ss.empty:
                 continue
-            pivot = ss.groupby(['A','sigma_e'])['maladaptation'].mean().unstack()
+            pivot = ss.groupby(['A', 'sigma_e'])['maladaptation'].mean().unstack()
             im = ax.imshow(pivot.values, aspect='auto', origin='lower',
                            extent=[pivot.columns.min(), pivot.columns.max(),
                                    pivot.index.min(), pivot.index.max()],
                            cmap='viridis_r')
             ax.set_title(f"rho={rho_val}, cue_noise={sigma_cue}")
-            ax.set_xlabel('sigma_e'); ax.set_ylabel('A')
+            ax.set_xlabel('sigma_e')
+            ax.set_ylabel('A')
             plt.colorbar(im, ax=ax, label='maladaptation')
     fig.suptitle('Maladaptation phase diagram')
     plt.tight_layout(rect=[0, 0, 1, 0.96])
@@ -386,15 +531,18 @@ if __name__ == '__main__':
     plt.close(fig)
 
     fig, axes = plt.subplots(1, 3, figsize=(13, 4), sharex=True)
-    corr_cols = ['corr_cue_d','corr_cue_p','corr_cue_h']
-    corr_labs = ['cue-d','cue-p','cue-h']
+    corr_cols = ['corr_cue_d', 'corr_cue_p', 'corr_cue_h']
+    corr_labs = ['cue-d', 'cue-p', 'cue-h']
     for ax, col, lab in zip(axes, corr_cols, corr_labs):
         for A_val in sorted(df['A'].unique()):
-            ss = df[df['A']==A_val]
-            ss = ss.groupby('sigma_cue')[col].agg(['mean','std']).reset_index()
+            ss = df[df['A'] == A_val]
+            ss = ss.groupby('sigma_cue')[col].agg(['mean', 'std']).reset_index()
             ax.plot(ss['sigma_cue'], ss['mean'], marker='o', label=f"A={A_val}")
-            ax.fill_between(ss['sigma_cue'], ss['mean']-ss['std'], ss['mean']+ss['std'], alpha=0.15)
-        ax.set_xlabel('sigma_cue'); ax.set_ylabel(lab); ax.set_title(lab); ax.grid(alpha=0.3)
+            ax.fill_between(ss['sigma_cue'], ss['mean'] - ss['std'], ss['mean'] + ss['std'], alpha=0.15)
+        ax.set_xlabel('sigma_cue')
+        ax.set_ylabel(lab)
+        ax.set_title(lab)
+        ax.grid(alpha=0.3)
     axes[0].legend(fontsize=6, loc='best')
     fig.suptitle('Cue-trait correlations vs cue noise')
     plt.tight_layout(rect=[0, 0, 1, 0.95])
@@ -402,13 +550,15 @@ if __name__ == '__main__':
     plt.close(fig)
 
     fig, ax = plt.subplots(figsize=(6, 4))
-    ss = df.groupby(['rho','sigma_cue'])['spatial_ratio'].mean().reset_index()
+    ss = df.groupby(['rho', 'sigma_cue'])['spatial_ratio'].mean().reset_index()
     for cue in cue_vals:
-        sub = ss[ss['sigma_cue']==cue]
+        sub = ss[ss['sigma_cue'] == cue]
         ax.plot(sub['rho'], sub['spatial_ratio'], marker='o', label=f"cue_noise={cue}")
-    ax.set_xlabel('rho (spatial autocorrelation)'); ax.set_ylabel('spatial_ratio')
+    ax.set_xlabel('rho (spatial autocorrelation)')
+    ax.set_ylabel('spatial_ratio')
     ax.set_title('Spatial vs temporal plasticity allocation')
-    ax.legend(); ax.grid(alpha=0.3)
+    ax.legend()
+    ax.grid(alpha=0.3)
     fig.savefig(os.path.join(out_dir, 'worldc_spatial_ratio.png'), dpi=200)
     plt.close(fig)
 
