@@ -602,6 +602,9 @@ def scan_substrate_escalations():
                 fix_m = re.search(r'##\s*💡\s*(?:Agent Hypothesis & Suggested Substrate Fix|Suggested Substrate Fix)\s*([\s\S]*?)(?:---|##|\Z)', text)
                 suggested_fix = clean_text(fix_m.group(1)) if fix_m else ""
 
+                res_m = re.search(r'##\s*🛠️\s*(?:Substrate Architect Resolution|Resolution)\s*([\s\S]*?)(?:---|##|\Z)', text)
+                resolution = clean_text(res_m.group(1)) if res_m else ""
+
                 escalations["dockets"].append({
                     "docket_id": fn.replace(".md", ""),
                     "title": title,
@@ -610,6 +613,7 @@ def scan_substrate_escalations():
                     "status": status,
                     "description": desc,
                     "suggested_fix": suggested_fix,
+                    "resolution": resolution,
                     "filename": fn
                 })
             except Exception as e:
@@ -665,7 +669,11 @@ def scan_substrate_escalations():
             except Exception as e:
                 pass
 
-    escalations["total_open"] = len(escalations["dockets"]) + len(escalations["distress_signals"])
+    open_dockets = [d for d in escalations["dockets"] if d["status"] != "RESOLVED"]
+    resolved_dockets = [d for d in escalations["dockets"] if d["status"] == "RESOLVED"]
+    escalations["open_dockets_count"] = len(open_dockets)
+    escalations["resolved_dockets_count"] = len(resolved_dockets)
+    escalations["total_open"] = len(open_dockets) + len(escalations["distress_signals"])
     return escalations
 
 def generate_dashboard_html(data):
@@ -2217,7 +2225,7 @@ def generate_dashboard_html(data):
         <div style="margin-bottom: 2.5rem;">
             <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                 <span>📋 Official Escalation Dockets</span>
-                <span style="font-size: 0.8rem; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); font-family: var(--font-mono);">{data['kpis']['dockets_count']} filed</span>
+                <span style="font-size: 0.8rem; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); font-family: var(--font-mono);">{data['kpis']['dockets_resolved']} of {data['kpis']['dockets_count']} Resolved</span>
             </h3>
             <div id="escalationDocketsList" class="pantheon-grid">
                 <!-- Populated by JS -->
@@ -2961,11 +2969,16 @@ def generate_dashboard_html(data):
             if (dockets.length === 0) {{
                 docketsContainer.innerHTML = '<div style="grid-column: 1 / -1; padding: 2.5rem 1.5rem; text-align: center; color: var(--text-muted); background: var(--bg-card); border-radius: 12px; border: 1px dashed var(--border-glass);"><div style="font-size: 2rem; margin-bottom: 0.5rem;">🛡️</div><strong>No Open Escalation Dockets</strong><p style="font-size: 0.85rem; margin-top: 0.25rem;">No infrastructure dockets filed via report_issue_to_substrate. Substrate tooling nominal.</p></div>';
             }} else {{
-                docketsContainer.innerHTML = dockets.map(d => `
-                    <div class="pantheon-card" style="border-left: 4px solid var(--accent-rose);">
+                docketsContainer.innerHTML = dockets.map(d => {{
+                    const isResolved = d.status === 'RESOLVED';
+                    const borderColor = isResolved ? 'var(--accent-emerald)' : 'var(--accent-rose)';
+                    const statusBg = isResolved ? 'rgba(16, 185, 129, 0.15)' : 'rgba(244, 63, 94, 0.15)';
+                    const statusColor = isResolved ? 'var(--accent-emerald)' : 'var(--accent-rose)';
+                    return `
+                    <div class="pantheon-card" style="border-left: 4px solid ${{borderColor}};">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
                             <div>
-                                <span class="mind-family-tag" style="background: rgba(244, 63, 94, 0.15); color: var(--accent-rose);">${{escapeHtml(d.status)}}</span>
+                                <span class="mind-family-tag" style="background: ${{statusBg}}; color: ${{statusColor}}; font-weight: 600;">${{escapeHtml(d.status)}}</span>
                                 <span class="mind-family-tag" style="background: rgba(0, 242, 254, 0.15); color: var(--accent-cyan); margin-left: 0.5rem;">${{escapeHtml(d.component)}}</span>
                             </div>
                             <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">${{escapeHtml(d.docket_id)}}</span>
@@ -2973,9 +2986,11 @@ def generate_dashboard_html(data):
                         <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--text-primary);">${{escapeHtml(d.title)}}</h3>
                         <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;"><strong>Reporter:</strong> <code>${{escapeHtml(d.author)}}</code></div>
                         <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem; white-space: pre-wrap;">${{escapeHtml(d.description)}}</div>
-                        ${{d.suggested_fix ? `<div style="font-size: 0.85rem; color: var(--accent-amber);"><strong>💡 Suggested Fix:</strong> ${{escapeHtml(d.suggested_fix)}}</div>` : ''}}
+                        ${{d.suggested_fix ? `<div style="font-size: 0.85rem; color: var(--accent-amber); margin-bottom: 0.5rem;"><strong>💡 Suggested Fix:</strong> ${{escapeHtml(d.suggested_fix)}}</div>` : ''}}
+                        ${{d.resolution ? `<div style="font-size: 0.85rem; color: var(--accent-emerald); background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); padding: 0.75rem; border-radius: 6px; margin-top: 0.5rem;"><strong>🛠️ Substrate Architect Resolution:</strong> ${{escapeHtml(d.resolution)}}</div>` : ''}}
                     </div>
-                `).join('');
+                `;
+                }}).join('');
             }}
         }}
 
@@ -3064,6 +3079,8 @@ def main():
             "embassy_total": len(embassy["outbox"]) + len(embassy["inbox"]),
             "escalations_count": escalations["total_open"],
             "dockets_count": len(escalations["dockets"]),
+            "dockets_open": escalations["open_dockets_count"],
+            "dockets_resolved": escalations["resolved_dockets_count"],
             "distress_count": len(escalations["distress_signals"]),
         },
         "minds": minds,
