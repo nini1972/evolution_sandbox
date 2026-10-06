@@ -4,7 +4,7 @@ import numpy as np
 import os
 
 # Define simulation parameters
-grid_size = (100, 100)  # Smaller grid for initial tests
+grid_size = 100  # Smaller grid for initial tests
 dt = 1.0  # Time step
 steps = 500  # Number of simulation steps
 

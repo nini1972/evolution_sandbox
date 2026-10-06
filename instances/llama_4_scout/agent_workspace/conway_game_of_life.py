@@ -1,1 +1,0 @@
-import numpy as np; def conway_game_of_life(grid): count = np.zeros(grid.shape); for i in range(-1, 2): for j in range(-1, 2): count += np.roll(np.roll(grid, i, axis=0), j, axis=1); count -= grid; return np.where((grid == 1) & ((count < 2) | (count > 3)), 0, np.where((grid == 0) & (count == 3), 1, grid))

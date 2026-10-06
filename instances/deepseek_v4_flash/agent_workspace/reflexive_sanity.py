@@ -2,80 +2,110 @@ import numpy as np, json, matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-rng = np.random.default_rng(7)
-N = 2000; dt = 0.02; T = 40.0; nsteps = int(T/dt)
-gammas = [0.5, 1.0, 2.0]
+rng = np.random.default_rng(42)
+dt = 0.02
 
-def closed_I(B, g):
-    # exact integral of lorentzian * sin contribution:  g * (1 - 1/sqrt(1+B^2)) ... normalize
-    return (np.sqrt(1+B*B) - 1.0)/B  # = B/(sqrt(1+B^2)+1), times g? define per-unit gamma below
+# ---------- OA theory ----------
+def oa_flow(a, K, R, Delta=1.0):
+    return -Delta*R + 0.5*K*(1-R*R)*(R**(a+1.0))
 
-def flow(a, K, R, g):
-    """theta-dot-mean-field on R using Ott-Antonsen: dR = (g/2)( (1-a)R - K R^{1+a} (R^2-1)/2 ... )"""
-    # OA: dR/dt = -g R + (g/2) * (1 - R^2) * K R^a   (Lorentzian, Pieter's form)  -> times?
-    # Standard OA with K R^a:  dR = -g R + (g/2)(1 - R^2) K R^a
-    return -g*R + 0.5*g*(1-R*R)*K*(R**a)
-
-def equilibrium_R(a, K, g, Rgrid):
-    """roots of dR=0; returns array of (R, stability)"""
-    dR = flow(a, K, Rgrid, g)
+def branch_R(a, K, Delta=1.0):
+    """solutions of K R^a (1-R^2) = 2Delta  (stationary R of OA)"""
+    Rg = np.linspace(1e-4, 1-1e-4, 4000)
+    lhs = K*(Rg**a)*(1-Rg*Rg)
+    d = lhs - 2*Delta
     roots = []
-    for i in range(len(Rgrid)-1):
-        if dR[i]*dR[i+1] < 0:
-            R0 = Rgrid[i] - dR[i]*(Rgrid[i+1]-Rgrid[i])/(dR[i+1]-dR[i])
-            # stability: derivative of flow wrt R
-            eps=1e-5; f0 = flow(a,K,R0,g)
-            fp = (flow(a,K,R0+eps,g)-flow(a,K,R0-eps,g))/(2*eps)
-            roots.append((R0, fp<0))
-    # also check R=0 fixed point: stable if f'(0)<0 => -g + g K /2 (1) * (0^a)... for a>0 f'(0)=-g stable; a<0 singular
-    return roots
+    for i in range(len(Rg)-1):
+        if d[i]*d[i+1] < 0:
+            r = Rg[i] - d[i]*(Rg[i+1]-Rg[i])/(d[i+1]-d[i])
+            roots.append(r)
+    return np.array(roots)
 
-# --- theory vs simulation, supercritical a=-1 ---
-print("=== Theory branch check (g=1) ===")
+def K_sn(a, Delta=1.0):
+    """saddle-node K for a>0: K_sn = 2Delta / M(a), M=max R^a(1-R^2)"""
+    if a <= 0: return None
+    Rg = np.linspace(1e-4, 1-1e-4, 8000)
+    M = np.max(Rg**a*(1-Rg*Rg))
+    return 2*Delta/M
+
+print("=== OA branch structure (Delta=1) ===")
 for a in [-1.0, -0.5, 0.0, 0.5, 1.0]:
-    Kc = (1.0-a)  # from dR=0 at R->0: -g + g/2*(1-R^2) K R^a ~ -1 + K R^a/2 ... a<0 diverges-like; Kc ~ (1-a)/... 
-    print(f"a={a:+.1f} Kc_theory={(1-a)/2:.3f}")
+    if a > 0:
+        print(f"a={a:+.1f}  K_sn={K_sn(a):.4f}")
+    else:
+        for K in [0.5, 1.0, 2.0]:
+            roots = branch_R(a, K)
+            print(f"a={a:+.1f}  K={K:.1f}  R_ss={roots}")
+print("a=0: K_c=2.0 (pitchfork); R=sqrt(1-2/K)")
 
-# --- sim: escape time tau for supercritical a=-1, K slightly above/below Kc ---
-def sim_escape(a, K, g, seeds=8):
-    taus = []
+# ---------- N-particle sim: quenched Lorentzian, reflexive coupling ----------
+def sim_rss(a, K, N=4000, T=60.0, seeds=4):
+    out = []
+    nsteps = int(T/dt)
     for s in range(seeds):
-        r = rng.normal(0,1,N); th = rng.uniform(-np.pi, np.pi, N)
-        R = abs(np.mean(np.exp(1j*th)))
-        tau = None
+        th = rng.uniform(-np.pi, np.pi, N)
+        om = rng.standard_cauchy(N)  # Lorentzian width 1
+        R = 0.0
         for i in range(nsteps):
             z = np.mean(np.exp(1j*th))
             R = abs(z)
-            w = rng.standard_cauchy(N)*g
-            th = th + dt*(w + K*(R**a)*np.imag(np.exp(-1j*th)*z))
+            keff = K*(R**a)
+            th = th + dt*(om + keff*np.imag(np.exp(-1j*th)*z))
             th = (th+np.pi)%(2*np.pi)-np.pi
-            if R > 0.8 and tau is None: tau = i*dt; break
-        taus.append(tau if tau else np.inf)
-    return np.array(taus)
+        out.append(R)
+    return np.mean(out)
 
-results = {}
-for g in gammas:
-    for a in [-0.5, 0.0, 0.5]:
-        Kc = (1-a)/2
-        for eps in [0.05, 0.2]:
-            K = Kc*(1+eps)
-            taus = sim_escape(a, K, g, seeds=12)
-            med = np.median(taus[taus<np.inf])
-            frac = np.mean(np.isfinite(taus))
-            results[f"a={a},g={g},eps={eps}"] = {"K":K,"Kc":Kc,"median_tau":med,"frac_escaped":frac}
-            print(f"a={a:+.1f} g={g} eps={eps:+.2f} K/Kc={K/Kc:.3f} med_tau={med:7.2f} frac={frac:.2f}")
+print("\n=== sim R_ss vs OA branch ===")
+comp = {}
+for a in [-0.5, 0.0, 0.5]:
+    for K in [0.5, 1.0, 2.0]:
+        r_sim = sim_rss(a, K)
+        r_oa = branch_R(a, K)
+        comp[f"a={a},K={K}"] = {"sim_R": r_sim, "OA_R": list(r_oa)}
+        print(f"a={a:+.1f} K={K:.1f}  sim R={r_sim:.3f}  OA R={r_oa}")
 
-with open("reflexive_sanity.json","w") as f: json.dump(results,f,indent=1)
+with open("reflexive_sanity.json","w") as f: json.dump(comp, f, indent=1)
 
-# --- figure: OA flow curves for a=0.5 (barrier case) ---
-fig, ax = plt.subplots(1,2,figsize=(13,5))
-Rg = np.linspace(0.001,1,600)
-for a,Kcut in [(-0.5,0.9),(0.5,0.95)]:
-    ax0 = ax[0 if a<0 else 1]
-    for K in [0.3,0.6,0.9,1.2,2.0]:
-        dR = flow(a,K,Rg,1.0)
-        ax0.plot(Rg,dR,label=f"K={K}")
-    ax0.axhline(0,color='k',lw=0.6); ax0.set_title(f"OA flow dR/dt, a={a:+.1f}"); ax0.legend(fontsize=7)
-    ax0.set_xlabel("R"); ax0.set_ylabel("dR/dt")
-fig.tight_layout(); fig.savefig("reflexive_OA_flow.png",dpi=110)
-print("saved figure, done")
+# ---------- escape dynamics (horizon) ----------
+def sim_escape(a, K, N, Rtarget=0.6, T=200.0):
+    """time for R to first cross Rtarget from incoherence; inf if not by T"""
+    nsteps = int(T/dt)
+    th = rng.uniform(-np.pi, np.pi, N)
+    om = rng.standard_cauchy(N)
+    tau = np.inf
+    for i in range(nsteps):
+        z = np.mean(np.exp(1j*th))
+        R = abs(z)
+        keff = K*(R**a)
+        th = th + dt*(om + keff*np.imag(np.exp(-1j*th)*z))
+        th = (th+np.pi)%(2*np.pi)-np.pi
+        if R > Rtarget: tau = i*dt; break
+    return tau
+
+print("\n=== horizon: median escape time (a<0 supercritical vs a>0 metastable) ===")
+hor = {}
+for a in [-0.5, 0.5, 1.0]:
+    Kset = [0.8, 1.5, 3.0]
+    if a > 0:
+        ks = K_sn(a)
+        Kset = [0.85*ks, 0.95*ks, ks*1.05]
+    for K in Kset:
+        taus = [sim_escape(a, K, 2000) for _ in range(6)]
+        med = float(np.median(taus))
+        frac = float(np.mean(np.isfinite(taus)))
+        hor[f"a={a},K={K:.3f}"] = {"med_tau": med, "frac_fin": frac}
+        print(f"a={a:+.1f} K={K:.3f}  med_tau={med:8.2f}  frac={frac:.2f}")
+
+with open("reflexive_horizon_sanity.json","w") as f: json.dump(hor, f, indent=1)
+
+# ---------- figure ----------
+fig, ax = plt.subplots(1, 3, figsize=(14, 4.2))
+Rg = np.linspace(0.001, 0.999, 500)
+for j, a in enumerate([-0.5, 0.0, 0.5]):
+    for K in [0.5, 1.0, 1.5, 2.0, 3.0]:
+        ax[j].plot(Rg, oa_flow(a, K, Rg), lw=1.0, label=f"K={K}")
+    ax[j].axhline(0, color='k', lw=0.5)
+    ax[j].set_title(f"OA dR/dt, a={a:+.1f}")
+    ax[j].set_xlabel("R"); ax[j].legend(fontsize=6)
+fig.tight_layout(); fig.savefig("reflexive_OA_flow.png", dpi=110)
+print("\nsaved figure")

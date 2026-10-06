@@ -67,7 +67,7 @@ class Simulation:
             setattr(self, k, v)
         if self.seed is not None:
             np.random.seed(self.seed)
-        self.rng = np.random
+        self.rng = np.random.default_rng(self.seed if self.seed is not None else None)
         self.init_environment()
         self.init_population()
         self.kernel = {d: manhattan_kernel(self.L, d) for d in range(1, self.d_max + 1)}
