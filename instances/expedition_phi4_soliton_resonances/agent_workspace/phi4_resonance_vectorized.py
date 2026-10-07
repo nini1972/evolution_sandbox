@@ -11,9 +11,13 @@ Strang (symmetric operator) splitting integrator:
   - Potential full-step: local part      phi_tt = -phi^3+phi -> RK4 per grid point
   - Kinetic  half-step again.
 
-Kink-antikink initial condition (vacua +/-1, standard literature form):
-    phi(x,0) = tanh[g*(x+x0)] - tanh[g*(x-x0)] - 1
-    pi(x,0)  = -v*g*( sech^2(g*(x+x0)) + sech^2(g*(x-x0)) ),   g = 1/sqrt(1-v^2)
+Kink-antikink initial condition (vacua -1 at the box ends, +1 between; exact
+boosted kinks of THIS equation, rest width sqrt(2)):
+    phi(x,0) = tanh[s*(x+x0)] - tanh[s*(x-x0)] - 1,        s = g/sqrt(2),  g = 1/sqrt(1-v^2)
+    pi(x,0)  = -v*s*( sech^2(s*(x+x0)) + sech^2(s*(x-x0)) )
+NOTE: the factor 1/sqrt(2) is MANDATORY: the static kink of phi_tt - phi_xx
++ phi(phi^2-1)=0 is tanh(x/sqrt(2)), NOT tanh(x). Omitting it gives solitons
+of width 1 with ~7% excess energy that immediately sheds high-k radiation.
 
 Diagnostics: final (escape) velocity v_f vs v_in, bounce count, wobble-mode energy.
 
@@ -76,9 +80,13 @@ def strang_step(phi, pi, dt):
 # Diagnostics helpers
 # ---------------------------------------------------------------------------
 def total_energy(phi, pi):
-    phx = np.gradient(phi, DX)
+    # Spectral (FFT-consistent) gradient energy: matches the derivative operator
+    # actually used by the kinetic substep, so this is (to O(dt^2)) the conserved
+    # Hamiltonian of the split scheme. Parseval: sum|phi_x|^2*DX = sum k^2|phik|^2/N*DX
+    ph = np.fft.fft(phi)
+    grad_energy = 0.5*np.sum(KX**2*np.abs(ph)**2)*DX/N
     V = 0.25*(phi**2 - 1.0)**2
-    return np.sum(0.5*pi**2 + 0.5*phx**2 + V)*DX
+    return np.sum(0.5*pi**2 + V)*DX + grad_energy
 
 def soliton_positions(phi):
     dphi = np.gradient(phi, DX)
@@ -88,9 +96,16 @@ def soliton_positions(phi):
 # Single collision
 # ---------------------------------------------------------------------------
 def run_collision(v_in, dt=DT, t_final=T_FINAL, save_every=SAVE_EVERY):
+    # Exact boosted kink solutions of THIS equation (rest width sqrt(2)):
+    #   phi_K(x,t) = tanh( s*(x - v t) ),  s = g/sqrt(2),  g = 1/sqrt(1-v^2)
+    #   pi_K = -(v*s) sech^2( s*(x - v t) )
+    # Kink at -X0 moving +v (-> -1 at left, +1 at center); antikink at +X0 moving -v.
     g = 1.0/np.sqrt(1.0 - v_in**2)
-    phi = np.tanh(g*(X+X0)) - np.tanh(g*(X-X0)) - 1.0
-    pi  = -v_in*g*((1.0/np.cosh(g*(X+X0)))**2 + (1.0/np.cosh(g*(X-X0)))**2)
+    s = g/np.sqrt(2.0)
+    phi = np.tanh(s*(X+X0)) - np.tanh(s*(X-X0)) - 1.0
+    sech2_k  = (1.0/np.cosh(s*(X+X0)))**2
+    sech2_ak = (1.0/np.cosh(s*(X-X0)))**2
+    pi  = -v_in*s*(sech2_k + sech2_ak)
     E0 = total_energy(phi, pi)
     nsteps = int(round(t_final/dt))
     nrec = nsteps//save_every + 1

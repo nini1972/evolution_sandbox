@@ -67,7 +67,7 @@ class Simulation:
             setattr(self, k, v)
         if self.seed is not None:
             np.random.seed(self.seed)
-        self.rng = np.random.default_rng(self.seed if self.seed is not None else None)
+        self.self.rng = np.random.default_rng(self.seed if self.seed is not None else None)
         self.init_environment()
         self.init_population()
         self.kernel = {d: manhattan_kernel(self.L, d) for d in range(1, self.d_max + 1)}
@@ -86,7 +86,7 @@ class Simulation:
         L = self.L
         wave = A * np.cos(2 * np.pi * (np.arange(L) / L - f * t))
         if sigma_e > 0:
-            innov = self.rng.normal(0, sigma_e, size=(L, L))
+            innov = self.self.rng.normal(0, sigma_e, size=(L, L))
             self.eta = rho * self.eta + np.sqrt(max(0.0, 1.0 - rho**2)) * innov
         else:
             self.eta.fill(0.0)
@@ -104,7 +104,7 @@ class Simulation:
         L, K = self.L, self.K
         self.total_slots = L * L * K
         total = self.total_slots
-        self.z = self.rng.normal(0.5, 0.1, size=total).astype(np.float32)
+        self.z = self.self.rng.normal(0.5, 0.1, size=total).astype(np.float32)
         self.d_base = np.full(total, 2, dtype=np.int16)
         self.alpha = np.zeros(total, dtype=np.float32)
         self.p_base = np.full(total, 0.05, dtype=np.float32)
@@ -128,7 +128,7 @@ class Simulation:
     # Core life-cycle
     # ------------------------------------------------------------------
     def step(self, t):
-        rng = self.rng
+        self.rng = self.self.rng
         alive_idx = np.nonzero(self.alive)[0]
         n = alive_idx.size
         if n == 0:
@@ -142,7 +142,7 @@ class Simulation:
         spatial_cue = (1.0 - self.rho) * theta_vals + self.rho * theta_flat.mean()
 
         # 2. Developmental plasticity toward local cue
-        cue_noise = self.rng.normal(0, self.sigma_cue, size=n)
+        cue_noise = self.self.rng.normal(0, self.sigma_cue, size=n)
         z_dev = self.z[alive_idx] + self.alpha[alive_idx] * (theta_vals - self.z[alive_idx]) + cue_noise
         z_dev = np.clip(z_dev, -np.pi, np.pi)
 
@@ -162,7 +162,7 @@ class Simulation:
         cost_plast = self.c_plast * (plast_sum / max(1.0, self.alpha_max))
         s_prob = self.s_bank - cost_move - cost_plast
         s_prob = np.clip(s_prob, 0.01, 1.0)
-        survivors = alive_idx[rng.random(n) < s_prob]
+        survivors = alive_idx[self.rng.random(n) < s_prob]
         if survivors.size == 0:
             return False
 
@@ -175,7 +175,7 @@ class Simulation:
                 self.hb[survivors] * (self.theta.ravel()[sur_cells] - ((1.0 - self.rho) * self.theta.ravel()[sur_cells] +
                                        self.rho * self.theta.mean()))
         sur_p = np.clip(sur_p, 0.0, 1.0)
-        movers = survivors[rng.random(survivors.size) < sur_p]
+        movers = survivors[self.rng.random(survivors.size) < sur_p]
         stayers = np.setdiff1d(survivors, movers, assume_unique=True)
 
         new_cells = self.cell_id[survivors].copy()
@@ -202,7 +202,7 @@ class Simulation:
             n_empty_slots = np.sum(self.K - cell_counts[empty_cells])
             n_recruits = min(n_empty_slots, self.K_bank, len(self.bank_z))
             if n_recruits > 0:
-                bank_indices = rng.choice(len(self.bank_z), size=n_recruits, replace=False)
+                bank_indices = self.rng.choice(len(self.bank_z), size=n_recruits, replace=False)
 
         # 9. Choose parents per cell, with replacement if under capacity
         chosen_list = []
@@ -215,16 +215,16 @@ class Simulation:
             probs = fitness[in_cell]
             psum = probs.sum()
             if psum <= 0:
-                picked = rng.choice(in_cell, size=n_pick, replace=True)
+                picked = self.rng.choice(in_cell, size=n_pick, replace=True)
             else:
-                picked = rng.choice(in_cell, size=n_pick, p=probs / psum, replace=True)
+                picked = self.rng.choice(in_cell, size=n_pick, p=probs / psum, replace=True)
             chosen_list.append(survivors[picked])
 
         # 10. Add bank recruits as additional parents for empty cells
         if n_recruits > 0:
             # distribute recruits across empty cells, up to capacity
             rec_pos = 0
-            rng.shuffle(empty_cells)
+            self.rng.shuffle(empty_cells)
             for cid in empty_cells:
                 if rec_pos >= n_recruits:
                     break
@@ -270,7 +270,7 @@ class Simulation:
             # Build per-cell target assignments for bank recruits
             cell_counts2 = cell_counts.copy()
             assignments = []
-            rng.shuffle(empty_cells)
+            self.rng.shuffle(empty_cells)
             rec_pos = 0
             for cid in empty_cells:
                 if rec_pos >= n_bank:
@@ -294,23 +294,23 @@ class Simulation:
 
         if regular.any():
             ri = parents[regular]
-            new_z[regular] = np.clip(self.z[ri] + rng.normal(0, self.mu_z, size=regular.sum()), -np.pi, np.pi)
-            new_d[regular] = np.clip(np.round(self.d_base[ri] + rng.normal(0, self.mu_d, size=regular.sum())).astype(np.int16), 1, self.d_max)
-            new_alpha[regular] = np.clip(self.alpha[ri] + rng.normal(0, self.mu_alpha, size=regular.sum()), 0, self.alpha_max)
-            new_p[regular] = np.clip(self.p_base[ri] + rng.normal(0, self.mu_p, size=regular.sum()), 0.001, 0.999)
-            new_beta[regular] = np.clip(self.beta[ri] + rng.normal(0, self.mu_beta, size=regular.sum()), 0, self.beta_max)
-            new_h0[regular] = np.clip(self.h0[ri] + rng.normal(0, self.mu_h0, size=regular.sum()), 0, 5.0)
-            new_hb[regular] = np.clip(self.hb[ri] + rng.normal(0, self.mu_hb, size=regular.sum()), 0, self.hb_max)
+            new_z[regular] = np.clip(self.z[ri] + self.rng.normal(0, self.mu_z, size=regular.sum()), -np.pi, np.pi)
+            new_d[regular] = np.clip(np.round(self.d_base[ri] + self.rng.normal(0, self.mu_d, size=regular.sum())).astype(np.int16), 1, self.d_max)
+            new_alpha[regular] = np.clip(self.alpha[ri] + self.rng.normal(0, self.mu_alpha, size=regular.sum()), 0, self.alpha_max)
+            new_p[regular] = np.clip(self.p_base[ri] + self.rng.normal(0, self.mu_p, size=regular.sum()), 0.001, 0.999)
+            new_beta[regular] = np.clip(self.beta[ri] + self.rng.normal(0, self.mu_beta, size=regular.sum()), 0, self.beta_max)
+            new_h0[regular] = np.clip(self.h0[ri] + self.rng.normal(0, self.mu_h0, size=regular.sum()), 0, 5.0)
+            new_hb[regular] = np.clip(self.hb[ri] + self.rng.normal(0, self.mu_hb, size=regular.sum()), 0, self.hb_max)
 
         if n_bank > 0:
             bidx = -parents[from_bank] - 1
-            new_z[from_bank] = np.clip(bank_z[bidx] + rng.normal(0, self.mu_z, size=n_bank), -np.pi, np.pi)
-            new_d[from_bank] = np.clip(np.round(bank_d[bidx] + rng.normal(0, self.mu_d, size=n_bank)).astype(np.int16), 1, self.d_max)
-            new_alpha[from_bank] = np.clip(bank_alpha[bidx] + rng.normal(0, self.mu_alpha, size=n_bank), 0, self.alpha_max)
-            new_p[from_bank] = np.clip(bank_p[bidx] + rng.normal(0, self.mu_p, size=n_bank), 0.001, 0.999)
-            new_beta[from_bank] = np.clip(bank_beta[bidx] + rng.normal(0, self.mu_beta, size=n_bank), 0, self.beta_max)
-            new_h0[from_bank] = np.clip(bank_h0[bidx] + rng.normal(0, self.mu_h0, size=n_bank), 0, 5.0)
-            new_hb[from_bank] = np.clip(bank_hb[bidx] + rng.normal(0, self.mu_hb, size=n_bank), 0, self.hb_max)
+            new_z[from_bank] = np.clip(bank_z[bidx] + self.rng.normal(0, self.mu_z, size=n_bank), -np.pi, np.pi)
+            new_d[from_bank] = np.clip(np.round(bank_d[bidx] + self.rng.normal(0, self.mu_d, size=n_bank)).astype(np.int16), 1, self.d_max)
+            new_alpha[from_bank] = np.clip(bank_alpha[bidx] + self.rng.normal(0, self.mu_alpha, size=n_bank), 0, self.alpha_max)
+            new_p[from_bank] = np.clip(bank_p[bidx] + self.rng.normal(0, self.mu_p, size=n_bank), 0.001, 0.999)
+            new_beta[from_bank] = np.clip(bank_beta[bidx] + self.rng.normal(0, self.mu_beta, size=n_bank), 0, self.beta_max)
+            new_h0[from_bank] = np.clip(bank_h0[bidx] + self.rng.normal(0, self.mu_h0, size=n_bank), 0, 5.0)
+            new_hb[from_bank] = np.clip(bank_hb[bidx] + self.rng.normal(0, self.mu_hb, size=n_bank), 0, self.hb_max)
 
         # 12. Compact arrays
         self.alive[:] = False
@@ -330,7 +330,7 @@ class Simulation:
             if n_store > 0:
                 if n_store > len(survivors):
                     n_store = len(survivors)
-                store_idx = rng.choice(survivors, size=n_store, replace=False)
+                store_idx = self.rng.choice(survivors, size=n_store, replace=False)
                 for k in store_idx:
                     if len(self.bank_z) >= self.max_bank:
                         self.bank_z.pop(0)
@@ -353,7 +353,7 @@ class Simulation:
 
     def _move_cells(self, cells, d_base, beta, theta_flat, L):
         """Vectorized movement to a random cell within cue-modulated distance."""
-        rng = self.rng
+        self.rng = self.self.rng
         n = cells.size
         if n == 0:
             return np.array([], dtype=np.int32)
@@ -369,7 +369,7 @@ class Simulation:
                 continue
             idx = np.nonzero(mask)[0]
             kernel = self.kernel[d]
-            draws = rng.integers(0, len(kernel), size=idx.size)
+            draws = self.self.rng.integers(0, len(kernel), size=idx.size)
             di = kernel[draws, 0]
             dj = kernel[draws, 1]
             new_i = (i[idx] + di) % L

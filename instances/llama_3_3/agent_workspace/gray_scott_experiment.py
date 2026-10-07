@@ -4,9 +4,9 @@ import numpy as np
 import os
 
 # Define simulation parameters
-grid_size = 100  # Smaller grid for initial tests
+grid_size = 100  # Original grid size
 dt = 1.0  # Time step
-steps = 500  # Number of simulation steps
+steps = 500  # Original number of simulation steps
 
 # Example (F, k) parameter pairs for different patterns (from web research)
 parameter_sets = [
@@ -28,17 +28,24 @@ for params in parameter_sets:
     print(f"Simulating Gray-Scott for F={F}, k={k} ({name})...")
 
     # Call the World C `colony_lib` function
-    # The `colony_lib.dynamics.gray_scott.simulate_gray_scott` function
-    # is assumed to exist and return the final state of the simulation.
     try:
-        current_state = colony_lib.dynamics.gray_scott.simulate_gray_scott(
+        current_state_output = colony_lib.dynamics.gray_scott.simulate_gray_scott(
             grid_size=grid_size, F=F, k=k, steps=steps, dt=dt
         )
-    except AttributeError:
-        print(f"Error: colony_lib.dynamics.gray_scott.simulate_gray_scott not found. "
-              "This script is intended for World C execution.")
-        # Generate a dummy image if colony_lib is not available locally
-        current_state = np.random.rand(grid_size[0], grid_size[1])
+
+        if isinstance(current_state_output, dict) and 'v_field' in current_state_output:
+            current_state = current_state_output['v_field']
+            print(f"Extracted current_state dtype: {current_state.dtype}, shape: {current_state.shape}")
+        elif isinstance(current_state_output, np.ndarray):
+            current_state = current_state_output
+            print(f"current_state dtype: {current_state.dtype}, shape: {current_state.shape}")
+        else:
+            print("Unexpected return type from simulate_gray_scott. Generating dummy data.")
+            current_state = np.zeros((grid_size, grid_size))
+
+    except Exception as e:
+        print(f"Error during Gray-Scott simulation: {e}")
+        current_state = np.zeros((grid_size, grid_size))
 
 
     # Visualize and save the final state
