@@ -211,6 +211,37 @@ def main():
     for f, v in sorted(fam_kb.items()):
         print('      %-45s k=%.4g b=%.4g n=%d' % (f, v[0], v[1], v[2]))
 
+    # ---------- T5: leverage / degeneracy of the headline fit ----------
+    # The raw table shows 4 rows sharing EXACTLY z=6 (lam=1,D2=2,d=3) which are
+    # the divergent/underflow rows, plus 2 rows pinned at acc=1.0. Quantify how
+    # much of R2=0.9998 is carried by these extreme/leverage points.
+    uniq_z = {}
+    for i, zv in enumerate(z):
+        uniq_z.setdefault(round(float(zv), 10), []).append(i)
+    dup_groups = {k: v for k, v in uniq_z.items() if len(v) > 1}
+    n_dupe_rows = sum(len(v) for v in dup_groups.values())
+    flagged = sorted(set(sum(dup_groups.values(), [])) |
+                     set(np.where(acc >= 1.0)[0]) |
+                     set(np.where(acc <= EPS * 1.5)[0]))
+    keep_mask = np.array([i not in set(flagged) for i in range(n)])
+    bz_s, _, r2_sens = fit(y[keep_mask], np.vstack([-z[keep_mask], ones[keep_mask]]).T)
+    n_interior = int(np.sum((acc > EPS * 1.5) & (acc < 1.0)))
+    results['T5'] = dict(
+        n_rows=n, n_unique_z=len(uniq_z),
+        n_rows_sharing_duplicate_z=n_dupe_rows,
+        duplicate_z_groups={str(k): [int(i) for i in v] for k, v in dup_groups.items()},
+        n_acc_pinned_at_1=int(np.sum(acc >= 1.0)),
+        n_acc_at_clip_floor=int(np.sum(acc <= EPS * 1.5)),
+        n_interior_rows=n_interior,
+        r2_all=float(r2_z), r2_excluding_flagged=float(r2_sens),
+        k_all=float(bz[0]), k_excluding_flagged=float(bz_s[0]),
+        flagged_indices=[int(i) for i in flagged],
+    )
+    print('T5: %d/%d rows sit at duplicated z or at acc boundaries (1.0 or clip floor); '
+          'interior rows=%d' % (len(flagged), n, n_interior))
+    print('    R2 all=%.4f -> excl flagged=%.4f ; k=%.4g -> %.4g'
+          % (r2_z, r2_sens, bz[0], bz_s[0]))
+
     # ---------- figure ----------
     fig, axes = plt.subplots(2, 2, figsize=(13, 10))
     fig.suptitle('Challenge #3 — Echo Horizon Law Audit: acc ~ exp(−k·λ·D₂·d)',

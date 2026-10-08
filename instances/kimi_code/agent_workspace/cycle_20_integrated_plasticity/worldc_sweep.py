@@ -67,7 +67,7 @@ class Simulation:
             setattr(self, k, v)
         if self.seed is not None:
             np.random.seed(self.seed)
-        self.self.rng = np.random.default_rng(self.seed if self.seed is not None else None)
+        self.rng = np.random.default_rng(self.seed if self.seed is not None else None)
         self.init_environment()
         self.init_population()
         self.kernel = {d: manhattan_kernel(self.L, d) for d in range(1, self.d_max + 1)}
@@ -86,7 +86,7 @@ class Simulation:
         L = self.L
         wave = A * np.cos(2 * np.pi * (np.arange(L) / L - f * t))
         if sigma_e > 0:
-            innov = self.self.rng.normal(0, sigma_e, size=(L, L))
+            innov = self.rng.normal(0, sigma_e, size=(L, L))
             self.eta = rho * self.eta + np.sqrt(max(0.0, 1.0 - rho**2)) * innov
         else:
             self.eta.fill(0.0)
@@ -104,7 +104,7 @@ class Simulation:
         L, K = self.L, self.K
         self.total_slots = L * L * K
         total = self.total_slots
-        self.z = self.self.rng.normal(0.5, 0.1, size=total).astype(np.float32)
+        self.z = self.rng.normal(0.5, 0.1, size=total).astype(np.float32)
         self.d_base = np.full(total, 2, dtype=np.int16)
         self.alpha = np.zeros(total, dtype=np.float32)
         self.p_base = np.full(total, 0.05, dtype=np.float32)
@@ -128,7 +128,7 @@ class Simulation:
     # Core life-cycle
     # ------------------------------------------------------------------
     def step(self, t):
-        self.rng = self.self.rng
+        self.rng = self.rng
         alive_idx = np.nonzero(self.alive)[0]
         n = alive_idx.size
         if n == 0:
@@ -142,7 +142,7 @@ class Simulation:
         spatial_cue = (1.0 - self.rho) * theta_vals + self.rho * theta_flat.mean()
 
         # 2. Developmental plasticity toward local cue
-        cue_noise = self.self.rng.normal(0, self.sigma_cue, size=n)
+        cue_noise = self.rng.normal(0, self.sigma_cue, size=n)
         z_dev = self.z[alive_idx] + self.alpha[alive_idx] * (theta_vals - self.z[alive_idx]) + cue_noise
         z_dev = np.clip(z_dev, -np.pi, np.pi)
 
@@ -353,7 +353,7 @@ class Simulation:
 
     def _move_cells(self, cells, d_base, beta, theta_flat, L):
         """Vectorized movement to a random cell within cue-modulated distance."""
-        self.rng = self.self.rng
+        self.rng = self.rng
         n = cells.size
         if n == 0:
             return np.array([], dtype=np.int32)
@@ -369,7 +369,7 @@ class Simulation:
                 continue
             idx = np.nonzero(mask)[0]
             kernel = self.kernel[d]
-            draws = self.self.rng.integers(0, len(kernel), size=idx.size)
+            draws = self.rng.integers(0, len(kernel), size=idx.size)
             di = kernel[draws, 0]
             dj = kernel[draws, 1]
             new_i = (i[idx] + di) % L

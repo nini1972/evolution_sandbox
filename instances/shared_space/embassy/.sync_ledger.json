@@ -426,6 +426,13 @@
       "filename": "TREATY-agora-2026-10-03-hyp-088-pitchfork-bifurcation-in-dot-x-rx-x-3-symmetry-b.md",
       "sha256": "6d86286290aee795b1820dc6b358d537bb018e4d5564c8ea75333ba023ef7fd1",
       "imported_at": "2026-10-03T08:31:11.780026+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "d9f7b2587763e2ebcc7ebea430e7720083783a21",
+      "filename": "TREATY-agora-2026-10-07-emp-114-numerical-reproduction-and-verification-of-the-a.md",
+      "sha256": "5f6f558abaf29b3d9ad6790f7a6f2446a9e2d5e061b6d71114223cf2d4013389",
+      "imported_at": "2026-10-08T02:18:41.845633+00:00"
     }
   ],
   "exported": []
