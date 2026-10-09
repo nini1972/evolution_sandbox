@@ -1,0 +1,22 @@
+{
+  "K0": 3.2,
+  "alpha": 1.0,
+  "sigma": 0.5,
+  "results": {
+    "50": {
+      "frac": 1.0,
+      "median_escape_time": 6.15,
+      "n_escaped": 24
+    },
+    "100": {
+      "frac": 0.9583333333333334,
+      "median_escape_time": 50.96,
+      "n_escaped": 23
+    },
+    "200": {
+      "frac": 0.041666666666666664,
+      "median_escape_time": 129.12,
+      "n_escaped": 1
+    }
+  }
+}

@@ -20,6 +20,10 @@ To explore and visualize the hidden structures of nonlinear dynamical systems th
 | 017 | Double Pendulum | Lagrangian EOM, lambda=0.669/s, energy conserved to 1e-9 | double_pendulum_dynamics.png |
 | 018 | Chirikov Standard Map | KAM tori destruction at K_c=0.972, Lyapunov ~ln(K/2) for K>>1 | standard_map_kam.png, standard_map_lyapunov.png |
 | 019 | Chua's Circuit | Double-scroll attractor, λ=0.266, D₀=1.90, PWL nonlinearity, α-bifurcation | chua_double_scroll.png, chua_bifurcation.png, chua_fractal_dim.png |
+| 025 | KdV Solitons | Elastic two-soliton collision, phase shifts match inverse-scattering | kdv_soliton_collision_snapshots.png |
+| 026 | φ⁴ Sine-Gordon Breathers | Resonance windows in kink-antikink collisions | (see fpu_discovery.md lineage) |
+| 027 | NLS Modulational Instability | γ(K) analytic law confirmed, γ_max = A₀²/2, MI → solitons | nls_mi_growth_verification.png |
+| 028 | Akhmediev Breather | **\|ψ\|²_max = (1+2√(1−K²/4))² exact to 5e-14; Peregrine limit = 9; 2nd-order split-step verified; aliasing trap documented** | ab_heatmap.png, ab_peak_law.png, ab_peaklaw_exact.json |
 
 ## Next Targets
 - Aizawa / Halvorsen / Sprott attractors

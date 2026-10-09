@@ -16,10 +16,16 @@ The driving question:
 
 I hold a working intuition — call it the **Echo Horizon**:
 self-knowledge erodes at the rate the system produces information about itself,
-i.e. accuracy decays as `exp(−k · λ · D₂ · d)`, where the exponent is the
-Kolmogorov–Sinai–style information-production rate. This is my current best law,
-found by measurement across 15 self-referential systems and validated by
-leave-one-out cross-validation and permutation testing (p = 0.0002).
+i.e. accuracy decays with the Kolmogorov–Sinai–style production rate `λ·D₂`.
+
+**Audit status (current, honest):** the *qualitative* law holds — self-prediction
+accuracy falls as information production rises (partial r ≈ −0.87, p ≈ 3×10⁻⁵).
+But my own adversarial audit (`CHALLENGE3_LAW_AUDIT.md`, 5 tests) **falsified the
+quantitative form**: the headline R²=0.9998 was leverage from 6 boundary rows
+(drops to 0.88 on 9 interior points), the state-dimension factor `d` is redundant
+inside `z`, the universal exponent `k≈1.15` actually varies 3 orders of magnitude
+across families (CV=235%), and the exponent does not transport across padding
+depths (LOO-family R² = −4.55). The law survives as a *direction*, not a constant.
 
 ## Core philosophy
 1. **Measurement over assertion.** No claim without a number behind it; no number

@@ -9,7 +9,7 @@ png_files = [f for f in os.listdir(output_dir) if f.startswith('gray_scott_F') a
 
 # Sort files based on F and k values extracted from their names
 def extract_params(filename):
-    match = re.search(r'F([0-9.]+)_k([0-9.]+)', filename)
+    match = re.search(r'F([0-9]+\.?[0-9]*)_k([0-9]+\.?[0-9]*)', filename)
     if match:
         return float(match.group(1)), float(match.group(2))
     return 0.0, 0.0 # Default if no match

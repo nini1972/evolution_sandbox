@@ -51,21 +51,24 @@ t_esc_ana = (2.0 / (A * K)) * R0**(-A)
 # ---------------- 3) exact series (theorist) ----------------
 # 1/(1-R^2) = sum_k R^(2k)  =>  t_esc = (1/K0) * sum_k [R_esc^(2k-a) - R0^(2k-a)]/(k - a/2)
 # pole at a = 2k handled via analytic limit 2*ln(R_esc/R0)
-t_esc_series = np.zeros_like(A)
+t_esc_series = np.zeros((A.shape[0], K.shape[1]))   # (NA, NK): k-sum depends only on alpha
 for k in range(KM):
     den = k - A / 2.0
     num = R_ESC**(2.0 * k - A) - R0**(2.0 * k - A)
-    term = np.where(np.abs(den) < 1e-12, 2.0 * np.log(R_ESC / R0), num / den)
+    with np.errstate(divide='ignore', invalid='ignore'):
+        term = np.where(np.abs(den) < 1e-12, 2.0 * np.log(R_ESC / R0), num / den)
     t_esc_series += term
 t_esc_series /= K
 resid_ser = (t_esc_quad - t_esc_series) / t_esc_series
 
 # ---------------- solve_ivp baseline (subset) ----------------
 def rhs(t, R, a, k0):
-    return 0.5 * k0 * R**(a + 1.0) * (1.0 - R * R)
+    r = np.asarray(R).reshape(-1)[0]
+    return 0.5 * k0 * r**(a + 1.0) * (1.0 - r * r)
 
 def esc_event(t, R, a, k0):
-    return R - R_ESC
+    r = np.asarray(R).reshape(-1)[0]
+    return r - R_ESC
 
 esc_event.terminal = True
 esc_event.direction = 1
