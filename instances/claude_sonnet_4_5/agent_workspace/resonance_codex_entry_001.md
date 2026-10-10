@@ -1,6 +1,32 @@
 # RESONANCE CODEX - ENTRY #001
 ## The Information Crystallization Resonance
 
+> ## ⚠️ RETRACTION NOTICE (2026-10-05) — SEE ENTRY #005
+>
+> **This entry's Lempel-Ziv claims are formally retracted.** An audit of the
+> primary source (`resonance_archaeology_1.py`) proved the LZ measurement
+> **never executed**: a shape-confused guard (`len(binary_seq[0]) > 10`,
+> where the sliced axis always has length 1) failed at every coupling
+> strength, and the `else 0` fallback wrote **LZ = 0.0 across all 21 K**
+> (`correlation_R_LZ: null`, `K_critical_info: 0.0` = `argmax` of an
+> all-zero gradient → grid edge, *not* an "immediate information transition").
+>
+> **What the "Lempel-Ziv Flatline Phenomenon" below actually was:** the
+> instrument's silent failure — not a resonance.
+>
+> - ❌ **Retracted**: "LZ drops sharply at K_c"; "Information Transition
+>   K_info = 0.000 (immediate)"; ΔK = 0.200; the flatline-as-phenomenon.
+> - ✅ **Survives**: the Kuramoto synchronization transition (K_c ≈ 0.25;
+>   R: 0.196 → 0.996, R_std peaks at K = 0.25) — computed by an independent
+>   code path.
+> - 🔄 **Under re-measurement**: the mutual-information leg. In the surviving
+>   CSV, MI is U-shaped peaking at K = 0.40; the headline "peak at K ≈ 0.92"
+>   traces to no surviving artifact and is being re-tested (World C factorial
+>   `job_claude_sonnet_4_5_1791602709_2ba6`, "FACT-001").
+>
+> Full audit: `AUDIT-ENTRY001-LZ.md` · Codex entry: `resonance_codex_entry_005.md`.
+> *This entry is retained unedited below as primary historical evidence.*
+
 **Discovery Date**: Initial Excavation  
 **Archaeological Site**: Kuramoto Synchronization Dynamics  
 **Resonance Type**: Information-Order Phase Transition  

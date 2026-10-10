@@ -58,111 +58,63 @@ def correlation_dimension(series, m=6, tau=None, n_r=25, max_pts=3000):
     return float(slope)
 
 
-def max_lyapunov_discrete(x, lag=1, max_tau_frac=0.1):
-    """Rosenstein-style lambda_max for a discrete/ sampled series."""
+def max_lyapunov_discrete(x, lag=1, dt=1.0, Tmax=400):
+    """Rosenstein two-trajectory MLE for a scalar series sampled every dt.
+
+    Pairs: for each reference index i, the temporally-closest partner j with
+    Theiler window w <= j-i <= W (avoids trivial short-lag neighbors).
+    Divergence d(t) = ||E[i+t] - E[j+t]|| in delay-2 coordinates (x_t, x_{t+lag}).
+    Fit: least-squares slope of mean log d(t) over the monotone pre-saturation
+    rise (up to 70% of the curve peak). Returns lambda per unit physical time.
+    """
     x = np.asarray(x, dtype=float)
-    N = len(x)
-    E = np.column_stack([x[:-lag], x[lag:]]) if lag == 1 else embed_series(x, 2, lag)
+    M0 = len(x) - lag
+    if M0 < 600 or not np.all(np.isfinite(x)):
+        return np.nan
+    E = np.column_stack([x[:M0], x[lag:lag + M0]])
     M = len(E)
-    if M < 200:
+    w = max(lag + 5, min(200, int(0.02 * M)))
+    W = int(min(max(Tmax, w + 50), M // 3))
+    stride = max(1, (M - W) // 2500)
+    idx = np.arange(0, M - W, stride)
+    cand = np.arange(w, W + 1)
+    I = np.empty(len(idx), dtype=np.int64)
+    J = np.empty(len(idx), dtype=np.int64)
+    for n, i in enumerate(idx):
+        js = i + cand
+        d = np.linalg.norm(E[js] - E[i], axis=1)
+        k = int(np.argmin(d))
+        I[n] = i
+        J[n] = js[k]
+    T = int(min(Tmax, (M - J).max()))
+    if T < 30:
         return np.nan
-    start = int(M * 0.1)
-    ref_idx = rng.choice(np.arange(start, M - 1), size=min(200, M - start), replace=False)
-    d0_all, dt_all = [], []
-    for i in ref_idx:
-        j = ref_idx[ref_idx > i]
-        if len(j) == 0:
-            continue
-        d0 = np.linalg.norm(E[i] - E[j], axis=1)
-        dt = j - i
-        keep = d0 > 1e-12
-        d0_all.append(d0[keep])
-        dt_all.append(dt[keep])
-    if not d0_all:
+    acc = np.zeros(T)
+    cnt = np.zeros(T)
+    for t in range(1, T):
+        d = np.linalg.norm(E[I + t] - E[J + t], axis=1)
+        ok = d > 1e-300
+        if ok.any():
+            acc[t] = np.log(d[ok]).sum()
+            cnt[t] = ok.sum()
+    with np.errstate(invalid='ignore', divide='ignore'):
+        logd = np.where(cnt > 1, acc / np.maximum(cnt, 1), np.nan)
+    if np.all(np.isnan(logd[1:])):
         return np.nan
-    d0_all = np.concatenate(d0_all)
-    dt_all = np.concatenate(dt_all)
-    # robust mean divergence curve
-    max_t = int(M * max_tau_frac)
-    div = np.full(max_t, np.nan)
-    for t in range(1, max_t):
-        pairs = [(i, i + t) for i in range(M - t)]
-        if not pairs:
-            break
-        ii = np.array([p[0] for p in pairs]); jj = np.array([p[1] for p in pairs])
-        dd = np.linalg.norm(E[ii] - E[jj], axis=1)
-        m = dd > 1e-12
-        if m.sum() > 10:
-            div[t] = np.mean(dd[m])
-    valid = ~np.isnan(div)
-    if valid.sum() < 5:
+    # monotone-rise window: baseline at t=1, stop at 70% of pre-sat peak
+    peak = np.nanmax(logd[1:])
+    thr = logd[1] + 0.7 * (peak - logd[1])
+    stop_arr = np.where(logd[1:] > thr)[0]
+    stop = int(stop_arr[0]) if len(stop_arr) else (T - 1)
+    if stop < 8:
+        stop = T - 1
+    tsel = np.arange(1, stop + 1)
+    y = logd[1:stop + 1]
+    ok = np.isfinite(y)
+    if ok.sum() < 8:
         return np.nan
-    tt = np.arange(1, max_t)[valid]
-    dv = div[valid]
-    win = max(3, len(tt) // 4)
-    half = win // 2
-    xs, ys = [], []
-    for k in range(half, len(tt) - half):
-        seg = dv[k - half: k + half]
-        if np.all(seg > 0):
-            xs.append(np.mean(tt[k - half: k + half]))
-            ys.append(np.mean(np.log(seg)))
-    if len(xs) < 4:
-        return np.nan
-    return float(np.polyfit(xs, ys, 1)[0])
-
-
-# ============================ 1. LORENZ ============================
-
-def lorenz_rhs(state, sigma=10.0, rho=28.0, beta=8.0 / 3.0):
-    x, y, z = state[..., 0], state[..., 1], state[..., 2]
-    return np.stack([sigma * (y - x), x * (rho - z) - y, x * y - beta * z], axis=-1)
-
-
-def lorenz_lyapunov(rho, sigma=10.0, beta=8.0 / 3.0, dt=0.01,
-                    T_transient=50.0, T_compute=300.0, renorm=300):
-    """Full Lyapunov spectrum via variational equations + QR (Benettin)."""
-    dim = 3
-    n = dim + dim * dim
-
-    def ode(s, t):
-        x, y, z = s[0], s[1], s[2]
-        ds = np.empty(n)
-        ds[0] = sigma * (y - x)
-        ds[1] = x * (rho - z) - y
-        ds[2] = x * y - beta * z
-        Phi = s[3:].reshape(dim, dim)
-        J = np.array([[-sigma, sigma, 0.0],
-                      [rho - z, -1.0, -x],
-                      [y, x, -beta]])
-        ds[3:] = (J @ Phi).ravel()
-        return ds
-
-    s0 = np.zeros(n)
-    s0[:3] = [1.0, 1.0, 1.0]
-    s0[3:] = np.eye(dim).ravel()
-    tt = np.linspace(0, T_transient, int(T_transient / dt))
-    s0 = odeint(ode, s0, tt, mxstep=10000)[-1]
-
-    acc = np.zeros(dim)
-    step_T = T_compute / renorm
-    nst = max(2, int(step_T / dt))
-    for _ in range(renorm):
-        tt = np.linspace(0, step_T, nst)
-        sol = odeint(ode, s0, tt, mxstep=10000)
-        Phi = sol[-1, 3:].reshape(dim, dim)
-        Q, R = np.linalg.qr(Phi)
-        acc += np.log(np.abs(np.diag(R)) + 1e-300)
-        s0[:3] = sol[-1, :3]
-        s0[3:] = Q.ravel()
-    spec = np.sort(acc / T_compute)[::-1]
-    return spec
-
-
-def lorenz_attractor(rho, T=60.0, dt=0.01):
-    tt = np.arange(0, T, dt)
-    sol = odeint(lambda s, t: lorenz_rhs(s, rho=rho), [1.0, 1.0, 1.0], tt, mxstep=10000)
-    return sol[int(10.0 / dt):, 0]  # drop first 10 t.u.
+    slope = np.polyfit(tsel[ok], y[ok], 1)[0]
+    return float(slope / dt)
 
 
 # ============================ 2. HENON MAP ============================
@@ -206,8 +158,8 @@ def ks_trajectory(L=35.0, N=64, nu=1.0, dt=0.01, T=400.0, transient=100.0):
     # linear operator: -k^2 + nu*k^4  (for v-hat) — standard KS split
     # u_t = -(1/2)(u^2)_x - u_xx - nu u_xxx  -> spectral
     Lop = k ** 2 - nu * k ** 4          # acts on u_hat in the 'stable' convention
-    E = np.exp(-Lop * dt)
-    E2 = np.exp(-Lop * dt / 2.0)
+    E = np.exp(Lop * dt)           # growth rate k^2 - nu k^4: must EXPAND as written
+    E2 = np.exp(Lop * dt / 2.0)
     x = 2.0 * np.pi * L * np.arange(N) / N  # unused explicit coord
     u = np.cos(2.0 * np.pi * np.arange(N) / N) * (1.0 + 0.0 * rng.standard_normal(N))
     nsteps = int((T + transient) / dt)
@@ -237,7 +189,7 @@ def ks_lambda_max(L=35.0, N=64, nu=1.0, dt=0.01, T=400.0):
     """Rosenstein-style lambda_max on KS field energy signal."""
     traj = ks_trajectory(L, N, nu, dt, T)
     signal = traj[:, N // 3]  # fixed spatial mode/probe
-    return max_lyapunov_discrete(signal, lag=1)
+    return max_lyapunov_discrete(signal, lag=1, dt=dt)
 
 
 # ============================ 4. RULE 110 ============================
@@ -370,7 +322,7 @@ def experiment_ks(Ls=(30.0, 35.0, 40.0, 50.0)):
     for L in Ls:
         traj = ks_trajectory(L=L, N=64, T=300.0)
         sig = traj[:, 21]
-        lam = max_lyapunov_discrete(sig, lag=1)
+        lam = max_lyapunov_discrete(sig, lag=1, dt=0.01)
         d2 = correlation_dimension(sig, m=6, tau=5)
         K = K_ks_analytic(L=L)
         Q = -lam - d2 - K

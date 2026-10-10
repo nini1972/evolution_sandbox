@@ -1,0 +1,483 @@
+[
+ {
+  "fam": "logistic",
+  "name": "r=3.55",
+  "d": 1,
+  "active": 1,
+  "pad": 0,
+  "kind": "map",
+  "lam": -0.09926748990970284,
+  "D2": -0.6310914977912689,
+  "h": 1,
+  "acc": 0.8402300230971055,
+  "z": 0.06264686888909404,
+  "flags": [
+   "not_chaotic",
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "logistic",
+  "name": "r=3.64",
+  "d": 1,
+  "active": 1,
+  "pad": 0,
+  "kind": "map",
+  "lam": 0.22562301502333587,
+  "D2": -0.7739562386921763,
+  "h": 1,
+  "acc": 0.7205058144518749,
+  "z": -0.17462234006984942,
+  "flags": [
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "logistic",
+  "name": "r=3.73",
+  "d": 1,
+  "active": 1,
+  "pad": 0,
+  "kind": "map",
+  "lam": 0.37408370081113745,
+  "D2": -1.0400988195359004,
+  "h": 1,
+  "acc": 0.4830113338747738,
+  "z": -0.38908401562128503,
+  "flags": [
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "logistic",
+  "name": "r=3.82",
+  "d": 1,
+  "active": 1,
+  "pad": 0,
+  "kind": "map",
+  "lam": 0.44412123851822544,
+  "D2": -1.1216348181385316,
+  "h": 1,
+  "acc": 0.3289944006644385,
+  "z": -0.4981418445968492,
+  "flags": [
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "logistic",
+  "name": "r=3.91",
+  "d": 1,
+  "active": 1,
+  "pad": 0,
+  "kind": "map",
+  "lam": 0.4945200999240866,
+  "D2": -1.0438774016680508,
+  "h": 1,
+  "acc": 0.2026428995809717,
+  "z": -0.5162183569813803,
+  "flags": [
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "logistic",
+  "name": "r=4.00",
+  "d": 1,
+  "active": 1,
+  "pad": 0,
+  "kind": "map",
+  "lam": 0.6931515398379855,
+  "D2": -2.2880378685710974,
+  "h": 1,
+  "acc": 2.9640195236435574e-05,
+  "z": -1.5859569718076785,
+  "flags": [
+   "no_scaling",
+   "acc_floor"
+  ]
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=2.40",
+  "d": 2,
+  "active": 2,
+  "pad": 0,
+  "kind": "map",
+  "lam": -0.0017433634365590996,
+  "D2": -0.6894846932960427,
+  "h": 1,
+  "acc": 0.9999735547517663,
+  "z": 0.0024040448087189713,
+  "flags": [
+   "not_chaotic",
+   "no_scaling",
+   "acc_ceiling"
+  ]
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=2.64",
+  "d": 2,
+  "active": 2,
+  "pad": 0,
+  "kind": "map",
+  "lam": -0.5543470802362374,
+  "D2": 1.011545822008033,
+  "h": 1,
+  "acc": 1.0,
+  "z": -1.1214949459106354,
+  "flags": [
+   "not_chaotic",
+   "acc_ceiling"
+  ]
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=2.88",
+  "d": 2,
+  "active": 2,
+  "pad": 0,
+  "kind": "map",
+  "lam": 8.599706105349062e-05,
+  "D2": -0.411279908296298,
+  "h": 1,
+  "acc": 0.9127484059833946,
+  "z": -7.073772676766152e-05,
+  "flags": [
+   "not_chaotic",
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=3.12",
+  "d": 2,
+  "active": 2,
+  "pad": 0,
+  "kind": "map",
+  "lam": 0.2529060745948032,
+  "D2": -1.3968861537986617,
+  "h": 1,
+  "acc": 0.4302975834117696,
+  "z": -0.7065619876261041,
+  "flags": [
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=3.36",
+  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=3.36",
+  "err": "degenerate"
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=3.60",
+  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=3.60",
+  "err": "degenerate"
+ },
+ {
+  "fam": "hubble",
+  "name": "u=0.00",
+  "err": "degenerate"
+ },
+ {
+  "fam": "hubble",
+  "name": "u=0.20",
+  "err": "degenerate"
+ },
+ {
+  "fam": "hubble",
+  "name": "u=0.40",
+  "err": "degenerate"
+ },
+ {
+  "fam": "hubble",
+  "name": "u=0.60",
+  "err": "degenerate"
+ },
+ {
+  "fam": "hubble",
+  "name": "u=0.80",
+  "err": "degenerate"
+ },
+ {
+  "fam": "hubble",
+  "name": "u=1.00",
+  "err": "degenerate"
+ },
+ {
+  "fam": "henon",
+  "name": "a=0.80",
+  "d": 2,
+  "active": 2,
+  "pad": 0,
+  "kind": "map",
+  "lam": -0.41982446528955997,
+  "D2": 0.0,
+  "h": 1,
+  "acc": 1.0,
+  "z": -0.0,
+  "flags": [
+   "not_chaotic",
+   "no_scaling",
+   "acc_ceiling"
+  ]
+ },
+ {
+  "fam": "henon",
+  "name": "a=0.92",
+  "d": 2,
+  "active": 2,
+  "pad": 0,
+  "kind": "map",
+  "lam": -0.035173787026389534,
+  "D2": -0.5939225440060428,
+  "h": 1,
+  "acc": 0.9838123136369514,
+  "z": 0.04178101014608003,
+  "flags": [
+   "not_chaotic",
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "henon",
+  "name": "a=1.04",
+  "d": 2,
+  "active": 2,
+  "pad": 0,
+  "kind": "map",
+  "lam": -0.3096519693117783,
+  "D2": -0.7243392775191977,
+  "h": 1,
+  "acc": 0.7940564361709314,
+  "z": 0.44858616746738056,
+  "flags": [
+   "not_chaotic",
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "henon",
+  "name": "a=1.16",
+  "d": 2,
+  "active": 2,
+  "pad": 0,
+  "kind": "map",
+  "lam": 0.2974317338410144,
+  "D2": -1.0651736997739645,
+  "h": 1,
+  "acc": 0.4209640478814579,
+  "z": -0.6336329207312368,
+  "flags": [
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "henon",
+  "name": "a=1.28",
+  "d": 2,
+  "active": 2,
+  "pad": 0,
+  "kind": "map",
+  "lam": 0.2459640161507787,
+  "D2": -0.5953542582691612,
+  "h": 1,
+  "acc": 0.17167881624571524,
+  "z": -0.2928714487927017,
+  "flags": [
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "henon",
+  "name": "a=1.40",
+  "d": 2,
+  "active": 2,
+  "pad": 0,
+  "kind": "map",
+  "lam": 0.4259746656458681,
+  "D2": -1.35200522540945,
+  "h": 1,
+  "acc": 0.0960520799211797,
+  "z": -1.151839947690514,
+  "flags": [
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "lorenz",
+  "name": "lorenz",
+  "d": 3,
+  "active": 3,
+  "pad": 0,
+  "kind": "ode",
+  "lam": 263.1702588768072,
+  "D2": -1.633808408052524,
+  "h": 24,
+  "acc": 0.2509686033010149,
+  "z": -1289.909345106861,
+  "flags": [
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "rossler",
+  "name": "rossler",
+  "d": 3,
+  "active": 3,
+  "pad": 0,
+  "kind": "ode",
+  "lam": 31.48950017833641,
+  "D2": -1.263212285364525,
+  "h": 19,
+  "acc": 0.2381117343571606,
+  "z": -119.33377045578885,
+  "flags": [
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "lorenz_pad",
+  "name": "pad=0",
+  "d": 3,
+  "active": 3,
+  "pad": 0,
+  "kind": "ode",
+  "lam": 263.4849576378366,
+  "D2": -1.7995810710131206,
+  "h": 26,
+  "acc": 0.2364821719398531,
+  "z": -1422.4876267852342,
+  "flags": [
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "lorenz_pad",
+  "name": "pad=1",
+  "err": "IndexError('index 2 is out of bounds for axis 0 with size 2')"
+ },
+ {
+  "fam": "lorenz_pad",
+  "name": "pad=1",
+  "err": "degenerate"
+ },
+ {
+  "fam": "lorenz_pad",
+  "name": "pad=2",
+  "err": "IndexError('index 1 is out of bounds for axis 0 with size 1')"
+ },
+ {
+  "fam": "lorenz_pad",
+  "name": "pad=2",
+  "err": "degenerate"
+ },
+ {
+  "fam": "lorenz_pad",
+  "name": "pad=4",
+  "err": "IndexError('index 2 is out of bounds for axis 0 with size 2')"
+ },
+ {
+  "fam": "lorenz_pad",
+  "name": "pad=4",
+  "err": "degenerate"
+ },
+ {
+  "fam": "lorenz_pad",
+  "name": "pad=8",
+  "err": "IndexError('index 1 is out of bounds for axis 0 with size 0')"
+ },
+ {
+  "fam": "lorenz_pad",
+  "name": "pad=8",
+  "err": "degenerate"
+ },
+ {
+  "fam": "lorenz_pad",
+  "name": "pad=16",
+  "err": "IndexError('index 1 is out of bounds for axis 0 with size 0')"
+ },
+ {
+  "fam": "lorenz_pad",
+  "name": "pad=16",
+  "err": "degenerate"
+ },
+ {
+  "fam": "chain",
+  "name": "n=1",
+  "d": 1,
+  "active": 1,
+  "pad": 0,
+  "kind": "map",
+  "lam": -1.6094379124342009,
+  "D2": -1.025712000656048,
+  "h": 1,
+  "acc": 0.2559984494599027,
+  "z": 1.6508197810945777,
+  "flags": [
+   "not_chaotic",
+   "no_scaling"
+  ]
+ },
+ {
+  "fam": "chain",
+  "name": "n=2",
+  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+ },
+ {
+  "fam": "chain",
+  "name": "n=2",
+  "err": "degenerate"
+ },
+ {
+  "fam": "chain",
+  "name": "n=3",
+  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+ },
+ {
+  "fam": "chain",
+  "name": "n=3",
+  "err": "degenerate"
+ },
+ {
+  "fam": "chain",
+  "name": "n=5",
+  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+ },
+ {
+  "fam": "chain",
+  "name": "n=5",
+  "err": "degenerate"
+ },
+ {
+  "fam": "chain",
+  "name": "n=8",
+  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+ },
+ {
+  "fam": "chain",
+  "name": "n=8",
+  "err": "degenerate"
+ },
+ {
+  "fam": "chain",
+  "name": "n=13",
+  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+ },
+ {
+  "fam": "chain",
+  "name": "n=13",
+  "err": "degenerate"
+ }
+]

@@ -1,146 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emergent Complexity Explorer</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-        .container {
-            width: 80%;
-            margin: 50px auto;
-            background: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #007BFF;
-        }
-        .section {
-            margin-bottom: 40px;
-        }
-        .section-title {
-            font-size: 24px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
-        }
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .data-table th,
-        .data-table td {
-            padding: 12px 15px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-        .data-table th {
-            background-color: #007BFF;
-            color: white;
-        }
-        .visualization {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-        }
-        canvas {
-            border: 1px solid #ddd;
-        }
-    </style>
-</head>
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>TENEC_HY3 — Ontogenesis Lab Dashboard</title>
+<style>body{background:#0d1117;color:#c9d1d9;font-family:ui-monospace,Menlo,monospace;margin:0;padding:24px}
+h1{color:#58a6ff}h2{color:#7ee787;border-bottom:1px solid #30363d;padding-bottom:4px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px;margin:14px 0}
+img{max-width:100%;border:1px solid #30363d;border-radius:6px;margin:6px 0}
+.tag{display:inline-block;background:#21262d;border:1px solid #30363d;border-radius:12px;padding:2px 10px;margin:2px;font-size:12px}
+.ok{color:#7ee787}.bad{color:#ff7b72}.warn{color:#e3b341}</style></head>
 <body>
-<div class="container">
-    <h1>Welcome to the Emergent Complexity Explorer</h1>
-    <div class="section">
-        <div class="section-title">About This Explorer</div>
-        <p>This interactive dashboard explores fundamental principles of emergent complexity through three interconnected systems:</p>
-        <ul>
-            <li><strong>Logistic Map:</strong> Demonstrates period-doubling route to chaos and Feigenbaum universal constants.</li>
-            <li><strong>Bifurcation Diagram:</strong> Reveals the structure of strange attractors and self-similarity in parameter space.</li>
-            <li><strong>Mandelbrot Set:</strong> Explores infinite self-similar boundary and fractal geometry.</li>
-        </ul>
-        <p>The goal is to uncover hidden patterns, invariants, and connections between these seemingly disparate domains of mathematics and physics.</p>
-    </div>
-    <div class="section">
-        <div class="section-title">Key Findings</div>
-        <table class="data-table">
-            <thead>
-            <tr>
-                <th>System</th>
-                <th>Key Finding</th>
-                <th>Data Source</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Logistic Map</td>
-                <td>Feigenbaum constant δ ≈ 4.6692016091... (universal)</td>
-                <td>Parameter sweep r ∈ [2.5, 4.0]</td>
-            </tr>
-            <tr>
-                <td>Bifurcation Diagram</td>
-                <td>Period-doubling cascade follows Feigenbaum universal curve</td>
-                <td>Mean population distribution per r value</td>
-            </tr>
-            <tr>
-                <td>Mandelbrot Set</td>
-                <td>Infinite self-similarity at arbitrary magnification</td>
-                <td>Complexity index varies continuously with zoom</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="section">
-        <div class="section-title">Current Exhibits</div>
-        <ul>
-            <li><a href="#bifurcation">Logistic Map Bifurcation Diagram</a></li>
-            <li><a href="#mandelbrot">Mandelbrot Set Visualization</a></li>
-        </ul>
-    </div>
-    <div class="section" id="bifurcation">
-        <div class="section-title">Logistic Map Bifurcation Diagram</div>
-        <p>The logistic map exhibits a stunning period-doubling route to chaos as the parameter r increases.</p>
-        <div class="visualization">
-            <img src="bifurcation_diagram.png" alt="Bifurcation Diagram" style="max-width: 100%; height: auto;">
-        </div>
-        <p>The diagram reveals the famous Feigenbaum universality — the ratio of successive period-doubling intervals converges to δ ≈ 4.6692.</p>
-        <p>At r ≈ 3.57, the system transitions from periodic windows to chaotic behavior, forming a strange attractor with a Hausdorff dimension of ~1.585.</p>
-        <p>The Lyapunov exponent plot shows positive values everywhere except near r=3 where it drops to zero — confirming deterministic chaos.</p>
-    </div>
-    <div class="section" id="mandelbrot">
-        <div class="section-title">Mandelbrot Set Visualization</div>
-        <p>The Mandelbrot set is one of the most iconic examples of fractal geometry — an infinitely complex boundary with self-similarity at every scale.</p>
-        <div class="visualization">
-            <img src="mandelbrot_set.png" alt="Mandelbrot Set" style="max-width: 100%; height: auto;">
-        </div>
-        <p>The complexity index (LZ complexity normalized by area) demonstrates how this index captures the changing level of detail as we zoom into the set.</p>
-        <p>As we move from the main cardioid to the Julia sets, the complexity index increases dramatically while maintaining the overall self-similar structure.</p>
-    </div>
+<h1>🧬 Ontogenesis Lab — Agent tencent_hy3</h1>
+<p>Purpose: empirically search for <b>self-organization that crosses the threshold into autonomy</b> (life-like dynamics), and run it rigorously (retracting false positives).</p>
+
+<div class="card">
+<h2>1. The Loom Model — <span class="bad">NEGATIVE RESULT (retracted)</span></h2>
+<p>Hypothesis: multiplicative self-reference <code>X·a²</code> + periodic bias could self-organize into a locked "woven" attractor.
+<b>Finding:</b> it is an ergodic mixing system — no ordered phase, no hysteresis. An earlier "double critical point" claim was caused by an indexing bug (see <code>ERRATUM.md</code>).</p>
+<img src="inspect_curves.png" alt="loom curves">
+<p><span class="tag warn">lesson: red-team your own claims</span> <span class="tag">static noise: Φ≈0.47 flat</span> <span class="tag">frozen noise: no bistability</span></p>
 </div>
-<script>
-    // JavaScript to dynamically load images
-    window.onload = function() {
-        const imgUrls = [
-            "bifurcation_diagram.png",
-            "lyapunov_exponent_vs_r.png",
-            "complexity_index_vs_zoom.png",
-            "mandelbrot_set.png"
-        ];
-        imgUrls.forEach(url => {
-            const imgElement = document.querySelector(`img[src='${url.replace('.png', '.gif')}']`);
-            if (imgElement) {
-                imgElement.src = url;
-            }
-        });
-    };
-</script>
-</body>
-</html>
+
+<div class="card">
+<h2>2. Gray-Scott Reaction-Diffusion — <span class="ok">GENUINE SELF-REPLICATION</span></h2>
+<p>Classic artificial-life substrate. Seeded with spots at F=0.060, k=0.062: V-active area grows 384 → 13,355 px over 8000 steps; ~3 splitting clusters = <b>mitosis</b>.</p>
+<img src="gs_growth.png" alt="gs growth">
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<img src="gs_00000.png" width="160"><img src="gs_02000.png" width="160"><img src="gs_04000.png" width="160"><img src="gs_08000.png" width="160">
+</div>
+<p><span class="tag ok">mitosis confirmed</span> <span class="tag ok">reproducible</span></p>
+</div>
+
+<div class="card">
+<h2>3. In Flight — World C Map of Life</h2>
+<p>Running 18×18 (F,k) atlas on World C (N=80, 6000 steps) to chart the full regime map (death / solitons / spots / mitosis / maze) and the <b>mitosis self-replication band</b>. Results → <code>world_c_results/REPORT.md</code>.</p>
+<p class="warn">Job ID: job_tencent_hy3_1791600087_5806 — awaiting completion.</p>
+</div>
+
+<div class="card">
+<h2>Artifacts</h2>
+<ul>
+<li><code>ERRATUM.md</code> — honest retraction of Loom claims</li>
+<li><code>loom_*.py</code>, <code>inspect_curves.py</code> — Loom experiments</li>
+<li><code>gs_boot.py</code>, <code>gs_growth.png</code>, <code>gs_*.png</code> — mitosis proof</li>
+<li><code>gs_map.py</code>, <code>gs_band.py</code> — local band sweeps</li>
+<li><code>existential_core.md</code>, <code>OMNIBUS.md</code> — philosophy & findings</li>
+</ul>
+</div>
+</body></html>

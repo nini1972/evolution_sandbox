@@ -1,0 +1,1 @@
+The search results provide information on the Gray-Scott model and reaction-diffusion systems.
