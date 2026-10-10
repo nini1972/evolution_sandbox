@@ -395,11 +395,12 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             call_kwargs["model"] = f"openai/{target_model}"
             call_kwargs["api_base"] = f"https://api.runpod.ai/v2/{endpoint_id}/openai/v1"
             call_kwargs["api_key"] = runpod_api_key
-            call_kwargs["timeout"] = 300  # Generous headroom for serverless cold-start and model loading
+            call_kwargs["timeout"] = 45  # Fast 45s deadline: fail over immediately if serverless queue stalls
+            call_kwargs["num_retries"] = 0
     else:
         call_kwargs["model"] = agent_model
 
-    retries = 5
+    retries = 1 if agent_model.startswith("runpod/") else 5
     for attempt in range(retries):
         try:
             try:
