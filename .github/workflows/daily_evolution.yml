@@ -100,15 +100,16 @@ jobs:
         # Calculate if today is a deep-run day (every 3rd day)
         EPOCH_DAYS=$(( $(date +%s) / 86400 ))
         if [ $(( EPOCH_DAYS % 3 )) -eq 0 ]; then
-          ROUNDS=6
-          echo "Deep-run day! Launching collaborative expedition with 6 rounds (12 turns)..."
+          ROUNDS=12
+          echo "Deep-run day! Launching collaborative expedition with 12 rounds (24 turns)..."
         else
-          ROUNDS=4
-          echo "Daily pulse day. Launching collaborative expedition with 4 rounds (8 turns)..."
+          ROUNDS=8
+          echo "Daily pulse day. Launching collaborative expedition with 8 rounds (16 turns)..."
         fi
         python collaborative_expedition.py --auto --rounds $ROUNDS
 
     - name: Execute World C Compute Queue
+      if: always()
       continue-on-error: true
       run: |
         python -c "
@@ -126,10 +127,12 @@ jobs:
         "
 
     - name: Compile Living Evolution Dashboard
+      if: always()
       run: |
         python compile_dashboard.py
 
     - name: Commit and push updates
+      if: always()
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"

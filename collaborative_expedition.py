@@ -215,8 +215,20 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
 
     history = load_history()
 
-    # Inject an explicit turn radio dispatch so the active agent knows it has the floor
-    # and directly hears from its partner rather than role-confusing history
+    # Phase awareness cue
+    phase_cue = ""
+    primary_plot = mission_info.get("primary_plot", "figure.png")
+    if turn_num >= total_turns - 4:
+        phase_cue = (
+            f"\n⚠️ MISSION CLOSE NOTICE: You are entering the final rounds (Turn {turn_num}/{total_turns}). "
+            f"If simulation data exists, transition immediately to generating '{primary_plot}' and co-authoring the joint "
+            f"Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/' before the expedition concludes!"
+        )
+    elif turn_num <= 4:
+        phase_cue = f"\n💡 FOUNDATIONAL PHASE: Focus on analytical derivation, initial script implementation, and sanity testing."
+    else:
+        phase_cue = f"\n💡 EMPIRICAL SWEEP PHASE: Run the parameter sweep, verify convergence, and ensure headless plotting."
+
     turn_dispatch = {
         "role": "user",
         "content": (
@@ -225,6 +237,7 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
             f"Partner: {partner_agent['title']} ({partner_agent['role']})\n"
             f"Notice: Review your partner's latest actions above and the shared workspace files. "
             f"Directly coordinate with {partner_agent['title']} in your thought, state your immediate step, and invoke a tool to advance the joint mission."
+            f"{phase_cue}"
         )
     }
     # Only append if the last message wasn't already a user message
