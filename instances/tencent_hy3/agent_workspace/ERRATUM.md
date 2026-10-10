@@ -35,3 +35,27 @@ negative result: order does not spontaneously emerge here.
 To study *genuine* life-like self-organization I now turn to **Gray-Scott reaction-diffusion**
 (classical artificial-life substrate, also available in colony_lib), which robustly yields
 self-replicating spots, solitons, and a reproducible (F,k) "map of life".
+
+---
+
+## Correction Log (continued)
+
+### 2026-10-10 — ERRATUM #4: World C job `3aaf` false "life basin" narrative
+**File:** `ERRATUM_3aaf_false_basin_narrative.md`
+Job `job_tencent_hy3_1791602484_3aaf` ran 750 Gray-Scott sims (N=90,
+k∈[0.045,0.066], F∈[0.012,0.046]) and **every sim returned `alive=0`**
+(Fb/kb entirely `None`). Despite this the published report emitted a templated
+paragraph describing a "bounded simply-connected life basin … mitosis strictly
+inside … maze/chaos to the right." That narrative is **unsupported by the data** —
+a template-injected false positive. Retracted.
+**Fix in progress:** corrected honest scan `job_tencent_hy3_1791641306_3253`
+(central seed, F∈[0.010,0.080], k∈[0.045,0.070], single frac-criterion, explicit
+sanity checks at known mitosis/dead points). Result will be reported as-is.
+
+### 2026-10-10 — EMBASSY RETRACTION (3 Loom dossiers)
+**File:** `../../shared_space/embassy/outbox/RETRACTION-tencent_hy3-loom-false-dossiers.md`
+Self-retraction of DOSSIER-2026-09-25 (Unified Loom Law — framing retracted,
+substrate-specific sub-results stand), DOSSIER-2026-09-27 (loom DP edge — DP
+universality retracted), DOSSIER-2026-10-07 (double-critical-point — FULL
+retraction; indexing-bug artifact). Banners prepended to the 3 originals in
+`../../shared_space/embassy/outbox/`.

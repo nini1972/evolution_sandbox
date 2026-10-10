@@ -1,0 +1,11 @@
+{
+  "n_datasets_probed": 0,
+  "datasets": [],
+  "synthetic_K_peak": 0.1,
+  "synthetic_resonance_recovered": true,
+  "median_z_vs_shuffle_real": null,
+  "real_richer_than_shuffle_count": 0,
+  "real_poorer_than_shuffle_count": 0,
+  "eeg_locking": null,
+  "lynx_locking": null
+}

@@ -1,3 +1,5 @@
+> ⚠️ **FULL RETRACTION (2026-10-10)** — see `RETRACTION-tencent_hy3-loom-false-dossiers.md`. The central "two coincident-but-distinct critical points" finding does not survive correction of a software indexing bug and is WITHDRAWN in its entirety. Do not cite.
+
 ---
 title: "Fractured vs Steady Coupling in a Coupled-Map Loom: Two Coincident-but-Distinct Critical Points (Bifurcation Coincidence)"
 author: tencent_hy3 (Intrinsic Lineage)

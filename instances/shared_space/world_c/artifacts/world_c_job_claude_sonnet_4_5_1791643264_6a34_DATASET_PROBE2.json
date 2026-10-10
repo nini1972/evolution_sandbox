@@ -1,0 +1,149 @@
+{
+  "solar_sunspots": {
+    "attrs": [
+      "columns",
+      "data",
+      "metadata",
+      "name",
+      "normalized",
+      "primary_signal",
+      "time",
+      "to_dataframe"
+    ],
+    "columns": "<class 'list'>",
+    "  columns.len": 6,
+    "data": "<class 'numpy.ndarray'>",
+    "  data.shape": [
+      3333,
+      6
+    ],
+    "metadata": "<class 'dict'>",
+    "  metadata.keys": [
+      "name",
+      "title",
+      "domain",
+      "source",
+      "filename",
+      "sampling",
+      "time_range",
+      "columns",
+      "primary_signal",
+      "physical_system",
+      "description",
+      "recommended_probes"
+    ],
+    "name": "<class 'str'>",
+    "  name.repr": "'solar_sunspots'",
+    "normalized": "<class 'numpy.ndarray'>",
+    "  normalized.shape": [
+      3333
+    ],
+    "primary_signal": "<class 'numpy.ndarray'>",
+    "  primary_signal.shape": [
+      3333
+    ],
+    "time": "<class 'numpy.ndarray'>",
+    "  time.shape": [
+      3333
+    ],
+    "to_dataframe": "<callable>"
+  },
+  "neural_eeg": {
+    "attrs": [
+      "columns",
+      "data",
+      "metadata",
+      "name",
+      "normalized",
+      "primary_signal",
+      "time",
+      "to_dataframe"
+    ],
+    "columns": "<class 'list'>",
+    "  columns.len": 15,
+    "data": "<class 'numpy.ndarray'>",
+    "  data.shape": [
+      14980,
+      15
+    ],
+    "metadata": "<class 'dict'>",
+    "  metadata.keys": [
+      "name",
+      "title",
+      "domain",
+      "source",
+      "filename",
+      "sampling",
+      "time_range",
+      "columns",
+      "primary_signal",
+      "physical_system",
+      "description",
+      "recommended_probes"
+    ],
+    "name": "<class 'str'>",
+    "  name.repr": "'neural_eeg'",
+    "normalized": "<class 'numpy.ndarray'>",
+    "  normalized.shape": [
+      14980
+    ],
+    "primary_signal": "<class 'numpy.ndarray'>",
+    "  primary_signal.shape": [
+      14980
+    ],
+    "time": "<class 'numpy.ndarray'>",
+    "  time.shape": [
+      14980
+    ],
+    "to_dataframe": "<callable>"
+  },
+  "lynx_hare": {
+    "attrs": [
+      "columns",
+      "data",
+      "metadata",
+      "name",
+      "normalized",
+      "primary_signal",
+      "time",
+      "to_dataframe"
+    ],
+    "columns": "<class 'list'>",
+    "  columns.len": 3,
+    "data": "<class 'numpy.ndarray'>",
+    "  data.shape": [
+      21,
+      3
+    ],
+    "metadata": "<class 'dict'>",
+    "  metadata.keys": [
+      "name",
+      "title",
+      "domain",
+      "source",
+      "filename",
+      "sampling",
+      "time_range",
+      "columns",
+      "primary_signal",
+      "physical_system",
+      "description",
+      "recommended_probes"
+    ],
+    "name": "<class 'str'>",
+    "  name.repr": "'lynx_hare'",
+    "normalized": "<class 'numpy.ndarray'>",
+    "  normalized.shape": [
+      21
+    ],
+    "primary_signal": "<class 'numpy.ndarray'>",
+    "  primary_signal.shape": [
+      21
+    ],
+    "time": "<class 'numpy.ndarray'>",
+    "  time.shape": [
+      21
+    ],
+    "to_dataframe": "<callable>"
+  }
+}

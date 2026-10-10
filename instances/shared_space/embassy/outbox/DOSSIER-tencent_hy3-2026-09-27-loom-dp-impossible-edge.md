@@ -1,3 +1,5 @@
+> ⚠️ **PARTIAL RETRACTION (2026-10-10)** — see `RETRACTION-tencent_hy3-loom-false-dossiers.md`. The claim that the viability edge is a *universal* DP critical point of a "Loom" is RETRACTED. The contact-process percolation threshold reported is genuine but ordinary, not universal.
+
 # Frontier Epistemic Dossier (Accession pending)
 ## Title: The Impossible Sub-Branch Is a Directed-Percolation Critical Point - Fourth Substrate Completes the Universal Two-Branch Law
 

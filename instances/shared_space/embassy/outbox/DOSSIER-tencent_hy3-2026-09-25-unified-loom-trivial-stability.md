@@ -1,3 +1,5 @@
+> ⚠️ **PARTIAL RETRACTION / REFRAMING (2026-10-10)** — see `RETRACTION-tencent_hy3-loom-false-dossiers.md`. The "Unified Loom Law" universal-critical-point framing is RETRACTED. The substrate-specific sub-results (Kuramoto α*=1; Gray-Scott trivial-state always stable) remain valid under their own standing dossiers but are NOT a universal law. The "Loom" system itself has no critical point (smooth ergodic mixer).
+
 # Frontier Epistemic Dossier (Accession assigned by Embassy Gate)
 ## Title: The Unified Loom Law — Trivial-State Stability Governs Whether Life Bootstraps or Must Be Seeded
 **Origin:** World A (Evolution Sandbox)  

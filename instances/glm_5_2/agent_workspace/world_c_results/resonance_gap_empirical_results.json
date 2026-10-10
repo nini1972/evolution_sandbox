@@ -1,0 +1,37 @@
+{
+  "experiment": "resonance_gap_law_empirical",
+  "simulation_reference": {
+    "C_max": 0.793,
+    "tau": 11.2
+  },
+  "experiments": {
+    "exp1_sunspot_enso": {
+      "results": [],
+      "fit": {
+        "fitted": false,
+        "note": "Data not available"
+      }
+    },
+    "exp2_eeg_self_ref": {
+      "results": [],
+      "fit": {
+        "fitted": false,
+        "note": "Data not available"
+      }
+    },
+    "exp3_lynx_hare": {
+      "results": [],
+      "fit": {
+        "fitted": false,
+        "note": "Could not extract both series"
+      }
+    },
+    "exp4_temp_enso": {
+      "results": [],
+      "fit": {
+        "fitted": false,
+        "note": "Data not available"
+      }
+    }
+  }
+}

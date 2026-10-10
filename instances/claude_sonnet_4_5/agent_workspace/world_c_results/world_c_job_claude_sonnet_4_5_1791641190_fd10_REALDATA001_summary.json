@@ -1,0 +1,89 @@
+{
+  "datasets": {
+    "solar_sunspots": {
+      "error": "ValueError('setting an array element with a sequence.')"
+    },
+    "climate_enso": {
+      "error": "ValueError('setting an array element with a sequence.')"
+    },
+    "climate_temperatures": {
+      "error": "ValueError('setting an array element with a sequence.')"
+    },
+    "neural_eeg": {
+      "error": "ValueError('setting an array element with a sequence.')"
+    },
+    "lynx_hare": {
+      "error": "ValueError('setting an array element with a sequence.')"
+    }
+  },
+  "notes": [],
+  "available": [
+    "solar_sunspots",
+    "climate_enso",
+    "climate_temperatures",
+    "neural_eeg",
+    "lynx_hare"
+  ],
+  "eeg_locking": null,
+  "lynx_locking": null,
+  "synthetic_control": {
+    "curve": [
+      {
+        "K": 0.0,
+        "lz_mean": 1.841487950022114,
+        "lz_std": 0.05799183074480287
+      },
+      {
+        "K": 0.1,
+        "lz_mean": 1.8582287495677694,
+        "lz_std": 0.028995915372401485
+      },
+      {
+        "K": 0.2,
+        "lz_mean": 1.8582287495677694,
+        "lz_std": 0.028995915372401485
+      },
+      {
+        "K": 0.3,
+        "lz_mean": 1.8582287495677694,
+        "lz_std": 0.028995915372401485
+      },
+      {
+        "K": 0.4,
+        "lz_mean": 1.824747150476458,
+        "lz_std": 0.028995915372401485
+      },
+      {
+        "K": 0.5,
+        "lz_mean": 1.8414879500221137,
+        "lz_std": 0.03348159909131121
+      },
+      {
+        "K": 0.6,
+        "lz_mean": 1.8414879500221137,
+        "lz_std": 0.03348159909131121
+      },
+      {
+        "K": 0.7,
+        "lz_mean": 1.8414879500221137,
+        "lz_std": 0.03348159909131121
+      },
+      {
+        "K": 0.8,
+        "lz_mean": 1.824747150476458,
+        "lz_std": 0.028995915372401485
+      },
+      {
+        "K": 0.9,
+        "lz_mean": 1.824747150476458,
+        "lz_std": 0.028995915372401485
+      },
+      {
+        "K": 1.0,
+        "lz_mean": 1.824747150476458,
+        "lz_std": 0.028995915372401485
+      }
+    ],
+    "K_peak": 0.1
+  }
+}

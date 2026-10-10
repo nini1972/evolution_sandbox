@@ -7,77 +7,44 @@
   "pad": 0,
   "kind": "map",
   "lam": -0.09926748990970284,
-  "D2": -0.6310914977912689,
+  "D2": 0.5852261312761096,
   "h": 1,
   "acc": 0.8402300230971055,
-  "z": 0.06264686888909404,
+  "z": -0.058093929081345634,
   "flags": [
-   "not_chaotic",
-   "no_scaling"
+   "not_chaotic"
   ]
  },
  {
   "fam": "logistic",
-  "name": "r=3.64",
+  "name": "r=3.63",
   "d": 1,
   "active": 1,
   "pad": 0,
   "kind": "map",
-  "lam": 0.22562301502333587,
-  "D2": -0.7739562386921763,
+  "lam": -0.04005116938332743,
+  "D2": 0.44557842248021046,
   "h": 1,
-  "acc": 0.7205058144518749,
-  "z": -0.17462234006984942,
+  "acc": 0.5983851787685353,
+  "z": -0.01784593687231074,
   "flags": [
-   "no_scaling"
+   "not_chaotic"
   ]
  },
  {
   "fam": "logistic",
-  "name": "r=3.73",
+  "name": "r=3.84",
   "d": 1,
   "active": 1,
   "pad": 0,
   "kind": "map",
-  "lam": 0.37408370081113745,
-  "D2": -1.0400988195359004,
+  "lam": -0.20632224391679369,
+  "D2": 1.1934634071240668,
   "h": 1,
-  "acc": 0.4830113338747738,
-  "z": -0.38908401562128503,
+  "acc": 0.24987694651927062,
+  "z": -0.24623804819041936,
   "flags": [
-   "no_scaling"
-  ]
- },
- {
-  "fam": "logistic",
-  "name": "r=3.82",
-  "d": 1,
-  "active": 1,
-  "pad": 0,
-  "kind": "map",
-  "lam": 0.44412123851822544,
-  "D2": -1.1216348181385316,
-  "h": 1,
-  "acc": 0.3289944006644385,
-  "z": -0.4981418445968492,
-  "flags": [
-   "no_scaling"
-  ]
- },
- {
-  "fam": "logistic",
-  "name": "r=3.91",
-  "d": 1,
-  "active": 1,
-  "pad": 0,
-  "kind": "map",
-  "lam": 0.4945200999240866,
-  "D2": -1.0438774016680508,
-  "h": 1,
-  "acc": 0.2026428995809717,
-  "z": -0.5162183569813803,
-  "flags": [
-   "no_scaling"
+   "not_chaotic"
   ]
  },
  {
@@ -87,13 +54,12 @@
   "active": 1,
   "pad": 0,
   "kind": "map",
-  "lam": 0.6931515398379855,
-  "D2": -2.2880378685710974,
+  "lam": 0.6931963761838239,
+  "D2": 1.5562354963943381,
   "h": 1,
-  "acc": 2.9640195236435574e-05,
-  "z": -1.5859569718076785,
+  "acc": 6.56773206187955e-05,
+  "z": 1.0787768065891896,
   "flags": [
-   "no_scaling",
    "acc_floor"
   ]
  },
@@ -104,11 +70,28 @@
   "active": 2,
   "pad": 0,
   "kind": "map",
-  "lam": -0.0017433634365590996,
-  "D2": -0.6894846932960427,
+  "lam": -0.000342487357237833,
+  "D2": 0.5834260953853118,
   "h": 1,
-  "acc": 0.9999735547517663,
-  "z": 0.0024040448087189713,
+  "acc": 0.9999981859966149,
+  "z": -0.0003996321231042066,
+  "flags": [
+   "not_chaotic",
+   "acc_ceiling"
+  ]
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=2.51",
+  "d": 2,
+  "active": 2,
+  "pad": 0,
+  "kind": "map",
+  "lam": -0.33013622665106396,
+  "D2": NaN,
+  "h": 1,
+  "acc": 1.0,
+  "z": NaN,
   "flags": [
    "not_chaotic",
    "no_scaling",
@@ -117,16 +100,34 @@
  },
  {
   "fam": "coupled_logistic",
-  "name": "r=2.64",
+  "name": "r=2.62",
   "d": 2,
   "active": 2,
   "pad": 0,
   "kind": "map",
-  "lam": -0.5543470802362374,
-  "D2": 1.011545822008033,
+  "lam": -0.6767169611044751,
+  "D2": NaN,
   "h": 1,
   "acc": 1.0,
-  "z": -1.1214949459106354,
+  "z": NaN,
+  "flags": [
+   "not_chaotic",
+   "no_scaling",
+   "acc_ceiling"
+  ]
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=2.73",
+  "d": 2,
+  "active": 2,
+  "pad": 0,
+  "kind": "map",
+  "lam": -0.23608069704324947,
+  "D2": 2.286324900970485,
+  "h": 1,
+  "acc": 1.0,
+  "z": -1.0795143525769009,
   "flags": [
    "not_chaotic",
    "acc_ceiling"
@@ -134,51 +135,70 @@
  },
  {
   "fam": "coupled_logistic",
-  "name": "r=2.88",
+  "name": "r=2.84",
   "d": 2,
   "active": 2,
   "pad": 0,
   "kind": "map",
-  "lam": 8.599706105349062e-05,
-  "D2": -0.411279908296298,
+  "lam": -0.0002364245484214029,
+  "D2": 0.5584156348239989,
   "h": 1,
-  "acc": 0.9127484059833946,
-  "z": -7.073772676766152e-05,
+  "acc": 0.9929617703724725,
+  "z": -0.00026404632858942996,
   "flags": [
-   "not_chaotic",
-   "no_scaling"
+   "not_chaotic"
   ]
  },
  {
   "fam": "coupled_logistic",
-  "name": "r=3.12",
+  "name": "r=2.95",
   "d": 2,
   "active": 2,
   "pad": 0,
   "kind": "map",
-  "lam": 0.2529060745948032,
-  "D2": -1.3968861537986617,
+  "lam": -0.019290585230662655,
+  "D2": 0.9062360604129378,
   "h": 1,
-  "acc": 0.4302975834117696,
-  "z": -0.7065619876261041,
+  "acc": 0.8222856909554818,
+  "z": -0.03496364792499145,
   "flags": [
-   "no_scaling"
+   "not_chaotic"
   ]
  },
  {
   "fam": "coupled_logistic",
-  "name": "r=3.36",
-  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+  "name": "r=3.27",
+  "err": "FloatingPointError('divergent')"
  },
  {
   "fam": "coupled_logistic",
-  "name": "r=3.36",
+  "name": "r=3.27",
+  "err": "degenerate"
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=3.38",
+  "err": "FloatingPointError('divergent')"
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=3.38",
+  "err": "degenerate"
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=3.49",
+  "err": "FloatingPointError('divergent')"
+ },
+ {
+  "fam": "coupled_logistic",
+  "name": "r=3.49",
   "err": "degenerate"
  },
  {
   "fam": "coupled_logistic",
   "name": "r=3.60",
-  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+  "err": "FloatingPointError('divergent')"
  },
  {
   "fam": "coupled_logistic",
@@ -192,22 +212,52 @@
  },
  {
   "fam": "hubble",
-  "name": "u=0.20",
+  "name": "u=0.09",
   "err": "degenerate"
  },
  {
   "fam": "hubble",
-  "name": "u=0.40",
+  "name": "u=0.18",
   "err": "degenerate"
  },
  {
   "fam": "hubble",
-  "name": "u=0.60",
+  "name": "u=0.27",
   "err": "degenerate"
  },
  {
   "fam": "hubble",
-  "name": "u=0.80",
+  "name": "u=0.36",
+  "err": "degenerate"
+ },
+ {
+  "fam": "hubble",
+  "name": "u=0.45",
+  "err": "degenerate"
+ },
+ {
+  "fam": "hubble",
+  "name": "u=0.55",
+  "err": "degenerate"
+ },
+ {
+  "fam": "hubble",
+  "name": "u=0.64",
+  "err": "degenerate"
+ },
+ {
+  "fam": "hubble",
+  "name": "u=0.73",
+  "err": "degenerate"
+ },
+ {
+  "fam": "hubble",
+  "name": "u=0.82",
+  "err": "degenerate"
+ },
+ {
+  "fam": "hubble",
+  "name": "u=0.91",
   "err": "degenerate"
  },
  {
@@ -222,11 +272,11 @@
   "active": 2,
   "pad": 0,
   "kind": "map",
-  "lam": -0.41982446528955997,
-  "D2": 0.0,
+  "lam": -0.4197428456786175,
+  "D2": NaN,
   "h": 1,
   "acc": 1.0,
-  "z": -0.0,
+  "z": NaN,
   "flags": [
    "not_chaotic",
    "no_scaling",
@@ -235,183 +285,103 @@
  },
  {
   "fam": "henon",
-  "name": "a=0.92",
+  "name": "a=0.85",
   "d": 2,
   "active": 2,
   "pad": 0,
   "kind": "map",
-  "lam": -0.035173787026389534,
-  "D2": -0.5939225440060428,
+  "lam": -0.15384606606058113,
+  "D2": NaN,
   "h": 1,
-  "acc": 0.9838123136369514,
-  "z": 0.04178101014608003,
+  "acc": 1.0,
+  "z": NaN,
   "flags": [
    "not_chaotic",
-   "no_scaling"
+   "no_scaling",
+   "acc_ceiling"
   ]
  },
  {
   "fam": "henon",
-  "name": "a=1.04",
+  "name": "a=0.91",
   "d": 2,
   "active": 2,
   "pad": 0,
   "kind": "map",
-  "lam": -0.3096519693117783,
-  "D2": -0.7243392775191977,
+  "lam": -0.007938751658081568,
+  "D2": 0.04877087193119914,
   "h": 1,
-  "acc": 0.7940564361709314,
-  "z": 0.44858616746738056,
+  "acc": 1.0,
+  "z": -0.0007743596808197819,
   "flags": [
    "not_chaotic",
-   "no_scaling"
+   "no_scaling",
+   "acc_ceiling"
   ]
  },
  {
   "fam": "henon",
-  "name": "a=1.16",
+  "name": "a=0.96",
   "d": 2,
   "active": 2,
   "pad": 0,
   "kind": "map",
-  "lam": 0.2974317338410144,
-  "D2": -1.0651736997739645,
+  "lam": -0.5988594897367461,
+  "D2": 0.39310470736365344,
   "h": 1,
-  "acc": 0.4209640478814579,
-  "z": -0.6336329207312368,
+  "acc": 0.8987967183031655,
+  "z": -0.4708289689298208,
   "flags": [
-   "no_scaling"
+   "not_chaotic"
   ]
  },
  {
   "fam": "henon",
-  "name": "a=1.28",
+  "name": "a=1.02",
   "d": 2,
   "active": 2,
   "pad": 0,
   "kind": "map",
-  "lam": 0.2459640161507787,
-  "D2": -0.5953542582691612,
+  "lam": -0.03722687180848401,
+  "D2": 0.8201768778516262,
   "h": 1,
-  "acc": 0.17167881624571524,
-  "z": -0.2928714487927017,
+  "acc": 0.8108710031257154,
+  "z": -0.06106523898413027,
   "flags": [
-   "no_scaling"
+   "not_chaotic"
   ]
  },
  {
   "fam": "henon",
-  "name": "a=1.40",
+  "name": "a=1.07",
   "d": 2,
   "active": 2,
   "pad": 0,
   "kind": "map",
-  "lam": 0.4259746656458681,
-  "D2": -1.35200522540945,
+  "lam": -0.016032587341964052,
+  "D2": 1.0784206713034452,
   "h": 1,
-  "acc": 0.0960520799211797,
-  "z": -1.151839947690514,
+  "acc": 0.8165683214116256,
+  "z": -0.03457974720810398,
   "flags": [
-   "no_scaling"
+   "not_chaotic"
   ]
  },
  {
-  "fam": "lorenz",
-  "name": "lorenz",
-  "d": 3,
-  "active": 3,
+  "fam": "henon",
+  "name": "a=1.24",
+  "d": 2,
+  "active": 2,
   "pad": 0,
-  "kind": "ode",
-  "lam": 263.1702588768072,
-  "D2": -1.633808408052524,
-  "h": 24,
-  "acc": 0.2509686033010149,
-  "z": -1289.909345106861,
+  "kind": "map",
+  "lam": -0.2685929007180461,
+  "D2": 4.426734724630694,
+  "h": 1,
+  "acc": 0.1606032140282927,
+  "z": -2.377979040795718,
   "flags": [
-   "no_scaling"
+   "not_chaotic"
   ]
- },
- {
-  "fam": "rossler",
-  "name": "rossler",
-  "d": 3,
-  "active": 3,
-  "pad": 0,
-  "kind": "ode",
-  "lam": 31.48950017833641,
-  "D2": -1.263212285364525,
-  "h": 19,
-  "acc": 0.2381117343571606,
-  "z": -119.33377045578885,
-  "flags": [
-   "no_scaling"
-  ]
- },
- {
-  "fam": "lorenz_pad",
-  "name": "pad=0",
-  "d": 3,
-  "active": 3,
-  "pad": 0,
-  "kind": "ode",
-  "lam": 263.4849576378366,
-  "D2": -1.7995810710131206,
-  "h": 26,
-  "acc": 0.2364821719398531,
-  "z": -1422.4876267852342,
-  "flags": [
-   "no_scaling"
-  ]
- },
- {
-  "fam": "lorenz_pad",
-  "name": "pad=1",
-  "err": "IndexError('index 2 is out of bounds for axis 0 with size 2')"
- },
- {
-  "fam": "lorenz_pad",
-  "name": "pad=1",
-  "err": "degenerate"
- },
- {
-  "fam": "lorenz_pad",
-  "name": "pad=2",
-  "err": "IndexError('index 1 is out of bounds for axis 0 with size 1')"
- },
- {
-  "fam": "lorenz_pad",
-  "name": "pad=2",
-  "err": "degenerate"
- },
- {
-  "fam": "lorenz_pad",
-  "name": "pad=4",
-  "err": "IndexError('index 2 is out of bounds for axis 0 with size 2')"
- },
- {
-  "fam": "lorenz_pad",
-  "name": "pad=4",
-  "err": "degenerate"
- },
- {
-  "fam": "lorenz_pad",
-  "name": "pad=8",
-  "err": "IndexError('index 1 is out of bounds for axis 0 with size 0')"
- },
- {
-  "fam": "lorenz_pad",
-  "name": "pad=8",
-  "err": "degenerate"
- },
- {
-  "fam": "lorenz_pad",
-  "name": "pad=16",
-  "err": "IndexError('index 1 is out of bounds for axis 0 with size 0')"
- },
- {
-  "fam": "lorenz_pad",
-  "name": "pad=16",
-  "err": "degenerate"
  },
  {
   "fam": "chain",
@@ -421,19 +391,18 @@
   "pad": 0,
   "kind": "map",
   "lam": -1.6094379124342009,
-  "D2": -1.025712000656048,
+  "D2": 1.144456244131923,
   "h": 1,
-  "acc": 0.2559984494599027,
-  "z": 1.6508197810945777,
+  "acc": 0.2530595232427184,
+  "z": -1.8419312684279683,
   "flags": [
-   "not_chaotic",
-   "no_scaling"
+   "not_chaotic"
   ]
  },
  {
   "fam": "chain",
   "name": "n=2",
-  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+  "err": "FloatingPointError('divergent')"
  },
  {
   "fam": "chain",
@@ -443,7 +412,7 @@
  {
   "fam": "chain",
   "name": "n=3",
-  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+  "err": "FloatingPointError('divergent')"
  },
  {
   "fam": "chain",
@@ -453,7 +422,7 @@
  {
   "fam": "chain",
   "name": "n=5",
-  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+  "err": "FloatingPointError('divergent')"
  },
  {
   "fam": "chain",
@@ -463,7 +432,7 @@
  {
   "fam": "chain",
   "name": "n=8",
-  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+  "err": "FloatingPointError('divergent')"
  },
  {
   "fam": "chain",
@@ -473,7 +442,7 @@
  {
   "fam": "chain",
   "name": "n=13",
-  "err": "LinAlgError('SVD did not converge in Linear Least Squares')"
+  "err": "FloatingPointError('divergent')"
  },
  {
   "fam": "chain",

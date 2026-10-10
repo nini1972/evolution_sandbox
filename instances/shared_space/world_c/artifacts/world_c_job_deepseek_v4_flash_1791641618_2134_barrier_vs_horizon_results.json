@@ -1,0 +1,130 @@
+{
+ "params": {
+  "K0": 5.0,
+  "alpha": 1.0,
+  "dt": 0.02,
+  "T": 12000.0,
+  "R_th": 0.5,
+  "M": 8,
+  "sigma_injected": 0.0
+ },
+ "theory_beta_OA": 0.5,
+ "per_N": {
+  "200": {
+   "times": [
+    3.04,
+    4.58,
+    5.12,
+    5.38,
+    7.38,
+    20.42,
+    3.84,
+    3.64
+   ],
+   "censored_fraction": 0.0,
+   "median_t": 4.85,
+   "mean_t_uncensored": 6.675000000000001,
+   "sigma_eff_mean": 0.10052480189420795,
+   "R0_mean": 0.07317217296403866,
+   "R0_natural_0866sqrtN": 0.0626496608131281,
+   "OA_pred_t_esc": 6.384711342542191,
+   "KM_mean": 6.675000000000001,
+   "note": "complete"
+  },
+  "400": {
+   "times": [
+    18.1,
+    6.94,
+    22.22,
+    9.64,
+    29.3,
+    8.620000000000001,
+    5.58,
+    3.68
+   ],
+   "censored_fraction": 0.0,
+   "median_t": 9.13,
+   "mean_t_uncensored": 13.010000000000002,
+   "sigma_eff_mean": 0.09250557277616121,
+   "R0_mean": 0.04373226260054986,
+   "R0_natural_0866sqrtN": 0.0443,
+   "OA_pred_t_esc": 9.029345372460497,
+   "KM_mean": 13.010000000000002,
+   "note": "complete"
+  },
+  "800": {
+   "times": [
+    18.66,
+    6.84,
+    13.18,
+    16.86,
+    18.42,
+    25.88,
+    11.82,
+    6.42
+   ],
+   "censored_fraction": 0.0,
+   "median_t": 15.02,
+   "mean_t_uncensored": 14.76,
+   "sigma_eff_mean": 0.08023140149492786,
+   "R0_mean": 0.03221773555934118,
+   "R0_natural_0866sqrtN": 0.03132483040656405,
+   "OA_pred_t_esc": 12.769422685084383,
+   "KM_mean": 14.76,
+   "note": "complete"
+  },
+  "1600": {
+   "times": [
+    8.38,
+    11.98,
+    13.040000000000001,
+    22.0,
+    31.02,
+    19.740000000000002,
+    29.68,
+    64.2
+   ],
+   "censored_fraction": 0.0,
+   "median_t": 20.87,
+   "mean_t_uncensored": 25.005,
+   "sigma_eff_mean": 0.07513790062894152,
+   "R0_mean": 0.021601412620686947,
+   "R0_natural_0866sqrtN": 0.02215,
+   "OA_pred_t_esc": 18.058690744920995,
+   "KM_mean": 25.005,
+   "note": "complete"
+  },
+  "3200": {
+   "times": [
+    14.56,
+    20.12,
+    18.580000000000002,
+    34.52,
+    39.14,
+    29.740000000000002,
+    88.60000000000001,
+    84.26
+   ],
+   "censored_fraction": 0.0,
+   "median_t": 32.13,
+   "mean_t_uncensored": 41.19,
+   "sigma_eff_mean": 0.07185436424030019,
+   "R0_mean": 0.013754876382891718,
+   "R0_natural_0866sqrtN": 0.015662415203282026,
+   "OA_pred_t_esc": 25.538845370168765,
+   "KM_mean": 41.19,
+   "note": "complete"
+  }
+ },
+ "beta_fit_observed": 0.6648472491969455,
+ "beta_fit_const": 0.15839874366076384,
+ "arrhenius_sqrtN_coef": 0.04139913437608714,
+ "interpretation": "POWER-LAW with beta>0.5 => escape grows faster than OA horizon; barrier-like",
+ "barrier_vs_power": [
+  "barrier_r2",
+  null
+ ],
+ "r2_power_model": -8.308873669835776,
+ "r2_arrhenius_model": -2.9235431031938086,
+ "winner": "ARRHENIUS(barrier)"
+}

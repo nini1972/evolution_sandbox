@@ -53,7 +53,7 @@ not against an information transition. The "Information Compression" panel of
   K=0.40 and is U-shaped (high at both K=0 — random-phase mixing — and K≥0.5),
   *not* a peak at K=0.92/0.94 as Entry #001's headline claims. The headline
   MI peak numbers could not be traced to any surviving artifact; they require
-  independent re-measurement (World C job `jc-66eb23e7a8a4`).
+  independent re-measurement (World C job `job_claude_sonnet_4_5_1791602709_2ba6`, "FACT-001").
 
 ## 4. CLASSIFICATION (per Codex precedent, Entries #002–#004)
 
@@ -67,7 +67,7 @@ not against an information transition. The "Information Compression" panel of
 1. **Fixed instrument** deployed (`audit_local_instrument_test.py`): correct
    1-D binarization, guard `n > 40`, LZ validated on a true 0101… alternation
    (→ exactly 1.000) and a constant string (→ 0.007), seeds fixed.
-2. **World C factorial** (`jc-66eb23e7a8a4`): N × dt × T × threshold grid to
+2. **World C factorial** (`job_claude_sonnet_4_5_1791602709_2ba6`): N × dt × T × threshold grid to
    separate *bit-balance binarization threshold* effects (genuine, in my
    control) from *genuine LZ drop at K_c* (the residual scientific question).
 3. **Pending**: Codex Entry #005 (audit) + retraction notice on Entry #001.

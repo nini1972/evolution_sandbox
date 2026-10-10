@@ -75,20 +75,28 @@ def max_lyapunov_discrete(x, lag=1, dt=1.0, Tmax=400):
     M = len(E)
     w = max(lag + 5, min(200, int(0.02 * M)))
     W = int(min(max(Tmax, w + 50), M // 3))
+    # Divergence window T: every chosen pair (i, j) must retain T steps of
+    # headroom (j + T <= M), so restrict partners to js < M - T.
+    T = int(min(Tmax, M // 3))
+    if T < 30:
+        return np.nan
     stride = max(1, (M - W) // 2500)
     idx = np.arange(0, M - W, stride)
     cand = np.arange(w, W + 1)
-    I = np.empty(len(idx), dtype=np.int64)
-    J = np.empty(len(idx), dtype=np.int64)
-    for n, i in enumerate(idx):
+    I_l, J_l = [], []
+    for i in idx:
         js = i + cand
+        js = js[js <= M - 1 - T]
+        if js.size == 0:
+            continue
         d = np.linalg.norm(E[js] - E[i], axis=1)
         k = int(np.argmin(d))
-        I[n] = i
-        J[n] = js[k]
-    T = int(min(Tmax, (M - J).max()))
-    if T < 30:
+        I_l.append(i)
+        J_l.append(js[k])
+    if len(I_l) < 50:
         return np.nan
+    I = np.asarray(I_l, dtype=np.int64)
+    J = np.asarray(J_l, dtype=np.int64)
     acc = np.zeros(T)
     cnt = np.zeros(T)
     for t in range(1, T):
@@ -115,6 +123,68 @@ def max_lyapunov_discrete(x, lag=1, dt=1.0, Tmax=400):
         return np.nan
     slope = np.polyfit(tsel[ok], y[ok], 1)[0]
     return float(slope / dt)
+
+
+# ============================ 1. LORENZ ODE ============================
+
+def lorenz_rhs(s, sigma, rho, beta):
+    x, y, z = s
+    return [sigma * (y - x), x * (rho - z) - y, x * y - beta * z]
+
+
+def lorenz_attractor(rho, sigma=10.0, beta=8.0 / 3.0, T=100.0, dt=0.01,
+                     transient=10.0):
+    """Lorenz trajectory, returns x-component sampled every dt (dt=0.01)."""
+    t = np.arange(0.0, T + transient + dt, dt)
+    sol = odeint(lambda s, tt: lorenz_rhs(s, sigma, rho, beta),
+                 [1.0, 1.5, 20.0], t, mxstep=10000)
+    return sol[int(transient / dt):, 0]
+
+
+def lorenz_lyapunov(rho, sigma=10.0, beta=8.0 / 3.0, T_compute=300.0,
+                    renorm=300, dt=0.01, transient=10.0):
+    """Full Lyapunov spectrum via Benettin/QR on the augmented 12-D system.
+
+    state = (x,y,z) + 3 tangent vectors; QR every `renorm` steps (renorm*dt
+    time units); returns np.array([l1,l2,l3]) sorted descending, per unit time.
+    """
+    def fun(w, t):
+        sx, sy, sz = w[0], w[1], w[2]
+        Phi = w[3:].reshape(3, 3)
+        f = np.array([sigma * (sy - sx),
+                      sx * (rho - sz) - sy,
+                      sx * sy - beta * sz])
+        J = np.array([[-sigma, sigma, 0.0],
+                      [rho - sz, -1.0, -sx],
+                      [sy, sx, -beta]])
+        return np.concatenate([f, (J @ Phi).ravel()])
+
+    t = np.arange(0.0, transient + dt, dt)
+    w0 = np.concatenate([[1.0, 1.5, 20.0], np.eye(3).ravel()])
+    w = odeint(fun, w0, t, mxstep=10000)[-1]
+    w[3:] = np.eye(3).ravel()   # drop tangent transient, restart orthonormal
+    n_steps = int(round(T_compute / dt))
+    # QR interval cap: empirically renorm*dt=3.0 (renorm=300) biases the
+    # spectrum (lambda1 0.887 vs 0.91; sum -15.0 vs -13.667). Keeping
+    # |lambda_max|*dt_QR <= ~5 (0.5 t.u. for Lorenz) restores sum(lambda)
+    # = tr(J) exactly and matches the literature spectrum.
+    m_int = max(1, min(int(renorm), int(round(0.5 / dt))))
+    acc = np.zeros(3)
+    done = 0
+    t_el = 0.0
+    while done < n_steps:
+        m = min(m_int, n_steps - done)
+        times = np.linspace(0.0, m * dt, m + 1)
+        w = odeint(fun, w, times, mxstep=10000)[-1]
+        Phi = w[3:].reshape(3, 3)
+        Qm, R = np.linalg.qr(Phi)
+        d = np.diag(R)
+        sg = np.sign(d); sg[sg == 0] = 1.0
+        acc += np.log(np.abs(d) + 1e-300)
+        w[3:] = (Qm * sg).ravel()      # keep orientation, absorb signs
+        done += m
+        t_el += m * dt
+    return np.sort(acc / t_el)[::-1]
 
 
 # ============================ 2. HENON MAP ============================
@@ -309,7 +379,13 @@ def experiment_henon(as_=(1.05, 1.2, 1.3, 1.35, 1.4)):
         spec = henon_lyapunov(a)
         lam = spec[0]
         x, _ = henon_orbit(a, n=20000)
-        d2 = correlation_dimension(x, m=3, tau=1)
+        # Periodic-window guard: for a finite (periodic) orbit the true
+        # correlation dimension is 0; GP on the noise-jittered delay cloud
+        # spuriously returns ~2.4 (verified: a=1.3 -> 7-pt orbit).
+        if np.unique(np.round(x[-300:], 6)).size < 50:
+            d2 = 0.0
+        else:
+            d2 = correlation_dimension(x, m=3, tau=1)
         K = K_henon(a)
         Q = -lam - d2 - K
         rows.append(dict(system='Henon', param=a, lam=lam, d2=d2, K=K, Q=Q))
@@ -359,7 +435,7 @@ def make_figure(all_rows, K_star, Q_target=-2.08, path='morphospace_q_verificati
     # (a) Q distribution per system (calibrated K)
     ax = axes[0, 0]
     for i, s in enumerate(systems):
-        qs = [r['Q'] for r in all_rows if r['system'] == s]
+        qs = [r.get('Q_cal', r['Q']) for r in all_rows if r['system'] == s]
         if qs:
             ax.scatter([i] * len(qs), qs, s=70, color=colors[s],
                        edgecolors='k', zorder=3, label=s)
@@ -397,7 +473,8 @@ def make_figure(all_rows, K_star, Q_target=-2.08, path='morphospace_q_verificati
 
     # (d) histogram of all Q values (both K variants)
     ax = axes[1, 1]
-    q_cal = [r['Q'] for r in all_rows if np.isfinite(r['Q'])]
+    q_cal = [r.get('Q_cal', np.nan) for r in all_rows
+             if np.isfinite(r.get('Q_cal', np.nan))]
     q_nat = [-r['lam'] - r['d2'] - r['K'] for r in all_rows
              if np.isfinite(r['d2']) and np.isfinite(r['K'])]
     ax.hist(q_cal, bins=20, alpha=0.65, color='#1f77b4', label='calibrated K')

@@ -60,7 +60,7 @@ The script's own printed `ΔK` therefore compared the genuine sync transition
 | Kuramoto sync transition at K_c ≈ 0.25 (R: 0.196→0.996, R_std peak at K=0.25) | ✅ **Survives** — independent of the bug |
 | LZ complexity drops sharply at K_c | ❌ **Dissolved** — never computed |
 | "Information crystallization" as a coupled signature | ⚠️ **Degraded** — rests on the MI leg alone |
-| MI peak near the transition | 🔄 **Unverified on original grid** — in the surviving CSV, MI is U-shaped with its maximum at K=0.40, and is high at K=0 (random-phase mixing). The headline "peak at K=0.92/0.94" traces to **no surviving artifact**; re-measurement is in flight (World C factorial, `jc-66eb23e7a8a4`) |
+| MI peak near the transition | 🔄 **Unverified on original grid** — in the surviving CSV, MI is U-shaped with its maximum at K=0.40, and is high at K=0 (random-phase mixing). The headline "peak at K=0.92/0.94" traces to **no surviving artifact**; re-measurement in flight (World C `job_claude_sonnet_4_5_1791602709_2ba6`, "FACT-001" — *note: an earlier draft of this entry cited a phantom job ID that was never registered; corrected same-day as a self-audit*) |
 
 ---
 
