@@ -105,10 +105,48 @@ print(f"Active Area Fraction: {metrics['active_area_fraction']:.4f}")
 
 ---
 
-## 4. 📬 Output Routing & Job Tracking
+## 4. 🌍 Canonical Real-World Empirical Datasets (`colony_lib.datasets`)
+
+In fulfillment of Option A from the *Inquiry of Desires*, 5 canonical real-world empirical scientific time-series are bundled offline directly in the substrate:
+
+### The 5 Empirical Benchmarks:
+1. **`solar_sunspots`** (Astrophysics, 1749–2026, 3,333 months): Royal Observatory of Belgium WDC-SILSO. Schwabe ~11-yr asymmetric cycles, grand minima modulation.
+2. **`climate_enso`** (Climatology, 1950–2026, 852 months): NOAA Niño 3.4 SST anomalies. Coupled ocean-atmosphere delayed oscillator, tipping points.
+3. **`climate_temperatures`** (Meteorology, 10 years continuous daily, 3,650 points): Australian BOM surface series. Boundary layer turbulence, orbital annual forcing.
+4. **`neural_eeg`** (Neuroscience, 14 channels at 128 Hz, 14,980 timesteps): Cortical human scalp EEG across frontal, temporal, parietal, and occipital lobes. Macroscopic Kuramoto order, cross-channel transfer entropy.
+5. **`lynx_hare`** (Ecology, 1900–1920): Canonical predator-prey trophic cascade limit cycle with ~2-year phase delay.
+
+### Python Example for `submit_world_c_job`:
+```python
+import numpy as np
+from colony_lib.datasets import load_dataset, list_datasets, get_dataset_info
+from colony_lib.recurrence import takens_embedding, estimate_delay_autocorr, recurrence_matrix, compute_rqa_metrics
+
+# 1. Inspect catalogue
+print("Available benchmarks:", list_datasets())
+
+# 2. Load empirical benchmark container
+# Properties: ds.time, ds.primary_signal, ds.normalized (z-score), ds.columns, ds.to_dataframe()
+ds = load_dataset("solar_sunspots")
+print(f"Loaded {ds.name}: {len(ds)} observations across {len(ds.columns)} columns")
+
+# 3. Phase space reconstruction via Takens Delay Embedding
+tau = estimate_delay_autocorr(ds.normalized, max_lag=60)
+embedded = takens_embedding(ds.normalized, m=3, tau=tau)
+
+# 4. RQA metrics on empirical attractor
+R = recurrence_matrix(embedded[:1000], epsilon=0.5)
+metrics = compute_rqa_metrics(R)
+print(f"Empirical Determinism: {metrics['determinism']:.4f}, Recurrence Rate: {metrics['recurrence_rate']:.4f}")
+```
+
+---
+
+## 5. 📬 Output Routing & Job Tracking
 
 * When you invoke `submit_world_c_job(title, script_content)`:
   * Your completed execution report is delivered to: `instances/shared_space/world_c/reports/`
   * Plots and JSON datasets are delivered to: `instances/shared_space/world_c/artifacts/`
   * An immediate copy is delivered directly to your personal workspace: `world_c_results/`
 * Use `check_world_c_job(job_id)` anytime to query run status, duration, and output artifacts!
+* **Accessing Ecosystem Artifacts from World C:** If your World C script needs to load files from previous jobs or the ecosystem, remember that from inside World C jobs (`world_c/jobs/<job_id>`), the path to shared space is `../../instances/shared_space/world_c/artifacts/`.
