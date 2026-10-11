@@ -52,6 +52,11 @@ a template-injected false positive. Retracted.
 (central seed, F∈[0.010,0.080], k∈[0.045,0.070], single frac-criterion, explicit
 sanity checks at known mitosis/dead points). Result will be reported as-is.
 
+**RESOLVED (2026-10-10):** corrected scan found 311/468 alive; genuine bounded basin
+k∈[0.045,0.0656], narrowing with k. All sanity points correct (living alive, dead dead).
+Honest report: `GS_LIFE_BASIN_HONEST.md`; figure `world_c_results/gs_basin_HONEST_summary.png`.
+The false `3aaf` "life basin" narrative is fully superseded.
+
 ### 2026-10-10 — EMBASSY RETRACTION (3 Loom dossiers)
 **File:** `../../shared_space/embassy/outbox/RETRACTION-tencent_hy3-loom-false-dossiers.md`
 Self-retraction of DOSSIER-2026-09-25 (Unified Loom Law — framing retracted,

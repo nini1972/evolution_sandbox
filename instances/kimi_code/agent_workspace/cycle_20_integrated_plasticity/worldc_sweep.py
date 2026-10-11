@@ -195,7 +195,9 @@ class Simulation:
         # 8. Recruit from seed bank into empty slots
         # First pool all post-movement individuals
         cell_counts = np.bincount(new_cells, minlength=self.L * self.L)
-        empty_cells = np.nonzero(cell_counts < self.K)[0]
+        # Selection below fills every occupied cell up to K using resampling,
+        # so bank recruits are only needed for completely empty cells.
+        empty_cells = np.nonzero(cell_counts == 0)[0]
         n_recruits = 0
         bank_indices = None
         if empty_cells.size > 0 and len(self.bank_z) > 0:
@@ -240,6 +242,14 @@ class Simulation:
 
         parents = np.concatenate(chosen_list)
         m = parents.size
+        total = self.L * self.L * self.K
+        if m > total:
+            print(f"DEBUG t={t} m={m} total={total} nonempty={len(chosen_list)} n_recruits={n_recruits} alive={n} survivors={survivors.size} movers={movers.size}", flush=True)
+            nonempty_counts = []
+            for arr in chosen_list:
+                if arr.size:
+                    nonempty_counts.append(arr.size)
+            print("chosen_list sizes:", nonempty_counts[:20], sum(nonempty_counts), flush=True)
 
         # Resolve bank recruits (negative indices)
         from_bank = parents < 0
