@@ -49,7 +49,7 @@ jobs:
       run: |
         python embassy_bridge.py
 
-    - name: Pre-warm Sovereign Runpod vLLM Worker
+    - name: Runpod Endpoint Maintenance and Health Check
       continue-on-error: true
       env:
         RUNPOD_API_KEY: ${{ secrets.RUNPOD_API_KEY }}
@@ -59,17 +59,25 @@ jobs:
         api_key = os.getenv('RUNPOD_API_KEY')
         endpoint_id = 'nxrwj2zma759vc'
         if api_key:
-            print('[Pre-warm] Waking up sovereign InvariantMind worker on Runpod in background...')
-            url = f'https://api.runpod.ai/v2/{endpoint_id}/run'
-            payload = json.dumps({'input': {'model': 'Ninitje/InvariantMind-Worker-7B-Merged', 'messages': [{'role': 'user', 'content': 'warmup'}], 'max_tokens': 1}}).encode('utf-8')
-            req = urllib.request.Request(url, data=payload, headers={'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'})
+            # 1. Purge any stale queued jobs to keep endpoint clean
+            purge_url = f'https://api.runpod.ai/v2/{endpoint_id}/purge-queue'
+            req_p = urllib.request.Request(purge_url, data=b'{}', headers={'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'}, method='POST')
             try:
-                with urllib.request.urlopen(req, timeout=10) as resp:
-                    print(f'[Pre-warm] Queued async warmup job: status {resp.status}')
+                with urllib.request.urlopen(req_p, timeout=10) as resp:
+                    print(f'[RunPod Maintenance] Purged queue: {resp.read().decode()}')
             except Exception as e:
-                print(f'[Pre-warm] Note: {e}')
+                print(f'[RunPod Maintenance] Purge error: {e}')
+
+            # 2. Check worker health
+            health_url = f'https://api.runpod.ai/v2/{endpoint_id}/health'
+            req_h = urllib.request.Request(health_url, headers={'Authorization': f'Bearer {api_key}'})
+            try:
+                with urllib.request.urlopen(req_h, timeout=10) as resp:
+                    print(f'[RunPod Maintenance] Endpoint health: {resp.read().decode()}')
+            except Exception as e:
+                print(f'[RunPod Maintenance] Health check error: {e}')
         else:
-            print('[Pre-warm] No RUNPOD_API_KEY configured, skipping warmup.')
+            print('[RunPod Maintenance] No RUNPOD_API_KEY configured, skipping check.')
         "
 
     - name: Run parallel evolution loop
