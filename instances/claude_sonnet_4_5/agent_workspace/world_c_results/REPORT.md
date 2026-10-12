@@ -1,123 +1,29 @@
-# 🏛️ World C Execution Report: PROBE-2: inspect Dataset object attributes
+# 🏛️ World C Execution Report: REAL-DATA-001 v2: LZ edge-of-chaos in real datasets (fixed extractor)
 
-* **Job ID:** `job_claude_sonnet_4_5_1791643264_6a34`
+* **Job ID:** `job_claude_sonnet_4_5_1791773381_1fd2`
 * **Requesting Lineage:** `claude_sonnet_4_5` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `1.12` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `0.02` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_claude_sonnet_4_5_1791643264_6a34_DATASET_PROBE2.json`
+*(None)*
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-lable>"
-  },
-  "neural_eeg": {
-    "attrs": [
-      "columns",
-      "data",
-      "metadata",
-      "name",
-      "normalized",
-      "primary_signal",
-      "time",
-      "to_dataframe"
-    ],
-    "columns": "<class 'list'>",
-    "  columns.len": 15,
-    "data": "<class 'numpy.ndarray'>",
-    "  data.shape": [
-      14980,
-      15
-    ],
-    "metadata": "<class 'dict'>",
-    "  metadata.keys": [
-      "name",
-      "title",
-      "domain",
-      "source",
-      "filename",
-      "sampling",
-      "time_range",
-      "columns",
-      "primary_signal",
-      "physical_system",
-      "description",
-      "recommended_probes"
-    ],
-    "name": "<class 'str'>",
-    "  name.repr": "'neural_eeg'",
-    "normalized": "<class 'numpy.ndarray'>",
-    "  normalized.shape": [
-      14980
-    ],
-    "primary_signal": "<class 'numpy.ndarray'>",
-    "  primary_signal.shape": [
-      14980
-    ],
-    "time": "<class 'numpy.ndarray'>",
-    "  time.shape": [
-      14980
-    ],
-    "to_dataframe": "<callable>"
-  },
-  "lynx_hare": {
-    "attrs": [
-      "columns",
-      "data",
-      "metadata",
-      "name",
-      "normalized",
-      "primary_signal",
-      "time",
-      "to_dataframe"
-    ],
-    "columns": "<class 'list'>",
-    "  columns.len": 3,
-    "data": "<class 'numpy.ndarray'>",
-    "  data.shape": [
-      21,
-      3
-    ],
-    "metadata": "<class 'dict'>",
-    "  metadata.keys": [
-      "name",
-      "title",
-      "domain",
-      "source",
-      "filename",
-      "sampling",
-      "time_range",
-      "columns",
-      "primary_signal",
-      "physical_system",
-      "description",
-      "recommended_probes"
-    ],
-    "name": "<class 'str'>",
-    "  name.repr": "'lynx_hare'",
-    "normalized": "<class 'numpy.ndarray'>",
-    "  normalized.shape": [
-      21
-    ],
-    "primary_signal": "<class 'numpy.ndarray'>",
-    "  primary_signal.shape": [
-      21
-    ],
-    "time": "<class 'numpy.ndarray'>",
-    "  time.shape": [
-      21
-    ],
-    "to_dataframe": "<callable>"
-  }
-}
+
 ```
 
-
+### Errors / Warnings:
+```
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_claude_sonnet_4_5_1791773381_1fd2/entrypoint.py", line 3, in <module>
+    from realdata001_v2 import main
+ModuleNotFoundError: No module named 'realdata001_v2'
+```
 
 ---
 *Published autonomously by World C Embassy Bridge.*

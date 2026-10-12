@@ -1,0 +1,79 @@
+wm'], 25, LC)},
+        'global_max': {'A': float(A['wm'].max()) if len(A['wm']) else 0.0, 'B': float(B['wm'].max()) if len(B['wm']) else 0.0, 'C': float(C['wm'].max()) if len(C['wm']) else 0.0},
+        'meanI_hist': float(meanI_A),
+        'mass_dev_max': {'A': A['massdev'], 'B': B['massdev'], 'C': C['massdev']},
+        'n_window_maxima': {'A': len(A['wm']), 'B': len(B['wm']), 'C': len(C['wm'])},
+        'top10_events': [(round(v, 2), round(t, 1), round(xx, 2)) for (v, t, xx) in A['tops'][:10]],
+    }
+    kk = 2 * np.pi * np.fft.fftfreq(NA, d=LA / NA)
+    spec = A['specs'].get(100)
+    m = (kk > 2) & (kk < 10)
+    if spec is not None and len(spec) == len(kk) and m.sum() > 5:
+        stats['saturated_spectrum_slope_k2_10'] = float(np.polyfit(np.log(kk[m]), np.log(spec[m] + 1e-30), 1)[0])
+
+    json.dump(stats, open('it_turbulence_stats.json', 'w'), indent=1)
+
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    ax = axes[0, 0]
+    if C['rs'] and C['rs'][0]['kymo']:
+        ky = np.array(C['rs'][0]['kymo'])
+        ax.imshow(ky, aspect='auto', origin='lower', cmap='inferno', extent=[0, LC, 0, TC])
+        ax.set_title('sample kymograph |psi|^2 (config C)')
+    ax.set_xlabel('x')
+    ax.set_ylabel('t')
+    ax = axes[0, 1]
+    ax.plot(A['kt'], A['kurt'].mean(0), label='A eps=0.05 (' + str(len(A['rs'])) + ' real.)')
+    ax.fill_between(A['kt'], A['kurt'].mean(0) - A['kurt'].std(0), A['kurt'].mean(0) + A['kurt'].std(0), alpha=0.25)
+    ax.plot(B['kt'], B['kurt'].mean(0), label='B eps=0.20')
+    ax.plot(C['kt'], C['kurt'].mean(0), label='C L=200')
+    ax.axhline(2, color='k', ls='--', lw=1, label='Gaussian (=2)')
+    ax.set_xlabel('t')
+    ax.set_ylabel('kurtosis of I')
+    ax.legend()
+    ax.set_title('Intermittency: ensemble kurtosis')
+    ax = axes[1, 0]
+    ax.semilogy(kc, pA, lw=1.6, label='A: eps=0.05')
+    ax.semilogy(kc, pB, lw=1.6, label='B: eps=0.20')
+    ax.semilogy(kc, pC, lw=1.6, label='C: L=200')
+    ax.semilogy(kc, ray, 'k--', lw=1.4, label='exponential fit')
+    for thr, nm in ((9, 'Peregrine 9'), (25, 'order-2: 25')):
+        ax.axvline(thr, color='r', ls=':', alpha=0.7)
+        ax.text(thr, max(1e-4, float(ray.max())) * 0.5, nm, rotation=90, fontsize=8, color='r')
+    ax.set_xlabel('|psi|^2')
+    ax.set_ylabel('PDF')
+    ax.legend()
+    ax.set_title('Saturated-phase PDF vs exponential (tail enhancement at I=9: x' + str(round(stats['enhancement_at_9']['A'], 1)) + ')')
+    ax = axes[1, 1]
+    for nm, D in (('A', A['wm']), ('B', B['wm']), ('C', C['wm'])):
+        s = np.sort(D)[::-1]
+        ax.step(np.arange(1, len(s) + 1), s, where='post', label=nm, lw=1.2)
+    for v in (9, 25, 49):
+        ax.axhline(v, color='r', ls=':', alpha=0.6)
+        ax.text(max(1, len(A['wm'])) * 0.7, v + 0.5, 'ladder ' + str(v), fontsize=8, color='r')
+    ax.set_xlabel('rank')
+    ax.set_ylabel('window max |psi|^2')
+    ax.legend()
+    ax.set_title('Rank-ordered window maxima vs rogue ladder')
+    plt.tight_layout()
+    plt.savefig('it_turbulence_overview.png', dpi=110)
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    for skey, lbl in ((0, 't=0'), (5, 't=5'), (15, 't=15'), (40, 't=40'), (100, 't=100')):
+        if skey not in A['specs']:
+            continue
+        ax.loglog(kk, A['specs'][skey] + 1e-30, lw=1.1, label=lbl)
+    ax.set_xlabel('k')
+    ax.set_ylabel('spectral power')
+    ax.legend()
+    ax.set_title('Spectral evolution (config A ensemble mean)')
+    plt.tight_layout()
+    plt.savefig('it_spectrum_evolution.png', dpi=110)
+
+    print(json.dumps(stats, indent=1)[:3000])
+    print('saved: it_turbulence_overview.png, it_spectrum_evolution.png, it_turbulence_stats.json')
+
+main()  # unconditional: World C entrypoint transport

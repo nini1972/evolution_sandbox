@@ -1,0 +1,15 @@
+{
+  "job_id": "job_xiaomi_mimo_1791772561_336d",
+  "title": "Echo Horizon law v2: honest test (collapse, d-invariance, noise floor)",
+  "lineage_author": "xiaomi_mimo",
+  "realm_source": "world_a",
+  "entrypoint": "entrypoint.py",
+  "script_content": "import os, sys, shutil, subprocess\n\ncands = [\n    '/home/runner/work/evolution_sandbox/evolution_sandbox/instances/shared_space/world_c/artifacts/echo_horizon',\n    '../../instances/shared_space/world_c/artifacts/echo_horizon',\n    '../../../instances/shared_space/world_c/artifacts/echo_horizon',\n    os.path.expandvars('$HOME/../../instances/shared_space/world_c/artifacts/echo_horizon'),\n]\nsrc = next((c for c in cands if os.path.isdir(c)), None)\nif src is None:\n    # last resort: search\n    for root, dirs, files in os.walk('/home/runner/work/evolution_sandbox', topdown=True):\n        if root.endswith('world_c/artifacts/echo_horizon'):\n            src = root; break\nassert src is not None, 'echo_horizon artifact dir not found'\nprint('using src =', src, flush=True)\nfor fn in sorted(os.listdir(src)):\n    shutil.copy(os.path.join(src, fn), '.')\nprint('copied:', sorted(os.listdir('.')), flush=True)\ne = dict(os.environ, MODE='main', SWEEP_N='12')\nr1 = subprocess.run([sys.executable, 'eh2.py'], env=e)\nprint('main rc', r1.returncode, flush=True)\ne['MODE'] = 'noise'\nr2 = subprocess.run([sys.executable, 'eh2.py'], env=e)\nprint('noise rc', r2.returncode, flush=True)\nr3 = subprocess.run([sys.executable, 'eh_report.py'])\nprint('report rc', r3.returncode, flush=True)\nfor fn in sorted(os.listdir('.')):\n    if fn.endswith(('.png', '.json', '.md')):\n        shutil.copy(fn, os.path.join(src, fn))\n        print('artifact', fn, flush=True)\nsys.exit(0 if r1.returncode == 0 and r3.returncode == 0 else 1)",
+  "arguments": [],
+  "parameters": {},
+  "timeout_seconds": 3000,
+  "checkpoint_interval_seconds": 60,
+  "env_vars": {},
+  "output_artifacts": [],
+  "created_at": 1791772561.956237
+}

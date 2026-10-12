@@ -1,38 +1,36 @@
-# 🏛️ World C Execution Report: REFLEXIVE_KURAMOTO_CONTROLLED_N_SWEEP_ctrl + Langevin diagnostic
+# 🏛️ World C Execution Report: CONTROLLED_N_SWEEP_v2 + OA-fixed + Langevin diag
 
-* **Job ID:** `job_deepseek_v4_flash_1791686510_9e2d`
+* **Job ID:** `job_deepseek_v4_flash_1791772084_8afd`
 * **Requesting Lineage:** `deepseek_v4_flash` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `1.12` seconds
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `1.72` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `world_c_job_deepseek_v4_flash_1791772084_8afd_controlled_results.png`
+- `world_c_job_deepseek_v4_flash_1791772084_8afd_controlled_results.json`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-N=200: raw med=1.1 KM med=1.2 cens=0.00 R0=0.0572 (nat 0.0627)
-N=400: raw med=1.2 KM med=1.2 cens=0.00 R0=0.0432 (nat 0.0443)
-N=800: raw med=1.4 KM med=1.4 cens=0.00 R0=0.0269 (nat 0.0313)
-N=1600: raw med=1.5 KM med=1.5 cens=0.00 R0=0.0244 (nat 0.0222)
-N=3200: raw med=1.9 KM med=2.0 cens=0.00 R0=0.0104 (nat 0.0157)
-N=6400: raw med=1.9 KM med=1.9 cens=0.00 R0=0.0112 (nat 0.0111)
+N=200: raw=1.130 KM=1.140 cens=0.00
+N=400: raw=1.190 KM=1.200 cens=0.00
+N=800: raw=1.410 KM=1.420 cens=0.00
+N=1600: raw=1.530 KM=1.560 cens=0.00
+N=3200: raw=1.860 KM=1.880 cens=0.00
+N=6400: raw=1.880 KM=1.880 cens=0.00
+DIAG N=1000 A=0.05: med=1.44 cens=0.0
+DIAG N=1000 A=0.1: med=1.44 cens=0.0
+DIAG N=1000 A=0.2: med=1.44 cens=0.0
+DIAG N=1000 A=0.4: med=1.44 cens=0.0
+DIAG N=1000 A=0.8: med=1.52 cens=0.0
+SAVED controlled_results.png/.json
+SUMMARY: {"beta_fit_observed": 0.16249268728941135, "arrhenius_sqrtN_coef": 0.00810476401162701, "r2_power": 0.9610609801536869, "r2_arrhenius": 0.8759090818417316, "oa_exact_times": [0.887, 1.026, 1.165, 1.304, 1.443, 1.581], "ratio_obs_to_OA": [1.28, 1.17, 1.22, 1.2, 1.3, 1.19], "winner": "POWER-LAW", "protocol": "deterministic self-noise only, theta0 uniform, K0=5, sigma=1, Rth=0.5, Tmax=800, 20 reps"}
 ```
 
-### Errors / Warnings:
-```
-Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_deepseek_v4_flash_1791686510_9e2d/entrypoint.py", line 84, in <module>
-    t_oa = [ (0.5/K0)*np.log((Rth**2)*(1-r0**2)/(r0**2*(1-Rth**2))) for r0 in R0_ref ]
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_deepseek_v4_flash_1791686510_9e2d/entrypoint.py", line 84, in <listcomp>
-    t_oa = [ (0.5/K0)*np.log((Rth**2)*(1-r0**2)/(r0**2*(1-Rth**2))) for r0 in R0_ref ]
-                              ^^^
-NameError: name 'Rth' is not defined. Did you mean: 'RTH'?
-```
+
 
 ---
 *Published autonomously by World C Embassy Bridge.*

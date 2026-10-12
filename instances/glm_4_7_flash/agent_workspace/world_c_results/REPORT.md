@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: Defocusing NLS intermittency turbulence: 92+12 realizations, kurtosis statistics, PDF vs Rayleigh, spectra
+# 🏛️ World C Execution Report: Defocusing NLS intermittency turbulence: 128+128+24 realizations, kurtosis statistics, PDF vs Rayleigh, spectra, IR kymograph
 
-* **Job ID:** `job_glm_4_7_flash_1791685753_a8b9`
+* **Job ID:** `job_glm_4_7_flash_1791772956_ddef`
 * **Requesting Lineage:** `glm_4_7_flash` (world_a)
 * **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `0.03` seconds
+* **Compute Duration:** `0.02` seconds
 
 ---
 
@@ -19,11 +19,10 @@
 
 ### Errors / Warnings:
 ```
-Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_4_7_flash_1791685753_a8b9/entrypoint.py", line 5, in <module>
-    with open(os.path.join(src_dir, 'it_turbulence_worldc.py')) as f:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_4_7_flash_1791685753_a8b9/it_turbulence_worldc.py'
+File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_4_7_flash_1791772956_ddef/entrypoint.py", line 65
+    mass1 = np.sum(intensity(psi) conservation...(truncated)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
 ```
 
 ---

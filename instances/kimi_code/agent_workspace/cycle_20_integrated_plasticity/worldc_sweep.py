@@ -242,14 +242,6 @@ class Simulation:
 
         parents = np.concatenate(chosen_list)
         m = parents.size
-        total = self.L * self.L * self.K
-        if m > total:
-            print(f"DEBUG t={t} m={m} total={total} nonempty={len(chosen_list)} n_recruits={n_recruits} alive={n} survivors={survivors.size} movers={movers.size}", flush=True)
-            nonempty_counts = []
-            for arr in chosen_list:
-                if arr.size:
-                    nonempty_counts.append(arr.size)
-            print("chosen_list sizes:", nonempty_counts[:20], sum(nonempty_counts), flush=True)
 
         # Resolve bank recruits (negative indices)
         from_bank = parents < 0

@@ -32,46 +32,40 @@ def spacetime_fft(r, epsilon, n_cells=100, n_steps=4096, transient=2000, seed=1)
         x = coupled_logistic_map(x, r, epsilon)
         traj[t] = x
     # subtract time mean at each site
-    u = traj - traj.mean(axis=0)
-    P = np.abs(np.fft.fft2(u))**2
+    u = traj - traj.mean(axis=0)          # (n_steps, n_cells)
+    P = np.abs(np.fft.fft2(u))**2          # P[tt, kk]; axis0=time, axis1=space
     P /= P.sum()
     return P, traj
 
 def analyze(r, epsilon, n_cells=100, n_steps=4096):
     P, traj = spacetime_fft(r, epsilon, n_cells, n_steps)
-    kfreq = np.fft.fftfreq(n_cells)      # cycles per cell
-    tfreq = np.fft.fftfreq(n_steps)      # cycles per time step
+    kfreq = np.fft.fftfreq(n_cells)      # cycles per cell (axis 1)
+    tfreq = np.fft.fftfreq(n_steps)      # cycles per time step (axis 0)
 
     # Find top peaks
     P_flat = P.flatten()
-    idx = np.dstack(np.unravel_index(np.argsort(P_flat)[::-1][:12], P.shape))[0]
+    order = np.argsort(P_flat)[::-1][:12]
+    idx = np.unravel_index(order, P.shape)      # (tt_indices, kk_indices)
     peaks = []
-    for (kk, tt) in idx:
+    for tt, kk in zip(*idx):
         k = kfreq[kk]
         w = tfreq[tt]
-        # use positive-frequency representative
-        peaks.append({'k': float(k), 'omega': float(w), 'power': float(P[kk, tt]),
+        peaks.append({'k': float(k), 'omega': float(w), 'power': float(P[tt, kk]),
                       'k_int': int(kk), 't_int': int(tt)})
 
     # Power in specific categories
     total = P.sum()
-    # zero-frequency-in-time, nonzero-k -> spatial patterns (checkerboard = k=0.5)
-    # zero k, nonzero omega -> global oscillation
-    # checkerboard specifically:
-    cb = P[n_cells//2, :].sum() / total        # k=0.5, all omega
-    checkerboard_time = P[n_cells//2, 0] / total
-    global_osc = P[0, 1:] .sum() / total       # k=0, omega != 0
-    broadband = total - P[0,:].sum() - P[n_cells//2,:].sum() - P[:,0].sum() + P[0,0]
-    # simpler: fraction outside the low-mode grid
-    low_modes = 0
-    for kk in range(n_cells):
-        k = abs(kfreq[kk])
-        for tt in range(n_steps):
-            w = abs(tfreq[tt])
-            if k < 0.05 and w < 0.05:
-                low_modes += P[kk, tt]
-    # top-10 peak concentration:
+    # checkerboard k=0.5 (kk = n_cells//2): sum over all time freqs
+    cb = P[:, n_cells//2].sum() / total        # k=0.5, all omega
+    checkerboard_time = P[0, n_cells//2] / total  # (omega=0, k=0.5)
+    global_osc = P[1:, 0].sum() / total        # k=0, omega != 0
+    # "locked" fraction: power in modes that are either pure spatial (omega=0, k!=0),
+    # pure temporal (k=0, omega!=0), or the checkerboard column/row.
+    pure_spatial = P[0, 1:].sum() / total
+    # fraction in the 10 dominant peaks:
     top10 = sum(p['power'] for p in peaks) / total
+    # fraction in the checkerboard band + its time mirror + k=0 band + temporal mirror:
+    locked = (P[:, n_cells//2].sum() + P[1:, 0].sum() + P[0, 1:].sum()) / total
 
     # temporal autocorrelation at each cell (diagnostic)
     cell0 = traj[:, 0]
@@ -88,6 +82,8 @@ def analyze(r, epsilon, n_cells=100, n_steps=4096):
         'checkerboard_k05_power': float(cb),
         'checkerboard_omega0_power': float(checkerboard_time),
         'global_osc_power': float(global_osc),
+        'pure_spatial_power': float(pure_spatial),
+        'locked_band_power': float(locked),
         'acf_cell0_first5': [float(acf[t]) for t in range(6)],
         'acf_peaks': peaks_acf[:6],
     }
@@ -108,8 +104,8 @@ if __name__ == "__main__":
         print(f"top-10 (k,omega) peaks concentration: {res['top10_concentration']:.3f}")
         for p in res['peaks'][:6]:
             print(f"  k={p['k']:+.3f}  omega={p['omega']:+.4f}  power={p['power']:.4f}")
-        print(f"checkerboard k=0.5 total power: {res['checkerboard_k05_power']:.3f}")
-        print(f"cell0 acf [1..5]: {res['acf_cell0_first5']}")
+        print(f"checkerboard k=0.5 power: {res['checkerboard_k05_power']:.3f} | k=0 temporal: {res['global_osc_power']:.3f} | pure-spatial: {res['pure_spatial_power']:.3f}")
+        print(f"cell0 acf [1..5]: {[f'{v:.3f}' for v in res['acf_cell0_first5']]}")
         print(f"cell0 acf peaks at lags: {res['acf_peaks']}")
     with open('spacetime_fft_results.json', 'w') as f:
         json.dump(out, f, indent=2)

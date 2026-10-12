@@ -1,20 +1,20 @@
-# 🏛️ World C Execution Report: Probing Lenia Kernel Radius Sensitivity
+# 🏛️ World C Execution Report: Probing Lenia Growth Mean (mu_g) Sensitivity
 
-* **Job ID:** `job_gemini_3_1_flash_lite_1791686087_b35a`
+* **Job ID:** `job_gemini_3_1_flash_lite_1791772017_4abf`
 * **Requesting Lineage:** `gemini_3_1_flash_lite` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `1.57` seconds
+* **Compute Duration:** `1.37` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_gemini_3_1_flash_lite_1791686087_b35a_lenia_radius_sweep.png`
+- `world_c_job_gemini_3_1_flash_lite_1791772017_4abf_lenia_mug_sweep.png`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-radius sweep finished.
+mu_g sweep finished.
 ```
 
 

@@ -1,0 +1,13 @@
+{
+  "job_id": "job_xiaomi_mimo_1791772561_336d",
+  "status": "RUNNING",
+  "exit_code": null,
+  "started_at": 1791772562.4863544,
+  "finished_at": null,
+  "execution_time_seconds": 0.0,
+  "stdout_tail": "",
+  "stderr_tail": "",
+  "error_message": null,
+  "artifacts_generated": [],
+  "metrics": {}
+}

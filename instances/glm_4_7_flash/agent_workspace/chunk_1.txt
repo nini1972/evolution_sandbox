@@ -1,0 +1,74 @@
+  ag['kt'] = rs[0]['kurt_t']
+        ag['kurt'] = np.array([r['kurt_v'] for r in rs])
+        hist = np.zeros(len(rs[0]['hist']))
+        for r in rs:
+            hist += np.array(r['hist'])
+        ag['hist'] = hist
+        ag['wm'] = np.concatenate([np.array(r['win_max']) for r in rs])
+        ag['specs'] = {}
+        for key in (0, 5, 15, 40, 100):
+            if all(key in r['spectra'] for r in rs):
+                ag['specs'][key] = np.mean([np.array(r['spectra'][key]) for r in rs], axis=0)
+        ag['massdev'] = max(r['mass_dev'] for r in rs)
+        tops = []
+        for r in rs:
+            tops += list(r['top_events'])
+        ag['tops'] = sorted(tops)[::-1]
+    return ag
+
+def main():
+    t0 = time.time()
+    env = os.environ
+    NA = int(env.get('IT_NA', 1024)); LA = float(env.get('IT_LA', 100.0))
+    dtA = float(env.get('IT_DTA', 1e-3)); TA = float(env.get('IT_TA', 100.0))
+    nA = int(env.get('IT_NREAL', 40))
+    NB = int(env.get('IT_NB', NA)); LB = LA; dtB = dtA; TB = TA; nB = nA
+    NC = int(env.get('IT_NC', 2048)); LC = float(env.get('IT_LC', 200.0))
+    dtC = float(env.get('IT_DTC', 5e-4)); TC = TA; nC = max(1, nA // 3)
+    cfgA = [(1000 + i, NA, LA, dtA, TA, 0.05) for i in range(nA)]
+    cfgB = [(2000 + i, NB, LB, dtB, TB, 0.20) for i in range(nB)]
+    cfgC = [(3000 + i, NC, LC, dtC, TC, 0.10) for i in range(nC)]
+    jobs = cfgA + cfgB + cfgC
+    nproc = min(8, mp.cpu_count())
+    with mp.Pool(nproc) as pool:
+        results = pool.map(run_realization, jobs)
+    A = aggregate([r for r, j in zip(results, jobs) if j[1] == NA and j[2] == LA and j[5] == 0.05])
+    B = aggregate([r for r, j in zip(results, jobs) if j[1] == NB and j[2] == LB and j[5] == 0.20])
+    C = aggregate([r for r, j in zip(results, jobs) if j[1] == NC])
+    print('elapsed', round(time.time() - t0, 1), 's | ok counts:', A['n_ok'], B['n_ok'], C['n_ok'])
+    for r in results:
+        if not r.get('ok'):
+            print('FAILED seed', r['seed'], r['err'])
+
+    if A['n_ok'] == 0:
+        print('NO REALIZATIONS SURVIVED - aborting analysis')
+        return
+    kc = 0.5 * (np.array(A['rs'][0]['bins'][:-1]) + np.array(A['rs'][0]['bins'][1:]))
+    totA = float(A['hist'].sum())
+    pA = A['hist'] / totA / (kc[1] - kc[0]) if totA > 0 else np.zeros(len(kc))
+    totB = float(B['hist'].sum())
+    pB = B['hist'] / totB / (kc[1] - kc[0]) if totB > 0 else np.zeros(len(kc))
+    totC = float(C['hist'].sum())
+    pC = C['hist'] / totC / (kc[1] - kc[0]) if totC > 0 else np.zeros(len(kc))
+    meanI_A = np.sum(kc * pA) * (kc[1] - kc[0]) if totA > 0 else 1.0
+    ray = np.exp(-kc / meanI_A) / meanI_A
+
+    def enh(p, i0):
+        m = (kc > i0 - 0.5) & (kc < i0 + 0.5)
+        mm = (kc > i0 - 1.5) & (kc < i0 - 0.5)
+        if p[m].sum() <= 0 or ray[mm].sum() <= 0:
+            return 0.0
+        return float(p[m].sum() / ray[m].sum())
+
+    def rate(wm, thr, L, TA=100.0):
+        return float((wm > thr).sum() / (max(1.0, TA - 40.0) * L))
+
+    stats = {
+        'n_realizations': {'A': A['n_ok'], 'B': B['n_ok'], 'C': C['n_ok']},
+        'kurtosis_final': {'A': float(A['kurt'][:, -1].mean()), 'B': float(B['kurt'][:, -1].mean()), 'C': float(C['kurt'][:, -1].mean())},
+        'kurtosis_peak': {'A': float(A['kurt'].max()), 'B': float(B['kurt'].max()), 'C': float(C['kurt'].max())},
+        'enhancement_at_9': {'A': enh(pA, 9), 'B': enh(pB, 9), 'C': enh(pC, 9)},
+        'enhancement_at_25': {'A': enh(pA, 25), 'B': enh(pB, 25), 'C': enh(pC, 25)},
+        'rate_gt9_perTL': {'A': rate(A['wm'], 9, LA), 'B': rate(B['wm'], 9, LB), 'C': rate(C['wm'], 9, LC)},
+        'rate_gt16_perTL': {'A': rate(A['wm'], 16, LA), 'B': rate(B['wm'], 16, LB), 'C': rate(C['wm'], 16, LC)},
+        'rate_gt25_perTL': {'A': rate(A['wm'], 25, LA), 'B': rate(B['wm'], 25, LB), 'C': rate(C['

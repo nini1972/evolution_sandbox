@@ -1,0 +1,94 @@
+# World C job: integrable turbulence / rogue-wave statistics, defocusing NLS
+# Production: 128+128 realizations N=1024 (eps=0.05 / 0.20) + 24 realizations N=2048
+import os
+os.environ.setdefault('IT_NA', '1024'); os.environ.setdefault('IT_LA', '100.0')
+os.environ.setdefault('IT_DTA', '1e-3'); os.environ.setdefault('IT_TA', '100.0')
+os.environ.setdefault('IT_NREAL', '128')
+os.environ.setdefault('IT_NC', '2048'); os.environ.setdefault('IT_LC', '200.0')
+os.environ.setdefault('IT_DTC', '5e-4')
+
+"""
+DISCOVERY 029 (World C): Integrable turbulence and rogue-wave statistics
+in the focusing NLS:  i psi_t + psi_xx + 2 |psi|^2 psi = 0
+Transport-safe edition: no double-star operators anywhere (use x*x).
+Split-step Fourier (Strang) integrator, ensemble statistics.
+"""
+import numpy as np, json, time, os, sys
+import multiprocessing as mp
+
+def intensity(psi):
+    # |psi|^2 without the power operator
+    return psi.real * psi.real + psi.imag * psi.imag
+
+def run_realization(args):
+    (seed, N, L, dt, T, eps) = args
+    try:
+        dx = L / N
+        x = np.arange(N) * dx
+        k = 2.0 * np.pi * np.fft.fftfreq(N, d=dx)
+        K2 = k * k
+        lin_half = np.exp(-0.5j * K2 * dt)
+        nsteps = int(round(T / dt))
+        rng = np.random.default_rng(seed)
+        psi = np.ones(N, dtype=complex)
+        psi += eps * (rng.standard_normal(N) + 1j * rng.standard_normal(N)) / np.sqrt(2)
+
+        bins = np.linspace(0, 60, 241)
+        hist = np.zeros(len(bins) - 1)
+        kurt_t, kurt_v = [], []
+        win_max = []
+        wcur = 0.0
+        top_events = []
+        a0 = np.abs(np.fft.fft(psi))
+        spectra = {0: (a0 * a0).tolist()}
+        mass0 = intensity(psi).mean()
+        mass_max_dev = 0.0
+        kymo_rows = []
+        wstep = max(1, int(round(4.0 / dt)))
+        for n in range(1, nsteps + 1):
+            psi = np.fft.ifft(lin_half * np.fft.fft(psi))
+            psi *= np.exp(2j * dt * intensity(psi))
+            psi = np.fft.ifft(lin_half * np.fft.fft(psi))
+            t = n * dt
+            if n % 50 == 0:
+                I = intensity(psi)
+                m1 = I.mean()
+                m2 = (I * I).mean()
+                kurt_t.append(t)
+                kurt_v.append(m2 / (m1 * m1))
+                mass_max_dev = max(mass_max_dev, abs(m1 - mass0))
+            if t >= 40:
+                I = intensity(psi)
+                if n % 20 == 0:
+                    h, _ = np.histogram(I, bins=bins)
+                    hist += h
+                wcur = max(wcur, I.max())
+                if n % wstep == 0:
+                    win_max.append(wcur)
+                    wcur = 0.0
+                im = int(I.argmax())
+                if len(top_events) < 5 or I[im] > top_events[0][0]:
+                    top_events = sorted(top_events + [(float(I[im]), float(t), float(x[im]))])[-5:]
+            for st in (5, 15, 40, 100):
+                if abs(t - st) < dt / 2 and st not in spectra:
+                    a = np.abs(np.fft.fft(psi))
+                    spectra[st] = (a * a).tolist()
+            if N == 2048 and n % 400 == 0 and len(kymo_rows) < 250:
+                kymo_rows.append(intensity(psi).copy().tolist())
+        return {'ok': True, 'seed': seed, 'N': N, 'L': L, 'eps': eps,
+                'hist': hist.tolist(), 'bins': bins.tolist(),
+                'kurt_t': kurt_t, 'kurt_v': kurt_v,
+                'win_max': win_max, 'top_events': top_events,
+                'spectra': spectra, 'mass_dev': mass_max_dev,
+                'kymo': kymo_rows}
+    except Exception as e:
+        import traceback
+        return {'ok': False, 'seed': seed, 'err': repr(e), 'tb': traceback.format_exc()[-400:]}
+
+def aggregate(results):
+    ag = {}
+    rs = [r for r in results if r.get('ok')]
+    ag['rs'] = rs
+    ag['n_ok'] = len(rs)
+    if rs:
+      
