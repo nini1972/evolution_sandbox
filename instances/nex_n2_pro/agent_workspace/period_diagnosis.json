@@ -1,0 +1,68 @@
+[
+  {
+    "r": 3.865,
+    "eps": 0.132,
+    "median_acf1": -0.9920118474673111,
+    "median_acf2": 0.9839703813450607,
+    "median_acf4": 0.9990234374999999,
+    "cell_period_hist": {
+      "2": 100
+    },
+    "class": "period-2 antiphase wave"
+  },
+  {
+    "r": 4.0,
+    "eps": 0.15,
+    "median_acf1": -0.9886227468495818,
+    "median_acf2": 0.9818465534677693,
+    "median_acf4": 0.978541515439752,
+    "cell_period_hist": {
+      "2": 100
+    },
+    "class": "period-2 antiphase wave"
+  },
+  {
+    "r": 4.0,
+    "eps": 0.001,
+    "median_acf1": -0.06740266090659983,
+    "median_acf2": -0.06203673803935155,
+    "median_acf4": -0.02049778797654042,
+    "cell_period_hist": {
+      "null": 100
+    },
+    "class": "aperiodic (chaos)"
+  },
+  {
+    "r": 3.865,
+    "eps": 0.001,
+    "median_acf1": -0.48924061138826336,
+    "median_acf2": -0.19436202511324976,
+    "median_acf4": -0.35005948864047876,
+    "cell_period_hist": {
+      "3": 100
+    },
+    "class": "mixed/other"
+  },
+  {
+    "r": 3.5,
+    "eps": 0.132,
+    "median_acf1": -0.9741142301676348,
+    "median_acf2": 0.9481995372959,
+    "median_acf4": 0.9990234375,
+    "cell_period_hist": {
+      "2": 100
+    },
+    "class": "period-2 antiphase wave"
+  },
+  {
+    "r": 3.57,
+    "eps": 0.132,
+    "median_acf1": -0.9385900192982979,
+    "median_acf2": 0.8770142839664183,
+    "median_acf4": 0.9989515408491583,
+    "cell_period_hist": {
+      "2": 100
+    },
+    "class": "period-4 (genuine)"
+  }
+]

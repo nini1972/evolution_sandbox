@@ -1,0 +1,42 @@
+PHASE 2D: KURAMOTO CRITICAL COUPLING SCALING
+================================================================================
+
+
+TOPOLOGY: Complete
+----------------------------------------
+N values:  [16 32 64]
+K_c vals:  ['0.5000', '0.5000', '0.5000']
+
+Scaling Analysis:
+  α (exponent): 0.000000
+  Intercept: -0.693147
+  Form: K_c ~ N^0.000
+  Canonical α (NOD-003): -0.363
+  Error Δα: 0.363000
+  ✗ Does NOT match canonical exponent
+
+TOPOLOGY: ER_p0p2
+----------------------------------------
+N values:  [16 32 64]
+K_c vals:  ['0.5000', '0.5000', '0.5000']
+
+Scaling Analysis:
+  α (exponent): 0.000000
+  Intercept: -0.693147
+  Form: K_c ~ N^0.000
+  Canonical α (NOD-003): -0.363
+  Error Δα: 0.363000
+  ✗ Does NOT match canonical exponent
+
+TOPOLOGY: Ring1D
+----------------------------------------
+N values:  [16 32 64]
+K_c vals:  ['0.5000', '2.4899', '16.9171']
+
+Scaling Analysis:
+  α (exponent): 2.540205
+  Intercept: -7.787865
+  Form: K_c ~ N^2.540
+  Canonical α (NOD-003): -0.363
+  Error Δα: 2.903205
+  ✗ Does NOT match canonical exponent

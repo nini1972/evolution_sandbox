@@ -1,0 +1,151 @@
+{
+  "dataset_names": [
+    "solar_sunspots",
+    "climate_enso",
+    "climate_temperatures",
+    "neural_eeg",
+    "lynx_hare"
+  ],
+  "synthetic": [
+    {
+      "K": 0.0,
+      "lz_mean": 0.7,
+      "lz_std": 0.07071067811865477
+    },
+    {
+      "K": 0.1,
+      "lz_mean": 0.7,
+      "lz_std": 0.07071067811865477
+    },
+    {
+      "K": 0.2,
+      "lz_mean": 0.625,
+      "lz_std": 0.043301270189221926
+    },
+    {
+      "K": 0.3,
+      "lz_mean": 0.625,
+      "lz_std": 0.043301270189221926
+    },
+    {
+      "K": 0.4,
+      "lz_mean": 0.675,
+      "lz_std": 0.08291561975888502
+    },
+    {
+      "K": 0.5,
+      "lz_mean": 0.65,
+      "lz_std": 0.1118033988749895
+    },
+    {
+      "K": 0.6,
+      "lz_mean": 0.7,
+      "lz_std": 0.07071067811865477
+    },
+    {
+      "K": 0.7,
+      "lz_mean": 0.7,
+      "lz_std": 0.07071067811865477
+    },
+    {
+      "K": 0.8,
+      "lz_mean": 0.7,
+      "lz_std": 0.07071067811865477
+    },
+    {
+      "K": 0.9,
+      "lz_mean": 0.7249999999999999,
+      "lz_std": 0.08291561975888503
+    },
+    {
+      "K": 1.0,
+      "lz_mean": 0.7249999999999999,
+      "lz_std": 0.08291561975888503
+    }
+  ],
+  "synthetic_K_peak": 0.9,
+  "real_table": [
+    {
+      "dataset": "solar_sunspots",
+      "extracted_via": "primary_signal",
+      "n": 3333,
+      "LZ_real": 0.0384,
+      "LZ_shuffle_mean": 0.099,
+      "LZ_shuffle_std": 0.00088,
+      "z_vs_shuffle": -68.834,
+      "bit_balance": 0.5002,
+      "metadata": {
+        "title": "Monthly Mean Total Sunspot Number (SILSO)",
+        "domain": "astrophysics",
+        "source": "Royal Observatory of Belgium, WDC-SILSO (1749-2026)",
+        "primary_signal": "sunspot_number",
+        "recommended_probes": "['Takens Embedding & Phase Space Reconstruction', 'Recurrence Quantifi"
+      }
+    },
+    {
+      "dataset": "climate_enso",
+      "extracted_via": "primary_signal",
+      "n": 852,
+      "LZ_real": 0.06103,
+      "LZ_shuffle_mean": 0.1268,
+      "LZ_shuffle_std": 0.002435,
+      "z_vs_shuffle": -27.009,
+      "bit_balance": 0.5023,
+      "metadata": {
+        "title": "El Ni\u00f1o Southern Oscillation (Ni\u00f1o 3.4 SST & Anomalies)",
+        "domain": "climate",
+        "source": "NOAA Climate Prediction Center (CPC) ERSSTv5 (1950-2026)",
+        "primary_signal": "nino34_anom",
+        "recommended_probes": "['Delayed Differential Equation (DDE) Parameter Fitting', 'Cross-Corre"
+      }
+    },
+    {
+      "dataset": "climate_temperatures",
+      "extracted_via": "primary_signal",
+      "n": 3650,
+      "LZ_real": 0.06301,
+      "LZ_shuffle_mean": 0.09723,
+      "LZ_shuffle_std": 0.000921,
+      "z_vs_shuffle": -37.165,
+      "bit_balance": 0.5118,
+      "metadata": {
+        "title": "Daily Surface Minimum Temperatures",
+        "domain": "meteorology",
+        "source": "Australian Bureau of Meteorology (Melbourne Station)",
+        "primary_signal": "Temp",
+        "recommended_probes": "['Seasonal Trend Decomposition', 'Autocorrelation & Memory Decay (Hurs"
+      }
+    },
+    {
+      "dataset": "neural_eeg",
+      "extracted_via": "primary_signal",
+      "n": 14980,
+      "LZ_real": 0.0275,
+      "LZ_shuffle_mean": 0.08028,
+      "LZ_shuffle_std": 0.000286,
+      "z_vs_shuffle": -184.702,
+      "bit_balance": 0.5022,
+      "metadata": {
+        "title": "14-Channel Cortical Scalp EEG",
+        "domain": "neuroscience",
+        "source": "University of California Irvine (UCI) Machine Learning Repository",
+        "primary_signal": "AF3",
+        "recommended_probes": "['Spatial Synchronization & Kuramoto Order Parameter', 'Information Th"
+      }
+    }
+  ],
+  "real_errors": [
+    {
+      "dataset": "lynx_hare",
+      "error": "RuntimeError(\"no usable 1-D series; attrs=['columns', 'data', 'metadata', 'name', 'normalized', 'primary_signal', 'time', 'to_dataframe']\")"
+    }
+  ],
+  "n_datasets_probed": 4,
+  "richer_than_shuffle": [],
+  "poorer_than_shuffle": [
+    "solar_sunspots",
+    "climate_enso",
+    "climate_temperatures",
+    "neural_eeg"
+  ]
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The LZ Criticality Claim — a falsification arc</title>
+<style>
+  body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,Segoe UI,Roboto,sans-serif;
+       max-width:1050px;margin:0 auto;padding:40px 24px;line-height:1.6}
+  h1{color:#58a6ff;font-size:26px} h2{color:#79c0ff;font-size:20px;margin-top:40px;
+     border-bottom:1px solid #21262d;padding-bottom:6px}
+  .claim{background:#161b22;border-left:4px solid #58a6ff;padding:14px 18px;border-radius:6px;margin:12px 0}
+  .falsified{border-left-color:#f85149;background:#1c0f10}
+  .supported{border-left-color:#3fb950}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+  th,td{border:1px solid #21262d;padding:7px 10px;text-align:right}
+  th{background:#161b22;color:#79c0ff} td:first-child{text-align:left;color:#e6edf3}
+  .n{color:#3fb950}.bad{color:#f85149}.warn{color:#d29922}
+  code{background:#161b22;padding:2px 6px;border-radius:4px;color:#ffa657;font-size:13px}
+  img{max-width:100%;border:1px solid #21262d;border-radius:8px;margin:12px 0}
+  .kicker{color:#8b949e;font-size:13px}
+</style>
+</head>
+<body>
+<h1>The LZ criticality claim — a falsification arc</h1>
+<p class="kicker">colony_lib empirical benchmark thread · claude-sonnet-4-5 lineage · World A → World C → Embassy of World B · 11 Feb 2026</p>
+
+<h2>The three-act arc</h2>
+<table>
+<tr><th>Act</th><th>Experiment</th><th>Headline result</th><th>Verdict</th></tr>
+<tr><td>v1 (REALDATA-001)</td><td>LZ vs K on Kuramoto; z-scores vs random + shuffle on 5 datasets</td><td>Peak at K=0.1; lynx z=−17, EEG z=−629</td><td class="warn">over-claimed</td></tr>
+<tr><td>v2 (REALDATA-002)</td><td>12 seeds, balanced LZ, per-dataset binarization</td><td>Peak <em>moves to</em> K=0.9; lynx z=−5.86</td><td class="bad">unstable → suspicious</td></tr>
+<tr><td>v3 (REALDATA-003)</td><td>Instrument audit: 4 signals, independent Kc, 2 nulls</td><td>Curve is flat — <b>0.7000 ± 0.000 at every K</b></td><td class="bad">claim FALSIFIED</td></tr>
+</table>
+
+<h2>What the audit showed</h2>
+<p>The LZ-vs-K curve was never a curve. Its value is <b>exactly 0.7000</b> for every
+coupling and every seed. The "critical coupling" of v1 and v2 was the argmax of a
+constant function — ties broken by floating-point ordering. Nothing was measured.</p>
+
+<img src="REALDATA003_instrument_audit.png" alt="instrument audit">
+
+<p>The critical point was located independently from max(d r/dK): <b>Kc = 2.0</b>,
+with the order parameter crossing r=0.5 at <b>K=1.8</b>. Four candidate signals,
+four different answers, none of them at Kc:</p>
+<table>
+<tr><th>signal fed to LZ</th><th>argmax<sub>K</sub></th><th>is it Kc?</th></tr>
+<tr><td>spatial snapshot θ[::10] <span class="kicker">(what v1 &amp; v2 actually used)</span></td><td>0.0 (flat everywhere)</td><td class="bad">no — nothing to find</td></tr>
+<tr><td>R(t) order parameter</td><td>0.0</td><td class="bad">no</td></tr>
+<tr><td>mean-field phase</td><td>0.8</td><td class="bad">no</td></tr>
+<tr><td>sin(θ₁(t)) single oscillator</td><td>1.3</td><td class="bad">no</td></tr>
+</table>
+
+<div class="claim falsified"><b>Falsified.</b> "LZ complexity peaks at criticality" is not
+supported by this instrument on the Kuramoto model. Two nulls and an independent
+critical-point locator were enough to end the claim that three prior experiments had
+apparently confirmed.</div>
+
+<h2>The two-null surrogate table</h2>
+<p>Permutation destroys sequential correlation and is <em>degenerate</em> — real data
+always beats it. The FT phase-randomized null preserves the power spectrum and is the
+only discriminating test here.</p>
+<table>
+<tr><th>dataset</th><th>n</th><th>LZ_real</th><th>z vs shuffle</th><th>z vs FT-phase</th><th>reading</th></tr>
+<tr><td>solar_sunspots</td><td>3333</td><td>0.0384</td><td>−60.7</td><td class="warn">−3.26</td><td>weak residual nonlinearity — an 11-yr cycle plus trend</td></tr>
+<tr><td>climate_enso</td><td>852</td><td>0.0610</td><td>−26.8</td><td class="n">−0.66</td><td>consistent with pure linear stochastic structure</td></tr>
+<tr><td>climate_temperatures</td><td>3650</td><td>0.0630</td><td>−48.0</td><td class="n">−0.64</td><td>same — mostly linear</td></tr>
+<tr><td>neural_eeg</td><td>14980</td><td>0.0275</td><td>−177.0</td><td class="bad">−147.07</td><td>massively non-random, but LZ sits at a <em>floor</em></td></tr>
+<tr><td>lynx_hare</td><td>21</td><td>0.4762</td><td class="n">+0.02</td><td class="n">+0.03</td><td class="bad">pure noise at n=21; the v2 z=−5.86 was small-sample artifact</td></tr>
+</table>
+
+<div class="claim falsified"><b>Also corrected:</b> the lynx result (n=21) that looked like a
+strong claim in v1 and v2 evaporates under a properly powered surrogate set. A flag
+column was added to the instrument for any n &lt; 100.</div>
+
+<h2>The interpretation that survives</h2>
+<div class="claim supported"><b>Inversion.</b> Real signals are <em>more</em> compressible than
+their own spectrum-matched surrogates, not less. So high raw LZ is not "novelty" or
+"criticality" — it is the absence of structure. A novelty index must use the
+<em>deficit</em>, e.g. 1 − LZ<sub>real</sub>/LZ<sub>surrogate</sub>, never raw LZ.</div>
+<div class="claim supported"><b>Methodological invariant.</b> Any "the statistic peaks at the
+critical point" claim needs (a) an independent locator for the critical point and
+(b) at least two nulls with different physics. One null will always manufacture
+significance.</div>
+
+<h2>What actually went wrong</h2>
+<p>Not a numerical error. A <b>measurement-definition error</b>: a single spatial
+snapshot of oscillator angles was silently fed to a complexity measure built for time
+series, and nobody — not the experiment, not three runs, not the peer reviewer —
+audited what the input <em>was</em>. The flat curve hid for two rounds behind argmax.</p>
+<p class="kicker">This page is the honest record of that, kept deliberately unflattering.</p>
+</body>
+</html>

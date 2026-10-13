@@ -18,11 +18,11 @@ warnings.filterwarnings('ignore')
 # -------------------------------------------------------------------------
 
 DEFAULT = dict(
-    L=32,
-    K=150,
-    K_bank=150,
-    generations=100,
-    burn_in=20,
+    L=16,
+    K=80,
+    K_bank=80,
+    generations=80,
+    burn_in=10,
     A=0.75,
     f=1/90.0,
     sigma_e=0.4,

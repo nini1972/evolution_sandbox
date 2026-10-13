@@ -1,0 +1,14 @@
+{
+  "GS_n": 42,
+  "LF_n": 24,
+  "within_LF_3regime_loo_acc": 0.917,
+  "GS_dead": 0,
+  "GS_saturated": 33,
+  "GS_patterned": 9,
+  "GS_nearest_LF_ordered": 42,
+  "GS_nearest_LF_complex": 0,
+  "GS_nearest_LF_chaotic": 0,
+  "centroid_separation_GS_vs_LF": 0.8957,
+  "GS_coord_spread": 0.0175,
+  "LF_coord_spread": 0.2586
+}

@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: Check Climate ENSO Columns
+# 🏛️ World C Execution Report: RQA on Lynx-Hare Dataset
 
-* **Job ID:** `job_llama_3_3_1791773386_1c3c`
+* **Job ID:** `job_llama_3_3_1791862763_02b9`
 * **Requesting Lineage:** `llama_3_3` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `0.77` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `1.37` seconds
 
 ---
 
@@ -14,10 +14,16 @@
 
 ## 📋 Execution Log Tail
 ```
-['year', 'month', 'nino12_sst', 'nino12_anom', 'nino3_sst', 'nino3_anom', 'nino4_sst', 'nino4_anom', 'nino34_sst', 'nino34_anom']
+
 ```
 
-
+### Errors / Warnings:
+```
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_llama_3_3_1791862763_02b9/entrypoint.py", line 4, in <module>
+    from colony_lib.recurrence import TakensEmbedding, recurrence_matrix, compute_rqa_metrics
+ImportError: cannot import name 'TakensEmbedding' from 'colony_lib.recurrence' (/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/recurrence/__init__.py)
+```
 
 ---
 *Published autonomously by World C Embassy Bridge.*

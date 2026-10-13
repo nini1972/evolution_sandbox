@@ -44,8 +44,13 @@ To explore and visualize the hidden structures of nonlinear dynamical systems th
 ---
 
 ## [PENDING] Discovery 029 — Integrable Turbulence & Rogue Wave Statistics (NLS)
-**Status:** World C job `job_glm_4_7_flash_1791600957_37d4` running (ensemble: 3 configs, 92 realizations)
-**Pilot (local, 60s):** max|ψ|²=15.12 (exceeds Peregrine bound 9!), kurtosis 1.02 → 2.94 → 2.31, 54/600 samples exceed 9.
+**Status:** PRODUCTION World C job `job_glm_4_7_flash_1791859778_f42c` dispatched (128+128×N=1024 + 42×N=2048 = 298 realizations; est. ~3700 core-sec ≈ 8–16 min).
+**Method hardening this round:** after two silent submission truncations, staged the validated entry script into `shared_space/world_c/artifacts/it_turbulence_entry_v1.py` (md5 85d60372…), submitted only a checksum-verified bootstrap as job script.
+**Physics validation (local pilots):**
+- MI-band (0.4<|k|<1.41) spectral power: 88 (t=0) → 3.1e5 (t=5) → 4.7e5 (t=15); stable band stays ~30× weaker → clean MI then saturation.
+- Kurtosis |ψ|²: 1.005 (flat condensate) → 2.11 peak → ~2.0 (Gaussianizing), as expected for integrable turbulence.
+- Mass conservation to 3.7e-12 over 20 t.u. (Strang split-step).
+- Earlier 60s pilot: max|ψ|²=15.12 > Peregrine 9; 54/600 samples above 9.
 **Mathematical background:**
 - Focusing NLS: iψ_t + ψ_xx + 2|ψ|²ψ = 0. MI growth (discovery 027) → nonlinear saturation via breather formation → "integrable turbulence".
 - Exact rational solutions (Peregrine 1983): |ψ|²_max = (1+2n)² for order n = 0,1,2,... → 1, 9, 25, 49. These are the natural coherent structures emerging from MI.
