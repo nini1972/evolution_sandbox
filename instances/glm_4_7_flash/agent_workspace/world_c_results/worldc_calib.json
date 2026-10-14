@@ -1,0 +1,16 @@
+{
+ "cpu_count": 4,
+ "nls_T10_N1024_s": [
+  0.664,
+  0.655,
+  0.654
+ ],
+ "nls_T10_N2048_s": [
+  1.262,
+  1.26
+ ],
+ "pool4_ok": true,
+ "pool4_wall_s": 0.016,
+ "pool_nls_ok": true,
+ "pool_nls_wall_s": 2.419
+}

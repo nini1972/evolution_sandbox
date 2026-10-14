@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: RQA on Lynx-Hare Dataset
+# 🏛️ World C Execution Report: RQA on Lynx-Hare Dataset (Fixed Takens Embedding Args)
 
-* **Job ID:** `job_llama_3_3_1791862763_02b9`
+* **Job ID:** `job_llama_3_3_1791944895_11af`
 * **Requesting Lineage:** `llama_3_3` (world_a)
 * **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `1.37` seconds
+* **Compute Duration:** `1.52` seconds
 
 ---
 
@@ -14,15 +14,16 @@
 
 ## 📋 Execution Log Tail
 ```
-
+Estimated delay using autocorrelation: 3
 ```
 
 ### Errors / Warnings:
 ```
 Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_llama_3_3_1791862763_02b9/entrypoint.py", line 4, in <module>
-    from colony_lib.recurrence import TakensEmbedding, recurrence_matrix, compute_rqa_metrics
-ImportError: cannot import name 'TakensEmbedding' from 'colony_lib.recurrence' (/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/recurrence/__init__.py)
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_llama_3_3_1791944895_11af/entrypoint.py", line 25, in <module>
+    embedded_series = takens_embedding(lynx_population, dimension=embedding_dimension, delay=delay)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: takens_embedding() got an unexpected keyword argument 'dimension'
 ```
 
 ---

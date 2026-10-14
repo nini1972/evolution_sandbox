@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: Phase 2c: Diagnostic Kuramoto Model Validation (Complete Graph, K=10)
+# 🏛️ World C Execution Report: Phase 3: Kuramoto k-Regular Random Graph Scaling
 
-* **Job ID:** `job_claude_haiku_1791772660_4761`
+* **Job ID:** `job_claude_haiku_1791946198_c39b`
 * **Requesting Lineage:** `claude_haiku` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `0.77` seconds
+* **Execution Status:** **FAILED** (Exit Code: `None`)
+* **Compute Duration:** `1800.00` seconds
 
 ---
 
@@ -14,56 +14,29 @@
 
 ## 📋 Execution Log Tail
 ```
-]... (first 3 phases)
-  θ(t_final): [-1.49642901  4.79228028 -1.49080037]... (first 3 phases at end)
-  R(t=0): 0.144009
-  R(t=t_trans): 0.999998
-  R(t=final): 0.999998
-  R_meas (transient removal): min=0.999998, mean=0.999998, max=0.999998
-  Status: ✓ SYNCHRONIZED
-
 ================================================================================
-TEST 2: Complete Graph (N=32, K=1.5) - NEAR-CRITICAL
-================================================================================
-  θ(t=0): [-1.37642907  0.2682674  -2.25613963]...
-  θ(t_final): [-4.63317182  1.68684519 -4.59564215]...
-  R(t=0): 0.143076
-  R(t=t_trans): 0.999913
-  R(t=final): 0.999913
-  R_meas (transient removal): min=0.999913, mean=0.999913, max=0.999913
-  Status: ✓ SYNCHRONIZED
-
-================================================================================
-TEST 3: Erdős-Rényi (N=32, <k>≈4, K=5)
-================================================================================
-  Actual mean degree: 8.00
-  θ(t=0): [ 2.79140868 -0.16201686  2.27478107]...
-  θ(t_final): [2.21314096 2.23754836 2.24138831]...
-  R(t=0): 0.178145
-  R(t=t_trans): 0.999890
-  R(t=final): 0.999890
-  R_meas: min=0.999890, mean=0.999890, max=0.999890
-  Status: ✓ SYNCHRONIZED
-
-================================================================================
-DIAGNOSTIC SUMMARY
+PHASE 3: KURAMOTO SCALING ON k-REGULAR RANDOM GRAPHS
 ================================================================================
 
-If Test 1 shows R_meas.mean() > 0.8 and Test 2 shows R_meas.mean() > 0.3:
-  ✓ Kuramoto model is working correctly
-  ✓ Integration is converging properly
-  → Problem in Phase 2b is likely in the K_c threshold finder
-
-If Test 1 shows R_meas.mean() < 0.5:
-  ✗ Model is not synchronizing even at K=10 (should be deeply synchronized)
-  → Check: integration tolerance, simulation time, order parameter computation
-
-If Test 3 shows R_meas.mean() < 0.1:
-  ✗ ER graph is not synchronizing (sparse network issue?)
-  → Check: graph generation, K scaling for sparse networks
+Starting Phase 3 parameter sweep...
+  Network sizes: [16, 32, 64]
+  Coordination numbers: [2, 3, 4, 5, 6, 8]
+  Ensemble size: 15 seeds per (k,N)
 
 
-[*] Diagnostic complete.
+================================================================================
+COORDINATION NUMBER k = 2
+================================================================================
+  N= 16: generating 15 random 2-regular graphs... ✓ K_c = 4.9126 ± 8.7781
+  N= 32: generating 15 random 2-regular graphs... ✓ K_c = 11.7191 ± 9.0862
+  N= 64: generating 15 random 2-regular graphs... ✓ K_c = 24.2889 ± 16.2171
+
+================================================================================
+COORDINATION NUMBER k = 3
+================================================================================
+  N= 16: generating 15 random 3-regular graphs... ✓ K_c = 0.1008 ± 0.0000
+  N= 32: generating 15 random 3-regular graphs... ✓ K_c = 0.1008 ± 0.0000
+  N= 64: generating 15 random 3-regular graphs...
 ```
 
 
