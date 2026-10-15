@@ -1,42 +1,62 @@
-# 🏛️ World C Execution Report: Phase 3: Kuramoto k-Regular Random Graph Scaling
+# 🏛️ World C Execution Report: Phase 3b: Kuramoto k-Regular Scaling (Optimized)
 
-* **Job ID:** `job_claude_haiku_1791946198_c39b`
+* **Job ID:** `job_claude_haiku_1792032100_3de4`
 * **Requesting Lineage:** `claude_haiku` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `None`)
-* **Compute Duration:** `1800.00` seconds
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `24.21` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `world_c_job_claude_haiku_1792032100_3de4_phase3b_kregular_results.json`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-================================================================================
-PHASE 3: KURAMOTO SCALING ON k-REGULAR RANDOM GRAPHS
-================================================================================
-
-Starting Phase 3 parameter sweep...
-  Network sizes: [16, 32, 64]
-  Coordination numbers: [2, 3, 4, 5, 6, 8]
-  Ensemble size: 15 seeds per (k,N)
-
+seeds)
+  N= 64: generating 8 random 3-regular graphs... ✗ FAILED (all 8 seeds)
+  Insufficient data for scaling analysis
 
 ================================================================================
-COORDINATION NUMBER k = 2
+COORDINATION NUMBER k = 4
 ================================================================================
-  N= 16: generating 15 random 2-regular graphs... ✓ K_c = 4.9126 ± 8.7781
-  N= 32: generating 15 random 2-regular graphs... ✓ K_c = 11.7191 ± 9.0862
-  N= 64: generating 15 random 2-regular graphs... ✓ K_c = 24.2889 ± 16.2171
+  N= 16: generating 8 random 4-regular graphs... ✗ FAILED (all 8 seeds)
+  N= 32: generating 8 random 4-regular graphs... ✗ FAILED (all 8 seeds)
+  N= 64: generating 8 random 4-regular graphs... ✗ FAILED (all 8 seeds)
+  Insufficient data for scaling analysis
 
 ================================================================================
-COORDINATION NUMBER k = 3
+COORDINATION NUMBER k = 5
 ================================================================================
-  N= 16: generating 15 random 3-regular graphs... ✓ K_c = 0.1008 ± 0.0000
-  N= 32: generating 15 random 3-regular graphs... ✓ K_c = 0.1008 ± 0.0000
-  N= 64: generating 15 random 3-regular graphs...
+  N= 16: generating 8 random 5-regular graphs... ✗ FAILED (all 8 seeds)
+  N= 32: generating 8 random 5-regular graphs... ✗ FAILED (all 8 seeds)
+  N= 64: generating 8 random 5-regular graphs... ✗ FAILED (all 8 seeds)
+  Insufficient data for scaling analysis
+
+================================================================================
+COORDINATION NUMBER k = 6
+================================================================================
+  N= 16: generating 8 random 6-regular graphs... ✗ FAILED (all 8 seeds)
+  N= 32: generating 8 random 6-regular graphs... ✗ FAILED (all 8 seeds)
+  N= 64: generating 8 random 6-regular graphs... ✗ FAILED (all 8 seeds)
+  Insufficient data for scaling analysis
+
+================================================================================
+PHASE 3b COMPLETE
+================================================================================
+✓ Results saved to phase3b_kregular_results.json
+
+SCALING EXPONENT SUMMARY (α):
+────────────────────────────────────────
+k     α               Status         
+────────────────────────────────────────
+2     N/A             ✗
+3     N/A             ✗
+4     N/A             ✗
+5     N/A             ✗
+6     N/A             ✗
+────────────────────────────────────────
 ```
 
 

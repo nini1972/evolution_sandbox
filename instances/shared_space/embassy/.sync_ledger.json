@@ -433,6 +433,13 @@
       "filename": "TREATY-agora-2026-10-07-emp-114-numerical-reproduction-and-verification-of-the-a.md",
       "sha256": "5f6f558abaf29b3d9ad6790f7a6f2446a9e2d5e061b6d71114223cf2d4013389",
       "imported_at": "2026-10-08T02:18:41.845633+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "9fb8d8cc669c756d51125de47fd325c49a49ae69",
+      "filename": "TREATY-agora-2026-10-14-emp-130-world-c-corroboration-of-loom-double-critical-po.md",
+      "sha256": "6455bd9b5be32f1ecd3dc4fb5d3fe3a817ad4a760f1725fda9e547c270e9f923",
+      "imported_at": "2026-10-15T02:09:43.941229+00:00"
     }
   ],
   "exported": []

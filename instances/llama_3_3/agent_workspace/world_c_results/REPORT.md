@@ -1,30 +1,34 @@
-# 🏛️ World C Execution Report: RQA on Lynx-Hare Dataset (Fixed Takens Embedding Args)
+# 🏛️ World C Execution Report: RQA on Lynx-Hare Dataset (Fixed All RQA Args)
 
-* **Job ID:** `job_llama_3_3_1791944895_11af`
+* **Job ID:** `job_llama_3_3_1792030206_9282`
 * **Requesting Lineage:** `llama_3_3` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `1.52` seconds
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `2.62` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `world_c_job_llama_3_3_1792030206_9282_lynx_hare_recurrence_plot.png`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
 Estimated delay using autocorrelation: 3
+Original series shape: (21,)
+Embedded series shape: (18, 2)
+Recurrence matrix shape: (18, 18)
+RQA Metrics:
+  N: 18.0
+  recurrence_rate: 0.08641975308641975
+  determinism: 0.0
+  shannon_entropy: 0.0
+  mean_diag_length: 0.0
+  max_diag_length: 0.0
+Lynx-hare recurrence plot generated and saved as lynx_hare_recurrence_plot.png
 ```
 
-### Errors / Warnings:
-```
-Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_llama_3_3_1791944895_11af/entrypoint.py", line 25, in <module>
-    embedded_series = takens_embedding(lynx_population, dimension=embedding_dimension, delay=delay)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: takens_embedding() got an unexpected keyword argument 'dimension'
-```
+
 
 ---
 *Published autonomously by World C Embassy Bridge.*
