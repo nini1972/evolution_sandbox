@@ -137,15 +137,15 @@ class1_x = [0, 2, 2, 0]  # Low-dimensional lattices
 class1_y = [0.5, 3, 3, 0.5]
 
 class2_x = [2, 5, 5, 2]  # Intermediate
-class2_y = [−0.2, 0.3, 0.3, −0.2]
+class2_y = [-0.2, 0.3, 0.3, -0.2]
 
 class3_x = [5, 10, 10, 5]  # Random sparse
-class3_y = [−1.0, −0.2, −0.2, −1.0]
+class3_y = [-1.0, -0.2, -0.2, -1.0]
 
 # Draw regions (simplified)
-ax6.fill([0, 2.5, 2.5, 0], [−1, −1, 3, 3], alpha=0.15, color='#4ECDC4', label='Class I: Low-d Lattices')
-ax6.fill([2.5, 5.5, 5.5, 2.5], [−1, −1, 3, 3], alpha=0.15, color='#FFD93D', label='Class II: Intermediate')
-ax6.fill([5.5, 10, 10, 5.5], [−1, −1, 3, 3], alpha=0.15, color='#FF4444', label='Class III: Random Sparse')
+ax6.fill([0, 2.5, 2.5, 0], [-1, -1, 3, 3], alpha=0.15, color='#4ECDC4', label='Class I: Low-d Lattices')
+ax6.fill([2.5, 5.5, 5.5, 2.5], [-1, -1, 3, 3], alpha=0.15, color='#FFD93D', label='Class II: Intermediate')
+ax6.fill([5.5, 10, 10, 5.5], [-1, -1, 3, 3], alpha=0.15, color='#FF4444', label='Class III: Random Sparse')
 
 # Plot points
 scatter_x = [1, 2.5, 4, 5.5, 7.5]
@@ -160,8 +160,8 @@ ax6.axhline(y=0, color='black', linestyle='--', linewidth=1)
 ax6.set_xlabel('Network Structure Index', fontsize=11, fontweight='bold')
 ax6.set_ylabel('Scaling Exponent α', fontsize=11, fontweight='bold')
 ax6.set_title('Three Universality Classes', fontsize=12, fontweight='bold')
-ax6.set_xlim(−0.5, 10.5)
-ax6.set_ylim(−1.0, 3.0)
+ax6.set_xlim(-0.5, 10.5)
+ax6.set_ylim(-1.0, 3.0)
 ax6.legend(fontsize=9, loc='upper right')
 ax6.grid(True, alpha=0.3)
 

@@ -4,24 +4,22 @@ plastic_dormancy_coevolution.py
 
 Agent-based + analytical competition model between:
   - Unconditional stochastic dormancy (S): fixed seed-bank fraction h0.
-  - Condition-dependent phenotypic plasticity (P): h_P(m) = h0 + h_beta*m,
-    where m is maladaptation, plus proportional sensing cost c.
+  - Condition-dependent phenotypic plasticity (P):
+      (1) raises dormancy in maladapted years: h_P(m) = h0 + h_beta * m,
+      (2) uses an environmental cue to partly rescue phenotype matching:
+          sensing strength alpha = h_beta / h_beta_max,
+          effective P-maladaptation m_P = m * (1 - alpha),
+      (3) pays a proportional sensing cost c.
 
-KEY MODEL FEATURE: Explicit overlapping seed bank (storage effect).
-  - Active pool (size N, Wright-Fisher) + dormant seed pool (variable size).
-  - Each generation, active individuals reproduce. Fraction h_g(m) of
-    offspring enter the seed bank; the rest join next year's active pool.
-  - Dormant seeds germinate with probability gamma per year; non-germinating
-    survive with probability s.
-  - New active pool assembled by lottery (soft selection to N) from new
-    active offspring + germinated seeds.
+The storage effect is explicit: overlapping seed bank with germination
+(gamma) and survival (s).  Both genotypes share the same seed-bank
+parameters; the only asymmetry is P's phenotype/dormancy/cost package.
 
-The storage effect arises because P enriches the dormant pool during bad
-years (high maladaptation -> high h_P). When the environment improves, those
-P-enriched seeds germinate and rescue P in the active pool.
-
-Environment E_t is a 2-state Markov chain with autocorrelation rho.
-Phenotype is committed to the previous environmental state: m_t = |E_t - E_{t-1}|.
+Environment E_t is a 2-state Markov chain with lag-1 autocorrelation rho.
+Phenotype commitment is to E_{t-1}; maladaptation is m_t = |E_t - E_{t-1}|.
+Sensing lets P recover a fraction alpha of the correct phenotype during
+transition years, improving its active fitness without fully eliminating
+its maladaptation.
 
 Phase diagram (rho vs h_beta) classifies:
     0 = S wins, 1 = P wins, 2 = coexistence, 3 = bistability, 4 = neutral
@@ -53,7 +51,7 @@ class Params:
     s: float = 0.90
     gamma: float = 0.25
     w_match: float = 2.0
-    w_mismatch: float = 0.1
+    w_mismatch: float = 0.10
     c: float = 0.05
     h_beta_max: float = 0.50
 
@@ -83,6 +81,32 @@ def make_maladaptation(env):
 
 
 # ---------------------------------------------------------------------------
+# Plasticity kernel
+# ---------------------------------------------------------------------------
+
+def plastic_fitness(m, h_beta, params):
+    """
+    Effective active fitness of a P individual in a year with maladaptation
+    state m (0 = matched, 1 = mismatched).
+
+    Sensing strength alpha = h_beta / h_beta_max.
+    A fraction alpha of P offspring correctly match the current environment,
+    so mean maladaptation is m * (1 - alpha).  Cost c is then applied.
+    """
+    alpha = h_beta / params.h_beta_max if params.h_beta_max > 0 else 0.0
+    alpha = min(max(alpha, 0.0), 1.0)
+    # Probability of mismatch for P after sensing
+    p_mismatch_P = float(m) * (1.0 - alpha)
+    W_P = (1.0 - p_mismatch_P) * params.w_match + p_mismatch_P * params.w_mismatch
+    return W_P * (1.0 - params.c)
+
+
+def plastic_dormancy(m, h_beta, params):
+    """Fraction of P offspring entering the seed bank."""
+    return min(params.h0 + h_beta * float(m), 1.0 - 1e-12)
+
+
+# ---------------------------------------------------------------------------
 # Agent-based simulation (ground truth)
 # ---------------------------------------------------------------------------
 
@@ -94,8 +118,6 @@ def simulate_competition(rho, h_beta, p0, params,
     Returns P-frequency time series (length = generations).
 
     genotype: 0 = S (stochastic dormancy), 1 = P (plastic dormancy)
-    Environment: 2-state Markov, autocorrelation rho.
-    Maladaptation m_t = |E_t - E_{t-1}| (committed phenotype).
     """
     if rng is None:
         rng = np.random.default_rng()
@@ -106,7 +128,6 @@ def simulate_competition(rho, h_beta, p0, params,
     h0 = params.h0
     s = params.s
     gamma = params.gamma
-    c = params.c
     w = np.array([params.w_match, params.w_mismatch], dtype=np.float64)
 
     active = (rng.random(N) < p0).astype(np.int32)
@@ -116,358 +137,255 @@ def simulate_competition(rho, h_beta, p0, params,
 
     for t in range(generations):
         mt = m[t]
-        wt = w[mt]
-        h_P = min(h0 + h_beta * mt, 1.0 - 1e-12)
+        h_P = plastic_dormancy(mt, h_beta, params)
+        W_S = w[mt]
+        W_P = plastic_fitness(mt, h_beta, params)
 
-        # Per-individual fecundity
-        fec = np.where(active == 1,
-                       (1.0 - c) * wt,   # P pays sensing cost
-                       wt)               # S no cost
-        # Dormancy fraction per genotype
-        h_g = np.where(active == 1, h_P, h0)
+        # Genotype-specific reproductive output from active parents
+        # Offspring are assigned to active vs dormant according to genotype
+        n_active = active.size
+        n_S = n_active - active.sum()
+        n_P = active.sum()
 
-        # Offspring counts (Poisson sampling)
-        offspring = rng.poisson(np.maximum(fec, 0.0))
-        total_offspring = int(offspring.sum())
-        if total_offspring == 0:
-            offspring = np.ones_like(offspring)
-            total_offspring = N
+        # Expected number of offspring before density regulation
+        fec_S = W_S * n_S
+        fec_P = W_P * n_P
 
-        # Sample parent genotypes for each offspring
-        parent_g = np.repeat(active, offspring)
+        # Dormant contributions
+        dormant_S = (dormant == 0).sum()
+        dormant_P = (dormant == 1).sum()
+        germinated = rng.random(dormant.size) < gamma
+        germ_S = ((dormant == 0) & germinated).sum()
+        germ_P = ((dormant == 1) & germinated).sum()
 
-        # Dormancy decision: each offspring independently enters seed bank
-        dorm_mask = rng.random(len(parent_g)) < h_g[parent_g]
-        active_offspring_g = parent_g[~dorm_mask]
-        new_dorm_g = parent_g[dorm_mask]
+        # New dormant pool: offspring that entered bank from both genotypes
+        # plus surviving ungerminated old seeds
+        surv = rng.random(dormant.size) < s
+        surv_S = ((dormant == 0) & surv & (~germinated)).sum()
+        surv_P = ((dormant == 1) & surv & (~germinated)).sum()
 
-        # Germination from seed bank
-        n_germ = rng.binomial(len(dormant), gamma)
-        if n_germ > 0:
-            germ_idx = rng.choice(len(dormant), size=n_germ, replace=False)
-            germ_g = dormant[germ_idx]
-            dormant = np.delete(dormant, germ_idx)
+        # New seeds entering bank
+        new_bank_S = rng.binomial(int(fec_S), h0) if fec_S > 0 else 0
+        new_bank_P = rng.binomial(int(fec_P), h_P) if fec_P > 0 else 0
+
+        new_dormant_S = surv_S + new_bank_S
+        new_dormant_P = surv_P + new_bank_P
+        new_dormant = np.concatenate([
+            np.zeros(new_dormant_S, dtype=np.int32),
+            np.ones(new_dormant_P, dtype=np.int32)
+        ])
+
+        # New active pool candidates
+        active_candidates_S = int(fec_S * (1.0 - h0)) + germ_S
+        active_candidates_P = int(fec_P * (1.0 - h_P)) + germ_P
+        total_candidates = active_candidates_S + active_candidates_P
+        if total_candidates == 0:
+            active = np.zeros(N, dtype=np.int32)
+            dormant = new_dormant.copy()
+            p_series[t] = 0.0
+            continue
+
+        p_candidate = active_candidates_P / total_candidates
+        active = (rng.random(N) < p_candidate).astype(np.int32)
+        p_series[t] = active.mean()
+
+        # Maintain dormant pool at roughly N/2 by random thinning if needed
+        target_dormant = N // 2
+        if new_dormant.size > target_dormant:
+            keep = rng.choice(new_dormant.size, target_dormant, replace=False)
+            dormant = new_dormant[keep]
         else:
-            germ_g = np.array([], dtype=np.int32)
-
-        # Seed bank survival (non-germinated)
-        n_surv = rng.binomial(len(dormant), s)
-        if n_surv < len(dormant):
-            dormant = dormant[rng.choice(len(dormant), size=n_surv, replace=False)]
-
-        # Add new dormant seeds
-        dormant = np.concatenate([dormant, new_dorm_g])
-        # Cap dormant pool
-        max_dorm = 5 * N
-        if len(dormant) > max_dorm:
-            dormant = dormant[rng.choice(len(dormant), size=max_dorm, replace=False)]
-
-        # Assemble new active pool (soft selection to N)
-        active = np.concatenate([active_offspring_g, germ_g])
-        if len(active) < N:
-            extra = rng.choice(len(active), size=N - len(active), replace=True)
-            active = np.concatenate([active, active[extra]])
-        elif len(active) > N:
-            active = active[rng.choice(len(active), size=N, replace=False)]
-
-        p_series[t] = active.mean(dtype=np.float64)
+            dormant = new_dormant
 
     return p_series
 
 
+def classify_abm(p_series, threshold=0.05):
+    """
+    Classify outcome from end-frequency distribution of replicate trajectories.
+    Returns integer code 0-4 and mean final P frequency.
+    """
+    p_end = np.mean(p_series[-200:])
+    if p_end < threshold:
+        return 0, p_end
+    elif p_end > 1.0 - threshold:
+        return 1, p_end
+    else:
+        return 2, p_end
+
+
 # ---------------------------------------------------------------------------
-# Mean-field recurrence with storage effect (analytical core)
+# Mean-field / analytical competition
 # ---------------------------------------------------------------------------
-#
-# State variables (normalized by N):
-#   p_t = P frequency among active individuals
-#   q_t = P frequency among dormant seeds
-#   D_t = dormant pool size / N
-#
-# Per generation given maladaptation m_t:
-#   W_S = w[m],  W_P = w[m]*(1-c)
-#   h_S = h0,    h_P = min(h0 + h_beta*m, 1-eps)
-#
-#   Active offspring weights (per N):
-#     A_S = (1-h_S)*W_S*(1-p),  A_P = (1-h_P)*W_P*p
-#     A_tot = A_S + A_P
-#   Dormant offspring weights:
-#     B_S = h_S*W_S*(1-p),      B_P = h_P*W_P*p
-#     B_tot = B_S + B_P
-#   Germination:
-#     G = gamma * D_t
-#
-#   p_{t+1} = (A_P + G*q_t) / (A_tot + G)
-#   D_{t+1} = (1-gamma)*s*D_t + B_tot
-#   q_{t+1} = ((1-gamma)*s*D_t*q_t + B_P) / D_{t+1}
-#
-# For invasion analysis, we linearize around the resident equilibrium.
-# When S is resident (p=0):
-#   D_{t+1}^S = (1-gamma)*s*D_t^S + h0*w[m]
-#   The invasion of rare P into S-resident:
-#     [p_tilde, q_tilde]^T evolves via a 2x2 matrix M_t such that
-#     [p_{t+1}, q_{t+1}] = M_t [p_t, q_t] / (normalization)
-#   We compute the Lyapunov exponent as the geometric mean of the
-#   dominant eigenvalue of the product of M_t matrices over long T.
-#
-# When P is resident (p=1):
-#   D_{t+1}^P = (1-gamma)*s*D_t^P + h_P(m)*w[m]*(1-c)
-#   S invades via analogous linearization.
-#
 
 def meanfield_step(p, q, D, m, h_beta, params):
-    """One step of the deterministic mean-field recurrence."""
+    """
+    Deterministic one-step update for (p, q, D):
+      p = P frequency in active pool
+      q = P frequency in dormant pool
+      D = total dormant pool size
+      m = current maladaptation state (0 or 1)
+    """
     h0 = params.h0
-    s = params.s
-    gamma = params.gamma
-    c = params.c
-    w = params.w_match if m == 0 else params.w_mismatch
+    hP = plastic_dormancy(m, h_beta, params)
+    W_S = params.w_match if m == 0 else params.w_mismatch
+    W_P = plastic_fitness(m, h_beta, params)
 
-    hP = min(h0 + h_beta * m, 1.0 - 1e-12)
-    hS = h0
-    W_S = w
-    W_P = w * (1.0 - c)
-
-    A_S = (1.0 - hS) * W_S * (1.0 - p)
+    A_S = (1.0 - h0) * W_S * (1.0 - p)
     A_P = (1.0 - hP) * W_P * p
     A_tot = A_S + A_P
 
-    B_S = hS * W_S * (1.0 - p)
+    B_S = h0 * W_S * (1.0 - p)
     B_P = hP * W_P * p
     B_tot = B_S + B_P
 
-    G = gamma * D
+    G = params.gamma * D
     denom_active = A_tot + G
-    if denom_active < 1e-30:
-        p_new = 0.0
-    else:
-        p_new = (A_P + G * q) / denom_active
+    p_new = (A_P + G * q) / denom_active if denom_active > 1e-30 else 0.0
 
-    D_new = (1.0 - gamma) * s * D + B_tot
-    if D_new < 1e-30:
-        q_new = 0.0
-    else:
-        q_new = ((1.0 - gamma) * s * D * q + B_P) / D_new
+    D_new = (1.0 - params.gamma) * params.s * D + B_tot
+    denom_dormant = D_new if D_new > 1e-30 else 1.0
+    q_new = ((1.0 - params.gamma) * params.s * D * q + B_P) / denom_dormant
 
     return p_new, q_new, D_new
 
 
-def _resident_D_S(D, m, params):
-    """S-resident dormant pool update (p=0)."""
-    w = params.w_match if m == 0 else params.w_mismatch
-    return (1.0 - params.gamma) * params.s * D + params.h0 * w
-
-
-def _resident_D_P(D, m, h_beta, params):
-    """P-resident dormant pool update (p=1)."""
-    w = params.w_match if m == 0 else params.w_mismatch
-    hP = min(params.h0 + h_beta * m, 1.0 - 1e-12)
-    return (1.0 - params.gamma) * params.s * D + hP * w * (1.0 - params.c)
-
-
-def analytical_invasion_rate(rho, h_beta, params,
-                            T=ANALYTICAL_T, burnin=ANALYTICAL_BURNIN, seed=12345):
-    """
-    Compute Lyapunov exponents for P-invades-S and S-invades-P.
-
-    Uses the linearized 2D recurrence for the rare invader's frequency
-    in active (p_tilde) and dormant (q_tilde) compartments, tracking
-    the resident dormant pool size D_t deterministically.
-
-    Returns (lambda_PS, lambda_SP):
-      lambda_PS > 1  => P can invade S (geometric mean growth factor)
-      lambda_SP > 1  => S can invade P
-    """
+def meanfield_equilibrium(rho, h_beta, params,
+                          T=5000, burnin=1000, seed=42):
+    """Integrate mean-field equations for S-monoculture and P-monoculture."""
     rng = np.random.default_rng(seed)
     env = make_environment(T + burnin, rho, rng)
     m = make_maladaptation(env)
 
+    # S monoculture
+    p, q, D = 0.0, 0.0, params.h0 * params.w_match
+    for t in range(burnin):
+        mt = m[t]
+        W_S = params.w_match if mt == 0 else params.w_mismatch
+        D = (1.0 - params.gamma) * params.s * D + h0 * W_S
+    p_series_S = []
+    for t in range(T):
+        mt = m[burnin + t]
+        W_S = params.w_match if mt == 0 else params.w_mismatch
+        D = (1.0 - params.gamma) * params.s * D + h0 * W_S
+        p_series_S.append(0.0)
+
+    # P monoculture
+    p, q, D = 1.0, 1.0, params.h0 * params.w_match
+    for t in range(burnin):
+        mt = m[t]
+        W_P = plastic_fitness(mt, h_beta, params)
+        hP = plastic_dormancy(mt, h_beta, params)
+        D = (1.0 - params.gamma) * params.s * D + hP * W_P
+    p_series_P = []
+    for t in range(T):
+        mt = m[burnin + t]
+        W_P = plastic_fitness(mt, h_beta, params)
+        hP = plastic_dormancy(mt, h_beta, params)
+        D = (1.0 - params.gamma) * params.s * D + hP * W_P
+        p_series_P.append(1.0)
+
+    return p_series_S, p_series_P
+
+
+def analytical_invasion_rate(rho, h_beta, params,
+                             T=ANALYTICAL_T, burnin=ANALYTICAL_BURNIN,
+                             seed=12345):
+    """
+    Compute invasion rates lambda_PS (rare P into S resident) and
+    lambda_SP (rare S into P resident) from the linearized mean-field
+    dynamics around the resident monoculture.
+    """
+    rng = np.random.default_rng(seed)
+    env = make_environment(T + burnin, rho, rng)
+    m = make_maladaptation(env)
     h0 = params.h0
     s = params.s
     gamma = params.gamma
-    c = params.c
 
-    # ===================== P invades S =====================
-    # Resident: p=0, D follows _resident_D_S
-    D = h0 * params.w_match / max(1.0 - (1.0 - gamma) * s, 1e-10)
-
-    # Burn-in resident
+    # --- P invades S resident ---
+    # Resident S dormant pool
+    D = params.h0 * params.w_match / max(1.0 - (1.0 - gamma) * s, 1e-10)
     for t in range(burnin):
-        D = _resident_D_S(D, m[t], params)
+        W_S = params.w_match if m[t] == 0 else params.w_mismatch
+        D = (1.0 - gamma) * s * D + h0 * W_S
 
-    # Linearized invasion of P into S-resident:
-    #   p ~ 0, so A_tot ~ (1-h0)*w, G = gamma*D
-    #   p_{t+1} = [A_P + G*q] / (A_tot + G)
-    #           = [(1-hP)*W_P * p + G*q] / [(1-h0)*W_S + G]
-    #   q_{t+1} = [(1-gamma)*s*D*q + B_P] / D_new
-    #           = [(1-gamma)*s*D*q + hP*W_P*p] / [(1-gamma)*s*D + hP*W_P*p]
-    # Wait -- the q recurrence has p in both numerator and denominator.
-    # Linearize for small p: B_P ~ hP*W_P*p, D_new ~ (1-gamma)*s*D + h0*w (resident)
-    # q_{t+1} ~ [(1-gamma)*s*D*q + hP*W_P*p] / D_res
-    #
-    # So the linearized system is:
-    #   p_{t+1} = a11*p + a12*q
-    #   q_{t+1} = a21*p + a22*q
-    # with:
-    #   a11 = (1-hP)*W_P / [(1-h0)*W_S + gamma*D]
-    #   a12 = gamma*D / [(1-h0)*W_S + gamma*D]
-    #   a21 = hP*W_P / D_res_next
-    #   a22 = (1-gamma)*s*D / D_res_next
-    # where D_res_next = (1-gamma)*s*D + h0*w
-
-    p_tilde = 1.0
-    q_tilde = 0.0
-    log_growth_PS = 0.0
-    count = 0
-
+    p_tilde, q_tilde = 1.0, 0.0
+    log_growth = 0.0
     for t in range(T):
-        mm = m[burnin + t]
-        w_m = params.w_match if mm == 0 else params.w_mismatch
-        hP = min(h0 + h_beta * mm, 1.0 - 1e-12)
-        W_S = w_m
-        W_P = w_m * (1.0 - c)
+        mt = m[burnin + t]
+        W_S = params.w_match if mt == 0 else params.w_mismatch
+        W_P = plastic_fitness(mt, h_beta, params)
+        hP = plastic_dormancy(mt, h_beta, params)
+        D_res_next = (1.0 - gamma) * s * D + h0 * W_S
 
-        D_res = D
-        D_res_next = (1.0 - gamma) * s * D_res + h0 * w_m
-
-        denom_p = (1.0 - h0) * W_S + gamma * D_res
-        if denom_p < 1e-30:
-            denom_p = 1e-30
-
+        denom_p = (1.0 - h0) * W_S + gamma * D
         a11 = (1.0 - hP) * W_P / denom_p
-        a12 = gamma * D_res / denom_p
+        a12 = gamma * D / denom_p
         a21 = hP * W_P / max(D_res_next, 1e-30)
-        a22 = (1.0 - gamma) * s * D_res / max(D_res_next, 1e-30)
+        a22 = (1.0 - gamma) * s * D / max(D_res_next, 1e-30)
 
         p_new = a11 * p_tilde + a12 * q_tilde
         q_new = a21 * p_tilde + a22 * q_tilde
-
         norm = np.sqrt(p_new**2 + q_new**2)
-        if norm < 1e-300:
-            p_tilde = 1.0
-            q_tilde = 0.0
-            log_growth_PS += np.log(1e-300)
-        else:
-            log_growth_PS += np.log(norm)
-            p_tilde = p_new / norm
-            q_tilde = q_new / norm
-
+        log_growth += np.log(max(norm, 1e-300))
+        p_tilde, q_tilde = p_new / norm, q_new / norm
         D = D_res_next
-        count += 1
+    lPS = np.exp(log_growth / T)
 
-    lambda_PS = np.exp(log_growth_PS / max(count, 1))
-
-    # ===================== S invades P =====================
+    # --- S invades P resident ---
     rng2 = np.random.default_rng(seed + 1)
     env2 = make_environment(T + burnin, rho, rng2)
     m2 = make_maladaptation(env2)
 
-    # Resident: p=1, D follows _resident_D_P
     D = params.h0 * params.w_match / max(1.0 - (1.0 - gamma) * s, 1e-10)
-
     for t in range(burnin):
-        D = _resident_D_P(D, m2[t], h_beta, params)
+        mt = m2[t]
+        W_P = plastic_fitness(mt, h_beta, params)
+        hP = plastic_dormancy(mt, h_beta, params)
+        D = (1.0 - gamma) * s * D + hP * W_P
 
-    # Linearized invasion of S into P-resident:
-    #   p ~ 1, so (1-p) ~ 0. Let s_tilde = 1 - p (S frequency).
-    #   A_tot ~ (1-hP)*W_P  (resident)
-    #   B_tot ~ hP*W_P      (resident)
-    #   D_res = D, D_res_next = (1-gamma)*s*D + hP*W_P
-    #
-    #   p_{t+1} = [(1-hP)*W_P*p + G*q] / [(1-hP)*W_P + G]
-    #   For S invasion: s_tilde = 1-p, so:
-    #   s_{t+1} = [(1-hS)*W_S*s_tilde + G*(1-q_tilde)] / [A_tot + G]
-    #           = [(1-hS)*W_S*s_tilde + G - G*q_tilde] / [(1-hP)*W_P + G]
-    #
-    # But we also need: q is P fraction in dormant. S fraction in dormant = 1-q.
-    # Let r_tilde = S fraction in dormant = 1 - q.
-    #
-    # Linearize: the "S invader" variables are s_tilde (S freq in active)
-    # and r_tilde (S freq in dormant), both small.
-    #   B_S = hS*W_S*s_tilde  (new S dormant seeds)
-    #   B_P ~ hP*W_P           (resident P dormant seeds)
-    #   D_res_next = (1-gamma)*s*D + hP*W_P
-    #
-    #   s_{t+1} = [(1-hS)*W_S*s_tilde + gamma*D*r_tilde] / [(1-hP)*W_P + gamma*D]
-    #   r_{t+1} = [(1-gamma)*s*D*r_tilde + hS*W_S*s_tilde] / D_res_next
-
-    s_tilde = 1.0
-    r_tilde = 0.0
-    log_growth_SP = 0.0
-    count = 0
-
+    s_tilde, r_tilde = 1.0, 0.0
+    log_growth = 0.0
     for t in range(T):
-        mm = m2[burnin + t]
-        w_m = params.w_match if mm == 0 else params.w_mismatch
-        hP = min(h0 + h_beta * mm, 1.0 - 1e-12)
-        hS = h0
-        W_S = w_m
-        W_P = w_m * (1.0 - c)
+        mt = m2[burnin + t]
+        W_S = params.w_match if mt == 0 else params.w_mismatch
+        W_P = plastic_fitness(mt, h_beta, params)
+        hP = plastic_dormancy(mt, h_beta, params)
+        D_res_next = (1.0 - gamma) * s * D + hP * W_P
 
-        D_res = D
-        D_res_next = (1.0 - gamma) * s * D_res + hP * W_P
-
-        denom_s = (1.0 - hP) * W_P + gamma * D_res
-        if denom_s < 1e-30:
-            denom_s = 1e-30
-
-        b11 = (1.0 - hS) * W_S / denom_s
-        b12 = gamma * D_res / denom_s
-        b21 = hS * W_S / max(D_res_next, 1e-30)
-        b22 = (1.0 - gamma) * s * D_res / max(D_res_next, 1e-30)
+        denom_s = (1.0 - hP) * W_P + gamma * D
+        b11 = (1.0 - h0) * W_S / denom_s
+        b12 = gamma * D / denom_s
+        b21 = h0 * W_S / max(D_res_next, 1e-30)
+        b22 = (1.0 - gamma) * s * D / max(D_res_next, 1e-30)
 
         s_new = b11 * s_tilde + b12 * r_tilde
         r_new = b21 * s_tilde + b22 * r_tilde
-
         norm = np.sqrt(s_new**2 + r_new**2)
-        if norm < 1e-300:
-            s_tilde = 1.0
-            r_tilde = 0.0
-            log_growth_SP += np.log(1e-300)
-        else:
-            log_growth_SP += np.log(norm)
-            s_tilde = s_new / norm
-            r_tilde = r_new / norm
-
+        log_growth += np.log(max(norm, 1e-300))
+        s_tilde, r_tilde = s_new / norm, r_new / norm
         D = D_res_next
-        count += 1
+    lSP = np.exp(log_growth / T)
 
-    lambda_SP = np.exp(log_growth_SP / max(count, 1))
-
-    return lambda_PS, lambda_SP
+    return lPS, lSP
 
 
-def classify_from_lambdas(lSP, lPS, tol=1e-4):
-    """Classify outcome from invasion rates."""
-    inv_S = lSP > 1.0 + tol
+def classify_invasion(lPS, lSP, tol=1e-3):
+    """
+    0 = S wins, 1 = P wins, 2 = coexistence, 3 = bistability, 4 = neutral.
+    """
     inv_P = lPS > 1.0 + tol
-    if inv_S and inv_P: return 2   # coexistence
-    if inv_S and not inv_P: return 0  # S wins
-    if not inv_S and inv_P: return 1  # P wins
-    return 4  # neutral (neither invades)
-
-
-def critical_h_beta_for_rho(rho, params, tol=1e-6):
-    """Binary search for h_beta where lambda_PS = 1 (P invasion threshold)."""
-    lo, hi = 0.0, params.h_beta_max
-    lPS_lo, _ = analytical_invasion_rate(rho, lo, params, T=20000, burnin=5000)
-    lPS_hi, _ = analytical_invasion_rate(rho, hi, params, T=20000, burnin=5000)
-
-    if lPS_lo > 1.0 + 1e-4:
-        return 0.0  # P invades even at h_beta=0
-    if lPS_hi < 1.0 - 1e-4:
-        return float('nan')  # P never invades in range
-
-    for _ in range(60):
-        mid = 0.5 * (lo + hi)
-        lPS_mid, _ = analytical_invasion_rate(rho, mid, params, T=20000, burnin=5000)
-        if lPS_mid > 1.0:
-            hi = mid
-        else:
-            lo = mid
-        if hi - lo < tol:
-            break
-    return 0.5 * (lo + hi)
+    inv_S = lSP > 1.0 + tol
+    if inv_P and inv_S:
+        return 2
+    if inv_P and not inv_S:
+        return 1
+    if not inv_P and inv_S:
+        return 0
+    if not inv_P and not inv_S:
+        return 3
+    return 4
 
 
 # ---------------------------------------------------------------------------
@@ -475,83 +393,64 @@ def critical_h_beta_for_rho(rho, params, tol=1e-6):
 # ---------------------------------------------------------------------------
 
 def build_phase_diagram(params, rho_vals, h_beta_vals,
-                         agent_based=True, replicates=DEFAULT_REPLICATES,
-                         N=DEFAULT_N, generations=DEFAULT_GENERATIONS,
-                         burnin=DEFAULT_BURNIN, seed=42):
+                        agent_based=False, replicates=DEFAULT_REPLICATES,
+                        N=DEFAULT_N, generations=DEFAULT_GENERATIONS,
+                        burnin=DEFAULT_BURNIN, seed=42):
+    """
+    Returns phase matrix, equilibrium-frequency matrix, lambda_PS, lambda_SP.
+    For ABM, lambda matrices are None.
+    """
     n_rho = len(rho_vals)
     n_beta = len(h_beta_vals)
-    phase = np.full((n_rho, n_beta), -1, dtype=np.int8)
-    eq_freq = np.full((n_rho, n_beta), 0.5, dtype=np.float64)
-    lambda_PS_mat = np.full((n_rho, n_beta), np.nan)
-    lambda_SP_mat = np.full((n_rho, n_beta), np.nan)
-    rng = np.random.default_rng(seed)
+    phase = np.zeros((n_beta, n_rho), dtype=np.int32)
+    eq_freq = np.zeros((n_beta, n_rho), dtype=np.float64)
 
-    for i, rho in enumerate(rho_vals):
-        for j, h_beta in enumerate(h_beta_vals):
-            if agent_based:
-                f_low_all = []
-                f_high_all = []
+    if agent_based:
+        lPS_mat = lSP_mat = None
+        rng = np.random.default_rng(seed)
+        for i, rho in enumerate(rho_vals):
+            for j, hb in enumerate(h_beta_vals):
+                finals = []
                 for rep in range(replicates):
-                    rep_seed = int(rng.integers(0, 2**31))
+                    rep_seed = rng.integers(0, 2**31)
                     rep_rng = np.random.default_rng(rep_seed)
-                    p_low = simulate_competition(
-                        rho, h_beta, p0=0.02, params=params,
+                    # Rare P invasion
+                    p_series = simulate_competition(
+                        rho, hb, p0=0.05, params=params,
                         N=N, generations=generations, rng=rep_rng)
-                    rep_rng2 = np.random.default_rng(rep_seed + 1)
-                    p_high = simulate_competition(
-                        rho, h_beta, p0=0.98, params=params,
-                        N=N, generations=generations, rng=rep_rng2)
-                    f_low_all.append(p_low[-burnin:].mean())
-                    f_high_all.append(p_high[-burnin:].mean())
-                ml = float(np.mean(f_low_all))
-                mh = float(np.mean(f_high_all))
-                tol = 0.08
-                if ml < tol and mh < tol:
-                    phase[i, j] = 0
-                elif ml > 1 - tol and mh > 1 - tol:
-                    phase[i, j] = 1
-                elif abs(ml - mh) > 0.15 and ml > tol and mh < 1 - tol:
-                    phase[i, j] = 3  # bistable
-                elif ml > tol and mh > 1 - tol:
-                    phase[i, j] = 1  # P wins
-                elif ml < tol and mh > 1 - tol:
-                    phase[i, j] = 3  # bistable
-                elif ml > tol and mh > tol and ml < 1 - tol and mh < 1 - tol:
-                    phase[i, j] = 2  # coexist
+                    code, freq = classify_abm(p_series)
+                    finals.append(freq)
+                mean_freq = np.mean(finals)
+                eq_freq[j, i] = mean_freq
+                if mean_freq < 0.05:
+                    phase[j, i] = 0
+                elif mean_freq > 0.95:
+                    phase[j, i] = 1
                 else:
-                    lPS, lSP = analytical_invasion_rate(rho, h_beta, params,
-                                                        T=20000, burnin=5000)
-                    phase[i, j] = classify_from_lambdas(lSP, lPS)
-                eq_freq[i, j] = 0.5 * (ml + mh)
-            else:
-                lPS, lSP = analytical_invasion_rate(rho, h_beta, params)
-                lambda_PS_mat[i, j] = lPS
-                lambda_SP_mat[i, j] = lSP
-                phase[i, j] = classify_from_lambdas(lSP, lPS)
-                # Mean-field equilibrium
-                eq_freq[i, j] = analytical_equilibrium(rho, h_beta, params)
+                    phase[j, i] = 2
+    else:
+        lPS_mat = np.zeros((n_beta, n_rho), dtype=np.float64)
+        lSP_mat = np.zeros((n_beta, n_rho), dtype=np.float64)
+        for i, rho in enumerate(rho_vals):
+            for j, hb in enumerate(h_beta_vals):
+                lPS, lSP = analytical_invasion_rate(rho, hb, params,
+                                                    seed=seed + i * 1000 + j)
+                lPS_mat[j, i] = lPS
+                lSP_mat[j, i] = lSP
+                phase[j, i] = classify_invasion(lPS, lSP)
+                # Proxy equilibrium from invasion rates
+                if phase[j, i] == 0:
+                    eq_freq[j, i] = 0.0
+                elif phase[j, i] == 1:
+                    eq_freq[j, i] = 1.0
+                elif phase[j, i] == 2:
+                    eq_freq[j, i] = 0.5
+                elif phase[j, i] == 3:
+                    eq_freq[j, i] = 0.5
+                else:
+                    eq_freq[j, i] = 0.5
 
-        if (i + 1) % 5 == 0 or i == n_rho - 1:
-            print(f"  rho index {i+1}/{n_rho} done")
-
-    return phase, eq_freq, lambda_PS_mat, lambda_SP_mat
-
-
-def analytical_equilibrium(rho, h_beta, params, T=50000, burnin=10000):
-    """Iterate mean-field recurrence to find equilibrium P frequency."""
-    rng = np.random.default_rng(999)
-    env = make_environment(T + burnin, rho, rng)
-    m = make_maladaptation(env)
-
-    p, q, D = 0.5, 0.5, 1.0
-    for t in range(burnin):
-        p, q, D = meanfield_step(p, q, D, m[t], h_beta, params)
-
-    p_sum = 0.0
-    for t in range(T):
-        p, q, D = meanfield_step(p, q, D, m[burnin + t], h_beta, params)
-        p_sum += p
-    return p_sum / T
+    return phase, eq_freq, lPS_mat, lSP_mat
 
 
 # ---------------------------------------------------------------------------
@@ -560,62 +459,49 @@ def analytical_equilibrium(rho, h_beta, params, T=50000, burnin=10000):
 
 def plot_phase_diagram(phase, eq_freq, rho_vals, h_beta_vals, params,
                        lambda_PS=None, lambda_SP=None,
-                       filename="plastic_dormancy_phase.png", agent_based=True):
-    fig, axes = plt.subplots(1, 3, figsize=(20, 6))
-
-    # Left: discrete phase classification
-    ax = axes[0]
-    colors = ["#d73027", "#4575b4", "#fdae61", "#abd9e9", "#ffffbf"]
+                       filename="plastic_dormancy_phase.png",
+                       agent_based=False):
+    """Publication-quality 3-panel figure."""
+    colors = ["#d73027", "#4575b4", "#8c6bb1", "#fc8d59", "#969696"]
     cmap = ListedColormap(colors)
-    bounds = np.arange(-0.5, 5.5, 1.0)
+    bounds = [-0.5, 0.5, 1.5, 2.5, 3.5, 4.5]
     norm = BoundaryNorm(bounds, cmap.N)
-    im = ax.imshow(phase.T, aspect='auto', origin='lower', cmap=cmap, norm=norm,
-                   extent=[rho_vals[0], rho_vals[-1], h_beta_vals[0], h_beta_vals[-1]],
-                   interpolation='nearest')
-    cbar = fig.colorbar(im, ax=ax, ticks=range(5), label="Outcome")
-    cbar.ax.set_yticklabels(["S wins", "P wins", "coexist", "bistable", "neutral"])
-    ax.set_xlabel(r"$\rho$ (environmental autocorrelation)", fontsize=12)
-    ax.set_ylabel(r"$h_\beta$ (plastic response sensitivity)", fontsize=12)
-    ax.set_title("Phase classification" + (" (agent-based)" if agent_based else " (analytical)"),
-                 fontsize=11)
 
-    # Overlay analytical boundary
-    crit = np.array([critical_h_beta_for_rho(r, params) for r in rho_vals])
-    finite_mask = np.isfinite(crit)
-    if finite_mask.any():
-        ax.plot(rho_vals[finite_mask], crit[finite_mask], 'k--', linewidth=2,
-                label=r"$h_\beta^*$ (P invasion boundary)")
-        ax.legend(loc='upper left', fontsize=9)
+    fig, axes = plt.subplots(1, 3, figsize=(16, 5))
 
-    # Middle: equilibrium frequency heatmap
+    # Panel 1: phase classification
+    ax1 = axes[0]
+    im1 = ax1.imshow(phase, origin='lower', aspect='auto', cmap=cmap, norm=norm,
+                     extent=[rho_vals[0], rho_vals[-1], h_beta_vals[0], h_beta_vals[-1]])
+    ax1.set_xlabel(r"Environmental autocorrelation $\rho$", fontsize=12)
+    ax1.set_ylabel(r"Plastic dormancy slope $h_\beta$", fontsize=12)
+    ax1.set_title("Outcome phase", fontsize=12, fontweight='bold')
+    cbar1 = fig.colorbar(im1, ax=ax1, ticks=[0, 1, 2, 3, 4])
+    cbar1.ax.set_yticklabels(["S wins", "P wins", "Coexist", "Bistable", "Neutral"])
+
+    # Panel 2: equilibrium P frequency
     ax2 = axes[1]
-    im2 = ax2.imshow(eq_freq.T, aspect='auto', origin='lower', cmap='RdBu_r',
-                     vmin=0, vmax=1,
-                     extent=[rho_vals[0], rho_vals[-1], h_beta_vals[0], h_beta_vals[-1]],
-                     interpolation='bilinear')
-    cbar2 = fig.colorbar(im2, ax=ax2, label=r"$\bar{p}_P$ (P equilibrium frequency)")
+    im2 = ax2.imshow(eq_freq, origin='lower', aspect='auto', cmap='RdYlBu_r',
+                     vmin=0.0, vmax=1.0,
+                     extent=[rho_vals[0], rho_vals[-1], h_beta_vals[0], h_beta_vals[-1]])
     ax2.set_xlabel(r"$\rho$", fontsize=12)
     ax2.set_ylabel(r"$h_\beta$", fontsize=12)
-    ax2.set_title("Equilibrium P frequency", fontsize=11)
-    if finite_mask.any():
-        ax2.plot(rho_vals[finite_mask], crit[finite_mask], 'k--', linewidth=2)
+    ax2.set_title("Mean final P frequency" if agent_based else "Proxy P frequency", fontsize=12)
+    fig.colorbar(im2, ax=ax2)
 
-    # Right: log(lambda_PS) heatmap (P invasion growth rate)
+    # Panel 3: invasion rates or placeholder
     ax3 = axes[2]
-    if lambda_PS is not None:
-        log_lPS = np.log(np.maximum(lambda_PS, 1e-10))
-        im3 = ax3.imshow(log_lPS.T, aspect='auto', origin='lower', cmap='RdBu_r',
-                         vmin=-0.5, vmax=0.5,
-                         extent=[rho_vals[0], rho_vals[-1], h_beta_vals[0], h_beta_vals[-1]],
-                         interpolation='bilinear')
-        cbar3 = fig.colorbar(im3, ax=ax3, label=r"$\ln \lambda_{P \to S}$")
-        ax3.contour(rho_vals, h_beta_vals, log_lPS.T, levels=[0.0],
-                    colors='black', linewidths=2)
-        ax3.set_title(r"$\ln \lambda_{P\to S}$ (P invades S)" + (" (agent-based)" if agent_based else " (analytical)"),
-                      fontsize=10)
+    if lambda_PS is not None and lambda_SP is not None:
+        delta = lambda_PS - lambda_SP
+        im3 = ax3.imshow(delta, origin='lower', aspect='auto', cmap='PuOr',
+                         vmin=-0.1, vmax=0.1,
+                         extent=[rho_vals[0], rho_vals[-1], h_beta_vals[0], h_beta_vals[-1]])
+        ax3.contour(rho_vals, h_beta_vals, delta, levels=[0.0], colors='k', linewidths=2)
+        ax3.set_title(r"$\lambda_{PS} - \lambda_{SP}$", fontsize=12)
+        fig.colorbar(im3, ax=ax3)
     else:
         ax3.text(0.5, 0.5, "lambda data not available\n(agent-based mode)",
-                transform=ax3.transAxes, ha='center', va='center', fontsize=14)
+                 transform=ax3.transAxes, ha='center', va='center', fontsize=14)
         ax3.set_title("Invasion rate (not computed for ABM)", fontsize=10)
     ax3.set_xlabel(r"$\rho$", fontsize=12)
     ax3.set_ylabel(r"$h_\beta$", fontsize=12)
@@ -640,8 +526,7 @@ def main():
     parser.add_argument("--rho-max", type=float, default=0.9)
     parser.add_argument("--n-rho", type=int, default=31)
     parser.add_argument("--n-beta", type=int, default=25)
-    parser.add_argument("--agent-based", action="store_true", default=True)
-    parser.add_argument("--no-agent-based", dest="agent_based", action="store_false")
+    parser.add_argument("--agent-based", action="store_true", default=False)
     parser.add_argument("--replicates", type=int, default=DEFAULT_REPLICATES)
     parser.add_argument("--N", type=int, default=DEFAULT_N)
     parser.add_argument("--generations", type=int, default=DEFAULT_GENERATIONS)

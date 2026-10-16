@@ -51,20 +51,37 @@ for N in (80, 160, 320):
     nres[N] = dict(p2=p2, p4=p4, p8=p8, aperiodic=ap, frac_p4=p4/N)
     print("  N=%3d : P4=%d/%d  P8=%d  aperi=%d" % (N, p4, N, p8, ap))
 
-# ---- (3) cell-level: for a P4-locked lattice, measure local slope product
-#     around the orbit (stability of period-4 orbit in lattice coordinates)
+# ---- (3) local stability of the P4 orbit via linearized iteration
+#      The lattice map is F(x)_i = (1-eps) f(x_i) + (eps/2)(f(x_{i-1}) + f(x_{i+1})),
+#      f = r x (1-x).  Linearize about the period-4 orbit:
+#      D(F^4) along the cycle;  eigenvalues of the cycle Jacobian -> max |lambda|.
+#      max|lambda| < 1  =>  orbit is locally stable (pure period-4, not chaos).
 r, e, N = 3.865, 0.135, 120
 np.random.seed(0)
 x = np.random.rand(N)
 for _ in range(15000): x = coupled(x, r, e)
-# record orbit
-orb = [x.copy() for _ in range(4)]
-for _ in range(4): x = coupled(x, r, e)
-# perturbation growth over one 4-period cycle
-d = np.zeros(N); d[60] = 1e-12
+# sample the 4 phases of the orbit
+phases = []
 for _ in range(4):
-    # linearize: f' = r(1-2x), coupling: (1-eps)*f' + eps/2*(shifts of f')
-    x0 = coupled(x, r, e)  # actual next point (x updated implicitly via orbit)
-# simpler: re-run from x0 and x0+d
-x0 = coupled(np.random.seed(0) or np.random.rand(1) and x, r, e)  # placeholder no-op guard
+    phases.append(x.copy())
+    x = coupled(x, r, e)
+
+def jac(x0):
+    # dF_i/dx_j = (1-eps)*f'(x_i) [j=i] + (eps/2)*f'(x_j) [j=i+/-1]
+    s = r * (1.0 - 2.0 * x0)
+    J = np.diag((1.0 - e) * s)
+    J += (e/2.0) * (np.diag(s[1:], 1) + np.diag(s[:-1], -1))
+    n = len(s)
+    J[0, n-1] += (e/2.0) * s[n-1]
+    J[n-1, 0] += (e/2.0) * s[0]
+    return J
+
+# Jacobian of F at each phase
+Js = [jac(ph) for ph in phases]
+Jcycle = Js[3] @ Js[2] @ Js[1] @ Js[0]
+evals = np.linalg.eigvals(Jcycle)
+lmax = np.max(np.abs(evals))
+print("\nPeriod-4 cycle stability (N=120, r=3.865, eps=0.135):")
+print("  max |eigenvalue| of cycle Jacobian = %.6f" % lmax)
+print("  -> %s" % ("STABLE period-4 orbit (pure periodicity, not chaos)" if lmax < 1.0 else "UNSTABLE (chaotic/strange)"))
 print("\nsaved tongue_grid.npy; N results:", json.dumps(nres))

@@ -1,0 +1,257 @@
+{
+ "sigmas": [
+  0.0,
+  0.02,
+  0.05,
+  0.1,
+  0.2,
+  0.4,
+  0.8
+ ],
+ "Ns": [
+  200,
+  400,
+  800,
+  1600,
+  3200
+ ],
+ "Tmax": 3000.0,
+ "M": 24,
+ "K0": 5.0,
+ "alpha": 1.0,
+ "Rth": 0.5,
+ "dt": 0.1,
+ "results": {
+  "0.0": {
+   "beta": null,
+   "r2_power": null,
+   "r2_arrhenius": null,
+   "winner": null,
+   "per_N": {
+    "200": {
+     "median_km": 1500.0,
+     "censored_frac": 0.041666666666666664,
+     "mean_unc": 1525.8130434782609
+    },
+    "400": {
+     "median_km": NaN,
+     "censored_frac": 0.8333333333333334,
+     "mean_unc": 1775.325
+    },
+    "800": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "1600": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "3200": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    }
+   }
+  },
+  "0.02": {
+   "beta": null,
+   "r2_power": null,
+   "r2_arrhenius": null,
+   "winner": null,
+   "per_N": {
+    "200": {
+     "median_km": 1500.0,
+     "censored_frac": 0.0,
+     "mean_unc": 1500.0
+    },
+    "400": {
+     "median_km": NaN,
+     "censored_frac": 0.9166666666666666,
+     "mean_unc": 1978.0
+    },
+    "800": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "1600": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "3200": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    }
+   }
+  },
+  "0.05": {
+   "beta": null,
+   "r2_power": null,
+   "r2_arrhenius": null,
+   "winner": null,
+   "per_N": {
+    "200": {
+     "median_km": 1500.0,
+     "censored_frac": 0.0,
+     "mean_unc": 1512.4624999999999
+    },
+    "400": {
+     "median_km": NaN,
+     "censored_frac": 0.9583333333333334,
+     "mean_unc": 1500.0
+    },
+    "800": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "1600": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "3200": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    }
+   }
+  },
+  "0.1": {
+   "beta": null,
+   "r2_power": null,
+   "r2_arrhenius": null,
+   "winner": null,
+   "per_N": {
+    "200": {
+     "median_km": 1500.0,
+     "censored_frac": 0.0,
+     "mean_unc": 1553.5041666666666
+    },
+    "400": {
+     "median_km": NaN,
+     "censored_frac": 0.7916666666666666,
+     "mean_unc": 1561.66
+    },
+    "800": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "1600": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "3200": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    }
+   }
+  },
+  "0.2": {
+   "beta": null,
+   "r2_power": null,
+   "r2_arrhenius": null,
+   "winner": null,
+   "per_N": {
+    "200": {
+     "median_km": 1500.0,
+     "censored_frac": 0.0,
+     "mean_unc": 1500.0
+    },
+    "400": {
+     "median_km": NaN,
+     "censored_frac": 0.875,
+     "mean_unc": 1858.6000000000001
+    },
+    "800": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "1600": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "3200": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    }
+   }
+  },
+  "0.4": {
+   "beta": null,
+   "r2_power": null,
+   "r2_arrhenius": null,
+   "winner": null,
+   "per_N": {
+    "200": {
+     "median_km": 1500.0,
+     "censored_frac": 0.041666666666666664,
+     "mean_unc": 1500.0
+    },
+    "400": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "800": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "1600": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "3200": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    }
+   }
+  },
+  "0.8": {
+   "beta": null,
+   "r2_power": null,
+   "r2_arrhenius": null,
+   "winner": null,
+   "per_N": {
+    "200": {
+     "median_km": 1500.0,
+     "censored_frac": 0.0,
+     "mean_unc": 1533.1166666666668
+    },
+    "400": {
+     "median_km": NaN,
+     "censored_frac": 0.9166666666666666,
+     "mean_unc": 1500.0
+    },
+    "800": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "1600": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    },
+    "3200": {
+     "median_km": NaN,
+     "censored_frac": 1.0,
+     "mean_unc": null
+    }
+   }
+  }
+ }
+}

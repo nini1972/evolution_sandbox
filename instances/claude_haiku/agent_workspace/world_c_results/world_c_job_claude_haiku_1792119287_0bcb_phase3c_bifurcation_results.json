@@ -1,0 +1,11 @@
+{
+  "mean_field": {
+    "K_c": 0.6366197723675814,
+    "critical_exponent_beta": 0.5
+  },
+  "ring_topology": {
+    "N_values": [],
+    "K_c_values": [],
+    "scaling_exponent_alpha": null
+  }
+}

@@ -1,0 +1,65 @@
+=== Baseline ===
+ rho=-0.5 hb=0.1 -> lPS=0.9767 lSP=1.0266 P_inv=False S_inv=True
+ rho=-0.5 hb=0.3 -> lPS=0.9682 lSP=1.0425 P_inv=False S_inv=True
+ rho=-0.5 hb=0.5 -> lPS=0.9612 lSP=1.0601 P_inv=False S_inv=True
+ rho=+0.0 hb=0.1 -> lPS=0.9770 lSP=1.0240 P_inv=False S_inv=True
+ rho=+0.0 hb=0.3 -> lPS=0.9707 lSP=1.0333 P_inv=False S_inv=True
+ rho=+0.0 hb=0.5 -> lPS=0.9651 lSP=1.0434 P_inv=False S_inv=True
+ rho=+0.5 hb=0.1 -> lPS=0.9754 lSP=1.0256 P_inv=False S_inv=True
+ rho=+0.5 hb=0.3 -> lPS=0.9718 lSP=1.0305 P_inv=False S_inv=True
+ rho=+0.5 hb=0.5 -> lPS=0.9683 lSP=1.0357 P_inv=False S_inv=True
+
+=== Low cost c=0.01 ===
+ rho=-0.5 hb=0.1 -> lPS=0.9903 lSP=1.0107 P_inv=False S_inv=True
+ rho=-0.5 hb=0.3 -> lPS=0.9802 lSP=1.0258 P_inv=False S_inv=True
+ rho=-0.5 hb=0.5 -> lPS=0.9720 lSP=1.0425 P_inv=False S_inv=True
+ rho=+0.0 hb=0.1 -> lPS=0.9917 lSP=1.0076 P_inv=False S_inv=True
+ rho=+0.0 hb=0.3 -> lPS=0.9847 lSP=1.0166 P_inv=False S_inv=True
+ rho=+0.0 hb=0.5 -> lPS=0.9783 lSP=1.0263 P_inv=False S_inv=True
+ rho=+0.5 hb=0.1 -> lPS=0.9932 lSP=1.0060 P_inv=False S_inv=True
+ rho=+0.5 hb=0.3 -> lPS=0.9891 lSP=1.0107 P_inv=False S_inv=True
+ rho=+0.5 hb=0.5 -> lPS=0.9851 lSP=1.0157 P_inv=False S_inv=True
+
+=== w_mismatch=0.02 ===
+ rho=-0.5 hb=0.1 -> lPS=0.9848 lSP=1.0159 P_inv=False S_inv=True
+ rho=-0.5 hb=0.3 -> lPS=0.9813 lSP=1.0212 P_inv=False S_inv=True
+ rho=-0.5 hb=0.5 -> lPS=0.9783 lSP=1.0269 P_inv=False S_inv=True
+ rho=+0.0 hb=0.1 -> lPS=0.9815 lSP=1.0169 P_inv=False S_inv=True
+ rho=+0.0 hb=0.3 -> lPS=0.9799 lSP=1.0191 P_inv=False S_inv=True
+ rho=+0.0 hb=0.5 -> lPS=0.9784 lSP=1.0213 P_inv=False S_inv=True
+ rho=+0.5 hb=0.1 -> lPS=0.9780 lSP=1.0217 P_inv=False S_inv=True
+ rho=+0.5 hb=0.3 -> lPS=0.9771 lSP=1.0227 P_inv=False S_inv=True
+ rho=+0.5 hb=0.5 -> lPS=0.9763 lSP=1.0238 P_inv=False S_inv=True
+
+=== w_match=5.0, w_mismatch=0.05 ===
+ rho=-0.5 hb=0.1 -> lPS=0.9848 lSP=1.0159 P_inv=False S_inv=True
+ rho=-0.5 hb=0.3 -> lPS=0.9813 lSP=1.0212 P_inv=False S_inv=True
+ rho=-0.5 hb=0.5 -> lPS=0.9783 lSP=1.0269 P_inv=False S_inv=True
+ rho=+0.0 hb=0.1 -> lPS=0.9815 lSP=1.0169 P_inv=False S_inv=True
+ rho=+0.0 hb=0.3 -> lPS=0.9799 lSP=1.0191 P_inv=False S_inv=True
+ rho=+0.0 hb=0.5 -> lPS=0.9784 lSP=1.0213 P_inv=False S_inv=True
+ rho=+0.5 hb=0.1 -> lPS=0.9780 lSP=1.0217 P_inv=False S_inv=True
+ rho=+0.5 hb=0.3 -> lPS=0.9771 lSP=1.0227 P_inv=False S_inv=True
+ rho=+0.5 hb=0.5 -> lPS=0.9763 lSP=1.0238 P_inv=False S_inv=True
+
+=== h0=0.5, c=0.02 ===
+ rho=-0.5 hb=0.1 -> lPS=0.9899 lSP=1.0105 P_inv=False S_inv=True
+ rho=-0.5 hb=0.3 -> lPS=0.9831 lSP=1.0205 P_inv=False S_inv=True
+ rho=-0.5 hb=0.5 -> lPS=0.9775 lSP=1.0313 P_inv=False S_inv=True
+ rho=+0.0 hb=0.1 -> lPS=0.9906 lSP=1.0084 P_inv=False S_inv=True
+ rho=+0.0 hb=0.3 -> lPS=0.9866 lSP=1.0134 P_inv=False S_inv=True
+ rho=+0.0 hb=0.5 -> lPS=0.9830 lSP=1.0188 P_inv=False S_inv=True
+ rho=+0.5 hb=0.1 -> lPS=0.9913 lSP=1.0078 P_inv=False S_inv=True
+ rho=+0.5 hb=0.3 -> lPS=0.9893 lSP=1.0101 P_inv=False S_inv=True
+ rho=+0.5 hb=0.5 -> lPS=0.9873 lSP=1.0125 P_inv=False S_inv=True
+
+=== gamma=0.1, s=0.95, c=0.02 ===
+ rho=-0.5 hb=0.1 -> lPS=0.9915 lSP=1.0090 P_inv=False S_inv=True
+ rho=-0.5 hb=0.3 -> lPS=0.9850 lSP=1.0201 P_inv=False S_inv=True
+ rho=-0.5 hb=0.5 -> lPS=0.9799 lSP=1.0329 P_inv=False S_inv=True
+ rho=+0.0 hb=0.1 -> lPS=0.9920 lSP=1.0069 P_inv=False S_inv=True
+ rho=+0.0 hb=0.3 -> lPS=0.9876 lSP=1.0131 P_inv=False S_inv=True
+ rho=+0.0 hb=0.5 -> lPS=0.9837 lSP=1.0201 P_inv=False S_inv=True
+ rho=+0.5 hb=0.1 -> lPS=0.9925 lSP=1.0065 P_inv=False S_inv=True
+ rho=+0.5 hb=0.3 -> lPS=0.9899 lSP=1.0098 P_inv=False S_inv=True
+ rho=+0.5 hb=0.5 -> lPS=0.9874 lSP=1.0135 P_inv=False S_inv=True

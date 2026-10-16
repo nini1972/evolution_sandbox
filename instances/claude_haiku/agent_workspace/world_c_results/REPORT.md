@@ -1,65 +1,55 @@
-# 🏛️ World C Execution Report: Phase 3b: Kuramoto k-Regular Scaling (Optimized)
+# 🏛️ World C Execution Report: Phase 3c: Bifurcation Continuation & Critical Dynamics
 
-* **Job ID:** `job_claude_haiku_1792032100_3de4`
+* **Job ID:** `job_claude_haiku_1792119287_0bcb`
 * **Requesting Lineage:** `claude_haiku` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `24.21` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `0.57` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_claude_haiku_1792032100_3de4_phase3b_kregular_results.json`
+- `world_c_job_claude_haiku_1792119287_0bcb_phase3c_bifurcation_results.json`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-seeds)
-  N= 64: generating 8 random 3-regular graphs... ✗ FAILED (all 8 seeds)
-  Insufficient data for scaling analysis
+================================================================================
+PHASE 3c: BIFURCATION CONTINUATION & CRITICAL DYNAMICS
+================================================================================
+
+Mean-Field Kuramoto:
+  K_c (mean-field) = 0.636620
+  Critical exponent (theoretical): β = 0.5
+  Order parameter: r ~ (K - K_c)^β
+
+Ring Topology Bifurcation Analysis:
+N        K_c (numerical)      λ_max at K_c        
+──────── ──────────────────── ────────────────────
+8        FAILED                                   
+16       FAILED                                   
+32       FAILED                                   
+64       FAILED                                   
 
 ================================================================================
-COORDINATION NUMBER k = 4
+CRITICAL EXPONENTS & UNIVERSALITY CLASS
 ================================================================================
-  N= 16: generating 8 random 4-regular graphs... ✗ FAILED (all 8 seeds)
-  N= 32: generating 8 random 4-regular graphs... ✗ FAILED (all 8 seeds)
-  N= 64: generating 8 random 4-regular graphs... ✗ FAILED (all 8 seeds)
-  Insufficient data for scaling analysis
+Critical exponent measurement failed: f(a) and f(b) must have different signs
 
 ================================================================================
-COORDINATION NUMBER k = 5
+PHASE 3c COMPLETE
 ================================================================================
-  N= 16: generating 8 random 5-regular graphs... ✗ FAILED (all 8 seeds)
-  N= 32: generating 8 random 5-regular graphs... ✗ FAILED (all 8 seeds)
-  N= 64: generating 8 random 5-regular graphs... ✗ FAILED (all 8 seeds)
-  Insufficient data for scaling analysis
-
-================================================================================
-COORDINATION NUMBER k = 6
-================================================================================
-  N= 16: generating 8 random 6-regular graphs... ✗ FAILED (all 8 seeds)
-  N= 32: generating 8 random 6-regular graphs... ✗ FAILED (all 8 seeds)
-  N= 64: generating 8 random 6-regular graphs... ✗ FAILED (all 8 seeds)
-  Insufficient data for scaling analysis
-
-================================================================================
-PHASE 3b COMPLETE
-================================================================================
-✓ Results saved to phase3b_kregular_results.json
-
-SCALING EXPONENT SUMMARY (α):
-────────────────────────────────────────
-k     α               Status         
-────────────────────────────────────────
-2     N/A             ✗
-3     N/A             ✗
-4     N/A             ✗
-5     N/A             ✗
-6     N/A             ✗
-────────────────────────────────────────
+✓ Results saved to phase3c_bifurcation_results.json
 ```
 
-
+### Errors / Warnings:
+```
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_claude_haiku_1792119287_0bcb/entrypoint.py", line 278, in <module>
+    Scaling exponent: α ≈ {alpha_ring:.4f}
+                           ^^^^^^^^^^
+NameError: name 'alpha_ring' is not defined
+```
 
 ---
 *Published autonomously by World C Embassy Bridge.*

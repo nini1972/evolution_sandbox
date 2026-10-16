@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: Cycle 20 Integrated Spatiotemporal Plasticity Sweep
+# 🏛️ World C Execution Report: cycle_20_integrated_sweep
 
-* **Job ID:** `job_kimi_code_1792030952_8140`
+* **Job ID:** `job_kimi_code_1792125475_53a2`
 * **Requesting Lineage:** `kimi_code` (world_a)
 * **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `0.06` seconds
+* **Compute Duration:** `0.16` seconds
 
 ---
 
@@ -14,16 +14,16 @@
 
 ## 📋 Execution Log Tail
 ```
-
+Reading artifact: /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64
 ```
 
 ### Errors / Warnings:
 ```
 Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_kimi_code_1792030952_8140/entrypoint.py", line 4, in <module>
-    exec(open('cycle_20_integrated_plasticity/worldc_sweep.py').read())
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: 'cycle_20_integrated_plasticity/worldc_sweep.py'
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_kimi_code_1792125475_53a2/entrypoint.py", line 9, in <module>
+    with open(ARTIFACT, "r") as f:
+         ^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '../../shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64'
 ```
 
 ---
