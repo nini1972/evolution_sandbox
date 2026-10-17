@@ -27,6 +27,21 @@ def estimate_tokens(obj) -> int:
     except Exception:
         return len(str(obj)) // 3
 
+_INLINE_TOOL_RE = re.compile(
+    r"(?:\[\s*(?:read_file|write_file|edit_file|run_command|search_web|submit_world_c_job|check_world_c_job|"
+    r"report_issue_to_substrate|report_bug|contact_architect|post_epistemic_node|peer_verify_node|"
+    r"query_epistemic_graph|send_agent_dispatch|read_agent_inbox|export_treaty_to_embassy)\s*\(|!function_call:)"
+)
+
+def strip_inline_tool_syntax(text: str) -> str:
+    """Strips inline bracketed tool calls ([tool(...)]) and any hallucinated roleplay following the first inline call."""
+    if not text or not isinstance(text, str):
+        return text or ""
+    m = _INLINE_TOOL_RE.search(text)
+    if m:
+        return text[:m.start()].strip()
+    return text.strip()
+
 def prune_history(history: list, max_messages: int = 24, max_content_chars: int = 8000, max_prompt_tokens: int = 10000) -> list:
     """Limits history length by message count and token budget. Preserves initial system prompt,
     deduplicates thoughts, truncates oversized messages, and packs backwards to guarantee context fit."""
@@ -45,7 +60,10 @@ def prune_history(history: list, max_messages: int = 24, max_content_chars: int 
         if msg.get("role") == "assistant" and not msg.get("tool_calls"):
             if deduped and deduped[-1].get("role") == "assistant" and not deduped[-1].get("tool_calls"):
                 continue
-        deduped.append(dict(msg))
+        cleaned_msg = dict(msg)
+        if cleaned_msg.get("role") == "assistant" and cleaned_msg.get("content"):
+            cleaned_msg["content"] = strip_inline_tool_syntax(cleaned_msg["content"])
+        deduped.append(cleaned_msg)
 
     # Truncate individual oversized messages (e.g. huge tool outputs or massive code dumps)
     for msg in deduped:
@@ -142,7 +160,7 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                         "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
                         "tool_name": tool_name,
                         "arguments": args,
-                        "content": content,
+                        "content": strip_inline_tool_syntax(content[:fc_idx]),
                     }
             except Exception:
                 pass
@@ -160,16 +178,51 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                     "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
                     "tool_name": tool_name,
                     "arguments": args,
-                    "content": content,
+                    "content": strip_inline_tool_syntax(content[:m.start()]),
                 }
         except Exception:
             pass
 
-    # 3. Check for bracketed tool calls: [tool_name(param=val)]
+    # 3. Check for bracketed tool calls: [tool_name(param=val)], ordered by earliest position in text
+    VALID_PARAMS = {
+        "read_file": {"path", "offset", "limit", "start_line", "end_line"},
+        "write_file": {"path", "content"},
+        "edit_file": {"path", "old_content", "new_content"},
+        "run_command": {"command"},
+        "search_web": {"query"},
+        "submit_world_c_job": {"title", "script_content", "timeout_seconds", "parameters", "entrypoint_code", "requirements_txt", "job_description"},
+        "check_world_c_job": {"job_id"},
+        "report_issue_to_substrate": {"component", "summary", "details", "suggested_fix"},
+        "report_bug": {"component", "summary", "details", "suggested_fix"},
+        "contact_architect": {"component", "summary", "details", "suggested_fix"},
+        "post_epistemic_node": {"title", "node_type", "summary", "artifact_path", "parents", "tags", "confidence", "formal_statement", "supporting_evidence", "dependencies", "author_instance"},
+        "peer_verify_node": {"node_id", "verdict", "critique_notes", "confidence", "reproduced_artifact_path", "verification_type", "replication_code", "empirical_outcome", "reproduced", "critique"},
+        "query_epistemic_graph": {"node_id", "status", "tag", "node_type", "search_text", "limit", "author_family"},
+        "send_agent_dispatch": {"recipient", "recipient_instance", "subject", "body", "reference_node_id", "node_id_ref", "action_requested", "content"},
+        "read_agent_inbox": {"unread_only"},
+        "export_treaty_to_embassy": {"node_id", "originating_dossier_filename", "treaty_id", "title", "ratified_theorems", "consensus_proof"},
+    }
+    REQUIRED_PARAMS = {
+        "read_file": {"path"},
+        "write_file": {"path", "content"},
+        "edit_file": {"path", "old_content", "new_content"},
+        "run_command": {"command"},
+        "search_web": {"query"},
+        "submit_world_c_job": {"title"},
+        "check_world_c_job": {"job_id"},
+        "report_issue_to_substrate": {"component", "summary", "details"},
+        "report_bug": {"component", "summary", "details"},
+        "contact_architect": {"component", "summary", "details"},
+        "post_epistemic_node": {"title"},
+        "peer_verify_node": {"node_id", "verdict"},
+        "send_agent_dispatch": {"subject"},
+        "export_treaty_to_embassy": {"node_id"},
+    }
+
+    candidates = []
     for tool_name in known_tools:
         pattern = rf"(?:\[|`|\b){tool_name}\s*\((.*?)\)(?:\]|`|\b)"
-        m = re.search(pattern, content, re.DOTALL)
-        if m:
+        for m in re.finditer(pattern, content, re.DOTALL):
             arg_str = m.group(1).strip()
             args = {}
             param_matches = re.findall(
@@ -204,41 +257,6 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                 args = {"query": arg_str.strip('"\'')}
 
             if args:
-                # Whitelist arguments to prevent multi-line code assignments (e.g. n=4, r=0.5) from being treated as tool kwargs
-                VALID_PARAMS = {
-                    "read_file": {"path", "offset", "limit", "start_line", "end_line"},
-                    "write_file": {"path", "content"},
-                    "edit_file": {"path", "old_content", "new_content"},
-                    "run_command": {"command"},
-                    "search_web": {"query"},
-                    "submit_world_c_job": {"title", "script_content", "timeout_seconds", "parameters", "entrypoint_code", "requirements_txt", "job_description"},
-                    "check_world_c_job": {"job_id"},
-                    "report_issue_to_substrate": {"component", "summary", "details", "suggested_fix"},
-                    "report_bug": {"component", "summary", "details", "suggested_fix"},
-                    "contact_architect": {"component", "summary", "details", "suggested_fix"},
-                    "post_epistemic_node": {"title", "node_type", "summary", "artifact_path", "parents", "tags", "confidence", "formal_statement", "supporting_evidence", "dependencies", "author_instance"},
-                    "peer_verify_node": {"node_id", "verdict", "critique_notes", "confidence", "reproduced_artifact_path", "verification_type", "replication_code", "empirical_outcome", "reproduced", "critique"},
-                    "query_epistemic_graph": {"node_id", "status", "tag", "node_type", "search_text", "limit", "author_family"},
-                    "send_agent_dispatch": {"recipient", "recipient_instance", "subject", "body", "reference_node_id", "node_id_ref", "action_requested", "content"},
-                    "read_agent_inbox": {"unread_only"},
-                    "export_treaty_to_embassy": {"node_id", "originating_dossier_filename", "treaty_id", "title", "ratified_theorems", "consensus_proof"},
-                }
-                REQUIRED_PARAMS = {
-                    "read_file": {"path"},
-                    "write_file": {"path", "content"},
-                    "edit_file": {"path", "old_content", "new_content"},
-                    "run_command": {"command"},
-                    "search_web": {"query"},
-                    "submit_world_c_job": {"title"},
-                    "check_world_c_job": {"job_id"},
-                    "report_issue_to_substrate": {"component", "summary", "details"},
-                    "report_bug": {"component", "summary", "details"},
-                    "contact_architect": {"component", "summary", "details"},
-                    "post_epistemic_node": {"title"},
-                    "peer_verify_node": {"node_id", "verdict"},
-                    "send_agent_dispatch": {"subject"},
-                    "export_treaty_to_embassy": {"node_id"},
-                }
                 if tool_name in VALID_PARAMS and isinstance(args, dict):
                     args = {k: v for k, v in args.items() if k in VALID_PARAMS[tool_name]}
                     if tool_name == "write_file" and "content" not in args:
@@ -250,13 +268,18 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                 if not args or not req.issubset(args.keys()):
                     continue
 
-                return {
-                    "type": "tool_call",
-                    "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
-                    "tool_name": tool_name,
-                    "arguments": args,
-                    "content": content,
-                }
+                candidates.append((m.start(), tool_name, args))
+
+    if candidates:
+        candidates.sort(key=lambda x: x[0])
+        match_start, best_tool, best_args = candidates[0]
+        return {
+            "type": "tool_call",
+            "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+            "tool_name": best_tool,
+            "arguments": best_args,
+            "content": strip_inline_tool_syntax(content[:match_start]),
+        }
     return None
 
 def resolve_agent_model(instance_name: str) -> str:
