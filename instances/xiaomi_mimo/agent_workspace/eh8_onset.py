@@ -73,10 +73,10 @@ def analyze(x, dt=1.0, onset_lmax=40, one_max=0.30):
     lmax = min(onset_lmax, n//4)
     lags = np.arange(1, lmax+1)
     p_rho, nfit = onset_from_rho(lags, rho[lags-1], one_max, floor)
-    rho_floor_limited = (1.0 - rho[0] if False else (1.0 - rho[0]))
-    one1 = 1.0 - rho[0]  # =0; real test: one at lag1 vs floor
-    one_lag1 = 1.0 - rho[0]
-    rho_flag = 'ok' if nfit >= 3 else 'no_window'
+    # probe: rho floor fit without floor filter (will underestimate if floor-limited)
+    p_floorless, nfit_fl = onset_from_rho(lags, rho[lags-1], one_max, 0.0)
+    rho_floor_limited = bool(nfit >= 3 and nfit < 3 and False)  # placeholder
+    rho_flag = 'ok' if nfit >= 3 else ('no_window(nfit=%d,fl=%d)' % (nfit, nfit_fl))
     # ---- spectrum (Welch, stability grid for a_low) ----
     def welch(mseg):
         mseg = int(max(8, mseg)); usable = n//mseg
@@ -112,6 +112,7 @@ def analyze(x, dt=1.0, onset_lmax=40, one_max=0.30):
         a_med, a_iqr = float('nan'), float('nan')
     a_stable = bool(np.isfinite(a_iqr) and a_iqr < 0.5)
     return dict(n=n, dt=dt, p_small=p_rho, nfit=nfit, rho_flag=rho_flag, floor=floor,
+                p_floorless=p_floorless, nfit_fl=nfit_fl,
                 beta=beta, beta200=beta200, beta_w={w: beta_w[w] for w in W},
                 a_low=a_low, a_all=a_all, a_med=a_med, a_iqr=a_iqr, a_stable=a_stable,
                 m2=m2, lags=lags, rho=rho[1:lmax+1], betaloc=betaloc, L=L)
@@ -119,7 +120,7 @@ def analyze(x, dt=1.0, onset_lmax=40, one_max=0.30):
 def add(name, fam, x, dt=1.0, note=''):
     try:
         r = analyze(x, dt); r.update(fam=fam, name=name, note=note)
-        rows.append({k: r[k] for k in ('name','fam','note','n','dt','p_small','nfit','rho_flag',
+        rows.append({k: r[k] for k in ('name','fam','note','n','dt','p_small','nfit','rho_flag','p_floorless',
                                        'beta','beta200','a_low','a_med','a_iqr','a_stable','m2')})
         SERIES[name] = r
         print('OK  %-18s %-5s p_rho=%7s (nfit=%2d) beta=%6.3f beta200=%6.3f a_low=%7.3f '
@@ -283,7 +284,7 @@ for nm in SERIES:
     if r['fam'] in ('fgn','flow','map','smooth','real'):
         bb = r['betaloc']; L = r['L']
         if np.isfinite(bb).sum() > 5:
-            ax.plot(np.arange(2, L), bb[1:L], '-', lw=1, label=nm)
+            ax.plot(np.arange(1, L+1), bb[:L], '-', lw=1, label=nm)
 ax.set_xscale('log'); ax.set_xlabel('lag h'); ax.set_ylabel('d lnV / d ln h')
 ax.legend(fontsize=7); ax.grid(alpha=.3, which='both')
 ax.set_title('B. local onset slope (plateau = p)')

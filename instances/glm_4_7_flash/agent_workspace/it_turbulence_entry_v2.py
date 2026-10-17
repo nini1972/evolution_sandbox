@@ -278,30 +278,29 @@ def analyze_and_report(A, B, C, paceA, paceB, paceC_real):
         fig, axes = plt.subplots(2, 2, figsize=(14, 10))
         names = [('A eps=0.05', A), ('B eps=0.2', B), ('C N=2048', C)]
         for j, (nm, ag) in enumerate(names):
-            ax = axes[j // 2][j % 2]
-            if ag['n_ok']:
+            ax = axes.flat[j]
+            if ag['n_ok'] and ag['hist'].sum() > 0:
                 bins = ag['bins']; h = ag['hist']
                 c = 0.5 * (bins[:-1] + bins[1:])
-                Ibar = float((c * h).sum() / max(1.0, h.sum()))
-                pdf = h / (h.sum() * (bins[1] - bins[0]))
-                ax.semilogy(c, Ibar * pdf, label=nm + ' emp')
-                yy = np.linspace(0, c.max(), 400)
-                ax.semilogy(yy, np.exp(-yy / Ibar), 'k--', label='Rayleigh')
-                ax.set_xlim(0, 30); ax.set_ylim(1e-6, 2)
-                ax.axvline(9, color='r', ls=':', lw=0.7)
+                Ibar = float((c * h).sum() / float(h.sum()))
+                if Ibar > 0:
+                    pdf = h / (h.sum() * (bins[1] - bins[0]))
+                    ax.semilogy(c, Ibar * pdf, label=nm + ' emp')
+                    yy = np.linspace(0, float(c.max()), 400)
+                    ax.semilogy(yy, np.exp(-yy / Ibar), 'k--', label='Rayleigh')
+                    ax.set_xlim(0, 30); ax.set_ylim(1e-7, 2)
+                    ax.axvline(9, color='r', ls=':', lw=0.7)
             ax.set_xlabel('I (4s-window max)'); ax.set_title(nm)
             ax.legend(fontsize=8)
-        axes[3][0].axis('off')
-        ax = axes[3][1]
+        ax = axes.flat[3]
         for nm, ag in names:
-            if ag['n_ok']:
+            if ag['n_ok'] and ag['kurt'].size:
                 kt = np.array(ag['kt'])
                 km = ag['kurt'].mean(axis=0)
                 ax.plot(kt, km, label=nm)
         ax.axhline(3, color='k', ls=':')
         ax.set_xlabel('t'); ax.set_ylabel('kurtosis <I^2>/<I>^2')
         ax.legend(fontsize=8)
-        axes[0][1].axis('off')
         fig.suptitle('Discovery-029 v2: integrable turbulence |psi|^2 PDF vs Rayleigh + kurtosis growth')
         fig.tight_layout()
         fig.savefig('it_turbulence_overview.png', dpi=130)
@@ -311,18 +310,22 @@ def analyze_and_report(A, B, C, paceA, paceB, paceC_real):
         say('plot fail: ' + repr(e))
     try:
         fig, ax = plt.subplots(figsize=(7, 5))
+        plotted = 0
         for nm, ag, N2, L2 in (('A', A, int(os.environ.get('IT_NA', '1024')), 100.0), ('C', C, int(os.environ.get('IT_NC', '2048')), 200.0)):
             if ag['n_ok'] and ag['rs'] and ag['rs'][0].get('spectra'):
+                dx = L2 / N2
+                k = 2.0 * np.pi * np.fft.fftfreq(N2, d=dx)
+                sp0 = ag['rs'][0]['spectra']
                 for st in (5, 15, 40, 100):
-                    if st in ag['rs'][0]['spectra']:
-                        sp = np.asarray(ag['rs'][0]['spectra'][st])
-                        dx = L2 / N2
-                        k2 = np.fft.fftshift(2.0 * np.pi * np.fft.fftfreq(N2, d=dx))
-                        a = np.fft.fftshift(sp); a = a[a.size - np.sum(k2 > 0):]
-                        m = (k2 > 0) & (k2 < 30)
-                        ax.loglog(k2[m], a[m] + 1e-30, lw=0.9, label=nm + ' t=' + str(st))
+                    if st in sp0:
+                        sp = np.asarray(sp0[st])
+                        m = (0 < k) & (k < 30)
+                        ax.loglog(k[m], sp[m] + 1e-30, lw=0.9, label=nm + ' t=' + str(st))
+                        plotted += 1
         ax.set_xlabel('k'); ax.set_ylabel('|psi_k|^2')
-        ax.legend(fontsize=7); ax.set_title('spectral evolution (seed head realizations)')
+        if plotted:
+            ax.legend(fontsize=7)
+        ax.set_title('spectral evolution (seed head realizations)')
         fig.tight_layout(); fig.savefig('it_turbulence_spectra.png', dpi=130)
         plt.close(fig)
         say('spectra png saved')
@@ -342,11 +345,11 @@ if __name__ == '__main__':
             if ag['n_ok']:
                 s = stats[nm]
                 lines.append('## Config ' + nm + ' (n=' + str(ag['n_ok']) + ')')
-                lines.append('- mean window-max I: ' + str(round(s['meanI'], 4)))
-                lines.append('- kurtosis t=40: ' + str(round(s['kurt_at_40'], 3)) + ', t=100: ' + str(round(s['kurt_at_100'], 3)) + ', max: ' + str(round(s['kurt_max'], 3)))
+                lines.append('- mean window-max I: ' + str(round(s['meanI'], 4) if s['meanI'] is not None else None))
+                lines.append('- kurtosis t=40: ' + str(round(s['kurt_at_40'], 3) if s['kurt_at_40'] is not None else None) + ', t=100: ' + str(round(s['kurt_at_100'], 3) if s['kurt_at_100'] is not None else None) + ', max: ' + str(round(s['kurt_max'], 3) if s['kurt_max'] is not None else None))
                 lines.append('- enhancement factors vs Rayleigh: ' + json.dumps({kk2: (round(vv, 2) if vv is not None else None) for kk2, vv in s['enh'].items()}))
-                lines.append('- rogue rates: >9=' + str(round(s['rate9'], 5)) + ', >16=' + str(round(s['rate16'], 5)) + ', >25=' + str(round(s['rate25'], 5)))
-                lines.append('- global max |psi|^2: ' + str(round(s['global_max'], 2)) + ', mass dev: ' + str(round(s['massdev'], 8)))
+                lines.append('- rogue rates: >9=' + str(round(s['rate9'], 5) if s['rate9'] is not None else None) + ', >16=' + str(round(s['rate16'], 5) if s['rate16'] is not None else None) + ', >25=' + str(round(s['rate25'], 5) if s['rate25'] is not None else None))
+                lines.append('- global max |psi|^2: ' + str(round(s['global_max'], 2) if s['global_max'] is not None else None) + ', mass dev: ' + str(round(s['massdev'], 8) if s['massdev'] is not None else None))
                 lines.append('- top-10 events (I, t, x): ' + json.dumps(s['tops']))
                 lines.append('')
         try:
