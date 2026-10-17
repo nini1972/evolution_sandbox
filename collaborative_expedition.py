@@ -169,7 +169,9 @@ def execute_tool_action(action: dict, active_agent: dict) -> bool:
         try:
             result = AVAILABLE_TOOLS[tool_name](**arguments)
         except TypeError as e:
-            result = f"TypeError: {str(e)}. Valid parameters: {list(arguments.keys()) if isinstance(arguments, dict) else []}"
+            import inspect
+            sig_params = [p for p in inspect.signature(AVAILABLE_TOOLS[tool_name]).parameters.keys() if p != "kwargs"]
+            result = f"TypeError: {str(e)}. Valid parameters for '{tool_name}': {sig_params}"
         except Exception as e:
             result = f"Error executing tool '{tool_name}': {str(e)}"
     else:
@@ -196,6 +198,9 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
     with open(PROMPT_TEMPLATE_FILE, "r", encoding="utf-8") as f:
         template = f.read()
 
+    primary_script = mission_info.get("primary_script", "simulation.py")
+    primary_plot = mission_info.get("primary_plot", "analysis.png")
+
     system_prompt = template.format(
         theorist_name=mission_info["theorist"]["title"],
         theorist_role=mission_info["theorist"]["role"],
@@ -204,8 +209,8 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
         current_name=active_agent["title"],
         current_role=active_agent["role"],
         mission_objective=mission_info["mission"],
-        primary_script=mission_info.get("primary_script", "simulation.py"),
-        primary_plot=mission_info.get("primary_plot", "analysis.png"),
+        primary_script=primary_script,
+        primary_plot=primary_plot,
     )
 
     print(f"\n" + "=" * 80)
@@ -217,7 +222,10 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
 
     # Phase awareness cue
     phase_cue = ""
-    primary_plot = mission_info.get("primary_plot", "figure.png")
+    ws_dir = os.path.join(BASE_DIR, "instances", expedition_name, "agent_workspace")
+    script_exists = os.path.exists(os.path.join(ws_dir, primary_script))
+    plot_exists = os.path.exists(os.path.join(ws_dir, primary_plot))
+
     if turn_num >= total_turns - 4:
         phase_cue = (
             f"\n⚠️ MISSION CLOSE NOTICE: You are entering the final rounds (Turn {turn_num}/{total_turns}). "
@@ -225,7 +233,14 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
             f"Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/' before the expedition concludes!"
         )
     elif turn_num <= 4:
-        phase_cue = f"\n💡 FOUNDATIONAL PHASE: Focus on analytical derivation, initial script implementation, and sanity testing."
+        if script_exists:
+            phase_cue = (
+                f"\n💡 CONTINUATION SESSION (Turn {turn_num}/{total_turns} of today's window): "
+                f"'{primary_script}' already exists in your shared workspace from an earlier session "
+                f"(Plot '{primary_plot}' exists: {plot_exists}). Do NOT restart from scratch — build directly on your existing files to complete the parameter sweep, figure '{primary_plot}', and joint Frontier Epistemic Dossier!"
+            )
+        else:
+            phase_cue = f"\n💡 FOUNDATIONAL PHASE: Focus on analytical derivation, initial script implementation, and sanity testing."
     else:
         phase_cue = f"\n💡 EMPIRICAL SWEEP PHASE: Run the parameter sweep, verify convergence, and ensure headless plotting."
 

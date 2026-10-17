@@ -107,7 +107,9 @@ def run_loop(instance: str, ticks: int):
                 try:
                     result = AVAILABLE_TOOLS[tool_name](**arguments)
                 except TypeError as e:
-                    result = f"TypeError: {str(e)}. Please verify you are passing only the allowed parameters: {list(arguments.keys())}"
+                    import inspect
+                    sig_params = [p for p in inspect.signature(AVAILABLE_TOOLS[tool_name]).parameters.keys() if p != "kwargs"]
+                    result = f"TypeError: {str(e)}. Allowed parameters for '{tool_name}': {sig_params}"
                 except Exception as e:
                     result = f"Error executing tool '{tool_name}': {str(e)}"
             else:

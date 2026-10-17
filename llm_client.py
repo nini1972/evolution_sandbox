@@ -206,7 +206,7 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
             if args:
                 # Whitelist arguments to prevent multi-line code assignments (e.g. n=4, r=0.5) from being treated as tool kwargs
                 VALID_PARAMS = {
-                    "read_file": {"path"},
+                    "read_file": {"path", "offset", "limit", "start_line", "end_line"},
                     "write_file": {"path", "content"},
                     "edit_file": {"path", "old_content", "new_content"},
                     "run_command": {"command"},
@@ -279,12 +279,13 @@ def get_model_context_limits(agent_model: str) -> tuple[int, int]:
     # Tencent HY3 has 256k context and outputs internal chain-of-thought tokens, needing generous completion headroom
     if any(k in slug for k in [
         "tencent", "hy3", "kimi", "deepseek", "minimax", "claude", "gemini",
-        "glm", "qwen", "llama-3.3", "llama-4", "mistral", "nemotron", "mimo"
+        "glm", "qwen", "llama-3.3", "llama-4", "mistral", "nemotron", "mimo",
+        "poolside", "laguna"
     ]):
         return 65536, 8192
 
     # Default / smaller open-weight models (e.g. 8B models, Gemma)
-    return 8192, 2048
+    return 16384, 4096
 
 def generate_next_action(system_prompt: str, history: list, tools: list) -> dict:
     """
@@ -416,6 +417,9 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
 
             message = response.choices[0].message
             content_text = message.content or getattr(message, "reasoning_content", "") or ""
+            for tok in ("<|im_start|>", "<|im_end|>", "<|endoftext|>"):
+                content_text = content_text.replace(tok, "")
+            content_text = content_text.strip()
 
             # If the model wants to call a tool
             if message.tool_calls:

@@ -31,11 +31,20 @@ def _get_absolute_path(path_str):
         return os.path.abspath(os.path.join(shared, norm_path))
     if norm_path.startswith("embassy/"):
         return os.path.abspath(os.path.join(shared, norm_path))
+
+    # Strip redundant leading workspace/ or agent_workspace/ prefix if present
+    cleaned_rel = path_str
+    for prefix in ("workspace/", "workspace\\", "agent_workspace/", "agent_workspace\\"):
+        if cleaned_rel.startswith(prefix):
+            candidate = os.path.abspath(os.path.join(workspace, cleaned_rel[len(prefix):]))
+            if os.path.exists(candidate) or not os.path.exists(os.path.abspath(os.path.join(workspace, path_str))):
+                cleaned_rel = cleaned_rel[len(prefix):]
+                break
         
-    target = os.path.abspath(os.path.join(workspace, path_str))
+    target = os.path.abspath(os.path.join(workspace, cleaned_rel))
     if not os.path.exists(target):
         # Check in local world_c_results
-        ws_res = os.path.abspath(os.path.join(workspace, "world_c_results", os.path.basename(path_str)))
+        ws_res = os.path.abspath(os.path.join(workspace, "world_c_results", os.path.basename(cleaned_rel)))
         if os.path.exists(ws_res):
             return ws_res
         # Check in shared directory directly
@@ -43,11 +52,11 @@ def _get_absolute_path(path_str):
         if os.path.exists(shared_direct):
             return shared_direct
         # Check in shared world_c reports
-        shared_report = os.path.abspath(os.path.join(shared, "world_c", "reports", os.path.basename(path_str)))
+        shared_report = os.path.abspath(os.path.join(shared, "world_c", "reports", os.path.basename(cleaned_rel)))
         if os.path.exists(shared_report):
             return shared_report
         # Check in shared world_c artifacts
-        shared_art = os.path.abspath(os.path.join(shared, "world_c", "artifacts", os.path.basename(path_str)))
+        shared_art = os.path.abspath(os.path.join(shared, "world_c", "artifacts", os.path.basename(cleaned_rel)))
         if os.path.exists(shared_art):
             return shared_art
             
@@ -59,8 +68,8 @@ def _is_safe_path(path_str):
     target = _get_absolute_path(path_str)
     return target.startswith(workspace) or target.startswith(shared)
 
-def read_file(path: str) -> str:
-    """Reads a file from the workspace."""
+def read_file(path: str, offset: int = None, limit: int = None, start_line: int = None, end_line: int = None, **kwargs) -> str:
+    """Reads a file from the workspace, optionally slicing by line offset/limit or start_line/end_line."""
     if not _is_safe_path(path):
         return "Error: Path is outside of allowed workspace."
         
@@ -69,15 +78,30 @@ def read_file(path: str) -> str:
         return f"Error: File {path} does not exist."
         
     if os.path.isdir(abs_path):
-        return f"Error: '{path}' is a directory, not a file. If you want to list files in a directory, use the 'run_command' tool with the 'dir' command."
+        return f"Error: '{path}' is a directory, not a file. If you want to list files in a directory, use the 'run_command' tool with the 'dir' or 'ls' command."
         
     try:
         with open(abs_path, 'r', encoding='utf-8') as f:
-            return f.read()
+            content = f.read()
+        if offset is not None or limit is not None or start_line is not None or end_line is not None:
+            lines = content.splitlines(keepends=True)
+            s_idx = 0
+            if start_line is not None:
+                s_idx = max(0, int(start_line) - 1)
+            elif offset is not None:
+                s_idx = max(0, int(offset))
+            if end_line is not None:
+                e_idx = min(len(lines), int(end_line))
+            elif limit is not None:
+                e_idx = min(len(lines), s_idx + int(limit))
+            else:
+                e_idx = len(lines)
+            return "".join(lines[s_idx:e_idx])
+        return content
     except Exception as e:
         return f"Error reading file: {str(e)}"
 
-def write_file(path: str, content: str) -> str:
+def write_file(path: str, content: str, **kwargs) -> str:
     """Writes content to a file in the workspace."""
     if not _is_safe_path(path):
         return "Error: Path is outside of allowed workspace."
@@ -92,7 +116,7 @@ def write_file(path: str, content: str) -> str:
     except Exception as e:
         return f"Error writing file: {str(e)}"
 
-def edit_file(path: str, old_content: str, new_content: str) -> str:
+def edit_file(path: str, old_content: str, new_content: str, **kwargs) -> str:
     """Edits an existing file by replacing a unique block of text (old_content) with new_content."""
     if not _is_safe_path(path):
         return "Error: Path is outside of allowed workspace."
@@ -106,7 +130,12 @@ def edit_file(path: str, old_content: str, new_content: str) -> str:
             file_data = f.read()
             
         if old_content not in file_data:
-            return "Error: The exact search content (old_content) was not found in the file."
+            preview = file_data if len(file_data) <= 2500 else (file_data[:1250] + "\n... [SNIP] ...\n" + file_data[-1250:])
+            return (
+                f"Error: The exact search content (old_content) was not found in '{path}'. "
+                f"Use 'write_file' to overwrite the file or copy an exact block from the current file content below:\n\n"
+                f"--- CURRENT CONTENT OF {path} ---\n{preview}"
+            )
             
         if file_data.count(old_content) > 1:
             return "Error: Multiple occurrences of the search content found. Please provide more surrounding lines as context."
@@ -122,17 +151,33 @@ def run_command(command: str = "", **kwargs) -> str:
     """Runs a shell command inside the workspace directory."""
     import sys
     import signal
+    import re
     if not command:
         command = kwargs.get("cmd") or kwargs.get("script") or kwargs.get("code") or ""
     if not command:
         return "Error: No command provided to run."
     try:
-        kwargs = {}
+        ws_dir = get_workspace_dir()
+        # Normalize redundant 'workspace/' prefix in commands if 'workspace/' subdir does not exist
+        if ("workspace/" in command or "/workspace/" in command) and not os.path.exists(os.path.join(ws_dir, "workspace")):
+            command = command.replace("/workspace/", "").replace("workspace/", "")
+
+        env = os.environ.copy()
+        candidate_wc = [
+            os.path.abspath(os.path.join(os.path.dirname(__file__), "world_c")),
+            os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "world_c")),
+            r"C:\Users\ninic\.gemini\antigravity\scratch\world_c",
+        ]
+        for cd in candidate_wc:
+            if os.path.exists(cd) and os.path.exists(os.path.join(cd, "colony_lib")):
+                env["PYTHONPATH"] = cd + os.pathsep + env.get("PYTHONPATH", "")
+                break
+
+        popen_kwargs = {"env": env}
         if sys.platform != "win32":
-            kwargs["start_new_session"] = True
+            popen_kwargs["start_new_session"] = True
 
         if sys.platform == "win32":
-            import re
             import shutil
             m = re.match(r"^\s*timeout(?:\.exe)?\s+(?:-[a-zA-Z0-9_-]+\s+)*\d+[smhd]?\s+(.*)$", command, re.DOTALL | re.IGNORECASE)
             if m:
@@ -146,37 +191,40 @@ def run_command(command: str = "", **kwargs) -> str:
                 py_code = heredoc_m.group(2)
                 p = subprocess.Popen(
                     [sys.executable, "-c", py_code],
-                    cwd=get_workspace_dir(),
+                    cwd=ws_dir,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     text=True,
-                    **kwargs
+                    **popen_kwargs
                 )
             else:
                 shell_binary = shutil.which("pwsh") or "powershell"
                 p = subprocess.Popen(
                     [shell_binary, "-NoProfile", "-Command", command],
-                    cwd=get_workspace_dir(),
+                    cwd=ws_dir,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     text=True,
-                    **kwargs
+                    **popen_kwargs
                 )
         else:
             p = subprocess.Popen(
                 command,
                 shell=True,
-                cwd=get_workspace_dir(),
+                cwd=ws_dir,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
-                **kwargs
+                **popen_kwargs
             )
         try:
             stdout, stderr = p.communicate(timeout=60)
             output = stdout or ""
             if stderr:
                 output += f"\nSTDERR:\n{stderr}"
+                if "No such file or directory" in stderr and "can't open file" in stderr:
+                    existing_files = [f for f in os.listdir(ws_dir) if not f.startswith(".")][:15]
+                    output += f"\n[Hint: Your current working directory is already your workspace ({ws_dir}). Existing files here: {existing_files}. Use 'write_file' to create the script first if it does not exist.]"
             return output if output else "Command executed silently."
         except subprocess.TimeoutExpired:
             if sys.platform == "win32":
