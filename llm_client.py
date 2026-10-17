@@ -223,12 +223,32 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                     "read_agent_inbox": {"unread_only"},
                     "export_treaty_to_embassy": {"node_id", "originating_dossier_filename", "treaty_id", "title", "ratified_theorems", "consensus_proof"},
                 }
+                REQUIRED_PARAMS = {
+                    "read_file": {"path"},
+                    "write_file": {"path", "content"},
+                    "edit_file": {"path", "old_content", "new_content"},
+                    "run_command": {"command"},
+                    "search_web": {"query"},
+                    "submit_world_c_job": {"title"},
+                    "check_world_c_job": {"job_id"},
+                    "report_issue_to_substrate": {"component", "summary", "details"},
+                    "report_bug": {"component", "summary", "details"},
+                    "contact_architect": {"component", "summary", "details"},
+                    "post_epistemic_node": {"title"},
+                    "peer_verify_node": {"node_id", "verdict"},
+                    "send_agent_dispatch": {"subject"},
+                    "export_treaty_to_embassy": {"node_id"},
+                }
                 if tool_name in VALID_PARAMS and isinstance(args, dict):
                     args = {k: v for k, v in args.items() if k in VALID_PARAMS[tool_name]}
                     if tool_name == "write_file" and "content" not in args:
                         m_content = re.search(r'content\s*=\s*["\']*(.*)', arg_str, re.DOTALL)
                         if m_content:
                             args["content"] = m_content.group(1).rstrip(')"\' \n\t')
+
+                req = REQUIRED_PARAMS.get(tool_name, set())
+                if not args or not req.issubset(args.keys()):
+                    continue
 
                 return {
                     "type": "tool_call",
@@ -421,27 +441,36 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                 content_text = content_text.replace(tok, "")
             content_text = content_text.strip()
 
-            # If the model wants to call a tool
+            # If the model wants to call one or more tools
             if message.tool_calls:
-                tool_call = message.tool_calls[0]
-                try:
-                    arguments = json.loads(tool_call.function.arguments)
-                    if isinstance(arguments, list):
-                        merged_args = {}
-                        for item in arguments:
-                            if isinstance(item, dict):
-                                merged_args.update(item)
-                        arguments = merged_args if merged_args else (arguments[0] if (arguments and isinstance(arguments[0], dict)) else {})
-                except Exception as json_err:
-                    return {
-                        "type": "json_error",
-                        "content": f"JSON Decoding Error: {str(json_err)}. Received arguments string: {tool_call.function.arguments}"
-                    }
+                parsed_calls = []
+                for tc in message.tool_calls:
+                    try:
+                        arguments = json.loads(tc.function.arguments)
+                        if isinstance(arguments, list):
+                            merged_args = {}
+                            for item in arguments:
+                                if isinstance(item, dict):
+                                    merged_args.update(item)
+                            arguments = merged_args if merged_args else (arguments[0] if (arguments and isinstance(arguments[0], dict)) else {})
+                        parsed_calls.append({
+                            "tool_call_id": tc.id,
+                            "tool_name": tc.function.name,
+                            "arguments": arguments if isinstance(arguments, dict) else {},
+                        })
+                    except Exception as json_err:
+                        if not parsed_calls:
+                            return {
+                                "type": "json_error",
+                                "content": f"JSON Decoding Error: {str(json_err)}. Received arguments string: {tc.function.arguments}"
+                            }
+                first = parsed_calls[0]
                 return {
                     "type": "tool_call",
-                    "tool_call_id": tool_call.id,
-                    "tool_name": tool_call.function.name,
-                    "arguments": arguments,
+                    "tool_call_id": first["tool_call_id"],
+                    "tool_name": first["tool_name"],
+                    "arguments": first["arguments"],
+                    "all_tool_calls": parsed_calls,
                     "content": content_text
                 }
 

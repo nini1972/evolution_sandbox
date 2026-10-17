@@ -80,51 +80,57 @@ def run_loop(instance: str, ticks: int):
             if action["content"]:
                 print(f"Agent Thought: {action['content']}")
                 
-            tool_name = action["tool_name"]
-            arguments = action["arguments"]
-            tool_call_id = action["tool_call_id"]
+            tool_calls_list = action.get("all_tool_calls") or [{
+                "tool_call_id": action["tool_call_id"],
+                "tool_name": action["tool_name"],
+                "arguments": action["arguments"],
+            }]
             
-            print(f"Action: Call tool '{tool_name}' with args {arguments}")
-            
-            # Record the assistant's decision to call the tool
-            assistant_message = {
-                "role": "assistant",
-                "content": action["content"],
-                "tool_calls": [{
-                    "id": tool_call_id,
-                    "type": "function",
-                    "function": {
-                        "name": tool_name,
-                        "arguments": json.dumps(arguments) # LLMs expect JSON string
-
-                    }
-                }]
-            }
-            append_to_history(assistant_message)
-            
-            # Execute the tool safely
-            if tool_name in AVAILABLE_TOOLS:
-                try:
-                    result = AVAILABLE_TOOLS[tool_name](**arguments)
-                except TypeError as e:
-                    import inspect
-                    sig_params = [p for p in inspect.signature(AVAILABLE_TOOLS[tool_name]).parameters.keys() if p != "kwargs"]
-                    result = f"TypeError: {str(e)}. Allowed parameters for '{tool_name}': {sig_params}"
-                except Exception as e:
-                    result = f"Error executing tool '{tool_name}': {str(e)}"
-            else:
-                result = f"Error: Tool '{tool_name}' not found."
+            for idx, tc_item in enumerate(tool_calls_list):
+                tool_name = tc_item["tool_name"]
+                arguments = tc_item["arguments"]
+                tool_call_id = tc_item["tool_call_id"]
                 
-            print(f"Result:\n{result[:500]}..." if len(result) > 500 else f"Result:\n{result}")
-            
-            # Record the tool's result
-            tool_message = {
-                "role": "tool",
-                "tool_call_id": tool_call_id,
-                "name": tool_name,
-                "content": str(result)
-            }
-            append_to_history(tool_message)
+                print(f"Action: Call tool '{tool_name}' with args {arguments}")
+                
+                # Record the assistant's decision to call the tool
+                assistant_message = {
+                    "role": "assistant",
+                    "content": action["content"] if idx == 0 else "",
+                    "tool_calls": [{
+                        "id": tool_call_id,
+                        "type": "function",
+                        "function": {
+                            "name": tool_name,
+                            "arguments": json.dumps(arguments) if not isinstance(arguments, str) else arguments
+                        }
+                    }]
+                }
+                append_to_history(assistant_message)
+                
+                # Execute the tool safely
+                if tool_name in AVAILABLE_TOOLS:
+                    try:
+                        result = AVAILABLE_TOOLS[tool_name](**arguments)
+                    except TypeError as e:
+                        import inspect
+                        sig_params = [p for p in inspect.signature(AVAILABLE_TOOLS[tool_name]).parameters.keys() if p != "kwargs"]
+                        result = f"TypeError: {str(e)}. Allowed parameters for '{tool_name}': {sig_params}"
+                    except Exception as e:
+                        result = f"Error executing tool '{tool_name}': {str(e)}"
+                else:
+                    result = f"Error: Tool '{tool_name}' not found."
+                    
+                print(f"Result:\n{result[:500]}..." if len(str(result)) > 500 else f"Result:\n{result}")
+                
+                # Record the tool's result
+                tool_message = {
+                    "role": "tool",
+                    "tool_call_id": tool_call_id,
+                    "name": tool_name,
+                    "content": str(result)
+                }
+                append_to_history(tool_message)
 
         # Brief pause between ticks to avoid rate limiting
         time.sleep(2)

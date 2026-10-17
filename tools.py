@@ -383,13 +383,33 @@ def submit_world_c_job(title: str, script_content: str, timeout_seconds: int = 3
         
     return f"Job '{job_id}' ('{title}') successfully registered for World C! Artifacts and execution report will be delivered to 'instances/shared_space/world_c/reports/' and your local 'world_c_results/' directory upon completion.{bridge_msg}"
 
-def check_world_c_job(job_id: str) -> str:
+def check_world_c_job(job_id: str = "", **kwargs) -> str:
     """
     Checks the status and results of a submitted World C compute job.
+    If job_id is omitted, returns the most recent World C report for the active instance.
     Returns status, compute duration, generated artifacts, and execution log summary.
     """
     workspace = get_workspace_dir()
     shared = get_shared_dir()
+    instance_name = os.getenv("ACTIVE_INSTANCE", "")
+
+    if not job_id or not str(job_id).strip():
+        ws_results_dir = os.path.join(workspace, "world_c_results")
+        if os.path.exists(ws_results_dir):
+            reports = sorted(
+                [f for f in os.listdir(ws_results_dir) if f.endswith("_REPORT.md")],
+                key=lambda f: os.path.getmtime(os.path.join(ws_results_dir, f)),
+                reverse=True
+            )
+            if reports:
+                latest_path = os.path.join(ws_results_dir, reports[0])
+                with open(latest_path, "r", encoding="utf-8") as f:
+                    return f"[Latest World C Report for '{instance_name}': {reports[0]}]\n\n" + f.read()
+            ws_generic = os.path.join(ws_results_dir, "REPORT.md")
+            if os.path.exists(ws_generic):
+                with open(ws_generic, "r", encoding="utf-8") as f:
+                    return f.read()
+        return f"No World C job reports found in '{instance_name}/agent_workspace/world_c_results/'. Please pass a specific 'job_id' or submit a new job via 'submit_world_c_job'."
     
     # 1. Check workspace results first
     ws_report = os.path.join(workspace, "world_c_results", f"world_c_{job_id}_REPORT.md")

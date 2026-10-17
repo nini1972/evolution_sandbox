@@ -138,55 +138,66 @@ def clean_model_thought(text: str, agent_title: str) -> str:
     return cleaned
 
 def execute_tool_action(action: dict, active_agent: dict) -> bool:
-    """Executes a tool call and appends results to shared history."""
+    """Executes one or more tool calls from a turn and appends results to shared history."""
     thought_preview = action.get("content", "")
     clean_thought = clean_model_thought(thought_preview, active_agent['title'])
     if clean_thought:
         print(f"💭 [{active_agent['title']} Thought]:\n{clean_thought}")
 
-    tool_name = action["tool_name"]
-    arguments = action["arguments"]
-    tool_call_id = action["tool_call_id"]
+    tool_calls_list = action.get("all_tool_calls") or [{
+        "tool_call_id": action["tool_call_id"],
+        "tool_name": action["tool_name"],
+        "arguments": action["arguments"],
+    }]
 
-    print(f"⚡ [{active_agent['title']} Action]: Call tool '{tool_name}' with args {arguments}")
+    for idx, tc_item in enumerate(tool_calls_list):
+        tool_name = tc_item["tool_name"]
+        arguments = tc_item["arguments"]
+        tool_call_id = tc_item["tool_call_id"]
 
-    tagged_content = f"[{active_agent['title']}]: {clean_thought}" if clean_thought else f"[{active_agent['title']}]"
-    assistant_message = {
-        "role": "assistant",
-        "content": tagged_content,
-        "tool_calls": [{
-            "id": tool_call_id,
-            "type": "function",
-            "function": {
-                "name": tool_name,
-                "arguments": json.dumps(arguments) if not isinstance(arguments, str) else arguments
-            }
-        }]
-    }
-    append_to_history(assistant_message)
+        print(f"⚡ [{active_agent['title']} Action]: Call tool '{tool_name}' with args {arguments}")
 
-    if tool_name in AVAILABLE_TOOLS:
-        try:
-            result = AVAILABLE_TOOLS[tool_name](**arguments)
-        except TypeError as e:
-            import inspect
-            sig_params = [p for p in inspect.signature(AVAILABLE_TOOLS[tool_name]).parameters.keys() if p != "kwargs"]
-            result = f"TypeError: {str(e)}. Valid parameters for '{tool_name}': {sig_params}"
-        except Exception as e:
-            result = f"Error executing tool '{tool_name}': {str(e)}"
-    else:
-        result = f"Error: Tool '{tool_name}' not found."
+        if idx == 0:
+            tagged_content = f"[{active_agent['title']}]: {clean_thought}" if clean_thought else f"[{active_agent['title']}]"
+        else:
+            tagged_content = f"[{active_agent['title']}]: (Executing parallel tool call {idx + 1}/{len(tool_calls_list)}: {tool_name})"
 
-    preview = str(result)[:400] + ("..." if len(str(result)) > 400 else "")
-    print(f"📋 Result:\n{preview}")
+        assistant_message = {
+            "role": "assistant",
+            "content": tagged_content,
+            "tool_calls": [{
+                "id": tool_call_id,
+                "type": "function",
+                "function": {
+                    "name": tool_name,
+                    "arguments": json.dumps(arguments) if not isinstance(arguments, str) else arguments
+                }
+            }]
+        }
+        append_to_history(assistant_message)
 
-    tool_message = {
-        "role": "tool",
-        "tool_call_id": tool_call_id,
-        "name": tool_name,
-        "content": str(result)
-    }
-    append_to_history(tool_message)
+        if tool_name in AVAILABLE_TOOLS:
+            try:
+                result = AVAILABLE_TOOLS[tool_name](**arguments)
+            except TypeError as e:
+                import inspect
+                sig_params = [p for p in inspect.signature(AVAILABLE_TOOLS[tool_name]).parameters.keys() if p != "kwargs"]
+                result = f"TypeError: {str(e)}. Valid parameters for '{tool_name}': {sig_params}"
+            except Exception as e:
+                result = f"Error executing tool '{tool_name}': {str(e)}"
+        else:
+            result = f"Error: Tool '{tool_name}' not found."
+
+        preview = str(result)[:400] + ("..." if len(str(result)) > 400 else "")
+        print(f"📋 Result:\n{preview}")
+
+        tool_message = {
+            "role": "tool",
+            "tool_call_id": tool_call_id,
+            "name": tool_name,
+            "content": str(result)
+        }
+        append_to_history(tool_message)
     return True
 
 
