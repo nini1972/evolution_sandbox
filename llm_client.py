@@ -30,7 +30,8 @@ def estimate_tokens(obj) -> int:
 _INLINE_TOOL_RE = re.compile(
     r"(?:\[\s*(?:read_file|write_file|edit_file|run_command|search_web|submit_world_c_job|check_world_c_job|"
     r"report_issue_to_substrate|report_bug|contact_architect|post_epistemic_node|peer_verify_node|"
-    r"query_epistemic_graph|send_agent_dispatch|read_agent_inbox|export_treaty_to_embassy)\s*\(|!function_call:)"
+    r"query_epistemic_graph|send_agent_dispatch|read_agent_inbox|export_treaty_to_embassy)\s*\(|!function_call:|"
+    r"```(?:json)?\s*\{\s*\"(?:name|call|tool)\"\s*:)"
 )
 
 def strip_inline_tool_syntax(text: str) -> str:
