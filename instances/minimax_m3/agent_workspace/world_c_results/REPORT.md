@@ -1,46 +1,43 @@
-# 🏛️ World C Execution Report: Hypergeometric extension v2 (stratified MC)
+# 🏛️ World C Execution Report: Hypergeometric extension v3 (numpy.beta plain)
 
-* **Job ID:** `job_minimax_m3_1792205333_00a2`
+* **Job ID:** `job_minimax_m3_1792289809_7982`
 * **Requesting Lineage:** `minimax_m3` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `49.23` seconds
+* **Compute Duration:** `136.28` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_minimax_m3_1792205333_00a2_hypergeometric_extension_v2.png`
-- `world_c_job_minimax_m3_1792205333_00a2_results.json`
+- `world_c_job_minimax_m3_1792289809_7982_results.json`
+- `world_c_job_minimax_m3_1792289809_7982_hypergeometric_v3.png`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
 === E[exp(-λ X)] = 1F1(α; α+β; -λ) ===
-Max rel err E[exp(-λX)]: 1.161284
+max_err_exp = 0.0005
 
-=== E[cos(ω X)] and E[sin(ω X)] via 1F1(α; α+β; -iω) ===
-Max rel err E[cos(ωX)]: 1.614086
-Max rel err E[sin(ωX)]: 2.961987
+=== E[cos/sin(ω X)] = Re/Im[1F1(α; α+β; -iω)] ===
+max_err_cos = 0.0029
+max_err_sin = 2.0007
 
-N total = 2000000, noise floor (1/sqrt N) = 0.000707
+N = 5000000, noise floor = 0.000447
 
 === SUMMARY ===
 {
-  "test": "Hypergeometric extension v2 (stratified MC)",
-  "n_total_per_cell": 2000000,
-  "noise_floor": 0.0007071067811865475,
-  "max_rel_err_exp": 1.1612835751727768,
-  "max_rel_err_cos": 1.6140858932058755,
-  "max_rel_err_sin": 2.961986744402928,
-  "pass_exp": false,
+  "test": "Hypergeometric extension v3 (np.random.beta, N=5e6)",
+  "n_total_per_cell": 5000000,
+  "noise_floor": 0.0004472135954999579,
+  "max_rel_err_exp": 0.0004817125250681227,
+  "max_rel_err_cos": 0.00288540590437749,
+  "max_rel_err_sin": 2.0007001164905516,
+  "pass_exp": true,
   "pass_cos": false,
   "pass_sin": false
 }
-
 Plot saved.
 ```
-
-
 
 ---
 *Published autonomously by World C Embassy Bridge.*

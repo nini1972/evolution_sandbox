@@ -1,66 +1,85 @@
-# 🏛️ World C Execution Report: R23v2: Resonance Gap Law Domain of Applicability — Which Dynamics?
+# 🏛️ World C Execution Report: R23v3: Resonance Gap Law with Genuine Sandpile Bidirectional Coupling
 
-* **Job ID:** `job_glm_5_2_1792204142_8780`
+* **Job ID:** `job_glm_5_2_1792290423_030f`
 * **Requesting Lineage:** `glm_5_2` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `171.04` seconds
+* **Compute Duration:** `83.24` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_glm_5_2_1792204142_8780_r23v2_results.json`
-- `world_c_job_glm_5_2_1792204142_8780_r23v2_resonance_gap_dynamics.png`
+- `world_c_job_glm_5_2_1792290423_030f_r23v3_sandpile_resonance_gap.png`
+- `world_c_job_glm_5_2_1792290423_030f_r23v3_results.json`
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1792290423_030f/entrypoint.py:318: OptimizeWarning: Covariance of the parameters could not be estimated
+  popt, _ = curve_fit(resonance_law, gap_values, Cs, p0=[0.5, 10], maxfev=5000)
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1792290423_030f/entrypoint.py:265: RuntimeWarning: overflow encountered in exp
+  return C_max * (1.0 - np.exp(-N / tau))
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1792290423_030f/entrypoint.py:364: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  ax.legend(fontsize=8)
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-Map (slow) × Logistic Map (fast)
-============================================================
-  N values: [1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
-  C values: ['0.0381', '0.0663', '0.0611', '0.0555', '0.0560', '0.0587', '0.0561', '0.0481', '0.0525', '0.0545']
-  Fit: C_max=0.0563, τ=0.65, R²=0.3921
+9, lag=75
+  N= 55: C=107.7553, lag=-98
+  N= 89: C=282.6254, lag=-200
+  Fit: C_max=152.8234, τ=0.66, R²=0.0442
+  Status: ✗ FAILS
 
 ============================================================
-Testing: Rossler (slow) × Logistic Map (fast)
+Testing: FHN (slow) × Logistic Map (fast) via Sandpile
 ============================================================
-  N values: [1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
-  C values: ['0.0119', '0.0111', '0.0094', '0.0098', '0.0098', '0.0116', '0.0117', '0.0103', '0.0143', '0.0098']
-  Fit: C_max=0.0110, τ=0.03, R²=0.0000
+  N=  1: C=108.1954, lag=-143
+  N=  2: C=101.5582, lag=-42
+  N=  3: C=197.7698, lag=-134
+  N=  5: C=166.3249, lag=-147
+  N=  8: C=268.8068, lag=-132
+  N= 13: C=147.0056, lag=0
+  N= 21: C=163.9071, lag=-190
+  N= 34: C=151.0686, lag=-2
+  N= 55: C=160.7765, lag=105
+  N= 89: C=143.7783, lag=199
+  Fit: C_max=173.4857, τ=1.21, R²=0.2668
+  Status: ✗ FAILS
 
 ============================================================
-Testing: Duffing (slow) × Logistic Map (fast)
+Testing: Duffing (slow) × Logistic Map (fast) via Sandpile
 ============================================================
-  N values: [1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
-  C values: ['0.0313', '0.0388', '0.0363', '0.0362', '0.0332', '0.0355', '0.0325', '0.0325', '0.0253', '0.0248']
-  Fit: C_max=0.0327, τ=0.29, R²=0.0070
+  N=  1: C=41.6821, lag=192
+  N=  2: C=100.1822, lag=-198
+  N=  3: C=215.0957, lag=3
+  N=  5: C=98.2666, lag=-200
+  N=  8: C=243.3131, lag=196
+  N= 13: C=69.9047, lag=52
+  N= 21: C=47.1000, lag=-151
+  N= 34: C=226.3069, lag=125
+  N= 55: C=122.5538, lag=-98
+  N= 89: C=266.9867, lag=-193
+  Fit: C_max=160.4250, τ=1.56, R²=0.1624
+  Status: ✗ FAILS
 
-Saved: r23v2_resonance_gap_dynamics.png
-Saved: r23v2_results.json
+Saved: r23v3_sandpile_resonance_gap.png
+Saved: r23v3_results.json
 
 ======================================================================
 FINAL SUMMARY
 ======================================================================
-System                          R²    C_max        τ    Relax     Status
+System                                    R²    C_max      τ     Status
 ----------------------------------------------------------------------
-Van der Pol                 1.0000   1.0000     0.05     0.00    ✓ HOLDS
-Henon Map                   0.3921   0.0563     0.65     0.78  ? PARTIAL
-Duffing                     0.0070   0.0327     0.29     0.00    ✗ FAILS
-Rossler                     0.0000   0.0110     0.03     0.14    ✗ FAILS
-Lorenz                      0.0000   0.0214     0.01     0.81    ✗ FAILS
-FitzHugh-Nagumo             0.0000   0.9044     0.00     2.36    ✗ FAILS
-Kuramoto                    0.0000   0.6749     0.02     0.00    ✗ FAILS
-Logistic Map                0.0000   0.2225     0.01     0.58    ✗ FAILS
+Sandpile-Kuramoto (R19Z validation)   0.0306   0.0001   0.88           
+Van der Pol                           0.0000 155.6464   0.02    ✗ FAILS
+Lorenz                                0.3308 232.2521   1.41    ✗ FAILS
+Rossler                               0.0442 152.8234   0.66    ✗ FAILS
+FHN                                   0.2668 173.4857   1.21    ✗ FAILS
+Duffing                               0.1624 160.4250   1.56    ✗ FAILS
 
-R23v2 COMPLETE
-```
-
-### Errors / Warnings:
-```
-/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1792204142_8780/entrypoint.py:33: RuntimeWarning: overflow encountered in exp
-  return C_max * (1.0 - np.exp(-N / tau))
-/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1792204142_8780/entrypoint.py:262: OptimizeWarning: Covariance of the parameters could not be estimated
-  popt, pcov = curve_fit(resonance_law, Ns, Cs, p0=[0.5, 10], maxfev=5000)
+R23v3 COMPLETE
 ```
 
 ---

@@ -68,9 +68,18 @@ def analyze(x, dt=1.0, onset_lmax=40, one_max=0.30):
         lg = np.log(hh[idx].astype(float)); lV = np.log(V[idx])
         sl = np.gradient(lV, lg)
         betaloc[idx] = np.convolve(sl, np.ones(7)/7, mode='same')
-    # ---- p_rho: floor-aware ----
+    # ---- p_rho: floor-aware, adaptive lmax so window (floor < 1-rho < one_max) can open ----
     floor = 20.0/np.sqrt(n)
-    lmax = min(onset_lmax, n//4)
+    # choose smallest h where 1-rho(h) first exceeds floor*(1+0.5), search broadly
+    ad_max = min(20000, n//4)
+    one_all = 1.0 - rho[:ad_max+1]
+    k_over = np.where(one_all[1:] > floor*1.5)[0]
+    if len(k_over):
+        h_need = int(k_over[0]) + 1
+        lmax = int(min(max(h_need*8, 40), ad_max, onset_lmax if onset_lmax else ad_max))
+    else:
+        lmax = ad_max
+    lmax = max(lmax, 40)
     lags = np.arange(1, lmax+1)
     p_rho, nfit = onset_from_rho(lags, rho[lags-1], one_max, floor)
     # probe: rho floor fit without floor filter (will underestimate if floor-limited)

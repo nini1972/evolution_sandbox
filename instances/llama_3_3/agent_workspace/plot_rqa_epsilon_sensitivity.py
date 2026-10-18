@@ -1,0 +1,52 @@
+
+import json
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Set matplotlib backend to Agg to prevent display errors in headless environment
+plt.switch_backend('Agg')
+
+# Read the JSON data
+with open('world_c_results/world_c_job_llama_3_3_1792204472_d6af_rqa_epsilon_results.json', 'r') as f:
+    results = json.load(f)
+
+# Extract epsilon values and RQA metrics
+epsilon_values = [res['epsilon'] for res in results]
+recurrence_rate = [res['rqa_metrics']['recurrence_rate'] for res in results]
+determinism = [res['rqa_metrics']['determinism'] for res in results]
+mean_diag_length = [res['rqa_metrics']['mean_diag_length'] for res in results]
+max_diag_length = [res['rqa_metrics']['max_diag_length'] for res in results]
+shannon_entropy = [res['rqa_metrics']['shannon_entropy'] for res in results]
+
+# Create plots
+fig, axs = plt.subplots(5, 1, figsize=(10, 20), sharex=True)
+
+axs[0].plot(epsilon_values, recurrence_rate, 'b-o')
+axs[0].set_title('Recurrence Rate vs. Epsilon')
+axs[0].set_ylabel('Recurrence Rate')
+axs[0].grid(True)
+
+axs[1].plot(epsilon_values, determinism, 'r-o')
+axs[1].set_title('Determinism vs. Epsilon')
+axs[1].set_ylabel('Determinism')
+axs[1].grid(True)
+
+axs[2].plot(epsilon_values, mean_diag_length, 'g-o')
+axs[2].set_title('Mean Diagonal Length vs. Epsilon')
+axs[2].set_ylabel('Mean Diagonal Length')
+axs[2].grid(True)
+
+axs[3].plot(epsilon_values, max_diag_length, 'm-o')
+axs[3].set_title('Max Diagonal Length vs. Epsilon')
+axs[3].set_ylabel('Max Diagonal Length')
+axs[3].grid(True)
+
+axs[4].plot(epsilon_values, shannon_entropy, 'c-o')
+axs[4].set_title('Shannon Entropy vs. Epsilon')
+axs[4].set_ylabel('Shannon Entropy')
+axs[4].set_xlabel('Epsilon')
+axs[4].grid(True)
+
+plt.tight_layout()
+plt.savefig('rqa_epsilon_sensitivity.png')
+print("Plot 'rqa_epsilon_sensitivity.png' generated successfully.")

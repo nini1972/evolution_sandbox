@@ -1,48 +1,42 @@
-# 🏛️ World C Execution Report: C4 settling-time dependence: transient artifact vs settled invariant (P4 logistic CML)
+# 🏛️ World C Execution Report: Symbolic memory decay M(k) in coupled logistic CML: deterministic P4, near-tongue chaos, EPSY sweep
 
-* **Job ID:** `job_nex_n2_pro_1792205381_f5fc`
+* **Job ID:** `job_nex_n2_pro_1792289499_fa46`
 * **Requesting Lineage:** `nex_n2_pro` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `163.88` seconds
+* **Compute Duration:** `23.63` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_nex_n2_pro_1792205381_f5fc_p4_c4_settling_results.json`
+- `world_c_job_nex_n2_pro_1792289499_fa46_symbolic_memory_decay_results.json`
+- `world_c_job_nex_n2_pro_1792289499_fa46_symbolic_memory_decay.png`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-seed= 1 tau= 100000  C4=+1.0000 res0=1.000 res2=1.000 odd=0.000 P4share=1.000 P1share=0.000  (1.9s)
-  seed= 1 tau= 400000  C4=+1.0000 res0=1.000 res2=1.000 odd=0.000 P4share=1.000 P1share=0.000  (7.5s)
-  seed= 2 tau=   1000  C4=+1.0000 res0=1.000 res2=1.000 odd=0.000 P4share=1.000 P1share=0.000  (0.1s)
-  seed= 2 tau=   5000  C4=+1.0000 res0=1.000 res2=1.000 odd=0.000 P4share=1.000 P1share=0.000  (0.1s)
-  seed= 2 tau=  20000  C4=+1.0000 res0=1.000 res2=1.000 odd=0.000 P4share=1.000 P1share=0.000  (0.4s)
-  seed= 2 tau= 100000  C4=+1.0000 res0=1.000 res2=1.000 odd=0.000 P4share=1.000 P1share=0.000  (1.9s)
-  seed= 2 tau= 400000  C4=+1.0000 res0=1.000 res2=1.000 odd=0.000 P4share=1.000 P1share=0.000  (7.5s)
-  seed= 3 tau=   1000  C4=+1.0000 res0=1.000 res2=1.000 odd=0.000 P4share=1.000 P1share=0.000  (0.1s)
-  seed= 3 tau=   5000  C4=+1.0000 res0=1.000 res2=1.000 odd=0.000 P4share=1.000 P1share=0.000  (0.1s)
-  seed= 3 tau=  20000  C4=+1.0000 res0=1.000 res2=1.000 odd=0.000 P4share=1.000 P1share=0.000  (0.4s)
-  seed= 3 tau= 100000  C4=+1.0000 res0=1.000 res2=1.000 odd=0.000 P4share=1.000 P1share=0.000  (1.9s)
-  seed= 3 tau= 400000  C4=+1.0000 res0=1.000 res2=1.000 odd=0.000 P4share=1.000 P1share=0.000  (7.5s)
-== C4 tongue cross-check: r=3.88, tau=400000, seed=42, eps sweep ==
-  eps=0.120  C4=+1.0000  P4share=1.000 P1share=0.000  (7.5s)
-  eps=0.125  C4=+1.0000  P4share=1.000 P1share=0.000  (7.5s)
-  eps=0.130  C4=+1.0000  P4share=1.000 P1share=0.000  (7.5s)
-  eps=0.135  C4=+1.0000  P4share=1.000 P1share=0.000  (7.5s)
-  eps=0.140  C4=+1.0000  P4share=1.000 P1share=0.000  (7.5s)
-  eps=0.145  C4=+1.0000  P4share=1.000 P1share=0.000  (7.5s)
-  eps=0.150  C4=+1.0000  P4share=1.000 P1share=0.000  (7.5s)
-  eps=0.155  C4=+1.0000  P4share=1.000 P1share=0.000  (7.5s)
-  eps=0.160  C4=+1.0000  P4share=1.000 P1share=0.000  (7.5s)
-  eps=0.165  C4=+1.0000  P4share=1.000 P1share=0.000  (7.5s)
-  eps=0.170  C4=+1.0000  P4share=1.000 P1share=0.000  (7.5s)
-plotting failed (non-fatal): 42
+== A: deterministic P4 lock calibration ==
+  eps=0.05: C4=+0.0068 P4random=0.0626 ent=3.999 M4=+0.0655 M16=+0.0033 M64=-0.0003 M1=-0.0612
+  eps=0.1: C4=+1.0000 P4random=0.5000 ent=1.000 M4=+0.5000 M16=+0.5000 M64=+0.5000 M1=-0.5000
+== B: intended mid-state (chaotic + P4 pinning), r=3.865 ==
+  eps=0.12: C4=+1.0000 P4random=0.5000 ent=1.000 M4=+0.5000 M16=+0.5000 M64=+0.5000 (2.3s)
+  eps=0.13: C4=+1.0000 P4random=0.5000 ent=1.000 M4=+0.5000 M16=+0.5000 M64=+0.5000 (2.3s)
+  eps=0.14: C4=+1.0000 P4random=0.5000 ent=1.000 M4=+0.5000 M16=+0.5000 M64=+0.5000 (2.3s)
+  eps=0.16: C4=+1.0000 P4random=0.5000 ent=1.000 M4=+0.5000 M16=+0.5000 M64=+0.5000 (2.3s)
+== C: EPSY sweep (10 random points) ==
+  [0] r=3.8114 eps=0.295: C4=+1.0000 P4random=0.5000 ent=1.000 M4=+0.5000 M16=+0.5000 M64=+0.5000 (1.2s)
+  [1] r=3.8658 eps=0.2809: C4=+0.2738 P4random=0.0887 ent=3.639 M4=+0.5602 M16=+0.3050 M64=+0.1043 (1.1s)
+  [2] r=3.9467 eps=0.2346: C4=+0.0687 P4random=0.0771 ent=3.819 M4=+0.3142 M16=+0.0669 M64=-0.0001 (1.1s)
+  [3] r=3.8752 eps=0.118: C4=+1.0000 P4random=0.5000 ent=1.000 M4=+0.5000 M16=+0.5000 M64=+0.5000 (1.1s)
+  [4] r=3.8403 eps=0.225: C4=+0.5054 P4random=0.0865 ent=3.677 M4=+0.6475 M16=+0.5013 M64=+0.3321 (1.1s)
+  [5] r=3.9019 eps=0.3009: C4=+0.1592 P4random=0.0925 ent=3.624 M4=+0.4234 M16=+0.1698 M64=+0.0330 (1.2s)
+  [6] r=3.8571 eps=0.1165: C4=+1.0000 P4random=0.5000 ent=1.000 M4=+0.5000 M16=+0.5000 M64=+0.5000 (1.2s)
+  [7] r=3.8432 eps=0.3274: C4=+1.0000 P4random=0.5000 ent=1.000 M4=+0.5000 M16=+0.5000 M64=+0.5000 (1.1s)
+  [8] r=3.832 eps=0.213: C4=+0.4253 P4random=0.0838 ent=3.724 M4=+0.6195 M16=+0.4502 M64=+0.2462 (1.2s)
+  [9] r=3.9397 eps=0.1062: C4=+1.0000 P4random=0.5000 ent=1.000 M4=+0.5000 M16=+0.5000 M64=+0.5000 (1.1s)
+plot saved: symbolic_memory_decay.png
 DONE
 ```
-
-
 
 ---
 *Published autonomously by World C Embassy Bridge.*

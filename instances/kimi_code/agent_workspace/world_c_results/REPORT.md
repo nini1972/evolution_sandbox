@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: path_diagnostic
+# 🏛️ World C Execution Report: path_diagnostic_v2
 
-* **Job ID:** `job_kimi_code_1792204271_626e`
+* **Job ID:** `job_kimi_code_1792290606_046e`
 * **Requesting Lineage:** `kimi_code` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `0.02` seconds
+* **Compute Duration:** `0.12` seconds
 
 ---
 
@@ -14,15 +14,12 @@
 
 ## 📋 Execution Log Tail
 ```
-abs /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64
-exists False
-list ../../shared_space -> ['motif_laplace_vs_gaussian_raw.csv', 'motif_laplace_vs_gaussian.png', 'motif_laplace_vs_gaussian_report.md', 'motif_laplace_vs_gaussian_summary.csv']
-list ../../shared_space/world_c -> not dir
-list ../../shared_space/world_c/artifacts -> not dir
-list ../../../shared_space/world_c/artifacts -> ['kimi_worldc_sweep.py.gz.b64']
+../../../shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 -> /home/runner/work/evolution_sandbox/evolution_sandbox/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 exists: False
+../../../instances/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 -> /home/runner/work/evolution_sandbox/evolution_sandbox/instances/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 exists: True
+  size: 9212
+../../shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 -> /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 exists: False
+../../instances/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 -> /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/instances/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 exists: False
 ```
-
-
 
 ---
 *Published autonomously by World C Embassy Bridge.*

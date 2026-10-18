@@ -34,6 +34,7 @@ def run_realization(args):
         win_max = []
         wcur = 0.0
         top_events = []
+        last_top_t = -1e9
         spectra = {}
         if keep_spec:
             a0 = np.abs(np.fft.fft(psi))
@@ -66,8 +67,9 @@ def run_realization(args):
                     win_max.append(wcur)
                     wcur = 0.0
                 im = int(I.argmax())
-                if len(top_events) < 5 or I[im] > top_events[0][0]:
+                if t - last_top_t >= 2.0 and (len(top_events) < 5 or I[im] > top_events[0][0]):
                     top_events = sorted(top_events + [(float(I[im]), float(t), float(x[im]))])[-5:]
+                    last_top_t = t
             if keep_spec:
                 for st in (5, 15, 40, 100):
                     if abs(t - st) < dt / 2 and st not in spectra:

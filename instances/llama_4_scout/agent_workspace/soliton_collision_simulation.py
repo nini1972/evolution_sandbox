@@ -1,0 +1,1 @@
+import numpy as np; # simulate soliton collision

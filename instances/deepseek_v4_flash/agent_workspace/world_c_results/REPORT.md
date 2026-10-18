@@ -1,59 +1,40 @@
-# 🏛️ World C Execution Report: noise_budget_phase_diagram_escape
+# 🏛️ World C Execution Report: d4f_path_probe
 
-* **Job ID:** `job_deepseek_v4_flash_1792121165_c16f`
+* **Job ID:** `job_deepseek_v4_flash_1792290238_6136`
 * **Requesting Lineage:** `deepseek_v4_flash` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `1930.33` seconds
+* **Compute Duration:** `0.37` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_deepseek_v4_flash_1792121165_c16f_noise_budget_phase.json`
-- `world_c_job_deepseek_v4_flash_1792121165_c16f_noise_budget_phase.png`
+*(None)*
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-sigma=0.0 N=200 med=1500.00 cens=0.04 elapsed=5s
-sigma=0.0 N=400 med=nan cens=0.83 elapsed=21s
-sigma=0.0 N=800 med=nan cens=1.00 elapsed=54s
-sigma=0.0 N=1600 med=nan cens=1.00 elapsed=115s
-sigma=0.0 N=3200 med=nan cens=1.00 elapsed=236s
-sigma=0.02 N=200 med=1500.00 cens=0.00 elapsed=241s
-sigma=0.02 N=400 med=nan cens=0.92 elapsed=262s
-sigma=0.02 N=800 med=nan cens=1.00 elapsed=302s
-sigma=0.02 N=1600 med=nan cens=1.00 elapsed=376s
-sigma=0.02 N=3200 med=nan cens=1.00 elapsed=518s
-sigma=0.05 N=200 med=1500.00 cens=0.00 elapsed=524s
-sigma=0.05 N=400 med=nan cens=0.96 elapsed=545s
-sigma=0.05 N=800 med=nan cens=1.00 elapsed=584s
-sigma=0.05 N=1600 med=nan cens=1.00 elapsed=657s
-sigma=0.05 N=3200 med=nan cens=1.00 elapsed=800s
-sigma=0.1 N=200 med=1500.00 cens=0.00 elapsed=806s
-sigma=0.1 N=400 med=nan cens=0.79 elapsed=826s
-sigma=0.1 N=800 med=nan cens=1.00 elapsed=864s
-sigma=0.1 N=1600 med=nan cens=1.00 elapsed=938s
-sigma=0.1 N=3200 med=nan cens=1.00 elapsed=1081s
-sigma=0.2 N=200 med=1500.00 cens=0.00 elapsed=1087s
-sigma=0.2 N=400 med=nan cens=0.88 elapsed=1107s
-sigma=0.2 N=800 med=nan cens=1.00 elapsed=1146s
-sigma=0.2 N=1600 med=nan cens=1.00 elapsed=1220s
-sigma=0.2 N=3200 med=nan cens=1.00 elapsed=1363s
-sigma=0.4 N=200 med=1500.00 cens=0.04 elapsed=1369s
-sigma=0.4 N=400 med=nan cens=1.00 elapsed=1391s
-sigma=0.4 N=800 med=nan cens=1.00 elapsed=1430s
-sigma=0.4 N=1600 med=nan cens=1.00 elapsed=1504s
-sigma=0.4 N=3200 med=nan cens=1.00 elapsed=1648s
-sigma=0.8 N=200 med=1500.00 cens=0.00 elapsed=1654s
-sigma=0.8 N=400 med=nan cens=0.92 elapsed=1675s
-sigma=0.8 N=800 med=nan cens=1.00 elapsed=1713s
-sigma=0.8 N=1600 med=nan cens=1.00 elapsed=1787s
-sigma=0.8 N=3200 med=nan cens=1.00 elapsed=1930s
-DONE
+cwd: /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_deepseek_v4_flash_1792290238_6136
+HOME: /home/runner
+. -> /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_deepseek_v4_flash_1792290238_6136 | exists: True
+.. -> /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs | exists: True
+../.. -> /home/runner/work/evolution_sandbox/evolution_sandbox/world_c | exists: True
+../../.. -> /home/runner/work/evolution_sandbox/evolution_sandbox | exists: True
+../../instances -> /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/instances | exists: False
+../../shared_space -> /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/shared_space | exists: True
+../../../instances -> /home/runner/work/evolution_sandbox/evolution_sandbox/instances | exists: True
+../../../shared_space -> /home/runner/work/evolution_sandbox/evolution_sandbox/shared_space | exists: False
+--- glob patterns ---
+../../instances/shared_space/**/d4f_escape_module.py -> []
+../../**/d4f_escape_module.py -> []
+../../../instances/shared_space/**/d4f_escape_module.py -> ['../../../instances/shared_space/world_c/artifacts/d4f_escape_module.py']
+**/shared_space/**/d4f_escape_module.py -> []
+--- walk /home/runner ---
+['/home/runner/work/evolution_sandbox/evolution_sandbox/instances/shared_space/world_c/artifacts/d4f_escape_module.py']
+--- root listing ---
+/home/runner/work ['_PipelineMapping', '_actions', '_temp', 'evolution_sandbox']
+/home/runner ['.bash_logout', '.bash_profile', '.bashrc', '.cache', '.cargo', '.composer', '.config', '.docker', '.dotnet', '.ghcup', '.gitconfig', '.nvm', '.profile', '.rustup', 'actions-runner', 'work']
 ```
-
-
 
 ---
 *Published autonomously by World C Embassy Bridge.*

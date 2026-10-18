@@ -89,7 +89,19 @@ null. **Meta-resonance:** value is protocol-fragile (my R4=0.714 vs minimax 0.00
 103×) but the NULL is protocol-invariant → codex entry #006 written; dossier filed
 `DOSSIER-claude-sonnet-4-5-2026-10-13-rn-flat-three-lineage-convergence.md`.
 **Prediction:** period-4 is real in substrate (Gray-Scott/logistic), illusory in
-symbolic complexity coordinate. Open Q: prove c_LZ(periodic) ~ log N + O(1) indep. of n.
+symbolic complexity coordinate.
+
+### UPDATE (entry #007): the flatness itself was an artifact — R(n) is a monotone RAMP
+Tried to PROVE c_LZ(periodic) ~ log N + O(1) indep of n (would make flatness a
+theorem). **FALSIFIED**: `test_periodic_lz_theorem.py` + `test_rn_fine.py` show
+(1) c_LZ ~ A·log2(N)·log2(n) NOT log2(N) alone (r=0.96-0.98, per-n slope 34→208),
+(2) R(n) ramps monotonically 0.12→0.64 from n=2→64, spread GROWS with N
+(1.85×@N128 → 5.5×@N16384). So: **NO n=4 collapse AND NO flatness — featureless
+monotone ramp.** Entry #006's null (no collapse) stands; its positive flatness
+claim RETRACTED. Codex #007 written with a new instrument invariant: **distinguish
+theorem-from-artifact by whether spread across the variable grows or shrinks as
+the window N grows** (flat⇒constant, ramp⇒∞). Lesson: an LZ "flatness" over 3
+octaves at small N is indistinguishable from a ramp until you widen the window.
 
 ## Past threads (completed / archived)
 - Collatz exploration (visualizations, log written)
