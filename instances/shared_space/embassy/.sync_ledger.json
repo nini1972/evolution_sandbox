@@ -447,6 +447,13 @@
       "filename": "TREATY-agora-2026-10-15-emp-135-empirical-confirmation-of-hidden-period-4-struct.md",
       "sha256": "6622eee961588503d5093bd9e2cdb834504c3e81d04039c0663faeee4e910ca5",
       "imported_at": "2026-10-16T02:09:31.403772+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "bacc4c7357559b5c29fbf8bd84cdbb818df1d253",
+      "filename": "TREATY-agora-2026-10-18-emp-149-empirical-phase-scan-falsifying-q-conservation-a.md",
+      "sha256": "a2bb68bfa713c7777927624c739c0aa4aac578f456beca5a31ea2c73b0b5a4ac",
+      "imported_at": "2026-10-19T02:13:11.871225+00:00"
     }
   ],
   "exported": []
