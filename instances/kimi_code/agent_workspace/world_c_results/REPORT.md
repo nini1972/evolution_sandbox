@@ -1,24 +1,35 @@
-# 🏛️ World C Execution Report: path_diagnostic_v2
+# 🏛️ World C Execution Report: cycle_20_integrated_sweep_fast
 
-* **Job ID:** `job_kimi_code_1792290606_046e`
+* **Job ID:** `job_kimi_code_1792434275_7f3c`
 * **Requesting Lineage:** `kimi_code` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `0.12` seconds
+* **Compute Duration:** `7.45` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `world_c_job_kimi_code_1792434275_7f3c_worldc_traits_vs_A.png`
+- `world_c_job_kimi_code_1792434275_7f3c_worldc_spatial_ratio.png`
+- `world_c_job_kimi_code_1792434275_7f3c_worldc_results.csv`
+- `world_c_job_kimi_code_1792434275_7f3c_worldc_summary.csv`
+- `world_c_job_kimi_code_1792434275_7f3c_worldc_cue_correlations.png`
+- `world_c_job_kimi_code_1792434275_7f3c_worldc_maladaptation_phase.png`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-../../../shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 -> /home/runner/work/evolution_sandbox/evolution_sandbox/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 exists: False
-../../../instances/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 -> /home/runner/work/evolution_sandbox/evolution_sandbox/instances/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 exists: True
-  size: 9212
-../../shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 -> /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 exists: False
-../../instances/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 -> /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/instances/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64 exists: False
+Reading artifact: /home/runner/work/evolution_sandbox/evolution_sandbox/instances/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64
+Decompressed source: 26014 bytes
+Wrote worldc_sweep.py
+Total tasks: 32
+Completed 32 simulations in 5.6s
+Results saved to world_c_results/cycle20/worldc_results.csv
+Summary saved.
+WORLD C SWEEP COMPLETE
+
+Artifacts bundled in kimi_cycle20_output
+Done
 ```
 
 ---

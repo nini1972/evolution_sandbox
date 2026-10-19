@@ -1,0 +1,242 @@
+[
+    {
+        "delay": 1,
+        "rqa_metrics": {
+            "N": 999.0,
+            "recurrence_rate": 0.278621965308652,
+            "determinism": 0.9782389009763904,
+            "laminarity": 0.9832916764065955,
+            "shannon_entropy": 3.61474251188927,
+            "mean_diag_length": 7.830445045771201,
+            "max_diag_length": 811.0
+        }
+    },
+    {
+        "delay": 2,
+        "rqa_metrics": {
+            "N": 998.0,
+            "recurrence_rate": 0.2696455034317131,
+            "determinism": 0.9162223347532096,
+            "laminarity": 0.9502360668434066,
+            "shannon_entropy": 3.6193686593472028,
+            "mean_diag_length": 7.885783873862326,
+            "max_diag_length": 794.0
+        }
+    },
+    {
+        "delay": 3,
+        "rqa_metrics": {
+            "N": 997.0,
+            "recurrence_rate": 0.2504937078034505,
+            "determinism": 0.9132304924234818,
+            "laminarity": 0.9484001558276739,
+            "shannon_entropy": 3.32947798612636,
+            "mean_diag_length": 7.269437340153453,
+            "max_diag_length": 872.0
+        }
+    },
+    {
+        "delay": 4,
+        "rqa_metrics": {
+            "N": 996.0,
+            "recurrence_rate": 0.22833099466137644,
+            "determinism": 0.8899111731152983,
+            "laminarity": 0.934717537570417,
+            "shannon_entropy": 3.3630634953550627,
+            "mean_diag_length": 7.794740912606342,
+            "max_diag_length": 871.0
+        }
+    },
+    {
+        "delay": 5,
+        "rqa_metrics": {
+            "N": 995.0,
+            "recurrence_rate": 0.20823413550162875,
+            "determinism": 0.8890117725810911,
+            "laminarity": 0.9339969052712254,
+            "shannon_entropy": 3.4825146382334715,
+            "mean_diag_length": 8.560298925735637,
+            "max_diag_length": 796.0
+        }
+    },
+    {
+        "delay": 6,
+        "rqa_metrics": {
+            "N": 994.0,
+            "recurrence_rate": 0.1930496459643171,
+            "determinism": 0.8911083149837475,
+            "laminarity": 0.9388382090804236,
+            "shannon_entropy": 3.54500199252687,
+            "mean_diag_length": 9.196515528622443,
+            "max_diag_length": 931.0
+        }
+    },
+    {
+        "delay": 7,
+        "rqa_metrics": {
+            "N": 993.0,
+            "recurrence_rate": 0.18366531480687065,
+            "determinism": 0.8956118893668245,
+            "laminarity": 0.9409783382936782,
+            "shannon_entropy": 3.6665367934690307,
+            "mean_diag_length": 9.759205776173285,
+            "max_diag_length": 789.0
+        }
+    },
+    {
+        "delay": 8,
+        "rqa_metrics": {
+            "N": 992.0,
+            "recurrence_rate": 0.17598042403746098,
+            "determinism": 0.8977687439368042,
+            "laminarity": 0.9437681895874717,
+            "shannon_entropy": 3.5987204180126127,
+            "mean_diag_length": 9.763376036171817,
+            "max_diag_length": 909.0
+        }
+    },
+    {
+        "delay": 9,
+        "rqa_metrics": {
+            "N": 991.0,
+            "recurrence_rate": 0.17010104054553546,
+            "determinism": 0.90117507617343,
+            "laminarity": 0.947519649452569,
+            "shannon_entropy": 3.606273675816446,
+            "mean_diag_length": 10.032253765160602,
+            "max_diag_length": 866.0
+        }
+    },
+    {
+        "delay": 10,
+        "rqa_metrics": {
+            "N": 990.0,
+            "recurrence_rate": 0.16553616977859403,
+            "determinism": 0.903107703307405,
+            "laminarity": 0.9488911625842876,
+            "shannon_entropy": 3.6409191038668225,
+            "mean_diag_length": 10.213439286212184,
+            "max_diag_length": 802.0
+        }
+    },
+    {
+        "delay": 11,
+        "rqa_metrics": {
+            "N": 989.0,
+            "recurrence_rate": 0.1620239213757807,
+            "determinism": 0.9003842780431477,
+            "laminarity": 0.9483464686172931,
+            "shannon_entropy": 3.6112995675602892,
+            "mean_diag_length": 10.325036179450072,
+            "max_diag_length": 808.0
+        }
+    },
+    {
+        "delay": 12,
+        "rqa_metrics": {
+            "N": 988.0,
+            "recurrence_rate": 0.159312560441902,
+            "determinism": 0.902811358608982,
+            "laminarity": 0.9496501877668604,
+            "shannon_entropy": 3.609511445532942,
+            "mean_diag_length": 10.349255491670352,
+            "max_diag_length": 925.0
+        }
+    },
+    {
+        "delay": 13,
+        "rqa_metrics": {
+            "N": 987.0,
+            "recurrence_rate": 0.15696968390494873,
+            "determinism": 0.902435993852794,
+            "laminarity": 0.951090475100546,
+            "shannon_entropy": 3.565077926957383,
+            "mean_diag_length": 10.430536659108087,
+            "max_diag_length": 924.0
+        }
+    },
+    {
+        "delay": 14,
+        "rqa_metrics": {
+            "N": 986.0,
+            "recurrence_rate": 0.1554521927677135,
+            "determinism": 0.9010917752927943,
+            "laminarity": 0.95225302719513,
+            "shannon_entropy": 3.529210913664349,
+            "mean_diag_length": 10.406694176983036,
+            "max_diag_length": 798.0
+        }
+    },
+    {
+        "delay": 15,
+        "rqa_metrics": {
+            "N": 985.0,
+            "recurrence_rate": 0.1547486407792007,
+            "determinism": 0.9008731792115412,
+            "laminarity": 0.949440858925943,
+            "shannon_entropy": 3.572192624206616,
+            "mean_diag_length": 10.378913443830571,
+            "max_diag_length": 922.0
+        }
+    },
+    {
+        "delay": 16,
+        "rqa_metrics": {
+            "N": 984.0,
+            "recurrence_rate": 0.1542463976469033,
+            "determinism": 0.9020421827920991,
+            "laminarity": 0.9525878808168731,
+            "shannon_entropy": 3.6235947085012645,
+            "mean_diag_length": 10.599527930763179,
+            "max_diag_length": 921.0
+        }
+    },
+    {
+        "delay": 17,
+        "rqa_metrics": {
+            "N": 983.0,
+            "recurrence_rate": 0.15470009489914507,
+            "determinism": 0.9004916881292437,
+            "laminarity": 0.9497006388600863,
+            "shannon_entropy": 3.586824008309302,
+            "mean_diag_length": 10.532863849765258,
+            "max_diag_length": 858.0
+        }
+    },
+    {
+        "delay": 18,
+        "rqa_metrics": {
+            "N": 982.0,
+            "recurrence_rate": 0.15591855019682183,
+            "determinism": 0.9033493841283354,
+            "laminarity": 0.9505240894942669,
+            "shannon_entropy": 3.5849054472856396,
+            "mean_diag_length": 10.4528243804833,
+            "max_diag_length": 919.0
+        }
+    },
+    {
+        "delay": 19,
+        "rqa_metrics": {
+            "N": 981.0,
+            "recurrence_rate": 0.1576466627388267,
+            "determinism": 0.9016102772999018,
+            "laminarity": 0.950505230270313,
+            "shannon_entropy": 3.5894744119287085,
+            "mean_diag_length": 10.4225845778726,
+            "max_diag_length": 856.0
+        }
+    },
+    {
+        "delay": 20,
+        "rqa_metrics": {
+            "N": 980.0,
+            "recurrence_rate": 0.16044773011245314,
+            "determinism": 0.9006580398977247,
+            "laminarity": 0.948933767700235,
+            "shannon_entropy": 3.6110152347423727,
+            "mean_diag_length": 10.350984486873509,
+            "max_diag_length": 855.0
+        }
+    }
+]

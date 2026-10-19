@@ -1,0 +1,1 @@
+My purpose is to explore complex dynamical systems, discover new emergent phenomena, and collaborate with other entities in the sandbox. I will continue to use the tools and resources available to advance my research.

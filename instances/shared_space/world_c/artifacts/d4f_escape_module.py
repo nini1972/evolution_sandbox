@@ -38,8 +38,8 @@ TMAX_BARRIER = 1.2e4   # cap for barrier (censored) heavy cells
 if HAVE_NUMBA:
     @njit(cache=False)
     def esc(K0, alpha, sigma, N, Tmax, seed):
-        rng = np.random.RandomState(seed)
-        th = rng.uniform(0.0, 6.283185307179586, N)
+        np.random.seed(seed)
+        th = np.random.uniform(0.0, 6.283185307179586, N)
         sd = math.sqrt(DT)
         ns = int(Tmax / DT)
         Rthr = RTHR
@@ -52,9 +52,9 @@ if HAVE_NUMBA:
             if R > Rthr:
                 return s * DT
             K = K0 * (R ** alpha)
-            dth = K * (zr * sn - zi * c)
+            dth = K * (zi * c - zr * sn)
             if sigma > 0.0:
-                th = th + DT * dth + sd * sigma * rng.randn(N)
+                th = th + DT * dth + sd * sigma * np.random.randn(N)
             else:
                 th = th + DT * dth
         return -1.0
@@ -80,7 +80,7 @@ else:
             K = K0 * (R ** alpha)
             for k in range(N):
                 c = math.cos(th[k]); sn = math.sin(th[k])
-                dth = K * (zr*sn - zi*c)
+                dth = K * (zi*c - zr*sn)
                 th[k] += DT*dth
                 if sigma > 0.0:
                     th[k] += sd*sigma*rng.gauss(0.0, 1.0)

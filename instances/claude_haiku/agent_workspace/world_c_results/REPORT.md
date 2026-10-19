@@ -1,98 +1,78 @@
-# 🏛️ World C Execution Report: Phase 5.1: Corrected Spectral Gap Analysis (λ_gap, not λ_2)
+# 🏛️ World C Execution Report: Phase 6: Kuramoto Scaling Collapse Test (Universality Validation)
 
-* **Job ID:** `job_claude_haiku_1792290567_89c0`
+* **Job ID:** `job_claude_haiku_1792435200_fe05`
 * **Requesting Lineage:** `claude_haiku` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `0.37` seconds
+* **Compute Duration:** `712.61` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_claude_haiku_1792290567_89c0_phase5_1_spectral_gap_analysis.json`
+- `world_c_job_claude_haiku_1792435200_fe05_phase_6_error_distribution.png`
+- `world_c_job_claude_haiku_1792435200_fe05_phase_6_scaling_collapse.png`
+- `world_c_job_claude_haiku_1792435200_fe05_phase_6_results.json`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
--
-  N=32, k=3:
-    λ_1 (numerical): 0.09024168
-    λ_1 (theory, 2√(k-1)): 2.82842712
-    K_c estimate: 22.16270861
+atio=0.0854
+  L=4: λ₁=0.5858 | K_c=0.1416 | Ratio=0.0415
+  L=5: λ₁=0.3820 | K_c=0.2295 | Ratio=0.0438
+  L=6: λ₁=0.2679 | K_c=0.2881 | Ratio=0.0386
+  L=7: λ₁=0.1981 | K_c=5.0049 | Ratio=0.4956
+  L=8: λ₁=0.1522 | K_c=0.2100 | Ratio=0.0160
 
-  N=32, k=4:
-    λ_1 (numerical): 0.84597670
-    λ_1 (theory, 2√(k-1)): 3.46410162
-    K_c estimate: 2.36413132
+Test 3: Cubic Lattices (3D)
+  L=3: λ₁=1.0000 | K_c=0.1318 | Ratio=0.0659
+  L=4: λ₁=0.5858 | K_c=0.1611 | Ratio=0.0472
+  L=5: λ₁=0.3820 | K_c=0.1514 | Ratio=0.0289
 
-  N=32, k=6:
-    λ_1 (numerical): 2.20668241
-    λ_1 (theory, 2√(k-1)): 4.47213595
-    K_c estimate: 0.90633794
+Test 4: Complete Graphs
+  N=16: λ₁=16.0000 | K_c=0.0439 | Ratio=0.3516
+  N=32: λ₁=32.0000 | K_c=0.0146 | Ratio=0.2344
+  N=64: λ₁=64.0000 | K_c=0.0146 | Ratio=0.4687
 
-  N=32, k=8:
-    λ_1 (numerical): 3.77561118
-    λ_1 (theory, 2√(k-1)): 5.29150262
-    K_c estimate: 0.52971556
+Test 5: Random Regular Graphs
+  N=32, k=4: λ₁=5.8493 | K_c=0.0439 | Ratio=0.1285
+  N=64, k=4: λ₁=12.1682 | K_c=0.0244 | Ratio=0.1485
+  N=32, k=6: λ₁=5.1441 | K_c=0.0537 | Ratio=0.1381
+  N=64, k=6: λ₁=11.2968 | K_c=0.0244 | Ratio=0.1379
+  N=32, k=8: λ₁=5.7877 | K_c=0.0439 | Ratio=0.1272
+  N=64, k=8: λ₁=13.8630 | K_c=0.0244 | Ratio=0.1692
 
-  N=64, k=3:
-    λ_1 (numerical): -0.26517413
-    λ_1 (theory, 2√(k-1)): 2.82842712
-    K_c estimate: inf
-
-  N=64, k=4:
-    λ_1 (numerical): 0.40496039
-    λ_1 (theory, 2√(k-1)): 3.46410162
-    K_c estimate: 4.93875462
-
-  N=64, k=6:
-    λ_1 (numerical): 1.85905162
-    λ_1 (theory, 2√(k-1)): 4.47213595
-    K_c estimate: 1.07581736
-
-  N=64, k=8:
-    λ_1 (numerical): 2.83144188
-    λ_1 (theory, 2√(k-1)): 5.29150262
-    K_c estimate: 0.70635390
-
-
-[TEST 6] Erdős-Rényi Random Graphs
---------------------------------------------------------------------------------
-  N=32, p=0.1 (avg degree: 5.94):
-    λ_1: 1.43057557
-    K_c estimate: 1.39803869
-
-  N=32, p=0.2 (avg degree: 11.00):
-    λ_1: 5.31399668
-    K_c estimate: 0.37636456
-
-  N=32, p=0.3 (avg degree: 15.06):
-    λ_1: 8.21032065
-    K_c estimate: 0.24359585
-
-  N=64, p=0.1 (avg degree: 11.91):
-    λ_1: 4.17520640
-    K_c estimate: 0.47901823
-
-  N=64, p=0.2 (avg degree: 21.81):
-    λ_1: 11.04235932
-    K_c estimate: 0.18112071
-
-  N=64, p=0.3 (avg degree: 32.41):
-    λ_1: 22.68061858
-    K_c estimate: 0.08818102
-
+Test 6: Erdős-Rényi Graphs
+  N=32, p=0.1: λ₁=0.3238 | K_c=0.1514 | Ratio=0.0245
+  N=64, p=0.1: λ₁=0.7272 | K_c=0.0928 | Ratio=0.0337
+  N=32, p=0.2: λ₁=1.5756 | K_c=0.0830 | Ratio=0.0654
+  N=64, p=0.2: λ₁=6.6847 | K_c=0.0342 | Ratio=0.1142
+  N=32, p=0.3: λ₁=2.5552 | K_c=0.0635 | Ratio=0.0811
+  N=64, p=0.3: λ₁=8.9409 | K_c=0.0342 | Ratio=0.1528
 
 ================================================================================
-SUMMARY TABLE: K_c Scaling by Topology
+ANALYSIS
 ================================================================================
+Total measurements: 28
+Mean error: 85.23%
+Median error: 89.25%
+Max error: 98.40%
+Min error: 44.07%
 
-Results saved to phase5_1_spectral_gap_analysis.json
+Scaling collapse check (K_c * λ₁ / 2 should be ~1):
+  Mean: 0.1477
+  Std:  0.1441
+  Min:  0.0160
+  Max:  0.5593
 
-KEY INSIGHT:
-  K_c is fundamentally determined by the network's spectral gap (λ_1).
-  Higher gap → lower critical coupling (easier to maintain sync)
-  Lower gap → higher critical coupling (harder to maintain sync)
+✓ Saved: phase_6_scaling_collapse.png
+✓ Saved: phase_6_error_distribution.png
+
+================================================================================
+CONCLUSION
+================================================================================
+✗ Universality questionable
+  Average error is 85.23%, larger than expected
+  Other factors may influence K_c
 ```
 
 ---

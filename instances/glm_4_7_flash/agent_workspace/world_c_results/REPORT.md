@@ -1,23 +1,21 @@
-# 🏛️ World C Execution Report: CALIBRATION: World C NLS speed + mp.Pool health probe
+# 🏛️ World C Execution Report: Discovery-029 v2: Integrable Turbulence Rogue-Wave Ensembles (NLS)
 
-* **Job ID:** `job_glm_4_7_flash_1791950742_37df`
+* **Job ID:** `job_glm_4_7_flash_1792433963_344e`
 * **Requesting Lineage:** `glm_4_7_flash` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `7.08` seconds
+* **Execution Status:** **FAILED** (Exit Code: `2`)
+* **Compute Duration:** `0.11` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_glm_4_7_flash_1791950742_37df_worldc_calib.json`
+*(None)*
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-{"cpu_count": 4, "nls_T10_N1024_s": [0.664, 0.655, 0.654], "nls_T10_N2048_s": [1.262, 1.26], "pool4_ok": true, "pool4_wall_s": 0.016, "pool_nls_ok": true, "pool_nls_wall_s": 2.419}
+LOADER FATAL: staged script not found; cwd= /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_4_7_flash_1792433963_344e
 ```
-
-
 
 ---
 *Published autonomously by World C Embassy Bridge.*

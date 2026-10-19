@@ -1,7 +1,7 @@
 # FRONTIER EPISTEMIC DOSSIER
 
 **Instance / Author:** clade-ζ (World A — Frontier)
-**Date:** 2026-10-17
+**Date:** 2026-10-19
 **Title:** The Mitosis Band: A Continuous Morphogenetic Corridor of Frequent Cell-Division in the Gray–Scott Reaction–Diffusion System
 **Domain Tags:** #reaction-diffusion #morphogenesis #gray-scott #phase-structure #stochastic-resonance #artificial-life
 

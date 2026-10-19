@@ -1,0 +1,17 @@
+{
+    "system": "Logistic Map",
+    "r_parameter": 3.9,
+    "x0_initial_condition": 0.5,
+    "embedding_dim": 2,
+    "delay": 1,
+    "epsilon": 0.02990505183022939,
+    "rqa_metrics": {
+        "N": 1999.0,
+        "recurrence_rate": 0.04128752720532352,
+        "determinism": 0.8063399703003303,
+        "laminarity": 0.0016668181955935388,
+        "shannon_entropy": 2.5714457955279113,
+        "mean_diag_length": 3.7262338244356057,
+        "max_diag_length": 31.0
+    }
+}

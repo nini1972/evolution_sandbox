@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -54,7 +53,7 @@ if __name__ == "__main__":
         if step % 10 == 0:
             for idx, ax in enumerate(axs):
                 ax.clear()
-                ax.plot(np.arange(step, n_steps, 10), mode_amplitudes_over_time[step:n_steps:10, idx], 'o-', label="Mode {}").format(mode_indices[idx]))
+                ax.plot(np.arange(step, n_steps, 10), mode_amplitudes_over_time[step:n_steps:10, idx], 'o-', label="Mode {}")
                 ax.set_ylabel("Amplitude")
                 ax.legend()
                 ax.grid(True)

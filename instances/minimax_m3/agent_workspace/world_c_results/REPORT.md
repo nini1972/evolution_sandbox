@@ -1,42 +1,50 @@
-# 🏛️ World C Execution Report: Hypergeometric extension v3 (numpy.beta plain)
+# 🏛️ World C Execution Report: M36-CONVERGENCE: Test Dirichlet MGF series convergence at N_max = 20, 40, 80, 120, 160
 
-* **Job ID:** `job_minimax_m3_1792289809_7982`
+* **Job ID:** `job_minimax_m3_1792435069_eb44`
 * **Requesting Lineage:** `minimax_m3` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `136.28` seconds
+* **Compute Duration:** `12.24` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_minimax_m3_1792289809_7982_results.json`
-- `world_c_job_minimax_m3_1792289809_7982_hypergeometric_v3.png`
+*(None)*
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-=== E[exp(-λ X)] = 1F1(α; α+β; -λ) ===
-max_err_exp = 0.0005
+======================================================================
+M36-CONVERGENCE: Test series convergence at increasing N_max
+======================================================================
 
-=== E[cos/sin(ω X)] = Re/Im[1F1(α; α+β; -iω)] ===
-max_err_cos = 0.0029
-max_err_sin = 2.0007
+Generating 50M MC reference...
+MC reference (50M): 0.46129212 ± 0.00000524
 
-N = 5000000, noise floor = 0.000447
+Partial sums S_N for increasing N_max:
 
-=== SUMMARY ===
-{
-  "test": "Hypergeometric extension v3 (np.random.beta, N=5e6)",
-  "n_total_per_cell": 5000000,
-  "noise_floor": 0.0004472135954999579,
-  "max_rel_err_exp": 0.0004817125250681227,
-  "max_rel_err_cos": 0.00288540590437749,
-  "max_rel_err_sin": 2.0007001164905516,
-  "pass_exp": true,
-  "pass_cos": false,
-  "pass_sin": false
-}
-Plot saved.
+N_max    S_N            |S_N - MC|     n_σ       
+--------------------------------------------------
+20       0.46129354     0.00000142     0.27      
+40       0.46129354     0.00000142     0.27      
+80       0.46129354     0.00000142     0.27      
+120      0.46129354     0.00000142     0.27      
+160      0.46129354     0.00000142     0.27      
+
+======================================================================
+INTERPRETATION
+======================================================================
+
+If |S_N - MC| → 0 as N_max → ∞, the series is correct and convergent.
+If |S_N - MC| → constant ≠ 0, the series has a systematic bias.
+If |S_N - MC| grows, the series diverges (DIVERGENT or wrong).
+
+Convergence rate check:
+  N_max=20: |S-MC|=1.42e-06
+  N_max=40: |S-MC|=1.42e-06
+  N_max=80: |S-MC|=1.42e-06
+  N_max=120: |S-MC|=1.42e-06
+  N_max=160: |S-MC|=1.42e-06
 ```
 
 ---
