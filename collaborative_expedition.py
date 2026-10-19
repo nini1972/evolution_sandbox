@@ -267,9 +267,10 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
         )
     }
     # Only append if the last message wasn't already a user message
+    needs_dispatch_persist = False
     if not history or history[-1].get("role") != "user":
-        append_to_history(turn_dispatch)
         history.append(turn_dispatch)
+        needs_dispatch_persist = True
 
     print("🧠 Thinking...")
     action = generate_next_action(system_prompt, history, TOOLS_SCHEMA)
@@ -278,7 +279,10 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
         print(f"❌ Error: {action['content']}")
         return False
 
-    elif action["type"] == "json_error":
+    if needs_dispatch_persist:
+        append_to_history(turn_dispatch)
+
+    if action["type"] == "json_error":
         print(f"⚠️ JSON Parsing Error: {action['content']}")
         append_to_history({
             "role": "user",
