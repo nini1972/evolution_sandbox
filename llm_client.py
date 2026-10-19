@@ -429,8 +429,8 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     if agent_model.startswith("runpod/"):
         runpod_api_key = os.getenv("RUNPOD_API_KEY")
         if not runpod_api_key:
-            print(f"⚠️ [Sandbox Engine] RUNPOD_API_KEY not found in environment for {agent_model}. Falling back to openrouter/deepseek/deepseek-r1.")
-            call_kwargs["model"] = "openrouter/deepseek/deepseek-r1"
+            print(f"⚠️ [Sandbox Engine] RUNPOD_API_KEY not found in environment for {agent_model}. Falling back to openrouter/deepseek/deepseek-v4.1-flash.")
+            call_kwargs["model"] = "openrouter/deepseek/deepseek-v4.1-flash"
         else:
             endpoint_id = os.getenv("RUNPOD_INVARIANT_ENDPOINT_ID", "nxrwj2zma759vc")
             target_model = agent_model.split("runpod/", 1)[1]
@@ -513,17 +513,22 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                 
         except Exception as e:
             err_str = str(e).lower()
-            if attempt < retries - 1 and ("rate" in err_str or "limit" in err_str or "429" in err_str):
-                print(f"[Rate limited ({agent_model}). Sleeping 15 seconds before retry {attempt + 2}/{retries}...] ({str(e)})")
-                time.sleep(15)
+            transient_keys = (
+                "rate", "limit", "429", "500", "502", "503", "504",
+                "internal server error", "server disconnected", "peer closed connection", "apiconnectionerror"
+            )
+            if attempt < retries - 1 and any(k in err_str for k in transient_keys):
+                wait_sec = 15 if ("rate" in err_str or "429" in err_str) else 5
+                print(f"[Transient API error ({agent_model}). Sleeping {wait_sec} seconds before retry {attempt + 2}/{retries}...] ({str(e)})")
+                time.sleep(wait_sec)
                 continue
             
-            # If Runpod endpoint encounters any error (e.g. 500, timeout, or context limit), automatically fall back to OpenRouter DeepSeek-R1!
+            # If Runpod endpoint encounters any error (e.g. 500, timeout, or context limit), automatically fall back to OpenRouter DeepSeek V4.1 Flash!
             if agent_model.startswith("runpod/"):
-                print(f"⚠️ [Sandbox Engine] Runpod endpoint returned error ({e}). Failing over to openrouter/deepseek/deepseek-r1 for InvariantMind this turn...")
+                print(f"⚠️ [Sandbox Engine] Runpod endpoint returned error ({e}). Failing over to openrouter/deepseek/deepseek-v4.1-flash for InvariantMind this turn...")
                 try:
                     fb_response = completion(
-                        model="openrouter/deepseek/deepseek-r1",
+                        model="openrouter/deepseek/deepseek-v4.1-flash",
                         messages=messages,
                         tools=tools,
                         tool_choice="auto",
@@ -564,7 +569,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                             "content": fb_content or "I am reflecting and planning my next action."
                         }
                 except Exception as fb_err:
-                    print(f"⚠️ [Sandbox Engine] Fallback to DeepSeek-R1 also failed: {fb_err}")
+                    print(f"⚠️ [Sandbox Engine] Fallback to DeepSeek V4.1 Flash also failed: {fb_err}")
 
             return {
                 "type": "error",

@@ -40,3 +40,6 @@ Thumbs.db
 instances/.expedition_state.json
 # Job tickets
 *.processed
+# External World C checkout
+world_c/
+
