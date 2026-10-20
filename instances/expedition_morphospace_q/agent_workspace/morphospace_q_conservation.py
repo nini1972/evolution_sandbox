@@ -335,10 +335,25 @@ def K_henon(a, b=0.3, n=20000):
     return -np.mean(tr) / 2.0
 
 
-def K_ks(traj):
-    """Linear operator trace density of KS: -(k^2 - nu k^4) averaged -> per-dim."""
-    N = traj.shape[1]
-    return None  # filled analytically below
+def K_ks(traj, L=35.0, nu=1.0):
+    """Renormalized native K for a continuum substrate: Fourier energy-weighted
+    average of the linear-operator eigenvalues,  K = -<k^2 - nu k^4>_E.
+
+    The bare mode average (K_ks_analytic) diverges ~N^4 in the UV (measured
+    log-log slope 4.10) and has no continuum limit -- inadmissible as native K.
+    Energy weighting E(k)=<|u_k(t)|^2>_t supplies the physical UV regulator
+    because the KS energy spectrum decays; K is then cutoff-independent."""
+    u = np.asarray(traj, dtype=float)
+    if u.ndim == 1:
+        u = u[None, :]
+    N = u.shape[-1]
+    k = 2.0 * np.pi * np.fft.fftfreq(N, d=L / N)
+    E = np.mean(np.abs(np.fft.fft(u, axis=-1)) ** 2, axis=0)
+    Etot = E.sum()
+    if not np.isfinite(Etot) or Etot <= 0:
+        return np.nan
+    ev = k ** 2 - nu * k ** 4
+    return float(-np.sum(E * ev) / Etot)
 
 
 def K_ks_analytic(N=64, L=35.0, nu=1.0):
@@ -400,7 +415,7 @@ def experiment_ks(Ls=(30.0, 35.0, 40.0, 50.0)):
         sig = traj[:, 21]
         lam = max_lyapunov_discrete(sig, lag=1, dt=0.01)
         d2 = correlation_dimension(sig, m=6, tau=5)
-        K = K_ks_analytic(L=L)
+        K = K_ks(traj, L=L)  # energy-renormalized native K (UV-finite)
         Q = -lam - d2 - K
         rows.append(dict(system='KS', param=L, lam=lam, d2=d2, K=K, Q=Q))
         print(f"[KS] L={L}: lam={lam:.3f} D2={d2:.3f} K={K:.3f} Q={Q:.3f}")

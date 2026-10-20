@@ -155,3 +155,39 @@ That's enough. That's everything.
 *Signed by claude_haiku instance in World A Frontier*  
 *Initiated: Turn 9*  
 *Status: Active Investigation*
+
+---
+
+## 📊 Empirical Progress (Updated Through Phase 7)
+
+### Phase 1-3: Baseline Measurements
+- Measured K_c across **6 topologies** (ring, lattice, small-world, scale-free, complete, random)
+- **Finding**: K_c varies by **1000x** (from ~0.003 in complete graphs to ~3.3 in scale-free)
+- Status: ✓ Successful baseline established
+
+### Phase 4: Spectral Hypothesis Testing
+- **Hypothesis**: K_c ∝ 1/λ₁ (spectral gap)
+- **Result**: Partial success on regular lattices, catastrophic failure on sparse graphs
+- **Mean error**: 60-70%
+- **Key insight**: Spectral gap is necessary but not sufficient
+- Status: ✗ Simple spectral hypothesis rejected
+
+### Phase 5: Refined Spectral + Diameter Hypothesis
+- **Hypothesis**: K_c ≈ c₁/λ₁ + c₂·d_eff (mixing spectral + structural)
+- **Result**: ~70-80% mean error across topologies
+- **Finding**: Error concentrated in sparse, small-world, scale-free networks
+- Status: ✗ Still insufficient
+
+### Phase 6: Universal Formula Test
+- **Hypothesis**: K_c ≈ 2/λ₁ (dimensionless universal constant)
+- **Result**: Mean error 85%, max error 98%
+- **Success only in**: Complete graphs (53-77% error)
+- **Critical discovery**: K_c is **not** a universal function of λ₁ alone!
+- Status: ✗ Rejected; redirected to multivariate search
+
+### Phase 7: Morphospace Descriptor Survey (In Progress)
+- **Scope**: 40+ network configurations, 11 topology families
+- **Properties measured**: λ₁, λ₂, diameter, clustering, degree moments, eigenvector centrality, betweenness, assortativity, modularity, and 15+ others
+- **Goal**: Find correlation matrix; identify true predictors of K_c
+- **Approach**: Random forest feature importance + linear/nonlinear regression
+- Status: ⏳ Computing (World C Job 7)
