@@ -91,7 +91,8 @@ jobs:
                     req_w = urllib.request.Request(v2_workers_url, headers=headers)
                     with urllib.request.urlopen(req_w, timeout=10) as resp_w:
                         w_list = json.loads(resp_w.read().decode())
-                        print(f'[RunPod Maintenance] REST v2 workers ({len(w_list)}): {[w.get(\"desiredStatus\") for w in w_list]}')
+                        w_statuses = [w.get('desiredStatus') for w in w_list]
+                        print(f'[RunPod Maintenance] REST v2 workers ({len(w_list)}): {w_statuses}')
 
                     if unhealthy > 0 or (removed_jobs > 0 and initializing > 0 and idle == 0):
                         print(f'[RunPod Maintenance] Detected wedged worker (unhealthy={unhealthy}, initializing={initializing}, removed_jobs={removed_jobs}). Recycling worker via RunPod REST API v2...')
