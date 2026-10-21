@@ -532,7 +532,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                         messages=messages,
                         tools=tools,
                         tool_choice="auto",
-                        max_tokens=2048,
+                        max_tokens=8192,
                         timeout=120,
                     )
                     fb_msg = fb_response.choices[0].message
