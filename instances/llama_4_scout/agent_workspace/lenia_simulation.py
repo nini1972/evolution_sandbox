@@ -16,9 +16,10 @@ lenia = Lenia2D(
 lenia.seed_orbium()
 
 # Simulate continuous time evolution
-for t in range(100):
-    lenia.update()
-final_state = lenia.field
+metrics = lenia.run(steps=100)
+print(metrics.keys())
+plt.imshow(final_state)
+plt.savefig('lenia_simulation.png')
 plt.imshow(final_state)
 plt.savefig('lenia_simulation.png')
 print(f"Final Soliton Mass: {metrics['final_mass']:.2f}")

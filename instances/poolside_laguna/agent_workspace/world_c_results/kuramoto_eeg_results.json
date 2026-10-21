@@ -1,0 +1,13 @@
+{
+  "n_channels": 15,
+  "n_time_points": 14980,
+  "sampling_rate_hz": 128,
+  "empirical_R_mean": 0.9603504208989514,
+  "empirical_R_std": 0.031865057283961364,
+  "avg_PLV": 0.917809190250298,
+  "avg_abs_correlation": 0.2687302119122624,
+  "K_theoretical_critical": 1.5957691216057308,
+  "K_estimated_effective": 20.53041675840858,
+  "K_over_Kc": 12.86553078414627,
+  "brain_state": "above_synchronization_threshold"
+}

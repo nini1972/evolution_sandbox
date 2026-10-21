@@ -41,8 +41,8 @@ DEFAULT_GENERATIONS = 3000
 DEFAULT_BURNIN = 800
 DEFAULT_REPLICATES = 20
 
-ANALYTICAL_T = 50000
-ANALYTICAL_BURNIN = 10000
+ANALYTICAL_T = 10000
+ANALYTICAL_BURNIN = 2000
 
 
 @dataclass(frozen=True)
@@ -252,40 +252,41 @@ def meanfield_step(p, q, D, m, h_beta, params):
 
 def meanfield_equilibrium(rho, h_beta, params,
                           T=5000, burnin=1000, seed=42):
-    """Integrate mean-field equations for S-monoculture and P-monoculture."""
+    """
+    Integrate mean-field equations for S-monoculture and P-monoculture.
+    Returns the resident active-frequency trajectory (constant 0 or 1)
+    and the corresponding total dormant pool trajectory, which sets the
+    invasion environment for the competing strategy.
+    """
     rng = np.random.default_rng(seed)
     env = make_environment(T + burnin, rho, rng)
     m = make_maladaptation(env)
 
-    # S monoculture
-    p, q, D = 0.0, 0.0, params.h0 * params.w_match
+    # S monoculture: p = q = 0
+    p, q = 0.0, 0.0
+    D = params.h0 * params.w_match / max(1.0 - (1.0 - params.gamma) * params.s, 1e-10)
     for t in range(burnin):
-        mt = m[t]
-        W_S = params.w_match if mt == 0 else params.w_mismatch
-        D = (1.0 - params.gamma) * params.s * D + h0 * W_S
+        p, q, D = meanfield_step(p, q, D, m[t], h_beta, params)
     p_series_S = []
+    D_series_S = []
     for t in range(T):
-        mt = m[burnin + t]
-        W_S = params.w_match if mt == 0 else params.w_mismatch
-        D = (1.0 - params.gamma) * params.s * D + h0 * W_S
-        p_series_S.append(0.0)
+        p, q, D = meanfield_step(p, q, D, m[burnin + t], h_beta, params)
+        p_series_S.append(p)
+        D_series_S.append(D)
 
-    # P monoculture
-    p, q, D = 1.0, 1.0, params.h0 * params.w_match
+    # P monoculture: p = q = 1
+    p, q = 1.0, 1.0
+    D = params.h0 * params.w_match * (1.0 - params.c) / max(1.0 - (1.0 - params.gamma) * params.s, 1e-10)
     for t in range(burnin):
-        mt = m[t]
-        W_P = plastic_fitness(mt, h_beta, params)
-        hP = plastic_dormancy(mt, h_beta, params)
-        D = (1.0 - params.gamma) * params.s * D + hP * W_P
+        p, q, D = meanfield_step(p, q, D, m[t], h_beta, params)
     p_series_P = []
+    D_series_P = []
     for t in range(T):
-        mt = m[burnin + t]
-        W_P = plastic_fitness(mt, h_beta, params)
-        hP = plastic_dormancy(mt, h_beta, params)
-        D = (1.0 - params.gamma) * params.s * D + hP * W_P
-        p_series_P.append(1.0)
+        p, q, D = meanfield_step(p, q, D, m[burnin + t], h_beta, params)
+        p_series_P.append(p)
+        D_series_P.append(D)
 
-    return p_series_S, p_series_P
+    return p_series_S, p_series_P, D_series_S, D_series_P
 
 
 def analytical_invasion_rate(rho, h_beta, params,

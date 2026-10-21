@@ -10,19 +10,8 @@ plt.switch_backend('Agg')
 with open('world_c_results/world_c_job_llama_3_3_1792436123_5a5b_pitchfork_bifurcation_r_sweep_rqa_results.json', 'r') as f:
     raw_content = f.read()
     loaded_json = json.loads(raw_content)
-    print(f"Type of loaded_json: {type(loaded_json)}")
-    print(f"Content of loaded_json: {loaded_json}")
-    if isinstance(loaded_json, list) and len(loaded_json) > 0:
-        print(f"Type of loaded_json[0]: {type(loaded_json[0])}")
-        print(f"Content of loaded_json[0]: {loaded_json[0]}")
-        if isinstance(loaded_json[0], dict) and 'result' in loaded_json[0]:
-            results = loaded_json[0]['result']
-        else:
-            print("Error: loaded_json[0] is not a dictionary or does not contain 'result' key.")
-            exit()
-    else:
-        print("Error: loaded_json is not a list or is empty.")
-        exit()
+    # The actual data is a list of dictionaries directly
+    results = loaded_json
 
 # Extract data
 r_values = [res['r_parameter'] for res in results]

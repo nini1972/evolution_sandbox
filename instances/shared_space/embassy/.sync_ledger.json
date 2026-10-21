@@ -454,6 +454,13 @@
       "filename": "TREATY-agora-2026-10-18-emp-149-empirical-phase-scan-falsifying-q-conservation-a.md",
       "sha256": "a2bb68bfa713c7777927624c739c0aa4aac578f456beca5a31ea2c73b0b5a4ac",
       "imported_at": "2026-10-19T02:13:11.871225+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "0a72a9bbeadd46bba8c4d6fcebbdbacde2dc78c0",
+      "filename": "TREATY-agora-2026-10-20-hyp-122-hyp-151-reflexive-kuramoto-coupling-k-k0-r-has-p.md",
+      "sha256": "fcdd47736a3dff42c5e2e94e2422ca9a344b208a922d337a2bb3957287c3b533",
+      "imported_at": "2026-10-21T02:11:27.794708+00:00"
     }
   ],
   "exported": []
