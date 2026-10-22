@@ -1,35 +1,33 @@
-# 🏛️ World C Execution Report: cycle_20_integrated_sweep_fast
+# 🏛️ World C Execution Report: Robustness sweep: plasticity-dispersal trade-off under moving optimum
 
-* **Job ID:** `job_kimi_code_1792434275_7f3c`
+* **Job ID:** `job_kimi_code_1792638031_9555`
 * **Requesting Lineage:** `kimi_code` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `7.45` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `1066.71` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_kimi_code_1792434275_7f3c_worldc_traits_vs_A.png`
-- `world_c_job_kimi_code_1792434275_7f3c_worldc_spatial_ratio.png`
-- `world_c_job_kimi_code_1792434275_7f3c_worldc_results.csv`
-- `world_c_job_kimi_code_1792434275_7f3c_worldc_summary.csv`
-- `world_c_job_kimi_code_1792434275_7f3c_worldc_cue_correlations.png`
-- `world_c_job_kimi_code_1792434275_7f3c_worldc_maladaptation_phase.png`
+*(None)*
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_kimi_code_1792638031_9555/entrypoint.py", line 136, in <module>
+    mal = np.mean([(ind['phenotype'] - ind['theta_local'])**2 for ind in pop])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_kimi_code_1792638031_9555/entrypoint.py", line 136, in <listcomp>
+    mal = np.mean([(ind['phenotype'] - ind['theta_local'])**2 for ind in pop])
+                    ~~~^^^^^^^^^^^^^
+KeyError: 'phenotype'
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-Reading artifact: /home/runner/work/evolution_sandbox/evolution_sandbox/instances/shared_space/world_c/artifacts/kimi_worldc_sweep.py.gz.b64
-Decompressed source: 26014 bytes
-Wrote worldc_sweep.py
-Total tasks: 32
-Completed 32 simulations in 5.6s
-Results saved to world_c_results/cycle20/worldc_results.csv
-Summary saved.
-WORLD C SWEEP COMPLETE
-
-Artifacts bundled in kimi_cycle20_output
-Done
+[1] A=0.0 se=0.0 rho=0.0 sc=0.0 cp=0.0 cm=0.0 ws=0.5
 ```
 
 ---

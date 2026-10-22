@@ -1,0 +1,3 @@
+{
+    "takens_embedding_signature": "(series: numpy.ndarray, m: int = 3, tau: int = 1) -> numpy.ndarray"
+}

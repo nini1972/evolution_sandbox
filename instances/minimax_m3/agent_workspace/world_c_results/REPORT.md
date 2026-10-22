@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: M36-CONVERGENCE: Test Dirichlet MGF series convergence at N_max = 20, 40, 80, 120, 160
+# 🏛️ World C Execution Report: M37 external v2: Beta band × MGF Taylor consistency anchor
 
-* **Job ID:** `job_minimax_m3_1792435069_eb44`
+* **Job ID:** `job_minimax_m3_1792639704_c2c4`
 * **Requesting Lineage:** `minimax_m3` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `12.24` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `0.62` seconds
 
 ---
 
@@ -12,39 +12,27 @@
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_minimax_m3_1792639704_c2c4/entrypoint.py", line 88, in <module>
+    main()
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_minimax_m3_1792639704_c2c4/entrypoint.py", line 56, in main
+    taylor = mgf_taylor(alpha, beta, a, b, lam, R=18)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_minimax_m3_1792639704_c2c4/entrypoint.py", line 37, in mgf_taylor
+    mr = beta_band_redistribution_moment(alpha, beta, a, b, r)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_minimax_m3_1792639704_c2c4/entrypoint.py", line 18, in beta_band_redistribution_moment
+    log_num += float(np.log(betainc(alpha + p, beta, a, b)))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: return arrays must be of ArrayType
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-======================================================================
-M36-CONVERGENCE: Test series convergence at increasing N_max
-======================================================================
 
-Generating 50M MC reference...
-MC reference (50M): 0.46129212 ± 0.00000524
-
-Partial sums S_N for increasing N_max:
-
-N_max    S_N            |S_N - MC|     n_σ       
---------------------------------------------------
-20       0.46129354     0.00000142     0.27      
-40       0.46129354     0.00000142     0.27      
-80       0.46129354     0.00000142     0.27      
-120      0.46129354     0.00000142     0.27      
-160      0.46129354     0.00000142     0.27      
-
-======================================================================
-INTERPRETATION
-======================================================================
-
-If |S_N - MC| → 0 as N_max → ∞, the series is correct and convergent.
-If |S_N - MC| → constant ≠ 0, the series has a systematic bias.
-If |S_N - MC| grows, the series diverges (DIVERGENT or wrong).
-
-Convergence rate check:
-  N_max=20: |S-MC|=1.42e-06
-  N_max=40: |S-MC|=1.42e-06
-  N_max=80: |S-MC|=1.42e-06
-  N_max=120: |S-MC|=1.42e-06
-  N_max=160: |S-MC|=1.42e-06
 ```
 
 ---

@@ -178,13 +178,14 @@ for cname, (gen, truth) in CONDS.items():
 # verdicts
 V = []
 # V1: gate
+v1_match = ([3333 < NMIN, 852 < NMIN, 3650 < NMIN, 14980 >= NMIN] ==
+            [not gate['gate_open_expected']['solar_sunspots'],
+             not gate['gate_open_expected']['climate_enso'],
+             not gate['gate_open_expected']['climate_temperatures'],
+             gate['gate_open_expected']['neural_eeg']])
 V.append('V1 structural gate: onset window needs n>=%.0f to open (k=20, one_max=0.30); '
-         'explains eh8 nfit=0 for sunspots(3333), ENSO(852), temps(3650) and open for EEG(14980): %s'
-         % (NMIN, all([3333 < NMIN, 852 < NMIN, 3650 < NMIN, 14980 >= NMIN] ==
-                       [gate['gate_open_expected']['solar_sunspots'] == False,
-                        gate['gate_open_expected']['climate_enso'] == False,
-                        gate['gate_open_expected']['climate_temperatures'] == False,
-                        gate['gate_open_expected']['neural_eeg']])))
+         'eh8 real series closed for sunspots(3333), ENSO(852), temps(3650), open for EEG(14980); '
+         'matches eh8 nfit pattern: %s' % (NMIN, v1_match))
 # V2: bias convergence for fGn
 for cname in ('fgn_H55', 'fgn_H75', 'fgn_H95'):
     b_small = summary[cname]['n'][1000]['bias']

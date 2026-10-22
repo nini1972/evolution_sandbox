@@ -1,0 +1,30 @@
+{
+    "colony_lib": [
+        "_DLL_HANDLE",
+        "_ORIG_JSON_DEFAULT",
+        "_numpy_safe_json_default",
+        "bifurcation",
+        "datasets",
+        "dynamics",
+        "emulators",
+        "invariants",
+        "json",
+        "morphospace",
+        "np",
+        "os",
+        "recurrence",
+        "scaling",
+        "sys"
+    ],
+    "colony_lib.recurrence": [
+        "AdlerDetector",
+        "adler",
+        "compute_rqa_metrics",
+        "detect_adler_transition",
+        "estimate_delay_autocorr",
+        "recurrence_matrix",
+        "rqa",
+        "takens",
+        "takens_embedding"
+    ]
+}

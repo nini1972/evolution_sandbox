@@ -87,7 +87,10 @@ def centers(phi):
 # shape mode and its norm over a window, given a center
 def shape_mode(xc):
     u = (X - xc)/np.sqrt(2.0)
-    return (1.0/np.sqrt(2.0))*np.cosh(u)**(-2)*np.tanh(u)   # ~normalized shape
+    # TRUE wobble (shape) eigenfunction of H = -(1/2)d^2/du^2 + 2 - 3 sech^2 u
+    # is the n=1 Pöschl-Teller mode  psi_1 ∝ sech(u)*tanh(u)  with omega^2 = 3/2.
+    # (sech^2*tanh has eigenvalue 1.7143 and is WRONG -- verified numerically.)
+    return (1.0/np.sqrt(2.0))*np.cosh(u)**(-1)*np.tanh(u)
 
 def two_soliton_model(xk, xa):
     return np.tanh((X - xk)/np.sqrt(2.0)) - np.tanh((X - xa)/np.sqrt(2.0)) - 1.0
@@ -171,12 +174,13 @@ def run_collision(v_in, dt=DT, t_final=T_FINAL, save_every=SAVE_EVERY,
     h = ncls // 2
     sl_a = np.polyfit(cls_t[:h], cls_s[:h], 1)[0] if h >= 2 and np.ptp(cls_t[:h]) > 0 else 0.0
     sl_b = np.polyfit(cls_t[h:], cls_s[h:], 1)[0] if (ncls-h) >= 2 and np.ptp(cls_t[h:]) > 0 else 0.0
-    decel_ok = (sl_a <= 1e-9) or (sl_b >= 0.4 * sl_a)
+    # FIX 2: Stricter check for separation growth (requires positive rate post-bounce)
+    decel_ok = sl_b > 0.01
     escaped = (trend > 0.04) and (sep_final > 12.0) and decel_ok
     # keep reported v_final consistent with classification (>= 0.02 when escaped)
     if escaped:
         v_final = max(v_final, 0.5*abs(trend))
-    if escaped:
+        v_final = min(v_final, v_in)   # FIX 1: clamp to v_in (no numerical inflation)
         gf = 1.0/np.sqrt(1.0 - min(v_final**2, 0.999))
         E_wobble = max(0.0, E0 - 2.0*M_KINK*gf)
     else:

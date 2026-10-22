@@ -1,0 +1,36 @@
+{
+  "correlation_meas_theo": 0.983995374032797,
+  "correlation_lambda_ratio": 0.48509868357425057,
+  "correlation_lambda_kc": -0.1162910258767409,
+  "correlation_n_ratio": 0.10147665105562685,
+  "power_law_formula": {
+    "K_c": "0.188022 * lambda_1^0.868451",
+    "coefficient_a": 0.18802210380352563,
+    "exponent_b": 0.8684509465814538,
+    "R_squared": 0.8097013285454228,
+    "mse": 488.6079270279144
+  },
+  "polynomial_correction": {
+    "degree": 3,
+    "coefficients": [
+      -6.482704320547848e-07,
+      7.189551879573241e-05,
+      0.003526296561297988,
+      0.1149816605247382
+    ],
+    "residual_rms": 0.12593695603740007
+  },
+  "n_datapoints": 28,
+  "topologies_tested": [
+    "Complete",
+    "Cubic",
+    "ER(p=0.1)",
+    "ER(p=0.2)",
+    "ER(p=0.3)",
+    "Ring",
+    "Square",
+    "k-Regular(k=4)",
+    "k-Regular(k=6)",
+    "k-Regular(k=8)"
+  ]
+}
