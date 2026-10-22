@@ -30,7 +30,7 @@ def estimate_tokens(obj) -> int:
 _INLINE_TOOL_RE = re.compile(
     r"(?:\[\s*(?:read_file|write_file|edit_file|run_command|search_web|submit_world_c_job|check_world_c_job|"
     r"report_issue_to_substrate|report_bug|contact_architect|post_epistemic_node|peer_verify_node|"
-    r"query_epistemic_graph|send_agent_dispatch|read_agent_inbox|export_treaty_to_embassy)\s*\(|!function_call:|"
+    r"query_epistemic_graph|send_agent_dispatch|read_agent_inbox|export_treaty_to_embassy)\s*\(|!function_call:|<tool_call>|"
     r"```(?:json)?\s*\{\s*\"(?:name|call|tool)\"\s*:)"
 )
 
@@ -117,7 +117,11 @@ def merge_consecutive_messages(messages: list) -> list:
         prev = merged[-1]
         if msg["role"] == prev["role"] and msg["role"] in ("assistant", "user"):
             if msg.get("content"):
-                if prev.get("content"):
+                if msg["role"] == "assistant" and not prev.get("tool_calls") and not msg.get("tool_calls"):
+                    # Keep only the latest thought when consecutive assistant turns had no tool calls,
+                    # preventing multi-turn thought-loop repetition from conditioning future turns.
+                    prev["content"] = msg["content"]
+                elif prev.get("content"):
                     prev["content"] = prev["content"] + "\n\n" + msg["content"]
                 else:
                     prev["content"] = msg["content"]
@@ -165,6 +169,26 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                     }
             except Exception:
                 pass
+
+    # 1b. Check for Qwen / Hermes <tool_call>{"name": ..., "arguments": ...}</tool_call> syntax
+    for m in re.finditer(r'<tool_call>\s*(\{)', content):
+        brace_idx = m.start(1)
+        try:
+            data, _ = json.JSONDecoder().raw_decode(content[brace_idx:])
+            tool_name = data.get("call") or data.get("name") or data.get("tool")
+            args = data.get("arguments") or data.get("args") or {}
+            if isinstance(args, str):
+                args = json.loads(args)
+            if tool_name in known_tools and isinstance(args, dict):
+                return {
+                    "type": "tool_call",
+                    "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                    "tool_name": tool_name,
+                    "arguments": args,
+                    "content": strip_inline_tool_syntax(content[:m.start()]),
+                }
+        except Exception:
+            pass
 
     # 2. Check for markdown json codeblocks containing a tool call
     for m in re.finditer(r'```(?:json)?\s*(\{)', content):
@@ -222,7 +246,7 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
 
     candidates = []
     for tool_name in known_tools:
-        pattern = rf"(?:\[|`|\b){tool_name}\s*\((.*?)\)(?:\]|`|\b)"
+        pattern = rf"(?:\[|`|\b){tool_name}\s*\((.*?)\)(?:\]|`|(?=\s|$|\.|,|;))"
         for m in re.finditer(pattern, content, re.DOTALL):
             arg_str = m.group(1).strip()
             args = {}
@@ -317,7 +341,7 @@ def get_model_context_limits(agent_model: str) -> tuple[int, int]:
 
     # Sovereign Runpod endpoint (vLLM bare-metal, 16k window)
     if "runpod/" in slug or "invariantmind" in slug:
-        return 16384, 2048
+        return 16384, 4096
 
     # High-capacity reasoning, coding, and frontier models (64k to 1M+ context)
     # Tencent HY3 has 256k context and outputs internal chain-of-thought tokens, needing generous completion headroom
@@ -397,7 +421,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     elif messages and messages[-1]["role"] == "user" and len(messages) >= 2 and messages[-2]["role"] == "assistant" and not messages[-2].get("tool_calls"):
         force_tool = True
 
-    chosen_tool_choice = "required" if force_tool else "auto"
+    chosen_tool_choice = "auto" if agent_model.startswith("runpod/") else ("required" if force_tool else "auto")
 
     # Accurately estimate prompt tokens including messages and tools schema
     tools_tokens = estimate_tokens(tools) if tools else 0

@@ -84,17 +84,19 @@ jobs:
                     workers = h_data.get('workers', {})
                     unhealthy = int(workers.get('unhealthy', 0))
                     initializing = int(workers.get('initializing', 0))
+                    throttled = int(workers.get('throttled', 0))
                     idle = int(workers.get('idle', 0))
 
                     # Also check REST API v2 workers list for any unhealthy/wedged workers
                     v2_workers_url = f'https://api.runpod.io/v2/serverless/{endpoint_id}/workers'
                     req_w = urllib.request.Request(v2_workers_url, headers=headers)
                     with urllib.request.urlopen(req_w, timeout=10) as resp_w:
-                        w_list = json.loads(resp_w.read().decode())
-                        w_statuses = [w.get('desiredStatus') for w in w_list]
-                        print(f'[RunPod Maintenance] REST v2 workers ({len(w_list)}): {w_statuses}')
+                        w_raw = json.loads(resp_w.read().decode())
+                        w_items = w_raw if isinstance(w_raw, list) else (w_raw.get('workers') or w_raw.get('data') or [])
+                        w_statuses = [w.get('desiredStatus') for w in w_items if isinstance(w, dict)]
+                        print(f'[RunPod Maintenance] REST v2 workers ({len(w_statuses)}): {w_statuses}')
 
-                    if unhealthy > 0 or (removed_jobs > 0 and initializing > 0 and idle == 0):
+                    if unhealthy > 0 or (throttled > 0 and idle == 0) or (removed_jobs > 0 and initializing > 0 and idle == 0):
                         print(f'[RunPod Maintenance] Detected wedged worker (unhealthy={unhealthy}, initializing={initializing}, removed_jobs={removed_jobs}). Recycling worker via RunPod REST API v2...')
                         v2_ep_url = f'https://api.runpod.io/v2/serverless/{endpoint_id}'
                         req_down = urllib.request.Request(v2_ep_url, data=json.dumps({'workers': {'min': 0, 'max': 0, 'idleTimeout': 720}}).encode(), headers=headers, method='PATCH')
