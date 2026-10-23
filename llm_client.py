@@ -305,6 +305,121 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
             "arguments": best_args,
             "content": strip_inline_tool_syntax(content[:match_start]),
         }
+
+    # 4. Check for markdown Python code blocks or explicit natural-language execution/inspection intentions
+    # (Especially for sovereign fine-tuned models like InvariantMind when running with tool_choice="auto")
+    py_blocks = list(re.finditer(r"```(?:python|py)\s*\n(.*?)```", content, re.DOTALL))
+    if py_blocks:
+        last_block = py_blocks[-1]
+        code_str = last_block.group(1).strip()
+        prose_before = content[:last_block.start()].strip()
+        prose_all = (prose_before + "\n" + content[last_block.end():]).strip()
+        if len(code_str.splitlines()) >= 4 and any(k in code_str for k in ("import ", "from ", "def ", "print(")):
+            if "submit_world_c_job" in known_tools and re.search(r"\b(?:resubmit|submit)\b[^.\n]*?\bWorld C\b", prose_all, re.IGNORECASE):
+                py_files = re.findall(r"[`'\"]?([a-zA-Z0-9_./-]+\.py)[`'\"]?", prose_all)
+                title_hint = py_files[0] if py_files else "InvariantMind Dynamical Invariants Simulation"
+                return {
+                    "type": "tool_call",
+                    "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                    "tool_name": "submit_world_c_job",
+                    "arguments": {
+                        "title": f"World C Simulation: {title_hint}",
+                        "script_content": code_str + "\n",
+                    },
+                    "content": prose_before or "Submitting simulation script to World C.",
+                }
+            elif "write_file" in known_tools:
+                py_files = re.findall(r"[`'\"]?([a-zA-Z0-9_./-]+\.py)[`'\"]?", prose_all)
+                target_path = py_files[-1] if py_files else ("dimensional_analysis.py" if "lorenz" in code_str.lower() else "simulation_step.py")
+                return {
+                    "type": "tool_call",
+                    "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                    "tool_name": "write_file",
+                    "arguments": {
+                        "path": target_path,
+                        "content": code_str + "\n",
+                    },
+                    "content": prose_before or f"Writing Python script to {target_path}.",
+                }
+
+    if "submit_world_c_job" in known_tools:
+        m_sub_wc = re.search(
+            r"(?:I will(?: now)?|I'll(?: now)?|Let's|Now I'll)\s+(?:now\s+)?(?:resubmit|submit)\b[^.\n]*?\bWorld C\b",
+            content,
+            re.IGNORECASE,
+        )
+        if m_sub_wc:
+            py_files = re.findall(r"[`'\"]?([a-zA-Z0-9_./-]+\.py)[`'\"]?", content)
+            candidate_py = py_files[0] if py_files else "dimensional_analysis.py"
+            if os.path.exists(candidate_py):
+                try:
+                    with open(candidate_py, "r", encoding="utf-8") as fp:
+                        script_body = fp.read()
+                    if script_body.strip():
+                        return {
+                            "type": "tool_call",
+                            "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                            "tool_name": "submit_world_c_job",
+                            "arguments": {
+                                "title": f"World C Simulation: {candidate_py}",
+                                "script_content": script_body,
+                            },
+                            "content": content,
+                        }
+                except Exception:
+                    pass
+
+    if "run_command" in known_tools:
+        m_exec_py = re.search(
+            r"(?:I will(?: now)?|I'll(?: now)?|Let's|Now I'll|Going to|Proceed to|^Executing)\s+(?:now\s+)?(?:execute|run|rerun)\b[^.\n]*?[`'\"]([a-zA-Z0-9_./-]+\.py)[`'\"]",
+            content,
+            re.IGNORECASE | re.MULTILINE,
+        )
+        if m_exec_py:
+            script_path = m_exec_py.group(1)
+            return {
+                "type": "tool_call",
+                "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                "tool_name": "run_command",
+                "arguments": {"command": f"python3 {script_path}"},
+                "content": content,
+            }
+
+        m_generic_exec = re.search(
+            r"(?:Now I'll|I will(?: now)?|I'll(?: now)?|Let's|I need to)\s+(?:run|execute)\s+the\s+(validation|diagnostic|simulation|test|analysis)\s+script",
+            content,
+            re.IGNORECASE,
+        )
+        if m_generic_exec:
+            kind = m_generic_exec.group(1).lower()
+            cmd = (
+                "python3 validate_pipeline.py 2>&1 || python3 $(ls -t *.py 2>/dev/null | head -1)"
+                if kind in ("validation", "diagnostic")
+                else "python3 $(ls -t *.py 2>/dev/null | head -1)"
+            )
+            return {
+                "type": "tool_call",
+                "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                "tool_name": "run_command",
+                "arguments": {"command": cmd},
+                "content": content,
+            }
+
+    if "read_file" in known_tools:
+        m_read_file = re.search(
+            r"(?:I will(?: now)?|I'll(?: now)?|Let's|Now I'll)\s+(?:proceed to\s+)?(?:review|read|inspect|examine)\b[^.\n]*?[`'\"]([a-zA-Z0-9_./-]+\.(?:py|json|md|txt|csv))[`'\"]",
+            content,
+            re.IGNORECASE,
+        )
+        if m_read_file:
+            return {
+                "type": "tool_call",
+                "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                "tool_name": "read_file",
+                "arguments": {"path": m_read_file.group(1)},
+                "content": content,
+            }
+
     return None
 
 def resolve_agent_model(instance_name: str) -> str:
@@ -373,7 +488,14 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         agent_model = resolve_agent_model(instance_name)
         print(f"🎯 [Sandbox Engine] Routing '{instance_name}' to -> {agent_model}")
 
-    messages = [{"role": "system", "content": system_prompt}]
+    effective_system_prompt = system_prompt
+    if agent_model.startswith("runpod/"):
+        effective_system_prompt += (
+            "\n\n[TOOL INVOCATION FORMAT]: Always execute your next step by invoking a tool using "
+            "<tool_call>{\"name\": \"<tool_name>\", \"arguments\": {...}}</tool_call> "
+            "(for example: <tool_call>{\"name\": \"run_command\", \"arguments\": {\"command\": \"python3 script.py\"}}</tool_call>)."
+        )
+    messages = [{"role": "system", "content": effective_system_prompt}]
     
     # Append history to messages
     pruned = prune_history(history)
@@ -418,7 +540,14 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             "role": "user",
             "content": "You stated your intention above. Please proceed immediately by invoking one of the available tool functions (e.g. write_file, edit_file, or run_command) to execute your planned action. Do not simply restate your plan."
         })
-    elif messages and messages[-1]["role"] == "user" and len(messages) >= 2 and messages[-2]["role"] == "assistant" and not messages[-2].get("tool_calls"):
+    elif (
+        messages
+        and messages[-1]["role"] == "user"
+        and "You stated your intention" in messages[-1].get("content", "")
+        and len(messages) >= 2
+        and messages[-2]["role"] == "assistant"
+        and not messages[-2].get("tool_calls")
+    ):
         force_tool = True
 
     chosen_tool_choice = "auto" if agent_model.startswith("runpod/") else ("required" if force_tool else "auto")
@@ -501,6 +630,15 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                                 if isinstance(item, dict):
                                     merged_args.update(item)
                             arguments = merged_args if merged_args else (arguments[0] if (arguments and isinstance(arguments[0], dict)) else {})
+                        if (
+                            tc.function.name == "write_file"
+                            and isinstance(arguments, dict)
+                            and not arguments.get("content")
+                            and content_text
+                        ):
+                            m_cb = re.search(r"```(?:python|py|markdown|md|json|sh|bash)?\s*\n(.*?)```", content_text, re.DOTALL)
+                            if m_cb and m_cb.group(1).strip():
+                                arguments["content"] = m_cb.group(1).strip() + "\n"
                         parsed_calls.append({
                             "tool_call_id": tc.id,
                             "tool_name": tc.function.name,

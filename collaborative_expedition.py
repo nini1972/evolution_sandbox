@@ -135,6 +135,8 @@ def clean_model_thought(text: str, agent_title: str) -> str:
             if cleaned.startswith(p):
                 cleaned = cleaned[len(p):].strip()
                 changed = True
+    if cleaned in ("[", "]", "[]"):
+        return ""
     return cleaned
 
 def execute_tool_action(action: dict, active_agent: dict) -> bool:
@@ -292,12 +294,13 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
 
     elif action["type"] == "thought":
         clean_thought = clean_model_thought(action['content'], active_agent['title'])
-        print(f"💭 [{active_agent['title']} Thought]:\n{clean_thought}")
-        tagged_content = f"[{active_agent['title']}]: {clean_thought}"
-        append_to_history({
-            "role": "assistant",
-            "content": tagged_content
-        })
+        if clean_thought:
+            print(f"💭 [{active_agent['title']} Thought]:\n{clean_thought}")
+            tagged_content = f"[{active_agent['title']}]: {clean_thought}"
+            append_to_history({
+                "role": "assistant",
+                "content": tagged_content
+            })
         append_to_history({
             "role": "user",
             "content": f"You stated your intention as {active_agent['title']}. Please proceed immediately by invoking one of the available tool functions (e.g. write_file, edit_file, or run_command) to execute your planned action."
@@ -312,11 +315,12 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
             return execute_tool_action(follow_action, active_agent)
         elif follow_action["type"] == "thought":
             clean_follow_thought = clean_model_thought(follow_action['content'], active_agent['title'])
-            print(f"💭 [{active_agent['title']} Secondary Thought]:\n{clean_follow_thought}")
-            append_to_history({
-                "role": "assistant",
-                "content": f"[{active_agent['title']}]: {clean_follow_thought}"
-            })
+            if clean_follow_thought:
+                print(f"💭 [{active_agent['title']} Secondary Thought]:\n{clean_follow_thought}")
+                append_to_history({
+                    "role": "assistant",
+                    "content": f"[{active_agent['title']}]: {clean_follow_thought}"
+                })
             return True
         elif follow_action["type"] == "json_error":
             print(f"⚠️ JSON Parsing Error on follow-up: {follow_action['content']}")
