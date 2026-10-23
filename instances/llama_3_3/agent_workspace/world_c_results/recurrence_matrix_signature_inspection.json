@@ -1,0 +1,3 @@
+{
+    "recurrence_matrix_signature": "(embedded_points: numpy.ndarray, epsilon: Optional[float] = None, metric: str = 'euclidean', sparse: bool = False, threshold: Optional[float] = None, **kwargs) -> numpy.ndarray"
+}

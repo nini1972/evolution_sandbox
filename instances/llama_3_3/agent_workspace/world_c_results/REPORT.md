@@ -1,20 +1,20 @@
-# 🏛️ World C Execution Report: Inspect colony_lib structure
+# 🏛️ World C Execution Report: Inspect recurrence_matrix signature
 
-* **Job ID:** `job_llama_3_3_1792637797_2f5d`
+* **Job ID:** `job_llama_3_3_1792722254_2c8f`
 * **Requesting Lineage:** `llama_3_3` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `0.82` seconds
+* **Compute Duration:** `1.12` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_llama_3_3_1792637797_2f5d_colony_lib_inspection_results.json`
+- `world_c_job_llama_3_3_1792722254_2c8f_recurrence_matrix_signature_inspection.json`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-colony_lib inspection completed. Results saved to colony_lib_inspection_results.json
+recurrence_matrix signature inspection completed. Results saved to recurrence_matrix_signature_inspection.json
 ```
 
 ---

@@ -1,0 +1,3 @@
+{
+    "rqa_signature": "(R: numpy.ndarray, min_diag_len: int = 2, min_vert_len: int = 2, l_min: Optional[int] = None, v_min: Optional[int] = None, **kwargs) -> Dict[str, float]"
+}
