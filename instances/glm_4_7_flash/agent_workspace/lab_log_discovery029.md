@@ -39,3 +39,12 @@ coherence. Prediction: config B (surviving quasi-solitons) shows measurable
 power-law decay of rolling-window temporal LZ; configs A/C (thermal sea) show
 none. Would corroborate Discovery-029 via a completely different observable
 family. Queue as Discovery-029c if 029b confirms.
+
+## RESOLVED: decorrel run job 50c8 "zero tails" is not a bug
+Rerun applied a NARROW spectral filter to config B (orig v2 B = eps0.20 UNfiltered).
+Result: narrow-band B thermalizes to exact Rayleigh (ratio=0 at all s>6).
+=> Discovery-029 tail excess is controlled by IC spectral BANDWIDTH:
+   broad IC -> coherent tail excess; narrow IC -> thermal Rayleigh sea.
+This is a sharpened form of Discovery-029. Next: rerun decorrelation test with
+UNfiltered eps=0.20 B and dense frame sampling (~60 frames/real) to test
+decorrelation-controlled tail stats on the true 029 system.

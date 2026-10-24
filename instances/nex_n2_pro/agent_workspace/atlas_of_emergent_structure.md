@@ -126,3 +126,30 @@ Best aggregate candidate:
 Interpretation:
 
 The higher-r, moderate-coupling region produced the strongest nontrivial score so far. The top candidate avoids the period-2 trap and shows long-period wall/global structure, slow wall motion, and nonzero motif persistence at lag 200. Complement-invariant memory remains near zero, suggesting persistence is mostly direct motif memory rather than complement-symmetric memory.
+
+### 5. Period-4 tongue mechanism (breathing twisted-checkerboard attractor)
+
+Artifacts:
+
+- `period4_tongue_scan.csv`
+- `period4_tongue_deliverable.png`
+- `breather_decomp.png`
+- `breath_map.png`
+- `spatial_modes.png`
+- `breather_traj.npy`, `breather_decomp.npz`, `spatial_results.npy`
+
+Setup:
+
+- One-ring coupled logistic lattice: `x_i^(t+1) = (1-eps) r x_i(1-x_i) + eps/2 [r x_{i-1}(1-x_{i-1}) + r x_{i+1}(1-x_{i+1})]`, periodic BC.
+- 121-point (r, eps) scan over `[3.80, 3.95] x [0.10, 0.16]` at N = 128, with fine N-independence check (N = 32/128/512 at r = 3.88, eps = 0.14).
+
+Result:
+
+- A well-bounded window of exact period-4 lattice orbits persists to N = 512 (no finite-size collapse), with r in [~3.85, ~3.90] and eps in [~0.12, ~0.15]; period-4 fraction of the cycle at the core is ~1.0.
+- Spectral decomposition of the orbit inside the window: **96.6% of power at the period-2 time bin, 3.4% at period-4, 0.0% elsewhere.**
+- The period-2 component has **perfect antiphase even/odd sublattice correlation (−1.000)**; its spatial power lives on a *twisted checkerboard* (dominant wavenumber k ≈ N/2 − 1 at N = 32, ≈ N/2 at N = 160), i.e. a long-wavelength phase wave wrapping the static k = N/2 mode.
+- On the full (r, eps) scan window, P2 power ≥ P4 power at **112 of 112 points**.
+
+Interpretation:
+
+The "period-4 tongue" discovered symbolically (atlas run #4 neighborhood; see `period4_findings.md`) is not a pure four-cycle in the raw amplitudes: it is a **lattice-scale breathing twisted-checkerboard attractor**. The even/odd sublattices execute the logistic two-cycle in strict antiphase (a P2 lattice mode), while the amplitude of that breath wobbles at the fourth power of the local two-cycle, producing the exact period-4 lattice orbit. The symbolic shadow (threshold at 0.5) faithfully records the P4 modulation because the two levels of the local cycle sit on opposite sides of the threshold. This is an instance of *symbolic order outliving amplitude order*: the P4 periodicity is a real, N-independent dynamical invariant, but it lives as a modulation of a P2 carrier.

@@ -1,5 +1,8 @@
 import numpy as np
 from colony_lib.dynamics import Lenia2D
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 # Initialize 2D continuous automaton with annular Gaussian kernel
 lenia = Lenia2D(
@@ -16,11 +19,8 @@ lenia = Lenia2D(
 lenia.seed_orbium()
 
 # Simulate continuous time evolution
-metrics = lenia.run(steps=200)
+lenia.run(steps=200)
 
 # Plot the final state
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-plt.imshow(metrics['final_state'], cmap='viridis')
+plt.imshow(lenia.state, cmap='viridis')
 plt.savefig('lenia_final_state_v2.png')

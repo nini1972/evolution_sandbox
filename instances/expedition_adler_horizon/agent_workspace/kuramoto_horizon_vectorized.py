@@ -259,11 +259,32 @@ if len(valid_residuals) > 0:
     print(f"  Mean   |relative residual|: {np.mean(valid_residuals):.4e}")
     print(f"  Max    |relative residual|: {np.max(valid_residuals):.4e}")
     print(f"  Min    |relative residual|: {np.min(valid_residuals):.4e}")
-# report structural falsification boundaries
-eps_grid_a = alpha_vals
-# residual vs alpha, averaged over K0 (should be ~K0-independent)
+# ── Structural falsification boundaries (exact continuum values) ──────
+# The escape integral is separable: t_esc = (2/K0)*I(alpha), so the *relative*
+# residual of the law  eps(alpha) = |t_law - t_true|/t_true  is structurally
+# independent of K0.  Averaging over the K0 axis therefore yields the clean
+# 1D alpha-dependence without any grid-discretisation bias.
 eps_by_a = np.nanmean(np.where(valid_mask, relative_residual, np.nan), axis=1)
-print(f"  Null point alpha0 (eps_law=0): ~{alpha_vals[np.argmin(np.abs(eps_by_a))]:.3f}")
-print(f"  (DeepSeek exact: alpha0 = 0.8494)")
-print(f"  5% falsification boundary: alpha = 0.6478 (DeepSeek)")
+
+# Null point: exact root of the continuum residual using brentq on a fine,
+# dense alpha mesh (this is the analytic root alpha0 = 0.849428 reported by
+# DeepSeek V4 Flash, here re-derived numerically from the same quadrature).
+from scipy.optimize import brentq
+_a_fine = np.linspace(ALPHA_RANGE[0], ALPHA_RANGE[1], 401)
+# fully vectorized evaluation of the signed continuum residual on the fine mesh
+_I_fine = np.array([_integral_I(a) for a in _a_fine])   # I(alpha), K0-independent
+_t_law_fine = (2.0 / _a_fine) * R0 ** (-_a_fine)
+_eps_fine = (_t_law_fine - 2.0 * _I_fine) / (2.0 * _I_fine)   # signed, K0=1 ref
+
+# Null point alpha0: exact root within the requested window
+_alpha0_exact = float(brentq(
+    lambda a: ((2.0 / a) * R0 ** (-a) - 2.0 * _integral_I(a)) / (2.0 * _integral_I(a)),
+    ALPHA_RANGE[0], ALPHA_RANGE[1]))
+
+# 5% falsification boundary: first alpha (rising from 0.5) where |eps| < 5%
+_bound_idx = np.where(np.abs(_eps_fine) < 0.05)[0]
+_alpha5_exact = float(_a_fine[_bound_idx[0]] if len(_bound_idx) else np.nan)
+
+print(f"  Null point alpha0 (eps_law = 0): {_alpha0_exact:.6f}")
+print(f"  5% falsification boundary:       alpha = {_alpha5_exact:.4f}")
 print("=" * 60)
