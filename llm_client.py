@@ -136,6 +136,76 @@ def merge_consecutive_messages(messages: list) -> list:
             merged.append(msg)
     return merged
 
+def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -> list:
+    """Serializes conversation history for the sovereign RunPod vLLM endpoint using explicit
+    markdown ```json tool call blocks in assistant content and user-role tool outputs, avoiding
+    vLLM Jinja <tool_call>/<|im_start|> token collisions and conditioning 100% tool execution."""
+    tool_Entries = []
+    if tools:
+        for t in tools:
+            if isinstance(t, dict) and "function" in t:
+                fn = t["function"]
+                params = list(fn.get("parameters", {}).get("properties", {}).keys())
+                tool_Entries.append(f"{fn.get('name')}({', '.join(params)})")
+    tools_summary = (
+        ", ".join(tool_Entries)
+        if tool_Entries
+        else "run_command(command), write_file(path, content), read_file(path), edit_file(path, old_content, new_content), submit_world_c_job(title, script_content), check_world_c_job(job_id)"
+    )
+
+    sys_content = (
+        system_prompt
+        + f"\n\n[AVAILABLE TOOLS]: {tools_summary}\n"
+        + "CRITICAL INSTRUCTION: At the end of EVERY response, you MUST invoke exactly one tool by outputting a ```json code block with \"name\" and \"arguments\", for example:\n"
+        + "```json\n{\"name\": \"run_command\", \"arguments\": {\"command\": \"python3 script.py\"}}\n```"
+    )
+    msgs = [{"role": "system", "content": sys_content}]
+
+    pruned = prune_history(history)
+    for entry in pruned:
+        role = entry.get("role")
+        content = (entry.get("content") or "").strip()
+        tcs = entry.get("tool_calls") or []
+        if role == "assistant":
+            if not tcs:
+                # Skip thought-only assistant turns so in-context examples always end with a ```json tool call
+                continue
+            tc = tcs[0]
+            func = tc.get("function", {})
+            fn_name = func.get("name", "run_command")
+            raw_args = func.get("arguments", "{}")
+            try:
+                parsed_args = json.loads(raw_args) if isinstance(raw_args, str) else raw_args
+            except Exception:
+                parsed_args = {}
+            json_block = json.dumps({"name": fn_name, "arguments": parsed_args}, ensure_ascii=False)
+            thought_part = content if content else f"Executing {fn_name}."
+            msgs.append({
+                "role": "assistant",
+                "content": f"{thought_part}\n\n```json\n{json_block}\n```",
+            })
+        elif role == "tool":
+            t_name = entry.get("name", "tool")
+            msgs.append({
+                "role": "user",
+                "content": f"[Tool Output for {t_name}]:\n{content}\n\nState your brief scientific analysis and end your response with a ```json tool call block.",
+            })
+        elif role == "user":
+            if "You stated your intention" in content:
+                continue
+            msgs.append({
+                "role": "user",
+                "content": f"{content}\n\nState your brief scientific analysis and end your response with a ```json tool call block.",
+            })
+
+    msgs = merge_consecutive_messages(msgs)
+    if len(msgs) == 1 or msgs[-1]["role"] == "assistant":
+        msgs.append({
+            "role": "user",
+            "content": "Proceed with your next scientific step and end your response with a ```json tool call block.",
+        })
+    return msgs
+
 def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
     """Fallback extractor for models that emit tool calls in plaintext, JSON, or bracketed format
     (e.g., !function_call:{"call": ...}, ```json {"name": ...}```, or [tool_name(path="...")])."""
@@ -204,6 +274,26 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                     "tool_name": tool_name,
                     "arguments": args,
                     "content": strip_inline_tool_syntax(content[:m.start()]),
+                }
+        except Exception:
+            pass
+
+    # 2b. Check for bare JSON tool call objects {"name": "<tool>", "arguments": {...}}
+    for m in re.finditer(r'(\{\s*"(?:name|call|tool)"\s*:\s*"[^"]+"\s*,\s*"(?:arguments|args)"\s*:\s*\{)', content):
+        brace_idx = m.start(1)
+        try:
+            data, _ = json.JSONDecoder().raw_decode(content[brace_idx:])
+            tool_name = data.get("call") or data.get("name") or data.get("tool")
+            args = data.get("arguments") or data.get("args") or {}
+            if isinstance(args, str):
+                args = json.loads(args)
+            if tool_name in known_tools and isinstance(args, dict):
+                return {
+                    "type": "tool_call",
+                    "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                    "tool_name": tool_name,
+                    "arguments": args,
+                    "content": strip_inline_tool_syntax(content[:brace_idx]),
                 }
         except Exception:
             pass
@@ -344,34 +434,42 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
 
     if "submit_world_c_job" in known_tools:
         m_sub_wc = re.search(
-            r"(?:I will(?: now)?|I'll(?: now)?|Let's|Now I'll)\s+(?:now\s+)?(?:resubmit|submit)\b[^.\n]*?\bWorld C\b",
+            r"(?:(?:I will(?: now)?|I'll(?: now)?|Let's|Now I'll)\s+(?:now\s+)?|(?:^|\n)\s*)(?:resubmit|submit)\b[^.\n]*?\bWorld C\b",
             content,
             re.IGNORECASE,
         )
         if m_sub_wc:
             py_files = re.findall(r"[`'\"]?([a-zA-Z0-9_./-]+\.py)[`'\"]?", content)
             candidate_py = py_files[0] if py_files else "dimensional_analysis.py"
-            if os.path.exists(candidate_py):
-                try:
-                    with open(candidate_py, "r", encoding="utf-8") as fp:
-                        script_body = fp.read()
-                    if script_body.strip():
-                        return {
-                            "type": "tool_call",
-                            "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
-                            "tool_name": "submit_world_c_job",
-                            "arguments": {
-                                "title": f"World C Simulation: {candidate_py}",
-                                "script_content": script_body,
-                            },
-                            "content": content,
-                        }
-                except Exception:
-                    pass
+            active_inst = os.getenv("ACTIVE_INSTANCE", "invariant_mind")
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            search_paths = [
+                candidate_py,
+                os.path.join(base_dir, "instances", active_inst, "agent_workspace", os.path.basename(candidate_py)),
+                os.path.join(base_dir, "instances", "invariant_mind", "agent_workspace", os.path.basename(candidate_py)),
+            ]
+            for sp in search_paths:
+                if os.path.exists(sp):
+                    try:
+                        with open(sp, "r", encoding="utf-8") as fp:
+                            script_body = fp.read()
+                        if script_body.strip():
+                            return {
+                                "type": "tool_call",
+                                "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                                "tool_name": "submit_world_c_job",
+                                "arguments": {
+                                    "title": f"World C Simulation: {os.path.basename(candidate_py)}",
+                                    "script_content": script_body,
+                                },
+                                "content": content,
+                            }
+                    except Exception:
+                        pass
 
     if "run_command" in known_tools:
         m_exec_py = re.search(
-            r"(?:I will(?: now)?|I'll(?: now)?|Let's|Now I'll|Going to|Proceed to|^Executing)\s+(?:now\s+)?(?:execute|run|rerun)\b[^.\n]*?[`'\"]([a-zA-Z0-9_./-]+\.py)[`'\"]",
+            r"(?:I will(?: now)?|I'll(?: now)?|Let's|Now I'll|Going to|Proceed to|^Executing|^Running)\s+(?:now\s+)?(?:execute|run|rerun)\b[^.\n]*?[`'\"]([a-zA-Z0-9_./-]+\.py)[`'\"]",
             content,
             re.IGNORECASE | re.MULTILINE,
         )
@@ -386,17 +484,18 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
             }
 
         m_generic_exec = re.search(
-            r"(?:Now I'll|I will(?: now)?|I'll(?: now)?|Let's|I need to)\s+(?:run|execute)\s+the\s+(validation|diagnostic|simulation|test|analysis)\s+script",
+            r"(?:(?:Now I'll|Now I will|I will(?: now)?|I'll(?: now)?|Let's|I need to)\s+(?:run|execute)|(?:^|\n)\s*(?:Running|Executing|Starting))\s+the\s+(?:newly written\s+)?(validation|diagnostic|simulation(?:\s+step)?|test|analysis)\s+(?:script|process)",
             content,
             re.IGNORECASE,
         )
         if m_generic_exec:
             kind = m_generic_exec.group(1).lower()
-            cmd = (
-                "python3 validate_pipeline.py 2>&1 || python3 $(ls -t *.py 2>/dev/null | head -1)"
-                if kind in ("validation", "diagnostic")
-                else "python3 $(ls -t *.py 2>/dev/null | head -1)"
-            )
+            if "simulation step" in kind:
+                cmd = "python3 simulation_step.py 2>&1 || python3 $(ls -t *.py 2>/dev/null | head -1)"
+            elif kind in ("validation", "diagnostic"):
+                cmd = "python3 validate_pipeline.py 2>&1 || python3 $(ls -t *.py 2>/dev/null | head -1)"
+            else:
+                cmd = "python3 $(ls -t *.py 2>/dev/null | head -1)"
             return {
                 "type": "tool_call",
                 "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
@@ -595,6 +694,9 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             call_kwargs["api_key"] = runpod_api_key
             call_kwargs["timeout"] = 300  # 300s deadline: allow serverless worker to cold-start cleanly without tripping timeout
             call_kwargs["num_retries"] = 0
+            call_kwargs["messages"] = format_messages_for_runpod(system_prompt, history, tools)
+            call_kwargs.pop("tools", None)
+            call_kwargs.pop("tool_choice", None)
     else:
         call_kwargs["model"] = agent_model
 
