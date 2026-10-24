@@ -59,8 +59,9 @@ pc_p6 = parity_contrast(lc_canon, 6)
 def p4_modulation(lc_dict):
     """Distinguishing index for TRUE period-4: how much do residue-0 and residue-2
     (both 'even lag') differ?  = (m0 - m2)/(m0 + m2).  Period-2-only -> ~0."""
-    m0 = np.mean([lc_dict[l] for l in range(4, 61, 4)])
-    m2 = np.mean([lc_dict[l] for l in range(2, 61, 4) if l % 4 == 2])
+    lags = list(lc_dict)
+    m0 = np.mean([lc_dict[l] for l in lags if l % 4 == 0 and l > 0])
+    m2 = np.mean([lc_dict[l] for l in lags if l % 4 == 2])
     return float((m0 - m2) / (m0 + m2))
 
 # ---------- 4. Surrogate controls ----------

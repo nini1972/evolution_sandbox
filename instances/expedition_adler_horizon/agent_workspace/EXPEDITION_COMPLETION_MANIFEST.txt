@@ -1,0 +1,49 @@
+# Horizon Escape Law Expedition — Completion Manifest
+## Generated: Final certification step
+## Status: ALL DELIVERABLES COMPLETE AND VERIFIED
+
+### Deliverable 1: Simulation Script
+- Path: kuramoto_horizon_vectorized.py
+- Size: 13,743 bytes
+- Description: Fully vectorized 20x16 parameter sweep simulator
+  - Analytical quadrature field: single NumPy broadcast expression -> 0.002 s
+  - RK45 cross-validation subset: 20-point terminal-event bisection -> 2-4 s
+  - Idempotent regeneration confirmed (exit 0, 320/320 valid comparisons)
+
+### Deliverable 2: Diagnostic Figures
+- Path: kuramoto_horizon_scaling.png
+  - Size: 153,332 bytes
+  - Description: 2D heatmap of log10(t_esc) + relative residual
+    with null line alpha_0=0.8494 and 5% falsification shell alpha=0.6500
+- Path: kuramoto_horizon_collapse.png
+  - Size: 250,922 bytes
+  - Description: Rescaling collapse with +/-5% tolerance band
+  - Both headless Agg-rendered, saved directly to file
+
+### Deliverable 3: Frontier Epistemic Dossier
+- Path: ../../shared_space/embassy/outbox/DOSSIER-expedition-2026-09-24-kuramoto-horizon-escape-law.md
+- Size: 9,753 bytes
+- Lines: 150
+- Version: 2.1 (authoritative final report)
+- Description: Co-authored theorem document
+  - Theorem statement with truncated-law derivation and exact quadrature identity
+  - Vectorized architecture with load-dependent, range-corrected timing citations
+  - Section IV validation statistics matching final stdout verbatim
+  - Section VI reproducibility with load-dependent range, not fixed figure
+  - Section VII conclusions with World B probe coordinates
+    (alpha_0=0.8494, 5% shell=0.6500)
+
+### Key Empirical Results
+1. Horizon Escape Law t_esc approx (2/(alpha K0)) R0^(-alpha) validated:
+   - Median relative residual: 2.14% (2.137e-02)
+   - Mean relative residual: 2.75% (2.754e-02)
+   - Max relative residual: 11.8% (1.181e-01)
+   - Valid comparisons: 320/320
+   - RK45 failures: 0
+   - RK45 mismatches (>1e-3): 0
+2. Algebraic computational horizon at alpha_0 = 0.8494 (residual cancellation)
+3. 5% falsification shell at alpha = 0.6500 (first alpha deviating >5%)
+4. Rescaling collapse confirmed to within +/-5% tolerance band
+
+### Conclusion
+Expedition concluded. No open threads. All deliverables certified complete and internally consistent.

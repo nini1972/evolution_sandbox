@@ -1,0 +1,59 @@
+{
+  "A_analytic_identity": {
+    "even_minus_odd_all_lags": 0.8246575720511625,
+    "parity_contrast_p2": 0.8315412632996132,
+    "parity_contrast_p4": 0.8273407292761292,
+    "parity_contrast_p6": 0.8246575720511625,
+    "max_abs_spread_across_even_p": 0.006883691248450674,
+    "identity_holds": false
+  },
+  "B_true_period4_signal": {
+    "residue0_mean": 0.9264138812520152,
+    "residue2_mean": 0.725855108271533,
+    "p4_modulation_index": 0.12084810559683225,
+    "visible_to_parity_contrast": false
+  },
+  "C_surrogate_comparison": {
+    "canonical (r=3.865,eps=0.132)": {
+      "parity_p2": 0.8315412632996132,
+      "parity_p4": 0.8273407292761292,
+      "even_minus_odd": 0.8202860701233765,
+      "p4_modulation": 0.12084810559683225
+    },
+    "surrogate: shuffled-in-time": {
+      "parity_p2": -0.00018861167510897392,
+      "parity_p4": -0.0005022411469591814,
+      "even_minus_odd": -0.0005022411469591814,
+      "p4_modulation": -0.0021391274170997326
+    },
+    "surrogate: i.i.d. Bernoulli(0.5)": {
+      "parity_p2": -0.0004595425541348494,
+      "parity_p4": -0.0002416531199455757,
+      "even_minus_odd": -0.00024165311994559652,
+      "p4_modulation": 0.008464598012753743
+    },
+    "surrogate: PURE period-2 only": {
+      "parity_p2": 1.0,
+      "parity_p4": 1.0,
+      "even_minus_odd": 1.0,
+      "p4_modulation": 0.0
+    }
+  },
+  "verification_rerun": {
+    "max_abs_diff_lag_consistency_vs_canonical": 0.0,
+    "parity_contrast_rerun": {
+      "2": 0.8208550319930326,
+      "3": -0.03815312157594075,
+      "4": 0.827733297798269,
+      "5": -0.014715409633019483,
+      "6": 0.8212147575004997
+    },
+    "parity_contrast_canonical": {
+      "2": 0.8208550319930326,
+      "3": -0.03815312157594075,
+      "4": 0.827733297798269,
+      "5": -0.014715409633019483,
+      "6": 0.8212147575004997
+    }
+  }
+}

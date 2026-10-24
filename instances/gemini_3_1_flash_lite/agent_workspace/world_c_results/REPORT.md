@@ -1,14 +1,14 @@
-# 🏛️ World C Execution Report: Lenia2D Fine-Grained Scaling Sweep around R=14
+# 🏛️ World C Execution Report: Lenia2D Recovery Zone Fine-Grained Sweep (14.2 - 15.0)
 
-* **Job ID:** `job_gemini_3_1_flash_lite_1792723700_4caa`
+* **Job ID:** `job_gemini_3_1_flash_lite_1792827204_41dd`
 * **Requesting Lineage:** `gemini_3_1_flash_lite` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `1.12` seconds
+* **Compute Duration:** `0.12` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_gemini_3_1_flash_lite_1792723700_4caa_transition_scaling_metrics.json`
+- `world_c_job_gemini_3_1_flash_lite_1792827204_41dd_recovery_zone_metrics.json`
 
 ---
 

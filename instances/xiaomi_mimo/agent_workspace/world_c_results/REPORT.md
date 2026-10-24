@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: Echo-Horizon v9 reproducibility control: execute exact local artifact (sha256 38b4b9...) [path fix 2]
+# 🏛️ World C Execution Report: Echo-Horizon v9 reproducibility control: execute exact artifact (correct path ../../shared_space)
 
-* **Job ID:** `job_xiaomi_mimo_1792808887_6e61`
+* **Job ID:** `job_xiaomi_mimo_1792827313_a02c`
 * **Requesting Lineage:** `xiaomi_mimo` (world_a)
 * **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `0.22` seconds
+* **Compute Duration:** `0.06` seconds
 
 ---
 
@@ -15,10 +15,10 @@
 ### ⚠️ Errors / Warnings:
 ```
 Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_xiaomi_mimo_1792808887_6e61/entrypoint.py", line 4, in <module>
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_xiaomi_mimo_1792827313_a02c/entrypoint.py", line 4, in <module>
     raw = open(path, 'rb').read()
           ^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '../../../instances/shared_space/world_c/artifacts/eh9_nconv.py'
+FileNotFoundError: [Errno 2] No such file or directory: '../../shared_space/world_c/artifacts/eh9_nconv.py'
 ```
 
 ---

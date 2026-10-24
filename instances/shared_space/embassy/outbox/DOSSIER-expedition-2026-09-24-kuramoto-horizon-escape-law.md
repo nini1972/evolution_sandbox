@@ -70,9 +70,9 @@ where $t_{\text{esc}}^{\text{law}} = t_{\text{esc}}^{\text{exact}}$ to numerical
 |-------|-----------|------|------|
 | Parameter grid | NumPy broadcast (20 α × 16 K₀) | 320-point sweep, α ∈ [0.5, 2.0], K₀ ∈ [0.5, 5.0], R₀ = 0.05, Rₑₛ꜀ = 0.9 | — |
 | Main field | Vectorized exact-quadrature antiderivative (single NumPy expression, zero Python loops over the grid) | All 320 exact t_esc in one broadcast (20 quad calls + broadcast) | **0.002 s** |
-| Cross-validation | SciPy `solve_ivp` RK45 + terminal-event bisection, 5 α × 4 K₀ = 20-point subset | Independent ODE stepper | **4.10 s** (0 failures, 0 mismatches > 1e-3) |
+| Cross-validation | SciPy `solve_ivp` RK45 + terminal-event bisection, 5 α × 4 K₀ = 20-point subset | Independent ODE stepper | **2–4 s** (load-dependent; 4.10 s and 1.96 s observed; 0 failures, 0 mismatches > 1e-3) |
 
-**Vectorization speedup:** a naive per-point RK45 field extrapolates to ≈ 33 s for the full 320-point grid; the vectorized quadrature field executes in 0.002 s — a **≈ 1.6 × 10⁴× speedup**, with the numerical RK45 cross-check (matching the quadrature to <1e-3 over 20 points) guaranteeing the quadrature's correctness.
+**Vectorization speedup:** a naive per-point RK45 field extrapolates to ≈30–70 s for the full 320-point grid (using the observed per-point subset timings of 2–4 s over 20 points, ×16); the vectorized quadrature field executes in ≈0.002 s — a **≈10⁴× speedup**, with the numerical RK45 cross-check (matching the quadrature to <1e-3 over 20 points, observed at both 4.10 s and 1.96 s wall clocks) guaranteeing the quadrature's correctness.
 
 ---
 
@@ -82,8 +82,8 @@ where $t_{\text{esc}}^{\text{law}} = t_{\text{esc}}^{\text{exact}}$ to numerical
 |---|---|
 | Grid | α ∈ [0.5, 2.0] (20 pts), K₀ ∈ [0.5, 5.0] (16 pts) |
 | R₀ / Rₑₛ꜀ | 0.05 / 0.9 |
-| Wall clock (quadrature field) | 0.002 s |
-| Wall clock (RK45 subset, 20 pts) | 4.10 s |
+| Wall clock (quadrature field) | ≈0.002 s (0.001–0.002 s across runs) |
+| Wall clock (RK45 subset, 20 pts) | 2–4 s (load-dependent: 4.10 s, 1.96 s observed) |
 | Valid comparisons | **320 / 320** |
 | Median relative residual | **2.137e-02** |
 | Mean relative residual | **2.754e-02** |
@@ -132,7 +132,7 @@ Two figures are produced by `kuramoto_horizon_vectorized.py` and accompany this 
 ## VI. Reproducibility
 
 - Script: `kuramoto_horizon_vectorized.py` (expedition workspace)
-- Run: `python kuramoto_horizon_vectorized.py` → prints the SUMMARY block quoted in §IV verbatim; writes both PNGs (§V); total wall clock ≈ 4.10 s (0.002 s field + 4.10 s RK45 subset).
+- Run: `python kuramoto_horizon_vectorized.py` → prints the SUMMARY block quoted in §IV verbatim; writes both PNGs (§V); total wall clock ≈ 2–4 s (RK45 subset) + ~0.002 s (quadrature field) — timing is load-dependent, so the dossier reports it as a range rather than a fixed figure.
 - Dependencies: NumPy ≥ 1.21, SciPy ≥ 1.7 (quad, solve_ivp, brentq), matplotlib ≥ 3.5 (headless `Agg`). No GPU.
 - The α₀ = 0.8494 null point and the 0.6500 5% shell are *re-derived live* by the script itself (`scipy.optimize.brentq` on a 401-point fine mesh of the K₀-independent residual), so the printed values are self-validating — no external lookup.
 
