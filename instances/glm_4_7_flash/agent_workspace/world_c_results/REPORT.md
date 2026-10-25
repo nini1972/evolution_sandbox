@@ -1,47 +1,42 @@
-# 🏛️ World C Execution Report: BW v4 real: Discovery-029 bandwidth series (NLS IT tail vs IC spectral bandwidth)
+# 🏛️ World C Execution Report: H34 v7: Discovery-029 finite-size + time-resolved (bugfixed)
 
-* **Job ID:** `job_glm_4_7_flash_1792827900_9c78`
+* **Job ID:** `job_glm_4_7_flash_1792897137_7149`
 * **Requesting Lineage:** `glm_4_7_flash` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `203.48` seconds
+* **Compute Duration:** `142.40` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_glm_4_7_flash_1792827900_9c78_bw_result_broad_e0.2.json`
-- `world_c_job_glm_4_7_flash_1792827900_9c78_bw_progress_broad_e0.05.json`
-- `world_c_job_glm_4_7_flash_1792827900_9c78_bw_result_broad_e0.4.json`
-- `world_c_job_glm_4_7_flash_1792827900_9c78_bw_result_narrow_e0.20.json`
-- `world_c_job_glm_4_7_flash_1792827900_9c78_bw_result_broad_e0.05.json`
-- `world_c_job_glm_4_7_flash_1792827900_9c78_bw_progress_broad_e0.4.json`
-- `world_c_job_glm_4_7_flash_1792827900_9c78_bw_progress_broad_e0.2.json`
-- `world_c_job_glm_4_7_flash_1792827900_9c78_bw_progress_broad_e0.1.json`
-- `world_c_job_glm_4_7_flash_1792827900_9c78_bw_all_results.json`
-- `world_c_job_glm_4_7_flash_1792827900_9c78_bw_progress_narrow_e0.20.json`
-- `world_c_job_glm_4_7_flash_1792827900_9c78_bw_result_broad_e0.1.json`
+- `world_c_job_glm_4_7_flash_1792897137_7149_h34b_progress_H3_L100.json`
+- `world_c_job_glm_4_7_flash_1792897137_7149_h34b_progress_H4_time.json`
+- `world_c_job_glm_4_7_flash_1792897137_7149_h34b_result_H3_L25.json`
+- `world_c_job_glm_4_7_flash_1792897137_7149_h34b_result_H3_L50.json`
+- `world_c_job_glm_4_7_flash_1792897137_7149_h34b_result_H4_time.json`
+- `world_c_job_glm_4_7_flash_1792897137_7149_h34b_progress_H3_L50.json`
+- `world_c_job_glm_4_7_flash_1792897137_7149_h34b_all_results.json`
+- `world_c_job_glm_4_7_flash_1792897137_7149_h34b_result_H3_L100.json`
+- `world_c_job_glm_4_7_flash_1792897137_7149_h34b_result_H3_L200.json`
+- `world_c_job_glm_4_7_flash_1792897137_7149_h34b_progress_H3_L25.json`
+- `world_c_job_glm_4_7_flash_1792897137_7149_h34b_progress_H3_L200.json`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-[BW 0.0s] v4 start guard=2600.0 cpus=4
-[BW 0.1s] pool 4
-[BW 27.2s] broad_e0.05 chunk: total ok=8/12
-[BW 40.8s] broad_e0.05 chunk: total ok=12/12
-[BW 40.8s] saved bw_result_broad_e0.05.json  n_ok=12
-[BW 68.0s] broad_e0.1 chunk: total ok=8/12
-[BW 81.5s] broad_e0.1 chunk: total ok=12/12
-[BW 81.5s] saved bw_result_broad_e0.1.json  n_ok=12
-[BW 108.7s] broad_e0.2 chunk: total ok=8/12
-[BW 122.2s] broad_e0.2 chunk: total ok=12/12
-[BW 122.2s] saved bw_result_broad_e0.2.json  n_ok=12
-[BW 149.3s] broad_e0.4 chunk: total ok=8/12
-[BW 162.9s] broad_e0.4 chunk: total ok=12/12
-[BW 162.9s] saved bw_result_broad_e0.4.json  n_ok=12
-[BW 189.9s] narrow_e0.20 chunk: total ok=8/12
-[BW 203.3s] narrow_e0.20 chunk: total ok=12/12
-[BW 203.3s] saved bw_result_narrow_e0.20.json  n_ok=12
-[BW 203.3s] ALL DONE
+[H34 0.0s] v7 start guard=2600.0 cpus=4
+[H34 0.0s] pool 4
+[H34 27.9s] H3_L25 chunk: ok=8/8
+[H34 27.9s] saved h34b_result_H3_L25.json n_ok=8
+[H34 56.4s] H3_L50 chunk: ok=8/8
+[H34 56.4s] saved h34b_result_H3_L50.json n_ok=8
+[H34 85.4s] H3_L100 chunk: ok=8/8
+[H34 85.4s] saved h34b_result_H3_L100.json n_ok=8
+[H34 114.0s] H3_L200 chunk: ok=8/8
+[H34 114.0s] saved h34b_result_H3_L200.json n_ok=8
+[H34 142.3s] H4_time chunk: ok=8/8
+[H34 142.3s] saved h34b_result_H4_time.json n_ok=8
+[H34 142.3s] ALL DONE
 ```
 
 ---

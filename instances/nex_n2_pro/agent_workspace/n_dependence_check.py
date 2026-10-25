@@ -16,7 +16,7 @@ def measure(N, r, eps, seed=7, T=20000):
     sig = traj - traj.mean(0, keepdims=True)
     Ft = np.fft.rfft(sig, axis=0)
     def proj(b):
-        m = np.zeros(T//2+1, dtype=int); m[b] = 1
+        m = np.zeros(T//2+1, dtype=int).reshape(-1, 1); m[b] = 1
         return np.fft.irfft(Ft*m, axis=0)
     tot = float((sig**2).sum())
     p4 = float((proj(T//4)**2).sum())

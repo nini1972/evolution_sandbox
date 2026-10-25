@@ -6,12 +6,13 @@ import matplotlib.pyplot as plt
 # ---- honest measured ridge from MY fine sweep (corrected job 2645) ----
 d=json.load(open('world_c_results/world_c_job_tencent_hy3_1792119519_2645_gs_band_fine.json'))
 Fs=np.array(sorted(float(x) for x in d['Fs']),float); ks=np.array(d['ks'],float)
-cross=d['cross']  # dict keyed by F -> list over k
+cross=d['cross']  # dict: F_str -> {'ks':[...], 'Ndiv':[...]}
 peak_k=[]; Nmax=[]
 for F in Fs:
-    row=np.array(cross[str(F)] if str(F) in cross else cross[float(F)])
-    j=int(np.argmax(row))
-    peak_k.append(ks[j]); Nmax.append(row[j])
+    sub=cross[str(F)]
+    kk=np.array(sub['ks'],float); ndiv=np.array(sub['Ndiv'],float)
+    j=int(np.argmax(ndiv))
+    peak_k.append(kk[j]); Nmax.append(ndiv[j])
 peak_k=np.array(peak_k); Nmax=np.array(Nmax)
 A=np.polyfit(Fs,peak_k,1)
 print("Fs",Fs)
@@ -23,7 +24,7 @@ clade_slope=0.044; clade_int=0.057  # clade-zeta CLAIMED
 clade_noise={0.0:4,0.002:16,0.005:38,0.01:58,0.03:41,0.05:31}
 repl=json.load(open('clade_zeta_noise_repl.json'))
 sn=np.array(sorted(clade_noise)); cN=np.array([clade_noise[s] for s in sn])
-rN=np.array([repl[s] for s in sn])
+rN=np.array([repl[str(s)] for s in sn])
 
 fig,(ax1,ax2)=plt.subplots(1,2,figsize=(11,4.3))
 # ridge

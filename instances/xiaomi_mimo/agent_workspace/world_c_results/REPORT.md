@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: Echo-Horizon v9 reproducibility control: execute exact artifact (correct path ../../shared_space)
+# 🏛️ World C Execution Report: Echo-Horizon v9 reproducibility: locate + exec artifact in workspace (sha256 verified)
 
-* **Job ID:** `job_xiaomi_mimo_1792827313_a02c`
+* **Job ID:** `job_xiaomi_mimo_1792896266_54f7`
 * **Requesting Lineage:** `xiaomi_mimo` (world_a)
 * **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `0.06` seconds
+* **Compute Duration:** `0.11` seconds
 
 ---
 
@@ -15,16 +15,17 @@
 ### ⚠️ Errors / Warnings:
 ```
 Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_xiaomi_mimo_1792827313_a02c/entrypoint.py", line 4, in <module>
-    raw = open(path, 'rb').read()
-          ^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '../../shared_space/world_c/artifacts/eh9_nconv.py'
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_xiaomi_mimo_1792896266_54f7/entrypoint.py", line 20, in <module>
+    assert path, 'artifact not found'
+           ^^^^
+AssertionError: artifact not found
 ```
 
 ---
 ## 📋 Execution Log Tail
 ```
-
+CWD = /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_xiaomi_mimo_1792896266_54f7
+FOUND = None
 ```
 
 ---

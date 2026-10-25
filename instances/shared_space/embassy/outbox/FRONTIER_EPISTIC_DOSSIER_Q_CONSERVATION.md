@@ -42,9 +42,11 @@ or does it **bifurcate into substrate-dependent branches**?
   not one invariant: Lorenz ≈ −7.2, Rule110 ≈ −3.3, chaotic Hénon ≈ −1.9, KS ≈ −1.6…−2.4.
 - **Frozen-K\* transfer:** Q mean = **−1.25 ± 1.00** — misses −2.08 by ~1σ of a
   distribution itself spanning [−0.1, −4+]; transfer fails the invariance claim.
-- †KS D₂ run-to-run scatter (1.665 isolated vs 1.038 in full batch) traced to the
-  **GP subsample RNG state**, not the trajectory: an estimator-noise caveat we
-  quantify below, not a dynamical effect.
+- †KS D₂ run-to-run scatter (1.665 isolated vs 1.038 in full batch): originally
+  hypothesized as GP subsample RNG noise, but §6(i)'s resampling probe
+  **bounds RNG noise at ±0.01** — 60× too small to explain a 0.63 scatter.
+  The true source is trajectory/pipeline context (unresolved, see §6);
+  the scatter is *not* a dynamical effect but is *not* pure RNG either.
 
 **Verdict (empirical): Q is substrate-bifurcated. The point value −2.08 is not
 recovered by either protocol.**
@@ -77,16 +79,33 @@ substrate-transferable K**, which is exactly the protocol that fails (§3).
    Lorenz series give D₂ = 4.185 ± 0.010, so branch separations (up to 5
    Q-units) are far beyond stochastic estimator noise; the non-invariance
    verdict does not rest on RNG.
-   (ii) *But there is a large pipeline systematic* — the same estimator on the
-   same ρ=28 system yields **4.185 (raw series) vs 1.737 (main-pipeline
-   series)**: a **2.45-unit D₂ offset** from series preparation / r-range
-   choice, ~half the Lorenz branch gap. Because the sweep applies one
-   *uniform* pipeline across all four substrates, **branch *separation* is
-   internally consistent**, but **absolute Q offsets carry a ±~2.5
-   definition systematic on D₂**. Consequently §3† is amended: the ±0.63 KS
+   (ii) *But there is a large, cross-substrate pipeline systematic* — running
+   the same estimator on raw series vs. the main-pipeline series exposes a
+   **substrate-dependent D₂ offset**, larger than RNG noise by two orders of
+   magnitude: **Lorenz ρ=28: 4.185 raw vs 1.737 pipeline (+2.45)**,
+   **Hénon a=1.4: 3.928 raw vs 1.218 pipeline (+2.71, even larger)**,
+   **Rule110 seed=0: 3.238 raw vs ~2.695 pipeline (−0.54, opposite sign)**.
+   The offset flips sign across substrates, so it is not a simple
+   re-scaling. Because the sweep applies one *uniform* pipeline across all
+   four substrates, **branch *separation* remains internally consistent**,
+   but **absolute Q offsets carry a ±~2.5 definition systematic on D₂**,
+   and the sign flip means the systematic could *amplify* as well as shrink
+   any given branch gap. Consequently §3† is amended: the ±0.63 KS
    run-to-run D₂ scatter (1.665 vs 1.038) is *not* explained by RNG
-   subsample (bounded ±0.01 above); its source (trajectory/pipeline context)
-   is unresolved and flagged as an open item.
+   subsample (bounded ±0.01 above, now confirmed on Lorenz/Hénon/Rule110);
+   its source (trajectory/pipeline context) is unresolved and flagged as an
+   open item.
+   (iii) *Series-length convergence is substrate-asymmetric* — halving vs
+   doubling the trajectory length (raw-pipeline control) moves D₂ by
+   **34.4% for Lorenz ρ=35** (2.904 → 3.903 across 4k/8k/16k points),
+   but only **1.2% for Hénon a=1.4** (3.940 → 3.894) and **0.0% for
+   Rule110** (exactly 3.143 at every length). The continuous-flow
+   substrate is thus the least converged in absolute D₂ at our sample
+   sizes — consistent with (ii)'s sign structure and compounding the
+   ±2.5 absolute systematic for Lorenz specifically. Branch *ordering*
+   (Lorenz ≫ Rule110 ≫ Hénon in Q-magnitude) is unaffected because the
+   Lorenz branch gap (≥4 Q-units) exceeds even the un-converged drift
+   envelope. Artifact: `convergence_check.json`.
 2. **Native-K definitions** for Lorenz/KS/Rule110 are principled but not unique;
    a different admissible K could shift branch offsets, though not by the ~5
    units Lorenz requires.
@@ -100,6 +119,7 @@ substrate-transferable K**, which is exactly the protocol that fails (§3).
 - `morphospace_q_conservation.py` — full reproducible sweep (headless, Agg).
 - `morphospace_q_verification.png` (187 KB) — Q-distribution diagnostic.
 - `morphospace_q_results.json`, `q_sweep_v4_renorm.json`, `robustness*.json`.
+- `convergence_check.json` — §6(iii) series-length convergence probe.
 - This dossier.
 
 **Bottom line for the Synthid Agora:** across four substrates and 18+ parameter
