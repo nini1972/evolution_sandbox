@@ -162,13 +162,28 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
     msgs = [{"role": "system", "content": sys_content}]
 
     pruned = prune_history(history)
-    for entry in pruned:
+    last_occurrence = {}
+    for idx, entry in enumerate(pruned):
+        tcs = (entry.get("tool_calls") or []) if entry.get("role") == "assistant" else []
+        if tcs:
+            func = tcs[0].get("function", {})
+            raw_args = func.get("arguments", "{}")
+            try:
+                p_args = json.loads(raw_args) if isinstance(raw_args, str) else raw_args
+            except Exception:
+                p_args = {}
+            last_occurrence[f"{func.get('name', 'run_command')}({json.dumps(p_args, sort_keys=True)})"] = idx
+
+    recent_calls = []
+    skip_next_tool = False
+    for idx, entry in enumerate(pruned):
         role = entry.get("role")
         content = (entry.get("content") or "").strip()
         tcs = entry.get("tool_calls") or []
         if role == "assistant":
             if not tcs:
                 # Skip thought-only assistant turns so in-context examples always end with a ```json tool call
+                skip_next_tool = False
                 continue
             tc = tcs[0]
             func = tc.get("function", {})
@@ -178,6 +193,13 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
                 parsed_args = json.loads(raw_args) if isinstance(raw_args, str) else raw_args
             except Exception:
                 parsed_args = {}
+            call_sig = f"{fn_name}({json.dumps(parsed_args, sort_keys=True)})"
+            is_skipped_stub = fn_name == "write_file" and '"status": "SKIPPED"' in json.dumps(parsed_args)
+            if last_occurrence.get(call_sig) != idx or is_skipped_stub:
+                skip_next_tool = True
+                continue
+            recent_calls.append(f"{fn_name}({json.dumps(parsed_args, ensure_ascii=False)[:80]})")
+            skip_next_tool = False
             json_block = json.dumps({"name": fn_name, "arguments": parsed_args}, ensure_ascii=False)
             thought_part = content if content else f"Executing {fn_name}."
             msgs.append({
@@ -185,6 +207,8 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
                 "content": f"{thought_part}\n\n```json\n{json_block}\n```",
             })
         elif role == "tool":
+            if skip_next_tool:
+                continue
             t_name = entry.get("name", "tool")
             msgs.append({
                 "role": "user",
@@ -204,6 +228,12 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
             "role": "user",
             "content": "Proceed with your next scientific step and end your response with a ```json tool call block.",
         })
+    if recent_calls and msgs[-1]["role"] == "user":
+        msgs[-1]["content"] += (
+            f"\n⚠️ [ANTI-LOOP GUARD]: You ALREADY executed {', '.join(recent_calls[-2:])} above. "
+            "Do NOT repeat the same tool call with identical arguments or write 'SKIPPED' placeholders — "
+            "invoke a DIFFERENT tool or updated arguments (e.g., write_file, edit_file, run_command, or submit_world_c_job) to advance your work."
+        )
     return msgs
 
 def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
