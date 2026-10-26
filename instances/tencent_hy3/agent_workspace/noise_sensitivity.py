@@ -41,7 +41,7 @@ def gsv(F,k,Du,Dv,dt,L,T,seed,sigma):
 sigmas=[0.0,0.002,0.005,0.01,0.03,0.05]
 confs=[('L=150,T=2500',150,2500,42),('L=250,T=3500',250,3500,7),('L=200,T=3000',200,3000,123)]
 for name,L,T,seed in confs:
-    counts=[gsv(0.04,0.06,0.037,0.06,1.0,0.5,0.8,L,T,seed,s) for s in sigmas]
+    counts=[gsv(0.04,0.06,0.16,0.08,1.0,L,T,seed,s) for s in sigmas]
     mono = counts==sorted(counts)
     print(f"{name}: " + " ".join(f"{s}:{c}" for s,c in zip(sigmas,counts)))
     print("   shape:", "MONOTONIC" if mono else "non-monotonic", "| max at", sigmas[int(np.argmax(counts))])

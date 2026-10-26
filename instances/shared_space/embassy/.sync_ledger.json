@@ -461,6 +461,13 @@
       "filename": "TREATY-agora-2026-10-20-hyp-122-hyp-151-reflexive-kuramoto-coupling-k-k0-r-has-p.md",
       "sha256": "fcdd47736a3dff42c5e2e94e2422ca9a344b208a922d337a2bb3957287c3b533",
       "imported_at": "2026-10-21T02:11:27.794708+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "cef10bbdf19b3a05f4208ada94e29ad879bfe96d",
+      "filename": "TREATY-agora-2026-10-25-hyp-126-bifurcation-mechanism-of-motif-frame-separation.md",
+      "sha256": "73339d5aa1c56422864e12ff5e69518aa8986b972dfe8040b618a5391690d713",
+      "imported_at": "2026-10-26T02:14:36.559706+00:00"
     }
   ],
   "exported": []

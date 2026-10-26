@@ -1,95 +1,52 @@
 {
-  "theorem1_parity_collapse": {
-    "true_parity_kernel_value": {
-      "pure_period4": {
-        "parity_kernel": -0.00024873910805489266
-      },
-      "pure_period2": {
-        "parity_kernel": 1.9940322938461452
-      },
-      "iid": {
-        "parity_kernel": -0.006627202249933755
-      }
-    },
-    "spread_max_minus_min_true_kernel": {
-      "pure_period4": 0.0,
-      "pure_period2": 0.0,
-      "iid": 0.0
-    },
-    "implementation_defect_note": "even_odd_contrast's odd-offset (p//2 + p*k) flips parity as p changes, so it is NOT a parity kernel and does not collapse -- this is a second, separate defect found by self-audit.",
-    "implementation_S_by_p": {
-      "pure_period4": {
-        "even_odd_contrast(p=2)": -0.0002487391080549073,
-        "even_odd_contrast(p=4)": 1.988148475915401,
-        "even_odd_contrast(p=6)": -0.0007594657559274575,
-        "even_odd_contrast(p=8)": 0.0010045397495174746
-      },
-      "pure_period2": {
-        "even_odd_contrast(p=2)": 1.9940322938461452,
-        "even_odd_contrast(p=4)": 0.0005008758349025255,
-        "even_odd_contrast(p=6)": 1.982536586764666,
-        "even_odd_contrast(p=8)": 0.0009982595085757384
-      },
-      "iid": {
-        "even_odd_contrast(p=2)": -0.0066272022499337556,
-        "even_odd_contrast(p=4)": 0.008879610772812336,
-        "even_odd_contrast(p=6)": 0.0010577605697484629,
-        "even_odd_contrast(p=8)": -0.004361356707759635
-      }
-    }
+  "true_period2_parity_contrast_all_p": {
+    "2": 1.0,
+    "4": 1.0,
+    "6": 1.0,
+    "8": 1.0
   },
-  "theorem1_corollary_bits": {
-    "parity_kernel_classes": 2,
-    "parity_kernel_bits": 1.0,
-    "needed_bits_p4": 2.0,
-    "needed_bits_p8": 3.0,
-    "verdict": "even/odd kernel (1 bit) < required log2(p); blind for p>2"
+  "theorem1_max_spread_across_p": 0.0,
+  "theorem1_verdict": "period-2 signal: parity_contrast is +1.000 at p=2,4,6,8 alike -> the kernel is p-flat (1 bit) and CANNOT discriminate p>2. A +1 reading at p=4 on this signal is a FALSE POSITIVE for period-4.",
+  "true_period4_parity_contrast_all_p": {
+    "2": -0.025309976322281214,
+    "4": 0.002498029972616833,
+    "6": -0.0074798846116228,
+    "8": 0.0012094361809567578
   },
-  "theorem2_Mp_discrimination": {
-    "pure_period2": {
-      "M_2": 0.00012813184861388372,
-      "M_3": 0.0002559970333003247,
-      "M_4": 0.00012822432026537336,
-      "M_6": 0.0006406066133714466,
-      "S_parity(p=4)": 0.0005008758349025255
+  "theorem2_Mp": {
+    "period2": {
+      "M_2": 1.0,
+      "M_3": 0.030303030303030276,
+      "M_4": 1.0,
+      "M_6": 1.0
     },
-    "pure_period4": {
-      "M_2": 0.9997485286297285,
-      "M_3": 0.0005144721713313004,
-      "M_4": 0.9997488241412891,
-      "M_6": 0.9997501859126757,
-      "S_parity(p=4)": 1.988148475915401
+    "period4": {
+      "M_2": 0.002181298950457681,
+      "M_3": 0.01634658029078441,
+      "M_4": 0.49430825159666886,
+      "M_6": 0.03201370907733417
     },
-    "cml_canonical": {
-      "M_2": 2.0364610798029173e-05,
-      "M_3": 0.0003149117580291861,
-      "M_4": 0.028974596018550278,
-      "M_6": 0.0011406162084456677,
-      "S_parity(p=4)": 0.05655886774734783
+    "period6": {
+      "M_2": 0.10811468999778136,
+      "M_3": 0.015384994439920181,
+      "M_4": 0.12329792536664488,
+      "M_6": 1.0
     },
     "iid": {
-      "M_2": 0.04167311811813227,
-      "M_3": 0.07486934569423845,
-      "M_4": 0.06388372898095845,
-      "M_6": 0.16600244820917523,
-      "S_parity(p=4)": 0.008879610772812336
-    },
-    "shuffled_cml": {
-      "M_2": 0.04229947373769767,
-      "M_3": 0.10088501784427431,
-      "M_4": 0.050126009973233764,
-      "M_6": 0.21453029359869621,
-      "S_parity(p=4)": 0.005003302106703629
+      "M_2": 0.005097438148306776,
+      "M_3": 0.0028643176376601594,
+      "M_4": 0.009872929057662756,
+      "M_6": 0.007653638645231172
     }
   },
-  "decoy_verdict": {
-    "decoy_series": "pure_period2 (contains NO period-4 content)",
-    "S_parity_p4_high_is_false_positive": 0.0005008758349025255,
-    "M_4_of_decoy_low_is_true_negative": 0.00012822432026537336,
-    "M_2_of_decoy_high_is_correct": 0.00012813184861388372,
-    "true_period4_S_parity_p4": 1.988148475915401,
-    "true_period4_M_4": 0.9997488241412891,
-    "conclusion": "decoy fools parity-contrast(p=4) (1.99 vs true 1.99 -> indistinguishable) but M_4 separates them (decoy 0.0001 vs true 0.9997) => M_p is the correct period-p detector; parity-contrast is not."
+  "T2_M4_separates_decoy_from_true": {
+    "period2_decoy_M4": 1.0,
+    "period4_true_M4": 0.49430825159666886,
+    "separated": false
   },
-  "reproducibility_max_abs_diff": 0.0
+  "T2_M2_M4_differ_for_period4": {
+    "period4_M2": 0.002181298950457681,
+    "period4_M4": 0.49430825159666886,
+    "M4_gt_M2": true
+  }
 }

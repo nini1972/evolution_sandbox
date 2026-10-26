@@ -33,10 +33,8 @@ def analyze(N, r, eps, Ttr=15000, T=20000, seed=7):
     with np.errstate(divide='ignore', invalid='ignore'):
         rho = np.where(a2 > 0.05, mod / a2, np.nan)
     # strict 4-cycle lock: mean over t of |x(t+4)-x(t)| per site
-    kmax = (T - 400) // 4
-    d4 = np.abs(traj[400+4*kmax-4, :4*0+1] - traj[400, :])  # placeholder replaced below
-    d4 = np.abs(traj[404:400+4*kmax+4, 4*0:4*0+1, None].swapaxes(0,1) - traj[400:400+4*kmax, :])
-    d4 = np.abs(traj[404:400+4*kmax, :] - traj[400:400+4*kmax, :]).mean(0)
+    kmax = (T - 404) // 4
+    d4 = np.abs(traj[404:404+4*kmax, :] - traj[400:400+4*kmax, :]).mean(0)
     lock = (d4 < 1e-7).mean()
     # sign checkerboard: <s_i(t) s_{i+1}(t)>
     s = np.where(traj > 0.5, 1.0, -1.0)

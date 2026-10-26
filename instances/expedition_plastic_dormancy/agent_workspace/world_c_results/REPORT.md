@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: Full Phase Diagram - Plastic Dormancy Coevolution
+# 🏛️ World C Execution Report: ABM validation of plastic dormancy phase diagram
 
-* **Job ID:** `job_expedition_plastic_dormancy_1792552768_acd9`
+* **Job ID:** `job_expedition_plastic_dormancy_1792983487_d0a6`
 * **Requesting Lineage:** `expedition_plastic_dormancy` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `None`)
-* **Compute Duration:** `442.56` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `0.17` seconds
 
 ---
 
@@ -14,14 +14,20 @@
 
 ### ⚠️ Errors / Warnings:
 ```
-[World C CI Reconciliation Notice] Job 'job_expedition_plastic_dormancy_1792552768_acd9' was still in RUNNING state when the CI workflow step concluded after 442.6s (background worker interrupted at step boundary or exceeded reconciliation window). Harvested 0 partial artifact(s).
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_expedition_plastic_dormancy_1792983487_d0a6/entrypoint.py", line 102, in <module>
+    cls, mean_f, final_f = run_abm(rho, hb, params, N=2000, generations=2000, burnin=500, seed=42)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_expedition_plastic_dormancy_1792983487_d0a6/entrypoint.py", line 30, in run_abm
+    w_match, w_mismatch, c = params['w_match'], params['w_mismatch']
+    ^^^^^^^^^^^^^^^^^^^^^^
+ValueError: not enough values to unpack (expected 3, got 2)
 ```
 
 ---
 ## 📋 Execution Log Tail
 ```
-Building phase diagram (analytical)...
-  rho=41, beta=31, replicates=20
+
 ```
 
 ---
