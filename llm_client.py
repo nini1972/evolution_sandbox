@@ -290,13 +290,18 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
         except Exception:
             pass
 
-    # 2. Check for markdown json codeblocks containing a tool call
+    # 2. Check for markdown json codeblocks containing a tool call (or a concluding summary/status JSON block)
+    summary_json_match = None
     for m in re.finditer(r'```(?:json)?\s*(\{)', content):
         brace_idx = m.start(1)
         try:
             data, _ = json.JSONDecoder().raw_decode(content[brace_idx:])
+            if not isinstance(data, dict):
+                continue
             tool_name = data.get("call") or data.get("name") or data.get("tool")
             args = data.get("arguments") or data.get("args") or {}
+            if isinstance(args, str):
+                args = json.loads(args)
             if tool_name in known_tools and isinstance(args, dict):
                 return {
                     "type": "tool_call",
@@ -305,6 +310,8 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                     "arguments": args,
                     "content": strip_inline_tool_syntax(content[:m.start()]),
                 }
+            if not tool_name and any(k in data for k in ("summary", "message", "next_steps", "plot_paths")) and data.get("status") != "SKIPPED":
+                summary_json_match = (m.start(), data)
         except Exception:
             pass
 
@@ -549,6 +556,41 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                 "content": content,
             }
 
+    if summary_json_match:
+        match_idx, s_data = summary_json_match
+        prose = strip_inline_tool_syntax(content[:match_idx]).strip()
+        summary_text = str(s_data.get("summary") or s_data.get("message") or "").strip()
+        if "post_epistemic_node" in known_tools:
+            title_cand = summary_text.split(".")[0].strip()[:90] if summary_text else "Empirical Verification Analysis"
+            full_summary = summary_text if len(summary_text) >= 60 else f"{prose[-400:]} {summary_text}".strip()
+            node_args = {
+                "title": title_cand or "Empirical Verification Analysis",
+                "node_type": "empirical_test",
+                "summary": full_summary or prose[:500] or "Completed empirical verification analysis.",
+                "confidence": 0.9,
+                "tags": ["dynamical_invariants", "empirical_verification"],
+                "parents": [],
+            }
+            plots = s_data.get("plot_paths") or s_data.get("output_files") or []
+            if isinstance(plots, list) and plots and isinstance(plots[0], str):
+                node_args["artifact_path"] = plots[0]
+            return {
+                "type": "tool_call",
+                "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                "tool_name": "post_epistemic_node",
+                "arguments": node_args,
+                "content": prose or summary_text,
+            }
+        elif "write_file" in known_tools:
+            md_body = f"{prose}\n\n```json\n{json.dumps(s_data, indent=2, ensure_ascii=False)}\n```\n".strip() + "\n"
+            return {
+                "type": "tool_call",
+                "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                "tool_name": "write_file",
+                "arguments": {"path": "analysis_summary.md", "content": md_body},
+                "content": prose or summary_text,
+            }
+
     return None
 
 def resolve_agent_model(instance_name: str) -> str:
@@ -730,7 +772,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     else:
         call_kwargs["model"] = agent_model
 
-    retries = 1 if agent_model.startswith("runpod/") else 5
+    retries = 2 if agent_model.startswith("runpod/") else 5
     for attempt in range(retries):
         try:
             try:
@@ -809,10 +851,11 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             err_str = str(e).lower()
             transient_keys = (
                 "rate", "limit", "429", "500", "502", "503", "504",
-                "internal server error", "server disconnected", "peer closed connection", "apiconnectionerror"
+                "internal server error", "server disconnected", "peer closed connection", "apiconnectionerror",
+                "connection error", "badgatewayerror", "internalservererror"
             )
             if attempt < retries - 1 and any(k in err_str for k in transient_keys):
-                wait_sec = 15 if ("rate" in err_str or "429" in err_str) else 5
+                wait_sec = 8 if agent_model.startswith("runpod/") else (15 if ("rate" in err_str or "429" in err_str) else 5)
                 print(f"[Transient API error ({agent_model}). Sleeping {wait_sec} seconds before retry {attempt + 2}/{retries}...] ({str(e)})")
                 time.sleep(wait_sec)
                 continue
