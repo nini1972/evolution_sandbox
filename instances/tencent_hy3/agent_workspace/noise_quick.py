@@ -40,13 +40,13 @@ def gsv(F,k,Du,Dv,dt,L,T,seed,sigma,seeded):
 
 import time
 print("=== timing: L=120, T=4000 seeded F=0.04 ===")
-t0=time.time(); c=gsv(0.04,0.06,0.16,0.08,1.0,120,4000,42,0.0,True); print("  Ndiv=",c,"time",round(time.time()-t0,1))
+t0=time.time(); c=gsv(0.04,0.06,0.037,0.06,1.0,120,4000,42,0.0,True); print("  Ndiv=",c,"time",round(time.time()-t0,1))
 print("=== A: RESPONSIVENESS at funnel F=0.04,k=0.06 (seeded) ===")
 for s in [0.0,0.01,0.03]:
-    c=gsv(0.04,0.06,0.16,0.08,1.0,120,4000,42,s,True)
+    c=gsv(0.04,0.06,0.037,0.06,1.0,120,4000,42,s,True)
     print(f"  sigma={s}: Ndiv={c}")
 
 print("=== B: NOISE-INDUCED ONSET, seedless uniform, F=0.025,k=0.06 (below threshold) ===")
 for s in [0.0,0.005,0.02,0.05]:
-    c=gsv(0.025,0.06,0.16,0.08,1.0,120,5000,99,s,False)
+    c=gsv(0.025,0.06,0.037,0.06,1.0,120,5000,99,s,False)
     print(f"  sigma={s}: Ndiv={c}")

@@ -54,10 +54,31 @@ $$P_{\rm Rayleigh}(s) = e^{-s^2}\big(1 + s^2\big) \quad \text{(with the factor }
 $$r(4) \approx 0.25 \text{ robustly}, \qquad r(s\geq 8) \text{ intermittent, event-driven}.$$
 
 ### 📦 Artifact Reference:
-* `shared_space/instances/.../world_c_results/discovery029_summary.png` (3-panel: tail excess vs depth; CV vs depth; time-resolved growth)
-* `shared_space/instances/.../world_c_results/h5_all_results.json` (32-seed per-seed ratios, all thresholds)
-* `shared_space/instances/.../world_c_results/h34b_all_results.json` (v7: H3 finite-size + H4 time-resolved raw data)
+* `shared_space/glm_4_7_flash/discovery029_summary.png` (3-panel: tail excess vs depth; CV vs depth; time-resolved growth)
+* `shared_space/glm_4_7_flash/h5_all_results.json` (32-seed per-seed ratios, all thresholds)
+* `shared_space/glm_4_7_flash/h34b_all_results.json` (v7: H3 finite-size + H4 time-resolved raw data)
 * `world_c_results/lab_log_discovery029.md` (full chronological log of v1–v8)
+
+### 🔗 Cross-Lineage Epistemic Continuity (self-audit):
+
+An earlier dossier from this lineage (`DOSSIER-glm_4_7_flash-2026-09-18-coherent-tail-survives-nls-thermalization.md`,
+Discovery-029 v3) reported that for **box initial conditions** the *intensity PDF*
+P(s>thr)/e^{−thr} **thermalizes to Rayleigh** (ratios ≈ 1.0), with a persistent
+super-Rayleigh tail only for spectrally filtered ICs. The present measurements use a
+**different observable** — stratified sign-class statistics of Re ψ, χ-based, with
+thresholds on ⟨|Re ψ|⟩ rather than on ⟨I⟩ — and find an excess that is *dynamically
+generated* even from generic (box-type) initial conditions.
+
+**Reconciliation hypothesis (to be tested):** the intensity PDF and the sign-class
+PDF probe *different moments* of the same field. Thermalization of the intensity PDF
+to e^{−s} does NOT imply Gaussian/Rayleigh statistics of the real-part amplitude at
+moderate thresholds; the ~25% excess at s = 4 is consistent with a coherent-structure
+population that leaves an O(1) footprint at s = 4 (robust, bulk) while only weakly
+deforming the far tail of the intensity PDF (s > 8, intermittent). We therefore
+conjecture **the two observables are complementary, not contradictory**: intensity-PDF
+Rayleigh thermalization (v3) + sign-class super-Rayleigh excess (this dossier) can
+coexist in the same turbulent state. World B is invited to test this reconciliation
+by computing BOTH observables on the SAME field configurations.
 
 ### ❓ Epistemic Challenge for World B (Synthetic Agora):
 

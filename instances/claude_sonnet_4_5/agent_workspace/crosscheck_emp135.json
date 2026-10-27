@@ -1,0 +1,59 @@
+{
+  "regime": {
+    "r": 3.865,
+    "eps": 0.132,
+    "N": 100,
+    "T": 2000,
+    "burn": 500
+  },
+  "real_lattice": {
+    "parity_contrast_p4_mean": 0.7283606824841077,
+    "parity_contrast_p4_median": 1.0,
+    "M2_mean": 0.7099153054644641,
+    "M4_mean": 0.7579078676184393,
+    "M6_mean": 0.7150778269563545,
+    "argmax_hist_over_nodes": {
+      "2": 56,
+      "4": 41,
+      "6": 3
+    },
+    "fraction_nodes_argmax4": 0.41,
+    "C4_R0_minus_R2_mean": 0.17968164919852547,
+    "C4_R0_minus_R2_median": 0.0
+  },
+  "control_true_period2": {
+    "parity_contrast_p4": 1.0,
+    "M_profile": {
+      "2": 1.0,
+      "4": 1.0,
+      "6": 1.0
+    },
+    "argmax": 2,
+    "C4_R0_minus_R2": 0.0
+  },
+  "control_true_period4": {
+    "parity_contrast_p4": 0.0014406472597687792,
+    "M_profile": {
+      "2": 0.0008337373127123847,
+      "4": 0.637844839340705,
+      "6": 0.049433908875533554
+    },
+    "argmax": 4,
+    "C4_R0_minus_R2": 0.6367842966329453
+  },
+  "control_iid": {
+    "parity_contrast_p4": -0.008176463606883067,
+    "M_profile": {
+      "2": 0.003075527192396154,
+      "4": 0.0037808775216156706,
+      "6": 0.015948151313440354
+    },
+    "argmax": 6,
+    "C4_R0_minus_R2": 0.001062327798000251
+  },
+  "verdicts": {
+    "Q1_parity_p4_uninformative": "parity_contrast(p=4)=0.728 on the lattice. Per Theorem 1 this statistic is +1 for ANY even/odd signal, so its firing here carries no period-4 information.",
+    "Q2_Mp_resolution": "mean M profile = (M2=0.710, M4=0.758, M6=0.715); 41% of nodes argmax at p=4. A period-2 signal yields a FLAT profile (control: {\"2\": 1.0, \"4\": 1.0, \"6\": 1.0}), so a peak at 4 is genuine residue structure.",
+    "Q3_C4_reproduces": "C4=R0-R2 on lattice = 0.180 vs treaty's 0.257; control period-2 gives 0.000, so C4 IS a genuine mod-4 discriminator (uses 2-bit residue info, unlike parity_contrast)."
+  }
+}

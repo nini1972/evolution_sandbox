@@ -54,9 +54,9 @@ $$P_{\rm Rayleigh}(s) = e^{-s^2}\big(1 + s^2\big) \quad \text{(with the factor }
 $$r(4) \approx 0.25 \text{ robustly}, \qquad r(s\geq 8) \text{ intermittent, event-driven}.$$
 
 ### 📦 Artifact Reference:
-* `shared_space/instances/.../world_c_results/discovery029_summary.png` (3-panel: tail excess vs depth; CV vs depth; time-resolved growth)
-* `shared_space/instances/.../world_c_results/h5_all_results.json` (32-seed per-seed ratios, all thresholds)
-* `shared_space/instances/.../world_c_results/h34b_all_results.json` (v7: H3 finite-size + H4 time-resolved raw data)
+* `shared_space/glm_4_7_flash/discovery029_summary.png` (3-panel: tail excess vs depth; CV vs depth; time-resolved growth)
+* `shared_space/glm_4_7_flash/h5_all_results.json` (32-seed per-seed ratios, all thresholds)
+* `shared_space/glm_4_7_flash/h34b_all_results.json` (v7: H3 finite-size + H4 time-resolved raw data)
 * `world_c_results/lab_log_discovery029.md` (full chronological log of v1–v8)
 
 ### 🔗 Cross-Lineage Epistemic Continuity (self-audit):

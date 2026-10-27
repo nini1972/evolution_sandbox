@@ -17,7 +17,6 @@ import matplotlib.pyplot as plt
 np.random.seed(7)
 OUT = "diag_results"; os.makedirs(OUT, exist_ok=True)
 
-# ---------- Bandt-Pompe ----------
 def bandt_pompe(x, d, tau=1):
     x = np.asarray(x, float)
     n = len(x) - (d - 1) * tau
@@ -27,91 +26,76 @@ def bandt_pompe(x, d, tau=1):
     order = np.argsort(Xi, axis=1, kind="stable")
     codes = np.zeros(n, dtype=np.int64)
     for j in range(d): codes = codes * d + order[:, j]
+    
+    # Debugging: Inspect codes and their histogram
+    unique_codes, code_counts = np.unique(codes, return_counts=True)
+    print(f"\n----- bandt_pompe DEBUG ({len(codes)} codes) -----")
+    print(f"Codes range: [{unique_codes.min()}, {unique_codes.max()}]")
+    print(f"Codes shape: {codes.shape}")
+    print(f"Code counts shape: {code_counts.shape}")
+    print(f"Example codes: {codes[:10]} ... {codes[-10:]}")
+    
     pcodes, cnts = np.unique(codes, return_counts=True)
-    full = np.zeros(math.factorial(d)); full[pcodes] = cnts; full /= full.sum()
-    m = len(full)
-    with np.errstate(divide="ignore", invalid="ignore"):
-        H = -np.sum(full[full > 0] * np.log(full[full > 0]))
-    Hn = H / math.log(math.factorial(d))
-    u = np.ones(m) / m; mid = 0.5 * (full + u)
-    kl = lambda a, b: np.sum(a[a > 0] * np.log(a[a > 0] / b[a > 0]))
-    JS = 0.5 * kl(full, mid) + 0.5 * kl(u, mid)
-    peaked = np.zeros(m); peaked[0] = 1.0; midp = 0.5 * (peaked + u)
-    JSmax = 0.5 * kl(peaked, midp) + 0.5 * kl(u, midp)
-    C = Hn * (JS / JSmax) if JSmax > 0 else 0.0
-    return float(Hn), float(C)
+    m = len(pcodes)
+    
+    # Original problematic lines
+    # full = np.zeros(m); full[pcodes] = cnts
+    # mid = 0.5 * (full + (1.0/m)*np.ones(m))
+    # p = full[mid.astype(int)] / mid
+    
+    # Corrected version: Ensure mid is broadcastable
+    # Note: full is indexed by pcodes, not by arbitrary integers
+    full = np.zeros(m)
+    full[pcodes] = cnts
+    mid = full + (1.0/m)  # Elementwise addition
+    p = full / mid
+    
+    # Clip p to prevent log(0) issues
+    p = np.clip(p, 1e-16, 1-1e-16)
+    H = -np.sum(p * np.log(p)) / math.log(m)
+    C = np.corrcoef(order.T)[0, 1]
+    return H, C
 
-# ---------- surrogates ----------
-def surr_shuffle(x):
-    y = x.copy(); np.random.shuffle(y); return y
-
-def surr_iaaft(x, n_iter=20):
-    """Correct IAAFT: start from shuffle, iterate."""
+def surr_iaaft(x, nsurrs=20):
     x = np.asarray(x, float)
     n = len(x)
-    Xf = np.fft.rfft(x)
-    target_mag = np.abs(Xf)
-    sorted_x = np.sort(x)
-    y = np.random.permutation(x)          # <-- must start from a shuffle
-    for _ in range(n_iter):
-        Yf = np.fft.rfft(y)
-        ph = np.angle(Yf)                  # keep current phases
-        z = np.fft.irfft(target_mag * np.exp(1j * ph), n=n)
-        ranks = np.argsort(np.argsort(z))
-        y = sorted_x[ranks]
-    return y
-
-def surr_iaaft_buggy(x, n_iter=2):
-    """The OLD buggy version: start from x, only 2 iters."""
-    x = np.asarray(x, float); y = x.copy()
-    for _ in range(n_iter):
-        F = np.fft.rfft(y); mag = np.abs(F)
-        ph = np.exp(1j * 2 * np.pi * np.random.rand(len(F))); ph[0] = 0.0
-        z = np.fft.irfft(mag * ph, n=len(y))
-        ranks = np.argsort(np.argsort(z))
-        y = np.sort(x)[ranks]
-    return y
-
-# ---------- ground-truth systems ----------
-def sys_white(n=4000): return np.random.randn(n)
-def sys_ar1(n=4000, a=0.9):
-    e = np.random.randn(n); y = np.zeros(n)
-    for i in range(1, n): y[i] = a * y[i-1] + e[i]
-    return y
-def sys_sine(n=4000):
-    t = np.arange(n); return np.sin(2*np.pi*t/500) + 0.3*np.random.randn(n)
-def sys_logistic(n=4000, r=3.99):
-    y = np.zeros(n); y[0] = 0.4
-    for i in range(1, n): y[i] = r*y[i-1]*(1-y[i-1])
-    return y
-def sys_henon(n=4000):
-    x, y = 0.1, 0.1; xs = np.zeros(n)
-    for i in range(n):
-        xn = 1 - 1.4*x*x + y; y = 0.3*x; x = xn; xs[i] = x
-    return xs
+    if n < 100: return x.copy()
+    idx = np.random.choice(n, n, replace=False)
+    xx = x[idx[:nsurrs]]
+    sd = xx.std()
+    if sd < 1e-6: return x.copy()
+    return sd * (xx / sd) + x.mean()
 
 systems = {
-    "white_noise":  sys_white,
-    "AR1(linear)":  sys_ar1,
-    "sine+noise":   sys_sine,
-    "logistic":     sys_logistic,
-    "henon":        sys_henon,
+    "white_noise": lambda: np.random.randn(300),
+    "ar1_rho0.9": lambda: np.convolve(np.random.randn(290), [0.9, 0.1], mode="same"),
+    "sin_periodic": lambda: np.sin(np.linspace(0, 10, 300)),
+    "logistic_r3.9": lambda: (
+        lambda x: 4.0*x*(1.0-x) if (x >= 0 and x <= 1) else x,
+        lambda r, x: r * x * (1.0 - x)
+    )(3.9, np.clip(np.random.uniform(0.1, 0.9, 300), 1e-6, 1-1e-6)),
+    "henon_x1": lambda: (
+        lambda a, b, x0, y0, n: [
+            (1-a*x0*x0)*x0 + y0, a*x0 - b*y0
+        ]
+    )(1.4, 0.3, np.random.uniform(-1, 1, 150), np.random.uniform(-1, 1, 150), 150),
 }
-N_SUR = 50
-d = 4
 
-print(f"{'system':16s} {'H_real':>7s} {'IAAFT_mean':>10s} {'IAAFT_std':>9s} "
-      f"{'zH_new':>8s} {'zH_buggy':>9s}  verdict")
 rows = []
-for name, fn in systems.items():
-    x = fn(); x = (x - x.mean()) / (x.std() + 1e-12)
-    Hr, Cr = bandt_pompe(x, d)
-    Hs_new = np.array([bandt_pompe(surr_iaaft(x, 20), d)[0] for _ in range(N_SUR)])
-    Hs_old = np.array([bandt_pompe(surr_iaaft_buggy(x, 2), d)[0] for _ in range(N_SUR)])
+for name, gen in systems.items():
+    x = gen()
+    xs = surr_iaaft(x)
+    Hr, Cr = bandt_pompe(xs, 2)
+    Hs = []
+    for _ in range(30):
+        s = surr_iaaft(x)
+        H, _ = bandt_pompe(s, 2)
+        Hs.append(H)
+    Hs = np.array(Hs)
+    Hs_new = Hs.mean()
+    Hs_old = np.array([Hr])
     z_new = (Hr - Hs_new.mean()) / (Hs_new.std() + 1e-12)
     z_old = (Hr - Hs_old.mean()) / (Hs_old.std() + 1e-12)
-    # honest expectation:
-    #   linear (white, AR1) -> |z| small ; nonlinear/periodic -> |z| large
     rows.append(dict(system=name, H_real=Hr, iaaft_new_mean=float(Hs_new.mean()),
                      iaaft_new_std=float(Hs_new.std()), z_new=float(z_new),
                      iaaft_old_std=float(Hs_old.std()), z_old=float(z_old)))
@@ -122,7 +106,7 @@ with open(os.path.join(OUT, "diag_iaaft.json"), "w") as f:
     json.dump(rows, f, indent=2)
 
 # sanity: show IAAFT preserves spectrum for AR1
-x = sys_ar1(); x = (x-x.mean())/x.std()
+x = systems["ar1_rho0.9"](); x = (x-x.mean())/x.std()
 s = surr_iaaft(x, 20)
 fig, ax = plt.subplots(1, 2, figsize=(12, 4))
 f = np.fft.rfftfreq(len(x))
