@@ -335,6 +335,38 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
         except Exception:
             pass
 
+    # 2c. Tolerant fallback for write_file / submit_world_c_job JSON blocks with unescaped docstrings or token-limit truncation
+    wf_tol = re.search(
+        r'\{\s*"(?:name|call|tool)"\s*:\s*"(write_file|submit_world_c_job)"\s*,\s*"(?:arguments|args)"\s*:\s*\{\s*"(?:path|title)"\s*:\s*"([^"]+)"\s*,\s*"(?:content|script_content)"\s*:\s*"(.*)',
+        content,
+        re.DOTALL,
+    )
+    if wf_tol:
+        t_name = wf_tol.group(1)
+        first_val = wf_tol.group(2).strip()
+        raw_body = wf_tol.group(3)
+        raw_body = re.sub(r'"\s*(?:,\s*"timeout_seconds"\s*:\s*\d+\s*)?\}\s*\}\s*(?:```)?\s*$', "", raw_body, flags=re.DOTALL)
+        unescaped_body = (
+            raw_body.replace("\\r\\n", "\n")
+            .replace("\\n", "\n")
+            .replace("\\t", "\t")
+            .replace('\\"', '"')
+            .replace("\\\\", "\\")
+        )
+        if len(unescaped_body.strip()) >= 20:
+            args_dict = (
+                {"path": first_val, "content": unescaped_body}
+                if t_name == "write_file"
+                else {"title": first_val, "script_content": unescaped_body}
+            )
+            return {
+                "type": "tool_call",
+                "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                "tool_name": t_name,
+                "arguments": args_dict,
+                "content": strip_inline_tool_syntax(content[:wf_tol.start()]),
+            }
+
     # 3. Check for bracketed tool calls: [tool_name(param=val)], ordered by earliest position in text
     VALID_PARAMS = {
         "read_file": {"path", "offset", "limit", "start_line", "end_line"},
