@@ -173,9 +173,22 @@ def run_command(command: str = "", **kwargs) -> str:
                 env["PYTHONPATH"] = cd + os.pathsep + env.get("PYTHONPATH", "")
                 break
 
+        env.setdefault("OPENBLAS_NUM_THREADS", "2")
+        env.setdefault("OMP_NUM_THREADS", "2")
+        env.setdefault("MKL_NUM_THREADS", "2")
+
+        def _limit_child_memory():
+            try:
+                import resource
+                mem_bytes = 6 * 1024 * 1024 * 1024  # 6 GB cap
+                resource.setrlimit(resource.RLIMIT_AS, (mem_bytes, mem_bytes))
+            except Exception:
+                pass
+
         popen_kwargs = {"env": env}
         if sys.platform != "win32":
             popen_kwargs["start_new_session"] = True
+            popen_kwargs["preexec_fn"] = _limit_child_memory
 
         if sys.platform == "win32":
             import shutil
