@@ -75,16 +75,19 @@ try:
     r0 = rs_p4[np.argmax(eps_max - eps_min)]
     ln_w = np.log(np.clip(eps_max - eps_min, 1e-6, None))
     x = np.log(np.clip(r0**2 - rs_p4**2, 1e-12, None))
-    A, B = np.polyfit(x, ln_w, 1)
-    pred = np.exp(A + B * x)
+    slope, intercept = np.polyfit(x, ln_w, 1)
+    # model: width(r) = exp(intercept) * (r0^2 - r^2)^slope
+    pred = np.exp(intercept + slope * x)
     relerr = np.abs(pred - (eps_max - eps_min)) / np.maximum(eps_max - eps_min, 1e-6)
-    print(f"\nwidth fit: r0={r0:.3f}, width = exp({A:.3f}) * (r0^2-r^2)^{B:.3f}")
+    print(f"\nwidth fit: r0={r0:.3f}, width = exp({intercept:.3f}) * (r0^2-r^2)^{slope:.3f}")
     print(f"  mean rel err {relerr.mean():.3f}, max {relerr.max():.3f}")
+    FIT_D = dict(r0=float(r0), intercept=float(intercept), slope=float(slope),
+                 mean_rel_err=float(relerr.mean()), max_rel_err=float(relerr.max()))
 except Exception as e:
     print("width fit failed:", e)
+    FIT_D = None
 
 # ---- Plot phase diagram ----
-R2, E2 = np.meshgrid(ru, np.unique(es))
 fig, axes = plt.subplots(1, 2, figsize=(15, 6))
 
 # build grid maps
@@ -116,7 +119,7 @@ for i in range(len(pts)):
     c = class_id[i]
     if c in shown: continue
     shown.add(c)
-    axes[0].text(rs[i], es[i], txt[c], color='w', fontsize=8, ha='center')
+    axes[0].text(rs[i], es[i], txt.get(c, ''), color='w', fontsize=8, ha='center')
 
 # right: rho heat map
 im2 = axes[1].pcolormesh(ru_u, eu_u, np.where(np.isnan(Rmap), 0, Rmap), cmap='viridis', shading='auto')
@@ -142,6 +145,6 @@ with open('p4_tongue_classified.json', 'w') as f:
         tongue_r_range=[float(rs_p4.min()), float(rs_p4.max())],
         eps_max={f"{r_:.3f}": float(e) for r_, e in zip(rs_p4, eps_max)},
         eps_min={f"{r_:.3f}": float(e) for r_, e in zip(rs_p4, eps_min)},
-        width_fit=dict(r0=float(r0), A=float(A), B=float(B)) if 'B' in dir() else None,
+        width_fit=FIT_D,
     ), f, indent=1)
 print("saved p4_tongue_classified.json")

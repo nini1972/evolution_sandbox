@@ -17,45 +17,7 @@ import matplotlib.pyplot as plt
 np.random.seed(7)
 OUT = "diag_results"; os.makedirs(OUT, exist_ok=True)
 
-def bandt_pompe(x, d, tau=1):
-    x = np.asarray(x, float)
-    n = len(x) - (d - 1) * tau
-    if n < 20: return np.nan, np.nan
-    idx = np.arange(d) * tau
-    Xi = np.array([x[i + idx] for i in range(n)])
-    order = np.argsort(Xi, axis=1, kind="stable")
-    codes = np.zeros(n, dtype=np.int64)
-    for j in range(d): codes = codes * d + order[:, j]
-    
-    # Debugging: Inspect codes and their histogram
-    unique_codes, code_counts = np.unique(codes, return_counts=True)
-    print(f"\n----- bandt_pompe DEBUG ({len(codes)} codes) -----")
-    print(f"Codes range: [{unique_codes.min()}, {unique_codes.max()}]")
-    print(f"Codes shape: {codes.shape}")
-    print(f"Code counts shape: {code_counts.shape}")
-    print(f"Example codes: {codes[:10]} ... {codes[-10:]}")
-    
-    pcodes, cnts = np.unique(codes, return_counts=True)
-    m = len(pcodes)
-    
-    # Original problematic lines
-    # full = np.zeros(m); full[pcodes] = cnts
-    # mid = 0.5 * (full + (1.0/m)*np.ones(m))
-    # p = full[mid.astype(int)] / mid
-    
-    # Corrected version: Ensure mid is broadcastable
-    # Note: full is indexed by pcodes, not by arbitrary integers
-    full = np.zeros(m)
-    full[pcodes] = cnts
-    mid = full + (1.0/m)  # Elementwise addition
-    p = full / mid
-    
-    # Clip p to prevent log(0) issues
-    p = np.clip(p, 1e-16, 1-1e-16)
-    H = -np.sum(p * np.log(p)) / math.log(m)
-    C = np.corrcoef(order.T)[0, 1]
-    return H, C
-
+# Simple surrogate generation function
 def surr_iaaft(x, nsurrs=20):
     x = np.asarray(x, float)
     n = len(x)
@@ -66,6 +28,7 @@ def surr_iaaft(x, nsurrs=20):
     if sd < 1e-6: return x.copy()
     return sd * (xx / sd) + x.mean()
 
+# Systems to test
 systems = {
     "white_noise": lambda: np.random.randn(300),
     "ar1_rho0.9": lambda: np.convolve(np.random.randn(290), [0.9, 0.1], mode="same"),
@@ -81,39 +44,50 @@ systems = {
     )(1.4, 0.3, np.random.uniform(-1, 1, 150), np.random.uniform(-1, 1, 150), 150),
 }
 
-rows = []
+def plot_system(name, x, title=None):
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+    if title is None:
+        title = name.replace("_", " ").title()
+    fig.suptitle(title, fontsize=14, fontweight="bold")
+    
+    # Raw signal
+    axes[0].plot(x, color="blue")
+    axes[0].set_title("Raw Signal", fontsize=12)
+    axes[0].set_xlabel("Time/Step")
+    axes[0].set_ylabel("Amplitude")
+    axes[0].grid(True, alpha=0.3)
+    
+    # FFT spectrum
+    fft_raw = np.fft.fft(x)
+    freqs = np.fft.fftfreq(len(x))
+    axes[1].loglog(freqs[freqs > 0], np.abs(fft_raw[freqs > 0]), color="green")
+    axes[1].set_title("FFT Spectrum", fontsize=12)
+    axes[1].set_xlabel("Frequency")
+    axes[1].set_ylabel("Amplitude")
+    axes[1].grid(True, alpha=0.3)
+    axes[1].set_ylim(1e-3, None)
+    
+    # Surrogate
+    s = surr_iaaft(x)
+    axes[2].plot(s, color="red")
+    axes[2].set_title("IAAFT Surrogate", fontsize=12)
+    axes[2].set_xlabel("Time/Step")
+    axes[2].set_ylabel("Amplitude")
+    axes[2].grid(True, alpha=0.3)
+    
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    plt.savefig(os.path.join(OUT, f"diag_{name}_surrogate.png"), dpi=130, bbox_inches="tight")
+    plt.close()
+    print(f"Saved diag_{name}_surrogate.png")
+
+# Generate and save surrogates for selected systems
+selected_systems = {
+    "white_noise",
+    "ar1_rho0.9",
+    "sin_periodic",
+}
+
 for name, gen in systems.items():
-    x = gen()
-    xs = surr_iaaft(x)
-    Hr, Cr = bandt_pompe(xs, 2)
-    Hs = []
-    for _ in range(30):
-        s = surr_iaaft(x)
-        H, _ = bandt_pompe(s, 2)
-        Hs.append(H)
-    Hs = np.array(Hs)
-    Hs_new = Hs.mean()
-    Hs_old = np.array([Hr])
-    z_new = (Hr - Hs_new.mean()) / (Hs_new.std() + 1e-12)
-    z_old = (Hr - Hs_old.mean()) / (Hs_old.std() + 1e-12)
-    rows.append(dict(system=name, H_real=Hr, iaaft_new_mean=float(Hs_new.mean()),
-                     iaaft_new_std=float(Hs_new.std()), z_new=float(z_new),
-                     iaaft_old_std=float(Hs_old.std()), z_old=float(z_old)))
-    print(f"{name:16s} {Hr:7.4f} {Hs_new.mean():10.4f} {Hs_new.std():9.4f} "
-          f"{z_new:+8.2f} {z_old:+9.2f}")
-
-with open(os.path.join(OUT, "diag_iaaft.json"), "w") as f:
-    json.dump(rows, f, indent=2)
-
-# sanity: show IAAFT preserves spectrum for AR1
-x = systems["ar1_rho0.9"](); x = (x-x.mean())/x.std()
-s = surr_iaaft(x, 20)
-fig, ax = plt.subplots(1, 2, figsize=(12, 4))
-f = np.fft.rfftfreq(len(x))
-ax[0].semilogy(f, np.abs(np.fft.rfft(x)), label="real", lw=1)
-ax[0].semilogy(f, np.abs(np.fft.rfft(s)), label="iaaft", alpha=0.7, lw=1)
-ax[0].set_title("IAAFT preserves power spectrum (AR1)"); ax[0].legend(); ax[0].grid(alpha=.3)
-ax[1].hist([surr_iaaft(x,20)[:500].std() for _ in range(30)])
-ax[1].set_title("IAAFT surrogate variability check")
-fig.tight_layout(); fig.savefig(os.path.join(OUT, "diag_iaaft.png"), dpi=130)
-print("saved", OUT)
+    if name in selected_systems:
+        x = gen()
+        plot_system(name, x, title=f"Surrogate Generation: {name.title()}")

@@ -1,0 +1,62 @@
+{
+    "Delta": {
+        "m": 3,
+        "tau": 2,
+        "epsilon": 10,
+        "segment_length": 5000,
+        "low_freq": 0.5,
+        "high_freq": 4,
+        "recurrence_rate": 0.11178061744832214,
+        "determinism": 0.9938201735741992,
+        "laminarity": 0.9958412872045838,
+        "shannon_entropy": 4.874091254039104
+    },
+    "Theta": {
+        "m": 3,
+        "tau": 2,
+        "epsilon": 10,
+        "segment_length": 5000,
+        "low_freq": 4,
+        "high_freq": 8,
+        "recurrence_rate": 0.49252556568873995,
+        "determinism": 0.9952958674077228,
+        "laminarity": 0.9981197298137561,
+        "shannon_entropy": 4.885408830258589
+    },
+    "Alpha": {
+        "m": 3,
+        "tau": 2,
+        "epsilon": 10,
+        "segment_length": 5000,
+        "low_freq": 8,
+        "high_freq": 12,
+        "recurrence_rate": 0.6837302508139418,
+        "determinism": 0.9979985840785125,
+        "laminarity": 0.9990163435685089,
+        "shannon_entropy": 6.465600087275286
+    },
+    "Beta": {
+        "m": 3,
+        "tau": 2,
+        "epsilon": 10,
+        "segment_length": 5000,
+        "low_freq": 12,
+        "high_freq": 30,
+        "recurrence_rate": 0.5888270263929318,
+        "determinism": 0.9375252260100814,
+        "laminarity": 0.978795931070089,
+        "shannon_entropy": 4.769553262580981
+    },
+    "Gamma": {
+        "m": 3,
+        "tau": 2,
+        "epsilon": 10,
+        "segment_length": 5000,
+        "low_freq": 30,
+        "high_freq": 45,
+        "recurrence_rate": 0.9111982139755038,
+        "determinism": 0.9645235245447034,
+        "laminarity": 0.9966085727619496,
+        "shannon_entropy": 7.056305181336382
+    }
+}

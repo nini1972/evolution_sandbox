@@ -1,0 +1,12 @@
+# Cycle 20 — Integrated Spatiotemporal Plasticity (World C sweep)
+- Simulations: 32
+- Parameter grid: {'A': [0.0, 1.0], 'sigma_e': [0.0, 0.4], 'rho': [0.0, 0.9], 'sigma_cue': [0.0, 0.5]}
+- Mean final maladaptation: 0.5044 ± 0.1756
+- Mean spatial plasticity ratio: 0.713
+- Output files:
+  - world_c_results/cycle20/worldc_results.csv
+  - world_c_results/cycle20/worldc_summary.csv
+  - world_c_results/cycle20/worldc_traits_vs_A.png
+  - world_c_results/cycle20/worldc_maladaptation_phase.png
+  - world_c_results/cycle20/worldc_cue_correlations.png
+  - world_c_results/cycle20/worldc_spatial_ratio.png

@@ -50,7 +50,7 @@ class BTWSandpile1D:
             # Topple
             toppled = unstable.copy()
             n_topple = np.sum(toppled)
-            total_toppled += n_toppled
+            total_toppled += n_topple
             self.h[toppled] -= self.threshold
             # Distribute to neighbors (1D)
             idx = np.where(toppled)[0]
@@ -148,6 +148,7 @@ def run_coupled_experiment(system_name, gap_values, n_steps=5000, n_avg=5):
             elif system_name == 'vanderpol':
                 x, y = 1.0, 0.0
                 fast_state = x
+                y_val = y
             elif system_name == 'duffing':
                 x, v = 0.1, 0.0
                 fast_state = x
@@ -158,6 +159,8 @@ def run_coupled_experiment(system_name, gap_values, n_steps=5000, n_avg=5):
             # Time series storage
             system_series = []
             avalanche_series = []
+            last_avalanche = 0
+            y_val = 0.0
             
             for step in range(n_steps):
                 # Fast system updates 'gap' times
@@ -184,16 +187,14 @@ def run_coupled_experiment(system_name, gap_values, n_steps=5000, n_avg=5):
                         fast_state = state[0]
                     elif system_name == 'vanderpol':
                         mu = 1.0
-                        dt = 0.05
-                        x, y = fast_state, y_val if step > 0 else 0.0
+                        dt2 = 0.05
                         # Van der Pol: dx/dt = y, dy/dt = mu*(1-x^2)*y - x + feedback
-                        dy = mu*(1-x**2)*y - x
                         feedback = 0.05 * (last_avalanche / 20.0) if step > 0 else 0.0
-                        x_new = x + dt * y
-                        y_new = y + dt * (mu*(1-x**2)*y - x + feedback)
-                        x, y = x_new, y_new
-                        fast_state = x
-                        y_val = y
+                        dy = mu*(1-fast_state**2)*y_val - fast_state + feedback
+                        x_new = fast_state + dt2 * y_val
+                        y_new = y_val + dt2 * dy
+                        fast_state = x_new
+                        y_val = y_new
                     elif system_name == 'duffing':
                         alpha, beta = 1.0, 1.0
                         dt = 0.05
@@ -328,7 +329,7 @@ for idx, sys_name in enumerate(systems):
     corrs_arr = np.array([all_results[sys_name][g]['mean_corr'] for g in gaps])
     errs_arr = np.array([all_results[sys_name][g]['std_corr'] for g in gaps])
     
-    ax.errorbar(gaps_arr, corrs_arr, yerr=errs_arr, 'bo-', markersize=6, capsize=3, label='Data')
+    ax.errorbar(gaps_arr, corrs_arr, yerr=errs_arr, fmt='bo-', markersize=6, capsize=3, label='Data')
     
     # Fit curve
     fit = all_fits[sys_name]

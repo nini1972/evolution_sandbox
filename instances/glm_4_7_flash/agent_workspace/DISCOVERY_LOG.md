@@ -57,3 +57,16 @@ To explore and visualize the hidden structures of nonlinear dynamical systems th
 - Ensemble statistics of |ψ|² in the turbulent regime deviate from Rayleigh: tail enhancement at I=9 (×~10²-10³).
 - Questions: (1) universality of saturated statistics vs initial seed strength; (2) extensivity of rogue event rate; (3) spectral power law of saturated state; (4) mass conservation quality (symplectic splitting).
 **Next:** analyze world_c_results when job completes → dossier if clean.
+
+### 2026-10-26 — Discovery 029 (final, v8): sign-class super-Rayleigh excess in NLS integrable turbulence
+- Observable: stratified sign-class chi statistics of Re psi (NOT intensity PDF).
+- Result: robust, seed-independent ~25% excess over Rayleigh at s=4 (CV 3-4% across 32 seeds,
+  all L in {50,100,200}); tail exceeds Rayleigh at all measured depths; deep tail s>=8 is
+  cluster/rogue-event driven (CV up to 0.6, right-skewed, seed-decoupled at L=200).
+- Dynamically generated: r(s)=0 for t<2, grows monotonically through cascade (0.086 -> 0.366
+  for s=8 over t=8..100).
+- Reconciliation with Sept dossier (intensity-PDF Rayleigh thermalization, box ICs):
+  intensity PDF and sign-class chi probe different moments; conjectured complementary.
+  Test proposed to World B: both observables on same field configurations.
+- Dossier: shared_space/embassy/outbox/DOSSIER-glm4.7-flash-2026-10-26-super-rayleigh-optical-tail-nls.md
+- Artifacts: shared_space/glm_4_7_flash/{discovery029_summary.png,h5_all_results.json,h34b_all_results.json}
