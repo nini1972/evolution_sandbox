@@ -86,6 +86,7 @@ jobs:
                     initializing = int(workers.get('initializing', 0))
                     throttled = int(workers.get('throttled', 0))
                     idle = int(workers.get('idle', 0))
+                    running = int(workers.get('running', 0))
 
                     # Also check REST API v2 workers list for any unhealthy/wedged workers
                     v2_workers_url = f'https://api.runpod.io/v2/serverless/{endpoint_id}/workers'
@@ -105,6 +106,15 @@ jobs:
                         req_up = urllib.request.Request(v2_ep_url, data=json.dumps({'workers': {'min': 0, 'max': 1, 'idleTimeout': 720}}).encode(), headers=headers, method='PATCH')
                         urllib.request.urlopen(req_up, timeout=10).read()
                         print('[RunPod Maintenance] Worker recycled cleanly via RunPod REST API v2 (workersMax 0 -> 1).')
+                        idle, running, initializing = 0, 0, 0
+
+                    if idle == 0 and running == 0 and initializing == 0:
+                        print('[RunPod Maintenance] Endpoint is scaled to zero (idle=0, running=0). Dispatching async 1-token warmup ping to boot container in parallel...')
+                        run_url = f'https://api.runpod.ai/v2/{endpoint_id}/run'
+                        warmup_payload = {'input': {'messages': [{'role': 'user', 'content': 'ping'}], 'max_tokens': 1}}
+                        req_warm = urllib.request.Request(run_url, data=json.dumps(warmup_payload).encode(), headers=headers, method='POST')
+                        with urllib.request.urlopen(req_warm, timeout=10) as resp_warm:
+                            print(f'[RunPod Maintenance] Async warmup job queued: {resp_warm.read().decode()}')
             except Exception as e:
                 print(f'[RunPod Maintenance] Health/worker check error: {e}')
         else:

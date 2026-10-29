@@ -161,7 +161,7 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
     )
     msgs = [{"role": "system", "content": sys_content}]
 
-    pruned = prune_history(history)
+    pruned = prune_history(history, max_messages=10, max_content_chars=3500, max_prompt_tokens=6000)
     last_occurrence = {}
     for idx, entry in enumerate(pruned):
         tcs = (entry.get("tool_calls") or []) if entry.get("role") == "assistant" else []
@@ -200,7 +200,13 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
                 continue
             recent_calls.append(f"{fn_name}({json.dumps(parsed_args, ensure_ascii=False)[:80]})")
             skip_next_tool = False
-            json_block = json.dumps({"name": fn_name, "arguments": parsed_args}, ensure_ascii=False)
+            display_args = dict(parsed_args) if isinstance(parsed_args, dict) else parsed_args
+            if isinstance(display_args, dict) and idx < len(pruned) - 2:
+                for k in ("content", "script_content", "new_content", "old_content"):
+                    val = display_args.get(k)
+                    if isinstance(val, str) and len(val) > 1200:
+                        display_args[k] = val[:600] + "\n... [truncated historical payload] ...\n" + val[-400:]
+            json_block = json.dumps({"name": fn_name, "arguments": display_args}, ensure_ascii=False)
             thought_part = content if content else f"Executing {fn_name}."
             msgs.append({
                 "role": "assistant",
@@ -223,6 +229,11 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
             })
 
     msgs = merge_consecutive_messages(msgs)
+    # Enforce hard total character cap (~22,000 chars <= ~9,500 Qwen tokens) so prompt + max_tokens never exceeds 16,384
+    while len(msgs) > 3 and sum(len(m.get("content", "")) for m in msgs) > 22000:
+        msgs.pop(1)
+        if len(msgs) > 2 and msgs[1].get("role") == "assistant":
+            msgs.pop(1)
     if len(msgs) == 1 or msgs[-1]["role"] == "assistant":
         msgs.append({
             "role": "user",
@@ -801,6 +812,9 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             call_kwargs["messages"] = format_messages_for_runpod(system_prompt, history, tools)
             call_kwargs.pop("tools", None)
             call_kwargs.pop("tool_choice", None)
+            rp_chars = sum(len(m.get("content", "")) for m in call_kwargs["messages"])
+            rp_est_tokens = int(rp_chars / 2.2)
+            call_kwargs["max_tokens"] = min(3072, max(512, max_model_len - rp_est_tokens - 512))
     else:
         call_kwargs["model"] = agent_model
 
