@@ -281,6 +281,30 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
             except Exception:
                 pass
 
+    # 1c. Check for Gemini native call:default_api:<tool>{key:val} syntax
+    gem_call = re.search(r'call:(?:default_api:)?([a-zA-Z0-9_]+)\{([^}]+)\}', content, re.DOTALL)
+    if gem_call and gem_call.group(1) in known_tools:
+        t_name = gem_call.group(1)
+        inner = gem_call.group(2).strip()
+        args = {}
+        try:
+            args = json.loads("{" + inner + "}")
+        except Exception:
+            for kv in re.finditer(r'([a-zA-Z0-9_]+)\s*:\s*("[^"]*"|\'[^\']*\'|[^,]+)', inner):
+                k = kv.group(1).strip()
+                v = kv.group(2).strip()
+                if len(v) >= 2 and v[0] == v[-1] and v[0] in ('"', "'"):
+                    v = v[1:-1]
+                args[k] = v
+        if args:
+            return {
+                "type": "tool_call",
+                "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                "tool_name": t_name,
+                "arguments": args,
+                "content": strip_inline_tool_syntax(content[:gem_call.start()]),
+            }
+
     # 1b. Check for Qwen / Hermes <tool_call>{"name": ..., "arguments": ...}</tool_call> syntax
     for m in re.finditer(r'<tool_call>\s*(\{)', content):
         brace_idx = m.start(1)
