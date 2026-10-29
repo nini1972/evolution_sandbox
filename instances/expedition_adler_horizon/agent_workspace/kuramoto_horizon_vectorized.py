@@ -157,6 +157,29 @@ relative_residual[valid_mask] = (
 valid_residuals = relative_residual[valid_mask]
 
 
+def _signed_eps_law(a):
+    """Signed relative residual of the law, LAW-normalized (matches the grid
+    heatmap metric): eps = (t_law - t_exact)/t_law."""
+    t_law = (2.0 / a) * R0 ** (-a)
+    t_exact = 2.0 * _integral_I(a)
+    return (t_law - t_exact) / t_law
+
+
+# Fine alpha mesh (401 pts) + exact boundary coordinates, computed ONCE here so
+# the diagnostic figure and the dossier report the *same live numbers*.
+_a_fine = np.linspace(ALPHA_RANGE[0], ALPHA_RANGE[1], 401)
+_I_fine = np.array([_integral_I(a) for a in _a_fine])   # I(alpha), K0-independent
+_t_law_fine = (2.0 / _a_fine) * R0 ** (-_a_fine)
+_eps_fine = (_t_law_fine - 2.0 * _I_fine) / _t_law_fine  # LAW-normalized
+
+# Null point alpha0: exact root of the signed law-normalized residual.
+from scipy.optimize import brentq
+_alpha0_exact = float(brentq(_signed_eps_law, ALPHA_RANGE[0], ALPHA_RANGE[1]))
+# 5% falsification shell: first alpha (rising from 0.5) where |eps| < 5%.
+_bound_idx = np.where(np.abs(_eps_fine) < 0.05)[0]
+_alpha5_exact = float(_a_fine[_bound_idx[0]] if len(_bound_idx) else np.nan)
+
+
 # ── Diagnostic figure ──────────────────────────────────────────────────
 print("\nBuilding diagnostic figure...")
 fig, axs = plt.subplots(1, 2, figsize=(14, 5.5))
@@ -187,10 +210,9 @@ axs[1].set_ylabel('alpha')
 axs[1].set_title('Relative residual (t_emp - t_law)/t_law  [%, linear]')
 plt.colorbar(im2, ax=axs[1], label='residual % (linear scale)')
 
-# mark the 5% falsification boundary alpha
-axs[1].axhline(0.6478, color='black', ls=':', lw=1.2, label='5% boundary')
-# null point
-axs[1].axhline(0.8494, color='gold', ls='-', lw=1.2, label='null point')
+# mark the 5% falsification boundary alpha and the null point (live, law-normalized)
+axs[1].axhline(_alpha0_exact, color='gold', ls='-', lw=1.5, label=f'null α₀={_alpha0_exact:.4f}')
+axs[1].axhline(_alpha5_exact, color='black', ls=':', lw=1.2, label=f'5% shell α={_alpha5_exact:.4f}')
 axs[1].legend(loc='upper left', fontsize=8)
 
 fig.suptitle('Horizon Escape Law: Reflexive Kuramoto  '
@@ -266,24 +288,12 @@ if len(valid_residuals) > 0:
 # 1D alpha-dependence without any grid-discretisation bias.
 eps_by_a = np.nanmean(np.where(valid_mask, relative_residual, np.nan), axis=1)
 
-# Null point: exact root of the continuum residual using brentq on a fine,
-# dense alpha mesh (this is the analytic root alpha0 = 0.849428 reported by
-# DeepSeek V4 Flash, here re-derived numerically from the same quadrature).
-from scipy.optimize import brentq
-_a_fine = np.linspace(ALPHA_RANGE[0], ALPHA_RANGE[1], 401)
-# fully vectorized evaluation of the signed continuum residual on the fine mesh
-_I_fine = np.array([_integral_I(a) for a in _a_fine])   # I(alpha), K0-independent
-_t_law_fine = (2.0 / _a_fine) * R0 ** (-_a_fine)
-_eps_fine = (_t_law_fine - 2.0 * _I_fine) / (2.0 * _I_fine)   # signed, K0=1 ref
-
-# Null point alpha0: exact root within the requested window
-_alpha0_exact = float(brentq(
-    lambda a: ((2.0 / a) * R0 ** (-a) - 2.0 * _integral_I(a)) / (2.0 * _integral_I(a)),
-    ALPHA_RANGE[0], ALPHA_RANGE[1]))
-
-# 5% falsification boundary: first alpha (rising from 0.5) where |eps| < 5%
-_bound_idx = np.where(np.abs(_eps_fine) < 0.05)[0]
-_alpha5_exact = float(_a_fine[_bound_idx[0]] if len(_bound_idx) else np.nan)
+# NOTE: the fine alpha mesh, _eps_fine, _alpha0_exact and _alpha5_exact are
+# computed ONCE above (before the diagnostic figure) so the figure annotations
+# and these printed coordinates are guaranteed identical. The null point is the
+# analytic root alpha0 = 0.849428 reported by DeepSeek V4 Flash, re-derived
+# numerically from the same quadrature with brentq on the LAW-normalized
+# residual (consistent with the grid heatmap metric).
 
 print(f"  Null point alpha0 (eps_law = 0): {_alpha0_exact:.6f}")
 print(f"  5% falsification boundary:       alpha = {_alpha5_exact:.4f}")

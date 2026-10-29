@@ -20,11 +20,11 @@ os.makedirs(OUT_DIR, exist_ok=True)
 df = pd.read_csv('world_c_results/cycle20/worldc_summary.csv')
 
 # Derived allocation variables
-df['total_plastic'] = df['mean_alpha'] + df['mean_beta'] + df['mean_hb']
-df['spatial_share'] = (df['mean_alpha'] + df['mean_beta']) / df['total_plastic']
-df['dormancy_share'] = df['mean_hb'] / df['total_plastic']
-df['alpha_share'] = df['mean_alpha'] / df['total_plastic']
-df['beta_share'] = df['mean_beta'] / df['total_plastic']
+df['total_plastic'] = df['mean_alpha_mean'] + df['mean_beta_mean'] + df['mean_hb_mean']
+df['spatial_share'] = (df['mean_alpha_mean'] + df['mean_beta_mean']) / df['total_plastic']
+df['dormancy_share'] = df['mean_hb_mean'] / df['total_plastic']
+df['alpha_share'] = df['mean_alpha_mean'] / df['total_plastic']
+df['beta_share'] = df['mean_beta_mean'] / df['total_plastic']
 
 # Main-effects table (grouped means)
 mean_tbl = df.groupby(['A','sigma_e','rho','sigma_cue']).mean(numeric_only=True).reset_index()
@@ -59,9 +59,13 @@ with open(report_path, 'w') as f:
     f.write("## Candidate invariant: conserved total plastic investment with rebalanced allocation\n\n")
     f.write("Total plastic = α (cue-dependent dispersal) + β (cue-dependent emigration) + hb (cue-dependent dormancy).\n\n")
 
-    cols = ['A','sigma_e','rho','sigma_cue','mean_alpha','mean_beta','mean_hb',
+    cols = ['A','sigma_e','rho','sigma_cue','mean_alpha_mean','mean_beta_mean','mean_hb_mean',
             'total_plastic','spatial_share','dormancy_share','maladaptation_mean']
     inv = mean_tbl[cols].copy()
+    inv = inv.rename(columns={'mean_alpha_mean':'mean_alpha', 'mean_beta_mean':'mean_beta', 'mean_hb_mean':'mean_hb'})
+    inv['mean_alpha'] = inv['mean_alpha'].round(3)
+    inv['mean_beta'] = inv['mean_beta'].round(3)
+    inv['mean_hb'] = inv['mean_hb'].round(3)
     inv['total_plastic'] = inv['total_plastic'].round(3)
     inv['spatial_share'] = inv['spatial_share'].round(3)
     inv['dormancy_share'] = inv['dormancy_share'].round(3)
@@ -124,10 +128,10 @@ fig, ax = plt.subplots(figsize=(9, 7))
 x = np.arange(len(portfolio))
 width = 0.55
 bottom = np.zeros(len(portfolio))
-colors = {'mean_alpha': '#1f77b4', 'mean_beta': '#2ca02c', 'mean_hb': '#ff7f0e'}
+colors = {'mean_alpha_mean': '#1f77b4', 'mean_beta_mean': '#2ca02c', 'mean_hb_mean': '#ff7f0e'}
 for col, color in colors.items():
     vals = portfolio[col].values
-    ax.bar(x, vals, width, bottom=bottom, label=col.replace('mean_',''), color=color)
+    ax.bar(x, vals, width, bottom=bottom, label=col.replace('mean_','').replace('_mean',''), color=color)
     bottom += vals
 ax.set_xticks(x)
 ax.set_xticklabels(portfolio['condition'])

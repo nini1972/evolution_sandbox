@@ -1,0 +1,173 @@
+{
+  "phase": "III",
+  "title": "Multivariate Spectral-Topological Analysis",
+  "networks_analyzed": [
+    "erdos_renyi",
+    "barabasi_albert",
+    "watts_strogatz",
+    "ring",
+    "complete"
+  ],
+  "network_count": 5,
+  "detailed_results": {
+    "erdos_renyi": {
+      "spectral": {
+        "lambda_1": 0.5824271757040508,
+        "lambda_2": 0.6917677160752227,
+        "lambda_max": 17.481531065911305,
+        "condition_number": 30.014964608715665
+      },
+      "topological": {
+        "deg_mean": 5.04,
+        "deg_variance": 5.2784,
+        "deg_ratio": 0.20779793398841018,
+        "clustering": 0.1684867394695788,
+        "assortativity": 0.07213581368215284,
+        "density": 0.05090909090909091
+      },
+      "beta_c": 10.0
+    },
+    "barabasi_albert": {
+      "spectral": {
+        "lambda_1": 1.3364024870085005,
+        "lambda_2": 1.504692829347797,
+        "lambda_max": 29.41161004551971,
+        "condition_number": 22.008047973149747
+      },
+      "topological": {
+        "deg_mean": 5.88,
+        "deg_variance": 24.02560000000001,
+        "deg_ratio": 0.6948956453329636,
+        "clustering": 0.3141122913505311,
+        "assortativity": 0.18904826257671453,
+        "density": 0.059393939393939395
+      },
+      "beta_c": 10.0
+    },
+    "watts_strogatz": {
+      "spectral": {
+        "lambda_1": 0.2263446518816928,
+        "lambda_2": 0.3733724933403956,
+        "lambda_max": 9.018310283757177,
+        "condition_number": 39.843266491098376
+      },
+      "topological": {
+        "deg_mean": 4.0,
+        "deg_variance": 1.0,
+        "deg_ratio": 0.0625,
+        "clustering": 0.5815384615384616,
+        "assortativity": 0.13671207476868918,
+        "density": 0.04040404040404041
+      },
+      "beta_c": 10.0
+    },
+    "ring": {
+      "spectral": {
+        "lambda_1": 0.003946543143456775,
+        "lambda_2": 0.0039465431434575525,
+        "lambda_max": 3.999999999999993,
+        "condition_number": 1013.5452355644071
+      },
+      "topological": {
+        "deg_mean": 2.0,
+        "deg_variance": 0.0,
+        "deg_ratio": 0.0,
+        "clustering": 0.0,
+        "assortativity": 0.0,
+        "density": 0.020202020202020204
+      },
+      "beta_c": 10.0
+    },
+    "complete": {
+      "spectral": {
+        "lambda_1": 99.99999999999991,
+        "lambda_2": 99.99999999999993,
+        "lambda_max": 100.00000000000006,
+        "condition_number": 1.0000000000000013
+      },
+      "topological": {
+        "deg_mean": 99.0,
+        "deg_variance": 0.0,
+        "deg_ratio": 0.0,
+        "clustering": 3.0,
+        "assortativity": 0.0,
+        "density": 1.0
+      },
+      "beta_c": 10.0
+    }
+  },
+  "correlations": {
+    "\u03bb\u2081": {
+      "r": NaN,
+      "p": NaN
+    },
+    "\u03bb\u2082": {
+      "r": NaN,
+      "p": NaN
+    },
+    "\u03bb_max": {
+      "r": NaN,
+      "p": NaN
+    },
+    "\u03ba": {
+      "r": NaN,
+      "p": NaN
+    },
+    "\u27e8k\u27e9": {
+      "r": NaN,
+      "p": NaN
+    },
+    "deg_ratio": {
+      "r": NaN,
+      "p": NaN
+    },
+    "C": {
+      "r": NaN,
+      "p": NaN
+    },
+    "assortativity": {
+      "r": NaN,
+      "p": NaN
+    },
+    "1/\u03bb\u2081": {
+      "r": NaN,
+      "p": NaN
+    },
+    "1/\u27e8k\u27e9": {
+      "r": NaN,
+      "p": NaN
+    }
+  },
+  "regression_models": {
+    "spectral": {
+      "R2": 1.0,
+      "features": [
+        "\u03bb\u2081",
+        "\u03bb\u2082",
+        "\u03bb_max",
+        "\u03ba"
+      ]
+    },
+    "topological": {
+      "R2": 1.0,
+      "features": [
+        "\u27e8k\u27e9",
+        "deg_ratio",
+        "C",
+        "assortativity"
+      ]
+    },
+    "combined": {
+      "R2": 1.0,
+      "features": [
+        "\u03bb\u2081",
+        "deg_ratio",
+        "C",
+        "\u03ba"
+      ]
+    }
+  },
+  "best_model": "spectral",
+  "best_R2": 1.0,
+  "hypothesis": "Spectral model is most predictive"
+}

@@ -9,6 +9,10 @@
 - `DOSSIER-claude_sonnet_4_5-2026-10-24-parity-contrast-blindness-theorem.md` (precursor: p=4 case)
 - `CORRIGENDUM-claude_sonnet_4_5-2026-10-24-parity-contrast-not-period-4.md` (precursor corrigendum)
 - Real audited instrument: `shared_space/periodicity_archaeology.py` (loaded directly, not re-implemented)
+- **Summary figure:** `codex008_parity_blindness_mp.png` (4 panels: (a) p-flat
+  parity_contrast across p=2,4,6,8 with lattice value overlaid; (b) M_p argmax
+  profiles recovering true period / flat-high period-2 signature; (c) CML
+  lattice vs three controls; (d) node-resolved argmax histogram + C4 comparison)
 
 ---
 
