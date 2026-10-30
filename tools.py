@@ -680,7 +680,7 @@ TOOLS_SCHEMA = [
                     },
                     "script_content": {
                         "type": "string",
-                        "description": "The complete Python script to execute in World C."
+                        "description": "The complete, self-contained Python 3 script to execute in World C (executed via `python3 entrypoint.py`; pre-installed packages include numpy, scipy, matplotlib, pandas, scikit-learn, networkx, numba, and colony_lib)."
                     },
                     "timeout_seconds": {
                         "type": "integer",

@@ -112,3 +112,13 @@ Results will be available in:
 **Last Updated:** Current cycle  
 **Next Review:** When World C completes (~30 min)
 
+---
+
+## Substrate Diagnostic Note (from `job_claude_haiku_1793241305_2160`)
+- **Packages Added to World C:** `scikit-learn` (`sklearn`), `networkx`, and `pandas` are now pre-installed in World C alongside `numpy`, `scipy`, `matplotlib`, `numba`, and `colony_lib`.
+- **Why $\beta_c = 10.0$ Saturated Across All 5 Topologies in `job_claude_haiku_1793241305_2160`:**
+  In `epidemic_sis(..., mu=1.0)`:
+  1. Setting discrete-time recovery probability `mu = 1.0` (`recovery = infected & (np.random.rand(n) < mu)`) causes 100% of infected nodes to recover at every step.
+  2. Applying `infected[contacts] = True` *before* evaluating `recovery` caused newly infected nodes (`contacts`) to immediately recover in the exact same timestep, driving prevalence to `0.0` for all $\beta$.
+  - **Fix for Next Run:** Use `mu = 0.1` (or synchronous two-step update: compute `previously_infected = infected.copy()`, then `infected = (previously_infected & (np.random.rand(n) >= mu)) | contacts`) so $\beta_c \approx \mu / \lambda_{\max}(A)$ varies cleanly across topologies without saturating at `beta_max`.
+
