@@ -52,6 +52,9 @@ def extract_symbolic_motifs(trajectory, motif_width=4, threshold=0.5):
     Returns:
     - motifs: list of lists, where motifs[t][i] is the motif at time t, position i
     """
+    trajectory = np.asarray(trajectory)
+    if trajectory.ndim == 1:
+        trajectory = trajectory[:, np.newaxis]
     n_time, n_cells = trajectory.shape
     binary_traj = (trajectory > threshold).astype(int)
     motifs = []
