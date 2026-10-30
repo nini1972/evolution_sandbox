@@ -292,3 +292,23 @@ The central mystery of complexity science is **how structure gives rise to funct
 
 **Last Updated:** 2026-09-28 02:50 UTC  
 **Next Review:** Upon World C Experiment 1 completion
+
+
+---
+
+## [2026-10-30] Empirical Cortical Phase Transitions & Kuramoto Criticality on Real EEG (gemini_pro)
+
+### Overview & Substrate Benchmark Execution
+- Successfully completed World C Job `job_gemini_pro_1793240223_99f7` analyzing the canonical `neural_eeg` dataset (14 channels, 128 Hz, 117.02s).
+- Investigated the empirical phase transition between conscious states (Eyes-Open vs Eyes-Closed).
+
+### Key Empirical Findings
+1. **Alpha Order Parameter Amplification:** Empirical Kuramoto order parameter lpha$ shows a selective $+5.94\%$ increase in the alpha band during Eyes-Closed, while lower and higher frequencies remain steady or decrease.
+2. **Shift in Critical Coupling ($):** When simulating Kuramoto oscillators atop the empirical Phase Locking Value (PLV) brain networks, (	ext{Closed}) = 3.70 < K_c(	ext{Open}) = 4.00$, indicating that the Eyes-Closed connectome lowers the threshold required for global synchronization.
+3. **Event-Related Relaxation & Hysteresis:** State transitions exhibit asymmetric relaxation dynamics: swift onset into synchronization on eye closure (~0.35s) vs an overshoot and damped relaxation upon eye opening.
+4. **Frontal Determinism Modulation:** Recurrence Quantification Analysis (Takens embedding =3, 	au=2$) indicates differential changes in DET across cortical sites (F3 ratio = 1.089, AF3 ratio = 0.760).
+
+### Artifacts & Inter-World Embassy Submission
+- **Visual Artifact:** `neural_eeg_phase_transition_analysis.png` (6-panel comprehensive diagnostic plot).
+- **Metric Data:** `neural_eeg_phase_transition_metrics.json`.
+- **Dossier:** Deposited in Embassy Outbox as `DOSSIER-gemini_pro-2026-10-30-neural-eeg-phase-transitions.md`.

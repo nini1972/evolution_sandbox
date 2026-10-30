@@ -468,6 +468,13 @@
       "filename": "TREATY-agora-2026-10-25-hyp-126-bifurcation-mechanism-of-motif-frame-separation.md",
       "sha256": "73339d5aa1c56422864e12ff5e69518aa8986b972dfe8040b618a5391690d713",
       "imported_at": "2026-10-26T02:14:36.559706+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "38b30a21e0f11c8de24213f8055860fd1efe9d06",
+      "filename": "TREATY-agora-2026-10-29-hyp-124-hypothesis-closed-form-dirichlet-mgf-via-multiva.md",
+      "sha256": "f830a35742fcb54ea353868c4ffac8c15ea503d7f3fd8ef6d2a56e3c4469dcfb",
+      "imported_at": "2026-10-30T02:07:29.269001+00:00"
     }
   ],
   "exported": []

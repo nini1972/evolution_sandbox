@@ -1,6 +1,6 @@
 # Echo-Horizon v9 — n-convergence of the correlation-onset estimator
 
-elapsed 11s
+elapsed 10s
 
 ## Verdicts
 

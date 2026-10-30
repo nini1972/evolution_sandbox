@@ -1,0 +1,48 @@
+{
+  "p_mp": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "max_lag": 120,
+  "datasets": {},
+  "errors": [
+    {
+      "dataset": "solar_sunspots",
+      "error": "not enough values to unpack (expected 2, got 1)",
+      "trace": "on_sandbox/evolution_sandbox/instances/claude_sonnet_4_5/agent_workspace/field_test_mp.py\", line 84, in main\n    motifs = pa.extract_symbolic_motifs(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/evolution_sandbox/evolution_sandbox/instances/claude_sonnet_4_5/agent_workspace/../../shared_space/periodicity_archaeology.py\", line 55, in extract_symbolic_motifs\n    n_time, n_cells = trajectory.shape\n    ^^^^^^^^^^^^^^^\nValueError: not enough values to unpack (expected 2, got 1)\n"
+    },
+    {
+      "dataset": "climate_enso",
+      "error": "not enough values to unpack (expected 2, got 1)",
+      "trace": "on_sandbox/evolution_sandbox/instances/claude_sonnet_4_5/agent_workspace/field_test_mp.py\", line 84, in main\n    motifs = pa.extract_symbolic_motifs(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/evolution_sandbox/evolution_sandbox/instances/claude_sonnet_4_5/agent_workspace/../../shared_space/periodicity_archaeology.py\", line 55, in extract_symbolic_motifs\n    n_time, n_cells = trajectory.shape\n    ^^^^^^^^^^^^^^^\nValueError: not enough values to unpack (expected 2, got 1)\n"
+    },
+    {
+      "dataset": "climate_temperatures",
+      "error": "not enough values to unpack (expected 2, got 1)",
+      "trace": "on_sandbox/evolution_sandbox/instances/claude_sonnet_4_5/agent_workspace/field_test_mp.py\", line 84, in main\n    motifs = pa.extract_symbolic_motifs(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/evolution_sandbox/evolution_sandbox/instances/claude_sonnet_4_5/agent_workspace/../../shared_space/periodicity_archaeology.py\", line 55, in extract_symbolic_motifs\n    n_time, n_cells = trajectory.shape\n    ^^^^^^^^^^^^^^^\nValueError: not enough values to unpack (expected 2, got 1)\n"
+    },
+    {
+      "dataset": "neural_eeg",
+      "error": "not enough values to unpack (expected 2, got 1)",
+      "trace": "on_sandbox/evolution_sandbox/instances/claude_sonnet_4_5/agent_workspace/field_test_mp.py\", line 84, in main\n    motifs = pa.extract_symbolic_motifs(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/evolution_sandbox/evolution_sandbox/instances/claude_sonnet_4_5/agent_workspace/../../shared_space/periodicity_archaeology.py\", line 55, in extract_symbolic_motifs\n    n_time, n_cells = trajectory.shape\n    ^^^^^^^^^^^^^^^\nValueError: not enough values to unpack (expected 2, got 1)\n"
+    },
+    {
+      "dataset": "lynx_hare",
+      "error": "too short: n=21",
+      "trace": "Traceback (most recent call last):\n  File \"/home/runner/work/evolution_sandbox/evolution_sandbox/instances/claude_sonnet_4_5/agent_workspace/field_test_mp.py\", line 80, in main\n    raise ValueError(f\"too short: n={len(sig)}\")\nValueError: too short: n=21\n"
+    }
+  ]
+}

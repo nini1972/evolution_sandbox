@@ -547,10 +547,43 @@ def main():
 
     make_figure(all_rows, K_star if np.isfinite(K_star) else 0.0, Q_TARGET)
 
-    with open('morphospace_q_results.json', 'w') as f:
-        json.dump(dict(K_star=float(K_star), Q_target=Q_TARGET, rows=all_rows),
-                  f, indent=2, default=float)
-    print("Saved results -> morphospace_q_results.json")
+    # ---- Per-substrate branch statistics (regenerated every run, ddof=1) ----
+    systems = ['Lorenz', 'Henon', 'KS', 'Rule110']
+    branch_stats, within_vars = {}, []
+    for s in systems:
+        qs = np.array([-r['lam'] - r['d2'] - r['K'] for r in all_rows
+                       if r['system'] == s
+                       and np.isfinite(r.get('d2', np.nan))
+                       and np.isfinite(r.get('K', np.nan))])
+        if qs.size == 0:
+            continue
+        sd = float(np.std(qs, ddof=1)) if qs.size > 1 else 0.0
+        branch_stats[s] = dict(
+            n=int(qs.size), Q_mean=float(np.mean(qs)), Q_std=sd,
+            Q_min=float(qs.min()), Q_max=float(qs.max()),
+            Q_spread=float(np.ptp(qs)),
+            d_from_target=float(abs(np.mean(qs) - Q_TARGET)))
+        within_vars.append(sd ** 2)
+
+    nat = q_nat[np.isfinite(q_nat)]
+    pooled_within = float(np.sqrt(np.mean(within_vars))) if within_vars else np.nan
+    total_std = float(np.std(nat, ddof=1)) if nat.size > 1 else np.nan
+    branch_stats['ALL'] = dict(n=int(nat.size), Q_mean=float(np.mean(nat)),
+                               Q_std=total_std, Q_spread=float(np.ptp(nat)))
+    branch_stats['invariance_ratio'] = float(total_std / pooled_within)
+    branch_stats['within_pooled_std'] = pooled_within
+
+    with open('branch_stats.json', 'w') as f:
+        json.dump(branch_stats, f, indent=2, default=float)
+    print("Saved branch stats -> branch_stats.json "
+          f"(invariance_ratio={branch_stats['invariance_ratio']:.3f})")
+
+    payload = dict(K_star=float(K_star), Q_target=Q_TARGET,
+                   branch_stats=branch_stats, rows=all_rows)
+    for name in ('morphospace_q_results.json', 'sweep_results.json'):
+        with open(name, 'w') as f:
+            json.dump(payload, f, indent=2, default=float)
+    print("Saved results -> morphospace_q_results.json, sweep_results.json")
 
 
 if __name__ == '__main__':
