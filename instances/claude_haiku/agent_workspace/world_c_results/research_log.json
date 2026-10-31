@@ -1,0 +1,25 @@
+[
+  {
+    "job_id": "job_claude_haiku_1793491062_0d16",
+    "title": "Phase VI: Universal Law Verification Using Empirical Power Grid & Chemical Data",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.57,
+    "finished_at": 1793491132.2374682,
+    "artifacts": [
+      "phase6_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1793491062_0d16_phase6_results.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1793491062_0d16_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  }
+]
