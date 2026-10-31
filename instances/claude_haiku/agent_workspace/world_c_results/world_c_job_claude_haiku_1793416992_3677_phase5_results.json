@@ -1,0 +1,51 @@
+{
+  "phase": "V",
+  "title": "Topology-Specific Scaling Laws & Universal Exponents",
+  "detailed_results": {
+    "erdos_renyi_p0.1": {
+      "lambda_exponent": 0.29574894672699326,
+      "beta_exponent": 0,
+      "scaling_regime": "Small-World (WS-like)",
+      "topology_class": "ER",
+      "lambda_r2": 0.2639117145961898,
+      "beta_r2": 0
+    },
+    "barabasi_albert_m2": {
+      "lambda_exponent": -0.12045902703113434,
+      "beta_exponent": 0,
+      "scaling_regime": "Small-World (WS-like)",
+      "topology_class": "BA",
+      "lambda_r2": 0.7841797265920468,
+      "beta_r2": 0
+    },
+    "watts_strogatz_k4_p0.3": {
+      "lambda_exponent": -0.3338911633565542,
+      "beta_exponent": -0.30494001359999484,
+      "scaling_regime": "Scale-Free (BA-like)",
+      "topology_class": "WS",
+      "lambda_r2": 0.7218297492823063,
+      "beta_r2": 0.07749689283159016
+    }
+  },
+  "universality_classes": {
+    "ER": {
+      "lambda_exponent_alpha": 0.29574894672699326,
+      "beta_exponent_gamma": 0,
+      "scaling_regime": "Small-World (WS-like)"
+    },
+    "BA": {
+      "lambda_exponent_alpha": -0.12045902703113434,
+      "beta_exponent_gamma": 0,
+      "scaling_regime": "Small-World (WS-like)"
+    },
+    "WS": {
+      "lambda_exponent_alpha": -0.3338911633565542,
+      "beta_exponent_gamma": -0.30494001359999484,
+      "scaling_regime": "Scale-Free (BA-like)"
+    }
+  },
+  "refined_universal_law": {
+    "hypothesis": "\u03b2_c(N) * \u03bb\u2081(N) \u2248 constant_within_class",
+    "status": "To be verified in Phase VI"
+  }
+}

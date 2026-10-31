@@ -1,0 +1,58 @@
+{
+  "phase": "IV",
+  "title": "Finite-Size Scaling & Universal Constants",
+  "network_sizes": [
+    50,
+    75,
+    100,
+    150,
+    200
+  ],
+  "topologies": [
+    "erdos_renyi_p0.1",
+    "barabasi_albert_m2",
+    "watts_strogatz_k4_p0.3"
+  ],
+  "scaling_analysis": {
+    "erdos_renyi_p0.1": {
+      "c_fit": 0.12040580361034588,
+      "slope": -1.778837283540647e-17,
+      "intercept": 0.041666666666666664,
+      "r2": -Infinity
+    },
+    "barabasi_albert_m2": {
+      "c_fit": 0.02643438844587489,
+      "slope": 2.812018106928639e-17,
+      "intercept": 0.04166666666666662,
+      "r2": -Infinity
+    },
+    "watts_strogatz_k4_p0.3": {
+      "c_fit": 0.028315550252056843,
+      "slope": -0.03565747523333572,
+      "intercept": 0.1785638376862614,
+      "r2": 0.2884220278710209
+    }
+  },
+  "universal_constant": {
+    "estimate": 0.05838524743609253,
+    "std": 0.04386187967972527,
+    "relative_error": 75.12493584571294
+  },
+  "scaling_exponents": {
+    "erdos_renyi_p0.1": {
+      "coefficient": 0.00023721341483981924,
+      "exponent": 1.9436531035219407,
+      "r2_log": 0.8701352957222915
+    },
+    "barabasi_albert_m2": {
+      "coefficient": 1.1056533055530442,
+      "exponent": -0.12047953765377578,
+      "r2_log": 0.7845551011132754
+    },
+    "watts_strogatz_k4_p0.3": {
+      "coefficient": 1.6472893728519775,
+      "exponent": -0.3339081095927025,
+      "r2_log": 0.7220326003492703
+    }
+  }
+}

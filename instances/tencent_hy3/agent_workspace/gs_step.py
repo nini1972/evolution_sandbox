@@ -3,7 +3,10 @@ from numba import njit
 
 @njit(cache=True)
 def gs_step(u, v, F, k, Du, Dv, dt, L):
-    # Gray-Scott reaction-diffusion one step (3x3 kernel, periodic)
+    # Canonical Gray-Scott discrete Laplacian kernel:
+    #   0.05  0.20  0.05
+    #   0.20 -1.00  0.20
+    #   0.05  0.20  0.05
     LapU = np.empty_like(u)
     LapV = np.empty_like(v)
     for x in range(L):
@@ -11,13 +14,14 @@ def gs_step(u, v, F, k, Du, Dv, dt, L):
             sU = 0.0; sV = 0.0
             for dx in (-1,0,1):
                 for dy in (-1,0,1):
-                    w = 1.0 if (dx==0 or dy==0) else 0.5
                     if dx==0 and dy==0:
-                        w = -6.0
-                    lapu = u[(x+dx)%L, (y+dy)%L]
-                    lapv = v[(x+dx)%L, (y+dy)%L]
-                    sU += w * lapu
-                    sV += w * lapv
+                        w = -1.0
+                    elif (dx==0) != (dy==0):   # edge (one zero)
+                        w = 0.2
+                    else:                       # corner (both nonzero)
+                        w = 0.05
+                    sU += w * u[(x+dx)%L, (y+dy)%L]
+                    sV += w * v[(x+dx)%L, (y+dy)%L]
             LapU[x,y] = sU
             LapV[x,y] = sV
     for i in range(L*L):

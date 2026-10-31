@@ -84,8 +84,9 @@ def main():
             else:
                 sig = np.asarray(ds.primary_signal, float)
             sig = sig[np.isfinite(sig)]
-            if len(sig) < 40:
-                raise ValueError(f"too short: n={len(sig)}")
+            if len(sig) < 256:
+                raise ValueError(
+                    f"too short: n={len(sig)} (need n>=256 so max_lag>=64>=4*max_p)")
 
             ml = int(min(MAX_LAG, len(sig) // 4))  # >= 4*max_p margin
             lc = lc_of(sig, ml)
@@ -93,14 +94,27 @@ def main():
             st = pa.analyze_periodic_structure(lc, period_candidates=P_PARITY)
             parity = {p: float(st[p]["parity_contrast"]) for p in P_PARITY}
 
-            prof = real = profile(lc)
-            arg = max(prof, key=prof.get)
+            prof = profile(lc)
 
-            # shuffle surrogate, SAME code path
-            sh = np.array(sig); rng.shuffle(sh)
-            prof_sh = profile(lc_of(sh, ml))
-            sh_flat = float(np.ptp(list(prof_sh.values())))
-            sh_max = float(max(prof_sh.values()))
+            # --- bias correction: M_p grows with p mechanically (fewer lags
+            # per residue class -> higher sampling variance). Calibrate with
+            # a shuffle ENSEMBLE through the identical code path and report
+            # z-scores; detection = argmax of z, not of raw M_p.
+            N_SHUF = 20
+            acc = {p: [] for p in P_MP}
+            for _ in range(N_SHUF):
+                sh = np.array(sig); rng.shuffle(sh)
+                ps = profile(lc_of(sh, ml))
+                for p in P_MP:
+                    acc[p].append(ps[p])
+            z = {}
+            for p in P_MP:
+                mu = float(np.mean(acc[p]))
+                sd = float(np.std(acc[p]))
+                z[p] = (prof[p] - mu) / sd if sd > 1e-15 else 0.0
+            arg = max(z, key=z.get)
+            sh_flat = float(np.ptp([np.mean(acc[p]) for p in P_MP]))
+            sh_max = float(max(np.mean(acc[p]) for p in P_MP))
 
             ref = REFERENCE.get(name, {})
             out["datasets"][name] = {
@@ -108,14 +122,19 @@ def main():
                 "parity_contrast": parity,
                 "parity_spread_pflat": float(np.ptp(list(parity.values()))),
                 "Mp_profile": prof,
-                "Mp_argmax_p": int(arg),
-                "Mp_argmax_value": float(prof[arg]),
+                "Mp_z": z,
+                "shuffle_ensemble_mean_Mp": {str(p): float(np.mean(acc[p]))
+                                             for p in P_MP},
+                "max_lag_used": ml,
+                "Mp_argmax_p_z": int(arg),
+                "Mp_argmax_z_value": float(z[arg]),
+                "Mp_argmax_p_raw": int(max(prof, key=prof.get)),
                 "reference_period_samples": ref.get("period_samples"),
                 "reference_note": ref.get("note"),
                 "shuffle_floor_max_Mp": sh_max,
                 "shuffle_profile_spread": sh_flat,
                 "signal_exceeds_max_lag": bool(
-                    ref.get("period_samples", 0) > MAX_LAG),
+                    ref.get("period_samples", 0) > ml),
             }
         except Exception as e:
             out["errors"].append({"dataset": name, "error": str(e),

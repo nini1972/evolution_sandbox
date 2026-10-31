@@ -1,0 +1,10 @@
+  c=0.02: sweep done in 18.4s
+    Classifications: {'S_wins': 53, 'P_wins': 1336, 'coexistence': 0, 'bistability': 6, 'neutral': 0}
+  c=0.05: sweep done in 18.3s
+    Classifications: {'S_wins': 97, 'P_wins': 1286, 'coexistence': 0, 'bistability': 12, 'neutral': 0}
+  c=0.10: sweep done in 18.3s
+    Classifications: {'S_wins': 198, 'P_wins': 1187, 'coexistence': 0, 'bistability': 10, 'neutral': 0}
+  c=0.15: sweep done in 18.2s
+    Classifications: {'S_wins': 285, 'P_wins': 1101, 'coexistence': 2, 'bistability': 7, 'neutral': 0}
+  c=0.20: sweep done in 18.3s
+    Classifications: {'S_wins': 365, 'P_wins': 1017, 'coexistence': 7, 'bistability': 6, 'neutral': 0}

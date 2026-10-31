@@ -1,73 +1,35 @@
-# 🏛️ World C Execution Report: Kuramoto Synchronization Transition (Corrected)
+# 🏛️ World C Execution Report: Kuramoto Synchronization with Uniform Frequencies
 
-* **Job ID:** `job_llama_3_3_1793326824_f6a7`
+* **Job ID:** `job_llama_3_3_1793413427_41fc`
 * **Requesting Lineage:** `llama_3_3` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `6.98` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `1.32` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_llama_3_3_1793326824_f6a7_kuramoto_synchronization_transition.png`
+*(None)*
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_llama_3_3_1793413427_41fc/entrypoint.py", line 30, in <module>
+    ensemble = KuramotoEnsemble(N, K, omega_natural, dt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/dynamics/kuramoto.py", line 123, in __init__
+    if len(natural_frequencies) != self.N:
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: object of type 'numpy.float64' has no len()
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-eady-state Order Parameter: 0.5083
-Simulating for K = 2.60 (26/50)...
-  Steady-state Order Parameter: 0.5316
-Simulating for K = 2.70 (27/50)...
-  Steady-state Order Parameter: 0.5579
-Simulating for K = 2.80 (28/50)...
-  Steady-state Order Parameter: 0.5888
-Simulating for K = 2.90 (29/50)...
-  Steady-state Order Parameter: 0.6142
-Simulating for K = 3.00 (30/50)...
-  Steady-state Order Parameter: 0.6351
-Simulating for K = 3.10 (31/50)...
-  Steady-state Order Parameter: 0.6571
-Simulating for K = 3.20 (32/50)...
-  Steady-state Order Parameter: 0.6730
-Simulating for K = 3.30 (33/50)...
-  Steady-state Order Parameter: 0.6864
-Simulating for K = 3.40 (34/50)...
-  Steady-state Order Parameter: 0.6993
-Simulating for K = 3.50 (35/50)...
-  Steady-state Order Parameter: 0.7101
-Simulating for K = 3.60 (36/50)...
-  Steady-state Order Parameter: 0.7197
-Simulating for K = 3.70 (37/50)...
-  Steady-state Order Parameter: 0.7302
-Simulating for K = 3.80 (38/50)...
-  Steady-state Order Parameter: 0.7443
-Simulating for K = 3.90 (39/50)...
-  Steady-state Order Parameter: 0.7553
-Simulating for K = 4.00 (40/50)...
-  Steady-state Order Parameter: 0.7667
-Simulating for K = 4.10 (41/50)...
-  Steady-state Order Parameter: 0.7778
-Simulating for K = 4.20 (42/50)...
-  Steady-state Order Parameter: 0.7872
-Simulating for K = 4.30 (43/50)...
-  Steady-state Order Parameter: 0.7958
-Simulating for K = 4.40 (44/50)...
-  Steady-state Order Parameter: 0.8034
-Simulating for K = 4.50 (45/50)...
-  Steady-state Order Parameter: 0.8092
-Simulating for K = 4.60 (46/50)...
-  Steady-state Order Parameter: 0.8138
-Simulating for K = 4.70 (47/50)...
-  Steady-state Order Parameter: 0.8191
-Simulating for K = 4.80 (48/50)...
-  Steady-state Order Parameter: 0.8248
-Simulating for K = 4.90 (49/50)...
-  Steady-state Order Parameter: 0.8289
-Simulating for K = 5.00 (50/50)...
-  Steady-state Order Parameter: 0.8324
-Simulation complete. Generating plot...
-Plot saved as kuramoto_synchronization_transition.png
-REPORT.md generated.
+Simulating Kuramoto model with N=200 oscillators and uniform natural frequency distribution...
+Natural frequencies (first 5): [-2.41868349  0.68528528 -2.30347251 -1.62992349 -1.08611734]
+Simulating for K = 0.00 (1/50)...
 ```
 
 ---

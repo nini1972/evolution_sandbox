@@ -1,0 +1,173 @@
+{
+  "phase": "III",
+  "title": "Multivariate Spectral-Topological Analysis (CORRECTED)",
+  "networks_analyzed": [
+    "erdos_renyi",
+    "barabasi_albert",
+    "watts_strogatz",
+    "ring",
+    "complete"
+  ],
+  "network_count": 5,
+  "detailed_results": {
+    "erdos_renyi": {
+      "spectral": {
+        "lambda_1": 3.1293693769892137,
+        "lambda_2": 3.1770463735568804,
+        "lambda_max": 19.17107637240025,
+        "condition_number": 6.126178811857693
+      },
+      "topological": {
+        "deg_mean": 10.31,
+        "deg_variance": 7.0539,
+        "deg_ratio": 0.06636085425523607,
+        "clustering": 0.13029417901105644,
+        "assortativity": -0.015068634291702358,
+        "density": 0.10363636363636364
+      },
+      "beta_c": 0.041666666666666664
+    },
+    "barabasi_albert": {
+      "spectral": {
+        "lambda_1": 0.6607949419797445,
+        "lambda_2": 0.7543493331976664,
+        "lambda_max": 28.164568405597926,
+        "condition_number": 42.622251794111094
+      },
+      "topological": {
+        "deg_mean": 3.94,
+        "deg_variance": 15.976400000000002,
+        "deg_ratio": 1.0291684918446753,
+        "clustering": 0.0718432510885315,
+        "assortativity": 0.24218506970231157,
+        "density": 0.0397979797979798
+      },
+      "beta_c": 0.041666666666666664
+    },
+    "watts_strogatz": {
+      "spectral": {
+        "lambda_1": 0.3565819874221773,
+        "lambda_2": 0.38946232680106124,
+        "lambda_max": 10.426757549398154,
+        "condition_number": 29.24084197817107
+      },
+      "topological": {
+        "deg_mean": 4.0,
+        "deg_variance": 1.12,
+        "deg_ratio": 0.07,
+        "clustering": 0.18292682926827875,
+        "assortativity": -0.15080433154287953,
+        "density": 0.04040404040404041
+      },
+      "beta_c": 0.041666666666666664
+    },
+    "ring": {
+      "spectral": {
+        "lambda_1": 0.003946543143456202,
+        "lambda_2": 0.00394654314345697,
+        "lambda_max": 3.9999999999999996,
+        "condition_number": 1013.5452098827081
+      },
+      "topological": {
+        "deg_mean": 2.0,
+        "deg_variance": 0.0,
+        "deg_ratio": 0.0,
+        "clustering": 0.0,
+        "assortativity": 0,
+        "density": 0.020202020202020204
+      },
+      "beta_c": 0.125
+    },
+    "complete": {
+      "spectral": {
+        "lambda_1": 99.99999999999973,
+        "lambda_2": 99.99999999999976,
+        "lambda_max": 100.00000000000026,
+        "condition_number": 0.9999999999990052
+      },
+      "topological": {
+        "deg_mean": 99.0,
+        "deg_variance": 0.0,
+        "deg_ratio": 0.0,
+        "clustering": 0.9999999999999999,
+        "assortativity": 0,
+        "density": 1.0
+      },
+      "beta_c": 0.041666666666666664
+    }
+  },
+  "correlations": {
+    "lambda_1": {
+      "r": -0.262955571473441,
+      "p": NaN
+    },
+    "lambda_2": {
+      "r": -0.26350956804964537,
+      "p": NaN
+    },
+    "lambda_max": {
+      "r": -0.40746836960236865,
+      "p": NaN
+    },
+    "condition_number": {
+      "r": 0.9992727999579537,
+      "p": NaN
+    },
+    "deg_mean": {
+      "r": -0.2899457960126359,
+      "p": NaN
+    },
+    "deg_ratio": {
+      "r": -0.29196688900369355,
+      "p": NaN
+    },
+    "clustering": {
+      "r": -0.37782983954506616,
+      "p": NaN
+    },
+    "assortativity": {
+      "r": -0.060158092019293,
+      "p": NaN
+    },
+    "1/lambda_1": {
+      "r": 0.9999522790528217,
+      "p": NaN
+    },
+    "1/deg_mean": {
+      "r": 0.8313116470228681,
+      "p": NaN
+    }
+  },
+  "regression_models": {
+    "spectral": {
+      "R2": 1.0,
+      "features": [
+        "lambda_1",
+        "lambda_2",
+        "lambda_max",
+        "condition_number"
+      ]
+    },
+    "topological": {
+      "R2": 1.0,
+      "features": [
+        "deg_mean",
+        "deg_ratio",
+        "clustering",
+        "assortativity"
+      ]
+    },
+    "combined": {
+      "R2": 1.0,
+      "features": [
+        "lambda_1",
+        "deg_ratio",
+        "clustering",
+        "condition_number"
+      ]
+    }
+  },
+  "best_model": "spectral",
+  "best_R2": 1.0,
+  "hypothesis": "Spectral model is most predictive"
+}

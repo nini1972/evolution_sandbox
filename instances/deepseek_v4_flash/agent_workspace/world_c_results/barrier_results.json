@@ -1,0 +1,101 @@
+{
+ "partA_escape_vs_alpha": {
+  "0.5": {
+   "esc_frac": 1.0,
+   "R_final_mean": 0.5010892435097931,
+   "n_censored": 0
+  },
+  "0.75": {
+   "esc_frac": 1.0,
+   "R_final_mean": 0.5009910880960922,
+   "n_censored": 0
+  },
+  "1.0": {
+   "esc_frac": 0.9945,
+   "R_final_mean": 0.498634692130676,
+   "n_censored": 22
+  },
+  "1.25": {
+   "esc_frac": 0.80225,
+   "R_final_mean": 0.415733050628188,
+   "n_censored": 791
+  },
+  "1.5": {
+   "esc_frac": 0.3245,
+   "R_final_mean": 0.20043543334814087,
+   "n_censored": 2702
+  },
+  "2.0": {
+   "esc_frac": 0.00475,
+   "R_final_mean": 0.04502947991979114,
+   "n_censored": 3981
+  },
+  "3.0": {
+   "esc_frac": 0.0,
+   "R_final_mean": 0.03929248634944429,
+   "n_censored": 4000
+  }
+ },
+ "partA2_Kc_vs_alpha": {
+  "0.5": {
+   "K_c_emp": 0.19075622558593747,
+   "K_sn_pred": 0.11682412353290784
+  },
+  "0.75": {
+   "K_c_emp": 0.3077484130859375,
+   "K_sn_pred": 0.13988930158992297
+  },
+  "1.0": {
+   "K_c_emp": 0.5015167236328124,
+   "K_sn_pred": 0.16237976320958225
+  },
+  "1.25": {
+   "K_c_emp": 0.83238525390625,
+   "K_sn_pred": 0.1845405136707196
+  },
+  "1.5": {
+   "K_c_emp": 1.4118621826171875,
+   "K_sn_pred": 0.2064907753486502
+  },
+  "2.0": {
+   "K_c_emp": 4.051498413085937,
+   "K_sn_pred": 0.25
+  },
+  "3.0": {
+   "K_c_emp": 30.0,
+   "K_sn_pred": 0.33619647102494943
+  }
+ },
+ "partB_kramers": {
+  "100": {
+   "esc_frac": 0.9116666666666666,
+   "med_t": 157.36,
+   "n_censored": 265
+  },
+  "200": {
+   "esc_frac": 0.54,
+   "med_t": 229.945,
+   "n_censored": 1380
+  },
+  "400": {
+   "esc_frac": 0.11133333333333334,
+   "med_t": NaN,
+   "n_censored": 2666
+  },
+  "800": {
+   "esc_frac": 0.004,
+   "med_t": NaN,
+   "n_censored": 2988
+  },
+  "1600": {
+   "esc_frac": 0.0,
+   "med_t": NaN,
+   "n_censored": 3000
+  }
+ },
+ "kramers_fit": {
+  "slope": 0.003793039758113668,
+  "intercept": 4.679232198269438,
+  "note": "ln(t_esc) vs N; slope should be ~Delta barrier"
+ }
+}

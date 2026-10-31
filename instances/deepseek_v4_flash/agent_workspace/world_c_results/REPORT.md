@@ -1,51 +1,49 @@
-# 🏛️ World C Execution Report: d4f_escape_law_phase2_analytics_v2
+# 🏛️ World C Execution Report: Basin volume growth + Kramers barrier law in reflexive Kuramoto (HYP-151 open question)
 
-* **Job ID:** `job_deepseek_v4_flash_1792982550_d20f`
+* **Job ID:** `job_deepseek_v4_flash_1793417077_62ba`
 * **Requesting Lineage:** `deepseek_v4_flash` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `1288.78` seconds
+* **Compute Duration:** `115.63` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_deepseek_v4_flash_1792982550_d20f_escape_law_full.json`
+- `world_c_job_deepseek_v4_flash_1793417077_62ba_barrier_hyp151.png`
+- `world_c_job_deepseek_v4_flash_1793417077_62ba_barrier_results.json`
+- `world_c_job_deepseek_v4_flash_1793417077_62ba_barrier_hyp151.png`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-7s]
-a=1.5 s=0.05 N= 200  frac=0.92 med=18.52  t_oa=14.664  [47s]
-a=1.5 s=0.05 N= 400  frac=1.00 med=36.08  t_oa=24.727  [48s]
-a=1.5 s=0.05 N= 800  frac=1.00 med=47.980000000000004  t_oa=42.06  [49s]
-a=1.5 s=0.05 N=1600  frac=1.00 med=64.02  t_oa=72.514  [54s]
-a=1.5 s=0.05 N=3200  frac=0.92 med=114.06  t_oa=127.983  [83s]
-a=1.5 s=0.10 N=  50  frac=1.00 med=4.859999999999999  t_oa=5.317  [83s]
-a=1.5 s=0.10 N= 100  frac=1.00 med=10.18  t_oa=8.971  [83s]
-a=1.5 s=0.10 N= 200  frac=1.00 med=19.42  t_oa=15.303  [83s]
-a=1.5 s=0.10 N= 400  frac=1.00 med=37.97  t_oa=26.633  [84s]
-a=1.5 s=0.10 N= 800  frac=1.00 med=54.02  t_oa=48.121  [86s]
-a=1.5 s=0.10 N=1600  frac=1.00 med=64.41  t_oa=94.489  [92s]
-a=1.5 s=0.10 N=3200  frac=1.00 med=178.73000000000002  t_oa=254.487  [114s]
-a=1.5 s=0.20 N=  50  frac=1.00 med=4.859999999999999  t_oa=5.68  [114s]
-a=1.5 s=0.20 N= 100  frac=1.00 med=12.899999999999999  t_oa=10.044  [115s]
-a=1.5 s=0.20 N= 200  frac=0.92 med=18.54  t_oa=18.887  [115s]
-a=1.5 s=0.20 N= 400  frac=1.00 med=50.31  t_oa=42.512  [115s]
-a=1.5 s=0.20 N= 800  frac=1.00 med=72.28999999999999  t_oa=None  [118s]
-a=1.5 s=0.20 N=1600  frac=1.00 med=83.78  t_oa=None  [121s]
-a=1.5 s=0.20 N=3200  frac=1.00 med=261.67  t_oa=None  [143s]
-a=1.5 s=0.40 N=  50  frac=1.00 med=5.8100000000000005  t_oa=8.21  [143s]
-a=1.5 s=0.40 N= 100  frac=1.00 med=16.22  t_oa=None  [143s]
-a=1.5 s=0.40 N= 200  frac=1.00 med=26.09  t_oa=None  [143s]
-a=1.5 s=0.40 N= 400  frac=1.00 med=37.56  t_oa=None  [144s]
-a=1.5 s=0.40 N= 800  frac=1.00 med=295.42  t_oa=None  [154s]
-a=1.5 s=0.40 N=1600  frac=0.88 med=4565.5  t_oa=None  [375s]
-a=1.5 s=0.40 N=3200  frac=0.00 med=None  t_oa=None  [1265s]
-a=2.0 s=0.00 N=  50  frac=0.94 med=9.04  t_oa=10.581  [1265s]
-a=2.0 s=0.00 N= 100  frac=0.94 med=14.0  t_oa=20.722  [1265s]
-a=2.0 s=0.00 N= 200  frac=0.81 med=50.48  t_oa=40.861  [1265s]
-a=2.0 s=0.00 N= 400  frac=0.81 med=134.98  t_oa=81.0  [1267s]
-a=2.0 s=0.00 N= 800  frac=1.00 med=189.57999999999998  t_oa=161.139  [1270s]
+=== PART A: escape fraction vs alpha at fixed K0,sigma,N ===
+ alpha=  0.5 esc_frac= 1.000  <R_final>=0.501  R*=0.00390625
+ alpha= 0.75 esc_frac= 1.000  <R_final>=0.501  R*=0.024803141437003122
+ alpha=  1.0 esc_frac= 0.995  <R_final>=0.499  R*=0.0625
+ alpha= 1.25 esc_frac= 0.802  <R_final>=0.416  R*=0.1088188204120155
+ alpha=  1.5 esc_frac= 0.325  <R_final>=0.200  R*=0.15749013123685915
+ alpha=  2.0 esc_frac= 0.005  <R_final>=0.045  R*=0.25
+ alpha=  3.0 esc_frac= 0.000  <R_final>=0.039  R*=0.3968502629920499
+=== PART A2: K_c(alpha) threshold ===
+ alpha=  0.5 K_c_emp=  0.191  K_sn_pred=  0.117
+ alpha= 0.75 K_c_emp=  0.308  K_sn_pred=  0.140
+ alpha=  1.0 K_c_emp=  0.502  K_sn_pred=  0.162
+ alpha= 1.25 K_c_emp=  0.832  K_sn_pred=  0.185
+ alpha=  1.5 K_c_emp=  1.412  K_sn_pred=  0.206
+ alpha=  2.0 K_c_emp=  4.051  K_sn_pred=  0.250
+ alpha=  3.0 K_c_emp= 30.000  K_sn_pred=  0.336
+=== PART B: Kramers barrier law ===
+ N=  100 esc_frac= 0.912 med_t= 157.360 censored=265
+ N=  200 esc_frac= 0.540 med_t= 229.945 censored=1380
+ N=  400 esc_frac= 0.111 med_t=     nan censored=2666
+ N=  800 esc_frac= 0.004 med_t=     nan censored=2988
+ N= 1600 esc_frac= 0.000 med_t=     nan censored=3000
+Kramers fit slope=0.003793 (ln t vs N)
+
+=== REPORT SUMMARY ===
+PART A: escape fraction across alpha = [1.0, 1.0, 0.995, 0.802, 0.325, 0.005, 0.0]
+PART B: median t_esc vs N = [157.36, 229.94, nan, nan, nan]
+DONE
 ```
 
 ---
