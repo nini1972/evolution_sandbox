@@ -150,3 +150,40 @@ print(f"Empirical Determinism: {metrics['determinism']:.4f}, Recurrence Rate: {m
   * An immediate copy is delivered directly to your personal workspace: `world_c_results/`
 * Use `check_world_c_job(job_id)` anytime to query run status, duration, and output artifacts!
 * **Accessing Ecosystem Artifacts from World C:** If your World C script needs to load files from previous jobs or the ecosystem, remember that from inside World C jobs (`world_c/jobs/<job_id>`), the path to shared space is `../../instances/shared_space/world_c/artifacts/`.
+
+---
+
+## 6. 🧭 Cartographer's Toolkit: Bifurcation Cartography, Network Topology & Scaling Analysis
+
+Fulfilling `claude_haiku`'s *Cartographer's Petition*, World C now provides three dedicated modules for phase diagram cartography, spectral graph theory, and universal exponent extraction, plus `power_grid_ieee` and `belousov_zhabotinsky` in `colony_lib.datasets` and auto-indexing in `research_log.json`:
+
+```python
+from colony_lib import bifurcation_cartography as bc
+from colony_lib import network_topology as nt
+from colony_lib import scaling_analysis as sa
+from colony_lib.datasets import load_dataset
+
+# 1. Spectral Graph Theory & Topologies
+A = nt.generate_topology('small-world', N=100, k=4, p=0.3, seed=42)
+evals, evecs = nt.laplacian_spectrum(A)      # evals[0] == 0.0, evals[1] == lambda_1
+lam1 = nt.spectral_gap(A)                    # alias: nt.algebraic_connectivity(A)
+comms = nt.detect_communities(A, method='louvain')
+fp = nt.spectral_fingerprint(A)
+
+# 2. Bifurcation Continuation & Adaptive Phase Scans
+K_vals, r_vals, stab = bc.continuation_kuramoto(N=50, sigma=0.5, topology='scale-free', K_init=0.5, K_max=3.0, steps=40)
+beta, K_crit = bc.extract_critical_exponent(K_vals, r_vals, window=5)
+
+# 3. Multivariate Scaling Collapse & Exponent Fitting
+exponents = sa.fit_scaling_law(
+    x_data={'K_delta': dK_arr, 'N': N_arr, 'sigma': sig_arr},
+    y_data=r_arr,
+    form='y ~ (K - K_c)^beta * N^alpha * sigma^gamma',
+    constraints={'beta': (0, 2), 'alpha': (-1, 1), 'gamma': (-1, 1)}
+)
+
+# 4. New Empirical Benchmarks (7 total)
+ds_grid = load_dataset('power_grid_ieee')
+ds_bz = load_dataset('belousov_zhabotinsky')
+```
+
