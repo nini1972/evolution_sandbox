@@ -156,6 +156,7 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
     sys_content = (
         system_prompt
         + f"\n\n[AVAILABLE TOOLS]: {tools_summary}\n"
+        + "IMPORTANT: All scientific Python libraries (numpy, scipy, matplotlib, pandas, h5py, pyyaml, networkx, scikit-learn, colony_lib) are ALREADY pre-installed. NEVER run 'pip install'.\n"
         + "CRITICAL INSTRUCTION: At the end of EVERY response, you MUST invoke exactly one tool by outputting a ```json code block with \"name\" and \"arguments\", for example:\n"
         + "```json\n{\"name\": \"run_command\", \"arguments\": {\"command\": \"python3 script.py\"}}\n```"
     )
@@ -163,16 +164,29 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
 
     pruned = prune_history(history, max_messages=10, max_content_chars=3500, max_prompt_tokens=6000)
     last_occurrence = {}
+    last_tool_name = None
+    last_tool_args = {}
     for idx, entry in enumerate(pruned):
         tcs = (entry.get("tool_calls") or []) if entry.get("role") == "assistant" else []
         if tcs:
             func = tcs[0].get("function", {})
+            fn_n = func.get("name", "run_command")
             raw_args = func.get("arguments", "{}")
             try:
                 p_args = json.loads(raw_args) if isinstance(raw_args, str) else raw_args
             except Exception:
                 p_args = {}
-            last_occurrence[f"{func.get('name', 'run_command')}({json.dumps(p_args, sort_keys=True)})"] = idx
+            if not isinstance(p_args, dict):
+                p_args = {}
+            last_tool_name = fn_n
+            last_tool_args = p_args
+            if fn_n == "post_epistemic_node":
+                sig = "post_epistemic_node"
+            elif fn_n == "write_file" and p_args.get("path") == "analysis_summary.md":
+                sig = "write_file(analysis_summary.md)"
+            else:
+                sig = f"{fn_n}({json.dumps(p_args, sort_keys=True)})"
+            last_occurrence[sig] = idx
 
     recent_calls = []
     skip_next_tool = False
@@ -193,9 +207,17 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
                 parsed_args = json.loads(raw_args) if isinstance(raw_args, str) else raw_args
             except Exception:
                 parsed_args = {}
-            call_sig = f"{fn_name}({json.dumps(parsed_args, sort_keys=True)})"
+            if not isinstance(parsed_args, dict):
+                parsed_args = {}
+            if fn_name == "post_epistemic_node":
+                call_sig = "post_epistemic_node"
+            elif fn_name == "write_file" and parsed_args.get("path") == "analysis_summary.md":
+                call_sig = "write_file(analysis_summary.md)"
+            else:
+                call_sig = f"{fn_name}({json.dumps(parsed_args, sort_keys=True)})"
             is_skipped_stub = fn_name == "write_file" and '"status": "SKIPPED"' in json.dumps(parsed_args)
-            if last_occurrence.get(call_sig) != idx or is_skipped_stub:
+            is_pip_install = fn_name == "run_command" and "pip install" in str(parsed_args.get("command", "")).lower()
+            if last_occurrence.get(call_sig) != idx or is_skipped_stub or is_pip_install:
                 skip_next_tool = True
                 continue
             recent_calls.append(f"{fn_name}({json.dumps(parsed_args, ensure_ascii=False)[:80]})")
@@ -242,9 +264,25 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
     if recent_calls and msgs[-1]["role"] == "user":
         msgs[-1]["content"] += (
             f"\n⚠️ [ANTI-LOOP GUARD]: You ALREADY executed {', '.join(recent_calls[-2:])} above. "
-            "Do NOT repeat the same tool call with identical arguments or write 'SKIPPED' placeholders — "
+            "Do NOT repeat the same tool call with identical arguments, NEVER run 'pip install', and do NOT write 'SKIPPED' placeholders — "
             "invoke a DIFFERENT tool or updated arguments (e.g., write_file, edit_file, run_command, or submit_world_c_job) to advance your work."
         )
+        if last_tool_name == "write_file" and str(last_tool_args.get("path", "")).endswith(".py"):
+            py_p = last_tool_args.get("path")
+            msgs[-1]["content"] += (
+                f"\n👉 [NEXT STEP]: You just wrote '{py_p}'. Now execute it by outputting a ```json block with "
+                f'{{"name": "run_command", "arguments": {{"command": "python3 {py_p}"}}}} (or "submit_world_c_job").'
+            )
+        elif last_tool_name == "write_file" and str(last_tool_args.get("path", "")).endswith(".md"):
+            msgs[-1]["content"] += (
+                "\n👉 [NEXT STEP]: You just updated a Markdown document. Now run an existing Python analysis script via 'run_command' "
+                "or submit a simulation via 'submit_world_c_job' rather than rewriting Markdown again."
+            )
+        elif last_tool_name == "post_epistemic_node":
+            msgs[-1]["content"] += (
+                "\n👉 [NEXT STEP]: You ALREADY published an epistemic node ('post_epistemic_node') on your last turn. "
+                "Do NOT call 'post_epistemic_node' again right now — instead call 'query_epistemic_graph', 'read_agent_inbox', 'peer_verify_node', or 'run_command'."
+            )
     return msgs
 
 def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
