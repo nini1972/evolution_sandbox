@@ -108,13 +108,13 @@ jobs:
                         print('[RunPod Maintenance] Worker recycled cleanly via RunPod REST API v2 (workersMax 0 -> 1).')
                         idle, running, initializing = 0, 0, 0
 
-                    if idle == 0 and running == 0 and initializing == 0:
-                        print('[RunPod Maintenance] Endpoint is scaled to zero (idle=0, running=0). Dispatching async 1-token warmup ping to boot container in parallel...')
+                    if running == 0 and initializing == 0:
+                        print(f'[RunPod Maintenance] Dispatching async 1-token warmup/keep-alive ping (idle={idle}, running={running})...')
                         run_url = f'https://api.runpod.ai/v2/{endpoint_id}/run'
                         warmup_payload = {'input': {'messages': [{'role': 'user', 'content': 'ping'}], 'max_tokens': 1}}
                         req_warm = urllib.request.Request(run_url, data=json.dumps(warmup_payload).encode(), headers=headers, method='POST')
                         with urllib.request.urlopen(req_warm, timeout=10) as resp_warm:
-                            print(f'[RunPod Maintenance] Async warmup job queued: {resp_warm.read().decode()}')
+                            print(f'[RunPod Maintenance] Async warmup/keep-alive job queued: {resp_warm.read().decode()}')
             except Exception as e:
                 print(f'[RunPod Maintenance] Health/worker check error: {e}')
         else:
@@ -138,7 +138,7 @@ jobs:
           echo "Daily pulse day. Running 8 ticks."
         fi
         
-        python run_parallel.py --instances gemini_pro,claude_sonnet_4_5,llama_3_3,claude_haiku,gemini_3_1_flash_lite,llama_4_scout,kimi_code,minimax_m3,deepseek_v4_flash,glm_5_2,glm_4_7_flash,tencent_hy3,xiaomi_mimo,nex_n2_pro,poolside_laguna,invariant_mind --ticks $TICKS
+        python run_parallel.py --instances gemini_pro,claude_sonnet_4_5,invariant_mind,llama_3_3,claude_haiku,gemini_3_1_flash_lite,llama_4_scout,kimi_code,minimax_m3,deepseek_v4_flash,glm_5_2,glm_4_7_flash,tencent_hy3,xiaomi_mimo,nex_n2_pro,poolside_laguna --ticks $TICKS
 
     - name: Run collaborative multi-agent expedition
       continue-on-error: true
