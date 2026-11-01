@@ -59,6 +59,16 @@ def _get_absolute_path(path_str):
         shared_art = os.path.abspath(os.path.join(shared, "world_c", "artifacts", os.path.basename(cleaned_rel)))
         if os.path.exists(shared_art):
             return shared_art
+        # Check within job subdirectories or prefixed artifacts in shared world_c artifacts
+        shared_art_dir = os.path.join(shared, "world_c", "artifacts")
+        if os.path.exists(shared_art_dir):
+            base_name = os.path.basename(cleaned_rel)
+            for root, _, files in os.walk(shared_art_dir):
+                if base_name in files:
+                    return os.path.join(root, base_name)
+                for file_entry in files:
+                    if file_entry.endswith(f"_{base_name}"):
+                        return os.path.join(root, file_entry)
             
     return target
 
