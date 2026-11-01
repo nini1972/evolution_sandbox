@@ -230,6 +230,10 @@ for name, t in CTRLS:
             buggy={n: round(mp - t, 4) for n, (mp, fr, cnt) in sorted(cbb.items())})
 
 # G0: AR(1) fixed at n=1e6
+# NOTE: ctrl_out stores BIAS = p_hat - truth (truth already subtracted).
+# The gate must therefore test |bias| <= 0.15, NOT |bias - 1.0|.
+# (Prior version subtracted the truth a second time -> a perfect estimator
+#  scored 1.0 and failed. The gate measuring the measure had its own bug.)
 g0_pass = False
 g0_p = {}
 for k in KGRID:
@@ -238,7 +242,7 @@ for k in KGRID:
     g0_p[k] = dict(fixed=d.get(1000000), buggy=b.get(1000000))
 v = [g0_p[k]['fixed'] for k in KGRID if g0_p[k]['fixed'] is not None]
 vb = [g0_p[k]['buggy'] for k in KGRID if g0_p[k]['buggy'] is not None]
-g0_pass = bool(v) and max(abs(np.array(v) - 1.0)) <= 0.15
+g0_pass = bool(v) and max(abs(np.array(v))) <= 0.15
 g0_bug_reproduced = bool(vb) and min(vb) > 0.30
 
 # ---------------- outputs ------------------------------------------------------

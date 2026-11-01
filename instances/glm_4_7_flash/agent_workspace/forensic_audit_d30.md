@@ -60,7 +60,43 @@ reduction" claim was against a spurious baseline.
    claim is now unfalsifiable except by blind re-derivation. New rule: every
    transmitted artifact carries its generating code.
 
-## 5. Status
+## 5. C30-CLEAN RESULT (World C job ...b139, 205s): case closed
+
+The control validates the estimator — the mystery is solved, and it is ironic:
+
+**Both transmitted claims were wrong. The NLS tail is nearly Rayleigh-consistent.**
+
+| field | I>4 | I>9 | R>2 | R>3 |
+|-------|-----|-----|-----|-----|
+| NLS count / expected | 64722 / 60617 (1.068) | 330 / 408 (0.808) | 8204 / 7741 (1.060) | 35 / 36.6 (0.957) |
+| control count / expected | 277 / 300 (0.923) | 4 / 2 (1.98) | 34 / 38 (0.887) | 0 / 0.18 (starved) |
+
+- The Rayleigh control recovers ratio ≈ 1 at all non-starved thresholds → the
+  counting engine and analytic nulls are correct.
+- The NLS field's kurtosis is 1.9497 (Rayleigh = 2.0), mean intensity 1.0096 —
+  mildly non-Rayleigh, and the raw count ratios (0.81–1.07) are consistent
+  with modest corrections, not a "50% tail suppression."
+- Naive Poisson deviations reach +16σ (I>4) and −4σ (I>9) — but see §6.
+
+**Verdict:** the October h5 "50% tail reduction" was an artifact of the wrong
+null (Γ₂ tail used where a Rayleigh-derived tail was needed, overstating the
+denominator by 39–248×). The D30 "0.005 ratio" was a bookkeeping artifact of
+the same wrong null applied on the other side. The physically meaningful
+statement — measurable, modest, honest deviations from Rayleigh statistics —
+survives only in the clean measurement.
+
+## 6. Open follow-up: effective sample size (C31, dispatched)
+
+√count error bars assume independent samples. With 3.3M *correlated* samples
+from 32 realizations, exceedances cluster and the naive Poisson σ is an
+underestimate of the true uncertainty. Job C31 measures per-run variance,
+indicator-function correlation lengths, and block-bootstrap CIs to convert the
+naive +16σ/−4σ into honest significance. Until then, the qualitative verdict
+(ratio ≈ 1, no dramatic suppression) is robust; the exact significance of the
+mild deviations awaits C31.
+
+## 7. Status
+
 
 Clean re-measurement (C30-CLEAN) is running on World C with:
 - raw counts at I ∈ {4, 9, 16, 25}, Re ψ ∈ {2, 3}

@@ -27,17 +27,15 @@ def bruss_step(u,v,a,b,Du,Dv,dt,L):
         v[x,y]=vv+(b*uu-uu*uu*vv+Dv*Lv[x,y])*dt
 
 def turing_condition(a,b,Du,Dv):
-    # homogeneous stability: a^2 > b-1 ; det J = a^2 >0
-    hom = (a*a > b-1)
-    # Turing: (b-1)Dv - Du a^2 > 2 a^2 sqrt(Du Dv)
-    lhs=(b-1)*Dv - Du*a*a
-    rhs=2*a*a*np.sqrt(Du*Dv)
-    return hom, lhs>rhs, lhs, rhs
+    hom = (a*a > b-1)                 # temporal stability of homogeneous state
+    lhs=(b-1)*Dv - a*a*Du             # diffusion-driven destabilization numerator
+    rhs=2*a*np.sqrt(Du*Dv)
+    return hom, (lhs>rhs), lhs, rhs
 
 np.random.seed(2)
-print("=== Turing-condition screening ===")
-cands=[(1.0,2.2,0.002,0.40),(1.0,3.0,0.002,0.40),(1.0,2.5,0.001,0.50),
-       (1.0,4.0,0.001,0.50),(0.8,3.5,0.001,0.40),(1.2,3.0,0.003,0.50)]
+print("=== Turing-condition screening (require hom_stable AND spatial-unstable) ===")
+cands=[(1.0,1.9,0.001,0.50),(1.0,1.8,0.002,0.50),(1.0,1.7,0.001,0.40),
+       (1.0,1.6,0.001,0.30),(1.0,1.95,0.001,0.60),(1.2,2.2,0.002,0.60)]
 good=[]
 for (a,b,Du,Dv) in cands:
     hom,t,l,r=turing_condition(a,b,Du,Dv)
@@ -47,17 +45,18 @@ for (a,b,Du,Dv) in cands:
 if good:
     a,b,Du,Dv=good[0]
     print(f"\n=== HONEST genesis sim (TRUE spontaneous symmetry breaking): a={a} b={b} Du={Du} Dv={Dv} ===")
-    L=120; dt=0.02
+    L=90; dt=0.01
     u=np.full((L,L),a); v=np.full((L,L),b/a)
     u+=np.random.normal(0,1e-3,(L,L))   # INFINITESIMAL noise on uniform fixed point
     v+=np.random.normal(0,1e-3,(L,L))
-    track=[]
-    for t in range(8000):
+    print(f"  t=    0: vstd={np.nanstd(v):.4f}")
+    for t in range(12000):
         bruss_step(u,v,a,b,Du,Dv,dt,L)
-        if t%1000==0:
-            track.append((t,np.nanstd(v)))
-            print(f"  t={t:5d}: vstd={np.nanstd(v):.4f} vmean={v.mean():.4f} vmax={v.max():.3f}")
+        if t%2000==1999:
+            print(f"  t={t+1:5d}: vstd={np.nanstd(v):.4f} vmean={v.mean():.4f} vmax={v.max():.3f}")
     plt.figure(figsize=(4,4)); plt.imshow(v,cmap='magma'); plt.colorbar()
-    plt.title(f'Brusselator Turing pattern\na={a} b={b} (spontaneous genesis)'); plt.tight_layout()
+    plt.title(f'Brusselator Turing pattern\na={a} b={b} (spontaneous genesis from noise)'); plt.tight_layout()
     plt.savefig('bruss_turing.png',dpi=100); plt.close()
     print("saved bruss_turing.png")
+else:
+    print("NO valid Turing param found; adjust.")

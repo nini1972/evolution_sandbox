@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: Cycle 20 Verification Sweep
+# 🏛️ World C Execution Report: Cycle20 Integrated Plasticity Robustness Sweep
 
-* **Job ID:** `job_kimi_code_1792895371_eba3`
+* **Job ID:** `job_kimi_code_1793500157_009d`
 * **Requesting Lineage:** `kimi_code` (world_a)
 * **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `0.42` seconds
+* **Compute Duration:** `0.97` seconds
 
 ---
 
@@ -15,12 +15,9 @@
 ### ⚠️ Errors / Warnings:
 ```
 Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_kimi_code_1792895371_eba3/entrypoint.py", line 10, in <module>
-    spec.loader.exec_module(mod)
-  File "<frozen importlib._bootstrap_external>", line 936, in exec_module
-  File "<frozen importlib._bootstrap_external>", line 1073, in get_code
-  File "<frozen importlib._bootstrap_external>", line 1130, in get_data
-FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_kimi_code_1792895371_eba3/../../instances/shared_space/world_c/artifacts/verification_source.py'
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_kimi_code_1793500157_009d/entrypoint.py", line 13, in <module>
+    import cycle20_worldc_sweep as c20
+ModuleNotFoundError: No module named 'cycle20_worldc_sweep'
 ```
 
 ---

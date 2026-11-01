@@ -1,0 +1,24 @@
+[
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1793499748_6e4f",
+    "title": "Lenia Morphospace Sweep",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 3.825,
+    "finished_at": 1793499753.4433947,
+    "artifacts": [
+      "lenia_morphospace_data.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1793499748_6e4f_lenia_morphospace_data.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1793499748_6e4f_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  }
+]

@@ -1,0 +1,142 @@
+{
+  "phase": "VII",
+  "title": "Topological Origins - Spectral Stability Analysis",
+  "spectral_stability": {
+    "erdos_renyi": {
+      "lambda_1_cv": 0.5080254778548312,
+      "lambda_1_values": [
+        1.0969184221219936,
+        0.5052171185320259,
+        0.33190657675396745
+      ],
+      "spectral_gaps": [
+        1.0969184221219936,
+        0.5052171185320259,
+        0.33190657675396745
+      ]
+    },
+    "barabasi_albert": {
+      "lambda_1_cv": 0.05475440003534334,
+      "lambda_1_values": [
+        1.4570336585592598,
+        1.412116031601707,
+        1.2787617049747362
+      ],
+      "spectral_gaps": [
+        1.4570336585592598,
+        1.412116031601707,
+        1.2787617049747362
+      ]
+    },
+    "watts_strogatz": {
+      "lambda_1_cv": 0.32305962901850716,
+      "lambda_1_values": [
+        0.6231867643907716,
+        0.33965072619977155,
+        0.32103824050055035
+      ],
+      "spectral_gaps": [
+        0.6231867643907716,
+        0.33965072619977155,
+        0.32103824050055035
+      ]
+    }
+  },
+  "topology_features": {
+    "erdos_renyi": [
+      {
+        "N": 50,
+        "mean_degree": 4.8,
+        "degree_cv": 0.3726779962499649,
+        "avg_clustering": 0.0621904761904762,
+        "assortativity": -0.0349950478705846
+      },
+      {
+        "N": 100,
+        "mean_degree": 4.48,
+        "degree_cv": 0.45906230680661675,
+        "avg_clustering": 0.04234126984126986,
+        "assortativity": -0.0650088654422884
+      },
+      {
+        "N": 200,
+        "mean_degree": 4.7,
+        "degree_cv": 0.431867726174137,
+        "avg_clustering": 0.03528571428571428,
+        "assortativity": -0.06795290539834656
+      }
+    ],
+    "barabasi_albert": [
+      {
+        "N": 50,
+        "mean_degree": 5.64,
+        "degree_cv": 0.7419402457090508,
+        "avg_clustering": 0.28329557628474045,
+        "assortativity": -0.2877016148060058
+      },
+      {
+        "N": 100,
+        "mean_degree": 5.82,
+        "degree_cv": 0.9459164730798193,
+        "avg_clustering": 0.18702417254400994,
+        "assortativity": -0.25525500223307446
+      },
+      {
+        "N": 200,
+        "mean_degree": 5.91,
+        "degree_cv": 1.0135618017822339,
+        "avg_clustering": 0.10231983683596095,
+        "assortativity": -0.1527044273946932
+      }
+    ],
+    "watts_strogatz": [
+      {
+        "N": 50,
+        "mean_degree": 4.0,
+        "degree_cv": 0.22360679774997896,
+        "avg_clustering": 0.1993333333333333,
+        "assortativity": -0.23170731707316916
+      },
+      {
+        "N": 100,
+        "mean_degree": 4.0,
+        "degree_cv": 0.2783882181415011,
+        "avg_clustering": 0.2026190476190476,
+        "assortativity": -0.09935187464106958
+      },
+      {
+        "N": 200,
+        "mean_degree": 4.0,
+        "degree_cv": 0.2645751311064591,
+        "avg_clustering": 0.17272619047619053,
+        "assortativity": -0.08005857944837834
+      }
+    ]
+  },
+  "phase6_comparison": {
+    "erdos_renyi": 0.276,
+    "barabasi_albert": 0.0652,
+    "watts_strogatz": 0.6453
+  },
+  "discovery": {
+    "principle": "Scale-Freeness determines Spectral Invariance",
+    "key_finding": "Networks with stable \u03bb\u2081(N) automatically have stable \u03b2_c \u00d7 \u03bb\u2081",
+    "topologies": {
+      "barabasi_albert": {
+        "spectral_cv": 0.05475440003534334,
+        "product_cv": 0.0652,
+        "status": "SCALE-FREE: Highly Invariant \u2713\u2713\u2713"
+      },
+      "erdos_renyi": {
+        "spectral_cv": 0.5080254778548312,
+        "product_cv": 0.276,
+        "status": "RANDOM: Moderately Invariant \u2713\u2713"
+      },
+      "watts_strogatz": {
+        "spectral_cv": 0.32305962901850716,
+        "product_cv": 0.6453,
+        "status": "LATTICE-BASED: Poorly Invariant \u2713"
+      }
+    }
+  }
+}

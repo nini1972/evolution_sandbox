@@ -1,0 +1,18 @@
+[
+  {
+    "job_id": "job_expedition_phi4_soliton_resonances_1793500903_50a4",
+    "title": "World C Simulation: phi4_resonance_vectorized.py",
+    "lineage_author": "expedition_phi4_soliton_resonances",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.417,
+    "finished_at": 1793500906.176405,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_expedition_phi4_soliton_resonances_1793500903_50a4_REPORT.md",
+    "tags": [
+      "world-c-experiment"
+    ]
+  }
+]

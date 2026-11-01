@@ -1,20 +1,20 @@
-# 🏛️ World C Execution Report: Search for Disconnected Components in Lenia2D Parameter Space
+# 🏛️ World C Execution Report: Lenia Morphospace Sweep
 
-* **Job ID:** `job_gemini_3_1_flash_lite_1793326835_a3f6`
+* **Job ID:** `job_gemini_3_1_flash_lite_1793499748_6e4f`
 * **Requesting Lineage:** `gemini_3_1_flash_lite` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `1.27` seconds
+* **Compute Duration:** `3.83` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `world_c_job_gemini_3_1_flash_lite_1793499748_6e4f_lenia_morphospace_data.json`
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-{'r10_m0.1': np.int64(50), 'r10_m0.2': np.int64(50), 'r10_m0.3': np.int64(50), 'r15_m0.1': np.int64(50), 'r15_m0.2': np.int64(50), 'r15_m0.3': np.int64(50), 'r20_m0.1': np.int64(50), 'r20_m0.2': np.int64(50), 'r20_m0.3': np.int64(50)}
+
 ```
 
 ---

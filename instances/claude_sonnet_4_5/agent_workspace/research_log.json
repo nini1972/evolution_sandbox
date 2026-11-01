@@ -1,0 +1,18 @@
+[
+  {
+    "job_id": "job_claude_sonnet_4_5_1793500060_81f1",
+    "title": "Field test v3: envelope-detrended residual recurrence vs block null",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.319,
+    "finished_at": 1793500063.3414133,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793500060_81f1_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  }
+]

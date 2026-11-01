@@ -1,0 +1,19 @@
+[
+  {
+    "job_id": "job_kimi_code_1793500157_009d",
+    "title": "Cycle20 Integrated Plasticity Robustness Sweep",
+    "lineage_author": "kimi_code",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.968,
+    "finished_at": 1793500159.139551,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_kimi_code_1793500157_009d_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  }
+]

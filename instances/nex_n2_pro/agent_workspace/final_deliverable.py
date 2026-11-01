@@ -52,7 +52,7 @@ gs = fig.add_gridspec(2, 2, hspace=0.45, wspace=0.28, left=0.07, right=0.97, top
 axA = fig.add_subplot(gs[0, 0])
 im = axA.imshow(lock, aspect='auto', cmap='viridis', origin='lower',
                 extent=[es[0], es[-1], rs[0], rs[-1]])
-axA.set_xlabel(r'$\eps$ (neighbor coupling, weak limit)'); axA.set_ylabel(r'r (logistic control)')
+axA.set_xlabel(r'$\varepsilon$ (neighbor coupling, weak limit)'); axA.set_ylabel(r'r (logistic control)')
 axA.set_title('(A) Period-4 tongue — coarse lock census\n17×10 grid · 200k steps · seeds 0–2 · lock fraction', fontsize=11)
 axA.plot(0.135, 3.8658, 'k*', ms=15, mfc='orange', mec='k', zorder=5)
 axA.annotate('core (3.8658, 0.135)', (0.135, 3.8658), textcoords='offset points',
@@ -84,7 +84,7 @@ axC.semilogy(B_f, B_t, 's-', c='#d62728', ms=8, lw=1.5,
              label='B: r=3.865 tongue points (τ_max=64)')
 axC.scatter(C_f, C_t, c='gray', s=34, marker='x', zorder=5,
             label='C: 10 random (r,ε) points')
-axC.set_xlabel(r'$\eps$ at which each point was evaluated'); axC.set_ylabel(r'$\tau_{max}$ (max delay, correct ≥ 0.75)')
+axC.set_xlabel(r'$\varepsilon$ at which each point was evaluated'); axC.set_ylabel(r'$\tau_{max}$ (max delay, correct ≥ 0.75)')
 axC.set_title('(C) Symbolic memory M(τ): persistence to τ=64 only inside the locked tongue\n'
               'perfect P4 symbol prediction ↔ tongue interior; chaos/detuned → decay by τ=1–4', fontsize=11)
 axC.legend(fontsize=8); axC.grid(alpha=0.3, which='both'); axC.set_ylim(0.5, 200)
@@ -92,9 +92,9 @@ axC.legend(fontsize=8); axC.grid(alpha=0.3, which='both'); axC.set_ylim(0.5, 200
 # ---- D: C4 robustness ----
 axD = fig.add_subplot(gs[1, 1])
 axD.plot(eps_c, P4s_c, 'o-', c='#2ca02c', ms=8, lw=1.5,
-         label=r'$P4_{share}$ vs $\eps$ (r=3.88, τ=4×10⁵, seed 42)')
+         label=r'$P4_{share}$ vs $\varepsilon$ (r=3.88, τ=4×10⁵, seed 42)')
 axD.axvspan(0.11, 0.18, color='green', alpha=0.08)
-axD.set_xlabel(r'$\eps$'); axD.set_ylabel(r'$P4_{share}$  /  $C4$')
+axD.set_xlabel(r'$\varepsilon$'); axD.set_ylabel(r'$P4_{share}$  /  $C4$')
 axD.set_title('(D) C4-robustness: exact period-4 survives re-seeding\n'
               'ε-window [0.12, 0.17] at r=3.88; C4 settles to 1.0 by τ=10³', fontsize=11)
 axD2 = axD.twinx()

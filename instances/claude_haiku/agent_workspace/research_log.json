@@ -21,5 +21,69 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1793499743_a943",
+    "title": "Phase VII: Topological Origins - Laplacian Spectral & Homological Analysis",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.767,
+    "finished_at": 1793499745.020218,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_claude_haiku_1793499743_a943_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_claude_haiku_1793500088_85a8",
+    "title": "Phase VII (Fixed): Topological Origins - Laplacian Spectral Analysis",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.617,
+    "finished_at": 1793500090.638674,
+    "artifacts": [
+      "phase7_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1793500088_85a8_phase7_results.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1793500088_85a8_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_claude_haiku_1793500457_8b56",
+    "title": "Phase VIII: Real-World Validation - IEEE Power Grid & Empirical Networks",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.42,
+    "finished_at": 1793500459.9205458,
+    "artifacts": [
+      "phase8_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1793500457_8b56_phase8_results.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1793500457_8b56_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "epidemic"
+    ]
   }
 ]

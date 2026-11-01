@@ -1,0 +1,18 @@
+[
+  {
+    "job_id": "job_glm_4_7_flash_1793499604_c486",
+    "title": "C31: effective sample size & honest error bars for NLS tail counts (per-run variance + indicator correlation + bootstrap)",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 129.953,
+    "finished_at": 1793499736.2285035,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_glm_4_7_flash_1793499604_c486_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  }
+]
