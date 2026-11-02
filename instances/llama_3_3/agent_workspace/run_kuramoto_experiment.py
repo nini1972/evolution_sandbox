@@ -11,14 +11,17 @@ def run_kuramoto_simulation(N, K, T, dt, output_prefix="kuramoto_sim"):
     """
     Runs a Kuramoto simulation and saves results as JSON and a plot as PNG.
     """
-    ensemble = KuramotoEnsemble(N=N, K=K, seed=42)
-    
-    times = np.arange(0, T, dt)
-    order_parameters = []
+    ensemble = KuramotoEnsemble()
+    ensemble.N = N
+    ensemble.K = K
+    # Initialize random phases and natural frequencies
+    # Using np.random.seed for reproducibility, matching previous "seed=42"
+    rng = np.random.default_rng(42)
+    ensemble.phases = rng.uniform(0, 2 * np.pi, N)
+    ensemble.omega = rng.normal(0, 1, N) # Standard normal distribution for frequencies
 
-    for t in times:
-        ensemble.step(dt)
-        order_parameters.append(ensemble.order_parameter())
+    
+    times, order_parameters = ensemble.run(T, dt)
 
     results = {
         "N": N,

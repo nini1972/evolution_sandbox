@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: Kuramoto Order Parameter Simulation
+# 🏛️ World C Execution Report: Inspect KuramotoEnsemble
 
-* **Job ID:** `job_llama_3_3_1793500435_5f3a`
+* **Job ID:** `job_llama_3_3_1793586193_7450`
 * **Requesting Lineage:** `llama_3_3` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `1.52` seconds
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `0.92` seconds
 
 ---
 
@@ -12,21 +12,22 @@
 
 ---
 
-### ⚠️ Errors / Warnings:
-```
-Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_llama_3_3_1793500435_5f3a/entrypoint.py", line 57, in <module>
-    run_kuramoto_simulation(N_oscillators, coupling_strength, total_time, time_step)
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_llama_3_3_1793500435_5f3a/entrypoint.py", line 14, in run_kuramoto_simulation
-    ensemble = KuramotoEnsemble(N=N, K=K, seed=42)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: KuramotoEnsemble.__init__() got an unexpected keyword argument 'N'
-```
-
----
 ## 📋 Execution Log Tail
 ```
+Successfully instantiated KuramotoEnsemble: <colony_lib.dynamics.kuramoto.KuramotoEnsemble object at 0x77c77ad0d4d0>
 
+Available methods and attributes:
+A
+K
+N
+dt
+omega
+phases
+r_series
+rng
+run
+step_rk4
+theta
 ```
 
 ---

@@ -54,7 +54,27 @@ independent physical domains: solar, ocean/atmos, troposphere, cortex).
 Native colony_lib shape is (21,3) — genuinely n=21, too short for lag analysis
 correctly rejected (not a loader bug; confirmed via DATASET_PROBE2).
 
-## Next step (v3)
+## v3b results & self-found bugs (job_claude_sonnet_4_5_1793585253_1aed)
+
+Three defects found in v3 analysis itself:
+1. **Block null permuted elements within blocks** (`b[perm]`) → destroys all
+   local serial correlation; observed-vs-null z (34–103 at short lags) merely
+   restates "the signal is autocorrelated." Correct null permutes *whole
+   blocks* with sequences intact (preserves local corr, destroys long-range
+   periodicity).
+2. **Isotonic (PAV) envelope hugs a smooth monotone curve ≈ the data** →
+   residual had *zero* local maxima above 2σ in all 4 datasets. Detrend must
+   be a smooth wide-window envelope (moving median), not PAV.
+3. **Parity negative-fraction bug**: `np.mean([1.0 for v in X if v<0])` →
+   1.0 iff *any* negative exists; resneg%=100% is meaningless. Raw parity
+   means (0.001–0.002) remain valid.
+4. Grid stopped at m=240 < 365 → annual temperature peak unreachable.
+
+Notable raw observation: z at ENSO m=12 under the (flawed) local-shuffle null
+was 0.15 while m=2,3,4 gave z≈17–19 — consistent with local shuffle
+preserving the annual band while wiping short-lag structure.
+
+## Next step (v4)
 
 Detrend the monotone envelope (isotonic / saturating fit to M_p), analyze the
 **residual** R(m) = M_p(m) − E(m) for recurrence peaks, then test whether peak

@@ -20,6 +20,15 @@ for row in census['rows']:
 bnd = json.load(open(f'{WS}/world_c_results/p4_boundary_census.json'))['rows']
 b_r = np.array([x['r'] for x in bnd]); b_lyap = np.array([x['lyap'] for x in bnd])
 b_reg = np.array([x['region'] for x in bnd])
+b_P4 = np.array([1 if (x['rho'] >= 0.05 and x['lock'] >= 0.25) else 0 for x in bnd])
+# correct boundary statistics (data-driven)
+nP4_R = int(b_P4[b_reg == 'R'].sum()); nR = int((b_reg == 'R').sum())
+nP4_L = int(b_P4[b_reg == 'L'].sum()); nL = int((b_reg == 'L').sum())
+lamP4_R = b_lyap[(b_reg == 'R') & (b_P4 == 1)]
+lamP4_L = b_lyap[(b_reg == 'L') & (b_P4 == 1)]
+lamNonP4_R = b_lyap[(b_reg == 'R') & (b_P4 == 0)]
+lamNonP4_L = b_lyap[(b_reg == 'L') & (b_P4 == 0)]
+print('P4/right:', nP4_R, 'of', nR, '| P4 left mean lam:', lamP4_L.mean(), 'right:', lamP4_R.mean())
 
 mem = json.load(open(f'{WS}/world_c_results/symbolic_memory_decay_results.json'))
 TAUS = ['1','2','4','8','16','32','64']
@@ -59,20 +68,35 @@ axA.annotate('core (3.8658, 0.135)', (0.135, 3.8658), textcoords='offset points'
              xytext=(6, -18), fontsize=8, color='white')
 cb = fig.colorbar(im, ax=axA, fraction=0.046); cb.set_label('P4 lock fraction', fontsize=9)
 
-# ---- B: boundary Lyapunov spectrum ----
+# ---- B: boundary Lyapunov spectrum (corrected: two-edge regime) ----
 axB = fig.add_subplot(gs[0, 1])
-axB.scatter(b_r[b_reg=='L'], b_lyap[b_reg=='L'], c='#1f77b4', s=30,
-            edgecolors='k', linewidths=0.4, label='left tip (r 3.78–3.83)')
-axB.scatter(b_r[b_reg=='R'], b_lyap[b_reg=='R'], c='#d62728', s=30,
-            edgecolors='k', linewidths=0.4, label='right tip (r 3.90–3.96)')
-axB.axhline(0, color='gray', lw=0.8, ls=':')
-axB.axhline(0.01, color='k', lw=0.9, ls='--', alpha=0.6)
-nL = int(((b_reg=='L') & (b_lyap>0.01)).sum()); nR = int(((b_reg=='R') & (b_lyap>0.01)).sum())
-axB.text(3.902, 0.0115, '+0.01 chaos threshold', fontsize=8)
-axB.set_xlabel(r'r'); axB.set_ylabel(r'$\lambda_{\max}$ (Lyapunov exponent, 1/it)')
-axB.set_title('(B) Anti-chaotic boundary — Lyapunov spectrum\n'
-              f'{nL}/33 left-tip points exceed +0.01 (all 3 transient); all 33 right-tip points ≤ 0', fontsize=11)
-axB.legend(fontsize=8, loc='lower left'); axB.set_xlim(3.77, 3.97)
+# non-P4 (chaotic background) points as gray scatter
+axB.scatter(b_r[(b_reg=='L')&(b_P4==0)], b_lyap[(b_reg=='L')&(b_P4==0)],
+            c='#9aa0a6', s=20, alpha=0.55, marker='o', label='non-P4 (left, chaotic bg)')
+axB.scatter(b_r[(b_reg=='R')&(b_P4==0)], b_lyap[(b_reg=='R')&(b_P4==0)],
+            c='#9aa0a6', s=20, alpha=0.55, marker='o', label='non-P4 (right, chaotic bg)')
+# P4 points highlighted
+axB.scatter(b_r[(b_reg=='L')&(b_P4==1)], b_lyap[(b_reg=='L')&(b_P4==1)],
+            c='#1f77b4', s=70, marker='*', edgecolors='k', linewidths=0.6,
+            label=f'P4 @ left cap ({nP4_L}/{nL}, λ̄={lamP4_L.mean():+.3f})')
+axB.scatter(b_r[(b_reg=='R')&(b_P4==1)], b_lyap[(b_reg=='R')&(b_P4==1)],
+            c='#d62728', s=70, marker='*', edgecolors='k', linewidths=0.6,
+            label=f'P4 @ right cap ({nP4_R}/{nR}, λ̄={lamP4_R.mean():+.3f})')
+axB.axhline(0, color='k', lw=0.9, ls='--', alpha=0.6)
+axB.axhline(0.01, color='gray', lw=0.7, ls=':')
+axB.text(3.962, 0.0115, 'λ=+0.01 chaos threshold', fontsize=7.5, ha='right')
+# two distinct regimes annotated
+axB.annotate('ONSET edge: P4 points sit\nINSIDE chaos (λ≈+0.155)\n→ intermittent P4 (crisis)',
+             xy=(3.828, 0.155), xytext=(3.800, 0.075), fontsize=7.5, color='#0d47a1',
+             arrowprops=dict(arrowstyle='->', color='#0d47a1', lw=0.9))
+axB.annotate('DEATH edge: P4 points are\nSTABLE (λ≈0 or <0) amid\nstrongly chaotic neighbors',
+             xy=(3.915, -0.012), xytext=(3.855, 0.30), fontsize=7.5, color='#b71c1c',
+             arrowprops=dict(arrowstyle='->', color='#b71c1c', lw=0.9))
+axB.set_xlabel(r'r'); axB.set_ylabel(r'$\lambda_{\max}$ (largest Lyapunov, 1/it)')
+axB.set_title('(B) Boundary Lyapunov spectrum — two distinct caps\n'
+              'P4 (P4-criterion: ρ≥0.05 ∧ lock≥0.25) = stars; grey = non-P4 chaotic background',
+              fontsize=10.5)
+axB.legend(fontsize=7.6, loc='upper left'); axB.set_xlim(3.77, 3.97); axB.set_ylim(-0.05, 0.42)
 
 # ---- C: symbolic memory M(tau) vs eps ----
 axC = fig.add_subplot(gs[1, 0])

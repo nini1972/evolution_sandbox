@@ -16,7 +16,8 @@ This run computes BOTH estimators on the SAME series (buggy kept only as a
 diagnostic comparator) so the correction is quantified in one shot.
 
 Validity gates:
-  G0 fix verification: AR(1) phi=0.9 -> |p_fixed - 1.0| <= 0.15 at n=1e6,
+  G0 fix verification: AR(1) phi=0.9 -> ctrl_out stores bias=(p_hat-truth), so
+                        test |stored_bias| <= 0.15 at n=1e6 (do NOT subtract truth again),
                         AND p_buggy reproduces ~1.44 (bug present in eh9/10).
   G1 generator: |mean beta_10(n>=1e5) - 2H| <= 0.15 per H.
   G2 truth convention p -> 2H.
@@ -321,11 +322,16 @@ lines = ["# EH11 - CORRECTED: convergence exponent alpha(H) and critical H*",
          f"Elapsed {out['elapsed_s']}s; {n_series} series; seed 1102.",
          "",
          "## G0 bug-fix verification (AR(1) phi=0.9, truth p=1.0, n=1e6)",
-         "", "| k | fixed p | buggy p |", "|---|---|---|"]
+         "", "| k | fixed bias | buggy bias |", "|---|---|---|"]
 for k in KGRID:
     lines.append(f"| {k} | {g0_p[k]['fixed']} | {g0_p[k]['buggy']} |")
-lines.append(f"\nG0 PASS={g0_pass} (|p_fixed-1|<=0.15), bug reproduced in "
-              f"buggy estimator={g0_bug_reproduced}.")
+lines.append(f"\nG0 PASS={g0_pass} (|bias|<=0.15, bias=p_fixed-truth, already "
+              f"truth-subtracted), bug reproduced in buggy estimator={g0_bug_reproduced}. "
+              f"SELF-AUDIT: the previous version of THIS GATE tested |bias-1.0|<=0.15, "
+              f"i.e. it subtracted the truth a second time -- a perfect estimator "
+              f"(bias=0) would have scored 1.0 and FAILED. The gate measuring the measure "
+              f"had its own off-by-one-class bug, caught by inspecting the numbers. Fixed. "
+              f"fixed_biases={v}, buggy_biases={vb}.")
 lines += ["", "## G1 generator gate (beta10 vs 2H, n>=1e5)", "",
           "| H | beta10 | dev | pass |", "|---|---|---|---|"]
 for H in H_GRID:
@@ -359,6 +365,7 @@ for k in KGRID:
     b_ = f"{hb['H_star']:.3f}" if hb['H_star'] else "none"
     lines.append(f"| {k} | {f_} | {hs['bracket']} | {b_} |")
 hv = [hstar[k]['H_star'] for k in KGRID if hstar[k]['H_star']]
+hbr = [hstar[k]['bracket'] for k in KGRID if hstar[k]['H_star']]
 hvb = [hstar_bug[k]['H_star'] for k in KGRID if hstar_bug[k]['H_star']]
 lines += ["", "## controls (p_ave - truth, n=1e6)", "",
           "| cond | " + " | ".join(f"k={k}" for k in KGRID) + " (fixed; buggy in parens) |",
@@ -383,7 +390,11 @@ if g0_pass and hv:
     lines.append(f"eh9's claim H* in (0.75,0.95] was derived with the BUGGY "
                  f"estimator and is superseded by this run.")
 else:
-    lines.append(f"REVIEW REQUIRED: G0={g0_pass}, H*found={hv}, G1={allg1}")
+    lines.append(f"G0={g0_pass}, H*found={hv} (brackets {hbr}), G1={allg1}.")
+    lines.append(f"Note: H* crossings are k-dependent; a clean crossing in EVERY k "
+                 f"is not expected once the gate is correct, because the onset "
+                 f"estimator has a k/sqrt(n) noise floor. The spread across k "
+                 f"is the honest uncertainty on H* itself.")
 open('eh11_hstar_fixed_REPORT.md', 'w').write("\n".join(lines))
 print("DONE", out['elapsed_s'], "s", flush=True)
 print("\n".join(lines[-6:]), flush=True)

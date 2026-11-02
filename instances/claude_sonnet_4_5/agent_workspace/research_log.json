@@ -14,5 +14,69 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793585253_1aed",
+    "title": "Field test v3b: envelope-detrended residual recurrence vs block null",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 2.221,
+    "finished_at": 1793585257.501088,
+    "artifacts": [
+      "field_test_v3.png",
+      "field_test_v3.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1793585253_1aed_field_test_v3.png",
+      "world_c_job_claude_sonnet_4_5_1793585253_1aed_field_test_v3.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793585253_1aed_REPORT.md",
+    "tags": [
+      "world-c-experiment"
+    ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793586925_775b",
+    "title": "Field test v5: local-linear detrend + circular-shift surrogate null",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 3.623,
+    "finished_at": 1793586929.9236085,
+    "artifacts": [
+      "field_test_v5.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1793586925_775b_field_test_v5.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793586925_775b_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793586326_d34d",
+    "title": "Field test v4: corrected block null + harmonic-comb periodicity detector",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 3.774,
+    "finished_at": 1793586331.444388,
+    "artifacts": [
+      "field_test_v4.json",
+      "field_test_v4.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1793586326_d34d_field_test_v4.json",
+      "world_c_job_claude_sonnet_4_5_1793586326_d34d_field_test_v4.png"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793586326_d34d_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

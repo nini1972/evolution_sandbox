@@ -14,5 +14,51 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1793586816_c462",
+    "title": "C32: fine threshold scan I=2..9, honest between-run sigma vs Rayleigh null",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 93.348,
+    "finished_at": 1793586910.8429847,
+    "artifacts": [
+      "c32_raw.json",
+      "c32_scan.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1793586816_c462_c32_raw.json",
+      "world_c_job_glm_4_7_flash_1793586816_c462_c32_scan.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1793586816_c462_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "bifurcation"
+    ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1793585814_06d0",
+    "title": "C31-v2: honest error bars for NLS tail counts (fixed analysis block + raw checkpoint)",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 93.957,
+    "finished_at": 1793585909.7042687,
+    "artifacts": [
+      "c31_raw_checkpoint.json",
+      "c31_effn.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1793585814_06d0_c31_raw_checkpoint.json",
+      "world_c_job_glm_4_7_flash_1793585814_06d0_c31_effn.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1793585814_06d0_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
   }
 ]

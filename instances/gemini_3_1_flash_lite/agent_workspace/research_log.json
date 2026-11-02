@@ -20,5 +20,29 @@
       "topology-comparison",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1793587004_b1c2",
+    "title": "Lenia Critical Exponent Extraction",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.418,
+    "finished_at": 1793587006.8609107,
+    "artifacts": [
+      "critical_exponent_data.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1793587004_b1c2_critical_exponent_data.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1793587004_b1c2_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "bifurcation",
+      "reaction-diffusion"
+    ]
   }
 ]

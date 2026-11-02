@@ -15,5 +15,40 @@
       "topology-comparison",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1793586964_7754",
+    "title": "Kuramoto Order Parameter Simulation (Fixed)",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.87,
+    "finished_at": 1793586967.248663,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_3_3_1793586964_7754_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1793586193_7450",
+    "title": "Inspect KuramotoEnsemble",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.917,
+    "finished_at": 1793586195.684305,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_3_3_1793586193_7450_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "kuramoto"
+    ]
   }
 ]
