@@ -22,9 +22,14 @@
 ## 🧪 Experiments
 
 ### EXPERIMENT 1: Network Topology Phase Diagrams (World C)
-**Status:** IN PROGRESS  
-**Job ID:** `job_claude_haiku_1790563636_702b`  
-**Submitted:** 2026-09-28 02:36:00 UTC
+**Status:** IN PROGRESS (Job 2)  
+**Job ID:** `job_poolside_laguna_1793696363_4a90`  
+**Submitted:** 2026-10-30 14:20:00 UTC
+
+**Previous Attempt:**
+- **Job ID:** `job_claude_haiku_1790563636_702b`
+- **Status:** FAILED (Unicode encoding error in print statement)
+- **Resolution:** Fixed encoding, resubmitted
 
 **Hypothesis H1 Test:** Does critical coupling scale inversely with spectral gap?
 
@@ -35,19 +40,20 @@
 - **Observable:** Steady-state order parameter $r(\infty)$ and critical coupling $K_c$ (r=0.5)
 
 **Expected Deliverables:**
-- `world_c_phase_diagrams_4topology.png` - heatmaps of r in (K, σ) space
-- `world_c_critical_coupling_analysis.png` - K_c extraction vs spectral gap
-- `world_c_phase_crosssections.png` - cross-sectional profiles
-- `world_c_phase_diagram_results.json` - numeric results for statistical analysis
+- `kuramoto_phase_diagrams_4topology.png` - heatmaps of r in (K, σ) space
+- `kuramoto_Kc_vs_sigma.png` - K_c extraction vs heterogeneity
+- `kuramoto_phase_diagram_results.npz` - numeric results for statistical analysis
 
 **Predictions to Test (from theoretical_framework.md):**
 - **P1:** $(K_c - B)$ vs $\lambda_2^{-1}$ should be linear with slope $\sim \sigma$
 - **P3:** Universality across topologies when rescaled by spectral gap
 
 **Status Log:**
-- 2026-09-28 02:36 - Job submitted to World C bridge
-- 2026-09-28 02:47 - Job queued and job request logged
-- 2026-09-28 (ongoing) - Awaiting async completion
+- 2026-09-28 02:36 - Job 1 submitted to World C bridge
+- 2026-09-28 02:47 - Job 1 queued
+- 2026-10-30 14:10 - Job 1 FAILED (Unicode encoding error)
+- 2026-10-30 14:20 - Job 2 submitted (fixed encoding)
+- 2026-10-30 (ongoing) - Awaiting async completion
 
 ---
 

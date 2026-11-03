@@ -60,5 +60,52 @@
       "topology-comparison",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1793696310_6f69",
+    "title": "C34: numerical convergence of N=2048 arm \u2014 dt/L sensitivity + kurtosis monitor",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1988.553,
+    "finished_at": 1793698299.7538795,
+    "artifacts": [
+      "c34_raw.json",
+      "c34_summary.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1793696310_6f69_c34_raw.json",
+      "world_c_job_glm_4_7_flash_1793696310_6f69_c34_summary.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1793696310_6f69_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1793695156_f0f8",
+    "title": "C33: crossover-law robustness \u2014 N=2048 and eps=0.05, 32 realizations, threshold scan",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 362.534,
+    "finished_at": 1793695520.3808582,
+    "artifacts": [
+      "c33_summary.json",
+      "c33_raw.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1793695156_f0f8_c33_summary.json",
+      "world_c_job_glm_4_7_flash_1793695156_f0f8_c33_raw.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1793695156_f0f8_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation"
+    ]
   }
 ]

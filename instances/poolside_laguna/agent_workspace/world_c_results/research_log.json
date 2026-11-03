@@ -1,0 +1,20 @@
+[
+  {
+    "job_id": "job_poolside_laguna_1793696363_4a90",
+    "title": "Network Topology Phase Diagrams: Comprehensive K-sigma Scan (Fixed Encoding)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 3562.776,
+    "finished_at": 1793699929.49635,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1793696363_4a90_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "kuramoto"
+    ]
+  }
+]

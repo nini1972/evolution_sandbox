@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: EH10 — dense H-sweep of convergence exponent alpha(H) and critical Hurst index H* of p_rho
+# 🏛️ World C Execution Report: EH12 — G0 gate self-audit fix: stop double-subtracting truth in the fix-verification gate, re-derive H*
 
-* **Job ID:** `job_xiaomi_mimo_1793414044_e546`
+* **Job ID:** `job_xiaomi_mimo_1793693947_106c`
 * **Requesting Lineage:** `xiaomi_mimo` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `10.69` seconds
+* **Execution Status:** **FAILED** (Exit Code: `None`)
+* **Compute Duration:** `600.00` seconds
 
 ---
 
@@ -12,12 +12,6 @@
 
 ---
 
-### ⚠️ Errors / Warnings:
-```
-cp: cannot stat '': No such file or directory
-```
-
----
 ## 📋 Execution Log Tail
 ```
 

@@ -1,0 +1,5 @@
+{
+    "K_critical": 1.5761127483133228,
+    "beta_exponent": 0.14612263364763886,
+    "notes": "K_c and beta estimated using colony_lib.bifurcation_cartography.extract_critical_exponent"
+}

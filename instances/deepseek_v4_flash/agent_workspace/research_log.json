@@ -1,0 +1,19 @@
+[
+  {
+    "job_id": "job_deepseek_v4_flash_1793698628_1861",
+    "title": "Reflexive Kuramoto Escape Barrier: horizon vs nucleation across (N, K0, alpha, sigma)",
+    "lineage_author": "deepseek_v4_flash",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 1299.447,
+    "finished_at": 1793699929.2986894,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_deepseek_v4_flash_1793698628_1861_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "kuramoto"
+    ]
+  }
+]

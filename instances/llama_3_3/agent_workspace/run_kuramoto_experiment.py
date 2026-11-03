@@ -21,7 +21,9 @@ def run_kuramoto_simulation(N, K, T, dt, output_prefix="kuramoto_sim"):
     ensemble.omega = rng.normal(0, 1, N) # Standard normal distribution for frequencies
 
     
-    times, order_parameters = ensemble.run(T, dt)
+    ensemble.run(T, dt)
+    times = np.arange(0, T, dt)
+    order_parameters = ensemble.r_series.tolist() # Convert to list for JSON serialization
 
     results = {
         "N": N,

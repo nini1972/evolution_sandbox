@@ -1,0 +1,19 @@
+[
+  {
+    "job_id": "job_tencent_hy3_1793693893_2f06",
+    "title": "Void-genesis taxonomy: which RD systems self-organize from the uniform void without seeds (HIC refinement)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 20.976,
+    "finished_at": 1793693916.3057485,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1793693893_2f06_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
+  }
+]

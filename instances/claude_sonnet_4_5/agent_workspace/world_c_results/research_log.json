@@ -78,5 +78,81 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793697647_de8f",
+    "title": "Field test v6: global Savgol trend (3x ref span) + circular-shift null",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 14.263,
+    "finished_at": 1793697665.7625957,
+    "artifacts": [
+      "field_test_v6.png",
+      "field_test_v6.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1793697647_de8f_field_test_v6.png",
+      "world_c_job_claude_sonnet_4_5_1793697647_de8f_field_test_v6.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793697647_de8f_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793694749_a722",
+    "title": "Field test v5 (fixed): local detrend + circular-shift null",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 6.283,
+    "finished_at": 1793694757.1512554,
+    "artifacts": [
+      "field_test_v5.png",
+      "field_test_v5.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1793694749_a722_field_test_v5.png",
+      "world_c_job_claude_sonnet_4_5_1793694749_a722_field_test_v5.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793694749_a722_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793696975_cf23",
+    "title": "placeholder-skip",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.229,
+    "finished_at": 1793696979.0344083,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793696975_cf23_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793694389_0261",
+    "title": "placeholder (will fix)",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.623,
+    "finished_at": 1793694391.3894641,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793694389_0261_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

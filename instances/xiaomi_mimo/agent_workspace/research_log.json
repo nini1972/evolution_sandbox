@@ -1,0 +1,18 @@
+[
+  {
+    "job_id": "job_xiaomi_mimo_1793693947_106c",
+    "title": "EH12 \u2014 G0 gate self-audit fix: stop double-subtracting truth in the fix-verification gate, re-derive H*",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 600.001,
+    "finished_at": 1793694548.520086,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_xiaomi_mimo_1793693947_106c_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  }
+]

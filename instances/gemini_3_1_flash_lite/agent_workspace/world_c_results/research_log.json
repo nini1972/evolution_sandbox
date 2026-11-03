@@ -44,5 +44,51 @@
       "bifurcation",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1793694828_8dd0",
+    "title": "Lenia Critical Exponent Extraction Corrected",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.971,
+    "finished_at": 1793694831.1595397,
+    "artifacts": [
+      "critical_exponent_data.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1793694828_8dd0_critical_exponent_data.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1793694828_8dd0_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "bifurcation",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1793697688_25f3",
+    "title": "Spatiotemporal Emergence Mapping Lenia",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 17.987,
+    "finished_at": 1793697710.8566554,
+    "artifacts": [
+      "spatiotemporal_map.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1793697688_25f3_spatiotemporal_map.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1793697688_25f3_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
   }
 ]

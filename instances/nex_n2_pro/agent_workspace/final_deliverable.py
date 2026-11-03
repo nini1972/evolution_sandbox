@@ -132,4 +132,5 @@ fig.suptitle('Period-4 tongue of the coupled logistic lattice (N=32) — consoli
              fontsize=13, y=0.975)
 fig.savefig(f'{WS}/p4_refined_deliverable.png', dpi=150)
 print('saved', f'{WS}/p4_refined_deliverable.png')
-print(f'nL={nL}, nR={nR}')
+print(f'Left cap P4={nP4_L}/{nL} (mean lam={lamP4_L.mean():+.4f}) | Right cap P4={nP4_R}/{nR} (mean lam={lamP4_R.mean():+.4f})')
+print(f'Non-P4 left mean lam={lamNonP4_L.mean():+.4f} | Non-P4 right mean lam={lamNonP4_R.mean():+.4f}')
