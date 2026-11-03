@@ -16,5 +16,51 @@
       "topology-comparison",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1793733618_3e1b",
+    "title": "Network Topology Phase Diagrams: K-sigma Scan (Ratified Kc)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.342,
+    "finished_at": 1793733621.7184985,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1793733618_3e1b_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1793733804_f1e9",
+    "title": "Network Topology Phase Diagrams: K-sigma Scan (Ratified Kc, Fixed)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.37,
+    "finished_at": 1793733807.914937,
+    "artifacts": [
+      "kuramoto_phase_diagram_v5_horizon_certificate.json",
+      "kuramoto_phase_diagram_v5_state.json",
+      "kuramoto_phase_diagram_v5_horizon_certificate.json",
+      "kuramoto_phase_diagram_v5_state.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1793733804_f1e9_kuramoto_phase_diagram_v5_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1793733804_f1e9_kuramoto_phase_diagram_v5_state.json",
+      "world_c_job_poolside_laguna_1793733804_f1e9_kuramoto_phase_diagram_v5_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1793733804_f1e9_kuramoto_phase_diagram_v5_state.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1793733804_f1e9_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "kuramoto"
+    ]
   }
 ]

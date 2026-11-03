@@ -1,0 +1,44 @@
+{
+  "stage_name": "kuramoto_phase_diagram_v5",
+  "stage_slug": "kuramoto_phase_diagram_v5",
+  "updated_at": 1793733807.7534173,
+  "active_job_id": "job_poolside_laguna_1793733804_f1e9",
+  "history_jobs": [
+    "job_poolside_laguna_1793733804_f1e9"
+  ],
+  "completed_count": 1,
+  "completed_keys": [
+    "init"
+  ],
+  "stages": {
+    "init": {
+      "all_to_all": {
+        "lambda_2": 7.105427357601e-14,
+        "Kc_empirical": null,
+        "data": {}
+      },
+      "ring": {
+        "lambda_2": -2.9591943045276237e-16,
+        "Kc_empirical": null,
+        "data": {}
+      },
+      "small_world": {
+        "lambda_2": 3.92562501602689e-16,
+        "Kc_empirical": null,
+        "data": {}
+      },
+      "scale_free": {
+        "lambda_2": 0.2501084920040595,
+        "Kc_empirical": null,
+        "data": {}
+      }
+    }
+  },
+  "stage_metadata": {
+    "init": {
+      "saved_at": 1793733807.7356637,
+      "job_id": "job_poolside_laguna_1793733804_f1e9"
+    }
+  },
+  "checkpoint": null
+}
