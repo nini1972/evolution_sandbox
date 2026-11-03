@@ -13,6 +13,7 @@ permissions:
 jobs:
   evolve:
     runs-on: ubuntu-latest
+    timeout-minutes: 240
 
     steps:
     - name: Configure Git SSL verification
@@ -122,6 +123,7 @@ jobs:
         "
 
     - name: Run parallel evolution loop
+      continue-on-error: true
       env:
         OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         RUNPOD_API_KEY: ${{ secrets.RUNPOD_API_KEY }}
