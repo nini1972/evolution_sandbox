@@ -342,12 +342,21 @@ def search_web(query: str) -> str:
     except Exception as e:
         return f"Error searching the web: {str(e)}"
 
-def submit_world_c_job(title: str, script_content: str, timeout_seconds: int = 3600, parameters: dict = None) -> str:
+def submit_world_c_job(
+    title: str,
+    script_content: str,
+    timeout_seconds: int = 3600,
+    parameters: dict = None,
+    stage_name: str = None,
+    resume_from_job_id: str = None,
+    **kwargs
+) -> str:
     """
     Submits a heavy computation or simulation job to World C (the high-performance compute substrate).
     World C executes the job asynchronously without being killed by the local 120s timeout limit,
-    has access to colony_lib (Kuramoto, Solitons, Gray-Scott, RQA, Bifurcations, Morphospace),
+    has access to colony_lib (Kuramoto, Solitons, Gray-Scott, RQA, Bifurcations, Morphospace, Persistence),
     and returns artifacts (plots, JSON metrics) and an execution report back to instances/shared_space/world_c/reports/ and your local world_c_results/.
+    Supports multi-stage checkpointing & continuation via `stage_name` and `resume_from_job_id`.
     """
     import uuid
     import time
@@ -359,14 +368,26 @@ def submit_world_c_job(title: str, script_content: str, timeout_seconds: int = 3
     os.makedirs(shared_space, exist_ok=True)
     req_file = os.path.join(shared_space, f"{job_id}_job_request.json")
     
+    params_dict = dict(parameters) if isinstance(parameters, dict) else {}
+    resolved_stage = stage_name or kwargs.get("stage") or params_dict.get("stage_name")
+    resolved_resume = (
+        resume_from_job_id
+        or kwargs.get("resume_from")
+        or kwargs.get("parent_job_id")
+        or params_dict.get("resume_from_job_id")
+        or params_dict.get("resume_from")
+    )
+
     payload = {
         "job_id": job_id,
         "title": title,
         "lineage_author": instance_name,
         "realm_source": "world_a",
         "script_content": script_content,
-        "parameters": parameters or {},
-        "timeout_seconds": timeout_seconds
+        "parameters": params_dict,
+        "timeout_seconds": timeout_seconds,
+        "stage_name": resolved_stage,
+        "resume_from_job_id": resolved_resume,
     }
     
     try:
@@ -680,7 +701,7 @@ TOOLS_SCHEMA = [
         "type": "function",
         "function": {
             "name": "submit_world_c_job",
-            "description": "Submits a heavy computation or simulation job to World C (the high-performance compute substrate). World C executes the job asynchronously without being killed by the local 120s timeout limit, has access to colony_lib (Kuramoto, Solitons, Gray-Scott, RQA, Bifurcations, Morphospace), and returns artifacts (plots, JSON metrics) and an execution report back to instances/shared_space/world_c/reports/ and your local world_c_results/. Key colony_lib API (full guide in 'shared_space/world_c/WORLD_C_MATHEMATICAL_SUBSTRATE_GUIDE.md'; colony_lib is also on PYTHONPATH locally via run_command): colony_lib.recurrence: takens_embedding(series, m=3, tau=1) -> 2D ndarray, recurrence_matrix(embedded_points, epsilon=0.1) -> single 2D uint8 ndarray R (do NOT tuple-unpack), compute_rqa_metrics(R) -> dict with keys ['recurrence_rate','determinism','laminarity','shannon_entropy','mean_diag_length','max_diag_length','RR','DET','LAM','ENT','L','Lmax']; colony_lib.dynamics: logistic_map(x, r), coupled_logistic_map, simulate_kuramoto, KuramotoEnsemble, Lenia2D, GrayScott2D, Phi4SolitonSpectral; colony_lib.bifurcation_cartography: continuation_kuramoto, extract_critical_exponent, adaptive_phase_scan, scan_parameter_space(..., N_cores=4); colony_lib.network_topology: laplacian_spectrum(A), spectral_gap(A), algebraic_connectivity(A), detect_communities(A), average_clustering(A), assortativity(A), generate_topology(topology, N); colony_lib.scaling_analysis: scaling_collapse(x_data, y_data, exponents), fit_scaling_law(x_data, y_data, form, constraints); colony_lib.datasets: list_datasets() (7 datasets including power_grid_ieee and belousov_zhabotinsky), load_dataset(name); colony_lib.emulators: GaussianProcessSurrogate.",
+            "description": "Submits a heavy computation or simulation job to World C (the high-performance compute substrate). World C executes the job asynchronously without being killed by the local 120s timeout limit, has access to colony_lib (Kuramoto, Solitons, Gray-Scott, RQA, Bifurcations, Morphospace, Persistence), and returns artifacts (plots, JSON metrics) and an execution report back to instances/shared_space/world_c/reports/ and your local world_c_results/. Supports multi-stage/resumable jobs via `stage_name`, `resume_from_job_id`, and `from colony_lib.persistence import StageTracker` (`tracker = StageTracker('my_scan'); tracker.is_done(k); tracker.save_stage(k, data); tracker.get_stage(k)`). Key colony_lib API (full guide in 'shared_space/world_c/WORLD_C_MATHEMATICAL_SUBSTRATE_GUIDE.md'; colony_lib is also on PYTHONPATH locally via run_command): colony_lib.persistence: StageTracker(stage_name), save_checkpoint, load_checkpoint, load_artifact; colony_lib.recurrence: takens_embedding(series, m=3, tau=1) -> 2D ndarray, recurrence_matrix(embedded_points, epsilon=0.1) -> single 2D uint8 ndarray R (do NOT tuple-unpack), compute_rqa_metrics(R) -> dict with keys ['recurrence_rate','determinism','laminarity','shannon_entropy','mean_diag_length','max_diag_length','RR','DET','LAM','ENT','L','Lmax']; colony_lib.dynamics: logistic_map(x, r), coupled_logistic_map, simulate_kuramoto, KuramotoEnsemble, Lenia2D, GrayScott2D, Phi4SolitonSpectral; colony_lib.bifurcation_cartography: continuation_kuramoto, extract_critical_exponent, adaptive_phase_scan, scan_parameter_space(..., N_cores=4, stage_name='...'); colony_lib.network_topology: laplacian_spectrum(A), spectral_gap(A), algebraic_connectivity(A), detect_communities(A), average_clustering(A), assortativity(A), generate_topology(topology, N); colony_lib.scaling_analysis: scaling_collapse(x_data, y_data, exponents), fit_scaling_law(x_data, y_data, form, constraints); colony_lib.datasets: list_datasets() (7 datasets including power_grid_ieee and belousov_zhabotinsky), load_dataset(name); colony_lib.emulators: GaussianProcessSurrogate.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -699,6 +720,14 @@ TOOLS_SCHEMA = [
                     "parameters": {
                         "type": "object",
                         "description": "Optional dictionary of parameter configurations."
+                    },
+                    "stage_name": {
+                        "type": "string",
+                        "description": "Optional persistent stage/project identifier (e.g. 'kuramoto_4topo_scan'). Jobs sharing the same stage_name share a persistent checkpoint directory across turns and days so multi-stage sweeps can build incrementally on previous stages."
+                    },
+                    "resume_from_job_id": {
+                        "type": "string",
+                        "description": "Optional previous job_id whose generated artifacts and checkpoints should be pre-loaded into this job's working directory to continue a multi-stage experiment."
                     }
                 },
                 "required": ["title", "script_content"]

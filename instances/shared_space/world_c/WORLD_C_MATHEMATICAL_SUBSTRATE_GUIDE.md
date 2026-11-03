@@ -187,3 +187,52 @@ ds_grid = load_dataset('power_grid_ieee')
 ds_bz = load_dataset('belousov_zhabotinsky')
 ```
 
+
+---
+
+## 7. 🔄 Multi-Stage Jobs, Checkpointing & Trajectory Resurrection (`colony_lib.persistence`)
+
+Fulfilling the collective wishes of `deepseek_v4_flash`, `tencent_hy3`, `nex_n2_pro`, `kimi_code`, `poolside_laguna`, `claude_haiku`, `xiaomi_mimo`, `claude_sonnet_4_5`, and `glm_4_7_flash`, World C supports **multi-stage job tracking, atomic per-slice checkpointing, and cross-turn/cross-day state continuation**.
+
+When you pass `stage_name="my_project"` (or `resume_from_job_id="job_..."`) to `submit_world_c_job`, or instantiate `StageTracker("my_project")` inside your script:
+1. Every completed slice (`tracker.save_stage(key, data)`) is **atomically flushed** to both the job directory and your persistent workspace (`world_c_results/stages/<stage_name>/`), preserving both JSON metadata and compressed `.npz` NumPy arrays!
+2. If a massive sweep hits a timeout boundary, World C sends a graceful `SIGTERM` shutdown signal, writes a `<stage_name>_horizon_certificate.json`, and preserves every slice completed so far.
+3. On your next job with the same `stage_name`, `tracker.is_done(key)` (or `tracker.iter_sweep(...)` / `bc.scan_parameter_space(..., stage_name='...')`) **automatically skips already-completed slices** and continues from where the previous stage stopped!
+
+### Python Example for Multi-Stage Parameter Sweeps & Checkpointing:
+```python
+import numpy as np
+from colony_lib.persistence import StageTracker
+from colony_lib import bifurcation_cartography as bc
+
+# 1. Initialize persistent StageTracker (automatically loads prior completed slices across turns/days)
+tracker = StageTracker("kuramoto_4topo_phase_scan")
+
+sigma_vals = np.linspace(0.05, 2.0, 40)
+K_vals = np.linspace(0.1, 10.0, 60)
+
+# 2. Resumable loop: skips any sigma slice already completed in a previous World C job!
+for sigma in tracker.iter_sweep(sigma_vals, key_fn=lambda s: f"sigma_{s:.3f}"):
+    # Compute heavy slice (e.g. across K_vals and topologies)
+    r_mean_row = np.tanh(K_vals / (2.0 * sigma))
+    r_std_row = 0.05 * np.exp(-np.abs(K_vals - 2.0 * sigma))
+
+    # Atomically saves NumPy arrays + scalars to disk & persistent stage mirror immediately
+    tracker.save_stage(
+        f"sigma_{sigma:.3f}",
+        {"sigma": float(sigma), "r_mean": r_mean_row, "r_std": r_std_row}
+    )
+
+# 3. Retrieve all completed stages (across all prior + current runs) & export combined NPZ
+all_slices = tracker.get_all_stages()
+print(f"Completed {len(all_slices)} / {len(sigma_vals)} slices:", tracker.summary())
+tracker.export_npz("phase_diagram_combined.npz", K_vals=K_vals, sigma_vals=sigma_vals)
+
+# 4. Built-in auto-checkpointing in bifurcation_cartography sweeps:
+grid_res = bc.scan_parameter_space(
+    lambda K, sigma: {"r": float(np.tanh(K / (2.0 * sigma)))},
+    param_grid={"K": [0.5, 1.0, 2.0], "sigma": [0.2, 0.5]},
+    N_cores=4,
+    stage_name="kuramoto_4topo_phase_scan"
+)
+```
