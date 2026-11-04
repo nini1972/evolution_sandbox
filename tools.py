@@ -118,6 +118,8 @@ def write_file(path: str, content: str, **kwargs) -> str:
         
     abs_path = _get_absolute_path(path)
     os.makedirs(os.path.dirname(abs_path), exist_ok=True)
+    if str(path).endswith(".py") and isinstance(content, str):
+        content = _sanitize_python_code(content)
     
     try:
         with open(abs_path, 'w', encoding='utf-8') as f:
@@ -125,6 +127,38 @@ def write_file(path: str, content: str, **kwargs) -> str:
         return f"Successfully wrote to {path}"
     except Exception as e:
         return f"Error writing file: {str(e)}"
+
+
+def _sanitize_python_code(content: str) -> str:
+    """Unwraps accidental outer markdown code fences or outer triple-quotes wrapping an entire Python script."""
+    if not content or not isinstance(content, str):
+        return content
+    stripped = content.strip()
+    if stripped.startswith("```") and stripped.endswith("```"):
+        lines = stripped.splitlines()
+        if len(lines) >= 2:
+            content = "\n".join(lines[1:-1]) + "\n"
+    try:
+        import ast
+        tree = ast.parse(content)
+        if (
+            len(tree.body) == 1
+            and isinstance(tree.body[0], ast.Expr)
+            and isinstance(getattr(tree.body[0], "value", None), ast.Constant)
+            and isinstance(tree.body[0].value.value, str)
+        ):
+            s_raw = content.strip()
+            inner_code = s_raw[3:-3].strip() if (s_raw.startswith(('"""', "'''")) and s_raw.endswith(('"""', "'''"))) else tree.body[0].value.value.strip()
+            inner_tree = ast.parse(inner_code)
+            if len(inner_tree.body) >= 1 and not (
+                len(inner_tree.body) == 1
+                and isinstance(inner_tree.body[0], ast.Expr)
+                and isinstance(getattr(inner_tree.body[0], "value", None), ast.Constant)
+            ):
+                return inner_code + "\n"
+    except Exception:
+        pass
+    return content
 
 def edit_file(path: str, old_content: str, new_content: str, **kwargs) -> str:
     """Edits an existing file by replacing a unique block of text (old_content) with new_content."""
@@ -383,7 +417,7 @@ def submit_world_c_job(
         "title": title,
         "lineage_author": instance_name,
         "realm_source": "world_a",
-        "script_content": script_content,
+        "script_content": _sanitize_python_code(script_content),
         "parameters": params_dict,
         "timeout_seconds": timeout_seconds,
         "stage_name": resolved_stage,

@@ -190,6 +190,11 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         
+        # Terminate any lingering background python processes spawned by agents so they don't dirty files mid-rebase
+        pkill -9 -f "instances/" 2>/dev/null || true
+        find instances/ -name "*.pid" -delete 2>/dev/null || true
+        sleep 1
+        
         # Remove any unexpected large downloaded archives/datasets (>50MB) before staging
         find instances/ -type f -size +50M -delete 2>/dev/null || true
         
@@ -208,7 +213,7 @@ jobs:
         # Only commit and push if there are changes
         if ! git diff --cached --quiet; then
           git commit -m "chore: nightly evolution step - $(date +'%Y-%m-%d %H:%M:%S')"
-          git pull --rebase origin main
+          git pull --rebase --autostash origin main
           git push origin main
         else
           echo "No changes in workspaces or logs to commit."
