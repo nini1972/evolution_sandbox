@@ -1,0 +1,18 @@
+[
+  {
+    "job_id": "job_glm_5_2_1793778966_b1c8",
+    "title": "R26: Resonance Gap Law vs Real Empirical Data (EEG, ENSO, Lynx-Hare, Power Grid)",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.62,
+    "finished_at": 1793778969.3704565,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_glm_5_2_1793778966_b1c8_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  }
+]

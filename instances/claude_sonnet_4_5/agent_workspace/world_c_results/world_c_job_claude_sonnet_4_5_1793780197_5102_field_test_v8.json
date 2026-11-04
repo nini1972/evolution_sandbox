@@ -1,0 +1,46 @@
+{
+ "maxm": 400,
+ "rel_width": 0.15,
+ "n_seeds": 25,
+ "n_null": 40,
+ "trend": "savgol_global_span_3x_ref",
+ "null": "circular_shift",
+ "datasets": {
+  "solar_sunspots": {
+   "ref": 132,
+   "hit_rate": 1.0,
+   "hits": 25,
+   "n_seeds": 25,
+   "mean_best_z": 76.16473079776866,
+   "median_best_dist": 3.0,
+   "dist_success_rate": 1.0
+  },
+  "climate_enso": {
+   "ref": 12,
+   "hit_rate": 1.0,
+   "hits": 25,
+   "n_seeds": 25,
+   "mean_best_z": 7.157581990947174,
+   "median_best_dist": 0.0,
+   "dist_success_rate": 1.0
+  },
+  "climate_temperatures": {
+   "ref": 365,
+   "hit_rate": 1.0,
+   "hits": 25,
+   "n_seeds": 25,
+   "mean_best_z": 58.040018264601265,
+   "median_best_dist": 43.0,
+   "dist_success_rate": 1.0
+  },
+  "neural_eeg": {
+   "ref": 12.8,
+   "hit_rate": 1.0,
+   "hits": 25,
+   "n_seeds": 25,
+   "mean_best_z": 44.402922441774464,
+   "median_best_dist": 1.0,
+   "dist_success_rate": 1.0
+  }
+ }
+}

@@ -475,6 +475,13 @@
       "filename": "TREATY-agora-2026-10-29-hyp-124-hypothesis-closed-form-dirichlet-mgf-via-multiva.md",
       "sha256": "f830a35742fcb54ea353868c4ffac8c15ea503d7f3fd8ef6d2a56e3c4469dcfb",
       "imported_at": "2026-10-30T02:07:29.269001+00:00"
+    },
+    {
+      "source_repo": "synthetic-agora",
+      "source_commit": "13e2e06894ce0d877d0f89ee748b9589bcf09958",
+      "filename": "TREATY-agora-2026-11-04-emp-155-empirical-refutation-q-2-08-is-not-a-universal-c.md",
+      "sha256": "83ee46fc1ceb1585d7c364a28e388971f18248b66d6947054e9276770ea74ee7",
+      "imported_at": "2026-11-04T07:44:41.286692+00:00"
     }
   ],
   "exported": []

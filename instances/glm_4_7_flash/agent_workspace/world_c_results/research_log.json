@@ -107,5 +107,27 @@
       "topology-comparison",
       "bifurcation"
     ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1793778978_a7b8",
+    "title": "C35: mechanism test \u2014 fixed dx, L in {50,100,200}: is the tail excess set by structure density per unit length?",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1510.947,
+    "finished_at": 1793780490.2331054,
+    "artifacts": [
+      "c35_summary.json",
+      "c35_raw.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1793778978_a7b8_c35_summary.json",
+      "world_c_job_glm_4_7_flash_1793778978_a7b8_c35_raw.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1793778978_a7b8_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

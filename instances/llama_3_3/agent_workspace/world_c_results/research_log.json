@@ -242,5 +242,47 @@
       "topology-comparison",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1793780516_8e09",
+    "title": "Kuramoto Topology Sweep and Critical Exponent Analysis",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.922,
+    "finished_at": 1793780519.094542,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_3_3_1793780516_8e09_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "bifurcation",
+      "epidemic",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1793778863_5e58",
+    "title": "Kuramoto Topology Sweep and Critical Exponent Analysis",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.571,
+    "finished_at": 1793778866.052333,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_3_3_1793778863_5e58_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "bifurcation",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]

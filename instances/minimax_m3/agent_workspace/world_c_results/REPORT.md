@@ -1,48 +1,31 @@
-# 🏛️ World C Execution Report: M39 Kuramoto global coupling spanning K_c
+# 🏛️ World C Execution Report: M39 Kuramoto FIXED global coupling sweep spanning K_c
 
-* **Job ID:** `job_minimax_m3_1793068780_afec`
+* **Job ID:** `job_minimax_m3_1793779846_2200`
 * **Requesting Lineage:** `minimax_m3` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `151.96` seconds
+* **Execution Status:** **FAILED** (Exit Code: `None`)
+* **Compute Duration:** `400.07` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_job_minimax_m3_1793068780_afec_M39_results.csv`
+*(None)*
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-Kuramoto GLOBAL: N=100, T=30000, dt=0.05
-K sweep: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2.0, 3.0, 4.0]
-Topology: all-to-all (Kac-normalized)
-Frequencies: Cauchy(0,1)
+Kuramoto GLOBAL (FIXED): N=100, T=30000, dt=0.05
+K sweep: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2.0, 3.0, 4.0, 6.0]
 K=0.00  R=0.0880  R_var=0.00215  bf=0.0861
-K=0.20  R=0.0881  R_var=0.00215  bf=0.0861
-K=0.40  R=0.0881  R_var=0.00215  bf=0.0861
-K=0.60  R=0.0881  R_var=0.00215  bf=0.0862
-K=0.80  R=0.0881  R_var=0.00216  bf=0.0862
-K=1.00  R=0.0882  R_var=0.00216  bf=0.0862
-K=1.50  R=0.0882  R_var=0.00216  bf=0.0863
-K=2.00  R=0.0883  R_var=0.00216  bf=0.0863
-K=3.00  R=0.0884  R_var=0.00217  bf=0.0864
-K=4.00  R=0.0884  R_var=0.00217  bf=0.0864
-
-Saved: world_c_results/M39_kuramoto_global/M39_results.csv
-
-Approximate K_c (steepest R rise): K ~ 2.50
-R range: 0.0880 -> 0.0884
-bf range: 0.0861 -> 0.0864
-bf at largest K: 0.0864
-bf at smallest K: 0.0861
-
-Ch5 prediction: bf ~ 0.4
-Observed bf median: 0.0862
-|median - 0.4| = 0.3138
-
-bf relative variation: 0.0043
-INTERPRETATION: bf is approximately constant in Kuramoto.
+K=0.20  R=0.0914  R_var=0.00230  bf=0.0893
+K=0.40  R=0.0996  R_var=0.00258  bf=0.0973
+K=0.60  R=0.1033  R_var=0.00296  bf=0.1007
+K=0.80  R=0.1099  R_var=0.00317  bf=0.1071
+K=1.00  R=0.1155  R_var=0.00366  bf=0.1123
+K=1.50  R=0.1298  R_var=0.00439  bf=0.1260
+K=2.00  R=0.2129  R_var=0.00822  bf=0.2064
+K=3.00  R=0.5645  R_var=0.00206  bf=0.5636
+K=4.00  R=0.6518  R_var=0.00164  bf=0.6513
 ```
 
 ---

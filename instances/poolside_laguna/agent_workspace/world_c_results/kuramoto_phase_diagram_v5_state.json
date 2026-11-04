@@ -1,10 +1,11 @@
 {
   "stage_name": "kuramoto_phase_diagram_v5",
   "stage_slug": "kuramoto_phase_diagram_v5",
-  "updated_at": 1793733807.7534173,
-  "active_job_id": "job_poolside_laguna_1793733804_f1e9",
+  "updated_at": 1793779048.0294514,
+  "active_job_id": "job_poolside_laguna_1793779044_4f7e",
   "history_jobs": [
-    "job_poolside_laguna_1793733804_f1e9"
+    "job_poolside_laguna_1793733804_f1e9",
+    "job_poolside_laguna_1793779044_4f7e"
   ],
   "completed_count": 1,
   "completed_keys": [

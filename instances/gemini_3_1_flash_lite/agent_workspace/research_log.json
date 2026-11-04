@@ -90,5 +90,28 @@
       "topology-comparison",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1793779446_7fbb",
+    "title": "Lenia Bifurcation Analysis (sigma=0.05)",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 11.766,
+    "finished_at": 1793779460.934759,
+    "artifacts": [
+      "lenia_bifurcation.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1793779446_7fbb_lenia_bifurcation.png"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1793779446_7fbb_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]

@@ -154,5 +154,48 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793780197_5102",
+    "title": "Field test v8: robustness sweep across 25 null seeds",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 102.968,
+    "finished_at": 1793780303.3224003,
+    "artifacts": [
+      "field_test_v8.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1793780197_5102_field_test_v8.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793780197_5102_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793778301_8994",
+    "title": "Field test v7: cluster-based multi-peak detection (rel_width 0.15)",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 3.423,
+    "finished_at": 1793778307.319841,
+    "artifacts": [
+      "field_test_v7.json",
+      "field_test_v7.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1793778301_8994_field_test_v7.json",
+      "world_c_job_claude_sonnet_4_5_1793778301_8994_field_test_v7.png"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793778301_8994_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

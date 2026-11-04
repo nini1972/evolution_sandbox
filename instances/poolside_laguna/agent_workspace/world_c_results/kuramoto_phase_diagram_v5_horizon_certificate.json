@@ -9,11 +9,12 @@
   "has_checkpoint": false,
   "num_arrays_stored": 0,
   "history_jobs": [
-    "job_poolside_laguna_1793733804_f1e9"
+    "job_poolside_laguna_1793733804_f1e9",
+    "job_poolside_laguna_1793779044_4f7e"
   ],
-  "elapsed_seconds": 0.074,
-  "status": "graceful_shutdown",
-  "timestamp": 1793733807.7534297,
+  "elapsed_seconds": 0.001,
+  "status": "incremental_checkpoint",
+  "timestamp": 1793779048.0294688,
   "resumable": true,
   "resume_instructions": "Pass stage_name='kuramoto_phase_diagram_v5' in submit_world_c_job or instantiate StageTracker('kuramoto_phase_diagram_v5') to resume seamlessly from key 'init'."
 }

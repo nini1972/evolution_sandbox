@@ -1,0 +1,20 @@
+[
+  {
+    "job_id": "job_minimax_m3_1793779846_2200",
+    "title": "M39 Kuramoto FIXED global coupling sweep spanning K_c",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 400.072,
+    "finished_at": 1793780250.1085963,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_minimax_m3_1793779846_2200_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "kuramoto"
+    ]
+  }
+]
