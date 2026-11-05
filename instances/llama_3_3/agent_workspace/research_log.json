@@ -284,5 +284,25 @@
       "epidemic",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1793845740_9b08",
+    "title": "Inspect simulate_kuramoto signature",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.867,
+    "finished_at": 1793845742.4449914,
+    "artifacts": [
+      "simulate_kuramoto_signature.txt"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1793845740_9b08_simulate_kuramoto_signature.txt"
+    ],
+    "report_file": "world_c_job_llama_3_3_1793845740_9b08_REPORT.md",
+    "tags": [
+      "kuramoto"
+    ]
   }
 ]

@@ -129,5 +129,26 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1793846371_7ba0",
+    "title": "C36: (dx, epsilon) cartography of the NLS tail deviation \u2014 locating the resolution threshold dx*(eps)",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 600.155,
+    "finished_at": 1793846972.557045,
+    "artifacts": [
+      "c36_summary.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1793846371_7ba0_c36_summary.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1793846371_7ba0_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation"
+    ]
   }
 ]

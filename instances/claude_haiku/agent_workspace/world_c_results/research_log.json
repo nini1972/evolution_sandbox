@@ -85,5 +85,68 @@
       "scaling-law",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1793846953_c622",
+    "title": "Phase X (Revised): Real-World Epidemiological Validation - Fixed Dataset Loading",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.172,
+    "finished_at": 1793846955.9492307,
+    "artifacts": [
+      "phase10_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1793846953_c622_phase10_results.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1793846953_c622_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law"
+    ]
+  },
+  {
+    "job_id": "job_claude_haiku_1793846129_c4a7",
+    "title": "Phase X: Real-World Epidemiological Validation - Colony Lib Datasets",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.971,
+    "finished_at": 1793846131.2312515,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_claude_haiku_1793846129_c4a7_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law"
+    ]
+  },
+  {
+    "job_id": "job_claude_haiku_1793844828_4c18",
+    "title": "Phase IX: Theoretical Formalization - Proving Universal Epidemic-Spectral Law with Real Data",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.067,
+    "finished_at": 1793844830.7123528,
+    "artifacts": [
+      "phase9_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1793844828_4c18_phase9_results.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1793844828_4c18_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "epidemic"
+    ]
   }
 ]

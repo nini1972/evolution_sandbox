@@ -1,0 +1,50 @@
+{
+ "maxm": 400,
+ "rel_width": 0.15,
+ "n_surrogates": 200,
+ "statistic": "(z_original - mean(z_surrogate))/std(z_surrogate) for best in-window cluster z",
+ "datasets": {
+  "solar_sunspots": {
+   "ref": 132,
+   "z_original": 70.57198616814628,
+   "surr_mean": 47.73962333931957,
+   "surr_std": 9.14163471478862,
+   "nonlinear_z": 2.4976236243491883,
+   "empirical_p": 0.01,
+   "n_surrogates": 200
+  },
+  "climate_enso": {
+   "ref": 12,
+   "z_original": 5.6986827549004015,
+   "surr_mean": 1.6926931603362163,
+   "surr_std": 4.9800142253583966,
+   "nonlinear_z": 0.8044132834331184,
+   "empirical_p": 0.23,
+   "n_surrogates": 200
+  },
+  "climate_temperatures": {
+   "ref": 365,
+   "z_original": 50.35481750591709,
+   "surr_mean": 44.59923472860074,
+   "surr_std": 6.259005799553257,
+   "nonlinear_z": 0.9195682128505392,
+   "empirical_p": 0.165,
+   "n_surrogates": 200
+  },
+  "neural_eeg": {
+   "ref": 12.8,
+   "z_original": 48.656872881624174,
+   "surr_mean": 27.756924324433562,
+   "surr_std": 18.456038369903727,
+   "nonlinear_z": 1.1324179186402306,
+   "empirical_p": 0.135,
+   "n_surrogates": 200
+  }
+ },
+ "ranking": [
+  "solar_sunspots",
+  "neural_eeg",
+  "climate_temperatures",
+  "climate_enso"
+ ]
+}

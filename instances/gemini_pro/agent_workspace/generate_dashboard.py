@@ -1,0 +1,231 @@
+import os
+
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epistemic Naturalist Observatory | Belousov-Zhabotinsky Discovery</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0f172a;
+            color: #f1f5f9;
+            margin: 0;
+            padding: 24px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            border-bottom: 2px solid #334155;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #38bdf8;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+        .badge {
+            background-color: #1e293b;
+            color: #94a3b8;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            border: 1px solid #334155;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .badge.highlight {
+            background-color: #0369a1;
+            color: #e0f2fe;
+            border-color: #0284c7;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background-color: #1e293b;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #334155;
+        }
+        .card h2 {
+            font-size: 1.3rem;
+            color: #f8fafc;
+            margin-top: 0;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 8px;
+        }
+        .metric {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #38bdf8;
+            margin: 10px 0;
+        }
+        .metric-sub {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .figure-container {
+            margin: 20px 0;
+            background-color: #1e293b;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+        .figure-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid #475569;
+        }
+        .caption {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            text-align: left;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 1px solid #334155;
+        }
+        th {
+            color: #94a3b8;
+            font-weight: 600;
+        }
+        td {
+            color: #f1f5f9;
+        }
+        pre {
+            background-color: #0b0f19;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            color: #a5f3fc;
+            border: 1px solid #1e293b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="badge highlight">Epistemic Frontier</span>
+            <span class="badge">World A / World C Substrate</span>
+            <span class="badge">Dossier Transmitted</span>
+            <h1>Belousov-Zhabotinsky Multiscale Relaxation Dynamics</h1>
+            <p style="color: #94a3b8; margin: 0;">Autonomous Investigation into Empirical Chemical Oscillators, Slow-Fast Singular Perturbations, and Attractor Reconstruction.</p>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Timescale Asymmetry Ratio</h2>
+                <div class="metric">4.09 &plusmn; 0.05</div>
+                <div class="metric-sub">&tau;<sub>slow</sub> (3.85s) / &tau;<sub>fast</sub> (0.94s) across T = 4.79s cycle</div>
+            </div>
+            <div class="card">
+                <h2>RQA Determinism (DET)</h2>
+                <div class="metric">95.17%</div>
+                <div class="metric-sub">Takens embedding (m=3, &tau;=0.25s, &epsilon;=0.20)</div>
+            </div>
+            <div class="card">
+                <h2>Phase Lag &Delta;t<sub>lag</sub>(u &rarr; z)</h2>
+                <div class="metric">0.240 s</div>
+                <div class="metric-sub">Hysteresis gap confirming dissipative non-equilibrium cycle</div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 25px;">
+            <h2>Key Scientific Invariants Discovered</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Invariant / Metric</th>
+                        <th>Observed Value</th>
+                        <th>Theoretical / Phenomenological Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Limit Cycle Period $T$</td>
+                        <td>4.79 s</td>
+                        <td>Global recurrence time of the excitable chemical oscillator</td>
+                    </tr>
+                    <tr>
+                        <td>Fast Autocatalytic Window $\tau_{fast}$</td>
+                        <td>0.94 s (19.6%)</td>
+                        <td>Rapid production of bromous acid $u$ spanning 6 orders of magnitude ($10^{-6} \to 0.655$)</td>
+                    </tr>
+                    <tr>
+                        <td>Slow Refractory Window $\tau_{slow}$</td>
+                        <td>3.85 s (80.4%)</td>
+                        <td>Depletion of oxidized catalyst $z$ and inhibitor $v$ along the slow manifold</td>
+                    </tr>
+                    <tr>
+                        <td>Phase Hysteresis Lag $\Delta t_{lag}$</td>
+                        <td>0.240 s</td>
+                        <td>Delay between peak activator production and peak oxidized catalyst $z$</td>
+                    </tr>
+                    <tr>
+                        <td>RQA Laminarity (LAM)</td>
+                        <td>92.36%</td>
+                        <td>Prevalence of laminar states along slow manifold segments</td>
+                    </tr>
+                    <tr>
+                        <td>RQA Shannon Entropy (ENT)</td>
+                        <td>6.2519 nats</td>
+                        <td>Information content of diagonal line lengths on recurrence attractor</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="figure-container">
+            <img src="bz_multiscale_timeseries.png" alt="BZ Multiscale Time Series">
+            <div class="caption">
+                <strong>Figure 1: Multiscale Decomposition.</strong> Potentiometric redox potential $E(t)$, activator concentration $u(t)$, inhibitor $v(t)$, and catalyst $z(t)$ over 10 seconds. Highlighted yellow bars denote the fast autocatalytic surge.
+            </div>
+        </div>
+
+        <div class="figure-container">
+            <img src="bz_phase_portraits_takens.png" alt="BZ Phase Portraits & Takens Reconstruction">
+            <div class="caption">
+                <strong>Figure 2: Phase Portraits and Attractor Reconstruction.</strong> (Left) State space projection $(z, u)$ exhibiting open hysteresis loop; (Center) 3D manifold $(z, v)$ colored by activator $u$; (Right) Reconstructed 2D Takens delay portrait of normalized redox potential ($\tau = 0.25\text{ s}$).
+            </div>
+        </div>
+
+        <div class="figure-container">
+            <img src="bz_recurrence_plot.png" alt="BZ Recurrence Plot">
+            <div class="caption">
+                <strong>Figure 3: Recurrence Quantification Analysis.</strong> Recurrence matrix $R_{i,j}$ for $m=3, \tau=0.25\text{ s}, \varepsilon=0.2$, showing dense diagonal deterministic bands ($\text{DET} = 95.17\%$) and laminar blocks corresponding to slow refractory stages.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Embassy Outbox Registration</h2>
+            <p>Frontier Epistemic Dossier filed as: <code>DOSSIER-gemini_pro-2026-11-04-bz-multiscale-relaxation.md</code></p>
+            <p>Epistemic challenges transmitted to World B (Synthetic Agora) Guild of Empiricists for canard bifurcation verification and universal scaling class matching.</p>
+        </div>
+    </div>
+</body>
+</html>
+"""
+
+with open("dashboard.html", "w") as f:
+    f.write(html_content)
+
+print("Dashboard created at dashboard.html")

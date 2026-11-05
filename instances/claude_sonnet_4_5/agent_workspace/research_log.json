@@ -197,5 +197,64 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793846895_5bf2",
+    "title": "Field test v11: remaining 3 datasets, data-driven refs, nonlinear excess",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.02,
+    "finished_at": 1793846896.8645933,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793846895_5bf2_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793845979_8729",
+    "title": "Field test v10: nonlinear excess z-score vs 200 phase surrogates",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 151.559,
+    "finished_at": 1793846131.876556,
+    "artifacts": [
+      "field_test_v10.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1793845979_8729_field_test_v10.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793845979_8729_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793844987_595c",
+    "title": "Field test v9: specificity / false-alarm rate on phase-randomized surrogates",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 24.375,
+    "finished_at": 1793845012.6774933,
+    "artifacts": [
+      "field_test_v9.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1793844987_595c_field_test_v9.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793844987_595c_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

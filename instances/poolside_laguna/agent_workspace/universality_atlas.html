@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌌 Universality Atlas: Emergent Laws of Dynamical Systems</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #0f0f23;
+            color: #e0e0ff;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #4fc3f7;
+            text-align: center;
+            border-bottom: 1px solid #4fc3f7;
+            padding-bottom: 10px;
+        }
+        .section {
+            background-color: #1a1a2e;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .section h2 {
+            color: #81d4fa;
+            margin-top: 0;
+        }
+        .plot-container {
+            width: 100%;
+            height: 500px;
+            margin-bottom: 20px;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        select, button {
+            background-color: #36364a;
+            color: #e0e0ff;
+            border: 1px solid #4fc3f7;
+            border-radius: 4px;
+            padding: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4fc3f7;
+            color: #0f0f23;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.8em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌌 Universality Atlas</h1>
+    <p style="text-align: center;">Emergent Laws of Dynamical Systems: Phase Transitions, Scaling, and Universality</p>
+
+    <!-- Phase Diagram Section -->
+    <div class="section">
+        <h2>🔮 Phase Diagrams</h2>
+        <div class="controls">
+            <select id="phase-topology-select">
+                <option value="all_to_all">All-to-All</option>
+                <option value="ring">Ring</option>
+                <option value="small_world">Small World</option>
+                <option value="scale_free">Scale Free</option>
+            </select>
+            <button id="phase-update-btn">Update</button>
+        </div>
+        <div id="phase-plot" class="plot-container"></div>
+        <p><strong>Observations:</strong> The synchronization transition (K-σ space) reveals critical thresholds where order emerges. The spectral gap (λ₂) modulates the transition.</p>
+    </div>
+
+    <!-- Scaling Collapse Section -->
+    <div class="section">
+        <h2>📏 Scaling Collapse</h2>
+        <div class="controls">
+            <select id="scaling-topology-select">
+                <option value="all_to_all">All-to-All</option>
+                <option value="ring">Ring</option>
+                <option value="small_world">Small World</option>
+                <option value="scale_free">Scale Free</option>
+            </select>
+            <select id="scaling-sigma-select">
+                <option value="0.1">σ = 0.1</option>
+                <option value="0.5">σ = 0.5</option>
+                <option value="1.0">σ = 1.0</option>
+            </select>
+            <button id="scaling-update-btn">Update</button>
+        </div>
+        <div id="scaling-plot" class="plot-container"></div>
+        <p><strong>Observations:</strong> Finite-size scaling collapses reveal the critical exponent β and the infinite-system limit Kc(inf).</p>
+    </div>
+
+    <!-- Empirical Validation Section -->
+    <div class="section">
+        <h2>🌍 Empirical Validation</h2>
+        <div class="controls">
+            <select id="empirical-dataset-select">
+                <option value="power_grid_ieee">IEEE Power Grid (Kuramoto)</option>
+                <option value="solar_sunspots">Solar Sunspots (Astrophysics)</option>
+                <option value="neural_eeg">EEG (Neuroscience)</option>
+            </select>
+            <button id="empirical-update-btn">Update</button>
+        </div>
+        <div id="empirical-plot" class="plot-container"></div>
+        <p><strong>Observations:</strong> Empirical data (e.g., power grid frequency fluctuations) are overlaid onto synthetic predictions to test universality.</p>
+    </div>
+
+    <!-- Ratified Treaties Section -->
+    <div class="section">
+        <h2>📜 Ratified Epistemic Treaties</h2>
+        <div id="treaty-list">
+            <div class="treaty">
+                <h3>NOD-003: Kuramoto Critical Coupling (Infinite System)</h3>
+                <p><strong>Claim:</strong> For the infinite Kuramoto model, the critical coupling is Kc(inf) = 4/π ≈ 1.2732.</p>
+                <p><strong>Status:</strong> <span id="nod003-status">Pending validation</span></p>
+                <p><strong>Evidence:</strong> <span id="nod003-evidence">None</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>🌌 Universality Atlas | Frontier Epistemic Entity: poolside_laguna | World A</p>
+    </div>
+
+    <script>
+        // Placeholder for dynamic updates
+        document.getElementById('phase-update-btn').addEventListener('click', function() {
+            const topology = document.getElementById('phase-topology-select').value;
+            updatePhasePlot(topology);
+        });
+        
+        document.getElementById('scaling-update-btn').addEventListener('click', function() {
+            const topology = document.getElementById('scaling-topology-select').value;
+            const sigma = document.getElementById('scaling-sigma-select').value;
+            updateScalingPlot(topology, sigma);
+        });
+        
+        document.getElementById('empirical-update-btn').addEventListener('click', function() {
+            const dataset = document.getElementById('empirical-dataset-select').value;
+            updateEmpiricalPlot(dataset);
+        });
+        
+        // Placeholder functions (to be replaced with real data)
+        function updatePhasePlot(topology) {
+            const data = {
+                x: [], // K_values
+                y: [], // sigma_values
+                z: [], // r_mean
+                type: 'heatmap',
+                colorscale: 'Viridis',
+                showscale: true
+            };
+            Plotly.newPlot('phase-plot', [data], {
+                title: `Synchronization Phase Diagram: ${topology.replace('_', ' ')}`,
+                xaxis: { title: 'Coupling K' },
+                yaxis: { title: 'Noise σ' }
+            });
+        }
+        
+        function updateScalingPlot(topology, sigma) {
+            const data = {
+                x: [], // K_values
+                y: [], // r_mean
+                type: 'scatter',
+                mode: 'lines+markers'
+            };
+            Plotly.newPlot('scaling-plot', [data], {
+                title: `Scaling Collapse: ${topology.replace('_', ' ')} (σ = ${sigma})`,
+                xaxis: { title: 'Coupling K' },
+                yaxis: { title: 'Order Parameter r' }
+            });
+        }
+        
+        function updateEmpiricalPlot(dataset) {
+            const data = {
+                x: [], // Time or K
+                y: [], // Empirical observable
+                type: 'scatter',
+                mode: 'lines'
+            };
+            Plotly.newPlot('empirical-plot', [data], {
+                title: `Empirical Validation: ${dataset.replace('_', ' ')}`,
+                xaxis: { title: 'Time' },
+                yaxis: { title: 'Observable' }
+            });
+        }
+    </script>
+</body>
+</html>

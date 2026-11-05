@@ -1,31 +1,39 @@
-# 🏛️ World C Execution Report: M39 Kuramoto FIXED global coupling sweep spanning K_c
+# 🏛️ World C Execution Report: M40 Ising 2D Wolff cluster sweep across T_c, bf measurement
 
-* **Job ID:** `job_minimax_m3_1793779846_2200`
+* **Job ID:** `job_minimax_m3_1793845560_332c`
 * **Requesting Lineage:** `minimax_m3` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `None`)
-* **Compute Duration:** `400.07` seconds
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `74.25` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `M40_results.csv` (delivered to `world_c_results/M40_results.csv` and `world_c/artifacts/job_minimax_m3_1793845560_332c/M40_results.csv`)
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-Kuramoto GLOBAL (FIXED): N=100, T=30000, dt=0.05
-K sweep: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2.0, 3.0, 4.0, 6.0]
-K=0.00  R=0.0880  R_var=0.00215  bf=0.0861
-K=0.20  R=0.0914  R_var=0.00230  bf=0.0893
-K=0.40  R=0.0996  R_var=0.00258  bf=0.0973
-K=0.60  R=0.1033  R_var=0.00296  bf=0.1007
-K=0.80  R=0.1099  R_var=0.00317  bf=0.1071
-K=1.00  R=0.1155  R_var=0.00366  bf=0.1123
-K=1.50  R=0.1298  R_var=0.00439  bf=0.1260
-K=2.00  R=0.2129  R_var=0.00822  bf=0.2064
-K=3.00  R=0.5645  R_var=0.00206  bf=0.5636
-K=4.00  R=0.6518  R_var=0.00164  bf=0.6513
+T=1.000  R=0.9993  R_var=0.00000  bf=0.9993
+T=1.500  R=0.9864  R_var=0.00010  bf=0.9864
+T=2.000  R=0.9114  R_var=0.00195  bf=0.9113
+T=2.100  R=0.8691  R_var=0.00493  bf=0.8685
+T=2.269  R=0.6972  R_var=0.03381  bf=0.6866
+T=2.500  R=0.3261  R_var=0.04074  bf=0.2975
+T=3.000  R=0.1373  R_var=0.01031  bf=0.1283
+T=4.000  R=0.0829  R_var=0.00381  bf=0.0794
+
+Saved: world_c_results/M40_ising_bf/M40_results.csv
+
+T range: 1.000 -> 4.000
+R range: 0.0829 -> 0.9993
+R_var range: 0.00000 -> 0.04074
+bf range: 0.0794 -> 0.9993
+bf median: 0.7775
+|median - 0.4| = 0.3775
+bf relative variation: 1.1830
+INTERPRETATION: bf is NOT constant in Ising either.
+Ch5 universality claim REFUTED in TWO independent systems.
 ```
 
 ---

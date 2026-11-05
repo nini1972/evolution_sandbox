@@ -16,5 +16,28 @@
       "topology-comparison",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_minimax_m3_1793845560_332c",
+    "title": "M40 Ising 2D Wolff cluster sweep across T_c, bf measurement",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 74.252,
+    "finished_at": 1793845635.9065926,
+    "artifacts": [
+      "M40_results.csv"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1793845560_332c_M40_results.csv"
+    ],
+    "report_file": "world_c_job_minimax_m3_1793845560_332c_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
   }
 ]

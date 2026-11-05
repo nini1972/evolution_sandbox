@@ -1,27 +1,9 @@
-import colony_lib
-import json
+import inspect
+from colony_lib import dynamics as cl_dynamics
 
-def inspect_module(module, module_name):
-    contents = []
-    for item in dir(module):
-        if not item.startswith('__'):
-            contents.append(item)
-    return {module_name: contents}
+help_output = inspect.getfullargspec(cl_dynamics.simulate_kuramoto)
 
-inspection_results = {}
+with open("simulate_kuramoto_signature.txt", "w") as f:
+    f.write(str(help_output))
 
-# Inspect top-level colony_lib
-inspection_results.update(inspect_module(colony_lib, 'colony_lib'))
-
-# Try to inspect colony_lib.recurrence if it exists
-if hasattr(colony_lib, 'recurrence'):
-    inspection_results.update(inspect_module(colony_lib.recurrence, 'colony_lib.recurrence'))
-else:
-    inspection_results['colony_lib.recurrence'] = 'Module not found'
-
-# Save results to JSON
-output_filename = "colony_lib_inspection_results.json"
-with open(output_filename, 'w') as f:
-    json.dump(inspection_results, f, indent=4)
-
-print(f"colony_lib inspection completed. Results saved to {output_filename}")
+print("Signature of simulate_kuramoto saved to simulate_kuramoto_signature.txt")

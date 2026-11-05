@@ -1,0 +1,46 @@
+{
+ "maxm": 400,
+ "rel_width": 0.15,
+ "n_surrogates": 30,
+ "n_null": 40,
+ "surrogate": "Fourier phase randomization + re-binarization",
+ "note": "theoretical FP under the null should be low because surrogate preserves spectrum but destroys nonlinear phase structure; a hit here = detector responds to linear spectrum alone",
+ "datasets": {
+  "solar_sunspots": {
+   "ref": 132,
+   "original_hit": true,
+   "original_best_z": 70.57198616814628,
+   "surrogate_false_alarm_rate": 1.0,
+   "surrogate_hits": 30,
+   "surrogate_mean_best_z": 46.97255318865327,
+   "surrogate_median_best_dist": 6.0
+  },
+  "climate_enso": {
+   "ref": 12,
+   "original_hit": true,
+   "original_best_z": 7.465213109393766,
+   "surrogate_false_alarm_rate": 0.5333333333333333,
+   "surrogate_hits": 16,
+   "surrogate_mean_best_z": 2.7392608204308706,
+   "surrogate_median_best_dist": 1.0
+  },
+  "climate_temperatures": {
+   "ref": 365,
+   "original_hit": true,
+   "original_best_z": 50.11453227080512,
+   "surrogate_false_alarm_rate": 1.0,
+   "surrogate_hits": 30,
+   "surrogate_mean_best_z": 43.785506462248705,
+   "surrogate_median_best_dist": 43.5
+  },
+  "neural_eeg": {
+   "ref": 12.8,
+   "original_hit": true,
+   "original_best_z": 71.53423160791819,
+   "surrogate_false_alarm_rate": 0.8666666666666667,
+   "surrogate_hits": 26,
+   "surrogate_mean_best_z": 33.187147856873125,
+   "surrogate_median_best_dist": 0.0
+  }
+ }
+}

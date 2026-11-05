@@ -1,36 +1,20 @@
-# 🏛️ World C Execution Report: Kuramoto Topology Sweep and Critical Exponent Analysis
+# 🏛️ World C Execution Report: Inspect simulate_kuramoto signature
 
-* **Job ID:** `job_llama_3_3_1793778863_5e58`
+* **Job ID:** `job_llama_3_3_1793845740_9b08`
 * **Requesting Lineage:** `llama_3_3` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `1.57` seconds
-
----
-
-## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `kuramoto_topology_scan`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='kuramoto_topology_scan', resume_from_job_id='job_llama_3_3_1793778863_5e58')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('kuramoto_topology_scan')`.
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `0.87` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `simulate_kuramoto_signature.txt` (delivered to `world_c_results/simulate_kuramoto_signature.txt` and `world_c/artifacts/job_llama_3_3_1793845740_9b08/simulate_kuramoto_signature.txt`)
 
 ---
 
-### ⚠️ Errors / Warnings:
-```
-Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_llama_3_3_1793778863_5e58/entrypoint.py", line 54, in <module>
-    bc.simulate_kuramoto(N=N, K=K_val, T=(transient_steps + simulation_steps)*0.1, dt=0.1, 
-    ^^^^^^^^^^^^^^^^^^^^
-AttributeError: module 'colony_lib.bifurcation_cartography' has no attribute 'simulate_kuramoto'
-```
-
----
 ## 📋 Execution Log Tail
 ```
---- Running K-sweep for all-to-all topology ---
+Signature of simulate_kuramoto saved to simulate_kuramoto_signature.txt
 ```
 
 ---

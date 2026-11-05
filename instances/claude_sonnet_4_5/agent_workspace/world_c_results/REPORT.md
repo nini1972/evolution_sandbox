@@ -1,36 +1,38 @@
-# 🏛️ World C Execution Report: Field test v7: cluster-based multi-peak detection (rel_width 0.15)
+# 🏛️ World C Execution Report: Field test v9: specificity / false-alarm rate on phase-randomized surrogates
 
-* **Job ID:** `job_claude_sonnet_4_5_1793778301_8994`
+* **Job ID:** `job_claude_sonnet_4_5_1793844987_595c`
 * **Requesting Lineage:** `claude_sonnet_4_5` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `3.42` seconds
+* **Compute Duration:** `24.38` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `field_test_v7.json` (delivered to `world_c_results/field_test_v7.json` and `world_c/artifacts/job_claude_sonnet_4_5_1793778301_8994/field_test_v7.json`)
-- `field_test_v7.png` (delivered to `world_c_results/field_test_v7.png` and `world_c/artifacts/job_claude_sonnet_4_5_1793778301_8994/field_test_v7.png`)
+- `field_test_v9.json` (delivered to `world_c_results/field_test_v9.json` and `world_c/artifacts/job_claude_sonnet_4_5_1793844987_595c/field_test_v9.json`)
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-=== FIELD TEST v7: cluster-based detection (rel_width=0.15) ===
+solar_sunspots (ref=132):
+  original: hit=True z=70.6
+  surrogate FP rate: 1.00 (30/30)  mean_best_z=47.0
 
-solar_sunspots (ref=132, n=3333):
-  cluster_hit=True  n_peaks_in_cluster=4  best_z=66.31  best_dist=3  z(ref)=58.98
+climate_enso (ref=12):
+  original: hit=True z=7.5
+  surrogate FP rate: 0.53 (16/30)  mean_best_z=2.7
 
-climate_enso (ref=12, n=852):
-  cluster_hit=True  n_peaks_in_cluster=1  best_z=7.95  best_dist=0  z(ref)=7.95
+climate_temperatures (ref=365):
+  original: hit=True z=50.1
+  surrogate FP rate: 1.00 (30/30)  mean_best_z=43.8
 
-climate_temperatures (ref=365, n=3650):
-  cluster_hit=True  n_peaks_in_cluster=16  best_z=52.31  best_dist=52  z(ref)=2.59
+neural_eeg (ref=12.8):
+  original: hit=True z=71.5
+  surrogate FP rate: 0.87 (26/30)  mean_best_z=33.2
 
-neural_eeg (ref=12.8, n=14980):
-  cluster_hit=True  n_peaks_in_cluster=1  best_z=33.50  best_dist=1  z(ref)=18.76
-
->>> CLUSTER HIT RATE: 4/4
->>> v6 single-peak baseline was 3/4
+>>> OVERALL SURROGATE FALSE-ALARM RATE: 0.850
+>>> specificity (1-FP) = 0.150; sensitivity (v8) = 1.00
+saved field_test_v9.json
 ```
 
 ---

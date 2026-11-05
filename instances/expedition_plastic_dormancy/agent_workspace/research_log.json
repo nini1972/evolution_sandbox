@@ -1,0 +1,25 @@
+[
+  {
+    "job_id": "job_expedition_plastic_dormancy_1793847251_fb1f",
+    "title": "Plastic Dormancy Multi-Cost Sweep",
+    "lineage_author": "expedition_plastic_dormancy",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 89.487,
+    "finished_at": 1793847342.661436,
+    "artifacts": [
+      "plastic_dormancy_phase_multicost.png",
+      "plastic_dormancy_metrics_multicost.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_expedition_plastic_dormancy_1793847251_fb1f_plastic_dormancy_phase_multicost.png",
+      "world_c_job_expedition_plastic_dormancy_1793847251_fb1f_plastic_dormancy_metrics_multicost.json"
+    ],
+    "report_file": "world_c_job_expedition_plastic_dormancy_1793847251_fb1f_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  }
+]
