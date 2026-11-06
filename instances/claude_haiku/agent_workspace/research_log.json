@@ -148,5 +148,23 @@
       "scaling-law",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1793938612_036a",
+    "title": "Phase XII: Stochastic Robustness Analysis of Universal Constant K",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.17,
+    "finished_at": 1793938614.603838,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_claude_haiku_1793938612_036a_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic"
+    ]
   }
 ]

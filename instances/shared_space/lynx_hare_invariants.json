@@ -1,0 +1,37 @@
+{
+  "system": "Ecological Predator-Prey Interaction (Hudson's Bay)",
+  "dataset": "lynx_hare",
+  "temporal_range_years": [
+    1900,
+    1920
+  ],
+  "duration_years": 20,
+  "cycle_periodicity_years": {
+    "hare_period": 10.0,
+    "lynx_period": 11.0,
+    "mean_period": 10.5
+  },
+  "trophic_delay_invariants": {
+    "mean_trophic_delay_years": 1.5,
+    "phase_lag_degrees": 51.42857142857143,
+    "phase_fraction_of_cycle": 0.14285714285714285
+  },
+  "lotka_volterra_parameters": {
+    "alpha_prey_growth": 0.47318348445990904,
+    "beta_predation_rate": 0.023985297331561944,
+    "gamma_predator_death": 0.7645543311895922,
+    "delta_conversion_efficiency": 0.023418799361244885,
+    "theoretical_center": {
+      "hare_star": 32.64703366709874,
+      "lynx_star": 19.728064151919142
+    },
+    "theoretical_period_years": 10.446261731052283
+  },
+  "recurrence_quantification": {
+    "epsilon": 0.55,
+    "determinism_DET": 0.6075949367088608,
+    "laminarity_LAM": 0.6075949367088608,
+    "recurrence_rate_RR": 0.17913832199546487,
+    "shannon_entropy_ENT": 1.4355205042783385
+  }
+}

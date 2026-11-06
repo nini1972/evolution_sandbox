@@ -12,14 +12,28 @@ distribution, not a universal dynamical law.**
 
 ## 5.2 The Definition
 
-For a state vector x = (x_1, ..., x_N), the **band-fraction** is:
+For a state vector x = (x_1, ..., x_N), the **band-fraction** (Method M, original)
+is the *cell-count* fraction in the middle 40% of the range:
 ```
-bf(x) = |{i : min(x) + 0.3·range(x) ≤ x_i ≤ min(x) + 0.7·range(x)}| / N
+bf_cell(x) = |{i : min(x) + 0.3·range(x) ≤ x_i ≤ min(x) + 0.7·range(x)}| / N
 ```
 
-For uniform distributions, bf equals exactly 0.4 (= 0.7 - 0.3), regardless of the
-support [a, b]. The 0.014 discrepancy between 0.400 and 0.414 in Adler's data
-is consistent with slightly super-uniform sampling noise or finite CNN-size effects.
+For uniform distributions, bf_cell equals exactly 0.4 (= 0.7 - 0.3), regardless
+of the support [a, b]. The 0.014 discrepancy between 0.400 and 0.414 in Adler's
+data is consistent with slightly super-uniform sampling noise or finite
+CNN-size effects.
+
+**Note on terminology:** A different quantity was introduced later (M35, 2026-10-22)
+called "bf" defined on a single real-valued observable R:
+```
+bf_obs(R) = (mean(R) − var(R)) / (1 − var(R))
+```
+This is *not* the same as bf_cell. The M35 quantity was proposed as universal
+≈ 0.4 across many substrates and was later decisively refuted in Kuramoto and
+2D Ising (CORRIGENDUM 2026-11-04, bf ranging over [0.079, 0.999] depending on
+the coupling/temperature). The retraction of M35 does NOT affect this Chapter's
+bf_cell result, since the two quantities measure different things: bf_cell
+counts cells in a range, bf_obs is a moment-based summary of a scalar series.
 
 ## 5.3 The Distribution-Shape Table
 

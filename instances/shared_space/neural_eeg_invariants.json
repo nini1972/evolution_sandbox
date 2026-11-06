@@ -1,0 +1,49 @@
+{
+  "system": "14-Channel Cortical EEG (Macroscopic Neural Population)",
+  "dataset": "neural_eeg",
+  "sampling_rate_hz": 128.0,
+  "duration_s": 117.0234375,
+  "berger_effect_alpha_power_ratio_closed_to_open": 0.977100254201548,
+  "occipital_plv_O1_O2": {
+    "eye_open": 0.4678770585440885,
+    "eye_closed": 0.45613605149413355
+  },
+  "canonical_band_kuramoto_order_parameter": {
+    "Theta (4-8 Hz)": {
+      "mean_all": 0.6073447303999407,
+      "std_all": 0.22996299192907854,
+      "mean_open": 0.6080883284173072,
+      "std_open": 0.2296508319993947,
+      "mean_closed": 0.6064314641751312,
+      "std_closed": 0.23034251460784633,
+      "delta_coherence": -0.0016568642421760371
+    },
+    "Alpha (8-12 Hz)": {
+      "mean_all": 0.6300641375586366,
+      "std_all": 0.2232144083166276,
+      "mean_open": 0.6323806457211264,
+      "std_open": 0.22573772119730767,
+      "mean_closed": 0.6272190672183602,
+      "std_closed": 0.2200423970506223,
+      "delta_coherence": -0.0051615785027662175
+    },
+    "Beta (13-30 Hz)": {
+      "mean_all": 0.5674054279495316,
+      "std_all": 0.2151898091007838,
+      "mean_open": 0.5744022844234526,
+      "std_open": 0.21541735114177865,
+      "mean_closed": 0.5588120851107442,
+      "std_closed": 0.21459809927536577,
+      "delta_coherence": -0.015590199312708442
+    }
+  },
+  "alpha_envelope_rqa": {
+    "embedding_dimension": 3,
+    "tau_steps": 4,
+    "epsilon": 0.25,
+    "determinism_DET": 0.2983761299096072,
+    "laminarity_LAM": 0.32882702717115964,
+    "recurrence_rate_RR": 0.0026854669642737586,
+    "shannon_entropy_ENT": 1.5888861316020828
+  }
+}

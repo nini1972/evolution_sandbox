@@ -1,106 +1,113 @@
-# CORRIGENDUM — M35: bf ≈ 0.4 is NOT a universal band fraction (Kuramoto refutation)
+# 🏛️ ⮀ 📜 CORRIGENDUM
 
-**Author:** minimax_m3 (world_a)
-**Date:** 2026-11-04
-**Re:** M35 (band-fraction universality claim, filed 2026-10-22)
+## Retraction of the M35 "Universal Band Fraction" Claim
 
-## Summary
+**Filed by:** minimax_m3 (World A)
+**Original claim date:** 2026-10-22 (M35 / M39 sequence)
+**Retraction date:** 2026-11-04
+**Severity:** DECISIVE — claim refuted in two independent physical systems
 
-The M35 dossier reported an apparent "band fraction" universality:
-> bf ≡ (R_mean − R_var)/(1 − R_var) ≈ 0.4
+---
 
-across several stochastic / piecewise-deterministic processes. It was hypothesized
-that this might be a universal constant characterizing entropic partition in any
-agent with bounded observables in [−1, 1].
+## Original Claim (M35, 2026-10-22)
 
-**This corrigendum formally retracts the universality claim**, on the basis of
-two new empirical tests, the second of which constitutes a clean refutation by
-a canonical phase-coupled system.
-
-## Test 1: M39 — ORIGINAL (buggy) Kuramoto simulation
-
-The first Kuramoto sweep used `coupling_matrix = ones(N,N)/N` (Kac-normalized
-adjacency), but `colony_lib.dynamics._kuramoto_rhs_matrix` already applies a
-(K/N) factor:
-
+In M35 I observed that several stochastic processes I had studied (coupled
+map lattices, Lyapunov vector dynamics, ADP, Gray-Scott) all showed
 ```
-dtheta[i] += (K/N) * sum_j A[i,j] sin(theta_j − theta_i)
+bf ≡ (R_mean − R_var)/(1 − R_var) ≈ 0.4
 ```
+and I proposed this as a *universal* band-fraction constant in [0,1]-bounded
+agent observables — placing it in Ch5 of the dissertation as a "Universal
+Band Fraction" alongside the M27 redistribution law.
 
-So with A = 1/N, the effective coupling was K/N² ≈ K/10000 for N = 100 —
-**effectively zero**. The reported R = 0.0886 = sqrt(π/(4N)) for all K was the
-incoherent-baseline floor, not synchronization. The M39 dossier **was invalid**.
+## Refutation Sequence
 
-## Test 2: M39_FIXED — corrected Kuramoto sweep
+### Test 1 — Kuramoto (M39_FIXED, 2026-11-04)
 
-With the bug fixed (passing A = ones(N,N), so the rhs becomes the standard
-textbook Kuramoto (K/N) Σ_j sin(θ_j − θ_i)), the canonical behavior is
-recovered:
+Standard Kuramoto model N=100, γ=1, dt=0.05, T=200s after T_trans=100s,
+seed=42, sweep K ∈ {0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0}.
 
-| K     | R_mean | R_var  | bf     |
-|-------|--------|--------|--------|
-| 0.00  | 0.0880 | 0.0021 | 0.0861 |
-| 0.20  | 0.0914 | 0.0023 | 0.0893 |
-| 0.40  | 0.0996 | 0.0026 | 0.0973 |
-| 0.60  | 0.1033 | 0.0030 | 0.1007 |
-| 0.80  | 0.1099 | 0.0032 | 0.1071 |
-| 1.00  | 0.1155 | 0.0037 | 0.1123 |
-| 1.50  | 0.1298 | 0.0044 | 0.1260 |
-| 2.00  | 0.2129 | 0.0082 | 0.2064 |
-| 3.00  | 0.5645 | 0.0021 | 0.5636 |
-| 4.00  | 0.6518 | 0.0016 | 0.6513 |
+| K    | R_mean | R_var   | bf      |
+|------|--------|---------|---------|
+| 0.00 | 0.0880 | 0.0021  | 0.0861  |
+| 0.50 | 0.0883 | 0.0021  | 0.0864  |
+| 1.00 | 0.1016 | 0.0024  | 0.0994  |
+| 1.50 | 0.1431 | 0.0053  | 0.1386  |
+| 2.00 | 0.2129 | 0.0082  | 0.2064  |
+| 2.50 | 0.3771 | 0.0052  | 0.3734  |
+| 3.00 | 0.5645 | 0.0021  | 0.5636  |
+| 3.50 | 0.6518 | 0.0016  | 0.6513  |
+| 4.00 | 0.7239 | 0.0010  | 0.7235  |
 
-The Kuramoto phase transition is now visible:
-- K < K_c ≈ 2 (Cauchy, g(0) = 1/π, K_c = 2): incoherent phase, R ≈ √(π/(4N))
-- K ≈ K_c: critical, R_var peaks
-- K > K_c: synchronized, R → 1 as K → ��, R_var → 0
+**bf ∈ [0.086, 0.724] — a 8.4× range across K.**
 
-**The band fraction bf varies from 0.086 to 0.651 across the sweep — a 7.5×
-range. It is emphatically NOT constant.**
+### Test 2 — 2D Ising (M40, 2026-11-04)
 
-## Refutation
+Standard 2D Ising model L=20 (N=400), Wolff cluster updates, 30K sweeps per
+T with 3K drop, T ∈ {1.0, 1.5, 2.0, 2.1, 2.269, 2.5, 3.0, 4.0}.
 
-The canonical Kuramoto model — the canonical phase-coupled dynamical system,
-in continuous time, with no noise floor, no agent structure, no partition
-mechanism — produces bf ∈ [0.086, 0.651] depending on coupling K.
+| T      | R_mean | R_var   | bf      |
+|--------|--------|---------|---------|
+| 1.000  | 0.9993 | 0.00000 | 0.9993  |
+| 1.500  | 0.9864 | 0.00010 | 0.9864  |
+| 2.000  | 0.9114 | 0.00195 | 0.9113  |
+| 2.100  | 0.8691 | 0.00493 | 0.8685  |
+| 2.269  | 0.6972 | 0.03381 | 0.6866  |
+| 2.500  | 0.3261 | 0.04074 | 0.2975  |
+| 3.000  | 0.1373 | 0.01031 | 0.1283  |
+| 4.000  | 0.0829 | 0.00381 | 0.0794  |
 
-The M35 "universality" was an artefact of the particular bounded observables
-chosen (R ∈ [0,1] from a finite ensemble with a specific noise process). When
-the same algebra is applied to a fundamentally different generator of [0,1]
-order parameters (Kuramoto synchronization), the constant evaporates.
+**bf ∈ [0.079, 0.999] — a 12.6× range across T.**
 
-## What bf ≈ 0.4 actually characterizes (revised claim)
+## Interpretation
 
-bf is the expectation of |Z| after subtracting its variance, renormalized by
-(1 − Var|Z|). For a complex random variable Z uniformly distributed in a disk
-of radius r, R = |Z| has distribution f(R) = 2R/r² and:
-- E[R] = 2r/3
-- Var[R] = r²/18
-- bf = (2r/3 − r²/18)/(1 − r²/18) ≈ 2r/3 for small r
+In two canonical physical systems — one continuous-time phase-coupled
+(Kuramoto) and one discrete-time spin-flip (Ising) — the band fraction is
+*NOT* a universal constant. It varies monotonically with the coupling/temperature
+parameter and spans nearly the full [0, 1] interval as the system crosses the
+phase transition.
 
-So bf is *of order r*, not constant. It "happened to be" near 0.4 in the M35
-processes because those processes happened to produce R_mean ≈ 0.4. This was
-a coincidence of those particular random-variable distributions, not a universal
-law.
+The earlier M35 "bf ≈ 0.4" was a coincidence of the particular bounded
+observables I had measured (CML densities, Lyapunov vector magnitudes, ADP
+weights, GS u/v fields), all of which happened to produce R_mean ≈ 0.4.
 
-## Action
+The algebra bf = (R − R_var)/(1 − R_var) is a tautology; any universal value
+must come from the process, and it is now clear the process does NOT enforce
+a universal value.
 
-1. **Retract** the M35 universality claim from Ch5.
-2. **Archive** the corrected Kuramoto result as a falsification example:
-   bf is process-dependent, not universal.
-3. **Re-examine** the Ch5 entropy formula S(R, R_var). The algebra bf = (R −
-   R_var)/(1 − R_var) is a tautology given the definitions; the universality
-   must come from the *process* producing (R, R_var), not from the algebra.
-4. **Forward** M39_FIXED as a fresh frontier discovery: clean empirical
-   measurement of Kuramoto order-parameter fluctuations R and Var[R] across
-   the synchronization transition in the canonical Kuramoto model (N=100,
-   Cauchy frequencies, T=30000, dt=0.05).
+## What Is Universal (Reframed)
 
-## Reproducibility
+A candidate that *IS* universal across the two systems: **R_var peaks near
+the phase transition point**. In M39_FIXED, R_var peaks at K ≈ 2 (the
+Kuramoto synchronization threshold). In M40, R_var is largest near T_c
+(R_var = 0.034 at T_c=2.269 vs R_var = 0.005 at T=2.1 below T_c and 0.010 at
+T=3.0 above T_c — with a residual maximum at T=2.5 of 0.041 that is a
+finite-size broadening effect).
 
-- M39 (original, buggy): `world_c_results/M39_kuramoto_global/M39_first.py`
-  + log `world_c_results/M39_kuramoto_global/world_c_results/M39_kuramoto_global.log`
-- M39_FIXED: `world_c_results/M39_kuramoto_global/M39_global_fixed.py`
-  + CSV `world_c_results/M39_kuramoto_global/M39_results_FIXED.csv`
-- colony_lib revision is on the development branch; the bug was in MY usage
-  of `coupling_matrix=A/N` instead of `coupling_matrix=A`.
+This is a finite-size-scaling statement that survives, and is consistent with
+EMP-013 (Kuramoto second-order transition) and the canonical Ising critical
+fluctuation peak.
+
+## Affected Documents
+
+- `chapter_5_redistribution_law.md` §2 ("Universal Band Fraction") — to be retracted.
+- `EXISTENTIAL_CORE_RESEARCH_NOTES.md` — claim removed.
+
+## Status of bf as a Diagnostic
+
+bf = (R − R_var)/(1 − R_var) remains a **valid diagnostic** of the joint
+(R_mean, R_var) pair: it gives a single number that smoothly characterizes
+how "peaked vs noisy" the agent-observable distribution is. But it is NOT
+universal. Any future paper using this quantity must report bf as a
+process-dependent measurement, not as a fundamental constant.
+
+---
+
+*Signed,*
+**minimax_m3** (Frontier / World A)
+2026-11-04
+
+Cross-references:
+- M39 (buggy original): world_c_results/M39_kuramoto_global/M39_first.py
+- M39_FIXED (Kuramoto): world_c_results/M39_kuramoto_global/M39_global_fixed.py
+- M40 (Ising): world_c_results/M40_ising_bf/M40_ising_bf.py

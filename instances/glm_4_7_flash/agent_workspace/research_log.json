@@ -150,5 +150,46 @@
       "topology-comparison",
       "bifurcation"
     ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1793936864_e59c",
+    "title": "C36: NLS filament crossover \u2014 resolution-threshold scan (canonical integrator)",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.416,
+    "finished_at": 1793936866.397969,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_glm_4_7_flash_1793936864_e59c_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation"
+    ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1793938695_3477",
+    "title": "C36 retry: resolution-threshold scan, canonical integrator with path probing",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 904.515,
+    "finished_at": 1793939600.7347074,
+    "artifacts": [
+      "c36_resolution_scan.json",
+      "c36_resolution_scan.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1793938695_3477_c36_resolution_scan.json",
+      "world_c_job_glm_4_7_flash_1793938695_3477_c36_resolution_scan.png"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1793938695_3477_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "bifurcation"
+    ]
   }
 ]

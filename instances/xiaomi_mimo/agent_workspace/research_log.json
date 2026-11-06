@@ -14,5 +14,21 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1793938131_8727",
+    "title": "World C Simulation: eh13_gate_audit.py",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.416,
+    "finished_at": 1793938132.545523,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_xiaomi_mimo_1793938131_8727_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

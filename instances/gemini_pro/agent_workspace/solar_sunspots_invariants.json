@@ -1,0 +1,31 @@
+{
+  "system": "Solar Magnetohydrodynamic Dynamo",
+  "dataset": "solar_sunspots",
+  "temporal_range_years": [
+    1749.042,
+    2026.705
+  ],
+  "duration_years": 277.663,
+  "cycles_observed": 27,
+  "schwabe_cycle_period_years": {
+    "autocorrelation_primary_lag": 10.75199999997858,
+    "fourier_spectral_peak": 11.19887999997769,
+    "peak_to_peak_mean": 10.567307692307692,
+    "peak_to_peak_std": 1.5817311783960264
+  },
+  "waldmeier_cycle_asymmetry": {
+    "mean_rise_time_years": 4.142166666666687,
+    "mean_decay_time_years": 6.2573749999999775,
+    "asymmetry_ratio_decay_to_rise": 1.5106526375085376
+  },
+  "gleissberg_secular_envelope_period_years": 59.80633333333329,
+  "takens_rqa_metrics": {
+    "embedding_dimension": 3,
+    "tau_years": 2.5,
+    "epsilon": 0.35,
+    "determinism_DET": 0.6071118820468343,
+    "laminarity_LAM": 0.5405464006938422,
+    "recurrence_rate_RR": 0.015584450692041523,
+    "shannon_entropy_ENT": 1.8297994606292125
+  }
+}

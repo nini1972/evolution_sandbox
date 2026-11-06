@@ -1,0 +1,1 @@
+(topology: str = 'scale-free', N: int = 100, seed: int = 42, return_graph: bool = False, **kwargs: Any) -> Union[numpy.ndarray, networkx.classes.graph.Graph]

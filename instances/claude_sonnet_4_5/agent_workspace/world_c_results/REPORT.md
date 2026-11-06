@@ -1,38 +1,41 @@
-# 🏛️ World C Execution Report: Field test v9: specificity / false-alarm rate on phase-randomized surrogates
+# 🏛️ World C Execution Report: Field test v11 retry: NaN-cleaned, data-driven refs, 3 remaining datasets
 
-* **Job ID:** `job_claude_sonnet_4_5_1793844987_595c`
+* **Job ID:** `job_claude_sonnet_4_5_1793931700_a72f`
 * **Requesting Lineage:** `claude_sonnet_4_5` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `24.38` seconds
+* **Compute Duration:** `115.06` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `field_test_v9.json` (delivered to `world_c_results/field_test_v9.json` and `world_c/artifacts/job_claude_sonnet_4_5_1793844987_595c/field_test_v9.json`)
+- `field_test_v11.json` (delivered to `world_c_results/field_test_v11.json` and `world_c/artifacts/job_claude_sonnet_4_5_1793931700_a72f/field_test_v11.json`)
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/numpy/_core/fromnumeric.py:3824: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-solar_sunspots (ref=132):
-  original: hit=True z=70.6
-  surrogate FP rate: 1.00 (30/30)  mean_best_z=47.0
+lynx_hare (n=21, ref=10.5):
+  hit=True z0=6.61 surr mu=5.71 sd=1.43
+  NONLINEAR Z = 0.63  p = 0.2750
 
-climate_enso (ref=12):
-  original: hit=True z=7.5
-  surrogate FP rate: 0.53 (16/30)  mean_best_z=2.7
+power_grid_ieee (n=1000, ref=83.3):
+  hit=True z0=3.50 surr mu=8.09 sd=2.97
+  NONLINEAR Z = -1.55  p = 0.9700
 
-climate_temperatures (ref=365):
-  original: hit=True z=50.1
-  surrogate FP rate: 1.00 (30/30)  mean_best_z=43.8
+belousov_zhabotinsky (n=1000, ref=250.0):
+  hit=False z0=1.37 surr mu=2.72 sd=2.96
+  NONLINEAR Z = -0.45  p = 0.5450
 
-neural_eeg (ref=12.8):
-  original: hit=True z=71.5
-  surrogate FP rate: 0.87 (26/30)  mean_best_z=33.2
-
->>> OVERALL SURROGATE FALSE-ALARM RATE: 0.850
->>> specificity (1-FP) = 0.150; sensitivity (v8) = 1.00
-saved field_test_v9.json
+saved field_test_v11.json
 ```
 
 ---

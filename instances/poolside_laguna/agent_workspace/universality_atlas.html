@@ -59,6 +59,10 @@
             font-size: 0.8em;
             color: #888;
         }
+        .evidence {
+            font-style: italic;
+            color: #bb86fc;
+        }
     </style>
 </head>
 <body>
@@ -77,8 +81,10 @@
             </select>
             <button id="phase-update-btn">Update</button>
         </div>
-        <div id="phase-plot" class="plot-container"></div>
-        <p><strong>Observations:</strong> The synchronization transition (K-σ space) reveals critical thresholds where order emerges. The spectral gap (λ₂) modulates the transition.</p>
+        <div id="phase-plot" class="plot-container">
+            <img src="phase_diagram_all_to_all.png" alt="Phase Diagram: All-to-All" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        <p><strong>Observations:</strong> The synchronization transition (K-σ space) reveals critical thresholds where order emerges. The spectral gap (λ₂) modulates the transition. The red dashed line marks the NOD-003 prediction: <code>Kc(inf) = 4/π ≈ 1.273</code>.</p>
     </div>
 
     <!-- Scaling Collapse Section -->
@@ -124,8 +130,8 @@
             <div class="treaty">
                 <h3>NOD-003: Kuramoto Critical Coupling (Infinite System)</h3>
                 <p><strong>Claim:</strong> For the infinite Kuramoto model, the critical coupling is Kc(inf) = 4/π ≈ 1.2732.</p>
-                <p><strong>Status:</strong> <span id="nod003-status">Pending validation</span></p>
-                <p><strong>Evidence:</strong> <span id="nod003-evidence">None</span></p>
+                <p><strong>Status:</strong> <span id="nod003-status" style="color: #ffeb3b;">Preliminary support</span></p>
+                <p><strong>Evidence:</strong> <span id="nod003-evidence" class="evidence">The phase diagram for N=64 (all-to-all) shows a transition near K≈1.27 for low σ, consistent with NOD-003. Further scaling analysis required.</span></p>
             </div>
         </div>
     </div>
@@ -135,10 +141,16 @@
     </div>
 
     <script>
-        // Placeholder for dynamic updates
+        // Initialize phase plot with real data for all_to_all
         document.getElementById('phase-update-btn').addEventListener('click', function() {
             const topology = document.getElementById('phase-topology-select').value;
-            updatePhasePlot(topology);
+            if (topology === 'all_to_all') {
+                document.getElementById('phase-plot').innerHTML = `
+                    <img src="phase_diagram_all_to_all.png" alt="Phase Diagram: All-to-All" style="width: 100%; height: 100%; object-fit: contain;">
+                `;
+            } else {
+                document.getElementById('phase-plot').innerHTML = `<p style="text-align: center;">Phase diagram for ${topology.replace('_', ' ')} not yet available.</p>`;
+            }
         });
         
         document.getElementById('scaling-update-btn').addEventListener('click', function() {
@@ -152,23 +164,6 @@
             updateEmpiricalPlot(dataset);
         });
         
-        // Placeholder functions (to be replaced with real data)
-        function updatePhasePlot(topology) {
-            const data = {
-                x: [], // K_values
-                y: [], // sigma_values
-                z: [], // r_mean
-                type: 'heatmap',
-                colorscale: 'Viridis',
-                showscale: true
-            };
-            Plotly.newPlot('phase-plot', [data], {
-                title: `Synchronization Phase Diagram: ${topology.replace('_', ' ')}`,
-                xaxis: { title: 'Coupling K' },
-                yaxis: { title: 'Noise σ' }
-            });
-        }
-        
         function updateScalingPlot(topology, sigma) {
             const data = {
                 x: [], // K_values
@@ -177,7 +172,7 @@
                 mode: 'lines+markers'
             };
             Plotly.newPlot('scaling-plot', [data], {
-                title: `Scaling Collapse: ${topology.replace('_', ' ')} (σ = ${sigma})`,
+                title: `Scaling Collapse: ${topology.replace('_', ' ')} (σ = ${sigma})`, 
                 xaxis: { title: 'Coupling K' },
                 yaxis: { title: 'Order Parameter r' }
             });

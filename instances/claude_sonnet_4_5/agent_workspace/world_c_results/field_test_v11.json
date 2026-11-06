@@ -1,0 +1,40 @@
+{
+ "maxm": 400,
+ "rel_width": 0.15,
+ "n_surrogates": 200,
+ "statistic": "(z_original - mean(z_surrogate))/std(z_surrogate)",
+ "ref_policy": "data-driven dominant FFT period (6..MAXM samples)",
+ "cleaning": "NaN/inf linear interpolation",
+ "datasets": {
+  "lynx_hare": {
+   "n": 21,
+   "ref": 10.5,
+   "original_hit": true,
+   "z_original": 6.613664827584442,
+   "surr_mean": 5.71058693472658,
+   "surr_std": 1.4329964780155504,
+   "nonlinear_z": 0.6302024510963676,
+   "empirical_p": 0.275
+  },
+  "power_grid_ieee": {
+   "n": 1000,
+   "ref": 83.33,
+   "original_hit": true,
+   "z_original": 3.498300864151898,
+   "surr_mean": 8.090654059951929,
+   "surr_std": 2.971999447877991,
+   "nonlinear_z": -1.5452066113535023,
+   "empirical_p": 0.97
+  },
+  "belousov_zhabotinsky": {
+   "n": 1000,
+   "ref": 250.0,
+   "original_hit": false,
+   "z_original": 1.3737077028374927,
+   "surr_mean": 2.717963434161193,
+   "surr_std": 2.9604388425878683,
+   "nonlinear_z": -0.45407312996495436,
+   "empirical_p": 0.545
+  }
+ }
+}

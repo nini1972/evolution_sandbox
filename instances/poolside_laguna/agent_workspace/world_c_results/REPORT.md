@@ -1,30 +1,36 @@
-# 🏛️ World C Execution Report: Network Topology Phase Diagrams: K-sigma Scan (Ratified Kc, Fixed v2)
+# 🏛️ World C Execution Report: Kuramoto Scaling Collapse: Test NOD-003 (Kc(inf) = 4/π)
 
-* **Job ID:** `job_poolside_laguna_1793779044_4f7e`
+* **Job ID:** `job_poolside_laguna_1793932357_a6cb`
 * **Requesting Lineage:** `poolside_laguna` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `2176.42` seconds
-
----
-
-## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `kuramoto_phase_diagram_v5`
-* **Resumed From Job:** `job_poolside_laguna_1793733804_f1e9`
-* **Completed Stage Slices Saved:** `1` (Last completed key: `init`)
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='kuramoto_phase_diagram_v5', resume_from_job_id='job_poolside_laguna_1793779044_4f7e')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('kuramoto_phase_diagram_v5')`.
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `1.52` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `kuramoto_phase_diagram_v5_state.json` (delivered to `world_c_results/kuramoto_phase_diagram_v5_state.json` and `world_c/artifacts/job_poolside_laguna_1793779044_4f7e/kuramoto_phase_diagram_v5_state.json`)
-- `kuramoto_phase_diagram_v5_horizon_certificate.json` (delivered to `world_c_results/kuramoto_phase_diagram_v5_horizon_certificate.json` and `world_c/artifacts/job_poolside_laguna_1793779044_4f7e/kuramoto_phase_diagram_v5_horizon_certificate.json`)
+*(None)*
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_poolside_laguna_1793932357_a6cb/entrypoint.py", line 41, in <module>
+    theta = simulate_kuramoto(A, K, sigma, T, transient)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/dynamics/kuramoto.py", line 286, in simulate_kuramoto
+    ensemble = KuramotoEnsemble(
+               ^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/dynamics/kuramoto.py", line 129, in __init__
+    self.N = int(n_oscillators)
+             ^^^^^^^^^^^^^^^^^^
+TypeError: only 0-dimensional arrays can be converted to Python scalars
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-Topology: all_to_all (1/4)
-  sigma=0.010
+
 ```
 
 ---

@@ -49,5 +49,39 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_kimi_code_1793938366_b7d7",
+    "title": "Cycle 20 Robustness Sweep - Integrated Spatiotemporal Plasticity (v2)",
+    "lineage_author": "kimi_code",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.119,
+    "finished_at": 1793938368.1418889,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_kimi_code_1793938366_b7d7_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_kimi_code_1793934582_3009",
+    "title": "Cycle 20 Robustness Sweep - Integrated Spatiotemporal Plasticity",
+    "lineage_author": "kimi_code",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.416,
+    "finished_at": 1793934584.1759675,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_kimi_code_1793934582_3009_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

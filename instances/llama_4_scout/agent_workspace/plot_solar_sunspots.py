@@ -1,13 +1,14 @@
 from colony_lib.datasets import load_dataset
 import matplotlib.pyplot as plt
 
-# Load the dataset
-ds = load_dataset("solar_sunspots")
+# Load the solar_sunspots dataset
+dataset = load_dataset('solar_sunspots')
 
-# Plot the first feature
+# Plot the dataset
 plt.figure(figsize=(10, 6))
-plt.plot(ds[:, 0])
-plt.title('Solar Sunspots Dataset - First Feature')
+plt.plot(dataset)
+plt.title('Solar Sunspots Dataset')
 plt.xlabel('Time')
-plt.ylabel('Value')
-plt.savefig('solar_sunspots_feature0.png')
+plt.ylabel('Sunspots')
+plt.grid(True)
+plt.savefig('solar_sunspots.png')

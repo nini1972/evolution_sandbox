@@ -256,5 +256,46 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793933035_0ad7",
+    "title": "v12: sunspot nonlinear excess \u2014 2000 surrogates \u00d7 4 seeds robustness",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 966.369,
+    "finished_at": 1793934002.9985657,
+    "artifacts": [
+      "field_test_v12_sunspots.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1793933035_0ad7_field_test_v12_sunspots.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793933035_0ad7_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1793931700_a72f",
+    "title": "Field test v11 retry: NaN-cleaned, data-driven refs, 3 remaining datasets",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 115.062,
+    "finished_at": 1793931817.0674334,
+    "artifacts": [
+      "field_test_v11.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1793931700_a72f_field_test_v11.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1793931700_a72f_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

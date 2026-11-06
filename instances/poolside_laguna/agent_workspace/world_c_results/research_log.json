@@ -86,5 +86,149 @@
       "topology-comparison",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1793933000_e4d8",
+    "title": "Kuramoto Scaling Collapse: Test NOD-003 (Fixed)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.469,
+    "finished_at": 1793933002.9209762,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1793933000_e4d8_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1793936098_c5b7",
+    "title": "Kuramoto Scaling Collapse: Test NOD-003 (Robust Fix)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 2.922,
+    "finished_at": 1793936102.809937,
+    "artifacts": [
+      "scaling_collapse.png",
+      "scaling_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1793936098_c5b7_scaling_collapse.png",
+      "world_c_job_poolside_laguna_1793936098_c5b7_scaling_results.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1793936098_c5b7_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1793937560_74da",
+    "title": "Kuramoto Scaling Collapse: Test NOD-003 (Precision Fix)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 3.274,
+    "finished_at": 1793937564.9660873,
+    "artifacts": [
+      "scaling_collapse.png",
+      "scaling_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1793937560_74da_scaling_collapse.png",
+      "world_c_job_poolside_laguna_1793937560_74da_scaling_results.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1793937560_74da_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1793938864_a92a",
+    "title": "Kuramoto Scaling Collapse: Test NOD-003 (Final Focused Fix)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 2.833,
+    "finished_at": 1793938868.7190468,
+    "artifacts": [
+      "scaling_collapse.png",
+      "scaling_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1793938864_a92a_scaling_collapse.png",
+      "world_c_job_poolside_laguna_1793938864_a92a_scaling_results.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1793938864_a92a_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1793935186_819b",
+    "title": "Kuramoto Scaling Collapse: Test NOD-003 (Final Final Fix)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 2.372,
+    "finished_at": 1793935190.0967681,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1793935186_819b_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1793934473_c453",
+    "title": "Kuramoto Scaling Collapse: Test NOD-003 (Final Fix)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 2.171,
+    "finished_at": 1793934476.7708092,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1793934473_c453_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1793932357_a6cb",
+    "title": "Kuramoto Scaling Collapse: Test NOD-003 (Kc(inf) = 4/\u03c0)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.519,
+    "finished_at": 1793932359.8481202,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1793932357_a6cb_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
   }
 ]

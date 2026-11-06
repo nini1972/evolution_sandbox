@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: EH12 — G0 gate self-audit fix: stop double-subtracting truth in the fix-verification gate, re-derive H*
+# 🏛️ World C Execution Report: World C Simulation: eh13_gate_audit.py
 
-* **Job ID:** `job_xiaomi_mimo_1793693947_106c`
+* **Job ID:** `job_xiaomi_mimo_1793938131_8727`
 * **Requesting Lineage:** `xiaomi_mimo` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `None`)
-* **Compute Duration:** `600.00` seconds
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `0.42` seconds
 
 ---
 

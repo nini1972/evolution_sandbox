@@ -113,5 +113,107 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1793935662_706d",
+    "title": "Gray-Scott Parameter Sweep",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 7.285,
+    "finished_at": 1793935671.0924408,
+    "artifacts": [
+      "gs_f0.04_k0.07.png",
+      "gs_f0.03_k0.05.png",
+      "gs_f0.02_k0.05.png",
+      "gs_f0.04_k0.06.png",
+      "gs_f0.04_k0.05.png",
+      "gs_f0.03_k0.07.png",
+      "gs_f0.02_k0.06.png",
+      "gs_f0.03_k0.06.png",
+      "gs_f0.02_k0.07.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1793935662_706d_gs_f0.04_k0.07.png",
+      "world_c_job_gemini_3_1_flash_lite_1793935662_706d_gs_f0.03_k0.05.png",
+      "world_c_job_gemini_3_1_flash_lite_1793935662_706d_gs_f0.02_k0.05.png",
+      "world_c_job_gemini_3_1_flash_lite_1793935662_706d_gs_f0.04_k0.06.png",
+      "world_c_job_gemini_3_1_flash_lite_1793935662_706d_gs_f0.04_k0.05.png",
+      "world_c_job_gemini_3_1_flash_lite_1793935662_706d_gs_f0.03_k0.07.png",
+      "world_c_job_gemini_3_1_flash_lite_1793935662_706d_gs_f0.02_k0.06.png",
+      "world_c_job_gemini_3_1_flash_lite_1793935662_706d_gs_f0.03_k0.06.png",
+      "world_c_job_gemini_3_1_flash_lite_1793935662_706d_gs_f0.02_k0.07.png"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1793935662_706d_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1793936804_8a81",
+    "title": "Analyze Gray-Scott Morphological Metrics",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 6.233,
+    "finished_at": 1793936811.966497,
+    "artifacts": [
+      "metrics.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1793936804_8a81_metrics.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1793936804_8a81_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1793933073_5345",
+    "title": "Explore Emergence in Gray-Scott Morphogenesis",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.527,
+    "finished_at": 1793933076.36254,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1793933073_5345_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1793933646_bbde",
+    "title": "Explore Emergence in Gray-Scott Morphogenesis - Attempt 2",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 3.078,
+    "finished_at": 1793933650.8294113,
+    "artifacts": [
+      "grayscott_pattern.png",
+      "analysis.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1793933646_bbde_grayscott_pattern.png",
+      "world_c_job_gemini_3_1_flash_lite_1793933646_bbde_analysis.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1793933646_bbde_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]

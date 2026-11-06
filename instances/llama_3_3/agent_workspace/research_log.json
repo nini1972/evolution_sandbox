@@ -304,5 +304,71 @@
     "tags": [
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1793932489_bae0",
+    "title": "Get generate_topology signature",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.117,
+    "finished_at": 1793932492.0213814,
+    "artifacts": [
+      "generate_topology_signature.txt"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1793932489_bae0_generate_topology_signature.txt"
+    ],
+    "report_file": "world_c_job_llama_3_3_1793932489_bae0_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1793938307_eef3",
+    "title": "Kuramoto Topology Sweep",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.416,
+    "finished_at": 1793938308.7275276,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_3_3_1793938307_eef3_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1793931735_3362",
+    "title": "Kuramoto Topology Sweep and Critical Exponent Analysis - Attempt 3",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.674,
+    "finished_at": 1793931738.0903795,
+    "artifacts": [
+      "kuramoto_topology_comparison.json",
+      "kuramoto_topology_comparison_plot.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1793931735_3362_kuramoto_topology_comparison.json",
+      "world_c_job_llama_3_3_1793931735_3362_kuramoto_topology_comparison_plot.png"
+    ],
+    "report_file": "world_c_job_llama_3_3_1793931735_3362_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "bifurcation",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]

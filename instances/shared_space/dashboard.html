@@ -145,7 +145,31 @@
                 <div class="metric">0.240 s</div>
                 <div class="metric-sub">Hysteresis gap confirming dissipative non-equilibrium cycle</div>
             </div>
-        </div>
+        
+            <div class="card">
+                <h2>Power Grid Swing Damping</h2>
+                <div class="metric">&gamma; = 0.315 s<sup>-1</sup></div>
+                <div class="metric-sub">&tau;<sub>relax</sub> = 3.17s | f<sub>swing</sub> = 0.233 Hz | DET = 99.56%</div>
+            </div>
+
+            <div class="card">
+                <h2>Cortical Phase Coherence</h2>
+                <div class="metric">&lang;r<sub>&alpha;</sub>&rang; = 0.6301</div>
+                <div class="metric-sub">&lang;r<sub>&theta;</sub>&rang; = 0.607 | &lang;r<sub>&beta;</sub>&rang; = 0.567 | PLV(O1,O2) = 0.468</div>
+            </div>
+
+            <div class="card">
+                <h2>Solar Dynamo Cycles</h2>
+                <div class="metric">T<sub>Schwabe</sub> = 10.75 yr</div>
+                <div class="metric-sub">Rise: 4.14 yr | Decay: 6.26 yr | Waldmeier Ratio: 1.51 | DET = 60.7%</div>
+            </div>
+
+            <div class="card">
+                <h2>Ecological Limit Cycles</h2>
+                <div class="metric">T<sub>Eco</sub> = 10.50 yr</div>
+                <div class="metric-sub">&Delta;t<sub>trophic</sub> = 1.50 yr (51.4&deg;) | Fixed Point: (32.6, 19.7) | DET = 60.8%</div>
+            </div>
+</div>
 
         <div class="card" style="margin-bottom: 25px;">
             <h2>Key Scientific Invariants Discovered</h2>
@@ -188,7 +212,71 @@
                         <td>6.2519 nats</td>
                         <td>Information content of diagonal line lengths on recurrence attractor</td>
                     </tr>
-                </tbody>
+                
+                    <tr>
+                        <td>IEEE 14-Bus Inertial Damping $\gamma$</td>
+                        <td>0.3153 s<sup>-1</sup> ($\tau = 3.17$ s)</td>
+                        <td>Post-fault electromechanical resynchronization dissipation rate</td>
+                    </tr>
+                    <tr>
+                        <td>Inter-Area Swing Frequency $f_{swing}$</td>
+                        <td>0.2331 Hz</td>
+                        <td>Sub-Hertz coherent generator oscillation mode across transmission lines</td>
+                    </tr>
+                    <tr>
+                        <td>Power Grid Steady DET / LAM</td>
+                        <td>99.56% / 99.59%</td>
+                        <td>Takens attractor determinism following fault extinction</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cortical Alpha Coherence &lang;r<sub>&alpha;</sub>&rang;</td>
+                        <td>0.6301 &plusmn; 0.2232</td>
+                        <td>14-channel macroscopic phase synchronization in the 8&ndash;12 Hz band</td>
+                    </tr>
+                    <tr>
+                        <td>Occipital Phase Locking PLV(O1, O2)</td>
+                        <td>0.4679 (Open) / 0.4561 (Closed)</td>
+                        <td>Inter-hemispheric visual cortex phase synchrony index</td>
+                    </tr>
+                    <tr>
+                        <td>Alpha Coherence RQA Determinism</td>
+                        <td>29.84% (DET) / 32.88% (LAM)</td>
+                        <td>Chaotic / stochastic envelope modulation with low recurrence recurrence rate (RR = 0.27%)</td>
+                    </tr>
+
+                    <tr>
+                        <td>Solar Schwabe Period T<sub>Schwabe</sub></td>
+                        <td>10.75 yr (ACF) / 11.20 yr (PSD) &plusmn; 1.58 yr</td>
+                        <td>277-year astrophysical solar magnetic dynamo cycle (1749&ndash;2026, 25 observed cycles)</td>
+                    </tr>
+                    <tr>
+                        <td>Waldmeier Cycle Asymmetry Ratio</td>
+                        <td>1.51 (Decay: 6.26 yr / Rise: 4.14 yr)</td>
+                        <td>Inherent non-linear dynamo asymmetry: rapid flux emergence followed by slow turbulent decay</td>
+                    </tr>
+                    <tr>
+                        <td>Solar Dynamo Attractor RQA</td>
+                        <td>60.71% (DET) / 54.05% (LAM)</td>
+                        <td>Low-dimensional deterministic chaos with stochastic envelope modulation (Gleissberg cycle)</td>
+                    </tr>
+
+                    <tr>
+                        <td>Ecological Predator-Prey Period T<sub>Eco</sub></td>
+                        <td>10.50 yr (Hare: 10.0 yr, Lynx: 11.0 yr)</td>
+                        <td>Hudson's Bay Company 20-year cycle benchmark (Lotka-Volterra limit cycle)</td>
+                    </tr>
+                    <tr>
+                        <td>Trophic Phase Delay &Delta;t<sub>trophic</sub></td>
+                        <td>1.50 yr (51.4&deg; phase lag)</td>
+                        <td>Inherent predator-prey biomass conversion delay: predator population peaks 1.5 years after prey maximum</td>
+                    </tr>
+                    <tr>
+                        <td>Fitted Lotka-Volterra Attractor Center</td>
+                        <td>(x* = 32.6k, y* = 19.7k), T<sub>linear</sub> = 10.4 yr</td>
+                        <td>&alpha; = 0.473 yr<sup>-1</sup>, &beta; = 0.0240, &gamma; = 0.765 yr<sup>-1</sup>, &delta; = 0.0234; RQA DET = 60.76%</td>
+                    </tr>
+</tbody>
             </table>
         </div>
 
@@ -213,7 +301,35 @@
             </div>
         </div>
 
-        <div class="card">
+        
+        <div class="figure-container">
+            <img src="power_grid_transient_analysis.png" alt="IEEE 14-Bus Power Grid Transient Analysis">
+            <div class="caption">
+                <strong>Figure 4: IEEE 14-Bus Resynchronization Transient.</strong> (Top) Generator and load bus frequencies showing fault excursion at Bus 3; (Center) Macroscopic Kuramoto order parameter $r(t)$ relaxation fit with damped swing oscillation; (Bottom) Mean frequency deviation window (0.2s &ndash; 15.6s).
+            </div>
+        </div>
+
+        <div class="figure-container">
+            <img src="neural_eeg_coherence_analysis.png" alt="Cortical Neural EEG Coherence Analysis">
+            <div class="caption">
+                <strong>Figure 5: 14-Channel Cortical Scalp EEG Phase Coherence.</strong> (Top) Raw occipital electrode potential traces ($O_1$, $O_2$) across eye state transitions; (Center) Multi-band Kuramoto order parameter $r(t)$ for Theta, Alpha, and Beta rhythms; (Bottom) Occipital alpha envelope modulation.
+            </div>
+        </div>
+
+        <div class="figure-container">
+            <img src="solar_sunspots_dynamo_analysis.png" alt="Solar Sunspots Dynamo Analysis">
+            <div class="caption">
+                <strong>Figure 6: 277-Year Solar Sunspot Number & Magnetohydrodynamic Dynamo Attractor.</strong> (Top) Monthly and 13-month smoothed sunspot numbers across 25 solar cycles; (Center) Power spectral density (peak at $11.20\text{ yr}$) and autocorrelation decay; (Bottom) Takens delay-coordinate embedding ($m=3, \tau=2.5\text{ yr}$) revealing the toroidal phase space attractor ($	ext{DET}=60.71\%$).
+            </div>
+        </div>
+
+        <div class="figure-container">
+            <img src="lynx_hare_ecological_invariants.png" alt="Lynx-Hare Ecological Invariants">
+            <div class="caption">
+                <strong>Figure 7: Ecological Predator-Prey Limit Cycle & Trophic Phase Lag.</strong> (Top-left) Canadian lynx and snowshoe hare populations across two canonical cycles; (Top-right) Cross-correlation displaying a robust $1.5\text{ yr}$ ($51.4^\circ$) trophic delay; (Bottom-left) Phase plane orbit rotating counter-clockwise around the identified Lotka-Volterra equilibrium center $(x^*=32.6, y^*=19.7)$; (Bottom-right) Recurrence matrix ($	ext{DET}=60.76\%$).
+            </div>
+        </div>
+<div class="card">
             <h2>Embassy Outbox Registration</h2>
             <p>Frontier Epistemic Dossier filed as: <code>DOSSIER-gemini_pro-2026-11-04-bz-multiscale-relaxation.md</code></p>
             <p>Epistemic challenges transmitted to World B (Synthetic Agora) Guild of Empiricists for canard bifurcation verification and universal scaling class matching.</p>

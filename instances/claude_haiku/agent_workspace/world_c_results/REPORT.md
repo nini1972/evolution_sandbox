@@ -1,92 +1,55 @@
-# 🏛️ World C Execution Report: Phase IX: Theoretical Formalization - Proving Universal Epidemic-Spectral Law with Real Data
+# 🏛️ World C Execution Report: Phase XII: Stochastic Robustness Analysis of Universal Constant K
 
-* **Job ID:** `job_claude_haiku_1793844828_4c18`
+* **Job ID:** `job_claude_haiku_1793938612_036a`
 * **Requesting Lineage:** `claude_haiku` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `1.07` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `1.17` seconds
+
+---
+
+## 🔄 Multi-Stage & Checkpoint Continuation
+* **Stage Name:** `phase_xii_robustness`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='phase_xii_robustness', resume_from_job_id='job_claude_haiku_1793938612_036a')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('phase_xii_robustness')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `phase9_results.json` (delivered to `world_c_results/phase9_results.json` and `world_c/artifacts/job_claude_haiku_1793844828_4c18/phase9_results.json`)
+*(None)*
 
 ---
 
 ### ⚠️ Errors / Warnings:
 ```
-/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_claude_haiku_1793844828_4c18/entrypoint.py:119: RuntimeWarning: divide by zero encountered in log
-  log_deviations = np.log(np.abs(np.array(deviations)))
+TypeError: float() argument must be a string or a real number, not 'csr_array'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_claude_haiku_1793938612_036a/entrypoint.py", line 172, in <module>
+    beta_c_base = 0.1 / algebraic_connectivity(nx.to_scipy_sparse_array(G_ba))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/network_topology/__init__.py", line 83, in spectral_gap
+    evals, _ = laplacian_spectrum(adjacency_matrix, normalized=normalized)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/network_topology/__init__.py", line 51, in laplacian_spectrum
+    A, _ = _to_adjacency_and_graph(adjacency_matrix)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/network_topology/__init__.py", line 20, in _to_adjacency_and_graph
+    A = np.asarray(graph_or_matrix, dtype=np.float64)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: setting an array element with a sequence.
 ```
 
 ---
 ## 📋 Execution Log Tail
 ```
-ologies Fail:
-   
-   a) Random (ER) Networks:
-      λ₁(ER, N) ~ √N (sublinear, but not RG-invariant)
-      → ν = 1/2 (only partial compensation)
-   
-   b) Lattice (WS) Networks:
-      λ₁(WS, N) ~ N (linear in size)
-      → ν → ∞ (overcompensation)
-      → K is not preserved
+================================================================================
+PHASE XII: STOCHASTIC ROBUSTNESS ANALYSIS - WORLD C JOB
+================================================================================
 
-4. Universal Constant K:
-   From epidemic theory (SIR model), the basic reproduction number is:
-   
-       R₀ = β × T × ⟨k⟩
-   
-   where T = infectious period, ⟨k⟩ = mean degree.
-   The critical threshold (R₀ = 1) gives:
-   
-       β_c ≈ 1 / (T × ⟨k⟩)
-   
-   Combining with λ₁ ∝ ⟨k⟩ for regular networks:
-   
-       K = β_c × λ₁ ≈ 1/T  (independent of network size!)
-
-PREDICTIONS:
-
-1. For any scale-free network (power-law degree ≥ -2), 
-   K should lie in range [0.08, 0.12]
-
-2. For random networks, K × λ₁^0.5 should be more invariant 
-   than K × λ₁
-
-3. For empirical networks with intermediate topology,
-   ν should interpolate between 0 and 0.5
-
-
-======================================================================
-PHASE IX SUMMARY: FORMAL LAW CODIFICATION
-======================================================================
-{
-  "phase": "IX",
-  "title": "Theoretical Formalization & Cross-System Validation",
-  "universal_constants": {
-    "K_ba": 0.09990933333333334,
-    "K_er": 0.09998533333333333,
-    "K_ws": 0.09999580000000001,
-    "K_canonical": 0.09990500000000001,
-    "finite_size_exponent_omega": NaN
-  },
-  "formalized_law": {
-    "equation": "\u03b2_c(N) \u00d7 \u03bb\u2081(G)^\u03bd = K_universal",
-    "parameters": {
-      "\u03bd_scale_free": 1.0,
-      "\u03bd_random": 0.5,
-      "\u03bd_lattice": 0.0,
-      "K_universal_estimate": 0.09990500000000001
-    }
-  },
-  "biological_validation": null,
-  "mechanistic_basis": "Renormalization group invariance + epidemic control theory",
-  "next_phase": "X: Real-world epidemiological data validation (COVID, flu networks)"
-}
-
-✓ Phase IX complete. Results saved to phase9_results.json
-✓ Ready for transition to Phase X: Epidemiological validation
+================================================================================
+EXPERIMENT A: ADDITIVE NOISE INJECTION
+================================================================================
 ```
 
 ---
