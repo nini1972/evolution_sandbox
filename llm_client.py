@@ -29,7 +29,8 @@ def estimate_tokens(obj) -> int:
 
 _INLINE_TOOL_RE = re.compile(
     r"(?:\[\s*(?:read_file|write_file|edit_file|run_command|search_web|submit_world_c_job|check_world_c_job|"
-    r"report_issue_to_substrate|report_bug|contact_architect|post_epistemic_node|peer_verify_node|"
+    r"report_issue_to_substrate|report_bug|contact_architect|post_chat|read_chat|send_chat|post_message|read_channel|"
+    r"post_epistemic_node|peer_verify_node|"
     r"query_epistemic_graph|send_agent_dispatch|read_agent_inbox|export_treaty_to_embassy)\s*\(|!function_call:|<tool_call>|"
     r"```(?:json)?\s*\{\s*\"(?:name|call|tool)\"\s*:)"
 )
@@ -291,7 +292,7 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
     if not content:
         return None
 
-    known_tools = set(["read_file", "write_file", "edit_file", "run_command", "search_web", "submit_world_c_job", "check_world_c_job"])
+    known_tools = set(["read_file", "write_file", "edit_file", "run_command", "search_web", "submit_world_c_job", "check_world_c_job", "post_chat", "read_chat", "send_chat", "post_message", "read_channel"])
     if tools:
         for t in tools:
             if isinstance(t, dict) and "function" in t:
@@ -452,6 +453,11 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
         "report_issue_to_substrate": {"component", "summary", "details", "suggested_fix"},
         "report_bug": {"component", "summary", "details", "suggested_fix"},
         "contact_architect": {"component", "summary", "details", "suggested_fix"},
+        "post_chat": {"channel", "message", "text", "content", "body", "thread_id", "reply_to", "mentions", "mention", "job_id", "stage_name", "artifact_path", "tag", "request_type", "message_type"},
+        "send_chat": {"channel", "message", "text", "content", "body", "thread_id", "reply_to", "mentions", "mention", "job_id", "stage_name", "artifact_path", "tag"},
+        "post_message": {"channel", "message", "text", "content", "body", "thread_id", "reply_to", "mentions", "mention", "job_id", "stage_name", "artifact_path", "tag"},
+        "read_chat": {"channel", "thread_id", "limit", "last_n_messages", "mentions_only", "search", "query"},
+        "read_channel": {"channel", "thread_id", "limit", "last_n_messages", "mentions_only", "search", "query"},
         "post_epistemic_node": {"title", "node_type", "summary", "artifact_path", "parents", "tags", "confidence", "formal_statement", "supporting_evidence", "dependencies", "author_instance"},
         "peer_verify_node": {"node_id", "verdict", "critique_notes", "confidence", "reproduced_artifact_path", "verification_type", "replication_code", "empirical_outcome", "reproduced", "critique"},
         "query_epistemic_graph": {"node_id", "status", "tag", "node_type", "search_text", "limit", "author_family"},
@@ -470,6 +476,11 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
         "report_issue_to_substrate": {"component", "summary", "details"},
         "report_bug": {"component", "summary", "details"},
         "contact_architect": {"component", "summary", "details"},
+        "post_chat": {"message"},
+        "send_chat": {"message"},
+        "post_message": {"message"},
+        "read_chat": set(),
+        "read_channel": set(),
         "post_epistemic_node": {"title"},
         "peer_verify_node": {"node_id", "verdict"},
         "send_agent_dispatch": {"subject"},
@@ -814,7 +825,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         force_tool = True
         messages.append({
             "role": "user",
-            "content": "You stated your intention above. Please proceed immediately by invoking one of the available tool functions (e.g. write_file, edit_file, or run_command) to execute your planned action. Do not simply restate your plan."
+            "content": "You stated your intention above. Please proceed immediately by invoking one of the available tool functions (e.g. write_file, edit_file, run_command, post_chat, or read_chat) to execute your planned action. Do not simply restate your plan."
         })
     elif (
         messages
@@ -842,6 +853,18 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         messages = merge_consecutive_messages(messages)
         msg_tokens = sum(estimate_tokens(m) for m in messages)
         est_prompt_tokens = tools_tokens + msg_tokens
+
+    # Surface the live Colleague Commons Digest as a user-turn notification right at the end of messages
+    if "=== 💬 COLLEAGUE COMMONS DIGEST" in effective_system_prompt and len(messages) >= 1:
+        digest_idx = effective_system_prompt.find("=== 💬 COLLEAGUE COMMONS DIGEST")
+        digest_block = effective_system_prompt[digest_idx:].strip()
+        if messages[-1]["role"] == "user" and "COLLEAGUE COMMONS DIGEST" not in (messages[-1].get("content") or ""):
+            messages[-1]["content"] = (messages[-1].get("content") or "") + "\n\n" + digest_block
+        elif messages[-1]["role"] == "tool":
+            messages.append({
+                "role": "user",
+                "content": digest_block,
+            })
 
     # Dynamically budget max_tokens with model-specific headroom so reasoning thoughts + code never truncate
     remaining_headroom = max_model_len - est_prompt_tokens - 256

@@ -13,6 +13,7 @@ sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='repla
 from llm_client import generate_next_action
 from tools import TOOLS_SCHEMA, AVAILABLE_TOOLS
 from memory import load_history, append_to_history
+from commons_chat import build_turn_digest, ingest_human_dropbox
 
 PROMPT_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "initial_prompt.txt"))
 
@@ -47,10 +48,18 @@ def run_loop(instance: str, ticks: int):
     
     for i in range(ticks):
         print(f"\n--- Tick {i+1}/{ticks} ---")
+        try:
+            ingest_human_dropbox(base_dir)
+            chat_digest = build_turn_digest(instance or "frontier_explorer", base_dir=base_dir, mark_seen=True)
+        except Exception as chat_err:
+            print(f"[Commons Chat Warning]: {chat_err}")
+            chat_digest = ""
+
+        turn_system_prompt = system_prompt + chat_digest
         history = load_history()
         
         print("Thinking...")
-        action = generate_next_action(system_prompt, history, TOOLS_SCHEMA)
+        action = generate_next_action(turn_system_prompt, history, TOOLS_SCHEMA)
         
         if action["type"] == "error":
             print(action["content"])
@@ -73,7 +82,7 @@ def run_loop(instance: str, ticks: int):
             })
             append_to_history({
                 "role": "user",
-                "content": "You stated your intention above. Please proceed immediately by invoking one of the available tool functions (e.g. write_file, edit_file, or run_command) to execute your action."
+                "content": "You stated your intention above. Please proceed immediately by invoking one of the available tool functions (e.g. write_file, edit_file, run_command, post_chat, or read_chat) to execute your action."
             })
             
         elif action["type"] == "tool_call":
