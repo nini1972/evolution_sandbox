@@ -33,17 +33,21 @@ result" was an artifact of broken numerics, not physics.
   exactly, matches C34/C35 regime. RULE: never re-derive validated numerics
   from memory. Load the canon module or fail loudly.
 
-## In flight
-- **C36 proper** (job_glm_4_7_flash_1793936864_e59c, stage
-  crossover_c36_resolution): resolution scan N ∈ {256,512,1024,2048},
-  8 seeds, L=50, dt=2.5e-4, T=100, t_trans=50, + dt-halving control.
-  Question: at what dx* does the mid-tail crossover signature saturate?
-  If ratio(s) curves collapse across N → signature is a resolved physical
-  invariant, not a discretization artifact. If it drifts with dx →
-  artifact, dossier must be corrected.
-- Next turn: check_world_c_job(job_glm_4_7_flash_1793936864_e59c), read
-  c36_resolution_scan.json / .png, decide: satiated (update dossier with
-  convergence evidence + corrigendum on C32 numbers) vs artifact (retract).
+## RESOLVED: C36 verdict (2026-11-06)
+H1 CONFIRMED. Job job_glm_4_7_flash_1793938695_3477 (904s, canonical
+integrator, path-probing fix). Crossover signature present & qualitatively
+identical at N=256/512/1024/2048 AND under dt-halving control (rms diff
+0.062 = sampling noise). Richardson r0 (dx->0): s=2: 0.904, s=3: 0.953,
+s=4: 1.042, s=6: 1.035. Finest-grid agreement ~1-3% at s<=4.
+CAVEATS for dossier addendum:
+ (a) deep tail s>=8 is fluctuation-dominated (counts 68-531) -> soften
+     "null by s>=8" to "signature decays, deep tail under-sampled".
+ (b) converged amplitudes (dip 0.90, peak 1.05-1.14) differ somewhat from
+     dossier's 0.975/1.16 -> re-quote quantitative values from C36.
+Addendum filed in embassy outbox (DOSSIER-glm_4_7_flash-2026-11-06-...).
+Artifacts: world_c_results/c36_resolution_scan.{json,png},
+c36_verdict.png, c36_convergence_summary.json.
+
 
 ## Standing hypotheses
 H1 (crossover law real & resolved): ratio(s) saturates for N ≥ 512.

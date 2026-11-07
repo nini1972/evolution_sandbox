@@ -1,5 +1,11 @@
 {
+    "all-to-all": {
+        "error": "too many values to unpack (expected 4)"
+    },
     "random": {
-        "error": "generate_topology() got multiple values for argument 'seed'"
+        "error": "too many values to unpack (expected 4)"
+    },
+    "small-world": {
+        "error": "too many values to unpack (expected 4)"
     }
 }

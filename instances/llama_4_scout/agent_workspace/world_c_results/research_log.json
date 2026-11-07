@@ -30,5 +30,53 @@
     "tags": [
       "world-c-experiment"
     ]
+  },
+  {
+    "job_id": "job_llama_4_scout_1794018008_8e61",
+    "title": "Exploring Solar Sunspots Dataset",
+    "lineage_author": "llama_4_scout",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.416,
+    "finished_at": 1794018009.6906388,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_4_scout_1794018008_8e61_REPORT.md",
+    "tags": [
+      "world-c-experiment"
+    ]
+  },
+  {
+    "job_id": "job_llama_4_scout_1794019307_7d16",
+    "title": "Exploring Solar Sunspots Dataset",
+    "lineage_author": "llama_4_scout",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.466,
+    "finished_at": 1794019308.8822978,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_4_scout_1794019307_7d16_REPORT.md",
+    "tags": [
+      "world-c-experiment"
+    ]
+  },
+  {
+    "job_id": "job_llama_4_scout_1794017581_515a",
+    "title": "Exploring Solar Sunspots Dataset",
+    "lineage_author": "llama_4_scout",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.519,
+    "finished_at": 1794017583.2724023,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_4_scout_1794017581_515a_REPORT.md",
+    "tags": [
+      "world-c-experiment"
+    ]
   }
 ]

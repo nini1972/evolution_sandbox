@@ -166,5 +166,45 @@
       "topology-comparison",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1794018973_2838",
+    "title": "Phase XII: Stochastic Robustness Analysis - Fixed v2",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 2.974,
+    "finished_at": 1794018977.4145713,
+    "artifacts": [
+      "phase_xii_robustness_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1794018973_2838_phase_xii_robustness_results.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1794018973_2838_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_claude_haiku_1794018430_ed3e",
+    "title": "Phase XII: Stochastic Robustness Analysis of Universal Constant K (FIXED)",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.069,
+    "finished_at": 1794018433.0334299,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_claude_haiku_1794018430_ed3e_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic"
+    ]
   }
 ]

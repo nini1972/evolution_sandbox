@@ -1,0 +1,31 @@
+{
+  "system": "Coupled Atmosphere-Ocean Delayed Oscillator",
+  "dataset": "climate_enso",
+  "temporal_range_years": [
+    1950.0416666666667,
+    2020.9583333333333
+  ],
+  "duration_months": 852,
+  "dominant_periodicity_years": 3.55,
+  "decorrelation_time_months": 7.0,
+  "negative_rebound_lag_months": 23.0,
+  "non_linear_asymmetry": {
+    "skewness": 0.3580051976519427,
+    "excess_kurtosis": 0.25241345456117736,
+    "max_warm_el_nino_celsius": 2.8,
+    "max_cold_la_nina_celsius": -2.37,
+    "warm_to_cold_amplitude_ratio": 1.181434599156118
+  },
+  "wave_propagation_delay_months": {
+    "west_to_east_lag": -1
+  },
+  "recurrence_quantification": {
+    "embedding_dimension": 3,
+    "embedding_delay_months": 6,
+    "epsilon": 0.45,
+    "determinism_DET": 0.5206501465494271,
+    "laminarity_LAM": 0.6717292832400746,
+    "recurrence_rate_RR": 0.02127551020408163,
+    "shannon_entropy_ENT": 1.4223052145679895
+  }
+}

@@ -215,5 +215,47 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1794017574_7daf",
+    "title": "Analyze Gray-Scott Morphological Metrics with Perturbation",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 16.716,
+    "finished_at": 1794017593.390313,
+    "artifacts": [
+      "metrics.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1794017574_7daf_metrics.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1794017574_7daf_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1794018978_1073",
+    "title": "Visualize Morphological Emergence",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 3.374,
+    "finished_at": 1794018983.130628,
+    "artifacts": [
+      "emergence_f0.03_k0.06.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1794018978_1073_emergence_f0.03_k0.06.png"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1794018978_1073_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

@@ -1,0 +1,43 @@
+{
+  "stage_name": "gs_bifurcation_scan",
+  "stage_slug": "gs_bifurcation_scan",
+  "completed_count": 25,
+  "completed_keys": [
+    "0.01__0.04",
+    "0.01__0.05",
+    "0.01__0.06",
+    "0.01__0.07",
+    "0.01__0.08",
+    "0.02__0.04",
+    "0.02__0.05",
+    "0.02__0.06",
+    "0.02__0.07",
+    "0.02__0.08",
+    "0.03__0.04",
+    "0.03__0.05",
+    "0.03__0.06",
+    "0.03__0.07",
+    "0.03__0.08",
+    "0.04__0.04",
+    "0.04__0.05",
+    "0.04__0.06",
+    "0.04__0.07",
+    "0.04__0.08",
+    "0.05__0.04",
+    "0.05__0.05",
+    "0.05__0.06",
+    "0.05__0.07",
+    "0.05__0.08"
+  ],
+  "last_completed_key": "0.05__0.08",
+  "has_checkpoint": false,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "local_run"
+  ],
+  "elapsed_seconds": 25.296,
+  "status": "graceful_shutdown",
+  "timestamp": 1794019972.3977203,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='gs_bifurcation_scan' in submit_world_c_job or instantiate StageTracker('gs_bifurcation_scan') to resume seamlessly from key '0.05__0.08'."
+}

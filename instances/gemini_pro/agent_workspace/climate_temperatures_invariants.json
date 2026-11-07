@@ -1,0 +1,30 @@
+{
+  "system": "Atmospheric Planetary Boundary Layer Dynamics",
+  "dataset": "climate_temperatures",
+  "temporal_range_dates": [
+    "1981-01-01",
+    "1990-12-29"
+  ],
+  "duration_days": 3650,
+  "orbital_harmonic_forcing": {
+    "mean_baseline_celsius": 10.921063464695065,
+    "seasonal_amplitude_celsius": 4.220869950565416,
+    "phase_radians": -0.4142917506440925,
+    "linear_trend_celsius_per_decade": 0.519097415483038
+  },
+  "turbulent_weather_stochastics": {
+    "residual_std_celsius": 2.7710767635764033,
+    "decorrelation_time_days": 2.0,
+    "hurst_exponent_dfa": 0.683451247681187,
+    "scaling_regime": "Persistent long-range memory"
+  },
+  "recurrence_quantification": {
+    "embedding_dimension": 3,
+    "embedding_delay_days": 2,
+    "epsilon": 0.5,
+    "determinism_DET": 0.0006635700066357001,
+    "laminarity_LAM": 0.006469807564698076,
+    "recurrence_rate_RR": 0.0009069219448330273,
+    "shannon_entropy_ENT": -1.4428232973175175e-12
+  }
+}

@@ -1,0 +1,135 @@
+{
+ "seed": 1104,
+ "one_max": 0.55,
+ "kgrid": [
+  5,
+  10
+ ],
+ "hgrid": [
+  0.75,
+  0.95
+ ],
+ "ngrid": [
+  1000,
+  10000
+ ],
+ "gates": {
+  "G0a_window_match": "True",
+  "G0b_bug_signature": "True",
+  "G0_bug_reproduced": "True",
+  "G0c_old_gen_defect": {
+   "crashed": true,
+   "beta10": null,
+   "error": "ValueError: operands could not be broadcast together with shapes (32767,) (32768,) "
+  },
+  "G1_generator_spectral": {
+   "0.75": {
+    "mean_dev_spec": NaN,
+    "pass_spec": false,
+    "mean_dev_sf": NaN,
+    "pass_sf": false
+   },
+   "0.95": {
+    "mean_dev_spec": NaN,
+    "pass_spec": false,
+    "mean_dev_sf": NaN,
+    "pass_sf": false
+   }
+  },
+  "G2_onset_defined": {
+   "defined_H": [
+    0.95
+   ],
+   "expected_defined": [
+    0.95
+   ],
+   "pass_": true
+  }
+ },
+ "g0": {
+  "5": {
+   "fixed": 0.8570693878015968,
+   "buggy": 1.1841429759834408,
+   "dev_fixed": 0.006513387801596826,
+   "dev_buggy": 0.00928597598344072,
+   "gap": 0.32707358818184395
+  },
+  "10": {
+   "fixed": 0.851853407569327,
+   "buggy": 1.176809501912318,
+   "dev_fixed": 0.0012974075693270581,
+   "dev_buggy": 0.0019525019123178833,
+   "gap": 0.3249560943429909
+  }
+ },
+ "fgn_tab": {
+  "0.75": {
+   "5": {
+    "fixed": null,
+    "buggy": null,
+    "bias_fixed": null,
+    "bias_buggy": null
+   },
+   "10": {
+    "fixed": null,
+    "buggy": null,
+    "bias_fixed": null,
+    "bias_buggy": null
+   }
+  },
+  "0.95": {
+   "5": {
+    "fixed": 0.28352235071960225,
+    "buggy": 0.33189021232736865,
+    "bias_fixed": -1.6164776492803976,
+    "bias_buggy": -1.5681097876726313
+   },
+   "10": {
+    "fixed": 0.28352235071960225,
+    "buggy": 0.33189021232736865,
+    "bias_fixed": -1.6164776492803976,
+    "bias_buggy": -1.5681097876726313
+   }
+  }
+ },
+ "hstar_fixed": {
+  "5": {
+   "H_star": null,
+   "bracket": null,
+   "n_defined": 1,
+   "bias_range": [
+    -1.6164776492803976,
+    -1.6164776492803976
+   ]
+  },
+  "10": {
+   "H_star": null,
+   "bracket": null,
+   "n_defined": 1,
+   "bias_range": [
+    -1.6164776492803976,
+    -1.6164776492803976
+   ]
+  }
+ },
+ "hstar_buggy": {
+  "5": {
+   "H_star": null,
+   "bracket": null,
+   "bias_range": [
+    -1.5681097876726313,
+    -1.5681097876726313
+   ]
+  },
+  "10": {
+   "H_star": null,
+   "bracket": null,
+   "bias_range": [
+    -1.5681097876726313,
+    -1.5681097876726313
+   ]
+  }
+ },
+ "all_bias_fixed_negative": true,
+ "elapsed_s": 0.7894637584686279
+}

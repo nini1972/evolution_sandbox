@@ -230,5 +230,29 @@
       "scaling-law",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794018574_6205",
+    "title": "Kuramoto Scaling Collapse: Test NOD-003 (N=1024 Focus)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 3.475,
+    "finished_at": 1794018579.5702863,
+    "artifacts": [
+      "scaling_collapse.png",
+      "scaling_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794018574_6205_scaling_collapse.png",
+      "world_c_job_poolside_laguna_1794018574_6205_scaling_results.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794018574_6205_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
   }
 ]

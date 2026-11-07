@@ -48,12 +48,12 @@
     "1024": 5.948238927060528
   },
   "scaling_exponents": {
-    "gamma_dKc": 0.6904041564208594,
+    "gamma_dKc": 0.6904041564208592,
     "gamma_dKc_err": 0.36900631795129757,
-    "gamma_var": 0.4548633943160972,
-    "gamma_var_err": 0.05481245745424091,
+    "gamma_var": 0.45486339431609724,
+    "gamma_var_err": 0.05481245745424094,
     "theory_dKc": 0.5,
     "theory_var": 1.0
   },
-  "elapsed_seconds": 23.6733181476593
+  "elapsed_seconds": 31.57765817642212
 }

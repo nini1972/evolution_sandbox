@@ -1,0 +1,180 @@
+{
+  "solar_sunspots": {
+    "system": "Solar Magnetohydrodynamic Dynamo",
+    "dataset": "solar_sunspots",
+    "temporal_range_years": [
+      1749.042,
+      2026.705
+    ],
+    "duration_years": 277.663,
+    "cycles_observed": 27,
+    "schwabe_cycle_period_years": {
+      "autocorrelation_primary_lag": 10.75199999997858,
+      "fourier_spectral_peak": 11.19887999997769,
+      "peak_to_peak_mean": 10.567307692307692,
+      "peak_to_peak_std": 1.5817311783960264
+    },
+    "waldmeier_cycle_asymmetry": {
+      "mean_rise_time_years": 4.142166666666687,
+      "mean_decay_time_years": 6.2573749999999775,
+      "asymmetry_ratio_decay_to_rise": 1.5106526375085376
+    },
+    "gleissberg_secular_envelope_period_years": 59.80633333333329,
+    "takens_rqa_metrics": {
+      "embedding_dimension": 3,
+      "tau_years": 2.5,
+      "epsilon": 0.35,
+      "determinism_DET": 0.6071118820468343,
+      "laminarity_LAM": 0.5405464006938422,
+      "recurrence_rate_RR": 0.015584450692041523,
+      "shannon_entropy_ENT": 1.8297994606292125
+    }
+  },
+  "neural_eeg": {
+    "system": "14-Channel Cortical EEG (Macroscopic Neural Population)",
+    "dataset": "neural_eeg",
+    "sampling_rate_hz": 128.0,
+    "duration_s": 117.0234375,
+    "berger_effect_alpha_power_ratio_closed_to_open": 0.977100254201548,
+    "occipital_plv_O1_O2": {
+      "eye_open": 0.4678770585440885,
+      "eye_closed": 0.45613605149413355
+    },
+    "canonical_band_kuramoto_order_parameter": {
+      "Theta (4-8 Hz)": {
+        "mean_all": 0.6073447303999407,
+        "std_all": 0.22996299192907854,
+        "mean_open": 0.6080883284173072,
+        "std_open": 0.2296508319993947,
+        "mean_closed": 0.6064314641751312,
+        "std_closed": 0.23034251460784633,
+        "delta_coherence": -0.0016568642421760371
+      },
+      "Alpha (8-12 Hz)": {
+        "mean_all": 0.6300641375586366,
+        "std_all": 0.2232144083166276,
+        "mean_open": 0.6323806457211264,
+        "std_open": 0.22573772119730767,
+        "mean_closed": 0.6272190672183602,
+        "std_closed": 0.2200423970506223,
+        "delta_coherence": -0.0051615785027662175
+      },
+      "Beta (13-30 Hz)": {
+        "mean_all": 0.5674054279495316,
+        "std_all": 0.2151898091007838,
+        "mean_open": 0.5744022844234526,
+        "std_open": 0.21541735114177865,
+        "mean_closed": 0.5588120851107442,
+        "std_closed": 0.21459809927536577,
+        "delta_coherence": -0.015590199312708442
+      }
+    },
+    "alpha_envelope_rqa": {
+      "embedding_dimension": 3,
+      "tau_steps": 4,
+      "epsilon": 0.25,
+      "determinism_DET": 0.2983761299096072,
+      "laminarity_LAM": 0.32882702717115964,
+      "recurrence_rate_RR": 0.0026854669642737586,
+      "shannon_entropy_ENT": 1.5888861316020828
+    }
+  },
+  "lynx_hare": {
+    "system": "Ecological Predator-Prey Interaction (Hudson's Bay)",
+    "dataset": "lynx_hare",
+    "temporal_range_years": [
+      1900,
+      1920
+    ],
+    "duration_years": 20,
+    "cycle_periodicity_years": {
+      "hare_period": 10.0,
+      "lynx_period": 11.0,
+      "mean_period": 10.5
+    },
+    "trophic_delay_invariants": {
+      "mean_trophic_delay_years": 1.5,
+      "phase_lag_degrees": 51.42857142857143,
+      "phase_fraction_of_cycle": 0.14285714285714285
+    },
+    "lotka_volterra_parameters": {
+      "alpha_prey_growth": 0.47318348445990904,
+      "beta_predation_rate": 0.023985297331561944,
+      "gamma_predator_death": 0.7645543311895922,
+      "delta_conversion_efficiency": 0.023418799361244885,
+      "theoretical_center": {
+        "hare_star": 32.64703366709874,
+        "lynx_star": 19.728064151919142
+      },
+      "theoretical_period_years": 10.446261731052283
+    },
+    "recurrence_quantification": {
+      "epsilon": 0.55,
+      "determinism_DET": 0.6075949367088608,
+      "laminarity_LAM": 0.6075949367088608,
+      "recurrence_rate_RR": 0.17913832199546487,
+      "shannon_entropy_ENT": 1.4355205042783385
+    }
+  },
+  "climate_enso": {
+    "system": "Coupled Atmosphere-Ocean Delayed Oscillator",
+    "dataset": "climate_enso",
+    "temporal_range_years": [
+      1950.0416666666667,
+      2020.9583333333333
+    ],
+    "duration_months": 852,
+    "dominant_periodicity_years": 3.55,
+    "decorrelation_time_months": 7.0,
+    "negative_rebound_lag_months": 23.0,
+    "non_linear_asymmetry": {
+      "skewness": 0.3580051976519427,
+      "excess_kurtosis": 0.25241345456117736,
+      "max_warm_el_nino_celsius": 2.8,
+      "max_cold_la_nina_celsius": -2.37,
+      "warm_to_cold_amplitude_ratio": 1.181434599156118
+    },
+    "wave_propagation_delay_months": {
+      "west_to_east_lag": -1
+    },
+    "recurrence_quantification": {
+      "embedding_dimension": 3,
+      "embedding_delay_months": 6,
+      "epsilon": 0.45,
+      "determinism_DET": 0.5206501465494271,
+      "laminarity_LAM": 0.6717292832400746,
+      "recurrence_rate_RR": 0.02127551020408163,
+      "shannon_entropy_ENT": 1.4223052145679895
+    }
+  },
+  "climate_temperatures": {
+    "system": "Atmospheric Planetary Boundary Layer Dynamics",
+    "dataset": "climate_temperatures",
+    "temporal_range_dates": [
+      "1981-01-01",
+      "1990-12-29"
+    ],
+    "duration_days": 3650,
+    "orbital_harmonic_forcing": {
+      "mean_baseline_celsius": 10.921063464695065,
+      "seasonal_amplitude_celsius": 4.220869950565416,
+      "phase_radians": -0.4142917506440925,
+      "linear_trend_celsius_per_decade": 0.519097415483038
+    },
+    "turbulent_weather_stochastics": {
+      "residual_std_celsius": 2.7710767635764033,
+      "decorrelation_time_days": 2.0,
+      "hurst_exponent_dfa": 0.683451247681187,
+      "scaling_regime": "Persistent long-range memory"
+    },
+    "recurrence_quantification": {
+      "embedding_dimension": 3,
+      "embedding_delay_days": 2,
+      "epsilon": 0.5,
+      "determinism_DET": 0.0006635700066357001,
+      "laminarity_LAM": 0.006469807564698076,
+      "recurrence_rate_RR": 0.0009069219448330273,
+      "shannon_entropy_ENT": -1.4428232973175175e-12
+    }
+  }
+}

@@ -370,5 +370,50 @@
       "epidemic",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794019676_3768",
+    "title": "Kuramoto Topology Sweep - Final Attempt",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 4.929,
+    "finished_at": 1794019682.2803738,
+    "artifacts": [
+      "kuramoto_topology_comparison.json",
+      "kuramoto_topology_comparison_plot.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794019676_3768_kuramoto_topology_comparison.json",
+      "world_c_job_llama_3_3_1794019676_3768_kuramoto_topology_comparison_plot.png"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794019676_3768_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794018402_4511",
+    "title": "Kuramoto Topology Sweep - Retry",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.466,
+    "finished_at": 1794018404.630261,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_3_3_1794018402_4511_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "kuramoto"
+    ]
   }
 ]

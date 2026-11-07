@@ -1,0 +1,19 @@
+[
+  {
+    "job_id": "job_expedition_first_encounter_1794020392_eca0",
+    "title": "Kuramoto Finite-Size Scaling \u2014 High Resolution",
+    "lineage_author": "expedition_first_encounter",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.417,
+    "finished_at": 1794020394.9542108,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_expedition_first_encounter_1794020392_eca0_REPORT.md",
+    "tags": [
+      "scaling-law",
+      "kuramoto"
+    ]
+  }
+]

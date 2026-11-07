@@ -52,93 +52,76 @@ for topology_name in topologies:
 
     # Perform Kuramoto continuation for the current topology
     try:
-        if topology_name == "random":
-            # For random, we need to pass the \'p\' parameter. How to do this with `continuation_kuramoto`?
-            # The signature is `(N, sigma, topology, K_init, K_max, steps)`.
-            # It seems `continuation_kuramoto` expects pre-defined topology types as strings.
-            # If I want to control \'p\' for random or \'k\', \'p\' for small-world, I might need to
-            # either modify `continuation_kuramoto` or run `simulate_kuramoto` manually in a loop.
-            # Let\'s assume for now that \'random\' and \'small-world\' use default internal parameters
-            # or that the guide implies only the *name* of the topology for continuation.
+        # Create an instance of KuramotoEnsemble for the current topology
+        # Need to get natural frequencies first, same for all simulations.
+        rng = np.random.default_rng(seed)
+        natural_frequencies = rng.normal(0, sigma, N)
 
-            # I will re-check the definition of `continuation_kuramoto` if it accepts topology_params
-            # The guide does not show a `topology_params` argument.
+        # Generate adjacency matrix A based on topology
+        A = None # Initialize A
+        if topology_name == 'all-to-all':
+            A = np.ones((N, N)) - np.eye(N) # All-to-all coupling
+        elif topology_name == 'random':
+            A = nt.generate_topology(topology='erdos_renyi', N=N, p=topology_params['random']['p'], seed=seed)
+        elif topology_name == 'small-world':
+            A = nt.generate_topology(topology='watts_strogatz', N=N, k=topology_params['small-world']['k'], p=topology_params['small-world']['p'], seed=seed)
 
-            # Plan B: If `continuation_kuramoto` doesn\'t accept `topology_params`,
-            # I will generate the adjacency matrix `A` using `nt.generate_topology`
-            # and then use a custom K-sweep loop with `colony_lib.dynamics.KuramotoEnsemble`
-            # which *does* take an adjacency matrix.
-            # This is more robust.
+        k_values = np.linspace(K_init, K_max, steps)
+        r_values = []
 
-            # Let\'s switch to the more robust approach: manual K-sweep with KuramotoEnsemble
-            # and `nt.generate_topology`.
+        for K_val in k_values:
+            # Simulate Kuramoto for a single K
+            # We want the equilibrium order parameter R
+            time_points, phases, order_param_magnitude, order_param_phase = \
+                cl_dynamics.simulate_kuramoto(n_oscillators=N, K=K_val, t_max=(transient_steps + simulation_steps)*0.1, dt=0.1, 
+                            natural_frequencies=natural_frequencies, coupling_matrix=A, 
+                            transient_fraction=(transient_steps / (transient_steps + simulation_steps)))
+            
+            # Take the average R over the latter part of the simulation (after transient)
+            equilibrium_r = np.mean(order_param_magnitude[-simulation_steps:])
+            r_values.append(equilibrium_r)
 
-            # Create an instance of KuramotoEnsemble for the current topology
-            # Need to get natural frequencies first, same for all simulations.
-            rng = np.random.default_rng(seed)
-            natural_frequencies = rng.normal(0, sigma, N)
+        k_values = np.array(k_values)
+        r_values = np.array(r_values)
 
-            # Generate adjacency matrix A based on topology
-            A = None # Initialize A
-            if topology_name == 'all-to-all':
-                A = np.ones((N, N)) - np.eye(N) # All-to-all coupling
-            elif topology_name == 'random':
-                A = nt.generate_topology(topology='erdos_renyi', N=N, p=topology_params['random']['p'], seed=seed)
-            elif topology_name == 'small-world':
-                A = nt.generate_topology(topology='watts_strogatz', N=N, k=topology_params['small-world']['k'], p=topology_params['small-world']['p'], seed=seed)
+        # Use bifurcation_cartography to extract critical exponent and critical K
+        try:
+            beta, K_crit = bc.extract_critical_exponent(k_values, r_values, window=5)
+            print(f"Topology: {topology_name}, Detected K_c: {K_crit:.4f}, Detected beta: {beta:.4f}")
+        except Exception as e:
+            print(f"Error extracting critical exponent for {topology_name}: {e}")
+            K_crit = None
+            beta = None
 
-            k_values = np.linspace(K_init, K_max, steps)
-            r_values = []
+        all_results[topology_name] = {
+            "k_values": k_values.tolist(),
+            "r_values": r_values.tolist(),
+            "K_critical": K_crit,
+            "beta_exponent": beta
+        }
 
-            for K_val in k_values:
-                # Simulate Kuramoto for a single K
-                # We want the equilibrium order parameter R
-                time_points, phases, order_param_magnitude, order_param_phase = \
-                    cl_dynamics.simulate_kuramoto(n_oscillators=N, K=K_val, t_max=(transient_steps + simulation_steps)*0.1, dt=0.1, 
-                                natural_frequencies=natural_frequencies, coupling_matrix=A, 
-                                transient_fraction=(transient_steps / (transient_steps + simulation_steps)))
-                
-                # Take the average R over the latter part of the simulation (after transient)
-                equilibrium_r = np.mean(order_param_magnitude[-simulation_steps:])
-                r_values.append(equilibrium_r)
+        # Plot R vs K for the current topology
+        plt.figure(figsize=(10, 6))
+        plt.plot(k_values, r_values, "o-", label=f"{topology_name} Data")
+        if K_crit is not None:
+            R_at_Kc = np.interp(K_crit, k_values, r_values)
+            plt.axvline(x=K_crit, color="r", linestyle="--", label=f"K_c = {K_crit:.4f}")
+            plt.plot(K_crit, R_at_Kc, "rx", markersize=10, label=f"({K_crit:.4f}, {R_at_Kc:.4f})")
 
-            k_values = np.array(k_values)
-            r_values = np.array(r_values)
+        plt.xlabel("Coupling Strength (K)")
+        plt.ylabel("Equilibrium Order Parameter (R)")
+        plt.title(f"Kuramoto Model: Synchronization Transition ({topology_name} Topology)")
+        plt.grid(True)
+        plt.legend()
+        output_dir = "topology_analysis_results"
+        os.makedirs(output_dir, exist_ok=True)
 
-            # Use bifurcation_cartography to extract critical exponent and critical K
-            try:
-                beta, K_crit = bc.extract_critical_exponent(k_values, r_values, window=5)
-                print(f"Topology: {topology_name}, Detected K_c: {K_crit:.4f}, Detected beta: {beta:.4f}")
-            except Exception as e:
-                print(f"Error extracting critical exponent for {topology_name}: {e}")
-                K_crit = None
-                beta = None
-
-            all_results[topology_name] = {
-                "k_values": k_values.tolist(),
-                "r_values": r_values.tolist(),
-                "K_critical": K_crit,
-                "beta_exponent": beta
-            }
-
-            # Plot R vs K for the current topology
-            plt.figure(figsize=(10, 6))
-            plt.plot(k_values, r_values, "o-", label=f"{topology_name} Data")
-            if K_crit is not None:
-                R_at_Kc = np.interp(K_crit, k_values, r_values)
-                plt.axvline(x=K_crit, color="r", linestyle="--", label=f"K_c = {K_crit:.4f}")
-                plt.plot(K_crit, R_at_Kc, "rx", markersize=10, label=f"({K_crit:.4f}, {R_at_Kc:.4f})")
-
-            plt.xlabel("Coupling Strength (K)")
-            plt.ylabel("Equilibrium Order Parameter (R)")
-            plt.title(f"Kuramoto Model: Synchronization Transition ({topology_name} Topology)")
-            plt.grid(True)
-            plt.legend()
-            output_dir = "topology_analysis_results"
-            os.makedirs(output_dir, exist_ok=True)
-            plt.savefig(os.path.join(output_dir, f"kuramoto_bifurcation_{topology_name}.png"))
-            plt.close()
-            print(f"Plot saved for {topology_name} to {os.path.join(output_dir, f\'kuramoto_bifurcation_{topology_name}.png\')}")
+        # Corrected print statements for file paths
+        plot_filename = f"kuramoto_bifurcation_{topology_name}.png"
+        plot_path = os.path.join(output_dir, plot_filename)
+        plt.savefig(plot_path)
+        plt.close()
+        print(f"Plot saved for {topology_name} to {plot_path}")
 
     except Exception as e:
         print(f"Failed to process topology {topology_name}: {e}")
@@ -147,15 +130,18 @@ for topology_name in topologies:
 # Save all results to a single JSON file
 output_dir = "topology_analysis_results"
 os.makedirs(output_dir, exist_ok=True)
-with open(os.path.join(output_dir, "kuramoto_topology_comparison.json"), "w") as f:
+json_filename = "kuramoto_topology_comparison.json"
+json_path = os.path.join(output_dir, json_filename)
+with open(json_path, "w") as f:
     json.dump(all_results, f, indent=4)
-print(f"All topology comparison results saved to {os.path.join(output_dir, \'kuramoto_topology_comparison.json\')}")
+print(f"All topology comparison results saved to {json_path}")
 
 # Create a combined plot for all topologies for comparison
 plt.figure(figsize=(12, 8))
 for topology_name, res in all_results.items():
     if "error" not in res:
-        plt.plot(res["k_values"], res["r_values"], "o-", label=f"{topology_name} (K_c: {res["K_critical"]:.2f})")
+        # Corrected f-string for label
+        plt.plot(res["k_values"], res["r_values"], "o-", label=f"{topology_name} (K_c: {res['K_critical']:.2f})")
         if res["K_critical"] is not None:
             R_at_Kc = np.interp(res["K_critical"], np.array(res["k_values"]), np.array(res["r_values"]))
             plt.plot(res["K_critical"], R_at_Kc, "x", markersize=8)
@@ -165,6 +151,8 @@ plt.ylabel("Equilibrium Order Parameter (R)")
 plt.title("Kuramoto Model: Synchronization Transition Across Different Topologies")
 plt.grid(True)
 plt.legend()
-plt.savefig(os.path.join(output_dir, "kuramoto_topology_comparison_plot.png"))
+combined_plot_filename = "kuramoto_topology_comparison_plot.png"
+combined_plot_path = os.path.join(output_dir, combined_plot_filename)
+plt.savefig(combined_plot_path)
 plt.close()
-print(f"Combined comparison plot saved to {os.path.join(output_dir, \'kuramoto_topology_comparison_plot.png\')}")
+print(f"Combined comparison plot saved to {combined_plot_path}")
