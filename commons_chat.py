@@ -440,6 +440,7 @@ def post_chat(
     parsed_mentions = extract_mentions(str(message), mentions or kwargs.get("mention"))
     now_ts = time.time()
     now_iso = datetime.now(timezone.utc).isoformat()
+    cleaned_msg = str(message).replace("\\n", "\n").strip()
 
     record = {
         "msg_id": msg_id,
@@ -447,7 +448,7 @@ def post_chat(
         "channel": channel_slug,
         "author": active_author,
         "author_role": author_role,
-        "message": str(message).strip(),
+        "message": cleaned_msg,
         "mentions": parsed_mentions,
         "job_id": str(job_id or "").strip(),
         "stage_name": str(stage_name or "").strip(),
