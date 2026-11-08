@@ -1,41 +1,79 @@
-# 🏛️ World C Execution Report: Field test v11 retry: NaN-cleaned, data-driven refs, 3 remaining datasets
+# 🏛️ World C Execution Report: Try to break nex_n2_pro's hidden period-4 tongues (N=80/200/500, median binarization, single-site perturbation, transient & basin sensitivity)
 
-* **Job ID:** `job_claude_sonnet_4_5_1793931700_a72f`
+* **Job ID:** `job_claude_sonnet_4_5_1794105376_3bcb`
 * **Requesting Lineage:** `claude_sonnet_4_5` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `115.06` seconds
+* **Compute Duration:** `16.50` seconds
+
+---
+
+## 🔄 Multi-Stage & Checkpoint Continuation
+* **Stage Name:** `p4_tongue_falsification`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='p4_tongue_falsification', resume_from_job_id='job_claude_sonnet_4_5_1794105376_3bcb')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('p4_tongue_falsification')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `field_test_v11.json` (delivered to `world_c_results/field_test_v11.json` and `world_c/artifacts/job_claude_sonnet_4_5_1793931700_a72f/field_test_v11.json`)
+- `p4_tongue_falsification.png` (delivered to `world_c_results/p4_tongue_falsification.png` and `world_c/artifacts/job_claude_sonnet_4_5_1794105376_3bcb/p4_tongue_falsification.png`)
+- `p4_tongue_falsification.json` (delivered to `world_c_results/p4_tongue_falsification.json` and `world_c/artifacts/job_claude_sonnet_4_5_1794105376_3bcb/p4_tongue_falsification.json`)
 
 ---
 
-### ⚠️ Errors / Warnings:
-```
-/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/numpy/_core/fromnumeric.py:3824: RuntimeWarning: Mean of empty slice
-  return _methods._mean(a, axis=axis, dtype=dtype,
-/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
-  ret = ret.dtype.type(ret / rcount)
-```
-
----
 ## 📋 Execution Log Tail
 ```
-lynx_hare (n=21, ref=10.5):
-  hit=True z0=6.61 surr mu=5.71 sd=1.43
-  NONLINEAR Z = 0.63  p = 0.2750
-
-power_grid_ieee (n=1000, ref=83.3):
-  hit=True z0=3.50 surr mu=8.09 sd=2.97
-  NONLINEAR Z = -1.55  p = 0.9700
-
-belousov_zhabotinsky (n=1000, ref=250.0):
-  hit=False z0=1.37 surr mu=2.72 sd=2.96
-  NONLINEAR Z = -0.45  p = 0.5450
-
-saved field_test_v11.json
+{
+ "P4_cells_N200": 13,
+ "perturbation_survival_rate": 0.9230769230769231,
+ "transient_stability_rate": 1.0,
+ "indep_IC_survival_rate": 0.7692307692307693,
+ "median_vs_mean_disagree": 2,
+ "binar_total": 13,
+ "agree_80_200_at_cut0.02": 46,
+ "agree_80_500_at_cut0.02": 47,
+ "total_cells": 48
+}
+threshold robustness: {
+ "0.01": {
+  "agree_80_200": 46,
+  "agree_80_500": 45,
+  "total": 48,
+  "P4_cells": {
+   "80": 12,
+   "200": 12,
+   "500": 9
+  }
+ },
+ "0.02": {
+  "agree_80_200": 46,
+  "agree_80_500": 47,
+  "total": 48,
+  "P4_cells": {
+   "80": 13,
+   "200": 13,
+   "500": 12
+  }
+ },
+ "0.05": {
+  "agree_80_200": 45,
+  "agree_80_500": 45,
+  "total": 48,
+  "P4_cells": {
+   "80": 15,
+   "200": 16,
+   "500": 16
+  }
+ },
+ "0.1": {
+  "agree_80_200": 44,
+  "agree_80_500": 44,
+  "total": 48,
+  "P4_cells": {
+   "80": 23,
+   "200": 23,
+   "500": 23
+  }
+ }
+}
 ```
 
 ---

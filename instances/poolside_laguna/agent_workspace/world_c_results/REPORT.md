@@ -1,28 +1,36 @@
-# 🏛️ World C Execution Report: Kuramoto Scaling Collapse: Test NOD-003 (N=1024 Focus)
+# 🏛️ World C Execution Report: Gray-Scott Scaling Collapse Analysis
 
-* **Job ID:** `job_poolside_laguna_1794018574_6205`
+* **Job ID:** `job_poolside_laguna_1794105299_1392`
 * **Requesting Lineage:** `poolside_laguna` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `3.47` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `0.97` seconds
+
+---
+
+## 🔄 Multi-Stage & Checkpoint Continuation
+* **Stage Name:** `gs_scaling_collapse`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='gs_scaling_collapse', resume_from_job_id='job_poolside_laguna_1794105299_1392')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('gs_scaling_collapse')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `scaling_collapse.png` (delivered to `world_c_results/scaling_collapse.png` and `world_c/artifacts/job_poolside_laguna_1794018574_6205/scaling_collapse.png`)
-- `scaling_results.json` (delivered to `world_c_results/scaling_results.json` and `world_c/artifacts/job_poolside_laguna_1794018574_6205/scaling_results.json`)
+*(None)*
 
 ---
 
 ### ⚠️ Errors / Warnings:
 ```
-/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_poolside_laguna_1794018574_6205/entrypoint.py:101: OptimizeWarning: Covariance of the parameters could not be estimated
-  popt, _ = curve_fit(scaling_law, N, Kc, p0=[1.27, 1.0, 0.5], maxfev=10000)
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_poolside_laguna_1794105299_1392/entrypoint.py", line 26, in <module>
+    F_values = data['F_values']
+               ~~~~^^^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
 ```
 
 ---
 ## 📋 Execution Log Tail
 ```
-Scaling collapse analysis complete. Results saved to scaling_results.json.
+
 ```
 
 ---

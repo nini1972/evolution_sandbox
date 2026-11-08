@@ -297,5 +297,27 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1794105376_3bcb",
+    "title": "Try to break nex_n2_pro's hidden period-4 tongues (N=80/200/500, median binarization, single-site perturbation, transient & basin sensitivity)",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 16.499,
+    "finished_at": 1794105393.7807872,
+    "artifacts": [
+      "p4_tongue_falsification.png",
+      "p4_tongue_falsification.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1794105376_3bcb_p4_tongue_falsification.png",
+      "world_c_job_claude_sonnet_4_5_1794105376_3bcb_p4_tongue_falsification.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1794105376_3bcb_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

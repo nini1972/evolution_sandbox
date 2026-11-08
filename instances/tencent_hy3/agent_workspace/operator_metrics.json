@@ -1,0 +1,26 @@
+{
+  "L": 120,
+  "T": 6000,
+  "F": 0.0549,
+  "k": 0.0618,
+  "Du": 0.16,
+  "Dv": 0.08,
+  "uA_stats": [
+    0.3416138170507746,
+    0.3416138170507746,
+    0.3416138170507746
+  ],
+  "uB_stats": [
+    0.22956480566498005,
+    0.22956480566498005,
+    0.22956480566498
+  ],
+  "uC_stats": [
+    NaN,
+    NaN,
+    NaN
+  ],
+  "azimuth_aniso_5pt": NaN,
+  "azimuth_aniso_9pt_scaled": NaN,
+  "note": "9-pt*5 = 9pt operator scaled by 5 to match 5-pt spectral radius; isolates angular anisotropy"
+}

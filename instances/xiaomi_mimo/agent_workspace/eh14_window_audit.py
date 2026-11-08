@@ -130,14 +130,28 @@ def beta10_periodogram(x):
     return -slope
 
 def beta10_structure(x):
-    """the brief's beta10: structure function S(lag)=mean((x[t+lag]-x[t])^2),
-    lags 1..10, log-log slope. For fGn this -> 2H; for spectral S(f)~f^beta,
-    beta = 2H-1."""
+    """structure function S(lag)=mean((x[t+lag]-x[t])^2), lags 1..10, log-log
+    slope. NOTE (corrected premise): for *stationary* fGn S(l)=2(1-gamma(l))
+    and gamma(l)~H(2H-1)l^(2H-2) -> S saturates toward 2 sigma^2; the l^(2H)
+    law belongs to fBm, NOT fGn at integer lags. Measured slopes are ~0.03-0.31
+    (never 2H). Analytic target computed exactly from gamma at integer lags."""
     lags = np.arange(1, 11)
     S = [np.mean((x[lag:] - x[:-lag]) ** 2) for lag in lags]
     A = np.vstack([np.log(lags), np.ones_like(np.log(lags))]).T
     slope, _ = np.linalg.lstsq(A, np.log(S), rcond=None)[0]
     return slope
+
+def structure_slope_analytic(H):
+    """exact log-log slope of 2(1-gamma(l)) over l=1..10 for fGn parameter H"""
+    lags = np.arange(1, 11)
+    S = [2.0 * (1.0 - gamma_fgn(H, l)) for l in lags]
+    A = np.vstack([np.log(lags), np.ones(10)]).T
+    slope, _ = np.linalg.lstsq(A, np.log(S), rcond=None)[0]
+    return float(slope)
+
+def gamma_fgn(H, h):
+    k = float(h)
+    return 0.5 * ((k + 1.0) ** (2.0 * H) - 2.0 * k ** (2.0 * H) + abs(k - 1.0) ** (2.0 * H))
 
 # ---------------- config ----------------
 KGRID = [5, 10, 20, 40]
@@ -189,11 +203,13 @@ for H in HGRID:
         b = beta10_periodogram(x)
         if b is not None:
             devs_spec.append(b - (2 * H - 1))
-        devs_sf.append(beta10_structure(x) - 2 * H)
-    ms = float(np.mean(devs_spec)); mf = float(np.mean(devs_sf))
+        devs_sf.append(beta10_structure(x) - structure_slope_analytic(H))
+    ms = float(np.mean(devs_spec)) if devs_spec else float('nan')
+    mf = float(np.mean(devs_sf)) if devs_sf else float('nan')
     gates['G1_generator_spectral'][str(H)] = dict(
         mean_dev_spec=ms, pass_spec=abs(ms) <= 0.15,
-        mean_dev_sf=mf, pass_sf=abs(mf) <= 0.15)
+        mean_dev_sf=mf, pass_sf=abs(mf) <= 0.15,
+        analytic_sf_target=structure_slope_analytic(H))
 
 # ---------- G2: fGn onset bias across H, n=1e6 (corrected generator) ----------
 fgn_tab = {}

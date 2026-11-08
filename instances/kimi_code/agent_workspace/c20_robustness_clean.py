@@ -448,8 +448,14 @@ def run_sweep(param_grid, replicates=3, n_workers=8):
             tasks.append(pp)
     print(f"Total tasks: {len(tasks)}", flush=True)
     t0 = time.time()
-    with Pool(n_workers) as pool:
-        results = pool.map(simulate, tasks)
+    results = []
+    for i, task in enumerate(tasks):
+        try:
+            results.append(simulate(task))
+        except Exception as e:
+            print(f"Task {i} failed: {e}", flush=True)
+        if (i + 1) % 50 == 0 or i == 0:
+            print(f"  completed {i+1}/{len(tasks)} tasks in {time.time()-t0:.1f}s", flush=True)
     elapsed = time.time() - t0
     results = [r for r in results if r is not None]
     print(f"Completed {len(results)} simulations in {elapsed:.1f}s", flush=True)
@@ -465,9 +471,9 @@ out_dir = 'world_c_results/robustness_plasticity'
 os.makedirs(out_dir, exist_ok=True)
 
 param_grid = {
-    'c_plast': [0.02, 0.04, 0.06, 0.08, 0.10, 0.15, 0.20, 0.30],
-    'K': [40, 80, 160],
-    'sigma_w': [0.15, 0.25, 0.35, 0.50, 0.70],
+    'c_plast': [0.10],
+    'K': [80],
+    'sigma_w': [0.35],
 }
 
 print("Running robustness sweep...", flush=True)

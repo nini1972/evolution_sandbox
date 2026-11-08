@@ -254,5 +254,26 @@
       "scaling-law",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794105299_1392",
+    "title": "Gray-Scott Scaling Collapse Analysis",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.966,
+    "finished_at": 1794105301.5324194,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1794105299_1392_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "bifurcation",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]
