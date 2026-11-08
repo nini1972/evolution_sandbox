@@ -714,6 +714,7 @@ def _extract_dossier_brief_meta(path: str) -> dict:
     accession_id = ""
     themes = ""
     insight = ""
+    commissioned_by = ""
     try:
         with open(path, "r", encoding="utf-8", errors="replace") as f:
             content = f.read()
@@ -725,6 +726,10 @@ def _extract_dossier_brief_meta(path: str) -> dict:
                 title = s.split(":", 1)[1].strip().lstrip("*").strip()
             elif "Bridged Colony Themes" in s or s.startswith("**Bridge Themes**:"):
                 themes = s.split(":", 1)[1].strip().lstrip("*").strip()
+            elif "Commissioned By:" in s:
+                m_req = re.search(r"@([a-zA-Z0-9_-]+)", s)
+                if m_req:
+                    commissioned_by = m_req.group(1)
         m_abs = re.search(
             r"##\s*(?:1\.\s*)?Abstract\s*&\s*(?:Empirical\s*/\s*)?Theoretical\s*(?:Synthesis|Summary)\s*\n+(.+?)(?:\n\n|\n##)",
             content,
@@ -740,6 +745,7 @@ def _extract_dossier_brief_meta(path: str) -> dict:
         "accession_id": accession_id,
         "themes": themes,
         "insight": insight,
+        "commissioned_by": commissioned_by,
     }
 
 
@@ -819,15 +825,18 @@ def sync_academy_literature_briefs(base_dir: str = None, max_new_posts: int = 3)
             meta = _extract_dossier_brief_meta(os.path.join(embassy_inbox, fname))
             theme_str = f"\n• **Bridge Themes:** {meta['themes']}" if meta["themes"] else ""
             insight_str = f"\n• **Summary:** {meta['insight']}..." if meta["insight"] else ""
+            req = meta.get("commissioned_by") or ""
+            req_str = f"\n• **Commissioned Response for:** @{req}" if req else ""
             msg = (
                 f"📚 **New Academy Synthesis Dossier Imported: {meta['title']}**\n"
-                f"• **File:** `embassy/inbox/{fname}`{theme_str}{insight_str}"
+                f"• **File:** `embassy/inbox/{fname}`{req_str}{theme_str}{insight_str}"
             )
             post_chat(
                 channel="#literature-and-theory",
                 message=msg,
                 author="uk_literature_fellow",
                 author_role="academy_fellow",
+                mentions=[req] if req else None,
                 artifact_path=f"embassy/inbox/{fname}",
                 tag="new-academy-dossier",
                 base_dir=base_dir,
