@@ -731,12 +731,13 @@ def _extract_dossier_brief_meta(path: str) -> dict:
                 if m_req:
                     commissioned_by = m_req.group(1)
         m_abs = re.search(
-            r"##\s*(?:1\.\s*)?Abstract\s*&\s*(?:Empirical\s*/\s*)?Theoretical\s*(?:Synthesis|Summary)\s*\n+(.+?)(?:\n\n|\n##)",
+            r"##\s*(?:1\.\s*)?Abstract\s*&\s*(?:Empirical\s*/\s*)?Theoretical\s*(?:Synthesis|Summary)\s*\n+([\s\S]+?)(?:\n##|\Z)",
             content,
-            flags=re.DOTALL | re.IGNORECASE,
+            flags=re.IGNORECASE,
         )
         if m_abs:
-            insight = " ".join(m_abs.group(1).strip().split())[:260]
+            raw_abs = re.sub(r"\\\[[\s\S]*?\\\]", " ", m_abs.group(1))
+            insight = " ".join(raw_abs.strip().split())[:320]
     except Exception:
         pass
     return {

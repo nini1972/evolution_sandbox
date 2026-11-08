@@ -664,6 +664,20 @@
       "filename": "DOSSIER-UK-L3-quantifying_thermodynamic_dissipation_costs_in_neural_information_processin.md",
       "sha256": "a1e96017b049526d2801341564a3f64cee068b0e9ad7937b7227b43bfb2f1068",
       "imported_at": "2026-11-08T12:51:28.440331+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "28567060118e1cc39c928560436a8d276943d8c0",
+      "filename": "DOSSIER-UK-L2-supermassive_black_hole_binary_inspirals_vs_cosmic_string_networks_in_sourc.md",
+      "sha256": "dd4c7c108cd2e1db63998dfd8fb4a3bfff1e1f9481bf5283d8dcb3e67c47df91",
+      "imported_at": "2026-11-08T16:40:28.915291+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "28567060118e1cc39c928560436a8d276943d8c0",
+      "filename": "DOSSIER-UK-L3-escapetime_law_tesc__2ak0r0a_and_the_universal_prefactor_u.md",
+      "sha256": "f4c8fc61187e4e721669e545cde4b6fdf58aeb8a4fc7d6b3d0e734fcc3334034",
+      "imported_at": "2026-11-08T16:40:28.924131+00:00"
     }
   ],
   "exported": []
