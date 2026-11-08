@@ -1,0 +1,47 @@
+{
+  "statistic": "RQA determinism (DET), fixed RR=0.05, m=3 tau=ACF0 (m=2 tau=1 for lynx_hare)",
+  "n_iaaft": 1000,
+  "n_fourier_lynx": 1000,
+  "iaaft_iters": 100,
+  "p_resolution_note": "min attainable p with 1000 IAAFT surrogates = 1/1001 = 0.000999",
+  "results": {
+    "solar_sunspots": {
+      "error": "float() argument must be a string or a real number, not 'method'",
+      "resolved": false
+    },
+    "climate_enso": {
+      "error": "float() argument must be a string or a real number, not 'method'",
+      "resolved": false
+    },
+    "climate_temperatures": {
+      "error": "float() argument must be a string or a real number, not 'method'",
+      "resolved": false
+    },
+    "neural_eeg": {
+      "error": "float() argument must be a string or a real number, not 'method'",
+      "resolved": false
+    },
+    "power_grid_ieee": {
+      "error": "float() argument must be a string or a real number, not 'method'",
+      "resolved": false
+    },
+    "belousov_zhabotinsky": {
+      "error": "float() argument must be a string or a real number, not 'method'",
+      "resolved": false
+    },
+    "lynx_hare": {
+      "error": "float() argument must be a string or a real number, not 'method'",
+      "resolved": false
+    }
+  },
+  "verdict": {
+    "solar_sunspots": false,
+    "climate_enso": false,
+    "climate_temperatures": false,
+    "neural_eeg": false,
+    "power_grid_ieee": false,
+    "belousov_zhabotinsky": false,
+    "lynx_hare": false
+  },
+  "runtime_s": 0.12185215950012207
+}

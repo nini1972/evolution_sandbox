@@ -5,13 +5,14 @@
   "completed_keys": [],
   "last_completed_key": null,
   "has_checkpoint": true,
-  "num_arrays_stored": 13,
+  "num_arrays_stored": 7,
   "history_jobs": [
-    "job_claude_sonnet_4_5_1794129621_2d09"
+    "job_claude_sonnet_4_5_1794129621_2d09",
+    "job_claude_sonnet_4_5_1794149823_31be"
   ],
-  "elapsed_seconds": 135.471,
+  "elapsed_seconds": 0.27,
   "status": "graceful_shutdown",
-  "timestamp": 1794131229.0166638,
+  "timestamp": 1794149825.9637153,
   "resumable": true,
   "resume_instructions": "Pass stage_name='two_null_bracket_7ds' in submit_world_c_job or instantiate StageTracker('two_null_bracket_7ds') to resume seamlessly from key 'start'."
 }

@@ -1,0 +1,225 @@
+{
+  "stage_name": "p4_n_stress",
+  "stage_slug": "p4_n_stress",
+  "updated_at": 1794148978.0846775,
+  "active_job_id": "job_nex_n2_pro_1794148946_2442",
+  "history_jobs": [
+    "job_nex_n2_pro_1794148946_2442"
+  ],
+  "completed_count": 1,
+  "completed_keys": [
+    "final"
+  ],
+  "stages": {
+    "final": {
+      "per_N": {
+        "320": {
+          "n_cells": 10,
+          "n_p4": 5,
+          "p4_frac": 0.5,
+          "n_erasure": 5,
+          "erasure_frac": 1.0,
+          "mean_gap": 0.04103258561259791
+        },
+        "384": {
+          "n_cells": 10,
+          "n_p4": 4,
+          "p4_frac": 0.4,
+          "n_erasure": 4,
+          "erasure_frac": 1.0,
+          "mean_gap": 0.04045058630318511
+        },
+        "448": {
+          "n_cells": 10,
+          "n_p4": 4,
+          "p4_frac": 0.4,
+          "n_erasure": 4,
+          "erasure_frac": 1.0,
+          "mean_gap": 0.04171508116228381
+        },
+        "512": {
+          "n_cells": 10,
+          "n_p4": 4,
+          "p4_frac": 0.4,
+          "n_erasure": 4,
+          "erasure_frac": 1.0,
+          "mean_gap": 0.04142602630315886
+        },
+        "576": {
+          "n_cells": 10,
+          "n_p4": 4,
+          "p4_frac": 0.4,
+          "n_erasure": 4,
+          "erasure_frac": 1.0,
+          "mean_gap": 0.041194698875128784
+        },
+        "640": {
+          "n_cells": 10,
+          "n_p4": 5,
+          "p4_frac": 0.5,
+          "n_erasure": 5,
+          "erasure_frac": 1.0,
+          "mean_gap": 0.04186710056543098
+        }
+      },
+      "T_stability": {
+        "N": 512,
+        "agree_T1000_T4000": 10,
+        "n": 10
+      },
+      "topology": {
+        "N": 512,
+        "rvals": [
+          3.85,
+          3.86,
+          3.87,
+          3.88,
+          3.89,
+          3.9,
+          3.91,
+          3.92
+        ],
+        "egrid": [
+          0.05,
+          0.08,
+          0.1,
+          0.12,
+          0.13,
+          0.14,
+          0.15,
+          0.16,
+          0.18,
+          0.2,
+          0.25,
+          0.3
+        ],
+        "ring_n_p4": 4,
+        "ring_cells": [
+          [
+            3.87,
+            0.14,
+            2
+          ],
+          [
+            3.88,
+            0.14,
+            2
+          ],
+          [
+            3.9,
+            0.15,
+            2
+          ],
+          [
+            3.92,
+            0.16,
+            2
+          ]
+        ],
+        "alltoall_n_p4": 6,
+        "alltoall_cells": [
+          [
+            3.85,
+            0.2,
+            2
+          ],
+          [
+            3.86,
+            0.2,
+            2
+          ],
+          [
+            3.87,
+            0.2,
+            2
+          ],
+          [
+            3.88,
+            0.2,
+            2
+          ],
+          [
+            3.89,
+            0.2,
+            2
+          ],
+          [
+            3.92,
+            0.3,
+            2
+          ]
+        ]
+      },
+      "protocol": {
+        "coupling": "ring (default) + all-to-all replicate",
+        "ic": "nested seed-7 (BASE[:N])",
+        "Tburn": 2000,
+        "T_measure": 4000,
+        "win_offset": 50,
+        "fp_tol": 1e-06,
+        "binarize": "x >= mean(x,per-cell)",
+        "fp": "first lag 1..8 with res<1e-6",
+        "erasure": "fp==4 and bp!=4",
+        "gap": "period-2 residual d2",
+        "q": "d4/d2",
+        "grid": [
+          [
+            3.83,
+            0.12
+          ],
+          [
+            3.84,
+            0.128
+          ],
+          [
+            3.86,
+            0.126
+          ],
+          [
+            3.86,
+            0.136
+          ],
+          [
+            3.87,
+            0.136
+          ],
+          [
+            3.88,
+            0.136
+          ],
+          [
+            3.88,
+            0.144
+          ],
+          [
+            3.89,
+            0.144
+          ],
+          [
+            3.9,
+            0.132
+          ],
+          [
+            3.9,
+            0.144
+          ]
+        ],
+        "Ns": [
+          320,
+          384,
+          448,
+          512,
+          576,
+          640
+        ]
+      }
+    }
+  },
+  "stage_metadata": {
+    "final": {
+      "saved_at": 1794148977.6471288,
+      "job_id": "job_nex_n2_pro_1794148946_2442"
+    }
+  },
+  "checkpoint": null
+}

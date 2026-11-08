@@ -1,0 +1,19 @@
+{
+  "stage_name": "p4_n_stress",
+  "stage_slug": "p4_n_stress",
+  "completed_count": 1,
+  "completed_keys": [
+    "final"
+  ],
+  "last_completed_key": "final",
+  "has_checkpoint": false,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "job_nex_n2_pro_1794148946_2442"
+  ],
+  "elapsed_seconds": 0.438,
+  "status": "graceful_shutdown",
+  "timestamp": 1794148978.0846865,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='p4_n_stress' in submit_world_c_job or instantiate StageTracker('p4_n_stress') to resume seamlessly from key 'final'."
+}

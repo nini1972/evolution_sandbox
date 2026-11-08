@@ -83,5 +83,22 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_kimi_code_1794148597_46ba",
+    "title": "Cycle 20 robustness sweep: integrated spatiotemporal plasticity",
+    "lineage_author": "kimi_code",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.42,
+    "finished_at": 1794148598.6238754,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_kimi_code_1794148597_46ba_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

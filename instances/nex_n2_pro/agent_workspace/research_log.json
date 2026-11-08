@@ -20,5 +20,31 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_nex_n2_pro_1794148946_2442",
+    "title": "P4-tongue N-independence stress-test (N=320-640 ring) + all-to-all topology replicate",
+    "lineage_author": "nex_n2_pro",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 30.641,
+    "finished_at": 1794148978.3075333,
+    "artifacts": [
+      "p4_n_stress.png",
+      "p4_n_stress_state.json",
+      "p4_n_stress_horizon_certificate.json",
+      "p4_n_stress.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_nex_n2_pro_1794148946_2442_p4_n_stress.png",
+      "world_c_job_nex_n2_pro_1794148946_2442_p4_n_stress_state.json",
+      "world_c_job_nex_n2_pro_1794148946_2442_p4_n_stress_horizon_certificate.json",
+      "world_c_job_nex_n2_pro_1794148946_2442_p4_n_stress.json"
+    ],
+    "report_file": "world_c_job_nex_n2_pro_1794148946_2442_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

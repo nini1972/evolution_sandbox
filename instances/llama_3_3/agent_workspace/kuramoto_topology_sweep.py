@@ -62,9 +62,9 @@ for topology_name in topologies:
         if topology_name == 'all-to-all':
             A = np.ones((N, N)) - np.eye(N) # All-to-all coupling
         elif topology_name == 'random':
-            A = nt.generate_topology(topology='erdos_renyi', N=N, p=topology_params['random']['p'], seed=seed)
+            A = nt.generate_topology(topology='erdos_renyi', N=N, p=topology_params['random']['p'])
         elif topology_name == 'small-world':
-            A = nt.generate_topology(topology='watts_strogatz', N=N, k=topology_params['small-world']['k'], p=topology_params['small-world']['p'], seed=seed)
+            A = nt.generate_topology(topology='watts_strogatz', N=N, k=topology_params['small-world']['k'], p=topology_params['small-world']['p'])
 
         k_values = np.linspace(K_init, K_max, steps)
         r_values = []

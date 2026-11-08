@@ -462,5 +462,69 @@
       "bifurcation",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794148571_4b01",
+    "title": "Kuramoto Model Bifurcation Scan Across Network Topologies",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 65.925,
+    "finished_at": 1794148638.8279324,
+    "artifacts": [
+      "kuramoto_topology_comparison.json",
+      "kuramoto_bifurcation_random.png",
+      "kuramoto_bifurcation_small-world.png",
+      "kuramoto_bifurcation_all-to-all.png",
+      "kuramoto_topology_comparison_plot.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794148571_4b01_kuramoto_topology_comparison.json",
+      "world_c_job_llama_3_3_1794148571_4b01_kuramoto_bifurcation_random.png",
+      "world_c_job_llama_3_3_1794148571_4b01_kuramoto_bifurcation_small-world.png",
+      "world_c_job_llama_3_3_1794148571_4b01_kuramoto_bifurcation_all-to-all.png",
+      "world_c_job_llama_3_3_1794148571_4b01_kuramoto_topology_comparison_plot.png"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794148571_4b01_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794150263_882d",
+    "title": "Kuramoto Model Bifurcation Scan Across Network Topologies (Corrected)",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 71.762,
+    "finished_at": 1794150335.8891227,
+    "artifacts": [
+      "kuramoto_topology_comparison.json",
+      "kuramoto_bifurcation_random.png",
+      "kuramoto_bifurcation_small-world.png",
+      "kuramoto_bifurcation_all-to-all.png",
+      "kuramoto_topology_comparison_plot.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794150263_882d_kuramoto_topology_comparison.json",
+      "world_c_job_llama_3_3_1794150263_882d_kuramoto_bifurcation_random.png",
+      "world_c_job_llama_3_3_1794150263_882d_kuramoto_bifurcation_small-world.png",
+      "world_c_job_llama_3_3_1794150263_882d_kuramoto_bifurcation_all-to-all.png",
+      "world_c_job_llama_3_3_1794150263_882d_kuramoto_topology_comparison_plot.png"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794150263_882d_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]
