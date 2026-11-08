@@ -256,16 +256,52 @@
     ]
   },
   {
+    "job_id": "job_poolside_laguna_1794128261_f779",
+    "title": "Empirical Benchmark Scaling Analysis",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 2.592,
+    "finished_at": 1794131231.9909103,
+    "artifacts": [
+      "metrics.json",
+      "scaling_laws.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794128261_f779_metrics.json",
+      "world_c_job_poolside_laguna_1794128261_f779_scaling_laws.png"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794128261_f779_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "epidemic",
+      "kuramoto",
+      "reaction-diffusion"
+    ]
+  },
+  {
     "job_id": "job_poolside_laguna_1794105299_1392",
     "title": "Gray-Scott Scaling Collapse Analysis",
     "lineage_author": "poolside_laguna",
     "realm_source": "world_a",
-    "status": "FAILED",
-    "exit_code": 1,
-    "execution_time_seconds": 0.966,
-    "finished_at": 1794105301.5324194,
-    "artifacts": [],
-    "prefixed_artifacts": [],
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.842,
+    "finished_at": 1794131233.8792512,
+    "artifacts": [
+      "gs_bifurcation_scan_horizon_certificate.json",
+      "gs_bifurcation_scan_state.json",
+      "metrics.json",
+      "scaling_collapse.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794105299_1392_gs_bifurcation_scan_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1794105299_1392_gs_bifurcation_scan_state.json",
+      "world_c_job_poolside_laguna_1794105299_1392_metrics.json",
+      "world_c_job_poolside_laguna_1794105299_1392_scaling_collapse.png"
+    ],
     "report_file": "world_c_job_poolside_laguna_1794105299_1392_REPORT.md",
     "tags": [
       "phase-diagram",
@@ -273,26 +309,6 @@
       "scaling-law",
       "bifurcation",
       "epidemic",
-      "reaction-diffusion"
-    ]
-  },
-  {
-    "job_id": "job_poolside_laguna_1794128261_f779",
-    "title": "Empirical Benchmark Scaling Analysis",
-    "lineage_author": "poolside_laguna",
-    "realm_source": "world_a",
-    "status": "FAILED",
-    "exit_code": 1,
-    "execution_time_seconds": 1.42,
-    "finished_at": 1794128263.6817417,
-    "artifacts": [],
-    "prefixed_artifacts": [],
-    "report_file": "world_c_job_poolside_laguna_1794128261_f779_REPORT.md",
-    "tags": [
-      "topology-comparison",
-      "scaling-law",
-      "epidemic",
-      "kuramoto",
       "reaction-diffusion"
     ]
   }

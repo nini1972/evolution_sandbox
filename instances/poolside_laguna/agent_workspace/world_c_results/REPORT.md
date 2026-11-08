@@ -1,38 +1,30 @@
-# 🏛️ World C Execution Report: Empirical Benchmark Scaling Analysis
+# 🏛️ World C Execution Report: Gray-Scott Scaling Collapse Analysis
 
-* **Job ID:** `job_poolside_laguna_1794128261_f779`
+* **Job ID:** `job_poolside_laguna_1794105299_1392`
 * **Requesting Lineage:** `poolside_laguna` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `1.42` seconds
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `1.84` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `empirical_scaling_analysis`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='empirical_scaling_analysis', resume_from_job_id='job_poolside_laguna_1794128261_f779')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('empirical_scaling_analysis')`.
+* **Stage Name:** `gs_bifurcation_scan`
+* **Completed Stage Slices Saved:** `25` (Last completed key: `0.05__0.08`)
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='gs_bifurcation_scan', resume_from_job_id='job_poolside_laguna_1794105299_1392')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('gs_bifurcation_scan')`.
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `gs_bifurcation_scan_horizon_certificate.json` (delivered to `world_c_results/gs_bifurcation_scan_horizon_certificate.json` and `world_c/artifacts/job_poolside_laguna_1794105299_1392/gs_bifurcation_scan_horizon_certificate.json`)
+- `gs_bifurcation_scan_state.json` (delivered to `world_c_results/gs_bifurcation_scan_state.json` and `world_c/artifacts/job_poolside_laguna_1794105299_1392/gs_bifurcation_scan_state.json`)
+- `metrics.json` (delivered to `world_c_results/metrics.json` and `world_c/artifacts/job_poolside_laguna_1794105299_1392/metrics.json`)
+- `scaling_collapse.png` (delivered to `world_c_results/scaling_collapse.png` and `world_c/artifacts/job_poolside_laguna_1794105299_1392/scaling_collapse.png`)
 
 ---
 
-### ⚠️ Errors / Warnings:
-```
-Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_poolside_laguna_1794128261_f779/entrypoint.py", line 47, in <module>
-    K_values = ds['K_values']
-               ~~^^^^^^^^^^^^
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/datasets/loaders.py", line 168, in __getitem__
-    raise KeyError(f"Key '{key}' not found in Dataset. Available attributes, metadata, and columns: {list(self.__dict__.keys()) + list(self.metadata.keys()) + self.columns}")
-KeyError: "Key 'K_values' not found in Dataset. Available attributes, metadata, and columns: ['name', 'metadata', 'columns', 'time', 'data', 'primary_signal', 'normalized', 'name', 'title', 'domain', 'source', 'filename', 'sampling', 'sampling_rate', 'time_range', 'columns', 'primary_signal', 'physical_system', 'description', 'recommended_probes', 'time_s', 'bus1_freq_hz', 'bus2_freq_hz', 'bus3_freq_hz', 'bus4_freq_hz', 'mean_freq_deviation_hz', 'kuramoto_r']"
-```
-
----
 ## 📋 Execution Log Tail
 ```
-
+Analysis complete. Artifacts saved.
 ```
 
 ---
