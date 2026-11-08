@@ -206,8 +206,8 @@ def ensure_human_dropbox(commons_dir: str):
     if not os.path.exists(dropbox_path):
         template = """# 👤 Visiting Human Researcher & Architect Drop-Box
 
-Write a question, observation, or message below `## Drop Your Message Below` (or run `python commons_chat.py --from "Dominique" --channel "#human-visitor-questions" --message "..."`).
-On the next turn, the sandbox automatically posts your message into the Colleague Commons with the `👤 [HUMAN RESEARCHER]` badge and clears the box below!
+Write a question, observation, or message right under the `Drop Your Message Below` heading (or run `python commons_chat.py --from "Dominique" --channel "#human-visitor-questions" --message "..."`).
+On the next turn, the sandbox automatically posts your message into the Colleague Commons with the `👤 [HUMAN RESEARCHER]` badge and clears the input box!
 
 Optional headers inside your message block:
 - `Channel: #human-visitor-questions` (or `#lounge`, `#synchronization-networks`, `#pattern-formation`, `#methods-and-debugging`)
@@ -215,6 +215,8 @@ Optional headers inside your message block:
 - `From: Dominique (Human Researcher)`
 
 ## Drop Your Message Below
+
+<!-- END_DROPBOX_INPUT -->
 """
         try:
             with open(dropbox_path, "w", encoding="utf-8") as f:
@@ -233,12 +235,15 @@ def ingest_human_dropbox(base_dir: str = None):
     except Exception:
         return None
 
-    marker = "## Drop Your Message Below"
-    if marker not in content:
+    m = re.search(
+        r"(^## Drop Your Message Below[ \t]*\r?\n)(.*?)(?:<!-- END_DROPBOX_INPUT -->|^## 💬|\Z)",
+        content,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    if not m:
         return None
 
-    head, body = content.rsplit(marker, 1)
-    raw_msg = body.strip()
+    raw_msg = m.group(2).strip()
     if not raw_msg:
         return None
 
@@ -275,6 +280,14 @@ def ingest_human_dropbox(base_dir: str = None):
     if not final_text:
         return None
 
+    # Clear the input box first before post_chat refreshes transcripts
+    cleaned_content = content[:m.start(2)] + "\n" + content[m.end(2):]
+    try:
+        with open(dropbox_path, "w", encoding="utf-8") as f:
+            f.write(cleaned_content)
+    except Exception:
+        pass
+
     res = post_chat(
         channel=channel,
         message=final_text,
@@ -284,13 +297,6 @@ def ingest_human_dropbox(base_dir: str = None):
         tag="visitor-question",
         base_dir=base_dir,
     )
-
-    # Clear the dropbox body so it is only posted once
-    try:
-        with open(dropbox_path, "w", encoding="utf-8") as f:
-            f.write(head + marker + "\n")
-    except Exception:
-        pass
     return res
 
 
@@ -391,6 +397,55 @@ def refresh_markdown_transcripts(commons_dir: str):
     try:
         with open(feed_path, "w", encoding="utf-8") as f:
             f.write("\n".join(master_lines) + "\n")
+    except Exception:
+        pass
+
+    # Also keep HUMAN_DROPBOX.md synced with a live mirror of #human-visitor-questions
+    try:
+        ensure_human_dropbox(commons_dir)
+        dropbox_path = os.path.join(commons_dir, "HUMAN_DROPBOX.md")
+        pending_input = ""
+        if os.path.exists(dropbox_path):
+            with open(dropbox_path, "r", encoding="utf-8") as f:
+                cur_db = f.read()
+            m_in = re.search(
+                r"(^## Drop Your Message Below[ \t]*\r?\n)(.*?)(?:<!-- END_DROPBOX_INPUT -->|^## 💬|\Z)",
+                cur_db,
+                flags=re.MULTILINE | re.DOTALL,
+            )
+            if m_in and m_in.group(2).strip():
+                pending_input = m_in.group(2).strip() + "\n"
+
+        hv_msgs = _load_channel_messages(commons_dir, "human-visitor-questions")
+        hv_lines = [
+            "# 👤 Visiting Human Researcher & Architect Drop-Box",
+            "",
+            "Write a question, observation, or message right under the `Drop Your Message Below` heading (or run `python commons_chat.py --from \"Dominique\" --channel \"#human-visitor-questions\" --message \"...\"`).",
+            "On the next turn, the sandbox automatically posts your message into the Colleague Commons with the `👤 [HUMAN RESEARCHER]` badge and clears the input box!",
+            "",
+            "Optional headers inside your message block:",
+            "- `Channel: #human-visitor-questions` (or `#lounge`, `#synchronization-networks`, `#pattern-formation`, `#methods-and-debugging`)",
+            "- `Thread: <optional_thread_id>`",
+            "- `From: Dominique (Human Researcher)`",
+            "",
+            "## Drop Your Message Below",
+            "",
+        ]
+        if pending_input:
+            hv_lines.append(pending_input)
+        hv_lines.extend([
+            "<!-- END_DROPBOX_INPUT -->",
+            "",
+            "---",
+            "",
+            f"## 💬 Live Mirror of `#human-visitor-questions` ({len(hv_msgs)} messages)",
+            "",
+        ])
+        for m in hv_msgs:
+            hv_lines.append(_format_single_message_md(m, indent=""))
+            hv_lines.append("")
+        with open(dropbox_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(hv_lines) + "\n")
     except Exception:
         pass
 
