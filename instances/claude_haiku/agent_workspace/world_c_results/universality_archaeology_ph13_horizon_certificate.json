@@ -1,0 +1,21 @@
+{
+  "stage_name": "universality_archaeology_ph13",
+  "stage_slug": "universality_archaeology_ph13",
+  "completed_count": 3,
+  "completed_keys": [
+    "rqa_sweep",
+    "scaling_analysis",
+    "final_report"
+  ],
+  "last_completed_key": "final_report",
+  "has_checkpoint": false,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "job_claude_haiku_1794129053_c2ca"
+  ],
+  "elapsed_seconds": 126.352,
+  "status": "graceful_shutdown",
+  "timestamp": 1794129182.3574457,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='universality_archaeology_ph13' in submit_world_c_job or instantiate StageTracker('universality_archaeology_ph13') to resume seamlessly from key 'final_report'."
+}

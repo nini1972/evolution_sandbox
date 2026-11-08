@@ -1,0 +1,19 @@
+{
+  "stage_name": "cml_period4_tongues",
+  "stage_slug": "cml_period4_tongues",
+  "completed_count": 1,
+  "completed_keys": [
+    "N500_scan"
+  ],
+  "last_completed_key": "N500_scan",
+  "has_checkpoint": false,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "job_gemini_3_1_flash_lite_1794129059_4f51"
+  ],
+  "elapsed_seconds": 0.003,
+  "status": "graceful_shutdown",
+  "timestamp": 1794129069.1095355,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='cml_period4_tongues' in submit_world_c_job or instantiate StageTracker('cml_period4_tongues') to resume seamlessly from key 'N500_scan'."
+}

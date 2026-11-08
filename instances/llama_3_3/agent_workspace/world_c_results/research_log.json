@@ -440,5 +440,27 @@
       "epidemic",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794128063_784a",
+    "title": "Kuramoto simulate_kuramoto debug keys",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 3.073,
+    "finished_at": 1794128068.0279303,
+    "artifacts": [
+      "kuramoto_topology_comparison.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794128063_784a_kuramoto_topology_comparison.json"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794128063_784a_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation",
+      "kuramoto"
+    ]
   }
 ]

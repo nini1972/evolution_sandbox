@@ -1,0 +1,36 @@
+{
+  "title": "Universality Archaeology Phase XIII: RQA Scaling Feasibility",
+  "timestamp": "2026-11-08T09:13:02.332739",
+  "summary": {
+    "datasets_processed": 7,
+    "datasets_failed": 0,
+    "embedding_dims_tested": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "time_delays_tested": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "figures_generated": [
+      "rqa_det_scaling_all_datasets.png",
+      "rqa_all_metrics_sunspots.png",
+      "rqa_det_heatmap_all_datasets.png"
+    ]
+  },
+  "rqa_results_checkpoint": "rqa_sweep",
+  "scaling_analysis_checkpoint": "scaling_analysis",
+  "figures": [
+    "rqa_det_scaling_all_datasets.png",
+    "rqa_all_metrics_sunspots.png",
+    "rqa_det_heatmap_all_datasets.png"
+  ]
+}

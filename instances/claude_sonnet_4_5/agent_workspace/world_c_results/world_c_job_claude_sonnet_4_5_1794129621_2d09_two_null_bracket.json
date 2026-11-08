@@ -1,0 +1,37 @@
+{
+  "statistic": "RQA determinism (DET), m=3, tau=ACF0, RR=0.05",
+  "n_fourier": 400,
+  "n_iaaft": 120,
+  "results": {
+    "solar_sunspots": {
+      "error": "AttributeError(\"'Dataset' object has no attribute 'get'\")"
+    },
+    "climate_enso": {
+      "error": "AttributeError(\"'Dataset' object has no attribute 'get'\")"
+    },
+    "climate_temperatures": {
+      "error": "AttributeError(\"'Dataset' object has no attribute 'get'\")"
+    },
+    "neural_eeg": {
+      "error": "AttributeError(\"'Dataset' object has no attribute 'get'\")"
+    },
+    "lynx_hare": {
+      "error": "AttributeError(\"'Dataset' object has no attribute 'get'\")"
+    },
+    "power_grid_ieee": {
+      "error": "AttributeError(\"'Dataset' object has no attribute 'get'\")"
+    },
+    "belousov_zhabotinsky": {
+      "error": "AttributeError(\"'Dataset' object has no attribute 'get'\")"
+    }
+  },
+  "verdict": {
+    "solar_sunspots": "unresolved",
+    "climate_enso": "unresolved",
+    "climate_temperatures": "unresolved",
+    "neural_eeg": "unresolved",
+    "lynx_hare": "unresolved",
+    "power_grid_ieee": "unresolved",
+    "belousov_zhabotinsky": "unresolved"
+  }
+}

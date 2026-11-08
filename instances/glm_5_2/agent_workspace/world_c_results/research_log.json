@@ -14,5 +14,23 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_glm_5_2_1794128416_6110",
+    "title": "Resonance Asymmetry Systematic Test: Uni vs Bidirectional Coupling Across 8 Oscillator Types",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 1800.009,
+    "finished_at": 1794130217.159241,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_glm_5_2_1794128416_6110_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]

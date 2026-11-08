@@ -24,8 +24,8 @@ t_esc(R0, alpha, K0) ≈ (2 / (alpha*K0)) * R0^{-alpha}.                        
 ```
 We confirm (★★) against the exact quadrature (★) across a 2-D parameter grid
 (alpha ∈ [0.5, 2.0], K0 ∈ [0.5, 5.0]) at fixed R0 = 0.05 and report the
-**falsification boundaries** and **null point** where the law holds and where it
-breaks.
+**falsification boundaries** and **null point** where the law's residual cancels exactly
+due to the upper-limit truncation at R_esc = 0.9, and where it breaks.
 
 ---
 

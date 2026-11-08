@@ -275,5 +275,25 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794128261_f779",
+    "title": "Empirical Benchmark Scaling Analysis",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.42,
+    "finished_at": 1794128263.6817417,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1794128261_f779_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "epidemic",
+      "kuramoto",
+      "reaction-diffusion"
+    ]
   }
 ]

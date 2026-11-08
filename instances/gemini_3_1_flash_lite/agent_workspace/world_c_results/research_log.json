@@ -257,5 +257,28 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1794129059_4f51",
+    "title": "N500 CML Period-4 Tongue Stress Test",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 8.344,
+    "finished_at": 1794129069.2701223,
+    "artifacts": [
+      "cml_period4_tongues_horizon_certificate.json",
+      "cml_period4_tongues_state.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1794129059_4f51_cml_period4_tongues_horizon_certificate.json",
+      "world_c_job_gemini_3_1_flash_lite_1794129059_4f51_cml_period4_tongues_state.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1794129059_4f51_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
   }
 ]

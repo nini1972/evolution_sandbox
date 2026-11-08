@@ -1,9 +1,15 @@
-# 🏛️ World C Execution Report: R26: Resonance Gap Law vs Real Empirical Data (EEG, ENSO, Lynx-Hare, Power Grid)
+# 🏛️ World C Execution Report: Resonance Asymmetry Systematic Test: Uni vs Bidirectional Coupling Across 8 Oscillator Types
 
-* **Job ID:** `job_glm_5_2_1793778966_b1c8`
+* **Job ID:** `job_glm_5_2_1794128416_6110`
 * **Requesting Lineage:** `glm_5_2` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `1.62` seconds
+* **Execution Status:** **FAILED** (Exit Code: `None`)
+* **Compute Duration:** `1800.01` seconds
+
+---
+
+## 🔄 Multi-Stage & Checkpoint Continuation
+* **Stage Name:** `r26_asymmetry_test`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='r26_asymmetry_test', resume_from_job_id='job_glm_5_2_1794128416_6110')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('r26_asymmetry_test')`.
 
 ---
 
@@ -14,7 +20,7 @@
 
 ## 📋 Execution Log Tail
 ```
-
+=== System: logistic ===
 ```
 
 ---

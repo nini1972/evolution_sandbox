@@ -182,9 +182,11 @@ _alpha5_exact = float(_a_fine[_bound_idx[0]] if len(_bound_idx) else np.nan)
 
 # ── Diagnostic figure ──────────────────────────────────────────────────
 print("\nBuilding diagnostic figure...")
-fig, axs = plt.subplots(1, 2, figsize=(14, 5.5))
+fig = plt.figure(figsize=(14, 10))
+gs = fig.add_gridspec(3, 2, height_ratios=[1, 1, 0.8], hspace=0.3, wspace=0.3)
+axs = [fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1]), fig.add_subplot(gs[1, :]), fig.add_subplot(gs[2, :])]
 
-# Left: 2D heatmaps of log10 t_esc
+# Top-left: 2D heatmaps of log10 t_esc
 extent = [K0_vals[0], K0_vals[-1], alpha_vals[0], alpha_vals[-1]]
 im1 = axs[0].imshow(np.log10(t_esc_empirical + 1e-30),
                     aspect='auto', origin='lower', extent=extent,
@@ -201,7 +203,7 @@ cs = axs[0].contour(K0_GRID, ALPHA_GRID, t_esc_analytical,
 axs[0].contour(K0_GRID, ALPHA_GRID, t_esc_analytical,
                levels=10, colors='white', linewidths=0.3, alpha=0.3)
 
-# Right: relative residual heatmap (linear, so the null-point structure shows)
+# Top-right: relative residual heatmap (linear, so the null-point structure shows)
 res_for_plot = np.where(valid_mask, relative_residual * 100.0, np.nan)
 im2 = axs[1].imshow(res_for_plot, aspect='auto', origin='lower',
                     extent=extent, cmap='RdBu_r', vmin=-15, vmax=15)
@@ -215,10 +217,48 @@ axs[1].axhline(_alpha0_exact, color='gold', ls='-', lw=1.5, label=f'null α₀={
 axs[1].axhline(_alpha5_exact, color='black', ls=':', lw=1.2, label=f'5% shell α={_alpha5_exact:.4f}')
 axs[1].legend(loc='upper left', fontsize=8)
 
-fig.suptitle('Horizon Escape Law: Reflexive Kuramoto  '
-             f'(R0={R0}, R_esc={R_ESC_MARK})',
+# K0-averaged residual vs alpha (for the bottom panel)
+eps_by_a = np.nanmean(np.where(valid_mask, relative_residual, np.nan), axis=1)
+
+# Middle: exact integral decomposition (falsification panel)
+# I(alpha) = ∫_{R0}^{Rc} dR / [R^{alpha+1} (1-R^2)]
+#          = (1/alpha) R0^{-alpha} + ∫_{R0}^{Rc} dR / [R^{alpha+1} (1-R^2)]_{R0^∞}
+# The second term is the upper-limit contribution, which the law neglects.
+def upper_limit_contribution(alpha, R0=R0, Rc=RC_THRESHOLD):
+    # Integral from R0 to Rc of the (1-R^2)^{-1} tail beyond R0^{-alpha}
+    def integrand(R):
+        return 1.0 / (R ** (alpha + 1.0) * (1.0 - R * R))
+    I_val, _ = quad(integrand, R0, Rc, epsabs=1e-13, epsrel=1e-13, limit=400)
+    return I_val - (1.0 / alpha) * (R0 ** (-alpha))
+
+upper_limit_vals = np.array([upper_limit_contribution(a) for a in alpha_vals])
+r0_term_vals = (1.0 / alpha_vals) * (R0 ** (-alpha_vals))
+ratio = upper_limit_vals / r0_term_vals
+
+axs[2].plot(alpha_vals, ratio, 'k-', lw=2, label='Upper-limit / R0^{-alpha}')
+axs[2].axhline(0, color='gray', ls='--', lw=0.8)
+axs[2].axvline(_alpha0_exact, color='gold', ls='-', lw=1.5, label=f'null α₀={_alpha0_exact:.4f}')
+axs[2].axvline(_alpha5_exact, color='black', ls=':', lw=1.2, label=f'5% shell α={_alpha5_exact:.4f}')
+axs[2].set_xlabel('alpha')
+axs[2].set_ylabel('Ratio')
+axs[2].set_title('Exact integral decomposition\n(Upper-limit term) / (R0^{-alpha} term)')
+axs[2].legend(fontsize=8)
+axs[2].grid(True, alpha=0.3)
+
+# Bottom: residual vs alpha (K0-averaged)
+axs[3].plot(alpha_vals, eps_by_a * 100.0, 'k-', lw=2, label='Mean residual')
+axs[3].axhline(0, color='gray', ls='--', lw=0.8)
+axs[3].axvline(_alpha0_exact, color='gold', ls='-', lw=1.5, label=f'null α₀={_alpha0_exact:.4f}')
+axs[3].axvline(_alpha5_exact, color='black', ls=':', lw=1.2, label=f'5% shell α={_alpha5_exact:.4f}')
+axs[3].set_xlabel('alpha')
+axs[3].set_ylabel('Residual (%)')
+axs[3].set_title('K0-averaged residual vs alpha')
+axs[3].legend(fontsize=8)
+axs[3].grid(True, alpha=0.3)
+
+fig.suptitle('Horizon Escape Law: Reflexive Kuramoto\n(Falsification of R0^{-alpha} Attribution)',
              fontsize=13, fontweight='bold')
-fig.tight_layout(rect=[0, 0, 1, 0.95])
+fig.tight_layout(rect=[0, 0, 1, 0.97])
 fig.savefig('kuramoto_horizon_scaling.png', dpi=200, bbox_inches='tight')
 print("Figure saved: kuramoto_horizon_scaling.png")
 

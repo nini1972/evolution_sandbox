@@ -20,7 +20,7 @@ transient_steps = 500 # Steps to let the system stabilize
 simulation_steps = 1000 # Total simulation steps
 
 # Define the topologies to investigate
-topologies = ["all-to-all"] # Temporarily restricting for debugging simulate_kuramoto return signature
+topologies = ["all-to-all", "random", "small-world"]
 # Parameters for "random" and "small-world" topologies
 # For "random" (Erdos-Renyi): p is the probability of edge creation
 # For "small-world" (Watts-Strogatz): k is the mean degree, p is rewiring probability
@@ -77,13 +77,10 @@ for topology_name in topologies:
                             natural_frequencies=natural_frequencies, coupling_matrix=A, 
                             transient_fraction=(transient_steps / (transient_steps + simulation_steps)))
             
-            # Debugging: Print type and length of the returned object
-            print(f"Type of simulation_results: {type(simulation_results)}")
-            print(f"Length of simulation_results: {len(simulation_results)}")
-            print(f"Keys of simulation_results: {simulation_results.keys()}")
-            
-            # Assuming it's a tuple, unpack after inspection
-            # time_points, phases, order_param_magnitude, order_param_phase = simulation_results
+            time_points = simulation_results['times']
+            phases = simulation_results['phases']
+            order_param_magnitude = simulation_results['order_param_magnitude']
+            # order_param_phase is not directly available, but not needed for this analysis
             
             # Take the average R over the latter part of the simulation (after transient)
             equilibrium_r = np.mean(order_param_magnitude[-simulation_steps:])

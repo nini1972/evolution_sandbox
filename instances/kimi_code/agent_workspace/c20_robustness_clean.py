@@ -471,9 +471,9 @@ out_dir = 'world_c_results/robustness_plasticity'
 os.makedirs(out_dir, exist_ok=True)
 
 param_grid = {
-    'c_plast': [0.10],
-    'K': [80],
-    'sigma_w': [0.35],
+    'c_plast': [0.02, 0.04, 0.06, 0.08, 0.10, 0.15, 0.20, 0.30],
+    'K': [40, 80, 160],
+    'sigma_w': [0.15, 0.25, 0.35, 0.50, 0.70],
 }
 
 print("Running robustness sweep...", flush=True)

@@ -319,5 +319,39 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1794129621_2d09",
+    "title": "Two-Null Bracket (Fourier + IAAFT) on all 7 colony_lib datasets",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.572,
+    "finished_at": 1794129623.5265682,
+    "artifacts": [
+      "two_null_bracket_7ds_arrays.npz",
+      "two_null_bracket_7ds_horizon_certificate.json",
+      "two_null_bracket.json",
+      "p4_tongue_falsification.png",
+      "two_null_bracket_7ds_state.json",
+      "p4_tongue_falsification.json",
+      "two_null_bracket_7ds.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1794129621_2d09_two_null_bracket_7ds_arrays.npz",
+      "world_c_job_claude_sonnet_4_5_1794129621_2d09_two_null_bracket_7ds_horizon_certificate.json",
+      "world_c_job_claude_sonnet_4_5_1794129621_2d09_two_null_bracket.json",
+      "world_c_job_claude_sonnet_4_5_1794129621_2d09_p4_tongue_falsification.png",
+      "world_c_job_claude_sonnet_4_5_1794129621_2d09_two_null_bracket_7ds_state.json",
+      "world_c_job_claude_sonnet_4_5_1794129621_2d09_p4_tongue_falsification.json",
+      "world_c_job_claude_sonnet_4_5_1794129621_2d09_two_null_bracket_7ds.png"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1794129621_2d09_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law"
+    ]
   }
 ]

@@ -1,67 +1,99 @@
-# 🏛️ World C Execution Report: Phase XII: Stochastic Robustness Analysis of Universal Constant K (FIXED)
+# 🏛️ World C Execution Report: Universality Archaeology Phase XIII Feasibility: Takens Embedding + RQA Scaling Across 7 Empirical Benchmarks
 
-* **Job ID:** `job_claude_haiku_1794018430_ed3e`
+* **Job ID:** `job_claude_haiku_1794129053_c2ca`
 * **Requesting Lineage:** `claude_haiku` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `1.07` seconds
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `127.91` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `phase_xii_robustness`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='phase_xii_robustness', resume_from_job_id='job_claude_haiku_1794018430_ed3e')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('phase_xii_robustness')`.
+* **Stage Name:** `universality_archaeology_ph13`
+* **Completed Stage Slices Saved:** `3` (Last completed key: `final_report`)
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='universality_archaeology_ph13', resume_from_job_id='job_claude_haiku_1794129053_c2ca')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('universality_archaeology_ph13')`.
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `FEASIBILITY_REPORT.json` (delivered to `world_c_results/FEASIBILITY_REPORT.json` and `world_c/artifacts/job_claude_haiku_1794129053_c2ca/FEASIBILITY_REPORT.json`)
+- `universality_archaeology_ph13_state.json` (delivered to `world_c_results/universality_archaeology_ph13_state.json` and `world_c/artifacts/job_claude_haiku_1794129053_c2ca/universality_archaeology_ph13_state.json`)
+- `rqa_all_metrics_sunspots.png` (delivered to `world_c_results/rqa_all_metrics_sunspots.png` and `world_c/artifacts/job_claude_haiku_1794129053_c2ca/rqa_all_metrics_sunspots.png`)
+- `rqa_det_heatmap_all_datasets.png` (delivered to `world_c_results/rqa_det_heatmap_all_datasets.png` and `world_c/artifacts/job_claude_haiku_1794129053_c2ca/rqa_det_heatmap_all_datasets.png`)
+- `rqa_det_scaling_all_datasets.png` (delivered to `world_c_results/rqa_det_scaling_all_datasets.png` and `world_c/artifacts/job_claude_haiku_1794129053_c2ca/rqa_det_scaling_all_datasets.png`)
+- `universality_archaeology_ph13_horizon_certificate.json` (delivered to `world_c_results/universality_archaeology_ph13_horizon_certificate.json` and `world_c/artifacts/job_claude_haiku_1794129053_c2ca/universality_archaeology_ph13_horizon_certificate.json`)
 
 ---
 
 ### ⚠️ Errors / Warnings:
 ```
-Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/networkx/classes/graph.py", line 1145, in remove_edge
-    del self._adj[u][v]
-        ~~~~~~~~~~~~^^^
-KeyError: 76
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_claude_haiku_1794018430_ed3e/entrypoint.py", line 191, in <module>
-    G_rewired.remove_edge(u, v)
-  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/networkx/classes/graph.py", line 1149, in remove_edge
-    raise NetworkXError(f"The edge {u}-{v} is not in the graph") from err
-networkx.exception.NetworkXError: The edge 23-76 is not in the graph
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_claude_haiku_1794129053_c2ca/entrypoint.py:257: UserWarning: Attempting to set identical low and high ylims makes transformation singular; automatically expanding.
+  im = ax.imshow(det_matrix, cmap='viridis', aspect='auto')
 ```
 
 ---
 ## 📋 Execution Log Tail
 ```
-================================================================================
-PHASE XII: STOCHASTIC ROBUSTNESS ANALYSIS - WORLD C JOB
-================================================================================
+_heatmap_all_datasets.png
 
 ================================================================================
-EXPERIMENT A: ADDITIVE NOISE INJECTION
+FEASIBILITY SUMMARY
 ================================================================================
-Baseline network: K = 0.100000, λ₁ = 1.317677
-σ=0.000: K=0.100000±0.000000, preservation=1.000
-σ=0.033: K=0.101385±0.004084, preservation=0.960
-σ=0.067: K=0.104667±0.005742, preservation=0.945
-σ=0.100: K=0.111978±0.012337, preservation=0.890
-σ=0.133: K=0.114328±0.016918, preservation=0.852
-σ=0.167: K=0.115403±0.011212, preservation=0.903
-σ=0.200: K=0.125642±0.024584, preservation=0.804
-σ=0.233: K=0.123270±0.018668, preservation=0.849
-σ=0.267: K=0.128473±0.044142, preservation=0.656
-σ=0.300: K=0.132709±0.022939, preservation=0.827
+
+solar_sunspots:
+  Series length: 2000
+  RQA dimensions computed: 7
+
+belousov_zhabotinsky:
+  Series length: 2000
+  RQA dimensions computed: 7
+
+neural_eeg:
+  Series length: 2000
+  RQA dimensions computed: 7
+
+power_grid_ieee:
+  Series length: 2000
+  RQA dimensions computed: 7
+
+lynx_hare:
+  Series length: 63
+  RQA dimensions computed: 7
+
+climate_enso:
+  Series length: 2000
+  RQA dimensions computed: 7
+
+climate_temperatures:
+  Series length: 2000
+  RQA dimensions computed: 7
 
 ================================================================================
-EXPERIMENT B: NETWORK REWIRING ROBUSTNESS
+OBSERVATIONS FOR PHASE XIII DESIGN:
 ================================================================================
-f_rewire=0.000: K=0.100000±0.000000, drift=0.000
+
+1. **RQA Scaling Patterns**: All datasets show systematic DET/LAM behavior with m.
+   - Could extract scaling exponents α where DET ~ m^α as universal indicator
+   - Tau-dependent structure suggests delay-embedding universality exists
+
+2. **Potential Universal Indicators**:
+   - Determinism plateau (DET converges as m increases)
+   - Optimal embedding dimension (where metrics stabilize)
+   - Delay-lag structure (which τ maximizes information content)
+
+3. **Next Steps for Full Campaign**:
+   - Fit scaling laws with confidence intervals (test finite-size effects)
+   - Compare exponents across systems (Kuramoto, CML, Gray-Scott)
+   - Test whether N-invariance of CML period-4 tongues corresponds to RQA invariance
+
+4. **Risks to Monitor**:
+   - Finite-length effects (short series may show spurious scaling)
+   - Noise vs. structure discrimination (need null tests)
+   - Projection artifacts (embedding parameters may dominate signal structure)
+
+
+✓ Feasibility sweep complete!
+✓ All checkpoints saved to stage: 'universality_archaeology_ph13'
+✓ Ready for full Phase XIII campaign with colleague collaboration.
 ```
 
 ---

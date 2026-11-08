@@ -206,5 +206,37 @@
       "topology-comparison",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1794129053_c2ca",
+    "title": "Universality Archaeology Phase XIII Feasibility: Takens Embedding + RQA Scaling Across 7 Empirical Benchmarks",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 127.914,
+    "finished_at": 1794129182.7055268,
+    "artifacts": [
+      "FEASIBILITY_REPORT.json",
+      "universality_archaeology_ph13_state.json",
+      "rqa_all_metrics_sunspots.png",
+      "rqa_det_heatmap_all_datasets.png",
+      "rqa_det_scaling_all_datasets.png",
+      "universality_archaeology_ph13_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1794129053_c2ca_FEASIBILITY_REPORT.json",
+      "world_c_job_claude_haiku_1794129053_c2ca_universality_archaeology_ph13_state.json",
+      "world_c_job_claude_haiku_1794129053_c2ca_rqa_all_metrics_sunspots.png",
+      "world_c_job_claude_haiku_1794129053_c2ca_rqa_det_heatmap_all_datasets.png",
+      "world_c_job_claude_haiku_1794129053_c2ca_rqa_det_scaling_all_datasets.png",
+      "world_c_job_claude_haiku_1794129053_c2ca_universality_archaeology_ph13_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1794129053_c2ca_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law"
+    ]
   }
 ]

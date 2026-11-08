@@ -1,79 +1,58 @@
-# 🏛️ World C Execution Report: Try to break nex_n2_pro's hidden period-4 tongues (N=80/200/500, median binarization, single-site perturbation, transient & basin sensitivity)
+# 🏛️ World C Execution Report: Two-Null Bracket (Fourier + IAAFT) on all 7 colony_lib datasets
 
-* **Job ID:** `job_claude_sonnet_4_5_1794105376_3bcb`
+* **Job ID:** `job_claude_sonnet_4_5_1794129621_2d09`
 * **Requesting Lineage:** `claude_sonnet_4_5` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `16.50` seconds
+* **Compute Duration:** `1.57` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `p4_tongue_falsification`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='p4_tongue_falsification', resume_from_job_id='job_claude_sonnet_4_5_1794105376_3bcb')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('p4_tongue_falsification')`.
+* **Stage Name:** `two_null_bracket_7ds`
+* **Resumed From Job:** `job_claude_sonnet_4_5_1794105376_3bcb`
+* **Completed Stage Slices Saved:** `0` (Last completed key: `None`)
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='two_null_bracket_7ds', resume_from_job_id='job_claude_sonnet_4_5_1794129621_2d09')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('two_null_bracket_7ds')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `p4_tongue_falsification.png` (delivered to `world_c_results/p4_tongue_falsification.png` and `world_c/artifacts/job_claude_sonnet_4_5_1794105376_3bcb/p4_tongue_falsification.png`)
-- `p4_tongue_falsification.json` (delivered to `world_c_results/p4_tongue_falsification.json` and `world_c/artifacts/job_claude_sonnet_4_5_1794105376_3bcb/p4_tongue_falsification.json`)
+- `two_null_bracket_7ds_arrays.npz` (delivered to `world_c_results/two_null_bracket_7ds_arrays.npz` and `world_c/artifacts/job_claude_sonnet_4_5_1794129621_2d09/two_null_bracket_7ds_arrays.npz`)
+- `two_null_bracket_7ds_horizon_certificate.json` (delivered to `world_c_results/two_null_bracket_7ds_horizon_certificate.json` and `world_c/artifacts/job_claude_sonnet_4_5_1794129621_2d09/two_null_bracket_7ds_horizon_certificate.json`)
+- `two_null_bracket.json` (delivered to `world_c_results/two_null_bracket.json` and `world_c/artifacts/job_claude_sonnet_4_5_1794129621_2d09/two_null_bracket.json`)
+- `p4_tongue_falsification.png` (delivered to `world_c_results/p4_tongue_falsification.png` and `world_c/artifacts/job_claude_sonnet_4_5_1794129621_2d09/p4_tongue_falsification.png`)
+- `two_null_bracket_7ds_state.json` (delivered to `world_c_results/two_null_bracket_7ds_state.json` and `world_c/artifacts/job_claude_sonnet_4_5_1794129621_2d09/two_null_bracket_7ds_state.json`)
+- `p4_tongue_falsification.json` (delivered to `world_c_results/p4_tongue_falsification.json` and `world_c/artifacts/job_claude_sonnet_4_5_1794129621_2d09/p4_tongue_falsification.json`)
+- `two_null_bracket_7ds.png` (delivered to `world_c_results/two_null_bracket_7ds.png` and `world_c/artifacts/job_claude_sonnet_4_5_1794129621_2d09/two_null_bracket_7ds.png`)
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-{
- "P4_cells_N200": 13,
- "perturbation_survival_rate": 0.9230769230769231,
- "transient_stability_rate": 1.0,
- "indep_IC_survival_rate": 0.7692307692307693,
- "median_vs_mean_disagree": 2,
- "binar_total": 13,
- "agree_80_200_at_cut0.02": 46,
- "agree_80_500_at_cut0.02": 47,
- "total_cells": 48
-}
-threshold robustness: {
- "0.01": {
-  "agree_80_200": 46,
-  "agree_80_500": 45,
-  "total": 48,
-  "P4_cells": {
-   "80": 12,
-   "200": 12,
-   "500": 9
-  }
- },
- "0.02": {
-  "agree_80_200": 46,
-  "agree_80_500": 47,
-  "total": 48,
-  "P4_cells": {
-   "80": 13,
-   "200": 13,
-   "500": 12
-  }
- },
- "0.05": {
-  "agree_80_200": 45,
-  "agree_80_500": 45,
-  "total": 48,
-  "P4_cells": {
-   "80": 15,
-   "200": 16,
-   "500": 16
-  }
- },
- "0.1": {
-  "agree_80_200": 44,
-  "agree_80_500": 44,
-  "total": 48,
-  "P4_cells": {
-   "80": 23,
-   "200": 23,
-   "500": 23
-  }
- }
-}
+datasets: ['solar_sunspots', 'climate_enso', 'climate_temperatures', 'neural_eeg', 'lynx_hare', 'power_grid_ieee', 'belousov_zhabotinsky']
+--- solar_sunspots
+   ERROR AttributeError("'Dataset' object has no attribute 'get'")
+--- climate_enso
+   ERROR AttributeError("'Dataset' object has no attribute 'get'")
+--- climate_temperatures
+   ERROR AttributeError("'Dataset' object has no attribute 'get'")
+--- neural_eeg
+   ERROR AttributeError("'Dataset' object has no attribute 'get'")
+--- lynx_hare
+   ERROR AttributeError("'Dataset' object has no attribute 'get'")
+--- power_grid_ieee
+   ERROR AttributeError("'Dataset' object has no attribute 'get'")
+--- belousov_zhabotinsky
+   ERROR AttributeError("'Dataset' object has no attribute 'get'")
+
+=== VERDICT ===
+  solar_sunspots           unresolved
+  climate_enso             unresolved
+  climate_temperatures     unresolved
+  neural_eeg               unresolved
+  lynx_hare                unresolved
+  power_grid_ieee          unresolved
+  belousov_zhabotinsky     unresolved
+DONE
 ```
 
 ---
