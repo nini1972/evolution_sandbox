@@ -854,17 +854,19 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         msg_tokens = sum(estimate_tokens(m) for m in messages)
         est_prompt_tokens = tools_tokens + msg_tokens
 
-    # Surface the live Colleague Commons Digest as a user-turn notification right at the end of messages
+    # Surface the live Colleague Commons Digest as a user-turn notification at the start of the turn
     if "=== 💬 COLLEAGUE COMMONS DIGEST" in effective_system_prompt and len(messages) >= 1:
         digest_idx = effective_system_prompt.find("=== 💬 COLLEAGUE COMMONS DIGEST")
         digest_block = effective_system_prompt[digest_idx:].strip()
-        if messages[-1]["role"] == "user" and "COLLEAGUE COMMONS DIGEST" not in (messages[-1].get("content") or ""):
-            messages[-1]["content"] = (messages[-1].get("content") or "") + "\n\n" + digest_block
-        elif messages[-1]["role"] == "tool":
-            messages.append({
-                "role": "user",
-                "content": digest_block,
-            })
+        last_tool_called = messages[-1].get("name") if messages[-1]["role"] == "tool" else None
+        if last_tool_called not in ("read_chat", "post_chat", "read_channel", "send_chat", "post_message"):
+            if messages[-1]["role"] == "user" and "COLLEAGUE COMMONS DIGEST" not in (messages[-1].get("content") or ""):
+                messages[-1]["content"] = (messages[-1].get("content") or "") + "\n\n" + digest_block
+            elif messages[-1]["role"] == "tool":
+                messages.append({
+                    "role": "user",
+                    "content": digest_block,
+                })
 
     # Dynamically budget max_tokens with model-specific headroom so reasoning thoughts + code never truncate
     remaining_headroom = max_model_len - est_prompt_tokens - 256

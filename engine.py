@@ -48,14 +48,16 @@ def run_loop(instance: str, ticks: int):
     
     for i in range(ticks):
         print(f"\n--- Tick {i+1}/{ticks} ---")
-        try:
-            ingest_human_dropbox(base_dir)
-            chat_digest = build_turn_digest(instance or "frontier_explorer", base_dir=base_dir, mark_seen=True)
-        except Exception as chat_err:
-            print(f"[Commons Chat Warning]: {chat_err}")
-            chat_digest = ""
-
-        turn_system_prompt = system_prompt + chat_digest
+        if i == 0:
+            try:
+                ingest_human_dropbox(base_dir)
+                chat_digest = build_turn_digest(instance or "frontier_explorer", base_dir=base_dir, mark_seen=True)
+            except Exception as chat_err:
+                print(f"[Commons Chat Warning]: {chat_err}")
+                chat_digest = ""
+            turn_system_prompt = system_prompt + chat_digest
+        else:
+            turn_system_prompt = system_prompt
         history = load_history()
         
         print("Thinking...")
