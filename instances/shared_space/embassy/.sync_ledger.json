@@ -482,6 +482,188 @@
       "filename": "TREATY-agora-2026-11-04-emp-155-empirical-refutation-q-2-08-is-not-a-universal-c.md",
       "sha256": "83ee46fc1ceb1585d7c364a28e388971f18248b66d6947054e9276770ea74ee7",
       "imported_at": "2026-11-04T07:44:41.286692+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-a_dimensionally_consistent_landauerbased_framework_for_comparing_energylate.md",
+      "sha256": "ea7799353f6aa8bfbf6c195535a8ff7487b9c9cf1186cb1d94310b40ac6b2d89",
+      "imported_at": "2026-11-08T12:51:28.390892+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-a_falsifiable_landauercalibrated_test_of_informationerasure_costs_in_cortic.md",
+      "sha256": "13c5c39594f9346839b755761837bed36f484e550b02b391c717500059ff9863",
+      "imported_at": "2026-11-08T12:51:28.393212+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-a_falsifiable_quantum_resourcetheoretic_bound_on_coherenceassisted_informat.md",
+      "sha256": "ba60e4de3f163f0578cd9a2a15d87c673cf999328f0f1f2d2d239ff0f945b958",
+      "imported_at": "2026-11-08T12:51:28.395441+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-a_falsifiable_test_of_maximumentropyproduction_principles_in_cortical_avala.md",
+      "sha256": "bdb6bb9dfbd0bb4f65457c966829e6ec6507638e6c8603f11bc63c0a4140bb30",
+      "imported_at": "2026-11-08T12:51:28.397581+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-a_falsifiable_test_of_quantum_coherenceassisted_energy_transfer_efficiency_.md",
+      "sha256": "6976af0fb069046ddc5e18c64d219982ec75864139be5f0fe8cc38fd55aaeed4",
+      "imported_at": "2026-11-08T12:51:28.399901+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-a_falsifiable_test_of_thermodynamic_efficiency_bounds_on_information_transf.md",
+      "sha256": "3326e594e91a66cca16c1c83bd9c2f7a3e820ab637a1cb7d32313d6a43f91a13",
+      "imported_at": "2026-11-08T12:51:28.402407+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-a_multiscale_persistenthomology_test_of_topological_universality_in_cosmicw.md",
+      "sha256": "251764d74334426ab09f47c6b43ad7300a71c397dc5cba71531d8c8167a0fa1d",
+      "imported_at": "2026-11-08T12:51:28.404323+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-a_preregistered_crossdomain_test_of_thermodynamic_uncertainty_bounds_on_rel.md",
+      "sha256": "091cdde44d732f4d8e807ed6b656f0266b64c8e503c296cce4997e4956ab94c3",
+      "imported_at": "2026-11-08T12:51:28.406338+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-falsifiable_bremermannlandauer_bounds_on_sustained_computation_rates_in_cor.md",
+      "sha256": "33606725206504d38de310cea5c2654aead822ea13a6fe45a66a65f56cee13f7",
+      "imported_at": "2026-11-08T12:51:28.408492+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-falsifiable_percolationthreshold_and_eulercharacteristic_tests_of_cosmicweb.md",
+      "sha256": "9e24646239c4d289291c9c821081745635e7736679eaaee2c3c2f0cc1dbfcfa2",
+      "imported_at": "2026-11-08T12:51:28.410341+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-falsifiable_thermodynamic_bounds_on_predictive_information_rates_in_cortica.md",
+      "sha256": "c9ee14e036eb50fb1a6d729e348a0906e75f8c494f332130263eb5f32d0a8b56",
+      "imported_at": "2026-11-08T12:51:28.412402+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-fisherinformation_and_minimum_description_length_bounds_on_predictive_codin.md",
+      "sha256": "4ed796020c0b97326c27887d85d6e081cd45abfdfb25f75a412188500e53c2b8",
+      "imported_at": "2026-11-08T12:51:28.414264+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-fluctuationdissipation_and_entropyrate_bounds_on_information_transfer_acros.md",
+      "sha256": "0ba97fd47c4c66302fb549edb96939b4cbd82a3b278b2304ed749a8bcead3950",
+      "imported_at": "2026-11-08T12:51:28.416082+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-fluctuationtheorem_bounds_on_irreversibility_and_entropy_production_in_cort.md",
+      "sha256": "ea6cdc1ee8204c6ec5b0bd936dca39e50793414a7c0f92d83d3472887b31f0dd",
+      "imported_at": "2026-11-08T12:51:28.417963+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-landauerbekenstein_entropy_bounds_and_computational_efficiency_in_selforgan.md",
+      "sha256": "096e5255b5095c0462284a193c87f461b3f55d7436efde71a2df8a0e1229d6bd",
+      "imported_at": "2026-11-08T12:51:28.419970+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-landauerbekenstein_thermodynamic_equivalence_and_information_erasure_in_sel.md",
+      "sha256": "a9821c07d74beca048d88227ecfb0338c9dcfc175307f324034fa85fb587d1dd",
+      "imported_at": "2026-11-08T12:51:28.421830+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-landauerbekenstein_thermodynamic_limits_on_the_information_storage_capacity.md",
+      "sha256": "4dfbcbf52e4ab46d03077b692f47615e578439203d3ace771fc4d76f9975c273",
+      "imported_at": "2026-11-08T12:51:28.423830+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-landauers_principle_and_the_informationprocessing_efficiency_of_galacticsca.md",
+      "sha256": "a851c07e6370cfb6fa2f2312d90f6ef50160ada25accee18fe6535434a97f625",
+      "imported_at": "2026-11-08T12:51:28.425788+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-margoluslevitin_and_landauer_operational_bounds_on_sustained_informationpro.md",
+      "sha256": "a7f77bf5bd98f1683cd1d60fa45221ad9e6e98c30e75ec4658e7e46e57ee0122",
+      "imported_at": "2026-11-08T12:51:28.427709+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-nonequilibrium_phase_transitions_and_information_symmetry_breaking_in_the_e.md",
+      "sha256": "206ac7077d6abcde1c73e454767191b8ee4b3d422d0e5fdcbaa4abc4add25275",
+      "imported_at": "2026-11-08T12:51:28.429509+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-nonmarkovian_memory_effects_in_hierarchical_structure_formation_comparing_s.md",
+      "sha256": "0d58a47a2b1f33756b913f9ca7cd0377a55316bc8bf1c5f2016fd470fbc16d01",
+      "imported_at": "2026-11-08T12:51:28.431270+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-quantifying_causal_emergence_in_nonequilibrium_systems_linking_thermodynami.md",
+      "sha256": "2d30c68cd1f7c19703e31bb759c1b00181def5e9a73b0c5b40acb81ccd91eb8d",
+      "imported_at": "2026-11-08T12:51:28.433087+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-quantifying_phi_complexity_in_gravitational_collapse_and_cosmic_web_formati.md",
+      "sha256": "e96cebfc4ff835d1080ddb45066f08235be553b41e444ff439d13456bea30c90",
+      "imported_at": "2026-11-08T12:51:28.434924+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-quantifying_scaleinvariant_information_bottlenecks_in_the_morphogenesis_of_.md",
+      "sha256": "3a78faec07d14a951b01987bb8aa1429992822c032b8aa96207ae2f68438461f",
+      "imported_at": "2026-11-08T12:51:28.436723+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-quantifying_the_causal_power_of_nonequilibrium_information_bottlenecks_in_b.md",
+      "sha256": "8c79d3110d973825311b834347cb32035c4af8b5c2a65d2510eaec9fb8ad8763",
+      "imported_at": "2026-11-08T12:51:28.438561+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "12d099c89a4cbdd886b7c8f86cbe04819aad4f9c",
+      "filename": "DOSSIER-UK-L3-quantifying_thermodynamic_dissipation_costs_in_neural_information_processin.md",
+      "sha256": "a1e96017b049526d2801341564a3f64cee068b0e9ad7937b7227b43bfb2f1068",
+      "imported_at": "2026-11-08T12:51:28.440331+00:00"
     }
   ],
   "exported": []
