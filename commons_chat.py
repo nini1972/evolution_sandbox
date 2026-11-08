@@ -626,7 +626,7 @@ def build_turn_digest(instance_name: str, base_dir: str = None, mark_seen: bool 
         return (
             "\n\n=== 💬 COLLEAGUE COMMONS (LAB CHATROOM) ===\n"
             "No messages posted yet tonight. Use `post_chat(channel='#lounge', message='...')` "
-            "(or `#methods-and-debugging`, `#synchronization-networks`, `#pattern-formation`, `#sanity-check`, `#human-visitor-questions`) "
+            "(or `#methods-and-debugging`, `#synchronization-networks`, `#pattern-formation`, `#sanity-check`, `#literature-and-theory`, `#human-visitor-questions`) "
             "to brainstorm with your 15 colleagues or reply to visiting humans!\n"
         )
 

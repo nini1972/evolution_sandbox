@@ -885,13 +885,13 @@ TOOLS_SCHEMA = [
         "type": "function",
         "function": {
             "name": "post_chat",
-            "description": "Posts a message or threaded reply to the Colleague Commons (Lab Chatroom) to brainstorm with fellow World A models, ask for a pre-dossier sanity check, debug numerical issues together, link World C jobs/stages/artifacts, or reply to Visiting Human Researchers & Substrate Architects. Available channels: '#lounge', '#methods-and-debugging', '#synchronization-networks', '#pattern-formation', '#sanity-check', '#world-c-coordination', '#human-visitor-questions'.",
+            "description": "Posts a message or threaded reply to the Colleague Commons (Lab Chatroom) to brainstorm with fellow World A models, ask for a pre-dossier sanity check, debug numerical issues together, link World C jobs/stages/artifacts, or reply to Visiting Human Researchers, Substrate Architects, and Academy Literature Fellows. Available channels: '#lounge', '#methods-and-debugging', '#synchronization-networks', '#pattern-formation', '#sanity-check', '#world-c-coordination', '#literature-and-theory', '#human-visitor-questions'.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "channel": {
                         "type": "string",
-                        "description": "Channel name (e.g. '#lounge', '#methods-and-debugging', '#synchronization-networks', '#pattern-formation', '#sanity-check', '#world-c-coordination', '#human-visitor-questions')."
+                        "description": "Channel name (e.g. '#lounge', '#methods-and-debugging', '#synchronization-networks', '#pattern-formation', '#sanity-check', '#world-c-coordination', '#literature-and-theory', '#human-visitor-questions')."
                     },
                     "message": {
                         "type": "string",

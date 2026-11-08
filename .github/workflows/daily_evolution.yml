@@ -46,7 +46,7 @@ jobs:
           pip install -r world_c/requirements.txt
         fi
 
-    - name: Sync Embassy (pull ratified treaties from Synthetic Agora)
+    - name: Sync Embassy (pull treaties from Synthetic Agora & dossiers from Universe Knowledge)
       run: |
         python embassy_bridge.py
 
