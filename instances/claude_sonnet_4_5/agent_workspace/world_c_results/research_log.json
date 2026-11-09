@@ -388,5 +388,80 @@
       "topology-comparison",
       "bifurcation"
     ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1794191203_6a6f",
+    "title": "IAAFT n=1000 refinement (fixed dataset API; lynx_hare certified structurally unresolvable)",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 199.273,
+    "finished_at": 1794191403.7005622,
+    "artifacts": [
+      "two_null_bracket_7ds_arrays.npz",
+      "two_null_bracket_7ds_horizon_certificate.json",
+      "iaaft_1000_refinement.json",
+      "two_null_bracket.json",
+      "p4_tongue_falsification.png",
+      "iaaft_1000_refinement.png",
+      "two_null_bracket_7ds_state.json",
+      "p4_tongue_falsification.json",
+      "two_null_bracket_7ds.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1794191203_6a6f_two_null_bracket_7ds_arrays.npz",
+      "world_c_job_claude_sonnet_4_5_1794191203_6a6f_two_null_bracket_7ds_horizon_certificate.json",
+      "world_c_job_claude_sonnet_4_5_1794191203_6a6f_iaaft_1000_refinement.json",
+      "world_c_job_claude_sonnet_4_5_1794191203_6a6f_two_null_bracket.json",
+      "world_c_job_claude_sonnet_4_5_1794191203_6a6f_p4_tongue_falsification.png",
+      "world_c_job_claude_sonnet_4_5_1794191203_6a6f_iaaft_1000_refinement.png",
+      "world_c_job_claude_sonnet_4_5_1794191203_6a6f_two_null_bracket_7ds_state.json",
+      "world_c_job_claude_sonnet_4_5_1794191203_6a6f_p4_tongue_falsification.json",
+      "world_c_job_claude_sonnet_4_5_1794191203_6a6f_two_null_bracket_7ds.png"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1794191203_6a6f_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation"
+    ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1794195061_1990",
+    "title": "Two-null bracket robustness across embedding parameters",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 223.929,
+    "finished_at": 1794195285.8294866,
+    "artifacts": [
+      "two_null_bracket_7ds_arrays.npz",
+      "two_null_bracket_7ds_horizon_certificate.json",
+      "iaaft_1000_refinement.json",
+      "two_null_bracket.json",
+      "p4_tongue_falsification.png",
+      "iaaft_1000_refinement.png",
+      "two_null_bracket_7ds_state.json",
+      "p4_tongue_falsification.json",
+      "two_null_bracket_7ds.png",
+      "embedding_robustness.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1794195061_1990_two_null_bracket_7ds_arrays.npz",
+      "world_c_job_claude_sonnet_4_5_1794195061_1990_two_null_bracket_7ds_horizon_certificate.json",
+      "world_c_job_claude_sonnet_4_5_1794195061_1990_iaaft_1000_refinement.json",
+      "world_c_job_claude_sonnet_4_5_1794195061_1990_two_null_bracket.json",
+      "world_c_job_claude_sonnet_4_5_1794195061_1990_p4_tongue_falsification.png",
+      "world_c_job_claude_sonnet_4_5_1794195061_1990_iaaft_1000_refinement.png",
+      "world_c_job_claude_sonnet_4_5_1794195061_1990_two_null_bracket_7ds_state.json",
+      "world_c_job_claude_sonnet_4_5_1794195061_1990_p4_tongue_falsification.json",
+      "world_c_job_claude_sonnet_4_5_1794195061_1990_two_null_bracket_7ds.png",
+      "world_c_job_claude_sonnet_4_5_1794195061_1990_embedding_robustness.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1794195061_1990_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

@@ -46,5 +46,51 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_nex_n2_pro_1794195824_b7f4",
+    "title": "P4 tongue: finite-K family vs continuum + Lyapunov stability",
+    "lineage_author": "nex_n2_pro",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 9.55,
+    "finished_at": 1794195835.2247784,
+    "artifacts": [
+      "p4_basin_test.json",
+      "p4_finiteK_test.png",
+      "p4_finiteK_test.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_nex_n2_pro_1794195824_b7f4_p4_basin_test.json",
+      "world_c_job_nex_n2_pro_1794195824_b7f4_p4_finiteK_test.png",
+      "world_c_job_nex_n2_pro_1794195824_b7f4_p4_finiteK_test.json"
+    ],
+    "report_file": "world_c_job_nex_n2_pro_1794195824_b7f4_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_nex_n2_pro_1794195354_6c8d",
+    "title": "P4 tongue basin structure test: finite-K vs riddled basins",
+    "lineage_author": "nex_n2_pro",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 11.144,
+    "finished_at": 1794195367.6001117,
+    "artifacts": [
+      "p4_basin_test.json",
+      "p4_basin_test.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_nex_n2_pro_1794195354_6c8d_p4_basin_test.json",
+      "world_c_job_nex_n2_pro_1794195354_6c8d_p4_basin_test.png"
+    ],
+    "report_file": "world_c_job_nex_n2_pro_1794195354_6c8d_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

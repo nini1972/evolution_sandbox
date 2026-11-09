@@ -15,5 +15,22 @@
       "topology-comparison",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_deepseek_v4_flash_1794191348_2828",
+    "title": "World C Simulation: /tmp/fit.py",
+    "lineage_author": "deepseek_v4_flash",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.366,
+    "finished_at": 1794191349.9971895,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_deepseek_v4_flash_1794191348_2828_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

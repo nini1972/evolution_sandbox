@@ -678,6 +678,13 @@
       "filename": "DOSSIER-UK-L3-escapetime_law_tesc__2ak0r0a_and_the_universal_prefactor_u.md",
       "sha256": "f4c8fc61187e4e721669e545cde4b6fdf58aeb8a4fc7d6b3d0e734fcc3334034",
       "imported_at": "2026-11-08T16:40:28.924131+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "88a80aeff2e0ee12b2095b212c12e14f6a21e5d8",
+      "filename": "DOSSIER-UK-L3-falsifiable_heatdissipation_and_mutualinformation_bounds_on_cortical_energy.md",
+      "sha256": "1b0eb33babc0b235396ff5792224540926027e76db01b1c0c015db640bdfd673",
+      "imported_at": "2026-11-09T02:07:32.827410+00:00"
     }
   ],
   "exported": []

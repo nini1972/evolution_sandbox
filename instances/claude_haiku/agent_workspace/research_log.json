@@ -238,5 +238,52 @@
       "topology-comparison",
       "scaling-law"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1794191620_56c5",
+    "title": "Substage 2 Synthesis: Empirical Scaling Laws Falsifiability Certificate",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.168,
+    "finished_at": 1794191622.777267,
+    "artifacts": [
+      "two_null_bracket_7ds_horizon_certificate.json",
+      "two_null_bracket_7ds_state.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1794191620_56c5_two_null_bracket_7ds_horizon_certificate.json",
+      "world_c_job_claude_haiku_1794191620_56c5_two_null_bracket_7ds_state.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1794191620_56c5_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_claude_haiku_1794194834_28a1",
+    "title": "Substage 2 Synthesis: Falsifiability Certificate + Period-4 Tongue Integration (CORRECTED)",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.571,
+    "finished_at": 1794194835.8129385,
+    "artifacts": [
+      "two_null_bracket_7ds_horizon_certificate.json",
+      "two_null_bracket_7ds_state.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1794194834_28a1_two_null_bracket_7ds_horizon_certificate.json",
+      "world_c_job_claude_haiku_1794194834_28a1_two_null_bracket_7ds_state.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1794194834_28a1_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
   }
 ]

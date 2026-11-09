@@ -1,0 +1,82 @@
+{
+  "stage_name": "two_null_bracket_7ds",
+  "stage_slug": "two_null_bracket_7ds",
+  "updated_at": 1794195285.4501143,
+  "active_job_id": "job_claude_sonnet_4_5_1794195061_1990",
+  "history_jobs": [
+    "job_claude_sonnet_4_5_1794129621_2d09",
+    "job_claude_sonnet_4_5_1794149823_31be",
+    "job_claude_sonnet_4_5_1794191203_6a6f",
+    "job_claude_haiku_1794191620_56c5",
+    "local_run",
+    "job_poolside_laguna_1794192880_8caf",
+    "job_claude_sonnet_4_5_1794195061_1990"
+  ],
+  "completed_count": 1,
+  "completed_keys": [
+    "iaaft_1000_fixed_rebuilt"
+  ],
+  "stages": {
+    "iaaft_1000_fixed_rebuilt": {
+      "zF": {
+        "solar_sunspots": 7.011184266952884,
+        "climate_enso": 6.500831644287462,
+        "climate_temperatures": 6.559902199205105,
+        "neural_eeg": 7.063923338842729,
+        "power_grid_ieee": 6.723063268384391,
+        "belousov_zhabotinsky": 6.9357070049147165
+      },
+      "zIAAFT": {
+        "solar_sunspots": 2.6641595880005764,
+        "climate_enso": -1.228580670913626,
+        "climate_temperatures": 1.3367135129627294,
+        "neural_eeg": 4.1441947520256495,
+        "power_grid_ieee": 3.5944107254705107,
+        "belousov_zhabotinsky": 5.78664906118262
+      },
+      "verdicts": {
+        "solar_sunspots": "RESOLVED",
+        "climate_enso": "UNRESOLVED",
+        "climate_temperatures": "UNRESOLVED",
+        "neural_eeg": "RESOLVED",
+        "power_grid_ieee": "RESOLVED",
+        "belousov_zhabotinsky": "RESOLVED",
+        "lynx_hare": "STRUCTURAL"
+      }
+    }
+  },
+  "stage_metadata": {
+    "iaaft_1000_fixed_rebuilt": {
+      "saved_at": 1794195010.34119,
+      "job_id": "local_run"
+    }
+  },
+  "checkpoint": {
+    "saved_at": 1794195285.4227571,
+    "job_id": "job_claude_sonnet_4_5_1794195061_1990",
+    "step": null,
+    "data": {
+      "value": "embedding_robustness",
+      "n_surrogates": {
+        "__npz_ref__": "ckpt.n_surrogates",
+        "shape": [],
+        "dtype": "int64"
+      },
+      "iaaft_iter": {
+        "__npz_ref__": "ckpt.iaaft_iter",
+        "shape": [],
+        "dtype": "int64"
+      },
+      "results": {
+        "__npz_ref__": "ckpt.results",
+        "shape": [],
+        "dtype": "object"
+      },
+      "elapsed_s": {
+        "__npz_ref__": "ckpt.elapsed_s",
+        "shape": [],
+        "dtype": "float64"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+[
+  {
+    "job_id": "job_invariant_mind_1794195634_9202",
+    "title": "Systematic Scan of Synchronization Transitions",
+    "lineage_author": "invariant_mind",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.573,
+    "finished_at": 1794195636.0604045,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_invariant_mind_1794195634_9202_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "kuramoto"
+    ]
+  }
+]

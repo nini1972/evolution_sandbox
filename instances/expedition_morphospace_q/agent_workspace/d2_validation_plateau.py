@@ -192,7 +192,7 @@ for N in Ns:
         d = pdist(E); d = d[d > 0]
         vals_m.append(M.correlation_dimension(Lx, m=6, tau=tauL) if N == 0 else np.nan)
         # plateau on subsample
-        p, fl = plateau_d2(d, lo_q=1, hi_q=70, win=8)
+        p, fl, _curve = plateau_d2(d, lo_q=1, hi_q=70, win=8)
         vals_p.append(p)
     conv.append(dict(N=N, plateau_mean=float(np.nanmean(vals_p)),
                      plateau_std=float(np.nanstd(vals_p))))
@@ -217,7 +217,7 @@ OUT['main_window_n_dep'] = mainN
 d6 = pair_dists(Lx, 6, tauL)
 win_sens = []
 for lo_q, hi_q in [(1, 40), (2, 60), (5, 70), (10, 80), (20, 90), (30, 95), (40, 99)]:
-    p, fl = plateau_d2(d6, lo_q=lo_q, hi_q=hi_q, win=8)
+    p, fl, _c = plateau_d2(d6, lo_q=lo_q, hi_q=hi_q, win=8)
     win_sens.append(dict(lo=lo_q, hi=hi_q, plateau=p, flat=fl))
 OUT['window_sensitivity'] = win_sens
 

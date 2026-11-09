@@ -194,7 +194,11 @@ for k in KGRID:
 dev_f = [g0[k]['dev_fixed'] for k in KGRID if g0[k]['dev_fixed'] is not None]
 gap = [g0[k]['gap'] for k in KGRID if g0[k]['gap'] is not None]
 gates['G0a_window_match'] = bool(dev_f) and max(abs(np.array(dev_f))) <= 0.05
-gates['G0b_bug_signature'] = bool(gap) and min(np.array(gap)) > 0.15
+# EH15b ERRATUM: first submission recorded gap as (fixed - buggy) = -0.325 while this
+# gate tested gap > 0.15 -> false FAIL. The bug signature is a MAGNITUDE claim: the
+# off-by-one shifts p_hat by ~0.324 regardless of sign convention.
+gates['G0b_bug_signature'] = bool(gap) and min(np.abs(np.array(gap))) > 0.15
+gates['G0b_gap_signed_mean'] = float(np.mean(gap)) if gap else None
 gates['G0_bug_reproduced'] = gates['G0b_bug_signature']
 
 # ---------- G0c: old generator reproduces white noise / crashes ----------
@@ -302,7 +306,9 @@ for k in KGRID:
 _g0c = gates['G0c_old_gen_defect']
 _g0c_txt = (str(_g0c.get('error'))[:80] if _g0c['crashed'] else f"ran, beta={_g0c['beta10']}")
 L += [f"\nG0a (|dev|<=0.05): PASS={gates['G0a_window_match']}",
-      f"G0b (bug gap > 0.15): PASS={gates['G0b_bug_signature']} — the off-by-one shifts p_hat by +0.32, "
+      f"G0b (|bug gap| > 0.15): PASS={gates['G0b_bug_signature']} — the off-by-one shifts p_hat by "
+      f"{gates['G0b_gap_signed_mean']:+.3f} (signed mean; EH15 first submission used signed gate with "
+      f"flipped convention -> false FAIL, now magnitude gate), "
       f"detected as a systematic gap, not as bias vs truth (truth 1.0 is unreachable through this window).",
       f"G0c (old generator): crashed={_g0c['crashed']} (beta10={_g0c['beta10']}) -> {_g0c_txt}"]
 L += ["", "## G1 — corrected generator: spectral exponent vs 2H-1, structure fn vs 2H (n>=1e5)", "",
@@ -311,19 +317,33 @@ for H in HGRID:
     d = gates['G1_generator_spectral'][str(H)]
     L.append(f"| {H} | {d['mean_dev_spec']:+.3f} | {d['pass_spec']} | {d['mean_dev_sf']:+.3f} | {d['pass_sf']} |")
 L += ["", "## G2 — fGn onset bias (fixed) at n=1e6, truth_p=2H", "",
-      "| H | p_hat (k=5) | bias | window pts |", "|---|---|---|---|"]
+      "Per-H real window point count (was mis-printed in EH14 as n_defined=2). "
+      "Analytic count = population window at floor=0.01; onset_p returns None iff count < 4.", "",
+      "| H | p_hat (k=5) | bias | measured pts | analytic pts | defined? |",
+      "|---|---|---|---|---|---|"]
 for H in HGRID:
     r0 = fgn_tab[H][KGRID[0]]
-    L.append(f"| {H} | {r0['fixed']} | {r0['bias_fixed']} | {hstar_fixed[KGRID[0]]['n_defined'] if H in defined_H_fixed else 0} |")
-L += ["", f"Defined for H >= {min(defined_H_fixed) if defined_H_fixed else 'none'}: {defined_H_fixed}", "",
+    mp = pts_tab[H][KGRID[0]]
+    ap = analytic_npts[H]
+    L.append(f"| {H} | {r0['fixed']} | {r0['bias_fixed']} | {mp} | {ap} | {r0['fixed'] is not None} |")
+G2 = gates['G2_onset_defined']
+L += ["", f"Measured defined: {defined_H_fixed}",
+      f"Analytic expected (n_pts>=4): {expected_defined}",
+      f"Predicate match (analytic == measured): {G2['predicate_match']}", "",
       "## H* verdict", ""]
 if hv:
     L.append(f"H* crossings found: {hv}")
 else:
+    nd = [H for H in HGRID if fgn_tab[H][KGRID[0]]['fixed'] is not None]
+    lo = min(nd) if nd else None
     L.append(f"**H* DOES NOT EXIST in (0.55, 0.95]** — bias(H) = p_hat(H) - 2H is negative wherever "
-             f"p_hat is defined (H>=0.80: p_hat<=0.45, 2H>=1.60) and p_hat is None (structurally empty "
-             f"window: 1-gamma(1) > one_max) for H<=0.75. No zero crossing exists -> no bracket. "
-             f"All_bias_fixed_negative={out['all_bias_fixed_negative']}.")
+             f"p_hat is defined (defined for H >= {lo}: p_hat <= 0.45, 2H >= 1.80) and p_hat is None "
+             f"below that threshold because the analytic window holds fewer than 4 points "
+             f"(val(h)=1-gamma_fgn(H,h) exits [floor, one_max={ONE_MAX}] too fast as H decreases). "
+             f"No zero crossing exists -> no bracket. "
+             f"All_bias_fixed_negative={out['all_bias_fixed_negative']}. "
+             f"NOTE (EH14 erratum): EH14's prose claimed 'H>=0.80: p_hat<=0.45' while its own G2 table "
+             f"showed None at H=0.80 and 0.85 — the correct threshold is H >= {lo}.")
     L.append(f"eh9's H* in (0.75,0.95] claim: SUPERSEDED — it arose from the buggy off-by-one estimator "
              f"whose window shift moved points into a region where p_hat spuriously approached 2H. "
              f"The corrected estimator shows the onset-window fit never reaches 2H at integer lags.")
@@ -338,8 +358,8 @@ L += ["", "## verdict", "",
       f"The H* concept itself fails to reproduce under the corrected estimator: reported as absent, "
       f"not as a value."]
 
-open('eh14_window_audit_REPORT.md', 'w').write("\n".join(L))
-json.dump(out, open('eh14_window_audit.json', 'w'), indent=1, default=str)
+open('eh15_g2_audit_REPORT.md', 'w').write("\n".join(L))
+json.dump(out, open('eh15_g2_audit.json', 'w'), indent=1, default=str)
 
 # ---------------- figure ----------------
 fig, axes = plt.subplots(1, 4, figsize=(20, 4))
@@ -365,7 +385,7 @@ bf = [fgn_tab[H][KGRID[0]]['bias_fixed'] for H in HGRID]
 ax.plot(HGRID, bf, 'o-')
 ax.axhline(0, color='k', lw=0.8)
 ax.set_title('bias(H) never crosses 0'); ax.set_xlabel('H')
-plt.tight_layout(); plt.savefig('eh14_window_audit.png', dpi=110)
+plt.tight_layout(); plt.savefig('eh15_g2_audit.png', dpi=110)
 
 print("DONE", out['elapsed_s'], "s", flush=True)
 print("\n".join(L[-10:]), flush=True)

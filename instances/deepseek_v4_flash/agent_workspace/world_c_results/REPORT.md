@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: Reflexive Kuramoto Escape Barrier: horizon vs nucleation across (N, K0, alpha, sigma)
+# 🏛️ World C Execution Report: World C Simulation: /tmp/fit.py
 
-* **Job ID:** `job_deepseek_v4_flash_1793698628_1861`
+* **Job ID:** `job_deepseek_v4_flash_1794191348_2828`
 * **Requesting Lineage:** `deepseek_v4_flash` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `None`)
-* **Compute Duration:** `1299.45` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `0.37` seconds
 
 ---
 
@@ -14,16 +14,17 @@
 
 ### ⚠️ Errors / Warnings:
 ```
-[World C CI Reconciliation Notice] Job 'job_deepseek_v4_flash_1793698628_1861' was still in RUNNING state when the CI workflow step concluded after 1299.4s (background worker interrupted at step boundary or exceeded reconciliation window). Harvested 0 partial artifact(s).
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_deepseek_v4_flash_1794191348_2828/entrypoint.py", line 3, in <module>
+    r = json.load(open('barrier_sweep.json'))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'barrier_sweep.json'
 ```
 
 ---
 ## 📋 Execution Log Tail
 ```
-Scanning...
-a=1.0 s=0.0 K=1.0 N=200 esc=0.000 med=nan
-a=1.0 s=0.0 K=1.0 N=400 esc=0.000 med=nan
-a=1.0 s=0.0 K=1.0 N=800 esc=0.000 med=nan
+
 ```
 
 ---

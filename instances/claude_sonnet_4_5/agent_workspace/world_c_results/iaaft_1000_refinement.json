@@ -1,47 +1,134 @@
 {
   "statistic": "RQA determinism (DET), fixed RR=0.05, m=3 tau=ACF0 (m=2 tau=1 for lynx_hare)",
   "n_iaaft": 1000,
-  "n_fourier_lynx": 1000,
   "iaaft_iters": 100,
   "p_resolution_note": "min attainable p with 1000 IAAFT surrogates = 1/1001 = 0.000999",
+  "fourier_z_source": "job_claude_sonnet_4_5_1794129621_2d09 (n=400), imported for delta_z only",
   "results": {
     "solar_sunspots": {
-      "error": "float() argument must be a string or a real number, not 'method'",
-      "resolved": false
+      "N": 512,
+      "m": 3,
+      "tau": 6,
+      "DET_obs": 0.45853884093711467,
+      "iaaft": {
+        "n": 1000,
+        "mean": 0.3799099958166898,
+        "std": 0.029513564230375162,
+        "z": 2.6641595880005764,
+        "p": 0.007992007992007992,
+        "z_cap": 0.000999000999000999
+      },
+      "fourier_z_used": 7.011184266952884,
+      "delta_z": 4.347024678952307,
+      "class_hint": "physical/dynamo (delta_z>0)",
+      "resolved": true
     },
     "climate_enso": {
-      "error": "float() argument must be a string or a real number, not 'method'",
+      "N": 512,
+      "m": 3,
+      "tau": 7,
+      "DET_obs": 0.46474060267163714,
+      "iaaft": {
+        "n": 1000,
+        "mean": 0.4900081292303863,
+        "std": 0.020566436667084395,
+        "z": -1.228580670913626,
+        "p": 0.8871128871128872,
+        "z_cap": 0.000999000999000999
+      },
+      "fourier_z_used": 6.500831644287462,
+      "delta_z": 7.729412315201088,
+      "class_hint": "physical/dynamo (delta_z>0)",
       "resolved": false
     },
     "climate_temperatures": {
-      "error": "float() argument must be a string or a real number, not 'method'",
+      "N": 512,
+      "m": 3,
+      "tau": 13,
+      "DET_obs": 0.18220338983050846,
+      "iaaft": {
+        "n": 1000,
+        "mean": 0.1669381946788405,
+        "std": 0.01141994526398836,
+        "z": 1.3367135129627294,
+        "p": 0.0919080919080919,
+        "z_cap": 0.000999000999000999
+      },
+      "fourier_z_used": 6.559902199205105,
+      "delta_z": 5.223188686242375,
+      "class_hint": "physical/dynamo (delta_z>0)",
       "resolved": false
     },
     "neural_eeg": {
-      "error": "float() argument must be a string or a real number, not 'method'",
-      "resolved": false
+      "N": 512,
+      "m": 3,
+      "tau": 10,
+      "DET_obs": 0.2919185491568565,
+      "iaaft": {
+        "n": 1000,
+        "mean": 0.19828216653843891,
+        "std": 0.02259459031761209,
+        "z": 4.1441947520256495,
+        "p": 0.001998001998001998,
+        "z_cap": 0.000999000999000999
+      },
+      "fourier_z_used": 7.063923338842729,
+      "delta_z": 2.9197285868170795,
+      "class_hint": "physical/dynamo (delta_z>0)",
+      "resolved": true
     },
     "power_grid_ieee": {
-      "error": "float() argument must be a string or a real number, not 'method'",
-      "resolved": false
+      "N": 512,
+      "m": 3,
+      "tau": 17,
+      "DET_obs": 0.9454331766286098,
+      "iaaft": {
+        "n": 1000,
+        "mean": 0.7550942426341061,
+        "std": 0.052954141452376244,
+        "z": 3.5944107254705107,
+        "p": 0.000999000999000999,
+        "z_cap": 0.000999000999000999
+      },
+      "fourier_z_used": 6.723063268384391,
+      "delta_z": 3.1286525429138803,
+      "class_hint": "physical/dynamo (delta_z>0)",
+      "resolved": true
     },
     "belousov_zhabotinsky": {
-      "error": "float() argument must be a string or a real number, not 'method'",
-      "resolved": false
+      "N": 512,
+      "m": 3,
+      "tau": 44,
+      "DET_obs": 0.9212095400340715,
+      "iaaft": {
+        "n": 1000,
+        "mean": 0.699020017035775,
+        "std": 0.03839692378941113,
+        "z": 5.78664906118262,
+        "p": 0.000999000999000999,
+        "z_cap": 0.000999000999000999
+      },
+      "fourier_z_used": 6.9357070049147165,
+      "delta_z": 1.149057943732097,
+      "class_hint": "physical/dynamo (delta_z>0)",
+      "resolved": true
     },
     "lynx_hare": {
-      "error": "float() argument must be a string or a real number, not 'method'",
-      "resolved": false
+      "resolved": false,
+      "structural": true,
+      "N": 21,
+      "reason": "structurally unresolvable: dataset N=21 < 60; m=2 embedding yields 20 points < RQA minimum 30. No valid null test possible.",
+      "fourier_z_used": null
     }
   },
   "verdict": {
-    "solar_sunspots": false,
+    "solar_sunspots": true,
     "climate_enso": false,
     "climate_temperatures": false,
-    "neural_eeg": false,
-    "power_grid_ieee": false,
-    "belousov_zhabotinsky": false,
+    "neural_eeg": true,
+    "power_grid_ieee": true,
+    "belousov_zhabotinsky": true,
     "lynx_hare": false
   },
-  "runtime_s": 0.12185215950012207
+  "runtime_s": 198.1483542919159
 }

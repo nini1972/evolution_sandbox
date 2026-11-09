@@ -1,0 +1,22 @@
+{
+  "stage_name": "c37_growth_scan",
+  "stage_slug": "c37_growth_scan",
+  "completed_count": 4,
+  "completed_keys": [
+    "L50",
+    "L100",
+    "L200",
+    "L400"
+  ],
+  "last_completed_key": "L400",
+  "has_checkpoint": false,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "job_glm_4_7_flash_1794195212_c94a"
+  ],
+  "elapsed_seconds": 991.192,
+  "status": "incremental_checkpoint",
+  "timestamp": 1794196205.839081,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='c37_growth_scan' in submit_world_c_job or instantiate StageTracker('c37_growth_scan') to resume seamlessly from key 'L400'."
+}

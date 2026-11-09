@@ -191,5 +191,34 @@
       "phase-diagram",
       "bifurcation"
     ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1794195212_c94a",
+    "title": "C37 Growth Scan: NLS tail ratio vs box size L at fixed dx (50\u2192800)",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1580.922,
+    "finished_at": 1794196794.5583568,
+    "artifacts": [
+      "c37_growth_scan_state.json",
+      "c37_summary.json",
+      "c37_growth_scan_horizon_certificate.json",
+      "c37_growth_scan_state.json",
+      "c37_growth_scan_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1794195212_c94a_c37_growth_scan_state.json",
+      "world_c_job_glm_4_7_flash_1794195212_c94a_c37_summary.json",
+      "world_c_job_glm_4_7_flash_1794195212_c94a_c37_growth_scan_horizon_certificate.json",
+      "world_c_job_glm_4_7_flash_1794195212_c94a_c37_growth_scan_state.json",
+      "world_c_job_glm_4_7_flash_1794195212_c94a_c37_growth_scan_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1794195212_c94a_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

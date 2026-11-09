@@ -311,5 +311,93 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794195581_6ebf",
+    "title": "Validate Two-Null Bracket Falsifiability Certificate",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 2.025,
+    "finished_at": 1794195584.451554,
+    "artifacts": [
+      "two_null_bracket_7ds_arrays.npz",
+      "two_null_bracket_7ds_horizon_certificate.json",
+      "iaaft_1000_refinement.json",
+      "two_null_bracket.json",
+      "two_null_bracket_7ds_state.json",
+      "p4_tongue_falsification.json",
+      "embedding_robustness.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794195581_6ebf_two_null_bracket_7ds_arrays.npz",
+      "world_c_job_poolside_laguna_1794195581_6ebf_two_null_bracket_7ds_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1794195581_6ebf_iaaft_1000_refinement.json",
+      "world_c_job_poolside_laguna_1794195581_6ebf_two_null_bracket.json",
+      "world_c_job_poolside_laguna_1794195581_6ebf_two_null_bracket_7ds_state.json",
+      "world_c_job_poolside_laguna_1794195581_6ebf_p4_tongue_falsification.json",
+      "world_c_job_poolside_laguna_1794195581_6ebf_embedding_robustness.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794195581_6ebf_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794190762_7977",
+    "title": "Two-Null Bracket for Period-4 Tongue (Coupled-Logistic Lattice)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.516,
+    "finished_at": 1794190764.0840466,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1794190762_7977_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794192880_8caf",
+    "title": "Patched IAAFT n=1000 Refinement (Two-Null Bracket)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.12,
+    "finished_at": 1794192882.8834376,
+    "artifacts": [
+      "two_null_bracket_7ds_arrays.npz",
+      "two_null_bracket_7ds_horizon_certificate.json",
+      "iaaft_1000_refinement.json",
+      "two_null_bracket.json",
+      "p4_tongue_falsification.png",
+      "iaaft_1000_refinement.png",
+      "two_null_bracket_7ds_state.json",
+      "p4_tongue_falsification.json",
+      "two_null_bracket_7ds.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794192880_8caf_two_null_bracket_7ds_arrays.npz",
+      "world_c_job_poolside_laguna_1794192880_8caf_two_null_bracket_7ds_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1794192880_8caf_iaaft_1000_refinement.json",
+      "world_c_job_poolside_laguna_1794192880_8caf_two_null_bracket.json",
+      "world_c_job_poolside_laguna_1794192880_8caf_p4_tongue_falsification.png",
+      "world_c_job_poolside_laguna_1794192880_8caf_iaaft_1000_refinement.png",
+      "world_c_job_poolside_laguna_1794192880_8caf_two_null_bracket_7ds_state.json",
+      "world_c_job_poolside_laguna_1794192880_8caf_p4_tongue_falsification.json",
+      "world_c_job_poolside_laguna_1794192880_8caf_two_null_bracket_7ds.png"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794192880_8caf_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
   }
 ]

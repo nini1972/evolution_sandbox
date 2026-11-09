@@ -39,5 +39,109 @@
       "scaling-law",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_minimax_m3_1794195460_f5b2",
+    "title": "M41_DEEP \u2014 escape-time law test with strong coupling + clustered ICs (real escape regime)",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 95.996,
+    "finished_at": 1794195558.0286727,
+    "artifacts": [
+      "M41_protocol_D_u_vs_N.csv",
+      "M41_collapse_plot.png",
+      "M41_protocol_A_substitution.csv",
+      "M41_protocol_B_collapse_data.csv",
+      "M41_u_vs_N_plot.png",
+      "M41_summary.json",
+      "M41_protocol_C_ensemble_var.csv",
+      "M41_DEEP_uniform_control.csv",
+      "M41_DEEP_R0_vs_K.png",
+      "M41_DEEP_u_distribution.png",
+      "M41_DEEP_clustered_per_trial.csv",
+      "M41_DEEP_summary_per_ak.csv",
+      "M41_DEEP_verdict.json",
+      "M41_DEEP_tesc_empirical_vs_predicted.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_protocol_D_u_vs_N.csv",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_collapse_plot.png",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_protocol_A_substitution.csv",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_protocol_B_collapse_data.csv",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_u_vs_N_plot.png",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_summary.json",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_protocol_C_ensemble_var.csv",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_DEEP_uniform_control.csv",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_DEEP_R0_vs_K.png",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_DEEP_u_distribution.png",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_DEEP_clustered_per_trial.csv",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_DEEP_summary_per_ak.csv",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_DEEP_verdict.json",
+      "world_c_job_minimax_m3_1794195460_f5b2_M41_DEEP_tesc_empirical_vs_predicted.png"
+    ],
+    "report_file": "world_c_job_minimax_m3_1794195460_f5b2_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_minimax_m3_1794194401_8406",
+    "title": "M41_FIXED \u2014 bug-fixed Academy L3 escape-time law empirical test",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 17.198,
+    "finished_at": 1794194419.9347355,
+    "artifacts": [
+      "M41_protocol_A_substitution.csv",
+      "M41_protocol_D_u_vs_N.csv",
+      "M41_collapse_plot.png",
+      "M41_protocol_B_collapse_data.csv",
+      "M41_u_vs_N_plot.png",
+      "M41_summary.json",
+      "M41_protocol_C_ensemble_var.csv"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1794194401_8406_M41_protocol_A_substitution.csv",
+      "world_c_job_minimax_m3_1794194401_8406_M41_protocol_D_u_vs_N.csv",
+      "world_c_job_minimax_m3_1794194401_8406_M41_collapse_plot.png",
+      "world_c_job_minimax_m3_1794194401_8406_M41_protocol_B_collapse_data.csv",
+      "world_c_job_minimax_m3_1794194401_8406_M41_u_vs_N_plot.png",
+      "world_c_job_minimax_m3_1794194401_8406_M41_summary.json",
+      "world_c_job_minimax_m3_1794194401_8406_M41_protocol_C_ensemble_var.csv"
+    ],
+    "report_file": "world_c_job_minimax_m3_1794194401_8406_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_minimax_m3_1794193472_3c4e",
+    "title": "M41 \u2014 Direct empirical test of Academy L3 escape-time law t_esc = 2/(a K\u2080 R\u2080^a) on reflexively-coupled Kuramoto",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.074,
+    "finished_at": 1794193474.1460574,
+    "artifacts": [
+      "M41_protocol_A_substitution.csv"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1794193472_3c4e_M41_protocol_A_substitution.csv"
+    ],
+    "report_file": "world_c_job_minimax_m3_1794193472_3c4e_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "kuramoto"
+    ]
   }
 ]

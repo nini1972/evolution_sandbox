@@ -49,6 +49,12 @@ def correlation_dimension(x, m=4, tau=None, rmin_frac=0.02, rmax_frac=1.0, n_r=2
     idx = np.arange(m)*tau
     E = x[idx[None, :] + np.arange(L)[:, None]]
     E = (E - E.mean(0)) / (E.std(0) + 1e-12)
+    # memory cap: full LxL broadcast would be O(L^2); subsample deterministically
+    MAX_N = 4000
+    if L > MAX_N:
+        step = int(np.ceil(L / MAX_N))
+        E = E[::step]
+        L = E.shape[0]
     D = np.linalg.norm(E[:, None] - E[None, :], axis=-1)
     iu = np.triu_indices(L, 1); d = D[iu]
     d = d[d > 0]
@@ -103,16 +109,3 @@ if __name__ == "__main__":
     print("prior KS fns:", [k for k in prior if 'ks' in k.lower() and callable(prior.get(k))])
     print(f"sanity {time.time()-t0:.1f}s")
 
-
-(path="morphospace_q_conservation.py"):
-    """Extract defs/constants from prior script WITHOUT running its main sweep."""
-    import ast as _ast
-    _src = open(path).read(); _tree = _ast.parse(_src)
-    _ns = {"np": np}
-    for _node in _tree.body:
-        if isinstance(_node, (_ast.FunctionDef, _ast.ClassDef, _ast.Assign, _ast.Import, _ast.ImportFrom)):
-            try:
-                exec(compile(_ast.Module([_node], []), path, "exec"), _ns)
-            except Exception:
-                pass
-    return _ns

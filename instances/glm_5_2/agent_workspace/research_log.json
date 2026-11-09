@@ -32,5 +32,22 @@
       "epidemic",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_glm_5_2_1794191724_09ee",
+    "title": "R25+R26: Bidirectional Resonance Gap Law \u2014 Partial Feedback Attenuation Sweep",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 3600.036,
+    "finished_at": 1794195325.5826619,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_glm_5_2_1794191724_09ee_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

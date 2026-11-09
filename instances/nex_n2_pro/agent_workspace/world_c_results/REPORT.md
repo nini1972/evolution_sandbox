@@ -1,89 +1,42 @@
-# 🏛️ World C Execution Report: P4-tongue N-independence stress-test (N=320-640 ring) + all-to-all topology replicate
+# 🏛️ World C Execution Report: P4 tongue basin structure test: finite-K vs riddled basins
 
-* **Job ID:** `job_nex_n2_pro_1794148946_2442`
+* **Job ID:** `job_nex_n2_pro_1794195354_6c8d`
 * **Requesting Lineage:** `nex_n2_pro` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `30.64` seconds
+* **Compute Duration:** `11.14` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `p4_n_stress`
-* **Completed Stage Slices Saved:** `1` (Last completed key: `final`)
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='p4_n_stress', resume_from_job_id='job_nex_n2_pro_1794148946_2442')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('p4_n_stress')`.
+* **Stage Name:** `p4_tongue_archaeology`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='p4_tongue_archaeology', resume_from_job_id='job_nex_n2_pro_1794195354_6c8d')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('p4_tongue_archaeology')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `p4_n_stress.png` (delivered to `world_c_results/p4_n_stress.png` and `world_c/artifacts/job_nex_n2_pro_1794148946_2442/p4_n_stress.png`)
-- `p4_n_stress_state.json` (delivered to `world_c_results/p4_n_stress_state.json` and `world_c/artifacts/job_nex_n2_pro_1794148946_2442/p4_n_stress_state.json`)
-- `p4_n_stress_horizon_certificate.json` (delivered to `world_c_results/p4_n_stress_horizon_certificate.json` and `world_c/artifacts/job_nex_n2_pro_1794148946_2442/p4_n_stress_horizon_certificate.json`)
-- `p4_n_stress.json` (delivered to `world_c_results/p4_n_stress.json` and `world_c/artifacts/job_nex_n2_pro_1794148946_2442/p4_n_stress.json`)
+- `p4_basin_test.json` (delivered to `world_c_results/p4_basin_test.json` and `world_c/artifacts/job_nex_n2_pro_1794195354_6c8d/p4_basin_test.json`)
+- `p4_basin_test.png` (delivered to `world_c_results/p4_basin_test.png` and `world_c/artifacts/job_nex_n2_pro_1794195354_6c8d/p4_basin_test.png`)
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-done N=320
-done N=384
-done N=448
-done N=512
-done N=576
-done N=640
-registered stage 'final' in p4_n_stress
-SAVED p4_n_stress.json and p4_n_stress.png
-{
-  "320": {
-    "n_cells": 10,
-    "n_p4": 5,
-    "p4_frac": 0.5,
-    "n_erasure": 5,
-    "erasure_frac": 1.0,
-    "mean_gap": 0.04103258561259791
-  },
-  "384": {
-    "n_cells": 10,
-    "n_p4": 4,
-    "p4_frac": 0.4,
-    "n_erasure": 4,
-    "erasure_frac": 1.0,
-    "mean_gap": 0.04045058630318511
-  },
-  "448": {
-    "n_cells": 10,
-    "n_p4": 4,
-    "p4_frac": 0.4,
-    "n_erasure": 4,
-    "erasure_frac": 1.0,
-    "mean_gap": 0.04171508116228381
-  },
-  "512": {
-    "n_cells": 10,
-    "n_p4": 4,
-    "p4_frac": 0.4,
-    "n_erasure": 4,
-    "erasure_frac": 1.0,
-    "mean_gap": 0.04142602630315886
-  },
-  "576": {
-    "n_cells": 10,
-    "n_p4": 4,
-    "p4_frac": 0.4,
-    "n_erasure": 4,
-    "erasure_frac": 1.0,
-    "mean_gap": 0.041194698875128784
-  },
-  "640": {
-    "n_cells": 10,
-    "n_p4": 5,
-    "p4_frac": 0.5,
-    "n_erasure": 5,
-    "erasure_frac": 1.0,
-    "mean_gap": 0.04186710056543098
-  }
-}
-T-stability agree: 10 / 10
-topology ring: 4 all-to-all: 6
+Locked P0: spread=0.5786, envelope range=0.6550/0.6787
+  delta= 1.0e-01  jump_frac= 1.000 (80/80)  median d_orbit=5.45e-01
+  delta= 3.0e-02  jump_frac= 1.000 (80/80)  median d_orbit=5.45e-01
+  delta= 1.0e-02  jump_frac= 0.950 (76/80)  median d_orbit=1.74e-01
+  delta= 3.0e-03  jump_frac= 0.100 (8/80)  median d_orbit=4.11e-15
+  delta= 1.0e-03  jump_frac= 0.000 (0/80)  median d_orbit=4.11e-15
+  delta= 3.0e-04  jump_frac= 0.000 (0/80)  median d_orbit=4.11e-15
+  delta= 1.0e-04  jump_frac= 0.000 (0/80)  median d_orbit=4.11e-15
+  delta= 3.0e-05  jump_frac= 0.000 (0/80)  median d_orbit=2.55e-15
+  delta= 1.0e-05  jump_frac= 0.000 (0/80)  median d_orbit=4.11e-15
+  delta= 3.0e-06  jump_frac= 0.000 (0/80)  median d_orbit=4.11e-15
+  delta= 1.0e-06  jump_frac= 0.000 (0/80)  median d_orbit=3.22e-15
+  delta= 3.0e-07  jump_frac= 0.000 (0/80)  median d_orbit=4.11e-15
+  delta= 1.0e-07  jump_frac= 0.000 (0/80)  median d_orbit=4.11e-15
+12 seeds -> 12 inequivalent P4 attractors (mod phase x site); assign=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+saved p4_basin_test.png + p4_basin_test.json to /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_nex_n2_pro_1794195354_6c8d
 ```
 
 ---

@@ -1,0 +1,27 @@
+{
+    "description": "Multi-bus AC frequency (50 Hz nominal) and macroscopic phase coherence r(t) across an IEEE 14-bus transmission topology undergoing a localized fault perturbation and resynchronization transient.",
+    "data_keys": [
+        "time_s",
+        "bus1_freq_hz",
+        "bus2_freq_hz",
+        "bus3_freq_hz",
+        "bus4_freq_hz",
+        "mean_freq_deviation_hz",
+        "kuramoto_r"
+    ],
+    "metadata_keys": [
+        "name",
+        "title",
+        "domain",
+        "source",
+        "filename",
+        "sampling",
+        "sampling_rate",
+        "time_range",
+        "columns",
+        "primary_signal",
+        "physical_system",
+        "description",
+        "recommended_probes"
+    ]
+}

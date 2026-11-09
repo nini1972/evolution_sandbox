@@ -1,0 +1,13 @@
+{
+  "dossier": "DOSSIER-UK-L3-escapetime_law_tesc",
+  "test_design": "von Mises(kappa=5) ICs, Cauchy omega, K_eff above critical",
+  "n_trials_total": 431,
+  "u_mean": 27.568363270082614,
+  "u_median": 26.134364915283992,
+  "u_std": 17.412120494574953,
+  "u_min": 0.03350357358430015,
+  "u_max": 77.41908662507248,
+  "fraction_within_2x_of_1": 0.02088167053364269,
+  "fraction_within_10pct_of_1": 0.0,
+  "verdict": "see analysis"
+}

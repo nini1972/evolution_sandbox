@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from scipy.ndimage import gaussian_filter
 import os, json, sys, warnings, hashlib, itertools, time
 from multiprocessing import Pool
 warnings.filterwarnings('ignore')
@@ -10,11 +11,13 @@ warnings.filterwarnings('ignore')
 # -------------------------------------------------------------------------
 # Cycle 20 — Integrated Spatiotemporal Plasticity (World C sweep)
 # -------------------------------------------------------------------------
-# Spatial individuals experience a moving optimum theta(i,j,t). They can
+# Spatial individuals experience a moving optimum theta(i,j,t). A
+# Gaussian-smoothed spatial reference cue (sigma_w) gives each organism
+# access to a local neighbourhood average of the optimum. They can
 # (i) develop plastically toward a local cue, (ii) disperse in space, and
-# (iii) use cues to modulate both plasticity and dispersal. Selection is
-# density-regulated, soft birth-death with explicit survival costs for
-# movement and plasticity.
+# (iii) use both local and smoothed cues to modulate plasticity and
+# dispersal. Selection is density-regulated, soft birth-death with
+# explicit survival costs for movement and plasticity.
 # -------------------------------------------------------------------------
 
 DEFAULT = dict(
@@ -91,6 +94,11 @@ class Simulation:
         else:
             self.eta.fill(0.0)
         self.theta = wave[None, :] + self.eta
+        # Spatially-smoothed reference cue: sigma_w controls the spatial scale
+        if self.sigma_w > 0:
+            self.theta_smooth = gaussian_filter(self.theta, sigma=self.sigma_w, mode='wrap')
+        else:
+            self.theta_smooth = self.theta.copy()
 
     def local_optimum(self, cell):
         i = cell // self.L
@@ -138,8 +146,8 @@ class Simulation:
 
         # 1. Local cues and spatially smoothed reference cue
         theta_vals = self.theta.ravel()[cells]
-        theta_flat = self.theta.ravel()
-        spatial_cue = (1.0 - self.rho) * theta_vals + self.rho * theta_flat.mean()
+        theta_smooth_vals = self.theta_smooth.ravel()[cells]
+        spatial_cue = theta_smooth_vals
 
         # 2. Developmental plasticity toward local cue
         cue_noise = self.rng.normal(0, self.sigma_cue, size=n)
@@ -168,12 +176,12 @@ class Simulation:
 
         # 6. Movement among survivors
         sur_cells = self.cell_id[survivors]
+        sur_theta = self.theta.ravel()[sur_cells]
+        sur_theta_smooth = self.theta_smooth.ravel()[sur_cells]
         sur_d = np.clip(self.d_base[survivors] + np.round(self.beta[survivors] *
-                         (self.theta.ravel()[sur_cells] - ((1.0 - self.rho) * self.theta.ravel()[sur_cells] +
-                          self.rho * self.theta.mean()))).astype(np.int16), 1, self.d_max)
-        sur_p = self.p_base[survivors] + self.h0[survivors] * (self.theta.ravel()[sur_cells] - self.z[survivors]) + \
-                self.hb[survivors] * (self.theta.ravel()[sur_cells] - ((1.0 - self.rho) * self.theta.ravel()[sur_cells] +
-                                       self.rho * self.theta.mean()))
+                         (sur_theta - sur_theta_smooth)).astype(np.int16), 1, self.d_max)
+        sur_p = self.p_base[survivors] + self.h0[survivors] * (sur_theta - self.z[survivors]) + \
+                self.hb[survivors] * (sur_theta - sur_theta_smooth)
         sur_p = np.clip(sur_p, 0.0, 1.0)
         movers = survivors[self.rng.random(survivors.size) < sur_p]
         stayers = np.setdiff1d(survivors, movers, assume_unique=True)
@@ -181,7 +189,8 @@ class Simulation:
         new_cells = self.cell_id[survivors].copy()
         if movers.size > 0:
             new_cells_moved = self._move_cells(self.cell_id[movers], self.d_base[movers],
-                                                self.beta[movers], self.theta.ravel(), self.L)
+                                                self.beta[movers], self.theta.ravel(),
+                                                self.theta_smooth.ravel(), self.L)
             new_cells[np.isin(survivors, movers)] = new_cells_moved
 
         # 7. Density-regulated selection within each cell
@@ -353,13 +362,15 @@ class Simulation:
         self.log(t)
         return True
 
-    def _move_cells(self, cells, d_base, beta, theta_flat, L):
-        """Vectorized movement to a random cell within cue-modulated distance."""
+    def _move_cells(self, cells, d_base, beta, theta_flat, theta_smooth_flat, L):
+        """Vectorized movement to a random cell within cue-modulated distance.
+        theta_flat is the local environmental cue; theta_smooth_flat is the
+        spatially-smoothed reference cue used to compute movement distance."""
         self.rng = self.rng
         n = cells.size
         if n == 0:
             return np.array([], dtype=np.int32)
-        spatial_cue = (1.0 - self.rho) * theta_flat[cells] + self.rho * theta_flat.mean()
+        spatial_cue = theta_smooth_flat[cells]
         d_eff = d_base + np.round(beta * (theta_flat[cells] - spatial_cue)).astype(np.int16)
         d_eff = np.clip(d_eff, 1, self.d_max)
         i = cells // L

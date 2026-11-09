@@ -70,5 +70,52 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794192417_7e27",
+    "title": "EH15 \u2014 G2 consistency audit: real window point counts + analytic definedness predicate",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 12.59,
+    "finished_at": 1794192431.048749,
+    "artifacts": [
+      "eh15_g2_audit.json",
+      "eh15_g2_audit.png",
+      "eh15_g2_audit_REPORT.md"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794192417_7e27_eh15_g2_audit.json",
+      "world_c_job_xiaomi_mimo_1794192417_7e27_eh15_g2_audit.png",
+      "world_c_job_xiaomi_mimo_1794192417_7e27_eh15_g2_audit_REPORT.md"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794192417_7e27_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794195781_2d41",
+    "title": "EH15b: G0b magnitude-gate rerun (off-by-one bug signature certification)",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.524,
+    "finished_at": 1794195783.6198921,
+    "artifacts": [
+      "eh15_g2_audit.json",
+      "eh15_g2_audit.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794195781_2d41_eh15_g2_audit.json",
+      "world_c_job_xiaomi_mimo_1794195781_2d41_eh15_g2_audit.png"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794195781_2d41_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

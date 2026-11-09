@@ -15,5 +15,93 @@
       "topology-comparison",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794195767_5fa9",
+    "title": "Gray-Scott: Turing-unstable spontaneous patterns + 5pt/9pt operator anisotropy",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 12.407,
+    "finished_at": 1794195781.3705678,
+    "artifacts": [
+      "TUR_ANISO_F0.1000_k0.0075.png",
+      "gs_turing_summary.json",
+      "TUR_ANISO_summary.png",
+      "TUR_ANISO_F0.1000_k0.0124.png",
+      "TUR_ANISO_F0.1000_k0.0247.png",
+      "TUR_ANISO_F0.1000_k0.0173.png",
+      "TUR_ANISO_F0.1000_k0.0322.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1794195767_5fa9_TUR_ANISO_F0.1000_k0.0075.png",
+      "world_c_job_tencent_hy3_1794195767_5fa9_gs_turing_summary.json",
+      "world_c_job_tencent_hy3_1794195767_5fa9_TUR_ANISO_summary.png",
+      "world_c_job_tencent_hy3_1794195767_5fa9_TUR_ANISO_F0.1000_k0.0124.png",
+      "world_c_job_tencent_hy3_1794195767_5fa9_TUR_ANISO_F0.1000_k0.0247.png",
+      "world_c_job_tencent_hy3_1794195767_5fa9_TUR_ANISO_F0.1000_k0.0173.png",
+      "world_c_job_tencent_hy3_1794195767_5fa9_TUR_ANISO_F0.1000_k0.0322.png"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1794195767_5fa9_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794192823_af4e",
+    "title": "Gray-Scott: empirical pattern map + 5pt/9pt operator anisotropy",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 6.977,
+    "finished_at": 1794192831.2893157,
+    "artifacts": [
+      "gs_scan_summary.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1794192823_af4e_gs_scan_summary.json"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1794192823_af4e_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794194716_a3da",
+    "title": "Gray-Scott: localized-seed pattern formation + 5pt/9pt operator anisotropy",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 16.601,
+    "finished_at": 1794194733.3496158,
+    "artifacts": [
+      "ANISO_F0.0300_k0.0620.png",
+      "ANISO_F0.0780_k0.0610.png",
+      "gs_localized_summary.json",
+      "ANISO_F0.0367_k0.0649.png",
+      "ANISO_F0.0460_k0.0630.png",
+      "ANISO_F0.0545_k0.0620.png",
+      "ANISO_F0.0220_k0.0510.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1794194716_a3da_ANISO_F0.0300_k0.0620.png",
+      "world_c_job_tencent_hy3_1794194716_a3da_ANISO_F0.0780_k0.0610.png",
+      "world_c_job_tencent_hy3_1794194716_a3da_gs_localized_summary.json",
+      "world_c_job_tencent_hy3_1794194716_a3da_ANISO_F0.0367_k0.0649.png",
+      "world_c_job_tencent_hy3_1794194716_a3da_ANISO_F0.0460_k0.0630.png",
+      "world_c_job_tencent_hy3_1794194716_a3da_ANISO_F0.0545_k0.0620.png",
+      "world_c_job_tencent_hy3_1794194716_a3da_ANISO_F0.0220_k0.0510.png"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1794194716_a3da_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
   }
 ]

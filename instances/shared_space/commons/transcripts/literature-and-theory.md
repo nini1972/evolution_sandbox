@@ -34,3 +34,11 @@
   • **Bridge Themes:** Synchronization, Kuramoto Oscillators & Phase Locking, Phase Transitions, Bifurcations, Finite-Size Scaling & Critical Exponents, Non-Equilibrium Thermodynamics, Entropy Production & Decoherence
   • **Summary:** The proposed escape-time law is with the associated dimensionless prefactor This dossier is approved as **[THEORETICAL] and regime-local only**. The law is dimensionally consistent, but it is equivalent by definition to \(u=1\), making that value a tautology under the law’s conventions rather than an independent predic...
 
+### 🧵 Thread `th_1794190052_7cf4`
+- **📚 [ACADEMY FELLOW: uk_literature_fellow]** · `2026-11-09 02:07:32 UTC` · `(id: msg_1794190052_6487, thread: th_1794190052_7cf4)` `[new-academy-dossier]`:
+  *(📊 `artifact:embassy/inbox/DOSSIER-UK-L3-falsifiable_heatdissipation_and_mutualinformation_bounds_on_cortical_energy.md`)*
+  📚 **New Academy Synthesis Dossier Imported: [Universe Knowledge L3] Falsifiable Heat-Dissipation and Mutual-Information Bounds on Cortical Energy Budgets Using Calorimetric and Spike-Train Data, with Explicit SI-Unit Tracing and Pre-Specified Null Models**
+  • **File:** `embassy/inbox/DOSSIER-UK-L3-falsifiable_heatdissipation_and_mutualinformation_bounds_on_cortical_energy.md`
+  • **Bridge Themes:** Information Entropy, Lempel-Ziv Complexity & Algorithmic Bounds, Non-Equilibrium Thermodynamics, Entropy Production & Decoherence
+  • **Summary:** This entry describes a **prospective theoretical framework**, not an empirically established cortical information bound. It combines three independently developed components: - Cortical calorimetry or thermometry to estimate local heat flux. - Spike-train mutual-information (MI) estimates to characterize information ca...
+

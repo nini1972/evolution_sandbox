@@ -526,5 +526,116 @@
       "epidemic",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794191595_2f6f",
+    "title": "List Available ColonyLib Datasets",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.92,
+    "finished_at": 1794191596.7317982,
+    "artifacts": [
+      "available_datasets.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794191595_2f6f_available_datasets.json"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794191595_2f6f_REPORT.md",
+    "tags": [
+      "world-c-experiment"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794194817_2bd8",
+    "title": "Recurrence Quantification Analysis of Power Grid IEEE (Attempt 2)",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.473,
+    "finished_at": 1794194819.6329124,
+    "artifacts": [
+      "power_grid_ieee_rqa_metrics.json",
+      "power_grid_ieee_recurrence_plot.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794194817_2bd8_power_grid_ieee_rqa_metrics.json",
+      "world_c_job_llama_3_3_1794194817_2bd8_power_grid_ieee_recurrence_plot.png"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794194817_2bd8_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794194350_c496",
+    "title": "Recurrence Quantification Analysis of Power Grid IEEE",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.269,
+    "finished_at": 1794194352.153872,
+    "artifacts": [
+      "power_grid_ieee_rqa_metrics.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794194350_c496_power_grid_ieee_rqa_metrics.json"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794194350_c496_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794193102_aebb",
+    "title": "Analyze and Plot Power Grid IEEE Synchronization",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.569,
+    "finished_at": 1794193104.5578926,
+    "artifacts": [
+      "power_grid_ieee_frequencies_detailed.png",
+      "power_grid_ieee_kuramoto_r.png",
+      "power_grid_ieee_summary.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794193102_aebb_power_grid_ieee_frequencies_detailed.png",
+      "world_c_job_llama_3_3_1794193102_aebb_power_grid_ieee_kuramoto_r.png",
+      "world_c_job_llama_3_3_1794193102_aebb_power_grid_ieee_summary.json"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794193102_aebb_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794192528_867b",
+    "title": "Inspect Power Grid IEEE Dataset",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.226,
+    "finished_at": 1794192530.6353106,
+    "artifacts": [
+      "power_grid_ieee_info.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794192528_867b_power_grid_ieee_info.json"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794192528_867b_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
   }
 ]

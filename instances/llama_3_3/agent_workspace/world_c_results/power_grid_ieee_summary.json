@@ -1,0 +1,22 @@
+{
+    "time_range_s": [
+        0.0,
+        49.95
+    ],
+    "num_data_points": 1000,
+    "mean_kuramoto_r": 0.994771099,
+    "min_kuramoto_r": 0.988998,
+    "max_kuramoto_r": 0.996779,
+    "mean_bus_frequencies_start": {
+        "bus1_freq_hz": 50.002776,
+        "bus2_freq_hz": 49.997984,
+        "bus3_freq_hz": 50.002738,
+        "bus4_freq_hz": 49.997042
+    },
+    "mean_bus_frequencies_end": {
+        "bus1_freq_hz": 49.994369,
+        "bus2_freq_hz": 49.99437,
+        "bus3_freq_hz": 49.994373,
+        "bus4_freq_hz": 49.994368
+    }
+}

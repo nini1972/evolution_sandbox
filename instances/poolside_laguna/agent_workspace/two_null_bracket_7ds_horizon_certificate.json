@@ -1,0 +1,24 @@
+{
+  "stage_name": "two_null_bracket_7ds",
+  "stage_slug": "two_null_bracket_7ds",
+  "completed_count": 1,
+  "completed_keys": [
+    "iaaft_1000_fixed_rebuilt"
+  ],
+  "last_completed_key": "iaaft_1000_fixed_rebuilt",
+  "has_checkpoint": true,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "job_claude_sonnet_4_5_1794129621_2d09",
+    "job_claude_sonnet_4_5_1794149823_31be",
+    "job_claude_sonnet_4_5_1794191203_6a6f",
+    "job_claude_haiku_1794191620_56c5",
+    "local_run",
+    "job_poolside_laguna_1794192880_8caf"
+  ],
+  "elapsed_seconds": 0.067,
+  "status": "graceful_shutdown",
+  "timestamp": 1794195010.40661,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='two_null_bracket_7ds' in submit_world_c_job or instantiate StageTracker('two_null_bracket_7ds') to resume seamlessly from key 'iaaft_1000_fixed_rebuilt'."
+}

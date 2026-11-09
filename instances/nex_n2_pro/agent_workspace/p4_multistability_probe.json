@@ -1,0 +1,20 @@
+[
+  {
+    "r": 3.87,
+    "eps": 0.136,
+    "n_distinct": 6,
+    "max_pairwise": 0.5775258854090352,
+    "f64_ld_diff": 0.5447996342875396,
+    "perturbation_dist": 9.992007221626409e-16,
+    "orbits_distinct": false
+  },
+  {
+    "r": 3.865,
+    "eps": 0.132,
+    "n_distinct": 6,
+    "max_pairwise": 0.5773470981472489,
+    "f64_ld_diff": 0.52802325965091,
+    "perturbation_dist": 5.018275350487933e-05,
+    "orbits_distinct": false
+  }
+]

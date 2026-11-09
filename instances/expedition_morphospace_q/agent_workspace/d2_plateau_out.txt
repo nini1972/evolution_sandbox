@@ -1,0 +1,107 @@
+data: Lorenz (87500, 3), Henon 195000  [2.6s]
+K_star audit: {
+ "Q_target": -2.08,
+ "K_star_reported": -0.5551762252544064,
+ "rows": [
+  {
+   "i": 0,
+   "sys": "Lorenz",
+   "param": 20.0,
+   "lam": -0.15222991342666062,
+   "d2": 0.3199138402555687,
+   "K_formula_here": 1.912316073171092,
+   "Q_cal": 0.38749229842549826
+  },
+  {
+   "i": 1,
+   "sys": "Lorenz",
+   "param": 24.0,
+   "lam": 0.7764747899516984,
+   "d2": 1.6649017630242744,
+   "K_formula_here": -0.3613765529759727,
+   "Q_cal": -1.8862003277215662
+  },
+  {
+   "i": 2,
+   "sys": "Lorenz",
+   "param": 28.0,
+   "lam": 0.897897405436604,
+   "d2": 1.7372788198178024,
+   "K_formula_here": -0.555176225
+anchors: {
+ "cloud3d_direct": {
+  "plateau": 2.7358338188282936,
+  "flat": 0.012780503458181013,
+  "expected": 3.0
+ },
+ "sine": {
+  "main": 1.0297771917155438,
+  "suite": 1.0490035911831883,
+  "plateau": 0.7165444103500704,
+  "expected": 1.0
+ }
+}
+  m=2 Lorenz[main 1.39 suite 1.44 plat 1.20]  Henon[main 1.17 suite 1.14 plat 1.17]
+  m=3 Lorenz[main 1.59 suite 1.72 plat 1.43]  Henon[main 1.23 suite 1.23 plat 1.19]
+  m=4 Lorenz[main 1.82 suite 1.87 plat 1.78]  Henon[main 1.36 suite 1.30 plat 1.30]
+  m=5 Lorenz[main 1.94 suite 1.95 plat 1.72]  Henon[main 1.49 suite 1.35 plat 1.16]
+  m=6 Lorenz[main 2.21 suite 2.05 plat 1.84]  Henon[main 1.66 suite 1.42 plat 1.18]
+  m=7 Lorenz[main 2.59 suite 2.11 plat 1.87]  Henon[main 1.88 suite 1.49 plat 1.40]
+  m=8 Lorenz[main 2.97 suite 2.19 plat 1.95]  Henon[main 2.08 suite 1.55 plat 1.42]
+  m=9 Lorenz[main 3.67 suite 2.26 plat 2.05]  Henon[main 2.35 suite 1.62 plat 1.47]
+  m=10 Lorenz[main 4.19 suite 2.31 plat 2.04]  Henon[main 2.63 suite 1.70 plat 1.89]
+  N=500: plateau D2 = 1.927 +/- 0.128
+  N=1000: plateau D2 = 1.841 +/- 0.065
+  N=2000: plateau D2 = 1.869 +/- 0.024
+  N=4000: plateau D2 = 1.854 +/- 0.008
+  N=8000: plateau D2 = 1.933 +/- 0.066
+  N=16000: plateau D2 = 1.850 +/- 0.004
+K_ks UV probe: [{'N': 32, 'K': 10.94626583698182}, {'N': 64, 'K': 207.158551382244}, {'N': 128, 'K': 3442.366751584134}, {'N': 256, 'K': 55588.94448072514}, {'N': 512, 'K': 891467.1742506244}]
+figure saved  [72.8s]
+{
+ "anchors": {
+  "cloud3d_direct": {
+   "plateau": 2.7358338188282936,
+   "flat": 0.012780503458181013,
+   "expected": 3.0
+  },
+  "sine": {
+   "main": 1.0297771917155438,
+   "suite": 1.0490035911831883,
+   "plateau": 0.7165444103500704,
+   "expected": 1.0
+  }
+ },
+ "window_sens_plateau": [
+  1.8384981210647897,
+  1.874169757095893,
+  1.8559230262941142,
+  3.8520682121521546,
+  3.870787973979767,
+  3.853154841574991,
+  0.5498428826603841
+ ],
+ "k_ks_uv": [
+  {
+   "N": 32,
+   "K": 10.94626583698182
+  },
+  {
+   "N": 64,
+   "K": 207.158551382244
+  },
+  {
+   "N": 128,
+   "K": 3442.366751584134
+  },
+  {
+   "N": 256,
+   "K": 55588.94448072514
+  },
+  {
+   "N": 512,
+   "K": 891467.1742506244
+  }
+ ]
+}
+TOTAL 72.8s

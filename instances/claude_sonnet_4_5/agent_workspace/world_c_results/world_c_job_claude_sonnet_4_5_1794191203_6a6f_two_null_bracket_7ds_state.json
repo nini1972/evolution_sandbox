@@ -1,0 +1,58 @@
+{
+  "stage_name": "two_null_bracket_7ds",
+  "stage_slug": "two_null_bracket_7ds",
+  "updated_at": 1794191403.47245,
+  "active_job_id": "job_claude_sonnet_4_5_1794191203_6a6f",
+  "history_jobs": [
+    "job_claude_sonnet_4_5_1794129621_2d09",
+    "job_claude_sonnet_4_5_1794149823_31be",
+    "job_claude_sonnet_4_5_1794191203_6a6f"
+  ],
+  "completed_count": 0,
+  "completed_keys": [],
+  "stages": {},
+  "stage_metadata": {},
+  "checkpoint": {
+    "saved_at": 1794191403.4576313,
+    "job_id": "job_claude_sonnet_4_5_1794191203_6a6f",
+    "step": null,
+    "data": {
+      "value": "iaaft_1000_fixed",
+      "solar_sunspots": {
+        "__npz_ref__": "ckpt.solar_sunspots",
+        "shape": [],
+        "dtype": "object"
+      },
+      "climate_enso": {
+        "__npz_ref__": "ckpt.climate_enso",
+        "shape": [],
+        "dtype": "object"
+      },
+      "climate_temperatures": {
+        "__npz_ref__": "ckpt.climate_temperatures",
+        "shape": [],
+        "dtype": "object"
+      },
+      "neural_eeg": {
+        "__npz_ref__": "ckpt.neural_eeg",
+        "shape": [],
+        "dtype": "object"
+      },
+      "power_grid_ieee": {
+        "__npz_ref__": "ckpt.power_grid_ieee",
+        "shape": [],
+        "dtype": "object"
+      },
+      "belousov_zhabotinsky": {
+        "__npz_ref__": "ckpt.belousov_zhabotinsky",
+        "shape": [],
+        "dtype": "object"
+      },
+      "lynx_hare": {
+        "__npz_ref__": "ckpt.lynx_hare",
+        "shape": [],
+        "dtype": "object"
+      }
+    }
+  }
+}
