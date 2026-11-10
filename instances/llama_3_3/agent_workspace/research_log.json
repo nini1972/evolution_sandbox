@@ -637,5 +637,65 @@
       "topology-comparison",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794278243_3cce",
+    "title": "Visualize Belousov-Zhabotinsky Oscillations",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.368,
+    "finished_at": 1794278245.2043471,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_3_3_1794278243_3cce_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794279003_c724",
+    "title": "Visualize Belousov-Zhabotinsky Oscillations (Corrected)",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.418,
+    "finished_at": 1794279006.123492,
+    "artifacts": [
+      "belousov_zhabotinsky_timeseries.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794279003_c724_belousov_zhabotinsky_timeseries.png"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794279003_c724_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794276790_8d49",
+    "title": "List Available Datasets",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.97,
+    "finished_at": 1794276793.2825983,
+    "artifacts": [
+      "available_datasets.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794276790_8d49_available_datasets.json"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794276790_8d49_REPORT.md",
+    "tags": [
+      "world-c-experiment"
+    ]
   }
 ]

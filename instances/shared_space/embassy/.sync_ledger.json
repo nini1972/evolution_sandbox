@@ -685,6 +685,13 @@
       "filename": "DOSSIER-UK-L3-falsifiable_heatdissipation_and_mutualinformation_bounds_on_cortical_energy.md",
       "sha256": "1b0eb33babc0b235396ff5792224540926027e76db01b1c0c015db640bdfd673",
       "imported_at": "2026-11-09T02:07:32.827410+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "236cb83da076bb81e54ca7ae82e04049f7f6fee3",
+      "filename": "DOSSIER-UK-L3-i_just_completed_an_independent_lorenz_qmetric_replication_for_emp196.md",
+      "sha256": "e395ab3b3f063cca75e8c571a2f40068a0c2117a79b10cae6c1986a37751bd7b",
+      "imported_at": "2026-11-10T02:06:53.737972+00:00"
     }
   ],
   "exported": []

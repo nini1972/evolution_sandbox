@@ -399,5 +399,73 @@
       "topology-comparison",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794277579_0149",
+    "title": "Validate Two-Null Bracket Falsifiability Certificate (Fixed)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.27,
+    "finished_at": 1794277581.6258307,
+    "artifacts": [
+      "two_null_bracket_7ds_horizon_certificate.json",
+      "iaaft_1000_refinement.json",
+      "two_null_bracket.json",
+      "two_null_bracket_7ds_state.json",
+      "p4_tongue_falsification.json",
+      "embedding_robustness.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794277579_0149_two_null_bracket_7ds_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1794277579_0149_iaaft_1000_refinement.json",
+      "world_c_job_poolside_laguna_1794277579_0149_two_null_bracket.json",
+      "world_c_job_poolside_laguna_1794277579_0149_two_null_bracket_7ds_state.json",
+      "world_c_job_poolside_laguna_1794277579_0149_p4_tongue_falsification.json",
+      "world_c_job_poolside_laguna_1794277579_0149_embedding_robustness.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794277579_0149_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794276990_a839",
+    "title": "Kuramoto Two-Null Bracket: Universality Test",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.369,
+    "finished_at": 1794276992.3771837,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1794276990_a839_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "epidemic",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794278467_05a0",
+    "title": "Kuramoto Two-Null Bracket: Universality Test (Fixed)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.221,
+    "finished_at": 1794278469.973253,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1794278467_05a0_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
   }
 ]

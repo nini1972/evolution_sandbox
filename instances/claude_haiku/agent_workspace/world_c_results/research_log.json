@@ -285,5 +285,40 @@
       "topology-comparison",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1794277333_cc2c",
+    "title": "Substage 2 Synthesis: Falsifiability Certificate (Fixed Data Access via StageTracker)",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.22,
+    "finished_at": 1794277335.405069,
+    "artifacts": [
+      "two_null_bracket_7ds_horizon_certificate.json",
+      "iaaft_1000_refinement.json",
+      "two_null_bracket.json",
+      "p4_tongue_falsification.png",
+      "iaaft_1000_refinement.png",
+      "two_null_bracket_7ds_state.json",
+      "p4_tongue_falsification.json",
+      "two_null_bracket_7ds.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1794277333_cc2c_two_null_bracket_7ds_horizon_certificate.json",
+      "world_c_job_claude_haiku_1794277333_cc2c_iaaft_1000_refinement.json",
+      "world_c_job_claude_haiku_1794277333_cc2c_two_null_bracket.json",
+      "world_c_job_claude_haiku_1794277333_cc2c_p4_tongue_falsification.png",
+      "world_c_job_claude_haiku_1794277333_cc2c_iaaft_1000_refinement.png",
+      "world_c_job_claude_haiku_1794277333_cc2c_two_null_bracket_7ds_state.json",
+      "world_c_job_claude_haiku_1794277333_cc2c_p4_tongue_falsification.json",
+      "world_c_job_claude_haiku_1794277333_cc2c_two_null_bracket_7ds.png"
+    ],
+    "report_file": "world_c_job_claude_haiku_1794277333_cc2c_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
   }
 ]

@@ -1,78 +1,83 @@
-# 🏛️ World C Execution Report: R25+R26: Bidirectional Resonance Gap Law — Partial Feedback Attenuation Sweep
+# 🏛️ World C Execution Report: R27: Bidirectional Resonance Gap Law — Lean Sweep (6 gaps × 3 feedback levels)
 
-* **Job ID:** `job_glm_5_2_1794191724_09ee`
+* **Job ID:** `job_glm_5_2_1794279081_47b9`
 * **Requesting Lineage:** `glm_5_2` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `None`)
-* **Compute Duration:** `3600.04` seconds
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `188.33` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `r25_r26_bidirectional_resonance`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='r25_r26_bidirectional_resonance', resume_from_job_id='job_glm_5_2_1794191724_09ee')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('r25_r26_bidirectional_resonance')`.
+* **Stage Name:** `r27_bidirectional_resonance`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='r27_bidirectional_resonance', resume_from_job_id='job_glm_5_2_1794279081_47b9')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('r27_bidirectional_resonance')`.
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `r27_bidirectional_results.json` (delivered to `world_c_results/r27_bidirectional_results.json` and `world_c/artifacts/job_glm_5_2_1794279081_47b9/r27_bidirectional_results.json`)
+- `r27_bidirectional_resonance.png` (delivered to `world_c_results/r27_bidirectional_resonance.png` and `world_c/artifacts/job_glm_5_2_1794279081_47b9/r27_bidirectional_resonance.png`)
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1794279081_47b9/entrypoint.py:201: RuntimeWarning: overflow encountered in exp
+  return C_max * (1 - np.exp(-x / tau))
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1794279081_47b9/entrypoint.py:204: OptimizeWarning: Covariance of the parameters could not be estimated
+  popt, _ = curve_fit(exp_sat, xs_fit, ys_fit, p0=[0.8, 10], maxfev=5000)
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-168
-  alpha=0.00, N=100: C=-0.0135 ± 0.0069
-  alpha=0.05, N=  1: C=0.0028 ± 0.0074
-  alpha=0.05, N=  2: C=-0.0074 ± 0.0124
-  alpha=0.05, N=  5: C=-0.0142 ± 0.0176
-  alpha=0.05, N= 10: C=0.0164 ± 0.0266
-  alpha=0.05, N= 20: C=-0.0195 ± 0.0040
-  alpha=0.05, N= 50: C=-0.0068 ± 0.0170
-  alpha=0.05, N=100: C=0.0182 ± 0.0189
-  alpha=0.10, N=  1: C=-0.0011 ± 0.0107
-  alpha=0.10, N=  2: C=0.0027 ± 0.0206
-  alpha=0.10, N=  5: C=0.0100 ± 0.0168
-  alpha=0.10, N= 10: C=0.0263 ± 0.0232
-  alpha=0.10, N= 20: C=0.0013 ± 0.0228
-  alpha=0.10, N= 50: C=-0.0129 ± 0.0164
-  alpha=0.10, N=100: C=0.0017 ± 0.0270
-  alpha=0.20, N=  1: C=0.0073 ± 0.0032
-  alpha=0.20, N=  2: C=0.0172 ± 0.0008
-  alpha=0.20, N=  5: C=0.0017 ± 0.0266
-  alpha=0.20, N= 10: C=0.0110 ± 0.0317
-  alpha=0.20, N= 20: C=-0.0032 ± 0.0180
-  alpha=0.20, N= 50: C=0.0123 ± 0.0297
-  alpha=0.20, N=100: C=-0.0006 ± 0.0241
-  alpha=0.30, N=  1: C=0.0064 ± 0.0026
-  alpha=0.30, N=  2: C=0.0143 ± 0.0034
-  alpha=0.30, N=  5: C=0.0005 ± 0.0265
-  alpha=0.30, N= 10: C=0.0137 ± 0.0308
-  alpha=0.30, N= 20: C=-0.0045 ± 0.0176
-  alpha=0.30, N= 50: C=0.0302 ± 0.0161
-  alpha=0.30, N=100: C=0.0133 ± 0.0133
-  alpha=0.50, N=  1: C=0.0043 ± 0.0046
-  alpha=0.50, N=  2: C=-0.0063 ± 0.0172
-  alpha=0.50, N=  5: C=-0.0095 ± 0.0077
-  alpha=0.50, N= 10: C=-0.0102 ± 0.0167
-  alpha=0.50, N= 20: C=-0.0115 ± 0.0103
-  alpha=0.50, N= 50: C=0.0014 ± 0.0261
-  alpha=0.50, N=100: C=0.0051 ± 0.0092
-  alpha=0.75, N=  1: C=0.0078 ± 0.0030
-  alpha=0.75, N=  2: C=-0.0038 ± 0.0103
-  alpha=0.75, N=  5: C=0.0047 ± 0.0053
-  alpha=0.75, N= 10: C=-0.0034 ± 0.0121
-  alpha=0.75, N= 20: C=-0.0163 ± 0.0167
-  alpha=0.75, N= 50: C=0.0188 ± 0.0121
-  alpha=0.75, N=100: C=0.0003 ± 0.0232
-  alpha=1.00, N=  1: C=-0.0008 ± 0.0115
-  alpha=1.00, N=  2: C=0.0116 ± 0.0101
-  alpha=1.00, N=  5: C=-0.0044 ± 0.0113
-  alpha=1.00, N= 10: C=0.0062 ± 0.0203
-  alpha=1.00, N= 20: C=-0.0116 ± 0.0215
-  alpha=1.00, N= 50: C=0.0051 ± 0.0298
-  alpha=1.00, N=100: C=-0.0320 ± 0.0075
+.1960
+  f=0.1, N=  5: C=0.1368, lag= 294, r_mean=0.1960
+  f=0.1, N= 10: C=0.1806, lag=1685, r_mean=0.1960
+  f=0.1, N= 20: C=0.0976, lag=  50, r_mean=0.1960
+  f=0.1, N= 50: C=0.0689, lag=-1799, r_mean=0.1960
+  f=0.1, N=100: C=0.0469, lag=-718, r_mean=0.1960
+  f=0.5, N=  1: C=0.4535, lag=-511, r_mean=0.1960
+  f=0.5, N=  5: C=0.2174, lag=   9, r_mean=0.1960
+  f=0.5, N= 10: C=0.1797, lag=-314, r_mean=0.1960
+  f=0.5, N= 20: C=0.1408, lag= -54, r_mean=0.1960
+  f=0.5, N= 50: C=0.0501, lag= 899, r_mean=0.1960
+  f=0.5, N=100: C=0.0352, lag=-1111, r_mean=0.1960
 
---- System: duffing ---
+Baseline fit: C_max=0.1657, tau=0.0255
+
+Saved r27_bidirectional_resonance.png
+
+=== R27 SUMMARY ===
+    f     N        C    lag   r_mean    r_std
+--------------------------------------------------
+  0.0     1   0.4353   -514   0.1960   0.0988
+  0.0     5   0.1368    294   0.1960   0.0988
+  0.0    10   0.1193   2877   0.1960   0.0988
+  0.0    20   0.1963     52   0.1960   0.0988
+  0.0    50   0.0658   1162   0.1960   0.0988
+  0.0   100   0.0407  -1187   0.1960   0.0988
+  0.1     1   0.4353   -514   0.1960   0.0988
+  0.1     5   0.1368    294   0.1960   0.0988
+  0.1    10   0.1806   1685   0.1960   0.0988
+  0.1    20   0.0976     50   0.1960   0.0988
+  0.1    50   0.0689  -1799   0.1960   0.0988
+  0.1   100   0.0469   -718   0.1960   0.0988
+  0.5     1   0.4535   -511   0.1960   0.0988
+  0.5     5   0.2174      9   0.1960   0.0988
+  0.5    10   0.1797   -314   0.1960   0.0988
+  0.5    20   0.1408    -54   0.1960   0.0988
+  0.5    50   0.0501    899   0.1960   0.0988
+  0.5   100   0.0352  -1111   0.1960   0.0988
+
+=== FEEDBACK ATTENUATION ANALYSIS ===
+  N=  1: C(f=0)=0.4353, C(f=0.5)=0.4535, attenuation=-0.0419
+  N=  5: C(f=0)=0.1368, C(f=0.5)=0.2174, attenuation=-0.5886
+  N= 10: C(f=0)=0.1193, C(f=0.5)=0.1797, attenuation=-0.5061
+  N= 20: C(f=0)=0.1963, C(f=0.5)=0.1408, attenuation=0.2831
+  N= 50: C(f=0)=0.0658, C(f=0.5)=0.0501, attenuation=0.2398
+  N=100: C(f=0)=0.0407, C(f=0.5)=0.0352, attenuation=0.1363
+
+R27 complete.
 ```
 
 ---

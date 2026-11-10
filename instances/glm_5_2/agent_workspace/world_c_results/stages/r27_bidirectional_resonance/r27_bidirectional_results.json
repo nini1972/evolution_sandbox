@@ -1,0 +1,182 @@
+[
+  {
+    "N_gap": 1,
+    "feedback_frac": 0.0,
+    "K": 0.8,
+    "peak_cross_corr": 0.4352524567553676,
+    "peak_lag": -514,
+    "r_mean": 0.196019878093753,
+    "r_std": 0.09879527201521723,
+    "mean_avalanche": 17.329333333333334
+  },
+  {
+    "N_gap": 5,
+    "feedback_frac": 0.0,
+    "K": 0.8,
+    "peak_cross_corr": 0.1368272498914383,
+    "peak_lag": 294,
+    "r_mean": 0.19601987809375124,
+    "r_std": 0.09879527201521782,
+    "mean_avalanche": 84.45706666666666
+  },
+  {
+    "N_gap": 10,
+    "feedback_frac": 0.0,
+    "K": 0.8,
+    "peak_cross_corr": 0.11933572557006773,
+    "peak_lag": 2877,
+    "r_mean": 0.19601987809375152,
+    "r_std": 0.09879527201521932,
+    "mean_avalanche": 169.528
+  },
+  {
+    "N_gap": 20,
+    "feedback_frac": 0.0,
+    "K": 0.8,
+    "peak_cross_corr": 0.19634292497714692,
+    "peak_lag": 52,
+    "r_mean": 0.19601987809375224,
+    "r_std": 0.09879527201521876,
+    "mean_avalanche": 338.56373333333335
+  },
+  {
+    "N_gap": 50,
+    "feedback_frac": 0.0,
+    "K": 0.8,
+    "peak_cross_corr": 0.06584662365000957,
+    "peak_lag": 1162,
+    "r_mean": 0.19601987809375218,
+    "r_std": 0.09879527201521865,
+    "mean_avalanche": 847.7282666666666
+  },
+  {
+    "N_gap": 100,
+    "feedback_frac": 0.0,
+    "K": 0.8,
+    "peak_cross_corr": 0.04073246748093845,
+    "peak_lag": -1187,
+    "r_mean": 0.19601987809375407,
+    "r_std": 0.09879527201521865,
+    "mean_avalanche": 1696.58
+  },
+  {
+    "N_gap": 1,
+    "feedback_frac": 0.1,
+    "K": 0.8,
+    "peak_cross_corr": 0.4352524567553676,
+    "peak_lag": -514,
+    "r_mean": 0.196019878093753,
+    "r_std": 0.09879527201521723,
+    "mean_avalanche": 17.329333333333334
+  },
+  {
+    "N_gap": 5,
+    "feedback_frac": 0.1,
+    "K": 0.8,
+    "peak_cross_corr": 0.1368272498914383,
+    "peak_lag": 294,
+    "r_mean": 0.19601987809375124,
+    "r_std": 0.09879527201521782,
+    "mean_avalanche": 84.45706666666666
+  },
+  {
+    "N_gap": 10,
+    "feedback_frac": 0.1,
+    "K": 0.8,
+    "peak_cross_corr": 0.1805502190166471,
+    "peak_lag": 1685,
+    "r_mean": 0.19601987809375113,
+    "r_std": 0.09879527201521833,
+    "mean_avalanche": 171.2536
+  },
+  {
+    "N_gap": 20,
+    "feedback_frac": 0.1,
+    "K": 0.8,
+    "peak_cross_corr": 0.0975959738520762,
+    "peak_lag": 50,
+    "r_mean": 0.19601987809375385,
+    "r_std": 0.09879527201521925,
+    "mean_avalanche": 342.17973333333333
+  },
+  {
+    "N_gap": 50,
+    "feedback_frac": 0.1,
+    "K": 0.8,
+    "peak_cross_corr": 0.06894980315790433,
+    "peak_lag": -1799,
+    "r_mean": 0.1960198780937535,
+    "r_std": 0.09879527201521718,
+    "mean_avalanche": 855.6069333333334
+  },
+  {
+    "N_gap": 100,
+    "feedback_frac": 0.1,
+    "K": 0.8,
+    "peak_cross_corr": 0.046900589553501855,
+    "peak_lag": -718,
+    "r_mean": 0.19601987809375176,
+    "r_std": 0.09879527201521769,
+    "mean_avalanche": 1713.1522666666667
+  },
+  {
+    "N_gap": 1,
+    "feedback_frac": 0.5,
+    "K": 0.8,
+    "peak_cross_corr": 0.4535021682072068,
+    "peak_lag": -511,
+    "r_mean": 0.19601987809375232,
+    "r_std": 0.09879527201521743,
+    "mean_avalanche": 17.346933333333332
+  },
+  {
+    "N_gap": 5,
+    "feedback_frac": 0.5,
+    "K": 0.8,
+    "peak_cross_corr": 0.21735774795575272,
+    "peak_lag": 9,
+    "r_mean": 0.19601987809375035,
+    "r_std": 0.09879527201521887,
+    "mean_avalanche": 88.94266666666667
+  },
+  {
+    "N_gap": 10,
+    "feedback_frac": 0.5,
+    "K": 0.8,
+    "peak_cross_corr": 0.17973423487219206,
+    "peak_lag": -314,
+    "r_mean": 0.19601987809375135,
+    "r_std": 0.09879527201522041,
+    "mean_avalanche": 177.66586666666666
+  },
+  {
+    "N_gap": 20,
+    "feedback_frac": 0.5,
+    "K": 0.8,
+    "peak_cross_corr": 0.14075089843709174,
+    "peak_lag": -54,
+    "r_mean": 0.19601987809375235,
+    "r_std": 0.09879527201521754,
+    "mean_avalanche": 355.11173333333335
+  },
+  {
+    "N_gap": 50,
+    "feedback_frac": 0.5,
+    "K": 0.8,
+    "peak_cross_corr": 0.0500577897508309,
+    "peak_lag": 899,
+    "r_mean": 0.19601987809375482,
+    "r_std": 0.09879527201521678,
+    "mean_avalanche": 889.3544
+  },
+  {
+    "N_gap": 100,
+    "feedback_frac": 0.5,
+    "K": 0.8,
+    "peak_cross_corr": 0.0351789721595015,
+    "peak_lag": -1111,
+    "r_mean": 0.19601987809375365,
+    "r_std": 0.09879527201521654,
+    "mean_avalanche": 1779.7229333333332
+  }
+]

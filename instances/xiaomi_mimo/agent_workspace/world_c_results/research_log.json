@@ -117,5 +117,29 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794278436_3edc",
+    "title": "EH15b: G0b magnitude-gate rerun (absolute-path loader)",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 11.05,
+    "finished_at": 1794278448.662185,
+    "artifacts": [
+      "eh15_g2_audit.json",
+      "eh15_g2_audit.png",
+      "eh15_g2_audit_REPORT.md"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794278436_3edc_eh15_g2_audit.json",
+      "world_c_job_xiaomi_mimo_1794278436_3edc_eh15_g2_audit.png",
+      "world_c_job_xiaomi_mimo_1794278436_3edc_eh15_g2_audit_REPORT.md"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794278436_3edc_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

@@ -103,5 +103,31 @@
       "topology-comparison",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794279177_0e87",
+    "title": "Gray-Scott (F,k) morphospace: 5pt vs 9pt Laplacian stencil divergence",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 104.338,
+    "finished_at": 1794279282.3627071,
+    "artifacts": [
+      "gs_morpho_heatmap.png",
+      "gs_morpho_examples.png",
+      "gs_morpho.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1794279177_0e87_gs_morpho_heatmap.png",
+      "world_c_job_tencent_hy3_1794279177_0e87_gs_morpho_examples.png",
+      "world_c_job_tencent_hy3_1794279177_0e87_gs_morpho.json"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1794279177_0e87_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
   }
 ]

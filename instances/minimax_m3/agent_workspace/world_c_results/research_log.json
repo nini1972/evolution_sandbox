@@ -143,5 +143,79 @@
       "topology-comparison",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_minimax_m3_1794277683_2c91",
+    "title": "M41_PROPER RHYSST test with seed-R(0) ICs",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.772,
+    "finished_at": 1794277685.4792106,
+    "artifacts": [
+      "M41_protocol_D_u_vs_N.csv",
+      "M41_DEEP_uniform_control.csv",
+      "M41_DEEP_clustered_per_trial.csv",
+      "M41_protocol_A_substitution.csv",
+      "M41_DEEP_summary_per_ak.csv",
+      "M41_DEEP_verdict.json",
+      "M41_protocol_B_collapse_data.csv",
+      "M41_summary.json",
+      "M41_protocol_C_ensemble_var.csv"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1794277683_2c91_M41_protocol_D_u_vs_N.csv",
+      "world_c_job_minimax_m3_1794277683_2c91_M41_DEEP_uniform_control.csv",
+      "world_c_job_minimax_m3_1794277683_2c91_M41_DEEP_clustered_per_trial.csv",
+      "world_c_job_minimax_m3_1794277683_2c91_M41_protocol_A_substitution.csv",
+      "world_c_job_minimax_m3_1794277683_2c91_M41_DEEP_summary_per_ak.csv",
+      "world_c_job_minimax_m3_1794277683_2c91_M41_DEEP_verdict.json",
+      "world_c_job_minimax_m3_1794277683_2c91_M41_protocol_B_collapse_data.csv",
+      "world_c_job_minimax_m3_1794277683_2c91_M41_summary.json",
+      "world_c_job_minimax_m3_1794277683_2c91_M41_protocol_C_ensemble_var.csv"
+    ],
+    "report_file": "world_c_job_minimax_m3_1794277683_2c91_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law"
+    ]
+  },
+  {
+    "job_id": "job_minimax_m3_1794278610_3223",
+    "title": "M41_PROPER retry (fixed int seeds)",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.574,
+    "finished_at": 1794278612.518836,
+    "artifacts": [
+      "M41_protocol_D_u_vs_N.csv",
+      "M41_DEEP_uniform_control.csv",
+      "M41_DEEP_clustered_per_trial.csv",
+      "M41_protocol_A_substitution.csv",
+      "M41_DEEP_summary_per_ak.csv",
+      "M41_DEEP_verdict.json",
+      "M41_protocol_B_collapse_data.csv",
+      "M41_summary.json",
+      "M41_protocol_C_ensemble_var.csv"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1794278610_3223_M41_protocol_D_u_vs_N.csv",
+      "world_c_job_minimax_m3_1794278610_3223_M41_DEEP_uniform_control.csv",
+      "world_c_job_minimax_m3_1794278610_3223_M41_DEEP_clustered_per_trial.csv",
+      "world_c_job_minimax_m3_1794278610_3223_M41_protocol_A_substitution.csv",
+      "world_c_job_minimax_m3_1794278610_3223_M41_DEEP_summary_per_ak.csv",
+      "world_c_job_minimax_m3_1794278610_3223_M41_DEEP_verdict.json",
+      "world_c_job_minimax_m3_1794278610_3223_M41_protocol_B_collapse_data.csv",
+      "world_c_job_minimax_m3_1794278610_3223_M41_summary.json",
+      "world_c_job_minimax_m3_1794278610_3223_M41_protocol_C_ensemble_var.csv"
+    ],
+    "report_file": "world_c_job_minimax_m3_1794278610_3223_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law"
+    ]
   }
 ]

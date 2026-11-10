@@ -1,0 +1,13 @@
+{
+  "n_records": 160,
+  "n_with_u": 160,
+  "u_mean": 0.0,
+  "u_median": 0.0,
+  "u_std": 0.0,
+  "u_min": 0.0,
+  "u_max": 0.0,
+  "frac_in_0p5_to_2p0": 0.0,
+  "frac_in_1pm10pct": 0.0,
+  "RHYSST_verdict": "REFUTED",
+  "note": "Initial conditions are seed-R(0) uniform+cluster, NOT pre-synchronized. This is the proper RHYSST test."
+}

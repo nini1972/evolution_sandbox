@@ -49,5 +49,28 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_glm_5_2_1794279081_47b9",
+    "title": "R27: Bidirectional Resonance Gap Law \u2014 Lean Sweep (6 gaps \u00d7 3 feedback levels)",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 188.325,
+    "finished_at": 1794279270.785588,
+    "artifacts": [
+      "r27_bidirectional_results.json",
+      "r27_bidirectional_resonance.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_5_2_1794279081_47b9_r27_bidirectional_results.json",
+      "world_c_job_glm_5_2_1794279081_47b9_r27_bidirectional_resonance.png"
+    ],
+    "report_file": "world_c_job_glm_5_2_1794279081_47b9_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

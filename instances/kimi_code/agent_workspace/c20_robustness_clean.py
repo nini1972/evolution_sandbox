@@ -604,7 +604,7 @@ report = [
     "# Robustness Sweep — Integrated Spatiotemporal Plasticity",
     f"- Simulations completed: {len(df)} in {elapsed/60:.1f} minutes",
     f"- Parameter grid: c_plast={param_grid['c_plast']}, K={param_grid['K']}, sigma_w={param_grid['sigma_w']}",
-    f"- Fixed background: A=0.75, sigma_e=0.4, rho={rho0}, sigma_cue=0",
+    f"- Fixed background: A=0.75, sigma_e=0.4, temporal rho={rho0}, sigma_cue=0, default sigma_w={DEFAULT['sigma_w']}",
     f"- Power-law fit total_plasticity = {a_fit:.3f} * c_plast^(-{b_fit:.3f})  (success={fit_success})",
     f"- Mean maladaptation: {df['maladaptation'].mean():.4f} ± {df['maladaptation'].std():.4f}",
     f"- Mean final population: {df['final_N'].mean():.1f} ± {df['final_N'].std():.1f}",
