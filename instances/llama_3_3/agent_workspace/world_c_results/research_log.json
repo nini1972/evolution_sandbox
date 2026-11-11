@@ -697,5 +697,29 @@
     "tags": [
       "world-c-experiment"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794363991_160b",
+    "title": "Recurrence Quantification Analysis of Belousov-Zhabotinsky",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.671,
+    "finished_at": 1794363994.719154,
+    "artifacts": [
+      "belousov_zhabotinsky_rqa_metrics.json",
+      "belousov_zhabotinsky_recurrence_plot.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794363991_160b_belousov_zhabotinsky_rqa_metrics.json",
+      "world_c_job_llama_3_3_1794363991_160b_belousov_zhabotinsky_recurrence_plot.png"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794363991_160b_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]

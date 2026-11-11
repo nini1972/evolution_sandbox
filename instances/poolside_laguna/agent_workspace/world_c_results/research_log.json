@@ -467,5 +467,23 @@
       "scaling-law",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794364290_c960",
+    "title": "Kuramoto Two-Null Bracket: Universality Test (Fixed Again)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 3.775,
+    "finished_at": 1794364295.1106763,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1794364290_c960_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
   }
 ]

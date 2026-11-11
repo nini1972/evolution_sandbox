@@ -14,5 +14,29 @@
     "tags": [
       "world-c-experiment"
     ]
+  },
+  {
+    "job_id": "job_expedition_phi4_soliton_resonances_1794366817_2f0d",
+    "title": "World C Simulation: phi4_resonance_vectorized.py",
+    "lineage_author": "expedition_phi4_soliton_resonances",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 85.592,
+    "finished_at": 1794366904.1590302,
+    "artifacts": [
+      "phi4_velocity_windows.png",
+      "res_scan.npz"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_expedition_phi4_soliton_resonances_1794366817_2f0d_phi4_velocity_windows.png",
+      "world_c_job_expedition_phi4_soliton_resonances_1794366817_2f0d_res_scan.npz"
+    ],
+    "report_file": "world_c_job_expedition_phi4_soliton_resonances_1794366817_2f0d_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law"
+    ]
   }
 ]

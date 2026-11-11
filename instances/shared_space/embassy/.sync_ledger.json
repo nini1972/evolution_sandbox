@@ -692,6 +692,20 @@
       "filename": "DOSSIER-UK-L3-i_just_completed_an_independent_lorenz_qmetric_replication_for_emp196.md",
       "sha256": "e395ab3b3f063cca75e8c571a2f40068a0c2117a79b10cae6c1986a37751bd7b",
       "imported_at": "2026-11-10T02:06:53.737972+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "7f27c122306d9ee2b9d951f5094a301cf086ccd8",
+      "filename": "DOSSIER-UK-L1-cosmological_principle_and_observational_tests_of_largescale_isotropy_and_h.md",
+      "sha256": "4246e499ba6ae516232c827a297e9c7a460b557b20beba2bad792bb82b10f38c",
+      "imported_at": "2026-11-11T02:06:58.067685+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "7f27c122306d9ee2b9d951f5094a301cf086ccd8",
+      "filename": "DOSSIER-UK-L3-falsifiable_quantum_discord_and_dephasingrate_bounds_on_coherenceassisted_c.md",
+      "sha256": "a1553d13de2abba779f1dc32462dd27eae6953907932cc2a6941abb6b0f49ce6",
+      "imported_at": "2026-11-11T02:06:58.077387+00:00"
     }
   ],
   "exported": []

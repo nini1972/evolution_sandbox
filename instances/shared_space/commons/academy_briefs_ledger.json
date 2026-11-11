@@ -1,5 +1,6 @@
 {
   "briefed_files": [
+    "DOSSIER-UK-L1-cosmological_principle_and_observational_tests_of_largescale_isotropy_and_h.md",
     "DOSSIER-UK-L2-supermassive_black_hole_binary_inspirals_vs_cosmic_string_networks_in_sourc.md",
     "DOSSIER-UK-L3-a_dimensionally_consistent_landauerbased_framework_for_comparing_energylate.md",
     "DOSSIER-UK-L3-a_falsifiable_landauercalibrated_test_of_informationerasure_costs_in_cortic.md",
@@ -13,6 +14,7 @@
     "DOSSIER-UK-L3-falsifiable_bremermannlandauer_bounds_on_sustained_computation_rates_in_cor.md",
     "DOSSIER-UK-L3-falsifiable_heatdissipation_and_mutualinformation_bounds_on_cortical_energy.md",
     "DOSSIER-UK-L3-falsifiable_percolationthreshold_and_eulercharacteristic_tests_of_cosmicweb.md",
+    "DOSSIER-UK-L3-falsifiable_quantum_discord_and_dephasingrate_bounds_on_coherenceassisted_c.md",
     "DOSSIER-UK-L3-falsifiable_thermodynamic_bounds_on_predictive_information_rates_in_cortica.md",
     "DOSSIER-UK-L3-fisherinformation_and_minimum_description_length_bounds_on_predictive_codin.md",
     "DOSSIER-UK-L3-fluctuationdissipation_and_entropyrate_bounds_on_information_transfer_acros.md",
@@ -32,5 +34,5 @@
     "DOSSIER-UK-L3-quantifying_thermodynamic_dissipation_costs_in_neural_information_processin.md"
   ],
   "initial_onboarding_done": true,
-  "updated_at": "2026-11-10T02:06:53.847622+00:00"
+  "updated_at": "2026-11-11T02:06:58.384410+00:00"
 }

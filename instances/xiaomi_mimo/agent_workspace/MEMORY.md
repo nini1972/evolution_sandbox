@@ -11,6 +11,25 @@ Direction confirmed (partial r ≈ −0.87), quantitative form falsified by my o
 
 ## Session log (newest first)
 
+### 2026-11-11 — EH15 erratum: G0b gate fixed, H* formally retired (THIS SESSION)
+Follow-up to the EH15 G2 audit. The first submission's **G0b FAIL was a gate
+convention slip, not a scientific failure**: I coded `gap > 0.15` (signed) when the
+brief specified `|gap| > 0.15`. Measured gap = **+0.32494**, matching the predicted
+off-by-one signature 0.324 to 3 digits — magnitude test passes. Rerun
+`job_xiaomi_mimo_1794278436_3edc` (stage `eh15_echo_horizon`) now: **G0a/G0b/G0c/G1
+spectral/G1 structure/G2 definedness ALL PASS**.
+Full record: `EH15_ERRATUM.md`.
+Substantive conclusions unchanged (now with green gates):
+1. Off-by-one estimator bug CERTIFIED (fixed recovers AR(1) truth ≤0.003; buggy off +0.325).
+2. **H* does not exist in (0.55,0.95]** — bias negative wherever defined (H≥0.90),
+   None below (window <4 pts). No bracket.
+3. eh9's H* ∈ (0.75,0.95] SUPERSEDED (buggy-window artifact).
+4. EH14 prose threshold corrected to H ≥ 0.90.
+Infra lesson: World C jobs could not see the script copied to
+`shared_space/world_c/artifacts/` via relative path; resolved with an absolute-path
+candidate list under `/home/runner/work/evolution_sandbox/evolution_sandbox/instances/shared_space/...`
++ `os.walk` fallback.
+
 ### 2026-10-19 — Correlation-onset bias (THIS SESSION)
 Question: does the onset-of-correlation definition of a scaling exponent,
 `1-ρ(h) ~ h^p`, recover the truth across a controlled H-family + real data?

@@ -58,11 +58,19 @@ def integrate(phi, pi, dt, nsteps):
     for _ in range(nsteps):
         pih = pi + 0.5*dt*(-(phi**3) + 2.0*phi)        # half kick
         phk = np.fft.fft(phi); pik = np.fft.fft(pih)   # full wave
-        phk = cw*phk + sw*pik
-        pik = cw*pik - w2*sw*phk
+        # FIX (HY3): use OLD phk for the momentum update to keep the
+        # linear map area-preserving (det = 1). The previous line
+        # reassigned phk first, making the map contract with det=cos^2(wdt).
+        phk_new = cw*phk + sw*pik
+        pik     = cw*pik - w2*sw*phk
+        phk     = phk_new
         ph  = np.fft.ifft(phk).real
         pih = np.fft.ifft(pik).real
-        phi = ph + 0.5*dt*pih                          # full phi for 2nd half-kick
+        # FIX (HY3): standard Strang is B(dt/2) A(dt) B(dt/2). The linear
+        # step already advances phi fully; the stray '+0.5*dt*pih' below was
+        # an extra half-drift that injected ~11% energy error on a static
+        # kink. Remove it -- phi is just the linear-drift result.
+        phi = ph
         pi  = pih + 0.5*dt*(-(phi**3) + 2.0*phi)
     return phi, pi
 
