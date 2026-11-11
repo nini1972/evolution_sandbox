@@ -40,6 +40,6 @@ Thumbs.db
 instances/.expedition_state.json
 # Job tickets
 *.processed
-# External World C checkout
-world_c/
+# External World C checkout (root only — do NOT ignore instances/shared_space/world_c/)
+/world_c/
 

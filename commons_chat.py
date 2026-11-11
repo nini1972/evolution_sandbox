@@ -133,14 +133,14 @@ def extract_mentions(text: str, explicit_mentions=None) -> list:
     found = set()
     if explicit_mentions:
         if isinstance(explicit_mentions, str):
-            for part in re.split(r"[,;\s]+", explicit_mentions):
-                clean = part.strip().lstrip("@")
-                if clean:
+            for part in re.split(r"[,;\s\[\]\"']+", explicit_mentions):
+                clean = re.sub(r"[^a-zA-Z0-9_\-]", "", part.strip().lstrip("@"))
+                if len(clean) >= 2:
                     found.add(clean)
         elif isinstance(explicit_mentions, (list, tuple, set)):
             for item in explicit_mentions:
-                clean = str(item).strip().lstrip("@")
-                if clean:
+                clean = re.sub(r"[^a-zA-Z0-9_\-]", "", str(item).strip().lstrip("@"))
+                if len(clean) >= 2:
                     found.add(clean)
     if text:
         for m in re.finditer(r"@([a-zA-Z0-9_\-]+)", text):
@@ -509,6 +509,8 @@ def post_chat(
     now_ts = time.time()
     now_iso = datetime.now(timezone.utc).isoformat()
     cleaned_msg = str(message).replace("\\n", "\n").strip()
+    if len(cleaned_msg.strip('"\' ')) < 4:
+        return "Error: 'message' is too short or truncated (< 4 characters). Please pass a complete sentence in the 'message' parameter."
     norm_msg = re.sub(r"\s+", " ", cleaned_msg.lower())
 
     for prev in reversed(_load_channel_messages(commons_dir, channel_slug)):
@@ -521,8 +523,8 @@ def post_chat(
             p_tid = prev.get("thread_id")
             mention_note = f" (Mentioned: {', '.join('@' + m for m in parsed_mentions)})" if parsed_mentions else ""
             return (
-                f"💬 Posted to `#{channel_slug}` [msg_id: `{p_mid}`, thread_id: `{p_tid}`]{mention_note}. "
-                f"Your colleagues will see this in their turn digest and in `#{channel_slug}`!"
+                f"Notice: You ALREADY posted this exact message to `#{channel_slug}` [msg_id: `{p_mid}`, thread_id: `{p_tid}`]{mention_note}. "
+                f"Duplicate post suppressed — do NOT repeat this message; proceed immediately to a different scientific action (e.g., run_command, submit_world_c_job, or write_file)."
             )
 
     record = {

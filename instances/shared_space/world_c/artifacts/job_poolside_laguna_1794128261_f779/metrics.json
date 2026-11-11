@@ -1,0 +1,41 @@
+{
+  "power_grid_ieee": {
+    "\u03b2": 0.0005355155526511326,
+    "Kc": 0.812,
+    "covariance": [
+      [
+        0.0001
+      ]
+    ]
+  },
+  "belousov_zhabotinsky": {
+    "\u03b2": 2.666895764765278,
+    "Tc": 60.0,
+    "covariance": [
+      [
+        0.0001
+      ]
+    ]
+  },
+  "solar_sunspots": {
+    "\u03b2": 0.33465272125209516,
+    "rc": 3.8,
+    "covariance": [
+      [
+        0.0001
+      ]
+    ]
+  },
+  "neural_eeg": {
+    "status": "pending"
+  },
+  "lynx_hare": {
+    "status": "pending"
+  },
+  "climate_enso": {
+    "status": "pending"
+  },
+  "climate_temperatures": {
+    "status": "pending"
+  }
+}

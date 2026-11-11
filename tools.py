@@ -15,6 +15,34 @@ def get_workspace_dir():
 def get_shared_dir():
     return os.path.abspath(os.path.join(os.path.dirname(__file__), "instances", "shared_space"))
 
+def _resolve_existing_or_prefix(candidate: str) -> str:
+    if os.path.exists(candidate):
+        return candidate
+    parent_dir = os.path.dirname(candidate)
+    base_name = os.path.basename(candidate)
+    if parent_dir and os.path.isdir(parent_dir) and base_name:
+        import re
+        stem, ext = os.path.splitext(base_name)
+        clean_stem = stem.rstrip("_-.").lower()
+        norm_req = re.sub(r"[^a-z0-9]", "", re.sub(r"^dossier[_-]?\d+[_-]?", "dossier_", clean_stem))
+        num_m = re.match(r"^dossier[_-](\d+)$", clean_stem)
+        if len(clean_stem) >= 8 or num_m:
+            try:
+                for entry in sorted(os.listdir(parent_dir)):
+                    if ext and not entry.lower().endswith(ext.lower()):
+                        continue
+                    e_stem = os.path.splitext(entry)[0].lower()
+                    if len(clean_stem) >= 8 and e_stem.startswith(clean_stem):
+                        return os.path.join(parent_dir, entry)
+                    if num_m and re.match(rf"^dossier[_-]0*{num_m.group(1)}(?:[_-]|$)", e_stem):
+                        return os.path.join(parent_dir, entry)
+                    norm_entry = re.sub(r"[^a-z0-9]", "", re.sub(r"^dossier[_-]?\d+[_-]?", "dossier_", e_stem))
+                    if len(norm_req) >= 12 and (norm_entry.startswith(norm_req) or norm_req.startswith(norm_entry)):
+                        return os.path.join(parent_dir, entry)
+            except Exception:
+                pass
+    return candidate
+
 def _get_absolute_path(path_str):
     workspace = get_workspace_dir()
     shared = get_shared_dir()
@@ -23,18 +51,18 @@ def _get_absolute_path(path_str):
     norm_path = path_str.replace("\\", "/").lstrip("/")
     if norm_path.startswith("instances/shared_space/"):
         rel_to_shared = norm_path[len("instances/shared_space/"):]
-        return os.path.abspath(os.path.join(shared, rel_to_shared))
+        return _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, rel_to_shared)))
     if norm_path.startswith("shared_space/"):
         rel_to_shared = norm_path[len("shared_space/"):]
-        return os.path.abspath(os.path.join(shared, rel_to_shared))
+        return _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, rel_to_shared)))
     if norm_path.startswith("world_c/"):
-        return os.path.abspath(os.path.join(shared, norm_path))
+        return _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, norm_path)))
     if norm_path.startswith("embassy/"):
-        return os.path.abspath(os.path.join(shared, norm_path))
+        return _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, norm_path)))
     if norm_path.startswith("commons/"):
-        return os.path.abspath(os.path.join(shared, norm_path))
+        return _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, norm_path)))
     if norm_path.startswith("instances/"):
-        return os.path.abspath(os.path.join(os.path.dirname(__file__), norm_path))
+        return _resolve_existing_or_prefix(os.path.abspath(os.path.join(os.path.dirname(__file__), norm_path)))
 
     # Strip redundant leading workspace/ or agent_workspace/ prefix if present
     cleaned_rel = path_str
@@ -45,22 +73,26 @@ def _get_absolute_path(path_str):
                 cleaned_rel = cleaned_rel[len(prefix):]
                 break
         
-    target = os.path.abspath(os.path.join(workspace, cleaned_rel))
+    target = _resolve_existing_or_prefix(os.path.abspath(os.path.join(workspace, cleaned_rel)))
     if not os.path.exists(target):
         # Check in local world_c_results
-        ws_res = os.path.abspath(os.path.join(workspace, "world_c_results", os.path.basename(cleaned_rel)))
+        ws_res = _resolve_existing_or_prefix(os.path.abspath(os.path.join(workspace, "world_c_results", os.path.basename(cleaned_rel))))
         if os.path.exists(ws_res):
             return ws_res
         # Check in shared directory directly
-        shared_direct = os.path.abspath(os.path.join(shared, norm_path))
+        shared_direct = _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, norm_path)))
         if os.path.exists(shared_direct):
             return shared_direct
+        # Check in shared embassy inbox
+        shared_embassy = _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, "embassy", "inbox", os.path.basename(cleaned_rel))))
+        if os.path.exists(shared_embassy):
+            return shared_embassy
         # Check in shared world_c reports
-        shared_report = os.path.abspath(os.path.join(shared, "world_c", "reports", os.path.basename(cleaned_rel)))
+        shared_report = _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, "world_c", "reports", os.path.basename(cleaned_rel))))
         if os.path.exists(shared_report):
             return shared_report
         # Check in shared world_c artifacts
-        shared_art = os.path.abspath(os.path.join(shared, "world_c", "artifacts", os.path.basename(cleaned_rel)))
+        shared_art = _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, "world_c", "artifacts", os.path.basename(cleaned_rel))))
         if os.path.exists(shared_art):
             return shared_art
         # Check within job subdirectories or prefixed artifacts in shared world_c artifacts
@@ -530,6 +562,15 @@ def check_world_c_job(job_id: str = "", **kwargs) -> str:
         with open(legacy_report, "r", encoding="utf-8") as f:
             return f.read()
 
+    # 3b. Check peer instances' world_c_results directories (when checking a colleague's job_id)
+    instances_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "instances"))
+    if os.path.isdir(instances_root):
+        for inst_entry in os.listdir(instances_root):
+            peer_report = os.path.join(instances_root, inst_entry, "agent_workspace", "world_c_results", f"world_c_{job_id}_REPORT.md")
+            if os.path.exists(peer_report):
+                with open(peer_report, "r", encoding="utf-8") as f:
+                    return f.read()
+
     # 4. Check World C internal jobs directory if available
     world_c_candidates = [
         os.path.abspath(os.path.join(os.path.dirname(__file__), "world_c")),
@@ -586,7 +627,11 @@ def check_world_c_job(job_id: str = "", **kwargs) -> str:
     if os.path.exists(req_file):
         return f"Job '{job_id}' is currently QUEUED and awaiting execution."
 
-    return f"Job '{job_id}' not found yet. It may still be executing or initializing. Check 'instances/shared_space/world_c/reports/' shortly."
+    return (
+        f"Job '{job_id}' does not exist in the active queue or completed reports "
+        f"(it may be an invalid/unregistered job_id or from an older archived run). "
+        f"Do NOT poll '{job_id}' again — pass an empty job_id to inspect your latest report or submit a new job via 'submit_world_c_job'."
+    )
 
 def report_issue_to_substrate(component: str, summary: str, details: str, suggested_fix: str = "") -> str:
     """

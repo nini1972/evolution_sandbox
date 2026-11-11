@@ -489,12 +489,12 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
 
     candidates = []
     for tool_name in known_tools:
-        pattern = rf"(?:\[|`|\b){tool_name}\s*\((.*?)\)(?:\]|`|(?=\s|$|\.|,|;))"
+        pattern = rf'(?:\[|`|\b){tool_name}\s*\(((?:"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|[^()])*)\)(?:\]|`|(?=\s|$|\.|,|;))'
         for m in re.finditer(pattern, content, re.DOTALL):
             arg_str = m.group(1).strip()
             args = {}
             param_matches = re.findall(
-                r'([a-zA-Z0-9_]+)\s*=\s*(?:"((?:\\.|[^"\\])*)"|\'((?:\\.|[^\'\\])*)\'|([^,\s\)]+))',
+                r'([a-zA-Z0-9_]+)\s*=\s*(?:"((?:\\.|[^"\\])*)"|\'((?:\\.|[^\'\\])*)\'|([^"\',\s\)]+))',
                 arg_str,
                 re.DOTALL,
             )
@@ -512,6 +512,17 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                 else:
                     val = val_raw.strip()
                 args[p_name] = val
+
+            if tool_name in ("post_chat", "send_chat", "post_message") and (
+                "message" not in args or len(str(args.get("message", "")).strip('"\' ')) < 4
+            ):
+                m_msg = re.search(
+                    r'message\s*=\s*["\'](.*?)["\'](?:\s*,\s*[a-zA-Z0-9_]+\s*=|\s*$)',
+                    arg_str,
+                    re.DOTALL,
+                )
+                if m_msg and len(m_msg.group(1).strip()) >= 4:
+                    args["message"] = m_msg.group(1).strip()
 
             if not args and arg_str:
                 try:
