@@ -319,7 +319,7 @@ def run_command(command: str = "", **kwargs) -> str:
                 **popen_kwargs
             )
         try:
-            stdout, stderr = p.communicate(timeout=60)
+            stdout, stderr = p.communicate(timeout=120)
             output = stdout or ""
             if stderr:
                 output += f"\nSTDERR:\n{stderr}"
@@ -338,7 +338,9 @@ def run_command(command: str = "", **kwargs) -> str:
             p.kill()
             # Flush streams
             stdout, stderr = p.communicate()
-            return "Error: Command timed out. Execution exceeded 60 seconds."
+            partial = (stdout or "")[-1500:]
+            partial_note = f"\nPartial STDOUT before timeout:\n{partial}" if partial else ""
+            return f"Error: Command timed out after 120 seconds (consider reducing MAX_T/grid size or submitting heavy sweeps via 'submit_world_c_job').{partial_note}"
     except Exception as e:
         return f"Error running command: {str(e)}"
 
