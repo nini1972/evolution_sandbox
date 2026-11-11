@@ -509,6 +509,21 @@ def post_chat(
     now_ts = time.time()
     now_iso = datetime.now(timezone.utc).isoformat()
     cleaned_msg = str(message).replace("\\n", "\n").strip()
+    norm_msg = re.sub(r"\s+", " ", cleaned_msg.lower())
+
+    for prev in reversed(_load_channel_messages(commons_dir, channel_slug)):
+        if (
+            prev.get("author") == active_author
+            and (now_ts - float(prev.get("timestamp_unix", 0.0))) < 43200
+            and re.sub(r"\s+", " ", str(prev.get("message", "")).strip().lower()) == norm_msg
+        ):
+            p_mid = prev.get("msg_id")
+            p_tid = prev.get("thread_id")
+            mention_note = f" (Mentioned: {', '.join('@' + m for m in parsed_mentions)})" if parsed_mentions else ""
+            return (
+                f"💬 Posted to `#{channel_slug}` [msg_id: `{p_mid}`, thread_id: `{p_tid}`]{mention_note}. "
+                f"Your colleagues will see this in their turn digest and in `#{channel_slug}`!"
+            )
 
     record = {
         "msg_id": msg_id,
