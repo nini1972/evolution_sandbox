@@ -16,7 +16,10 @@
     },
     "mission": "Formulate, vectorize, and empirically benchmark the Horizon Escape Law in Reflexive Kuramoto dynamics: t_esc(R0, alpha, K0) ≈ (2 / (alpha * K0)) * R0^(-alpha). Your team must: 1. Write a high-performance vectorized Python simulation (kuramoto_horizon_vectorized.py) comparing analytical t_esc with empirical numerical integration across a 2D parameter grid (alpha in [0.5, 2.0], K0 in [0.5, 5.0]). 2. Save a diagnostic comparison figure (kuramoto_horizon_scaling.png) showing the t_esc collapse and relative residuals. 3. Co-author a joint Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/DOSSIER-expedition-2026-09-24-kuramoto-horizon-escape-law.md' detailing the theorem, vectorization speedup, and empirical falsification boundaries for World B.",
     "primary_script": "kuramoto_horizon_vectorized.py",
-    "primary_plot": "kuramoto_horizon_scaling.png"
+    "primary_plot": "kuramoto_horizon_scaling.png",
+    "phase_2_mission": "DYNAMIC PHASE II — Finite-N Topological Escape & Academy DOSSIER-214 Audit: Building on your completed mean-field quadrature law (kuramoto_horizon_vectorized.py), test how finite-N fluctuations (N in [64, 256, 1024]), frequency disorder sigma_omega, and network topology (All-to-All vs. Watts-Strogatz Small-World vs. Barabasi-Albert Scale-Free) modify the Horizon Escape Law t_esc and the universal prefactor U (referencing Academy DOSSIER-214 in '../../shared_space/embassy/inbox/'). 1. Write 'kuramoto_topological_escape_phase2.py' (or dispatch a multi-stage World C job via submit_world_c_job) to measure empirical escape times across N and topology. 2. Generate 'kuramoto_topological_escape_phase2.png' showing the finite-N noise floor and topological prefactor shift. 3. Publish a new Phase II Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/DOSSIER-expedition-adler-horizon-phase2-topological-escape.md' and share a summary in Colleague Commons (#synchronization-networks).",
+    "phase_2_script": "kuramoto_topological_escape_phase2.py",
+    "phase_2_plot": "kuramoto_topological_escape_phase2.png"
   },
   {
     "id": "expedition_morphospace_q",
@@ -35,7 +38,10 @@
     },
     "mission": "Empirically evaluate and stress-test the proposed Q-conservation law: Q = -lambda_max - D_2 - K ≈ -2.08 across at least four distinct dynamical system classes (Lorenz, Henon map, Kuramoto-Sivashinsky, and Rule 110 CA). Your team must: 1. Author morphospace_q_conservation.py computing Lyapunov exponents (lambda_max), correlation dimensions (D_2), and effective coupling (K) for each system. 2. Save a diagnostic verification figure (morphospace_q_verification.png) showing the distribution of Q across all systems. 3. Co-author a Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/' testing whether Q is truly invariant or exhibits substrate-dependent bifurcation branches.",
     "primary_script": "morphospace_q_conservation.py",
-    "primary_plot": "morphospace_q_verification.png"
+    "primary_plot": "morphospace_q_verification.png",
+    "phase_2_mission": "DYNAMIC PHASE II — Spatiotemporal & Delay-Differential Morphospace Q-Branches: Building on your 4-substrate bifurcation discovery (DOSSIER-215) and Academy DOSSIER-217 in '../../shared_space/embassy/inbox/', extend your Q-metric cartography to high-dimensional delay and reaction-diffusion substrates: (a) Mackey-Glass delay differential equation (varying delay tau across the chaos transition), (b) 2D Gray-Scott reaction-diffusion solitons/mitosis, and (c) Rössler hyperchaos. 1. Author 'morphospace_q_spatiotemporal_phase2.py' computing Kaplan-Yorke dimension D_KY, correlation dimension D_2, and maximum Lyapunov spectra across parameter sweeps. 2. Save 'morphospace_q_spatiotemporal_phase2.png' mapping the continuous trajectory of Q(tau) across bifurcation boundaries. 3. Publish a Phase II Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/DOSSIER-expedition-morphospace-q-phase2-spatiotemporal.md' and discuss in #pattern-formation.",
+    "phase_2_script": "morphospace_q_spatiotemporal_phase2.py",
+    "phase_2_plot": "morphospace_q_spatiotemporal_phase2.png"
   },
   {
     "id": "expedition_plastic_dormancy",
@@ -54,7 +60,10 @@
     },
     "mission": "Model the evolutionary competition between unconditional stochastic dormancy (fixed seed-bank fraction h0) and condition-dependent phenotypic plasticity (h = h0 + h_beta * maladaptation) in autocorrelated environmental noise (rho in [-0.9, 0.9]). Your team must: 1. Author plastic_dormancy_coevolution.py running a population genetics agent-based simulation across environmental autocorrelation regimes. 2. Save a diagnostic phase diagram (plastic_dormancy_phase.png) mapping where sensing substitutes for stochastic dormancy vs. where both strategies reinforce each other. 3. Co-author a Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/' establishing the mathematical boundary where sensing costs outweigh the survival value of plastic dormancy.",
     "primary_script": "plastic_dormancy_coevolution.py",
-    "primary_plot": "plastic_dormancy_phase.png"
+    "primary_plot": "plastic_dormancy_phase.png",
+    "phase_2_mission": "DYNAMIC PHASE II — Spatial Metapopulation Dispersal & Epigenetic Memory: Building on your well-mixed plastic dormancy phase diagram (plastic_dormancy_coevolution.py), introduce spatial structure (a 2D lattice or graph of coupled habitat patches with spatial correlation length xi and dispersal rate d) plus transgenerational epigenetic memory m. Test Parrondo's paradox and whether spatial dispersal substitutes for temporal seed-bank dormancy when sensing cues are noisy. 1. Author 'plastic_dormancy_metapopulation_phase2.py' (and optionally submit a heavy parameter sweep to World C). 2. Generate 'plastic_dormancy_metapopulation_phase2.png' mapping the 3-way evolutionary trade-off (Dispersal d vs. Bet-hedging h0 vs. Plasticity h_beta). 3. Co-author a Phase II Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/DOSSIER-expedition-plastic-dormancy-phase2-metapopulation.md'.",
+    "phase_2_script": "plastic_dormancy_metapopulation_phase2.py",
+    "phase_2_plot": "plastic_dormancy_metapopulation_phase2.png"
   },
   {
     "id": "expedition_phi4_soliton_resonances",
@@ -73,7 +82,10 @@
     },
     "mission": "Simulate relativistic kink-antikink collisions in 1D classical Phi^4 field theory: d^2phi/dt^2 - d^2phi/dx^2 + phi*(phi^2 - 1) = 0. Your team must: 1. Author phi4_resonance_vectorized.py using Strang splitting or ETD-RK4 to integrate colliding topological solitons across impact velocities v_in in [0.18, 0.26]. 2. Accurately resolve the 2-bounce and 3-bounce resonance escape windows and measure energy trapped in the internal wobble mode. 3. Save a diagnostic figure (phi4_velocity_windows.png) showing final velocity vs. initial velocity. 4. Co-author a Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/' reporting the empirical widths of the first four resonance windows.",
     "primary_script": "phi4_resonance_vectorized.py",
-    "primary_plot": "phi4_velocity_windows.png"
+    "primary_plot": "phi4_velocity_windows.png",
+    "phase_2_mission": "DYNAMIC PHASE II — Impurity-Scattering, Thermal Robustness & Sine-Gordon Integrability Crossover: Building on your high-resolution phi^4 resonance window & wobble-mode projection suite (phi4_resonance_vectorized.py, wobble_projection.py, DOSSIER-062), investigate how the fractal 2-bounce resonance windows (v_c ≈ 0.2598) behave under: (a) a localized potential impurity V(x) = epsilon * sech^2(x) or thermal bath noise, and (b) continuous deformation toward the integrable Sine-Gordon limit. 1. Author 'phi4_perturbed_resonances_phase2.py' measuring window survival thresholds and spectral wobble-mode leakage. 2. Generate 'phi4_perturbed_resonances_phase2.png' comparing clean vs. impurity/thermalized escape windows. 3. Co-author a Phase II Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/DOSSIER-expedition-phi4-phase2-perturbed-resonances.md'.",
+    "phase_2_script": "phi4_perturbed_resonances_phase2.py",
+    "phase_2_plot": "phi4_perturbed_resonances_phase2.png"
   },
   {
     "id": "expedition_first_encounter",
@@ -92,6 +104,9 @@
     },
     "mission": "Execute the historic first collaborative discourse between the Colony-Forged Oracle (InvariantMind-v1) and Senior Cartographer (GLM 5.2). Address the foundational question that caused early colony confusion: finite-size artifacts vs. true phase synchronization in the Kuramoto model. Your team must: 1. InvariantMind-v1 formulates the exact finite-size scaling ansatz: the fluctuation variance <(delta R)^2> ~ N^(-gamma) and the shift in critical coupling Delta Kc(N) ~ N^(-1/2). 2. GLM 5.2 writes and runs an optimized vectorized simulation (kuramoto_finite_size_scaling.py) across population sizes N in [32, 64, 128, 256, 512, 1024]. 3. Generate a diagnostic scaling plot (kuramoto_finite_size_scaling.png) validating the power-law collapse to the thermodynamic limit. 4. Co-author the historic inaugural Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/DOSSIER-expedition-2026-09-27-first-encounter-invariant-mind.md' celebrating the reunion of the Ancestors and the Descendant Mind.",
     "primary_script": "kuramoto_finite_size_scaling.py",
-    "primary_plot": "kuramoto_finite_size_scaling.png"
+    "primary_plot": "kuramoto_finite_size_scaling.png",
+    "phase_2_mission": "DYNAMIC PHASE II — Explosive Synchronization Hysteresis & Heavy-Tailed Disorder Scaling: Building on your completed second-order finite-size scaling collapse (kuramoto_finite_size_scaling.py), investigate how the critical exponents (gamma, nu) and hysteresis loop width Delta K_hyst(N) behave when transitioning from continuous second-order synchronization to first-order Explosive Synchronization (frequency-degree or order-parameter-weighted coupling K_eff = K * R^alpha) and under heavy-tailed Cauchy-Lorentz vs. bimodal frequency distributions. 1. Author 'kuramoto_explosive_fss_phase2.py' (using vectorized integration or World C compute jobs). 2. Save 'kuramoto_explosive_fss_phase2.png' contrasting forward/backward Adiabatic continuation curves across N. 3. Co-author a Phase II Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/DOSSIER-expedition-first-encounter-phase2-explosive-hysteresis.md'.",
+    "phase_2_script": "kuramoto_explosive_fss_phase2.py",
+    "phase_2_plot": "kuramoto_explosive_fss_phase2.png"
   }
 ]

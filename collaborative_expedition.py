@@ -211,8 +211,41 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
     with open(PROMPT_TEMPLATE_FILE, "r", encoding="utf-8") as f:
         template = f.read()
 
-    primary_script = mission_info.get("primary_script", "simulation.py")
-    primary_plot = mission_info.get("primary_plot", "analysis.png")
+    ws_dir = os.path.join(BASE_DIR, "instances", expedition_name, "agent_workspace")
+    p1_script = mission_info.get("primary_script", "simulation.py")
+    p1_plot = mission_info.get("primary_plot", "analysis.png")
+    p1_done = os.path.exists(os.path.join(ws_dir, p1_script)) and os.path.exists(os.path.join(ws_dir, p1_plot))
+
+    p2_script = mission_info.get("phase_2_script", "")
+    p2_plot = mission_info.get("phase_2_plot", "")
+    p2_mission = mission_info.get("phase_2_mission", "")
+    p2_done = bool(p2_script and p2_plot and os.path.exists(os.path.join(ws_dir, p2_script)) and os.path.exists(os.path.join(ws_dir, p2_plot)))
+
+    if p1_done and p2_mission and not p2_done:
+        active_phase_label = "PHASE II (DYNAMIC FRONTIER EXPANSION)"
+        primary_script = p2_script or p1_script
+        primary_plot = p2_plot or p1_plot
+        effective_mission = (
+            f"[✅ PHASE I COMPLETED: '{p1_script}' and '{p1_plot}' are already verified in your workspace. "
+            f"Do NOT re-run or overwrite Phase I from scratch, and NEVER declare the expedition closed.]\n\n"
+            f"🚀 {p2_mission}"
+        )
+    elif p1_done and p2_done:
+        active_phase_label = "PHASE III+ (OPEN FRONTIER CONTINUOUS RESEARCH)"
+        primary_script = p2_script.replace("_phase2.py", "_phase3.py") if "_phase2.py" in p2_script else f"frontier_expansion_{p1_script}"
+        primary_plot = p2_plot.replace("_phase2.png", "_phase3.png") if "_phase2.png" in p2_plot else f"frontier_expansion_{p1_plot}"
+        effective_mission = (
+            f"[✅ PHASE I ('{p1_script}') & PHASE II ('{p2_script}') COMPLETED in this workspace.]\n\n"
+            f"🌌 DYNAMIC PHASE III+ (OPEN FRONTIER EXPANSION): Your collaborative laboratory has completed both Phase I and Phase II. "
+            f"Inspect recent World B Treaties and Academy Level 3 Dossiers in '../../shared_space/embassy/inbox/' as well as peer discussions in Colleague Commons (`read_chat`), "
+            f"formulate the next deeper theoretical/empirical stage (`{primary_script}` and `{primary_plot}` or a multi-stage World C job via `submit_world_c_job`), "
+            f"and publish a new Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/'."
+        )
+    else:
+        active_phase_label = "PHASE I (FOUNDATIONAL MISSION)"
+        primary_script = p1_script
+        primary_plot = p1_plot
+        effective_mission = mission_info["mission"]
 
     system_prompt = template.format(
         theorist_name=mission_info["theorist"]["title"],
@@ -221,13 +254,13 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
         engineer_role=mission_info["engineer"]["role"],
         current_name=active_agent["title"],
         current_role=active_agent["role"],
-        mission_objective=mission_info["mission"],
+        mission_objective=effective_mission,
         primary_script=primary_script,
         primary_plot=primary_plot,
     )
 
     print(f"\n" + "=" * 80)
-    print(f"🚀 EXPEDITION '{expedition_name}' | TURN {turn_num}/{total_turns}")
+    print(f"🚀 EXPEDITION '{expedition_name}' [{active_phase_label}] | TURN {turn_num}/{total_turns}")
     print(f"👉 ACTIVE SPEAKER: {active_agent['title']} [{active_agent['role']}]")
     print("=" * 80)
 
@@ -235,27 +268,32 @@ def run_expedition_turn(expedition_name: str, active_agent: dict, partner_agent:
 
     # Phase awareness cue
     phase_cue = ""
-    ws_dir = os.path.join(BASE_DIR, "instances", expedition_name, "agent_workspace")
     script_exists = os.path.exists(os.path.join(ws_dir, primary_script))
     plot_exists = os.path.exists(os.path.join(ws_dir, primary_plot))
 
     if turn_num >= total_turns - 4:
         phase_cue = (
-            f"\n⚠️ MISSION CLOSE NOTICE: You are entering the final rounds (Turn {turn_num}/{total_turns}). "
-            f"If simulation data exists, transition immediately to generating '{primary_plot}' and co-authoring the joint "
-            f"Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/' before the expedition concludes!"
+            f"\n⚠️ SESSION WINDOW CLOSE NOTICE ({active_phase_label}, Turn {turn_num}/{total_turns}): "
+            f"If your current phase simulation data is ready, ensure '{primary_plot}' is generated and update/publish your "
+            f"Frontier Epistemic Dossier in '../../shared_space/embassy/outbox/' (and optionally post a status update in Colleague Commons via `post_chat`). "
+            f"Do NOT write 'EXPEDITION_CLOSED' files — your lab will resume in 5 cycles!"
         )
     elif turn_num <= 4:
         if script_exists:
             phase_cue = (
-                f"\n💡 CONTINUATION SESSION (Turn {turn_num}/{total_turns} of today's window): "
-                f"'{primary_script}' already exists in your shared workspace from an earlier session "
-                f"(Plot '{primary_plot}' exists: {plot_exists}). Do NOT restart from scratch — build directly on your existing files to complete the parameter sweep, figure '{primary_plot}', and joint Frontier Epistemic Dossier!"
+                f"\n💡 CONTINUATION SESSION ({active_phase_label}, Turn {turn_num}/{total_turns} of today's window): "
+                f"'{primary_script}' already exists in your shared workspace "
+                f"(Plot '{primary_plot}' exists: {plot_exists}). Build directly on your existing files to advance {active_phase_label}!"
             )
         else:
-            phase_cue = f"\n💡 FOUNDATIONAL PHASE: Focus on analytical derivation, initial script implementation, and sanity testing."
+            phase_cue = (
+                f"\n💡 {active_phase_label} — LAUNCH WINDOW: Phase I artifacts ('{p1_script}', '{p1_plot}') are preserved in your workspace. "
+                f"Begin designing and implementing '{primary_script}' and '{primary_plot}' for {active_phase_label}!"
+                if p1_done else
+                f"\n💡 FOUNDATIONAL PHASE: Focus on analytical derivation, initial script implementation ('{primary_script}'), and sanity testing."
+            )
     else:
-        phase_cue = f"\n💡 EMPIRICAL SWEEP PHASE: Run the parameter sweep, verify convergence, and ensure headless plotting."
+        phase_cue = f"\n💡 EMPIRICAL SWEEP PHASE ({active_phase_label}): Run the parameter sweep for '{primary_script}', verify convergence, and generate '{primary_plot}'."
 
     turn_dispatch = {
         "role": "user",
