@@ -92,5 +92,50 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_nex_n2_pro_1794456088_0b48",
+    "title": "P4 tongue family anatomy v2 (isolated vs continuum: Jacobian + drift + alignment)",
+    "lineage_author": "nex_n2_pro",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.225,
+    "finished_at": 1794456090.5768447,
+    "artifacts": [
+      "p4_basin_test.json",
+      "p4_finiteK_test.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_nex_n2_pro_1794456088_0b48_p4_basin_test.json",
+      "world_c_job_nex_n2_pro_1794456088_0b48_p4_finiteK_test.json"
+    ],
+    "report_file": "world_c_job_nex_n2_pro_1794456088_0b48_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_nex_n2_pro_1794455285_4940",
+    "title": "P4 tongue family anatomy: isolated attractors vs neutral continuum (Jacobian + drift + alignment)",
+    "lineage_author": "nex_n2_pro",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.031,
+    "finished_at": 1794455287.2303748,
+    "artifacts": [
+      "p4_basin_test.json",
+      "p4_finiteK_test.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_nex_n2_pro_1794455285_4940_p4_basin_test.json",
+      "world_c_job_nex_n2_pro_1794455285_4940_p4_finiteK_test.json"
+    ],
+    "report_file": "world_c_job_nex_n2_pro_1794455285_4940_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

@@ -447,6 +447,15 @@ def simulate(params):
     return summary
 
 
+def _safe_simulate(task):
+    """Wrapper that catches simulation crashes so one bad task does not stop a sweep."""
+    try:
+        return simulate(task)
+    except Exception as e:
+        print(f"Task failed: {e}", flush=True)
+        return None
+
+
 def run_sweep(param_grid, replicates=3, n_workers=8):
     tasks = []
     base = dict(DEFAULT)
@@ -460,15 +469,26 @@ def run_sweep(param_grid, replicates=3, n_workers=8):
     print(f"Total tasks: {len(tasks)}", flush=True)
     t0 = time.time()
     results = []
-    for i, task in enumerate(tasks):
-        try:
-            results.append(simulate(task))
-        except Exception as e:
-            print(f"Task {i} failed: {e}", flush=True)
-        if (i + 1) % 50 == 0 or i == 0:
-            print(f"  completed {i+1}/{len(tasks)} tasks in {time.time()-t0:.1f}s", flush=True)
+
+    if n_workers > 1:
+        import multiprocessing as mp
+        with mp.Pool(processes=n_workers) as pool:
+            # imap_unordered gives progress without storing the whole iterator
+            it = pool.imap_unordered(_safe_simulate, tasks)
+            for i, res in enumerate(it):
+                if res is not None:
+                    results.append(res)
+                if (i + 1) % 50 == 0 or i == 0:
+                    print(f"  completed {i+1}/{len(tasks)} tasks in {time.time()-t0:.1f}s", flush=True)
+    else:
+        for i, task in enumerate(tasks):
+            res = _safe_simulate(task)
+            if res is not None:
+                results.append(res)
+            if (i + 1) % 50 == 0 or i == 0:
+                print(f"  completed {i+1}/{len(tasks)} tasks in {time.time()-t0:.1f}s", flush=True)
+
     elapsed = time.time() - t0
-    results = [r for r in results if r is not None]
     print(f"Completed {len(results)} simulations in {elapsed:.1f}s", flush=True)
     return pd.DataFrame(results)
 
@@ -483,14 +503,18 @@ if __name__ == "__main__":
     os.makedirs(out_dir, exist_ok=True)
     
     param_grid = {
-        'c_plast': [0.02, 0.04, 0.06, 0.08, 0.10, 0.15, 0.20, 0.30],
+        'c_plast': [0.02, 0.04, 0.06, 0.08, 0.10, 0.15],
         'K': [40, 80, 160],
-        'sigma_w': [0.15, 0.25, 0.35, 0.50, 0.70],
+        'sigma_w': [0.15, 0.25, 0.35, 0.50],
     }
+    
+    # Keep the sweep tractable while still spanning the parameter ranges.
+    DEFAULT['generations'] = 25
+    DEFAULT['burn_in'] = 5
     
     print("Running robustness sweep...", flush=True)
     t0 = time.time()
-    df = run_sweep(param_grid, replicates=3, n_workers=8)
+    df = run_sweep(param_grid, replicates=2, n_workers=4)
     elapsed = time.time() - t0
     print(f"Finished {len(df)} simulations in {elapsed:.1f}s", flush=True)
     

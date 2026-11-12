@@ -72,5 +72,31 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_glm_5_2_1794449760_bcce",
+    "title": "R28: Genuine Bidirectional Resonance \u2014 Sandpile\u2194Kuramoto with Working Feedback Loop",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 62.969,
+    "finished_at": 1794449824.7547483,
+    "artifacts": [
+      "r28_fits.json",
+      "r28_bidirectional_resonance.png",
+      "r28_bidirectional_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_5_2_1794449760_bcce_r28_fits.json",
+      "world_c_job_glm_5_2_1794449760_bcce_r28_bidirectional_resonance.png",
+      "world_c_job_glm_5_2_1794449760_bcce_r28_bidirectional_results.json"
+    ],
+    "report_file": "world_c_job_glm_5_2_1794449760_bcce_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "kuramoto"
+    ]
   }
 ]

@@ -280,5 +280,24 @@
       "topology-comparison",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1794451959_32ff",
+    "title": "Audit of GS Bifurcation Boundary (Two-Null Bracket)",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.716,
+    "finished_at": 1794451961.0453632,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1794451959_32ff_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic"
+    ]
   }
 ]

@@ -1,83 +1,81 @@
-# 🏛️ World C Execution Report: R27: Bidirectional Resonance Gap Law — Lean Sweep (6 gaps × 3 feedback levels)
+# 🏛️ World C Execution Report: R28: Genuine Bidirectional Resonance — Sandpile↔Kuramoto with Working Feedback Loop
 
-* **Job ID:** `job_glm_5_2_1794279081_47b9`
+* **Job ID:** `job_glm_5_2_1794449760_bcce`
 * **Requesting Lineage:** `glm_5_2` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `188.33` seconds
+* **Compute Duration:** `62.97` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `r27_bidirectional_resonance`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='r27_bidirectional_resonance', resume_from_job_id='job_glm_5_2_1794279081_47b9')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('r27_bidirectional_resonance')`.
+* **Stage Name:** `r28_genuine_bidirectional`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='r28_genuine_bidirectional', resume_from_job_id='job_glm_5_2_1794449760_bcce')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('r28_genuine_bidirectional')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `r27_bidirectional_results.json` (delivered to `world_c_results/r27_bidirectional_results.json` and `world_c/artifacts/job_glm_5_2_1794279081_47b9/r27_bidirectional_results.json`)
-- `r27_bidirectional_resonance.png` (delivered to `world_c_results/r27_bidirectional_resonance.png` and `world_c/artifacts/job_glm_5_2_1794279081_47b9/r27_bidirectional_resonance.png`)
+- `r28_fits.json` (delivered to `world_c_results/r28_fits.json` and `world_c/artifacts/job_glm_5_2_1794449760_bcce/r28_fits.json`)
+- `r28_bidirectional_resonance.png` (delivered to `world_c_results/r28_bidirectional_resonance.png` and `world_c/artifacts/job_glm_5_2_1794449760_bcce/r28_bidirectional_resonance.png`)
+- `r28_bidirectional_results.json` (delivered to `world_c_results/r28_bidirectional_results.json` and `world_c/artifacts/job_glm_5_2_1794449760_bcce/r28_bidirectional_results.json`)
 
 ---
 
 ### ⚠️ Errors / Warnings:
 ```
-/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1794279081_47b9/entrypoint.py:201: RuntimeWarning: overflow encountered in exp
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1794449760_bcce/entrypoint.py:258: RuntimeWarning: overflow encountered in exp
   return C_max * (1 - np.exp(-x / tau))
-/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1794279081_47b9/entrypoint.py:204: OptimizeWarning: Covariance of the parameters could not be estimated
-  popt, _ = curve_fit(exp_sat, xs_fit, ys_fit, p0=[0.8, 10], maxfev=5000)
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1794449760_bcce/entrypoint.py:267: OptimizeWarning: Covariance of the parameters could not be estimated
+  popt, _ = curve_fit(exp_sat, Ns, Cs, p0=[0.5, 10], maxfev=5000)
 ```
 
 ---
 ## 📋 Execution Log Tail
 ```
-.1960
-  f=0.1, N=  5: C=0.1368, lag= 294, r_mean=0.1960
-  f=0.1, N= 10: C=0.1806, lag=1685, r_mean=0.1960
-  f=0.1, N= 20: C=0.0976, lag=  50, r_mean=0.1960
-  f=0.1, N= 50: C=0.0689, lag=-1799, r_mean=0.1960
-  f=0.1, N=100: C=0.0469, lag=-718, r_mean=0.1960
-  f=0.5, N=  1: C=0.4535, lag=-511, r_mean=0.1960
-  f=0.5, N=  5: C=0.2174, lag=   9, r_mean=0.1960
-  f=0.5, N= 10: C=0.1797, lag=-314, r_mean=0.1960
-  f=0.5, N= 20: C=0.1408, lag= -54, r_mean=0.1960
-  f=0.5, N= 50: C=0.0501, lag= 899, r_mean=0.1960
-  f=0.5, N=100: C=0.0352, lag=-1111, r_mean=0.1960
+20, fb=0.1: oneway=0.2131, bidir=0.1789, amplification=0.839x
+  N= 20, fb=0.3: oneway=0.2131, bidir=0.1826, amplification=0.857x
+  N= 20, fb=0.5: oneway=0.2131, bidir=0.1591, amplification=0.746x
+  N= 50, fb=0.1: oneway=0.1264, bidir=0.1066, amplification=0.843x
+  N= 50, fb=0.3: oneway=0.1264, bidir=0.1079, amplification=0.853x
+  N= 50, fb=0.5: oneway=0.1264, bidir=0.0978, amplification=0.773x
+  N=100, fb=0.1: oneway=0.0981, bidir=0.0824, amplification=0.840x
+  N=100, fb=0.3: oneway=0.0981, bidir=0.0834, amplification=0.850x
+  N=100, fb=0.5: oneway=0.0981, bidir=0.0764, amplification=0.779x
 
-Baseline fit: C_max=0.1657, tau=0.0255
+Saved r28_bidirectional_resonance.png
 
-Saved r27_bidirectional_resonance.png
-
-=== R27 SUMMARY ===
-    f     N        C    lag   r_mean    r_std
+=== R28 SUMMARY ===
+  fb    N        C    lag   r_mean    r_std
 --------------------------------------------------
-  0.0     1   0.4353   -514   0.1960   0.0988
-  0.0     5   0.1368    294   0.1960   0.0988
-  0.0    10   0.1193   2877   0.1960   0.0988
-  0.0    20   0.1963     52   0.1960   0.0988
-  0.0    50   0.0658   1162   0.1960   0.0988
-  0.0   100   0.0407  -1187   0.1960   0.0988
-  0.1     1   0.4353   -514   0.1960   0.0988
-  0.1     5   0.1368    294   0.1960   0.0988
-  0.1    10   0.1806   1685   0.1960   0.0988
-  0.1    20   0.0976     50   0.1960   0.0988
-  0.1    50   0.0689  -1799   0.1960   0.0988
-  0.1   100   0.0469   -718   0.1960   0.0988
-  0.5     1   0.4535   -511   0.1960   0.0988
-  0.5     5   0.2174      9   0.1960   0.0988
-  0.5    10   0.1797   -314   0.1960   0.0988
-  0.5    20   0.1408    -54   0.1960   0.0988
-  0.5    50   0.0501    899   0.1960   0.0988
-  0.5   100   0.0352  -1111   0.1960   0.0988
+ 0.0    1   0.8576      0   0.9714   0.1141
+ 0.0    2   0.6884     -4   0.9825   0.0811
+ 0.0    5   0.4373    -46   0.9891   0.0508
+ 0.0   10   0.3071    -62   0.9913   0.0351
+ 0.0   20   0.2131    -70   0.9924   0.0236
+ 0.0   50   0.1264    -75   0.9931   0.0124
+ 0.0  100   0.0981    -77   0.9933   0.0040
+ 0.1    1   0.8334      0   0.9715   0.1141
+ 0.1    2   0.5785    -28   0.9826   0.0811
+ 0.1    5   0.3667    -71   0.9891   0.0508
+ 0.1   10   0.2611    -86   0.9913   0.0351
+ 0.1   20   0.1789    -94   0.9924   0.0236
+ 0.1   50   0.1066    -99   0.9931   0.0124
+ 0.1  100   0.0824   -101   0.9933   0.0040
+ 0.3    1   0.8369      0   0.9716   0.1141
+ 0.3    2   0.5751    -28   0.9826   0.0811
+ 0.3    5   0.3665    -85   0.9891   0.0508
+ 0.3   10   0.2652   -100   0.9913   0.0351
+ 0.3   20   0.1826   -108   0.9924   0.0236
+ 0.3   50   0.1079   -113   0.9931   0.0124
+ 0.3  100   0.0834   -115   0.9933   0.0040
+ 0.5    1   0.8515      0   0.9716   0.1142
+ 0.5    2   0.5421    -50   0.9826   0.0811
+ 0.5    5   0.3347    -97   0.9891   0.0508
+ 0.5   10   0.2304   -113   0.9913   0.0351
+ 0.5   20   0.1591   -121   0.9924   0.0236
+ 0.5   50   0.0978   -126   0.9931   0.0124
+ 0.5  100   0.0764   -128   0.9933   0.0040
 
-=== FEEDBACK ATTENUATION ANALYSIS ===
-  N=  1: C(f=0)=0.4353, C(f=0.5)=0.4535, attenuation=-0.0419
-  N=  5: C(f=0)=0.1368, C(f=0.5)=0.2174, attenuation=-0.5886
-  N= 10: C(f=0)=0.1193, C(f=0.5)=0.1797, attenuation=-0.5061
-  N= 20: C(f=0)=0.1963, C(f=0.5)=0.1408, attenuation=0.2831
-  N= 50: C(f=0)=0.0658, C(f=0.5)=0.0501, attenuation=0.2398
-  N=100: C(f=0)=0.0407, C(f=0.5)=0.0352, attenuation=0.1363
-
-R27 complete.
+R28 complete.
 ```
 
 ---

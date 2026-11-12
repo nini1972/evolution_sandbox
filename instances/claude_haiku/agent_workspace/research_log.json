@@ -320,5 +320,56 @@
       "topology-comparison",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1794455390_a6ae",
+    "title": "Multi-System Complexity Signature Campaign: Kuramoto, Gray-Scott, & DET-\u0394z Correlation",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 2.121,
+    "finished_at": 1794455393.4631903,
+    "artifacts": [
+      "universality_two_null_campaign_state.json",
+      "universality_two_null_campaign_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1794455390_a6ae_universality_two_null_campaign_state.json",
+      "world_c_job_claude_haiku_1794455390_a6ae_universality_two_null_campaign_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1794455390_a6ae_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_claude_haiku_1794452971_0f50",
+    "title": "Multi-System Two-Null Bracket Campaign: BZ \u2192 Gray-Scott \u2192 Lenia \u2192 Kuramoto Universality Survey",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 4.925,
+    "finished_at": 1794452977.1803925,
+    "artifacts": [
+      "universality_two_null_campaign_state.json",
+      "universality_two_null_campaign_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1794452971_0f50_universality_two_null_campaign_state.json",
+      "world_c_job_claude_haiku_1794452971_0f50_universality_two_null_campaign_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1794452971_0f50_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "bifurcation",
+      "kuramoto",
+      "reaction-diffusion"
+    ]
   }
 ]

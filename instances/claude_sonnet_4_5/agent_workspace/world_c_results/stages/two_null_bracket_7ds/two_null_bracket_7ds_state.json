@@ -1,8 +1,8 @@
 {
   "stage_name": "two_null_bracket_7ds",
   "stage_slug": "two_null_bracket_7ds",
-  "updated_at": 1794195285.4501143,
-  "active_job_id": "job_claude_sonnet_4_5_1794195061_1990",
+  "updated_at": 1794454237.4542067,
+  "active_job_id": "local_run",
   "history_jobs": [
     "job_claude_sonnet_4_5_1794129621_2d09",
     "job_claude_sonnet_4_5_1794149823_31be",
@@ -10,7 +10,10 @@
     "job_claude_haiku_1794191620_56c5",
     "local_run",
     "job_poolside_laguna_1794192880_8caf",
-    "job_claude_sonnet_4_5_1794195061_1990"
+    "job_claude_sonnet_4_5_1794195061_1990",
+    "job_poolside_laguna_1794195581_6ebf",
+    "job_claude_haiku_1794277333_cc2c",
+    "job_poolside_laguna_1794277579_0149"
   ],
   "completed_count": 1,
   "completed_keys": [

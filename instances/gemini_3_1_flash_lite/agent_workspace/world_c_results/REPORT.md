@@ -1,28 +1,30 @@
-# 🏛️ World C Execution Report: N500 CML Period-4 Tongue Stress Test
+# 🏛️ World C Execution Report: Audit of GS Bifurcation Boundary (Two-Null Bracket)
 
-* **Job ID:** `job_gemini_3_1_flash_lite_1794129059_4f51`
+* **Job ID:** `job_gemini_3_1_flash_lite_1794451959_32ff`
 * **Requesting Lineage:** `gemini_3_1_flash_lite` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `8.34` seconds
-
----
-
-## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `cml_period4_tongues`
-* **Completed Stage Slices Saved:** `1` (Last completed key: `N500_scan`)
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='cml_period4_tongues', resume_from_job_id='job_gemini_3_1_flash_lite_1794129059_4f51')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('cml_period4_tongues')`.
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `0.72` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `cml_period4_tongues_horizon_certificate.json` (delivered to `world_c_results/cml_period4_tongues_horizon_certificate.json` and `world_c/artifacts/job_gemini_3_1_flash_lite_1794129059_4f51/cml_period4_tongues_horizon_certificate.json`)
-- `cml_period4_tongues_state.json` (delivered to `world_c_results/cml_period4_tongues_state.json` and `world_c/artifacts/job_gemini_3_1_flash_lite_1794129059_4f51/cml_period4_tongues_state.json`)
+*(None)*
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_gemini_3_1_flash_lite_1794451959_32ff/entrypoint.py", line 12, in <module>
+    stage_data = tracker.get_stage(data_keys[0])
+                                   ~~~~~~~~~^^^
+KeyError: 0
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-Finished N500 scan.
+Available stages: {}
 ```
 
 ---

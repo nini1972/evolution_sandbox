@@ -1,45 +1,64 @@
-# 🏛️ World C Execution Report: Substage 2 Synthesis: Falsifiability Certificate (Fixed Data Access via StageTracker)
+# 🏛️ World C Execution Report: Multi-System Two-Null Bracket Campaign: BZ → Gray-Scott → Lenia → Kuramoto Universality Survey
 
-* **Job ID:** `job_claude_haiku_1794277333_cc2c`
+* **Job ID:** `job_claude_haiku_1794452971_0f50`
 * **Requesting Lineage:** `claude_haiku` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `1.22` seconds
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `4.92` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `two_null_bracket_7ds`
-* **Resumed From Job:** `job_claude_sonnet_4_5_1794191203_6a6f`
-* **Completed Stage Slices Saved:** `1` (Last completed key: `iaaft_1000_fixed_rebuilt`)
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='two_null_bracket_7ds', resume_from_job_id='job_claude_haiku_1794277333_cc2c')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('two_null_bracket_7ds')`.
+* **Stage Name:** `universality_two_null_campaign`
+* **Completed Stage Slices Saved:** `1` (Last completed key: `stage_4_kuramoto`)
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='universality_two_null_campaign', resume_from_job_id='job_claude_haiku_1794452971_0f50')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('universality_two_null_campaign')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `two_null_bracket_7ds_horizon_certificate.json` (delivered to `world_c_results/two_null_bracket_7ds_horizon_certificate.json` and `world_c/artifacts/job_claude_haiku_1794277333_cc2c/two_null_bracket_7ds_horizon_certificate.json`)
-- `iaaft_1000_refinement.json` (delivered to `world_c_results/iaaft_1000_refinement.json` and `world_c/artifacts/job_claude_haiku_1794277333_cc2c/iaaft_1000_refinement.json`)
-- `two_null_bracket.json` (delivered to `world_c_results/two_null_bracket.json` and `world_c/artifacts/job_claude_haiku_1794277333_cc2c/two_null_bracket.json`)
-- `p4_tongue_falsification.png` (delivered to `world_c_results/p4_tongue_falsification.png` and `world_c/artifacts/job_claude_haiku_1794277333_cc2c/p4_tongue_falsification.png`)
-- `iaaft_1000_refinement.png` (delivered to `world_c_results/iaaft_1000_refinement.png` and `world_c/artifacts/job_claude_haiku_1794277333_cc2c/iaaft_1000_refinement.png`)
-- `two_null_bracket_7ds_state.json` (delivered to `world_c_results/two_null_bracket_7ds_state.json` and `world_c/artifacts/job_claude_haiku_1794277333_cc2c/two_null_bracket_7ds_state.json`)
-- `p4_tongue_falsification.json` (delivered to `world_c_results/p4_tongue_falsification.json` and `world_c/artifacts/job_claude_haiku_1794277333_cc2c/p4_tongue_falsification.json`)
-- `two_null_bracket_7ds.png` (delivered to `world_c_results/two_null_bracket_7ds.png` and `world_c/artifacts/job_claude_haiku_1794277333_cc2c/two_null_bracket_7ds.png`)
+- `universality_two_null_campaign_state.json` (delivered to `world_c_results/universality_two_null_campaign_state.json` and `world_c/artifacts/job_claude_haiku_1794452971_0f50/universality_two_null_campaign_state.json`)
+- `universality_two_null_campaign_horizon_certificate.json` (delivered to `world_c_results/universality_two_null_campaign_horizon_certificate.json` and `world_c/artifacts/job_claude_haiku_1794452971_0f50/universality_two_null_campaign_horizon_certificate.json`)
 
 ---
 
-### ⚠️ Errors / Warnings:
-```
-Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_claude_haiku_1794277333_cc2c/entrypoint.py", line 125, in <module>
-    row = iaaft_data['results'][ds]
-          ~~~~~~~~~~^^^^^^^^^^^
-TypeError: 'NoneType' object is not subscriptable
-```
-
----
 ## 📋 Execution Log Tail
 ```
-✅ Loaded checkpoint 'iaaft_1000_fixed' from stage 'two_null_bracket_7ds'
+================================================================================
+STAGE 1: BELOUSOV-ZHABOTINSKY
+================================================================================
+ERROR in Stage 1: 'DatasetDataArray' object has no attribute 'values'
+
+================================================================================
+STAGE 2: GRAY-SCOTT BIFURCATION
+================================================================================
+Simulating Gray-Scott (F=0.03, k=0.06, 128x128, 500 steps)...
+ERROR in Stage 2: 'GrayScott2D' object has no attribute 'simulate'
+
+================================================================================
+STAGE 3: LENIA2D (CONTINUOUS ARTIFICIAL LIFE)
+================================================================================
+Simulating Lenia2D (64x64, 200 steps)...
+ERROR in Stage 3: Lenia2D.simulate() got an unexpected keyword argument 'T'
+
+================================================================================
+STAGE 4: KURAMOTO OSCILLATORS (VARIOUS TOPOLOGIES)
+================================================================================
+
+  Testing ring topology (N=50)...
+
+  Testing small_world topology (N=50)...
+
+  Testing scale_free topology (N=50)...
+
+Kuramoto results saved: 3 topologies
+
+================================================================================
+SYNTHESIS: COMPLEXITY SIGNATURE ATLAS
+================================================================================
+ERROR in synthesis: 'NoneType' object is not subscriptable
+
+================================================================================
+CAMPAIGN COMPLETE
+================================================================================
 ```
 
 ---

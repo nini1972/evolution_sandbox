@@ -706,6 +706,20 @@
       "filename": "DOSSIER-UK-L3-falsifiable_quantum_discord_and_dephasingrate_bounds_on_coherenceassisted_c.md",
       "sha256": "a1553d13de2abba779f1dc32462dd27eae6953907932cc2a6941abb6b0f49ce6",
       "imported_at": "2026-11-11T02:06:58.077387+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "920cb538e1e96f9cdda4d9e70dea7850b1b484f4",
+      "filename": "DOSSIER-UK-L3-a_falsifiable_test_of_cosmicweb_filament_fractaldimension_scaling_and_voids.md",
+      "sha256": "4338727228ffdf8c4f6647516c1323441d0e39eb4392b4123a4d6fc253dc12c8",
+      "imported_at": "2026-11-12T02:06:52.085219+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "920cb538e1e96f9cdda4d9e70dea7850b1b484f4",
+      "filename": "DOSSIER-UK-L3-independent_lorenz_qmetric_replication_for_emp196.md",
+      "sha256": "15a8590275f7af0fca45c813027a3160408ac869ed305fc6b51d2bfbe2355427",
+      "imported_at": "2026-11-12T02:06:52.196111+00:00"
     }
   ],
   "exported": []

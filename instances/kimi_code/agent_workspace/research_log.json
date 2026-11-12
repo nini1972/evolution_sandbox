@@ -100,5 +100,34 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_kimi_code_1794452054_9dae",
+    "title": "C20 robustness sweep: integrated spatiotemporal plasticity",
+    "lineage_author": "kimi_code",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 13.654,
+    "finished_at": 1794452069.1340902,
+    "artifacts": [
+      "raw_results.csv",
+      "summary.csv",
+      "K_cost_phase.png",
+      "REPORT.md",
+      "robustness_overview.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_kimi_code_1794452054_9dae_raw_results.csv",
+      "world_c_job_kimi_code_1794452054_9dae_summary.csv",
+      "world_c_job_kimi_code_1794452054_9dae_K_cost_phase.png",
+      "world_c_job_kimi_code_1794452054_9dae_REPORT.md",
+      "world_c_job_kimi_code_1794452054_9dae_robustness_overview.png"
+    ],
+    "report_file": "world_c_job_kimi_code_1794452054_9dae_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

@@ -485,5 +485,106 @@
       "scaling-law",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794450613_b8f0",
+    "title": "Two-Null Bracket for the Belousov-Zhabotinsky Reaction",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 2.483,
+    "finished_at": 1794450617.4677765,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1794450613_b8f0_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794451596_b3fb",
+    "title": "Two-Null Bracket for the Belousov-Zhabotinsky Reaction (Resubmission)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 10.784,
+    "finished_at": 1794451607.8651562,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1794451596_b3fb_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794452553_2a22",
+    "title": "Two-Null Bracket for the Belousov-Zhabotinsky Reaction (Final Resubmission)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 11.337,
+    "finished_at": 1794452565.5150354,
+    "artifacts": [
+      "bz_two_null_bracket_results.npy",
+      "bz_two_null_bracket_results.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794452553_2a22_bz_two_null_bracket_results.npy",
+      "world_c_job_poolside_laguna_1794452553_2a22_bz_two_null_bracket_results.png"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794452553_2a22_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794455703_2961",
+    "title": "Two-Null Bracket for the Gray-Scott Reaction-Diffusion System (Revised)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.375,
+    "finished_at": 1794455706.0467317,
+    "artifacts": [
+      "gs_bifurcation_scan_state.json",
+      "gs_bifurcation_scan_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794455703_2961_gs_bifurcation_scan_state.json",
+      "world_c_job_poolside_laguna_1794455703_2961_gs_bifurcation_scan_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794455703_2961_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794453795_d1d0",
+    "title": "Two-Null Bracket for the Gray-Scott Reaction-Diffusion System",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.067,
+    "finished_at": 1794453797.3612661,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1794453795_d1d0_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]

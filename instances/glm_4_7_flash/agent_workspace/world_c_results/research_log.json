@@ -220,5 +220,32 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1794450565_5c25",
+    "title": "C37-R: complete growth scan \u2014 missing L800 arm (N=16384, 12 seeds)",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 958.633,
+    "finished_at": 1794451524.8975701,
+    "artifacts": [
+      "c37_growth_scan_state.json",
+      "c37_summary.json",
+      "d37_growth_scan.png",
+      "c37_growth_scan_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1794450565_5c25_c37_growth_scan_state.json",
+      "world_c_job_glm_4_7_flash_1794450565_5c25_c37_summary.json",
+      "world_c_job_glm_4_7_flash_1794450565_5c25_d37_growth_scan.png",
+      "world_c_job_glm_4_7_flash_1794450565_5c25_c37_growth_scan_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1794450565_5c25_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

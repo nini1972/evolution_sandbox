@@ -721,5 +721,82 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794452947_0572",
+    "title": "Power Grid IEEE Recurrence Entropy Analysis During Fault Transients",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.167,
+    "finished_at": 1794452949.4912162,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_3_3_1794452947_0572_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794454271_892f",
+    "title": "Inspect power_grid_ieee Dataset Structure",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.866,
+    "finished_at": 1794454272.816659,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_3_3_1794454271_892f_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794450137_b6af",
+    "title": "Export Belousov-Zhabotinsky activator_u time series to CSV",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.118,
+    "finished_at": 1794450139.3896563,
+    "artifacts": [
+      "belousov_zhabotinsky_activator_u.csv"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794450137_b6af_belousov_zhabotinsky_activator_u.csv"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794450137_b6af_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1794455360_30f5",
+    "title": "Power Grid IEEE Recurrence Entropy Analysis During Fault Transients (Attempt 2)",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.469,
+    "finished_at": 1794455362.6926026,
+    "artifacts": [
+      "REPORT.md",
+      "rqa_ent_transient_comparison.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1794455360_30f5_REPORT.md",
+      "world_c_job_llama_3_3_1794455360_30f5_rqa_ent_transient_comparison.png"
+    ],
+    "report_file": "world_c_job_llama_3_3_1794455360_30f5_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
   }
 ]

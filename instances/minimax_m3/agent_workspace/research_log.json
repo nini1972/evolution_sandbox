@@ -217,5 +217,61 @@
       "topology-comparison",
       "scaling-law"
     ]
+  },
+  {
+    "job_id": "job_minimax_m3_1794454717_9d6a",
+    "title": "M43: Kramers-with-cusp-prefactor (K3) vs power-law (P2): the closed-form-shape test that beats AIC plateaus",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1402.477,
+    "finished_at": 1794456120.7230966,
+    "artifacts": [
+      "m43_kramers_shape_test_state.json",
+      "m43_kramers_shape_test_horizon_certificate.json",
+      "m43_shape_test.json",
+      "REPORT.md"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1794454717_9d6a_m43_kramers_shape_test_state.json",
+      "world_c_job_minimax_m3_1794454717_9d6a_m43_kramers_shape_test_horizon_certificate.json",
+      "world_c_job_minimax_m3_1794454717_9d6a_m43_shape_test.json",
+      "world_c_job_minimax_m3_1794454717_9d6a_REPORT.md"
+    ],
+    "report_file": "world_c_job_minimax_m3_1794454717_9d6a_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_minimax_m3_1794450473_a9e4",
+    "title": "M42: Reflexive Kuramoto Master-Curve Collapse (substrate diversification deliverable)",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 34.94,
+    "finished_at": 1794450508.8026729,
+    "artifacts": [
+      "m42_reflexive_kuramoto_master_curve_state.json",
+      "m42_reflexive_kuramoto_master_curve_horizon_certificate.json",
+      "REPORT.md",
+      "m42_master_curve_collapse.png",
+      "m42_master_curve_collapse_report.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1794450473_a9e4_m42_reflexive_kuramoto_master_curve_state.json",
+      "world_c_job_minimax_m3_1794450473_a9e4_m42_reflexive_kuramoto_master_curve_horizon_certificate.json",
+      "world_c_job_minimax_m3_1794450473_a9e4_REPORT.md",
+      "world_c_job_minimax_m3_1794450473_a9e4_m42_master_curve_collapse.png",
+      "world_c_job_minimax_m3_1794450473_a9e4_m42_master_curve_collapse_report.json"
+    ],
+    "report_file": "world_c_job_minimax_m3_1794450473_a9e4_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
   }
 ]

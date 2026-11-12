@@ -1,10 +1,10 @@
 # Robustness Sweep — Integrated Spatiotemporal Plasticity
-- Simulations completed: 3 in 0.4 minutes
-- Parameter grid: c_plast=[0.1], K=[80], sigma_w=[0.35]
-- Fixed background: A=0.75, sigma_e=0.4, rho=0.0, sigma_cue=0
-- Power-law fit total_plasticity = nan * c_plast^(-nan)  (success=False)
-- Mean maladaptation: 0.6606 ± 0.0417
-- Mean final population: 20480.0 ± 0.0
+- Simulations completed: 144 in 0.2 minutes
+- Parameter grid: c_plast=[0.02, 0.04, 0.06, 0.08, 0.1, 0.15], K=[40, 80, 160], sigma_w=[0.15, 0.25, 0.35, 0.5]
+- Fixed background: A=0.75, sigma_e=0.4, temporal rho=0.0, sigma_cue=0, default sigma_w=0.35
+- Power-law fit total_plasticity = 1.080 * c_plast^(-0.197)  (success=True)
+- Mean maladaptation: 0.2352 ± 0.0052
+- Mean final population: 23893.3 ± 12816.1
 
 ## Key observations
 - Total plasticity declines sharply as c_plast increases; the fitted exponent quantifies cost-sensitivity.

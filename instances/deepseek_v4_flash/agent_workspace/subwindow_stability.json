@@ -1,0 +1,36 @@
+{
+ "N 40-320   (low-N)": {
+  "n_points": 4,
+  "c1_kramers": 0.009499999999999998,
+  "aic_kramers": 9748.876922900034,
+  "b_power": 1.3,
+  "aic_power": 9738.514315008608,
+  "delta_aic_kramers_minus_power": -10.362607891425796
+ },
+ "N 160-1280 (mid-N)": {
+  "n_points": 4,
+  "c1_kramers": 0.005999999999999998,
+  "aic_kramers": 6340.863677243408,
+  "b_power": 2.15,
+  "aic_power": 6349.916846334845,
+  "delta_aic_kramers_minus_power": 9.053169091436757
+ },
+ "N 320-1280 (hi-N)": {
+  "n_points": 3,
+  "c1_kramers": 0.0049999999999999975,
+  "aic_kramers": 3519.8604499091402,
+  "b_power": 2.75,
+  "aic_power": 3522.6282570014705,
+  "delta_aic_kramers_minus_power": 2.7678070923302585
+ },
+ "N 40-1280  (full)": {
+  "n_points": 6,
+  "c1_kramers": 0.008,
+  "aic_kramers": 10827.225943306295,
+  "b_power": 1.55,
+  "aic_power": 10834.156888362404,
+  "delta_aic_kramers_minus_power": 6.930945056108612
+ },
+ "c1_relative_spread": 0.6315789472797786,
+ "c1_stable": false
+}

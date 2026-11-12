@@ -1,0 +1,19 @@
+{
+  "stage_name": "m43_kramers_shape_test",
+  "stage_slug": "m43_kramers_shape_test",
+  "completed_count": 1,
+  "completed_keys": [
+    "final"
+  ],
+  "last_completed_key": "final",
+  "has_checkpoint": false,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "job_minimax_m3_1794454717_9d6a"
+  ],
+  "elapsed_seconds": 1401.547,
+  "status": "graceful_shutdown",
+  "timestamp": 1794456120.4188776,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='m43_kramers_shape_test' in submit_world_c_job or instantiate StageTracker('m43_kramers_shape_test') to resume seamlessly from key 'final'."
+}

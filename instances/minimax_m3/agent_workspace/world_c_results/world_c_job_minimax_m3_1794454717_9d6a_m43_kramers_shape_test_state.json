@@ -1,0 +1,130 @@
+{
+  "stage_name": "m43_kramers_shape_test",
+  "stage_slug": "m43_kramers_shape_test",
+  "updated_at": 1794456120.4188695,
+  "active_job_id": "job_minimax_m3_1794454717_9d6a",
+  "history_jobs": [
+    "job_minimax_m3_1794454717_9d6a"
+  ],
+  "completed_count": 1,
+  "completed_keys": [
+    "final"
+  ],
+  "stages": {
+    "final": {
+      "cells": [
+        {
+          "N": 16,
+          "T_max": 600.0,
+          "n_replicas": 1200,
+          "n_escapes": 1200,
+          "esc_rate": 0.0016666666666666668,
+          "mean_tau": 65.68816666666667,
+          "median_tau": 45.18000000000001,
+          "log_lam_hat": -4.1849187976500515,
+          "c1_analytic": 0.04285714285714286,
+          "chi_N": 0.6857142857142857
+        },
+        {
+          "N": 32,
+          "T_max": 600.0,
+          "n_replicas": 1200,
+          "n_escapes": 279,
+          "esc_rate": 0.0003875,
+          "mean_tau": 288.970752688172,
+          "median_tau": 274.42,
+          "log_lam_hat": -5.666325481220157,
+          "c1_analytic": 0.04285714285714286,
+          "chi_N": 1.3714285714285714
+        },
+        {
+          "N": 64,
+          "T_max": 2500.0,
+          "n_replicas": 1200,
+          "n_escapes": 0,
+          "esc_rate": 0.0,
+          "mean_tau": NaN,
+          "median_tau": NaN,
+          "log_lam_hat": NaN,
+          "c1_analytic": 0.04285714285714286,
+          "chi_N": 2.742857142857143
+        },
+        {
+          "N": 128,
+          "T_max": 8000.0,
+          "n_replicas": 1200,
+          "n_escapes": 0,
+          "esc_rate": 0.0,
+          "mean_tau": NaN,
+          "median_tau": NaN,
+          "log_lam_hat": NaN,
+          "c1_analytic": 0.04285714285714286,
+          "chi_N": 5.485714285714286
+        },
+        {
+          "N": 256,
+          "T_max": 25000.0,
+          "n_replicas": 1200,
+          "n_escapes": 0,
+          "esc_rate": 0.0,
+          "mean_tau": NaN,
+          "median_tau": NaN,
+          "log_lam_hat": NaN,
+          "c1_analytic": 0.04285714285714286,
+          "chi_N": 10.971428571428572
+        },
+        {
+          "N": 512,
+          "T_max": 80000.0,
+          "n_replicas": 1200,
+          "n_escapes": 0,
+          "esc_rate": 0.0,
+          "mean_tau": NaN,
+          "median_tau": NaN,
+          "log_lam_hat": NaN,
+          "c1_analytic": 0.04285714285714286,
+          "chi_N": 21.942857142857143
+        },
+        {
+          "N": 1024,
+          "T_max": 250000.0,
+          "n_replicas": 1200,
+          "n_escapes": 0,
+          "esc_rate": 0.0,
+          "mean_tau": NaN,
+          "median_tau": NaN,
+          "log_lam_hat": NaN,
+          "c1_analytic": 0.04285714285714286,
+          "chi_N": 43.885714285714286
+        },
+        {
+          "N": 2048,
+          "T_max": 800000.0,
+          "n_replicas": 1200,
+          "n_escapes": 0,
+          "esc_rate": 0.0,
+          "mean_tau": NaN,
+          "median_tau": NaN,
+          "log_lam_hat": NaN,
+          "c1_analytic": 0.04285714285714286,
+          "chi_N": 87.77142857142857
+        }
+      ],
+      "shape_test": [],
+      "diagnostics": {
+        "barrier": {
+          "K0": 0.05,
+          "alpha": 1.5,
+          "sigma": 1.0
+        }
+      }
+    }
+  },
+  "stage_metadata": {
+    "final": {
+      "saved_at": 1794456120.4164467,
+      "job_id": "job_minimax_m3_1794454717_9d6a"
+    }
+  },
+  "checkpoint": null
+}

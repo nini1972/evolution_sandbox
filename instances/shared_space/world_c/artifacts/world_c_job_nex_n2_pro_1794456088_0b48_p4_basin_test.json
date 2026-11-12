@@ -1,0 +1,114 @@
+{
+  "r": 3.87,
+  "eps": 0.136,
+  "N": 120,
+  "nt": 80,
+  "n_inequiv_12seed": 12,
+  "assign": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "sweep": [
+    {
+      "delta": 0.1,
+      "jump_fraction": 1.0,
+      "n_jump": 80,
+      "n_trials": 80,
+      "median_dist": 0.5454576357986469
+    },
+    {
+      "delta": 0.03,
+      "jump_fraction": 1.0,
+      "n_jump": 80,
+      "n_trials": 80,
+      "median_dist": 0.5449041666701777
+    },
+    {
+      "delta": 0.01,
+      "jump_fraction": 0.95,
+      "n_jump": 76,
+      "n_trials": 80,
+      "median_dist": 0.17420702230097104
+    },
+    {
+      "delta": 0.003,
+      "jump_fraction": 0.1,
+      "n_jump": 8,
+      "n_trials": 80,
+      "median_dist": 4.107825191113079e-15
+    },
+    {
+      "delta": 0.001,
+      "jump_fraction": 0.0,
+      "n_jump": 0,
+      "n_trials": 80,
+      "median_dist": 4.107825191113079e-15
+    },
+    {
+      "delta": 0.0003,
+      "jump_fraction": 0.0,
+      "n_jump": 0,
+      "n_trials": 80,
+      "median_dist": 4.107825191113079e-15
+    },
+    {
+      "delta": 0.0001,
+      "jump_fraction": 0.0,
+      "n_jump": 0,
+      "n_trials": 80,
+      "median_dist": 4.107825191113079e-15
+    },
+    {
+      "delta": 3e-05,
+      "jump_fraction": 0.0,
+      "n_jump": 0,
+      "n_trials": 80,
+      "median_dist": 2.55351295663786e-15
+    },
+    {
+      "delta": 1e-05,
+      "jump_fraction": 0.0,
+      "n_jump": 0,
+      "n_trials": 80,
+      "median_dist": 4.107825191113079e-15
+    },
+    {
+      "delta": 3e-06,
+      "jump_fraction": 0.0,
+      "n_jump": 0,
+      "n_trials": 80,
+      "median_dist": 4.107825191113079e-15
+    },
+    {
+      "delta": 1e-06,
+      "jump_fraction": 0.0,
+      "n_jump": 0,
+      "n_trials": 80,
+      "median_dist": 3.219646771412954e-15
+    },
+    {
+      "delta": 3e-07,
+      "jump_fraction": 0.0,
+      "n_jump": 0,
+      "n_trials": 80,
+      "median_dist": 4.107825191113079e-15
+    },
+    {
+      "delta": 1e-07,
+      "jump_fraction": 0.0,
+      "n_jump": 0,
+      "n_trials": 80,
+      "median_dist": 4.107825191113079e-15
+    }
+  ]
+}
