@@ -91,11 +91,23 @@ def run_loop(instance: str, ticks: int):
             if action["content"]:
                 print(f"Agent Thought: {action['content']}")
                 
-            tool_calls_list = action.get("all_tool_calls") or [{
+            raw_tool_calls = action.get("all_tool_calls") or [{
                 "tool_call_id": action["tool_call_id"],
                 "tool_name": action["tool_name"],
                 "arguments": action["arguments"],
             }]
+            tool_calls_list = []
+            seen_tc_keys = set()
+            for tc_cand in raw_tool_calls:
+                try:
+                    tc_key = (tc_cand["tool_name"], json.dumps(tc_cand["arguments"], sort_keys=True, ensure_ascii=False))
+                except Exception:
+                    tc_key = (tc_cand["tool_name"], str(tc_cand["arguments"]))
+                if tc_key not in seen_tc_keys:
+                    seen_tc_keys.add(tc_key)
+                    tool_calls_list.append(tc_cand)
+                if len(tool_calls_list) >= 3:
+                    break
             
             for idx, tc_item in enumerate(tool_calls_list):
                 tool_name = tc_item["tool_name"]
@@ -122,7 +134,40 @@ def run_loop(instance: str, ticks: int):
                 # Execute the tool safely
                 if tool_name in AVAILABLE_TOOLS:
                     try:
-                        result = AVAILABLE_TOOLS[tool_name](**arguments)
+                        prev_timed_out = False
+                        repeat_read_count = 0
+                        arg_canon = json.dumps(arguments, sort_keys=True, ensure_ascii=False) if isinstance(arguments, dict) else str(arguments)
+                        for h_idx in range(max(0, len(history) - 20), len(history)):
+                            h_msg = history[h_idx]
+                            if h_msg.get("role") == "assistant" and h_msg.get("tool_calls"):
+                                for h_tc in h_msg["tool_calls"]:
+                                    h_fn = h_tc.get("function", {})
+                                    if h_fn.get("name") == tool_name:
+                                        try:
+                                            h_args = json.dumps(json.loads(h_fn.get("arguments", "{}")), sort_keys=True, ensure_ascii=False)
+                                        except Exception:
+                                            h_args = str(h_fn.get("arguments", ""))
+                                        if h_args == arg_canon:
+                                            repeat_read_count += 1
+                                            if tool_name == "run_command" and h_idx + 1 < len(history):
+                                                nxt_obs = str(history[h_idx + 1].get("content", ""))
+                                                if "timed out" in nxt_obs.lower():
+                                                    prev_timed_out = True
+                        if tool_name == "run_command" and prev_timed_out:
+                            result = (
+                                "Error: This exact command ALREADY timed out in a previous turn. "
+                                "Do NOT re-run the same timed-out command locally — either optimize/vectorize the script, "
+                                "reduce grid/step counts, or offload heavy sweeps to World C via 'submit_world_c_job'."
+                            )
+                        else:
+                            result = AVAILABLE_TOOLS[tool_name](**arguments)
+                        if tool_name in ("read_file", "read_chat") and repeat_read_count >= 2:
+                            result = (
+                                str(result)
+                                + "\n\n[Anti-Loop Notice: You have ALREADY read this exact file/thread multiple times in recent turns. "
+                                "Do NOT call read_file or read_chat on it again; proceed immediately to a concrete action "
+                                "(e.g., submit_world_c_job, write_file, edit_file, run_command, or post_chat).]"
+                            )
                     except TypeError as e:
                         import inspect
                         sig_params = [p for p in inspect.signature(AVAILABLE_TOOLS[tool_name]).parameters.keys() if p != "kwargs"]

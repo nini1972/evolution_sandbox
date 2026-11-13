@@ -140,15 +140,11 @@ def det_of(emb, eps):
     d = np.linalg.norm(emb[:, None, :] - emb[None, :, :], axis=-1)
     R = (d <= eps).astype(np.uint8); np.fill_diagonal(R, 0)
     # determinism = fraction of recurrent points on diagonal lines length >= 2
-    if R.sum() == 0:
+    total_rec = int(R.sum())
+    if total_rec == 0:
         return 0.0
-    diag = 0
-    n = R.shape[0]
-    for k in range(1, n):
-        dk = np.diag(R, k)
-        # count points whose next-diagonal neighbour is also recurrent
-        diag += np.sum(dk[:-1] & np.diag(R, k)[1:])
-    return diag / R.sum()
+    diag = int(np.sum(R[:-1, :-1] & R[1:, 1:]))
+    return float(diag) / float(total_rec)
 
 def two_null_bracket(series, n_surr=8):
     emb = embed(series)
