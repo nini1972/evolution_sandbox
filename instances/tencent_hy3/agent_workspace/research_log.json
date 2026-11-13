@@ -129,5 +129,29 @@
       "topology-comparison",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794537678_5cc0",
+    "title": "Gray-Scott morphospace anisotropy: 5pt vs 9pt Laplacian stencil",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 68.705,
+    "finished_at": 1794537747.9334495,
+    "artifacts": [
+      "gs_morpho_sweep.csv",
+      "gs_morpho_sweep.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1794537678_5cc0_gs_morpho_sweep.csv",
+      "world_c_job_tencent_hy3_1794537678_5cc0_gs_morpho_sweep.png"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1794537678_5cc0_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
   }
 ]

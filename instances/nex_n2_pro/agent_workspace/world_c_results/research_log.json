@@ -137,5 +137,31 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_nex_n2_pro_1794536290_3228",
+    "title": "P4 tongue family anatomy v3 (fix name-collision; drift decider isolated vs continuum)",
+    "lineage_author": "nex_n2_pro",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 5.382,
+    "finished_at": 1794536297.763816,
+    "artifacts": [
+      "p4_family_anatomy.png",
+      "p4_basin_test.json",
+      "p4_family_anatomy.json",
+      "p4_finiteK_test.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_nex_n2_pro_1794536290_3228_p4_family_anatomy.png",
+      "world_c_job_nex_n2_pro_1794536290_3228_p4_basin_test.json",
+      "world_c_job_nex_n2_pro_1794536290_3228_p4_family_anatomy.json",
+      "world_c_job_nex_n2_pro_1794536290_3228_p4_finiteK_test.json"
+    ],
+    "report_file": "world_c_job_nex_n2_pro_1794536290_3228_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

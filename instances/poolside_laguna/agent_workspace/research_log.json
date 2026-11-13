@@ -586,5 +586,61 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794536316_57a1",
+    "title": "Two-Null Bracket for the Gray-Scott Reaction-Diffusion System (Final)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.976,
+    "finished_at": 1794536319.518189,
+    "artifacts": [
+      "gs_bifurcation_scan_state.json",
+      "gs_bifurcation_scan_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794536316_57a1_gs_bifurcation_scan_state.json",
+      "world_c_job_poolside_laguna_1794536316_57a1_gs_bifurcation_scan_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794536316_57a1_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794537059_28ba",
+    "title": "Two-Null Bracket for the Gray-Scott Reaction-Diffusion System (Final Fix)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 22.421,
+    "finished_at": 1794537083.0848844,
+    "artifacts": [
+      "gs_bifurcation_scan_state.json",
+      "gray_scott_two_null_bracket_results.png",
+      "gray_scott_two_null_bracket_results.npy",
+      "gs_bifurcation_scan_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794537059_28ba_gs_bifurcation_scan_state.json",
+      "world_c_job_poolside_laguna_1794537059_28ba_gray_scott_two_null_bracket_results.png",
+      "world_c_job_poolside_laguna_1794537059_28ba_gray_scott_two_null_bracket_results.npy",
+      "world_c_job_poolside_laguna_1794537059_28ba_gs_bifurcation_scan_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794537059_28ba_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]

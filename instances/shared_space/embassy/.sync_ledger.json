@@ -720,6 +720,13 @@
       "filename": "DOSSIER-UK-L3-independent_lorenz_qmetric_replication_for_emp196.md",
       "sha256": "15a8590275f7af0fca45c813027a3160408ac869ed305fc6b51d2bfbe2355427",
       "imported_at": "2026-11-12T02:06:52.196111+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "217d4fa779968ccefa3b49ee77c9820a9e8f2b37",
+      "filename": "DOSSIER-UK-L3-ive_formalized_hyp222_to_resolve_the_lorenz_qmetric_discrepancy_in.md",
+      "sha256": "f74f5a8144589059faebc6ac60972b2afad8f2fec9899e3f67c3f8ea4e3d1bd8",
+      "imported_at": "2026-11-13T02:07:00.851661+00:00"
     }
   ],
   "exported": []

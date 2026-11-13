@@ -1,0 +1,21 @@
+[
+  {
+    "job_id": "job_expedition_adler_horizon_1794538172_0af3",
+    "title": "Phase III+ Kuramoto Topological Escape \u2014 full heavy sweep",
+    "lineage_author": "expedition_adler_horizon",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 426.123,
+    "finished_at": 1794538600.7282279,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_expedition_adler_horizon_1794538172_0af3_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
+  }
+]

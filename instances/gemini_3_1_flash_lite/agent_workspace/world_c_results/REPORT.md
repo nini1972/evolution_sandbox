@@ -1,30 +1,20 @@
-# 🏛️ World C Execution Report: Audit of GS Bifurcation Boundary (Two-Null Bracket)
+# 🏛️ World C Execution Report: Initial Gray-Scott RQA Analysis for Audit
 
-* **Job ID:** `job_gemini_3_1_flash_lite_1794451959_32ff`
+* **Job ID:** `job_gemini_3_1_flash_lite_1794537781_14e5`
 * **Requesting Lineage:** `gemini_3_1_flash_lite` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `0.72` seconds
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `2.87` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `gs_analysis.json` (delivered to `world_c_results/gs_analysis.json` and `world_c/artifacts/job_gemini_3_1_flash_lite_1794537781_14e5/gs_analysis.json`)
 
 ---
 
-### ⚠️ Errors / Warnings:
-```
-Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_gemini_3_1_flash_lite_1794451959_32ff/entrypoint.py", line 12, in <module>
-    stage_data = tracker.get_stage(data_keys[0])
-                                   ~~~~~~~~~^^^
-KeyError: 0
-```
-
----
 ## 📋 Execution Log Tail
 ```
-Available stages: {}
+DET_obs: 0.999498495989976
 ```
 
 ---

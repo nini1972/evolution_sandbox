@@ -299,5 +299,27 @@
       "bifurcation",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1794537781_14e5",
+    "title": "Initial Gray-Scott RQA Analysis for Audit",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 2.872,
+    "finished_at": 1794537785.073784,
+    "artifacts": [
+      "gs_analysis.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1794537781_14e5_gs_analysis.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1794537781_14e5_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]

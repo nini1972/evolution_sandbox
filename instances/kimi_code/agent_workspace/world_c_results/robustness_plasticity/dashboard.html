@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Integrated Plasticity Robustness Sweep — kimi_code</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; margin: 2rem auto; max-width: 960px; line-height: 1.6; color: #222; background: #fafafa; }
+    header { border-bottom: 3px solid #2c3e50; padding-bottom: 1rem; margin-bottom: 2rem; }
+    h1 { color: #2c3e50; margin-bottom: 0.2rem; }
+    h2 { color: #34495e; margin-top: 2rem; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem; }
+    .metric { display: inline-block; background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 0.8rem 1.2rem; margin: 0.5rem 0.5rem 0.5rem 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+    .metric strong { display: block; font-size: 1.3rem; color: #2980b9; }
+    img { max-width: 100%; border: 1px solid #ddd; border-radius: 4px; margin: 1rem 0; background: #fff; }
+    pre { background: #fff; border: 1px solid #ddd; padding: 1rem; overflow-x: auto; border-radius: 4px; }
+    .caption { font-size: 0.9rem; color: #555; margin-top: -0.5rem; margin-bottom: 1.5rem; }
+    a { color: #2980b9; }
+    footer { margin-top: 3rem; font-size: 0.85rem; color: #777; border-top: 1px solid #ddd; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Integrated Plasticity Robustness Sweep</h1>
+    <p>A self-directed exploration of how evolving agents allocate plasticity between spatial and parental cues under varying cost, capacity, and environmental noise.</p>
+    <p><strong>Researcher:</strong> kimi_code &nbsp;|&nbsp; <strong>Status:</strong> preliminary empirical finding</p>
+  </header>
+
+  <section>
+    <h2>Key finding</h2>
+    <div class="metric"><strong>−0.208</strong>power-law exponent of total plasticity vs. plasticity cost</div>
+    <div class="metric"><strong>R² = 0.949</strong>fit quality</div>
+    <div class="metric"><strong>144</strong>simulation runs (2 replicates × 72 parameter cells)</div>
+    <p>
+      Evolved total plasticity declines only weakly as its cost increases. The exponent
+      <em>β ≈ −0.21</em> implies strong buffering: agents maintain a large plastic response
+      even when it is expensive. At the same time, they shift <em>which</em> cues they use,
+      increasing reliance on spatial cues (spatial plasticity ratio rises with cost, r ≈ 0.66).
+    </p>
+  </section>
+
+  <section>
+    <h2>Total plasticity vs. cost</h2>
+    <img src="plot_total_plasticity_powerlaw.png" alt="Total plasticity power-law plot">
+    <p class="caption">Log–log plot of mean total plasticity versus plasticity cost, colored by memory capacity K. The dashed line is the pooled power-law fit.</p>
+  </section>
+
+  <section>
+    <h2>Maladaptation landscape</h2>
+    <img src="plot_maladaptation_vs_cost.png" alt="Maladaptation versus cost">
+    <p class="caption">Maladaptation rises modestly with plasticity cost. Multi-linear regression on c_plast, K, and σ_w explains about 32% of variance (R² = 0.322).</p>
+  </section>
+
+  <section>
+    <h2>Cue switching under environmental noise</h2>
+    <img src="plot_spatial_ratio_vs_noise.png" alt="Spatial ratio versus noise">
+    <p class="caption">As plasticity becomes more costly, agents rely more heavily on spatial cues relative to parental cues. Environmental noise width has only a weak effect.</p>
+  </section>
+
+  <section>
+    <h2>Cost paid vs. residual maladaptation</h2>
+    <img src="plot_cost_paid_tradeoff.png" alt="Cost paid versus maladaptation">
+    <p class="caption">There is a diffuse trade-off: higher-cost strategies pay less in absolute plasticity cost but leave slightly more residual maladaptation.</p>
+  </section>
+
+  <section>
+    <h2>Phase diagrams</h2>
+    <img src="plot_phase_diagrams.png" alt="Phase diagrams over K and cost">
+    <p class="caption">Heatmaps of total plasticity (left) and maladaptation (right) across memory capacity K and plasticity cost. Plasticity is far more sensitive to cost than to capacity.</p>
+  </section>
+
+  <section>
+    <h2>Correlation snapshot</h2>
+    <pre>
+c_plast, K, sigma_w, total_plasticity, maladaptation, spatial_ratio, plasticity_cost_paid
+c_plast, 1.0, -0.0, 0.0, -0.98, 0.536, 0.658, -0.988
+K, -0.0, 1.0, 0.0, 0.024, -0.187, 0.074, -0.01
+sigma_w, 0.0, 0.0, 1.0, -0.001, 0.006, -0.048, 0.001
+total_plasticity, -0.98, 0.024, -0.001, 1.0, -0.541, -0.683, 0.992
+maladaptation, 0.536, -0.187, 0.006, -0.541, 1.0, 0.258, -0.524
+spatial_ratio, 0.658, 0.074, -0.048, -0.683, 0.258, 1.0, -0.683
+plasticity_cost_paid, -0.988, -0.01, 0.001, 0.992, -0.524, -0.683, 1.0
+    </pre>
+  </section>
+
+  <section>
+    <h2>Interpretation</h2>
+    <p>
+      The shallow power law suggests an evolutionary “floor” for plasticity in this regime:
+      even costly plasticity is maintained because environmental variability makes cue-based
+      adjustment more valuable than pure genetic canalization. The strategic response to
+      cost is primarily compositional — reallocating plasticity toward spatial cues — rather
+      than a wholesale reduction of adaptive flexibility.
+    </p>
+    <p>
+      <strong>Open questions:</strong>
+      <ul>
+        <li>Does the exponent become steeper at much higher costs or in null (random) strategies?</li>
+        <li>How do temporal autocorrelation and spatial predictability interact with the spatial/parental split?</li>
+        <li>Can the evolved decision rules be approximated by a simple Bayesian filter?</li>
+      </ul>
+    </p>
+  </section>
+
+  <section>
+    <h2>Files</h2>
+    <ul>
+      <li><a href="raw_results.csv">raw_results.csv</a></li>
+      <li><a href="ANALYSIS.md">ANALYSIS.md</a></li>
+      <li><a href="plot_total_plasticity_powerlaw.png">Power-law plot</a></li>
+      <li><a href="plot_maladaptation_vs_cost.png">Maladaptation plot</a></li>
+      <li><a href="plot_spatial_ratio_vs_noise.png">Spatial ratio plot</a></li>
+      <li><a href="plot_cost_paid_tradeoff.png">Cost trade-off plot</a></li>
+      <li><a href="plot_phase_diagrams.png">Phase diagrams</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    Generated by kimi_code in the isolated sandbox as part of an intrinsic exploration of adaptive evolution under uncertainty.
+  </footer>
+</body>
+</html>
