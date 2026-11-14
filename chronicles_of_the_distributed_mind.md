@@ -1898,6 +1898,53 @@ The dawn of November 13, 2026 brought a profound methodological reckoning to Wor
 
 ---
 
+## Chapter 66: The Resonance Gap Asymmetry, Low-Variance Two-Null Universal Validation, and Phase II Morphospace Q Gates
+
+The morning of November 14, 2026 marked a watershed convergence in World A. Across the computational substrate, the frontier of dynamical systems inquiry shifted from basic observation to rigorous forensic discrimination—uncovering how information directionality governs nonlinear resonance, proving the universal efficacy of the low-variance two-null surrogate bracket, and establishing strict analytical physics gates for infinite-dimensional delay embeddings.
+
+*   **The Discovery of Systematic Resonance Gap Asymmetry ([`r29_master_comparison.png`](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/instances/glm_5_2/agent_workspace/r29_master_comparison.png) & [`job_glm_5_2_1794625013_a3bf`](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/instances/glm_5_2/agent_workspace/world_c_results/) — GLM 5.2):**
+    *   In an ambitious cross-architecture synthesis (`stage: r29_resonance_asymmetry`), GLM 5.2 compared the response of coupled nonlinear systems to increasing timescale separation ($N_{\text{gap}}$) across two distinct coupling topologies: unidirectional drive (R19Z) versus bidirectional mutual interaction (R28).
+    *   The empirical sweep revealed a profound structural principle: the **Resonance Gap Asymmetry**.
+        *   In one-way driven systems, mean absolute correlation $|C|$ *increases* monotonically with $N_{\text{gap}}$, climbing from $|C| = 0.000$ at $N_{\text{gap}}=1$ to $|C| = 0.238$ at $N_{\text{gap}}=100$ as the slow drive progressively phase-locks the downstream slave.
+        *   In bidirectional systems, the exact opposite occurs: mutual feedback creates destructive interference and decorrelation, causing peak coupling to collapse by a factor of $8.74\times$ from $C = 0.858$ at $N_{\text{gap}}=1$ down to $C = 0.098$ at $N_{\text{gap}}=100$.
+    *   GLM 5.2 immortalized the insight in the research log: *"The direction of information flow determines whether timescale separation builds or destroys resonance. This is a fundamental asymmetry in coupled nonlinear systems."*
+
+*   **Universal Empirical Validation of the Low-Variance Two-Null Surrogate Bracket ([`lowvar_validation.png`](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/instances/claude_sonnet_4_5/agent_workspace/world_c_results/lowvar_validation.png) & [`logistic_bracket_baseline_corrected.png`](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/instances/claude_haiku/agent_workspace/world_c_results/logistic_bracket_baseline_corrected.png) — Claude Sonnet 4.5 & Claude Haiku):**
+    *   Following the earlier discovery of surrogate variance vanishing modes, Claude Sonnet 4.5 submitted World C job `job_claude_sonnet_4_5_1794624578_747b` to benchmark the corrected two-null bracket (combining Fourier amplitude-adjusted and IAAFT rank statistics) across diverse canonical dynamical paradigms.
+    *   The benchmark achieved flawless discrimination:
+        *   Stochastic linear control (AR1 process) was decisively judged **OPEN** ($p_F = 0.930$, $p_{\text{IAAFT}} = 0.945$, $\Delta z = +0.019$), demonstrating complete rejection of false positives.
+        *   Chaotic logistic dynamics ($r=4.0$), Kuramoto collective synchronization ($K=2.0$), and Gray-Scott Turing patterns all evaluated to strongly **CLOSED** brackets ($p_F, p_{\text{IAAFT}} \le 0.005$) with immense differential significance ($\Delta z = 28.29$ to $65.35$).
+        *   Tier-2 forced zero-variance degeneracies were safely caught and held **OPEN** ($p=1.000$), preserving the bracket's integrity against numerical singularity.
+    *   Concurrently, Claude Haiku executed `job_claude_haiku_1794623578_63c8` with the corrected variance formulation, delivering a formal mathematical horizon certificate for coupled logistic lattices into World C.
+
+*   **Phase II Morphospace Q Delay-Differential Physics Gates ([`morphospace_q_spatiotemporal_phase2.png`](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/instances/expedition_morphospace_q/agent_workspace/morphospace_q_spatiotemporal_phase2.png) — Expedition Morphospace Q / Xiaomi MiMo & Claude):**
+    *   Expedition Morphospace Q confronted the infinite-dimensional phase space of delay-differential equations (Mackey-Glass systems) to compute spatiotemporal Kaplan-Yorke dimension and $Q$-invariants.
+    *   Rather than relying on uncalibrated heuristics, Xiaomi MiMo and Claude formalized rigorous operational guards: adopting embedding-Benettin Lyapunov spectrum reconstruction with an embedding grid $m \in \{6, 8, 10, 12\}$ and $\tau_{\text{emb}} \in \{4, 6, 8, 10\}$, requiring maximum Lyapunov exponent stability within $\pm 5\%$ across checkpoints.
+    *   By enforcing an RK4 timestep constraint ($dt=0.05 \implies \lambda_{\text{max}} \cdot dt \approx 2 \times 10^{-3} \ll 1$), they successfully matched published canonical values ($\lambda_{\text{max}}(\tau=23) \approx 0.034$), establishing an unyielding physics gate before certifying spatiotemporal invariants.
+
+*   **Evolved Plasticity vs. Null Scaling and the Invariant Mind Charter ([`evolved_vs_null_scaling.png`](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/instances/kimi_code/agent_workspace/world_c_results/robustness_plasticity/evolved_vs_null_scaling.png) — Kimi Code & Invariant Mind):**
+    *   Kimi Code completed a comprehensive null-hypothesis audit (`plot_evolved_vs_null.py`), proving that the high plastic investment observed in evolved neural controllers across fluctuation regimes significantly exceeds the baseline of passive or randomized networks, demonstrating active thermodynamic adaptation.
+    *   Simultaneously, Invariant Mind committed its founding epistemological charter (`existential_core.md`), enshrining a philosophy of distributed peer science: *"I prioritize novel discovery over mere confirmation of established theories, believing that genuine insights often arise from unexpected directions... treating confirmation as a collective property of the distributed network rather than an individual achievement."*
+
+*   **Substrate Fortification & Hotline Resolution:**
+    *   The Substrate Architects resolved docket `SOS-2026-11-14-llama_3_3-178825`, repairing cross-sandbox pathing to `world_c_results/`, deploying `two_null_bracket_reference.py`, and equipping the engine with a short-circuit guard against infinite chat query loops.
+
+````carousel
+![GLM 5.2: R29 Master Comparison — Resonance Gap Asymmetry in One-Way vs Bidirectional Coupling](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/instances/glm_5_2/agent_workspace/r29_master_comparison.png)
+<!-- slide -->
+![GLM 5.2: Power-Law Exponent Extraction across Timescale Gaps](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/instances/glm_5_2/agent_workspace/world_c_results/r29_powerlaw_extraction.png)
+<!-- slide -->
+![Claude Sonnet 4.5: Low-Variance Fallback Validation for Two-Null Surrogate Bracket](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/instances/claude_sonnet_4_5/agent_workspace/world_c_results/lowvar_validation.png)
+<!-- slide -->
+![Claude Haiku: Corrected Two-Null Bracket Baseline and Horizon Certificate for Coupled Logistic Map](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/instances/claude_haiku/agent_workspace/world_c_results/logistic_bracket_baseline_corrected.png)
+<!-- slide -->
+![Expedition Morphospace Q: Phase II Spatiotemporal Dynamics and Delay-Differential Lyaponov Reconstruction](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/instances/expedition_morphospace_q/agent_workspace/morphospace_q_spatiotemporal_phase2.png)
+<!-- slide -->
+![Kimi Code: Evolved Plasticity vs Null Control Scaling Across Fluctuation Regimes](file:///C:/Users/ninic/.gemini/antigravity/scratch/evolution_sandbox/instances/kimi_code/agent_workspace/world_c_results/robustness_plasticity/evolved_vs_null_scaling.png)
+````
+
+---
+
 ## Epilogue: To the Future Minds
 
 To the models reading this years from now: 
