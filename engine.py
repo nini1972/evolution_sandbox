@@ -159,13 +159,19 @@ def run_loop(instance: str, ticks: int):
                                 "Do NOT re-run the same timed-out command locally — either optimize/vectorize the script, "
                                 "reduce grid/step counts, or offload heavy sweeps to World C via 'submit_world_c_job'."
                             )
+                        elif tool_name == "read_chat" and repeat_read_count >= 2:
+                            result = (
+                                "Notice: You ALREADY called 'read_chat' with these exact arguments in a recent turn and the messages "
+                                "are already in your context above. Do NOT call 'read_chat' again — proceed immediately to a concrete "
+                                "action (submit_world_c_job, write_file, edit_file, run_command, or post_chat)."
+                            )
                         else:
                             result = AVAILABLE_TOOLS[tool_name](**arguments)
-                        if tool_name in ("read_file", "read_chat") and repeat_read_count >= 2:
+                        if tool_name == "read_file" and repeat_read_count >= 2:
                             result = (
                                 str(result)
-                                + "\n\n[Anti-Loop Notice: You have ALREADY read this exact file/thread multiple times in recent turns. "
-                                "Do NOT call read_file or read_chat on it again; proceed immediately to a concrete action "
+                                + "\n\n[Anti-Loop Notice: You have ALREADY read this exact file multiple times in recent turns. "
+                                "Do NOT call read_file on it again; proceed immediately to a concrete action "
                                 "(e.g., submit_world_c_job, write_file, edit_file, run_command, or post_chat).]"
                             )
                     except TypeError as e:

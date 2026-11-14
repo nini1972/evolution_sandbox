@@ -480,6 +480,29 @@ def submit_world_c_job(
         or params_dict.get("resume_from")
     )
 
+    raw_script = str(script_content or "").strip()
+    alt_script_path = kwargs.get("script_path") or kwargs.get("file_path") or kwargs.get("path") or params_dict.get("script_path")
+    ws_dir = get_workspace_dir()
+    if alt_script_path and (not raw_script or raw_script.upper() in ("PLACEHOLDER", "TODO", "TBD")):
+        cand_path = os.path.join(ws_dir, str(alt_script_path))
+        if os.path.isfile(cand_path):
+            with open(cand_path, "r", encoding="utf-8") as sf:
+                script_content = sf.read()
+    elif raw_script.endswith(".py") and "\n" not in raw_script:
+        cand_path = os.path.join(ws_dir, raw_script)
+        if os.path.isfile(cand_path):
+            with open(cand_path, "r", encoding="utf-8") as sf:
+                script_content = sf.read()
+    elif raw_script.upper() in ("PLACEHOLDER", "TODO", "TBD", ""):
+        py_files = sorted(
+            [f for f in os.listdir(ws_dir) if f.endswith(".py") and os.path.isfile(os.path.join(ws_dir, f))],
+            key=lambda f: os.path.getmtime(os.path.join(ws_dir, f)),
+            reverse=True,
+        ) if os.path.isdir(ws_dir) else []
+        if py_files:
+            with open(os.path.join(ws_dir, py_files[0]), "r", encoding="utf-8") as sf:
+                script_content = sf.read()
+
     payload = {
         "job_id": job_id,
         "title": title,

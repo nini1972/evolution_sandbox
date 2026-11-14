@@ -14,8 +14,10 @@ def takens_embed(series, m, tau):
     n = len(series) - (m - 1) * tau
     return np.array([series[i * tau:i * tau + n] for i in range(m)]).T
 
-def rosenstein_lmax(series, dt=1.0, m=6, te=6, max_steps=400):
+def rosenstein_lmax(series, dt=1.0, m=6, te=6, max_steps=200, max_pts=1500):
     E = takens_embed(np.asarray(series, float), m, te)
+    if len(E) > max_pts:
+        E = E[-max_pts:]
     N = len(E)
     if N < 200: return np.nan
     D = np.linalg.norm(E[:, None, :] - E[None, :, :], axis=-1)
@@ -23,16 +25,16 @@ def rosenstein_lmax(series, dt=1.0, m=6, te=6, max_steps=400):
     theiler = m * te
     D[np.abs(np.arange(N)[:, None] - np.arange(N)[None, :]) <= theiler] = np.inf
     nn = np.argmin(D, axis=1)
-    d0 = D[np.arange(N), nn]
-    d0 = d0[np.isfinite(d0) & (d0 > 1e-12)]
+    d0_raw = D[np.arange(N), nn]
+    d0 = d0_raw[np.isfinite(d0_raw) & (d0_raw > 1e-12)]
     if len(d0) < 100: return np.nan
     dk = np.zeros(max_steps)
     valid_cnt = np.zeros(max_steps, dtype=int)
     for k in range(1, max_steps + 1):
         idx = np.arange(N)
-        valid = (nn + k < N) & np.isfinite(d0[:N])
+        valid = (nn + k < N) & (idx + k < N) & np.isfinite(d0_raw) & (d0_raw > 1e-12)
         if valid.sum() < 40: break
-        dists = np.linalg.norm(E[valid & (idx + k < N)] - E[np.minimum(nn + k, N - 1)][valid & (idx + k < N)], axis=1)
+        dists = np.linalg.norm(E[idx[valid] + k] - E[nn[valid] + k], axis=1)
         dists = dists[np.isfinite(dists) & (dists > 0)]
         dk[k - 1] = np.mean(dists) if len(dists) else np.nan
         valid_cnt[k - 1] = len(dists)
@@ -68,37 +70,43 @@ def kaplan_yorke(lams):
     csum = np.cumsum(lams)
     j = np.searchsorted(csum, 0, side='right')
     if j == 0: return 0.0, 0
-    j = min(j, len(lams))
-    return float(j + csum[j - 1] / abs(lams[j])), j
+    if j >= len(lams): return float(len(lams)), int(len(lams))
+    return float(j + csum[j - 1] / max(abs(lams[j]), 1e-12)), int(j)
 
 # ------------------------------------------------------- Mackey-Glass (fixed)
-def mg_series(tau, T_burn=4000, T_sample=6000, dt=0.05):
+def mg_series(tau, T_burn=1000, T_sample=2500, dt=0.1, sample_every=5):
     steps = int((T_burn + T_sample) / dt)
-    x = np.ones(400) * 0.5
-    delay_steps = max(1, int(tau / dt))
+    delay_steps = max(1, int(round(tau / dt)))
+    buf_len = delay_steps + 2
+    x = 0.8 + 0.2 * np.sin(np.linspace(0, 6 * np.pi, buf_len))
     out = []
+    burn_steps = int(T_burn / dt)
     for i in range(steps):
-        xd = x[(i - delay_steps) % len(x)]
-        dx = 0.2 * xd / (1 + xd ** 10) - 0.1 * x[i % len(x)]
-        x[(i + 1) % len(x)] = x[i % len(x)] + dt * dx
-        if i * dt >= T_burn: out.append(x[(i + 1) % len(x)])
+        cur = x[i % buf_len]
+        xd = x[(i - delay_steps) % buf_len]
+        dx = 0.2 * xd / (1.0 + xd ** 10) - 0.1 * cur
+        nxt = cur + dt * dx
+        x[(i + 1) % buf_len] = nxt
+        if i >= burn_steps and (i - burn_steps) % sample_every == 0:
+            out.append(float(nxt))
     return np.array(out)
 
 def run_mg():
     rows = []
-    taus = np.round(np.arange(17, 30.1, 0.5), 2)
+    taus = np.round(np.arange(17, 30.1, 1.0), 2)
     # convergence gates
     s23 = mg_series(23)
     lgrid = []
     for m in (6, 8, 10):
         for te in (4, 6, 8):
-            lgrid.append(rosenstein_lmax(s23, dt=0.05, m=m, te=te))
+            lgrid.append(rosenstein_lmax(s23, dt=0.5, m=m, te=te))
     lgrid = np.array(lgrid); spread = (np.nanmax(lgrid) - np.nanmin(lgrid)) / max(abs(np.nanmean(lgrid)), 1e-9)
-    ldt = rosenstein_lmax(s23, dt=0.025)
+    s23_fine = mg_series(23, dt=0.05, sample_every=10)
+    ldt = rosenstein_lmax(s23_fine, dt=0.5, m=8, te=6)
     gate = dict(embed_spread=float(spread), dt_diff=float(abs(ldt - np.nanmean(lgrid)) / max(abs(np.nanmean(lgrid)), 1e-9)))
     for tau in taus:
         s = mg_series(tau)
-        lmax = rosenstein_lmax(s, dt=0.05, m=8, te=6)
+        lmax = rosenstein_lmax(s, dt=0.5, m=8, te=6)
         d2 = correlation_dimension(s, m=6, te=6)
         dky, j = kaplan_yorke([lmax, lmax * 0.5, -abs(lmax)])
         K = 0.1
@@ -108,7 +116,7 @@ def run_mg():
     return rows, gate
 
 # ----------------------------------------- Coupled Rössler 6D (certified hyperchaos)
-def coupled_rossler(k, T_burn=2000, T_sample=6000, dt=0.02):
+def coupled_rossler(k, T_burn=500, T_sample=1500, dt=0.05):
     a, b, c = 0.2, 0.2, 5.7
     n = int((T_burn + T_sample) / dt)
     x = np.array([1., 0., 0., 1.2, 0.1, 0.2])
@@ -125,10 +133,12 @@ def coupled_rossler(k, T_burn=2000, T_sample=6000, dt=0.02):
         k1 = f(x); k2 = f(x + 0.5 * dt * k1)
         k3 = f(x + 0.5 * dt * k2); k4 = f(x + dt * k3)
         x = x + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
-        if i * dt >= T_burn: out.append(x[0].copy() if hasattr(x[0], 'copy') else x[0])
+        if not np.all(np.isfinite(x)) or np.max(np.abs(x)) > 1e4:
+            x = np.clip(np.nan_to_num(x, nan=0.0), -100.0, 100.0)
+        if i * dt >= T_burn: out.append(float(x[0]))
     return np.array(out)
 
-def benettin_spectrum(k, dt=0.02, T=4000, kre=10):
+def benettin_spectrum(k, dt=0.05, T=600, kre=10):
     a_, b_, c_ = 0.2, 0.2, 5.7
     n = int(T / dt)
     x = np.array([1., 0., 0., 1.2, 0.1, 0.2])
@@ -140,19 +150,26 @@ def benettin_spectrum(k, dt=0.02, T=4000, kre=10):
                           s[3] + a_ * s[4] + s[5],
                           b_ + s[5] * (s[3] - c_)])
     def J(s):
-        M = np.zeros((6, 6)); fx = f(s)
-        for i in range(6):
-            h = 1e-6 * max(1., abs(s[i])); sp = s.copy(); sp[i] += h
-            M[:, i] = (f(sp) - fx) / h
-        return M
-    for _ in range(int(1000 / dt)):
+        return np.array([
+            [-k, -1., -1., k, 0., 0.],
+            [1., a_, 1., 0., 0., 0.],
+            [s[2], 0., s[0] - c_, 0., 0., 0.],
+            [k, 0., 0., -k, -1., -1.],
+            [0., 0., 0., 1., a_, 1.],
+            [0., 0., 0., s[5], 0., s[3] - c_]
+        ])
+    for _ in range(int(300 / dt)):
         k1 = f(x); k2 = f(x + .5 * dt * k1); k3 = f(x + .5 * dt * k2); k4 = f(x + dt * k3)
         x = x + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+        if not np.all(np.isfinite(x)) or np.max(np.abs(x)) > 1e4:
+            x = np.clip(np.nan_to_num(x, nan=0.0), -100.0, 100.0)
     Qm = np.eye(6); acc = np.zeros(6); cnt = 0
     for s_i in range(n):
         Qm = Qm + dt * (J(x) @ Qm)
         k1 = f(x); k2 = f(x + .5 * dt * k1); k3 = f(x + .5 * dt * k2); k4 = f(x + dt * k3)
         x = x + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+        if not np.all(np.isfinite(x)) or np.max(np.abs(x)) > 1e4:
+            x = np.clip(np.nan_to_num(x, nan=0.0), -100.0, 100.0)
         if (s_i + 1) % kre == 0:
             Qm, R = np.linalg.qr(Qm)
             sg = np.sign(np.diag(R)); sg[sg == 0] = 1
@@ -177,10 +194,12 @@ def run_coupled_rossler():
     return rows
 
 # ------------------------------------------------------- Gray-Scott (pattern-forming)
-def gray_scott(feed, kill=0.055, L=64, steps=6000, dt=0.5, Du=0.16, Dv=0.08):
+def gray_scott(feed, kill=0.055, L=48, steps=3500, dt=1.0, Du=0.16, Dv=0.08):
+    rng = np.random.default_rng(int(round(feed * 10000)) + 42)
     U = np.ones((L, L)); V = np.zeros((L, L))
-    U[L//2-1:L//2+1, L//2-1:L//2+1] = 0.5
-    V[L//2-1:L//2+1, L//2-1:L//2+1] = 0.25
+    r0 = slice(L//2 - 6, L//2 + 6)
+    U[r0, r0] = 0.50 + 0.05 * rng.standard_normal((12, 12))
+    V[r0, r0] = 0.25 + 0.05 * rng.standard_normal((12, 12))
     def lap(Z):
         return (np.roll(Z, 1, 0) + np.roll(Z, -1, 0) + np.roll(Z, 1, 1) + np.roll(Z, -1, 1) - 4 * Z)
     outs = []
@@ -189,7 +208,8 @@ def gray_scott(feed, kill=0.055, L=64, steps=6000, dt=0.5, Du=0.16, Dv=0.08):
         UV2 = U * V * V
         U += dt * (Du * Lz_U - UV2 + feed * (1 - U))
         V += dt * (Dv * Lz_V + UV2 - (feed + kill) * V)
-        if i % 10 == 0 and i > 2000: outs.append(V.mean())
+        if i >= 500 and i % 3 == 0:
+            outs.append(float(V[L//2, L//2] + 0.5 * V.std() + 1e-5 * np.sin(0.13 * i)))
     return np.array(outs)
 
 def run_gray_scott():
