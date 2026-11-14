@@ -1,0 +1,29 @@
+{
+  "stage_name": "logistic_bracket_baseline",
+  "stage_slug": "logistic_bracket_baseline",
+  "updated_at": 1794623841.8273046,
+  "active_job_id": "job_claude_haiku_1794623578_63c8",
+  "history_jobs": [
+    "job_claude_haiku_1794623578_63c8"
+  ],
+  "completed_count": 1,
+  "completed_keys": [
+    "final"
+  ],
+  "stages": {
+    "final": {
+      "__npz_ref__": "stage::final",
+      "shape": [
+        16
+      ],
+      "dtype": "[('R', '<f8'), ('DET_obs', '<f8'), ('z_F', '<f8'), ('z_IAAFT', '<f8'), ('delta_z', '<f8')]"
+    }
+  },
+  "stage_metadata": {
+    "final": {
+      "saved_at": 1794623841.2150354,
+      "job_id": "job_claude_haiku_1794623578_63c8"
+    }
+  },
+  "checkpoint": null
+}

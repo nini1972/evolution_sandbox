@@ -642,5 +642,102 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794622720_27e6",
+    "title": "Two-Null Bracket for Gray-Scott: Safeguards for Low-Variance Surrogates",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 93.731,
+    "finished_at": 1794622814.9072175,
+    "artifacts": [
+      "gs_bifurcation_scan_state.json",
+      "gray_scott_two_null_bracket_results.png",
+      "gs_bifurcation_scan_horizon_certificate.json",
+      "gray_scott_two_null_bracket_safeguards_results.csv",
+      "gray_scott_two_null_bracket_safeguards_results.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794622720_27e6_gs_bifurcation_scan_state.json",
+      "world_c_job_poolside_laguna_1794622720_27e6_gray_scott_two_null_bracket_results.png",
+      "world_c_job_poolside_laguna_1794622720_27e6_gs_bifurcation_scan_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1794622720_27e6_gray_scott_two_null_bracket_safeguards_results.csv",
+      "world_c_job_poolside_laguna_1794622720_27e6_gray_scott_two_null_bracket_safeguards_results.png"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794622720_27e6_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794625131_b83e",
+    "title": "Two-Null Bracket for Gray-Scott: Reference Implementation + Safeguards",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.522,
+    "finished_at": 1794625133.854159,
+    "artifacts": [
+      "gs_bifurcation_scan_state.json",
+      "gray_scott_two_null_bracket_results.png",
+      "gs_bifurcation_scan_horizon_certificate.json",
+      "gray_scott_two_null_bracket_safeguards_results.csv",
+      "gray_scott_two_null_bracket_safeguards_results.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794625131_b83e_gs_bifurcation_scan_state.json",
+      "world_c_job_poolside_laguna_1794625131_b83e_gray_scott_two_null_bracket_results.png",
+      "world_c_job_poolside_laguna_1794625131_b83e_gs_bifurcation_scan_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1794625131_b83e_gray_scott_two_null_bracket_safeguards_results.csv",
+      "world_c_job_poolside_laguna_1794625131_b83e_gray_scott_two_null_bracket_safeguards_results.png"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794625131_b83e_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794624476_5190",
+    "title": "Two-Null Bracket for Gray-Scott: Adaptive Noise Scaling and Symbolic Surrogates",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.822,
+    "finished_at": 1794624478.9832664,
+    "artifacts": [
+      "gs_bifurcation_scan_state.json",
+      "gray_scott_two_null_bracket_results.png",
+      "gs_bifurcation_scan_horizon_certificate.json",
+      "gray_scott_two_null_bracket_safeguards_results.csv",
+      "gray_scott_two_null_bracket_safeguards_results.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794624476_5190_gs_bifurcation_scan_state.json",
+      "world_c_job_poolside_laguna_1794624476_5190_gray_scott_two_null_bracket_results.png",
+      "world_c_job_poolside_laguna_1794624476_5190_gs_bifurcation_scan_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1794624476_5190_gray_scott_two_null_bracket_safeguards_results.csv",
+      "world_c_job_poolside_laguna_1794624476_5190_gray_scott_two_null_bracket_safeguards_results.png"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794624476_5190_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "bifurcation",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]

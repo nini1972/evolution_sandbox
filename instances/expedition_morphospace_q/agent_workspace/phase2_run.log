@@ -1,0 +1,91 @@
+======================================================================
+MORPHOSPACE Q — PHASE II: spatiotemporal / delay / hyperchaos branches
+======================================================================
+[MG] sweep tau = 17..30 (dt=0.05)
+  G1 physics: lmax(23)=-3.1304 (need 0.025..0.045) -> FAIL
+  G2 embed-converge: rel spread=1.702 -> FAIL
+  tau= 17.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 17.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 18.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 18.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 19.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 19.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 20.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 20.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 21.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 21.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 22.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 22.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 23.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 23.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 24.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 24.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 25.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 25.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 26.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 26.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 27.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 27.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 28.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 28.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 29.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 29.5 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  tau= 30.0 lmax=-3.9265 D2=nan DKY=0.000 j=0 Q=+3.827
+  [MG] done in 19.7s
+/home/runner/work/evolution_sandbox/evolution_sandbox/instances/expedition_morphospace_q/agent_workspace/morphospace_q_spatiotemporal_phase2.py:261: RuntimeWarning: overflow encountered in scalar multiply
+  dz = b + x[0] * x[2]
+/home/runner/work/evolution_sandbox/evolution_sandbox/instances/expedition_morphospace_q/agent_workspace/morphospace_q_spatiotemporal_phase2.py:259: RuntimeWarning: invalid value encountered in scalar add
+  dx = -x[1] - x[2] + a * x[0]
+/home/runner/work/evolution_sandbox/evolution_sandbox/instances/expedition_morphospace_q/agent_workspace/morphospace_q_spatiotemporal_phase2.py:262: RuntimeWarning: invalid value encountered in scalar add
+  dw = -c * x[2] + d * x[3]
+/home/runner/work/evolution_sandbox/evolution_sandbox/instances/expedition_morphospace_q/agent_workspace/morphospace_q_spatiotemporal_phase2.py:259: RuntimeWarning: invalid value encountered in scalar subtract
+  dx = -x[1] - x[2] + a * x[0]
+/home/runner/work/evolution_sandbox/evolution_sandbox/instances/expedition_morphospace_q/agent_workspace/morphospace_q_spatiotemporal_phase2.py:57: RuntimeWarning: invalid value encountered in add
+  return x + (dt / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4)
+  Rossler(0.25,3.0,0.5,0.05): spec=[nan nan nan nan] j=0 D2=nan DKY=0.000 Q=+nan
+  Rossler(0.25,3.0,0.5,0.01): spec=[nan nan nan nan] j=0 D2=nan DKY=0.000 Q=+nan
+  Rossler(0.3,3.5,0.5,0.01): spec=[nan nan nan nan] j=0 D2=nan DKY=0.000 Q=+nan
+  G3 hyperchaos (j>=2 everywhere): FAIL
+[GS] local feed-sweep f=0.02..0.06 at k=0.062 (N=64)
+  f=0.020 lmax=+nan D2=nan K=0.1440 Q=+nan
+  f=0.025 lmax=+nan D2=nan K=0.1490 Q=+nan
+  f=0.030 lmax=+nan D2=nan K=0.1540 Q=+nan
+  f=0.035 lmax=+nan D2=nan K=0.1590 Q=+nan
+  f=0.040 lmax=+nan D2=nan K=0.1640 Q=+nan
+  f=0.045 lmax=+nan D2=nan K=0.1690 Q=+nan
+  f=0.050 lmax=+nan D2=nan K=0.1740 Q=+nan
+  f=0.055 lmax=+nan D2=nan K=0.1790 Q=+nan
+  f=0.060 lmax=-0.0055 D2=1.746 K=0.1840 Q=-1.924
+/home/runner/work/evolution_sandbox/evolution_sandbox/instances/expedition_morphospace_q/agent_workspace/morphospace_q_spatiotemporal_phase2.py:458: RuntimeWarning: Mean of empty slice
+  rossler4=float(np.nanmean(ro_Q)) if ro_Q.size else float('nan'))
+
+--- TESTS ---
+{
+  "H1_mg_q_range": 0.0,
+  "H3_pass": true,
+  "branch_means": {
+    "Lorenz": -6.788,
+    "Henon": -1.272,
+    "KS": -1.62,
+    "Rule110": -3.266,
+    "mackey_glass": 3.8265346764634853,
+    "gray_scott": -1.924117183455106,
+    "rossler4": NaN
+  },
+  "min_branch_gap": 0.30411718345510597,
+  "all_branch_std": 3.135918068685686,
+  "verdict": "MIXED",
+  "gates": {
+    "gate_g1": false,
+    "gate_g2": false,
+    "lmax_tau23": -3.1303618966682425,
+    "gate_g3": false
+  }
+}
+[saved] morphospace_q_spatiotemporal_phase2.json
+/home/runner/work/evolution_sandbox/evolution_sandbox/instances/expedition_morphospace_q/agent_workspace/morphospace_q_spatiotemporal_phase2.py:375: RuntimeWarning: Mean of empty slice
+  np.nanmean([r['Q'] for r in ro_rows])]
+/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+[saved] morphospace_q_spatiotemporal_phase2.png
+TOTAL 38.6s

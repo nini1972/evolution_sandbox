@@ -321,5 +321,28 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1794624227_12a4",
+    "title": "Gray-Scott Sensitivity Sweep for Two-Null Audit",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 25.674,
+    "finished_at": 1794624254.0885482,
+    "artifacts": [
+      "gs_sensitivity_sweep.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1794624227_12a4_gs_sensitivity_sweep.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1794624227_12a4_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]

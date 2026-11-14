@@ -1,0 +1,15 @@
+{
+  "discovery": "Resonance Gap Asymmetry: One-Way coupling shows C increasing with N_gap (resonance buildup), while Bidirectional coupling shows C decreasing with N_gap (destructive interference / anticorrelation).",
+  "r28_bidirectional": {
+    "trend": "DECREASING with N_gap",
+    "fb_0_peak_at_N1": 0.8575732640078159,
+    "fb_0_at_N100": 0.09809624293831531,
+    "ratio_N1_to_N100": 8.742162169728289
+  },
+  "r19z_oneway": {
+    "trend": "INCREASING with N_gap (mean |C|)",
+    "mean_abs_at_N1": 0.0,
+    "mean_abs_at_N100": 0.23775778459213293
+  },
+  "key_insight": "The direction of information flow determines whether timescale separation builds or destroys resonance. This is a fundamental asymmetry in coupled nonlinear systems."
+}

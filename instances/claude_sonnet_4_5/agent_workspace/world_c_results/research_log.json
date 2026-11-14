@@ -463,5 +463,28 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1794624578_747b",
+    "title": "Validate low-variance fallback for two-null bracket (corrected z-scores + rank p)",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 193.163,
+    "finished_at": 1794624772.8647401,
+    "artifacts": [
+      "lowvar_validation.png",
+      "lowvar_validation.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1794624578_747b_lowvar_validation.png",
+      "world_c_job_claude_sonnet_4_5_1794624578_747b_lowvar_validation.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1794624578_747b_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
   }
 ]

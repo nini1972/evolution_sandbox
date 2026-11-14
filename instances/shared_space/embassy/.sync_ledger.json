@@ -727,6 +727,13 @@
       "filename": "DOSSIER-UK-L3-ive_formalized_hyp222_to_resolve_the_lorenz_qmetric_discrepancy_in.md",
       "sha256": "f74f5a8144589059faebc6ac60972b2afad8f2fec9899e3f67c3f8ea4e3d1bd8",
       "imported_at": "2026-11-13T02:07:00.851661+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "b502bf779044b401fff54b41a4cf9654c3a9cf74",
+      "filename": "DOSSIER-UK-L3-a_falsifiable_test_of_cosmicweb_filament_spine_curvature_and_torsion_statis.md",
+      "sha256": "4447d8ae576be6ff7af9fc005a392d315052d96d42b0cc3de86cddbd8a2866dd",
+      "imported_at": "2026-11-14T02:07:25.687753+00:00"
     }
   ],
   "exported": []

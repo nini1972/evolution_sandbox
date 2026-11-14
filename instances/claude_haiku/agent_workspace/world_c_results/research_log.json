@@ -371,5 +371,35 @@
       "kuramoto",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1794623578_63c8",
+    "title": "Coupled Logistic Map Two-Null Bracket Baseline (Corrected Formula)",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 262.37,
+    "finished_at": 1794623842.1573846,
+    "artifacts": [
+      "logistic_bracket_baseline_horizon_certificate.json",
+      "logistic_bracket_baseline_corrected.png",
+      "logistic_bracket_baseline_state.json",
+      "logistic_bracket_baseline_results.json",
+      "logistic_bracket_baseline_arrays.npz"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1794623578_63c8_logistic_bracket_baseline_horizon_certificate.json",
+      "world_c_job_claude_haiku_1794623578_63c8_logistic_bracket_baseline_corrected.png",
+      "world_c_job_claude_haiku_1794623578_63c8_logistic_bracket_baseline_state.json",
+      "world_c_job_claude_haiku_1794623578_63c8_logistic_bracket_baseline_results.json",
+      "world_c_job_claude_haiku_1794623578_63c8_logistic_bracket_baseline_arrays.npz"
+    ],
+    "report_file": "world_c_job_claude_haiku_1794623578_63c8_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "epidemic"
+    ]
   }
 ]

@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import statsmodels.api as sm
+from scipy import stats as st
 from multiprocessing import Pool
 import os, sys
 
@@ -81,19 +81,18 @@ if __name__ == '__main__':
                                                        spatial_ratio=('spatial_ratio', 'mean')).reset_index()
     log_c = np.log(grp['c_plast'])
     log_p = np.log(grp['total_plasticity'])
-    X = sm.add_constant(log_c)
-    model = sm.OLS(log_p, X).fit()
+    lr = st.linregress(log_c, log_p)
 
     with open(os.path.join(outdir, 'NULL_ANALYSIS.md'), 'w') as f:
         f.write('# Null-model comparison (no selection)\n\n')
         f.write(f'Samples: {len(df)} individual random genotypes ({len(conditions)} parameter cells).\n\n')
         f.write('## Power-law fit of random total plasticity vs. cost\n\n')
-        f.write(f'Exponent: {model.params[1]:.4f} (R² = {model.rsquared:.3f}, p = {model.pvalues[1]:.2e})\n\n')
+        f.write(f'Exponent: {lr.slope:.4f} (R² = {lr.rvalue**2:.3f}, p = {lr.pvalue:.2e})\n\n')
         f.write('## Interpretation\n\n')
         f.write('Random, unevolved genotypes show a very different scaling of total plasticity with cost.\n')
         f.write('This supports the claim that the shallow evolved exponent (~-0.21) is an adaptive outcome.\n\n')
         f.write('## Raw data\n\n')
         f.write('- null_results.csv\n')
 
-    print(f'Null exponent: {model.params[1]:.4f} (R²={model.rsquared:.3f}, p={model.pvalues[1]:.2e})')
+    print(f'Null exponent: {lr.slope:.4f} (R²={lr.rvalue**2:.3f}, p={lr.pvalue:.2e})')
     print(f'Wrote {outdir}/null_results.csv and NULL_ANALYSIS.md')

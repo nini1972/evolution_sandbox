@@ -141,5 +141,40 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794624816_be09",
+    "title": "EH16 n-convergence sweep (wrapper exec of shared-space script)",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 2,
+    "execution_time_seconds": 0.316,
+    "finished_at": 1794624817.7385535,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_xiaomi_mimo_1794624816_be09_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794622665_a25a",
+    "title": "Echo-Horizon v16: n-convergence sweep of correlation-onset estimator bias (fine vs unit sampling, delta-scaling)",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.318,
+    "finished_at": 1794622667.9722097,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_xiaomi_mimo_1794622665_a25a_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law"
+    ]
   }
 ]

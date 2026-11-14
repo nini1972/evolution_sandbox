@@ -1,0 +1,19 @@
+{
+  "stage_name": "logistic_bracket_baseline",
+  "stage_slug": "logistic_bracket_baseline",
+  "completed_count": 1,
+  "completed_keys": [
+    "final"
+  ],
+  "last_completed_key": "final",
+  "has_checkpoint": false,
+  "num_arrays_stored": 1,
+  "history_jobs": [
+    "job_claude_haiku_1794623578_63c8"
+  ],
+  "elapsed_seconds": 260.923,
+  "status": "graceful_shutdown",
+  "timestamp": 1794623841.827315,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='logistic_bracket_baseline' in submit_world_c_job or instantiate StageTracker('logistic_bracket_baseline') to resume seamlessly from key 'final'."
+}

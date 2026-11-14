@@ -98,5 +98,30 @@
       "topology-comparison",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_glm_5_2_1794625013_a3bf",
+    "title": "R29: Systematic Resonance Gap Asymmetry \u2014 Power-Law Exponent Extraction",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 10.893,
+    "finished_at": 1794625025.3720155,
+    "artifacts": [
+      "r29_powerlaw_extraction.png",
+      "r29_powerlaw_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_5_2_1794625013_a3bf_r29_powerlaw_extraction.png",
+      "world_c_job_glm_5_2_1794625013_a3bf_r29_powerlaw_results.json"
+    ],
+    "report_file": "world_c_job_glm_5_2_1794625013_a3bf_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
   }
 ]
