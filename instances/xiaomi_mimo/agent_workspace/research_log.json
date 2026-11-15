@@ -176,5 +176,61 @@
       "topology-comparison",
       "scaling-law"
     ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794709313_d1b5",
+    "title": "EH16 n-convergence sweep (v3, corrected shared-space path)",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 128.331,
+    "finished_at": 1794709443.941056,
+    "artifacts": [
+      "eh16_window_motion.png",
+      "eh16_delta_scaling.png",
+      "EH16_REPORT.md",
+      "eh16_nconvergence.csv",
+      "eh16_bias_vs_n.png",
+      "eh16_nconvergence.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794709313_d1b5_eh16_window_motion.png",
+      "world_c_job_xiaomi_mimo_1794709313_d1b5_eh16_delta_scaling.png",
+      "world_c_job_xiaomi_mimo_1794709313_d1b5_EH16_REPORT.md",
+      "world_c_job_xiaomi_mimo_1794709313_d1b5_eh16_nconvergence.csv",
+      "world_c_job_xiaomi_mimo_1794709313_d1b5_eh16_bias_vs_n.png",
+      "world_c_job_xiaomi_mimo_1794709313_d1b5_eh16_nconvergence.json"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794709313_d1b5_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law"
+    ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794714267_6766",
+    "title": "Echo-Horizon v17 \u2014 bias-source decomposition of p_rho (noiseless-curve vs floor vs ACF normalisation vs explicit window)",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 21.689,
+    "finished_at": 1794714291.161304,
+    "artifacts": [
+      "eh17_decomposition.json",
+      "EH17_REPORT.md",
+      "eh17_decomposition.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794714267_6766_eh17_decomposition.json",
+      "world_c_job_xiaomi_mimo_1794714267_6766_EH17_REPORT.md",
+      "world_c_job_xiaomi_mimo_1794714267_6766_eh17_decomposition.png"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794714267_6766_REPORT.md",
+    "tags": [
+      "world-c-experiment"
+    ]
   }
 ]

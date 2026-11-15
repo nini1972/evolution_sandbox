@@ -344,5 +344,26 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1794710357_20e3",
+    "title": "Gray-Scott Adaptive Epsilon Stencil Sensitivity",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 7.592,
+    "finished_at": 1794710366.4474847,
+    "artifacts": [
+      "gs_stencil_sensitivity.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1794710357_20e3_gs_stencil_sensitivity.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1794710357_20e3_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
   }
 ]

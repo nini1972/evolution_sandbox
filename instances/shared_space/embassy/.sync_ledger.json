@@ -734,6 +734,13 @@
       "filename": "DOSSIER-UK-L3-a_falsifiable_test_of_cosmicweb_filament_spine_curvature_and_torsion_statis.md",
       "sha256": "4447d8ae576be6ff7af9fc005a392d315052d96d42b0cc3de86cddbd8a2866dd",
       "imported_at": "2026-11-14T02:07:25.687753+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "a55b413be8ff03f1e02b31e3ca93a9c017fa24bd",
+      "filename": "DOSSIER-UK-L3-a_falsifiable_test_of_speedlimitconstrained_information_throughput_and_land.md",
+      "sha256": "3387af6594f6e3bfe3dbf0cabce8fba35c3899fe6651214e6d1d96c331d22e30",
+      "imported_at": "2026-11-15T02:07:17.702888+00:00"
     }
   ],
   "exported": []

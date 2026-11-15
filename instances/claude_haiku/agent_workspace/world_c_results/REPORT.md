@@ -1,67 +1,71 @@
-# 🏛️ World C Execution Report: Coupled Logistic Map Two-Null Bracket Baseline (Corrected Formula)
+# 🏛️ World C Execution Report: Adaptive Epsilon Protocol: Bifurcation-Safe RQA Calibration
 
-* **Job ID:** `job_claude_haiku_1794623578_63c8`
+* **Job ID:** `job_claude_haiku_1794709896_d92c`
 * **Requesting Lineage:** `claude_haiku` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `262.37` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `4.38` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `logistic_bracket_baseline`
-* **Completed Stage Slices Saved:** `1` (Last completed key: `final`)
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='logistic_bracket_baseline', resume_from_job_id='job_claude_haiku_1794623578_63c8')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('logistic_bracket_baseline')`.
+* **Stage Name:** `adaptive_epsilon_protocol`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='adaptive_epsilon_protocol', resume_from_job_id='job_claude_haiku_1794709896_d92c')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('adaptive_epsilon_protocol')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `logistic_bracket_baseline_horizon_certificate.json` (delivered to `world_c_results/logistic_bracket_baseline_horizon_certificate.json` and `world_c/artifacts/job_claude_haiku_1794623578_63c8/logistic_bracket_baseline_horizon_certificate.json`)
-- `logistic_bracket_baseline_corrected.png` (delivered to `world_c_results/logistic_bracket_baseline_corrected.png` and `world_c/artifacts/job_claude_haiku_1794623578_63c8/logistic_bracket_baseline_corrected.png`)
-- `logistic_bracket_baseline_state.json` (delivered to `world_c_results/logistic_bracket_baseline_state.json` and `world_c/artifacts/job_claude_haiku_1794623578_63c8/logistic_bracket_baseline_state.json`)
-- `logistic_bracket_baseline_results.json` (delivered to `world_c_results/logistic_bracket_baseline_results.json` and `world_c/artifacts/job_claude_haiku_1794623578_63c8/logistic_bracket_baseline_results.json`)
-- `logistic_bracket_baseline_arrays.npz` (delivered to `world_c_results/logistic_bracket_baseline_arrays.npz` and `world_c/artifacts/job_claude_haiku_1794623578_63c8/logistic_bracket_baseline_arrays.npz`)
+*(None)*
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_claude_haiku_1794709896_d92c/entrypoint.py", line 358, in <module>
+    diagnose_epsilon_collapse()
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_claude_haiku_1794709896_d92c/entrypoint.py", line 40, in diagnose_epsilon_collapse
+    x1, x2 = coupled_logistic_map(x1, r), coupled_logistic_map(x2, r)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/dynamics/cml.py", line 102, in coupled_logistic_map
+    return _cml_step_jit(x, r, eps)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/numba/core/dispatcher.py", line 422, in _compile_for_args
+    error_rewrite(e, 'typing')
+  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/numba/core/dispatcher.py", line 363, in error_rewrite
+    raise e.with_traceback(None)
+numba.core.errors.TypingError: Failed in nopython mode pipeline (step: nopython frontend)
+No implementation of function Function(<built-in function setitem>) found for signature:
+ 
+ >>> setitem(array(float64, 1d, C), int64, array(float64, 1d, C))
+ 
+There are 16 candidate implementations:
+  - Of which 16 did not match due to:
+  Overload of function 'setitem': File: <numerous>: Line N/A.
+    With argument(s): '(array(float64, 1d, C), int64, array(float64, 1d, C))':
+   No match.
+
+During: typing of setitem at /home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/dynamics/cml.py (30)
+
+File "../../colony_lib/dynamics/cml.py", line 30:
+def _cml_step_jit(x: np.ndarray, r: float, eps: float) -> np.ndarray:
+    <source elided>
+    for i in range(N):
+        fx[i] = r * x[i] * (1.0 - x[i])
+        ^
+
+During: Pass nopython_type_inference
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-======================================================================
-COUPLED LOGISTIC MAP TWO-NULL BRACKET BASELINE STUDY
-======================================================================
-
-Scanning R parameter: 2.500 → 4.000
-Number of points: 16
-
-[1/16] R = 2.5000 ... DET=0.999, Δz=+0.00, z_F=+0.00, z_IAAFT=+0.00
-[2/16] R = 2.6000 ... DET=0.999, Δz=+0.00, z_F=+0.00, z_IAAFT=+0.00
-[3/16] R = 2.7000 ... DET=0.999, Δz=+0.00, z_F=+0.00, z_IAAFT=+0.00
-[4/16] R = 2.8000 ... DET=0.998, Δz=-80241.02, z_F=-0.95, z_IAAFT=+80240.07
-[5/16] R = 2.9000 ... DET=0.998, Δz=-161125.99, z_F=-0.53, z_IAAFT=+161125.46
-[6/16] R = 3.0000 ... DET=0.998, Δz=-161126.05, z_F=-0.59, z_IAAFT=+161125.46
-[7/16] R = 3.1000 ... DET=0.998, Δz=-161125.83, z_F=-0.37, z_IAAFT=+161125.46
-[8/16] R = 3.2000 ... DET=0.998, Δz=-161126.05, z_F=-0.59, z_IAAFT=+161125.46
-[9/16] R = 3.3000 ... DET=0.998, Δz=-161125.86, z_F=-0.40, z_IAAFT=+161125.46
-[10/16] R = 3.4000 ... DET=0.998, Δz=-6876657.63, z_F=+0.25, z_IAAFT=+6876657.88
-[11/16] R = 3.5000 ... DET=0.664, Δz=+3333043294.59, z_F=-0.97, z_IAAFT=-3333043295.56
-[12/16] R = 3.6000 ... DET=0.858, Δz=-3973718755.55, z_F=+13.17, z_IAAFT=+3973718768.72
-[13/16] R = 3.7000 ... DET=0.811, Δz=-3934757650.83, z_F=+18.56, z_IAAFT=+3934757669.39
-[14/16] R = 3.8000 ... DET=0.791, Δz=-4240860520.86, z_F=+23.14, z_IAAFT=+4240860544.00
-[15/16] R = 3.9000 ... DET=0.803, Δz=-4539733511.80, z_F=+24.53, z_IAAFT=+4539733536.33
-[16/16] R = 4.0000 ... DET=0.995, Δz=-1286953510.68, z_F=+0.39, z_IAAFT=+1286953511.07
-
-✓ Saved: logistic_bracket_baseline_corrected.png
+██████████████████████████████████████████████████████████████████████
+  ADAPTIVE EPSILON PROTOCOL: Bifurcation-Safe RQA Calibration
+██████████████████████████████████████████████████████████████████████
 
 ======================================================================
-SUMMARY STATISTICS
+PART 1: DIAGNOSTIC — Fixed Epsilon Collapse Boundary
 ======================================================================
-R range: 2.5000 → 4.0000
-DET range: 0.6640 → 0.9990
-Δz range: -4539733511.8017 → 3333043294.5949
-Mean Δz: -915671448.9712
-Trend: Non-monotonic ⚠
-
-✓ Baseline study complete!
-✓ Stage saved to StageTracker: 'logistic_bracket_baseline'
 ```
 
 ---

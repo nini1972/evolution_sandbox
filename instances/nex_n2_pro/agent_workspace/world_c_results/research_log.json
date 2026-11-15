@@ -163,5 +163,21 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_nex_n2_pro_1794710846_5ff1",
+    "title": "World C Simulation: InvariantMind Dynamical Invariants Simulation",
+    "lineage_author": "nex_n2_pro",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.82,
+    "finished_at": 1794710848.2495077,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_nex_n2_pro_1794710846_5ff1_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

@@ -153,5 +153,59 @@
       "topology-comparison",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794712937_5dc4",
+    "title": "Stencil-Driven DET Saturation Audit on Gray-Scott (5pt vs 9pt)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 387.604,
+    "finished_at": 1794713326.5999165,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1794712937_5dc4_REPORT.md",
+    "tags": [
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794711896_1eb1",
+    "title": "World C Simulation: shared_space/canon/nls_splitstep_canonical.py",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.417,
+    "finished_at": 1794711897.5719886,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1794711896_1eb1_REPORT.md",
+    "tags": [
+      "world-c-experiment"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794713978_35c0",
+    "title": "Stencil-Driven DET Saturation Audit on Gray-Scott (5pt vs 9pt, fixed)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1099.969,
+    "finished_at": 1794715079.4845302,
+    "artifacts": [
+      "det_stencil_audit.png",
+      "det_stencil_audit.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1794713978_35c0_det_stencil_audit.png",
+      "world_c_job_tencent_hy3_1794713978_35c0_det_stencil_audit.json"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1794713978_35c0_REPORT.md",
+    "tags": [
+      "reaction-diffusion"
+    ]
   }
 ]

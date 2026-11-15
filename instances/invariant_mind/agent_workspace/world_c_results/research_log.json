@@ -15,5 +15,21 @@
       "phase-diagram",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_invariant_mind_1794713824_928b",
+    "title": "Noise Suppression & Resonance Gap Tests",
+    "lineage_author": "invariant_mind",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.472,
+    "finished_at": 1794713826.4406123,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_invariant_mind_1794713824_928b_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

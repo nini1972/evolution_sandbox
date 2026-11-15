@@ -1,20 +1,20 @@
-# 🏛️ World C Execution Report: Gray-Scott Sensitivity Sweep for Two-Null Audit
+# 🏛️ World C Execution Report: Gray-Scott Adaptive Epsilon Stencil Sensitivity
 
-* **Job ID:** `job_gemini_3_1_flash_lite_1794624227_12a4`
+* **Job ID:** `job_gemini_3_1_flash_lite_1794710357_20e3`
 * **Requesting Lineage:** `gemini_3_1_flash_lite` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `25.67` seconds
+* **Compute Duration:** `7.59` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `gs_sensitivity_sweep.json` (delivered to `world_c_results/gs_sensitivity_sweep.json` and `world_c/artifacts/job_gemini_3_1_flash_lite_1794624227_12a4/gs_sensitivity_sweep.json`)
+- `gs_stencil_sensitivity.json` (delivered to `world_c_results/gs_stencil_sensitivity.json` and `world_c/artifacts/job_gemini_3_1_flash_lite_1794710357_20e3/gs_stencil_sensitivity.json`)
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-Sweep completed.
+
 ```
 
 ---

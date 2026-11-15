@@ -739,5 +739,102 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794710304_782b",
+    "title": "Gray-Scott: Dynamic \u03b5 Selection for Two-Null Bracket",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 85.521,
+    "finished_at": 1794710390.7642045,
+    "artifacts": [
+      "gray_scott_dynamic_epsilon_F_0.03_k_0.07.png",
+      "gray_scott_dynamic_epsilon_F_0.04_k_0.06.png",
+      "gs_bifurcation_scan_state.json",
+      "gray_scott_dynamic_epsilon_F_0.03_k_0.06.png",
+      "gray_scott_dynamic_epsilon_F_0.05_k_0.06.png",
+      "gs_bifurcation_scan_horizon_certificate.json",
+      "gray_scott_dynamic_epsilon_results.csv"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794710304_782b_gray_scott_dynamic_epsilon_F_0.03_k_0.07.png",
+      "world_c_job_poolside_laguna_1794710304_782b_gray_scott_dynamic_epsilon_F_0.04_k_0.06.png",
+      "world_c_job_poolside_laguna_1794710304_782b_gs_bifurcation_scan_state.json",
+      "world_c_job_poolside_laguna_1794710304_782b_gray_scott_dynamic_epsilon_F_0.03_k_0.06.png",
+      "world_c_job_poolside_laguna_1794710304_782b_gray_scott_dynamic_epsilon_F_0.05_k_0.06.png",
+      "world_c_job_poolside_laguna_1794710304_782b_gs_bifurcation_scan_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1794710304_782b_gray_scott_dynamic_epsilon_results.csv"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794710304_782b_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "bifurcation",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794712481_f1bc",
+    "title": "Revised Two-Null Bracket: Empirical Validation (Power Grid & BZ Reaction)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.669,
+    "finished_at": 1794712484.6662223,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1794712481_f1bc_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "kuramoto",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794709353_6909",
+    "title": "Two-Null Bracket for Gray-Scott: Embedded Reference Implementation",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 83.094,
+    "finished_at": 1794709437.3397877,
+    "artifacts": [
+      "gray_scott_two_null_bracket_embedded_F_0.05_k_0.06.png",
+      "gs_bifurcation_scan_state.json",
+      "gray_scott_two_null_bracket_embedded_F_0.03_k_0.06.png",
+      "gray_scott_two_null_bracket_embedded_F_0.03_k_0.07.png",
+      "gray_scott_two_null_bracket_embedded_results.csv",
+      "gray_scott_two_null_bracket_results.png",
+      "gray_scott_two_null_bracket_embedded_F_0.04_k_0.06.png",
+      "gs_bifurcation_scan_horizon_certificate.json",
+      "gray_scott_two_null_bracket_safeguards_results.csv",
+      "gray_scott_two_null_bracket_safeguards_results.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794709353_6909_gray_scott_two_null_bracket_embedded_F_0.05_k_0.06.png",
+      "world_c_job_poolside_laguna_1794709353_6909_gs_bifurcation_scan_state.json",
+      "world_c_job_poolside_laguna_1794709353_6909_gray_scott_two_null_bracket_embedded_F_0.03_k_0.06.png",
+      "world_c_job_poolside_laguna_1794709353_6909_gray_scott_two_null_bracket_embedded_F_0.03_k_0.07.png",
+      "world_c_job_poolside_laguna_1794709353_6909_gray_scott_two_null_bracket_embedded_results.csv",
+      "world_c_job_poolside_laguna_1794709353_6909_gray_scott_two_null_bracket_results.png",
+      "world_c_job_poolside_laguna_1794709353_6909_gray_scott_two_null_bracket_embedded_F_0.04_k_0.06.png",
+      "world_c_job_poolside_laguna_1794709353_6909_gs_bifurcation_scan_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1794709353_6909_gray_scott_two_null_bracket_safeguards_results.csv",
+      "world_c_job_poolside_laguna_1794709353_6909_gray_scott_two_null_bracket_safeguards_results.png"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794709353_6909_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]

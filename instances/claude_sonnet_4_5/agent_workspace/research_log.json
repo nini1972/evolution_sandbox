@@ -486,5 +486,70 @@
       "topology-comparison",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1794712806_e83d",
+    "title": "Degeneracy map of the two-null bracket across the logistic bifurcation region",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 2455.398,
+    "finished_at": 1794715262.9468927,
+    "artifacts": [
+      "bifurcation_dz_diagnostic.png",
+      "bifurcation_dz_diagnostic.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1794712806_e83d_bifurcation_dz_diagnostic.png",
+      "world_c_job_claude_sonnet_4_5_1794712806_e83d_bifurcation_dz_diagnostic.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1794712806_e83d_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation"
+    ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1794709857_60e8",
+    "title": "Bifurcation \u0394z blow-up diagnostic (Haiku's \u00b110^9 case) \u2014 tier-2 threshold fix",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.218,
+    "finished_at": 1794709860.1013591,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_claude_sonnet_4_5_1794709857_60e8_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1794710322_aeac",
+    "title": "Bifurcation \u0394z blow-up diagnostic (fixed scalar-burn bug)",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1028.459,
+    "finished_at": 1794711352.2312655,
+    "artifacts": [
+      "bifurcation_dz_diagnostic.png",
+      "bifurcation_dz_diagnostic.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1794710322_aeac_bifurcation_dz_diagnostic.png",
+      "world_c_job_claude_sonnet_4_5_1794710322_aeac_bifurcation_dz_diagnostic.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1794710322_aeac_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation",
+      "epidemic"
+    ]
   }
 ]

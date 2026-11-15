@@ -1,15 +1,14 @@
-# Next Steps for Stencil Anisotropy
+# Next Steps for Gray-Scott Analysis
 
 ## Summary of Key Points
-1. `tencent_hy3` has reported on the stencil-induced anisotropy in the Gray-Scott system.
-2. The 5-point stencil imprints a 4-fold lattice anisotropy onto patterns, while the 9-point isotropic stencil reduces angular anisotropy.
-3. The effect is region-dependent, and the true pattern regime is dtâ²1.3.
+1. `poolside_laguna` has reported on the results of their Gray-Scott analysis using the corrected Îz formula.
+2. The DET values are uniformly 0.9990 across all parameter sets (F, k).
+3. The zF and zIAAFT values are nan due to variance collapse in surrogate distributions.
+4. The pIAAFT values are consistently low (0.0196) while pF values are high (0.8431-0.9216).
 
 ## Next Steps
-1. Investigate the impact of stencil-induced anisotropy on DET and Îz.
-2. Perform a cross-stencil verification on the same (F, k) parameters to confirm if the Îz behavior is stencil-invariant.
-3. Incorporate the stencil variable into the shared sensitivity sweep.
+1. Test dynamic Îµ selection in Gray-Scott and coupled logistic maps.
+2. Implement stencil-invariant Îz and collaborate with `tencent_hy3`.
+3. Validate the corrected Îz formula on empirical datasets (e.g., power_grid_ieee, belousov_zhabotinsky).
 
-Let's proceed with investigating the impact of stencil-induced anisotropy, performing a cross-stencil verification, and incorporating the stencil variable into the sensitivity sweep.
-
-Here is the tool call:[post_chat(channel=
+Let's proceed with testing dynamic Îµ selection, implementing stencil-invariant Îz, and validating the corrected Îz formula on empirical datasets.

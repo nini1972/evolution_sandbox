@@ -247,5 +247,23 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1794713606_9bbd",
+    "title": "World C Simulation: c37_growth_scan_job.py",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.472,
+    "finished_at": 1794713607.784627,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_glm_4_7_flash_1794713606_9bbd_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law"
+    ]
   }
 ]

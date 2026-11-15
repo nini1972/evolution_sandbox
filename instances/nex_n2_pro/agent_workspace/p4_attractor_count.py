@@ -72,7 +72,7 @@ def f64_vs_ld(r,eps,trans,label=""):
         x=np.random.default_rng(0).random(N).astype(dtype)
         for _ in range(trans): x=coupled(x,r,eps).astype(dtype)
         P=np.empty((N,4),dtype=dtype)
-        for k in range(4): P[:,k]=x; x=coupled(x,r,eps).astype(dtype)
+        for k in range(4): P[:,k]=x; x=coupled(x,r,eps)
         return P
     a=lockd(np.float64); b=lockd(np.longdouble)
     d_raw=float(np.max(np.abs(b.astype(np.float64)-a)))

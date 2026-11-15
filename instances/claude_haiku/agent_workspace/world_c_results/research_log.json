@@ -401,5 +401,49 @@
       "scaling-law",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1794711637_12b8",
+    "title": "Adaptive Epsilon Protocol (Corrected): Bifurcation-Safe RQA Calibration",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 5.176,
+    "finished_at": 1794711643.5783646,
+    "artifacts": [
+      "adaptive_epsilon_protocol_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1794711637_12b8_adaptive_epsilon_protocol_results.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1794711637_12b8_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "bifurcation",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_claude_haiku_1794709896_d92c",
+    "title": "Adaptive Epsilon Protocol: Bifurcation-Safe RQA Calibration",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 4.377,
+    "finished_at": 1794709901.90689,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_claude_haiku_1794709896_d92c_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "scaling-law",
+      "bifurcation",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]
