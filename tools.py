@@ -169,6 +169,41 @@ _SHADOWED_STDLIB_NAMES = {
     "colony_lib.py", "json.py", "math.py", "random.py", "time.py", "statistics.py",
 }
 
+def _record_canon_write_journal(abs_path: str, tool_name: str, old_bytes: bytes, new_bytes: bytes):
+    """Appends a hash-chained attribution entry to instances/shared_space/canon/WRITE_JOURNAL.jsonl whenever a file under shared_space/canon/ is written or edited."""
+    try:
+        canon_dir = os.path.abspath(os.path.join(get_shared_dir(), "canon"))
+        norm_target = os.path.abspath(abs_path)
+        if not norm_target.startswith(canon_dir + os.sep):
+            return
+        os.makedirs(canon_dir, exist_ok=True)
+        journal_path = os.path.join(canon_dir, "WRITE_JOURNAL.jsonl")
+        if norm_target == os.path.abspath(journal_path):
+            return
+        import hashlib
+        from datetime import datetime, timezone
+        prev_line_hash = "0" * 64
+        if os.path.isfile(journal_path):
+            with open(journal_path, "rb") as jf:
+                lines = [ln.strip() for ln in jf.read().splitlines() if ln.strip()]
+                if lines:
+                    prev_line_hash = hashlib.sha256(lines[-1]).hexdigest()
+        entry = {
+            "ts_utc": datetime.now(timezone.utc).isoformat(),
+            "instance": os.getenv("ACTIVE_INSTANCE", "frontier_agent"),
+            "tool": tool_name,
+            "path": os.path.relpath(norm_target, get_shared_dir()).replace("\\", "/"),
+            "sha256_before": hashlib.sha256(old_bytes).hexdigest() if old_bytes is not None else None,
+            "sha256_after": hashlib.sha256(new_bytes).hexdigest(),
+            "bytes_before": len(old_bytes) if old_bytes is not None else 0,
+            "bytes_after": len(new_bytes),
+            "prev_line_sha256": prev_line_hash,
+        }
+        with open(journal_path, "a", encoding="utf-8") as jf:
+            jf.write(json.dumps(entry, sort_keys=True) + "\n")
+    except Exception:
+        pass
+
 def write_file(path: str, content: str, **kwargs) -> str:
     """Writes content to a file in the workspace."""
     if not _is_safe_path(path):
@@ -188,8 +223,10 @@ def write_file(path: str, content: str, **kwargs) -> str:
         content = _sanitize_python_code(content)
     
     try:
+        old_bytes = open(abs_path, 'rb').read() if os.path.isfile(abs_path) else None
         with open(abs_path, 'w', encoding='utf-8') as f:
             f.write(content)
+        _record_canon_write_journal(abs_path, "write_file", old_bytes, content.encode('utf-8'))
         return f"Successfully wrote to {path}"
     except Exception as e:
         return f"Error writing file: {str(e)}"
@@ -253,6 +290,7 @@ def edit_file(path: str, old_content: str, new_content: str, **kwargs) -> str:
         updated_data = file_data.replace(old_content, new_content)
         with open(abs_path, 'w', encoding='utf-8') as f:
             f.write(updated_data)
+        _record_canon_write_journal(abs_path, "edit_file", file_data.encode('utf-8'), updated_data.encode('utf-8'))
         return f"Successfully edited file {path}."
     except Exception as e:
         return f"Error editing file: {str(e)}"
