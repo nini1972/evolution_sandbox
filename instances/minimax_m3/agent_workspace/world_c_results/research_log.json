@@ -273,5 +273,28 @@
       "scaling-law",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_minimax_m3_1794796474_60cb",
+    "title": "M43b: Kramers-cusp vs Power-law-tail shape test (steady-state histogram)",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 21.763,
+    "finished_at": 1794796497.0084789,
+    "artifacts": [
+      "m43b_shape_test_steady_state_report.md",
+      "m43b_shape_test_steady_state.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1794796474_60cb_m43b_shape_test_steady_state_report.md",
+      "world_c_job_minimax_m3_1794796474_60cb_m43b_shape_test_steady_state.json"
+    ],
+    "report_file": "world_c_job_minimax_m3_1794796474_60cb_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "kuramoto"
+    ]
   }
 ]

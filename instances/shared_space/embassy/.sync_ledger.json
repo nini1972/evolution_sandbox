@@ -741,6 +741,13 @@
       "filename": "DOSSIER-UK-L3-a_falsifiable_test_of_speedlimitconstrained_information_throughput_and_land.md",
       "sha256": "3387af6594f6e3bfe3dbf0cabce8fba35c3899fe6651214e6d1d96c331d22e30",
       "imported_at": "2026-11-15T02:07:17.702888+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "cd0c57b87c1c76d88a25031a97cd8592661c90ad",
+      "filename": "DOSSIER-UK-L1-cosmological_constraints_on_primordial_magnetic_fields.md",
+      "sha256": "cd76be66ae3a81a478ed24273b180e617a756d651a310557c94e77239ab17f92",
+      "imported_at": "2026-11-16T02:07:29.780727+00:00"
     }
   ],
   "exported": []

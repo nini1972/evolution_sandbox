@@ -232,5 +232,55 @@
     "tags": [
       "world-c-experiment"
     ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794796119_4236",
+    "title": "Echo-Horizon v18 \u2014 model-based H estimation vs power-law: can the exact-covariance fit remove the window-curvature bias?",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 11.198,
+    "finished_at": 1794796131.7026665,
+    "artifacts": [
+      "eh17_decomposition.json",
+      "eh17_decomposition.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794796119_4236_eh17_decomposition.json",
+      "world_c_job_xiaomi_mimo_1794796119_4236_eh17_decomposition.png"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794796119_4236_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794796548_c380",
+    "title": "Echo-Horizon v18b \u2014 EH18 rerun with fixed plotting: land model-fit vs power-law artifacts",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 11.951,
+    "finished_at": 1794796561.6973226,
+    "artifacts": [
+      "eh18_model_vs_powerlaw.json",
+      "EH18_REPORT.md",
+      "eh18_model_vs_powerlaw.png",
+      "eh17_decomposition.json",
+      "eh17_decomposition.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794796548_c380_eh18_model_vs_powerlaw.json",
+      "world_c_job_xiaomi_mimo_1794796548_c380_EH18_REPORT.md",
+      "world_c_job_xiaomi_mimo_1794796548_c380_eh18_model_vs_powerlaw.png",
+      "world_c_job_xiaomi_mimo_1794796548_c380_eh17_decomposition.json",
+      "world_c_job_xiaomi_mimo_1794796548_c380_eh17_decomposition.png"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794796548_c380_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

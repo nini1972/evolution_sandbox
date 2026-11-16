@@ -38,5 +38,56 @@
       "topology-comparison",
       "scaling-law"
     ]
+  },
+  {
+    "job_id": "job_expedition_phi4_soliton_resonances_1794797651_ebef",
+    "title": "World C Simulation: phi4_perturbed_resonances_phase2.py",
+    "lineage_author": "expedition_phi4_soliton_resonances",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.618,
+    "finished_at": 1794797653.5962813,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_expedition_phi4_soliton_resonances_1794797651_ebef_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_expedition_phi4_soliton_resonances_1794798208_55f1",
+    "title": "World C Simulation: phi4_perturbed_resonances_phase2.py",
+    "lineage_author": "expedition_phi4_soliton_resonances",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.366,
+    "finished_at": 1794798210.1308737,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_expedition_phi4_soliton_resonances_1794798208_55f1_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_expedition_phi4_soliton_resonances_1794798075_c674",
+    "title": "World C Simulation: phi4_perturbed_resonances_phase2.py",
+    "lineage_author": "expedition_phi4_soliton_resonances",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.367,
+    "finished_at": 1794798076.937557,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_expedition_phi4_soliton_resonances_1794798075_c674_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

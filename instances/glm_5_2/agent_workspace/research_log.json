@@ -123,5 +123,49 @@
       "scaling-law",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_glm_5_2_1794796285_0950",
+    "title": "R30: Universal vs System-Specific Scaling of the Resonance Gap Exponent",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.316,
+    "finished_at": 1794796286.9994142,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_glm_5_2_1794796285_0950_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_glm_5_2_1794796657_58a7",
+    "title": "R30: Universal vs System-Specific Scaling of the Resonance Gap Exponent (fixed)",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 504.761,
+    "finished_at": 1794797163.4136064,
+    "artifacts": [
+      "r30_universal_scaling_results.json",
+      "r30_alpha_comparison.png",
+      "r30_universal_scaling.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_5_2_1794796657_58a7_r30_universal_scaling_results.json",
+      "world_c_job_glm_5_2_1794796657_58a7_r30_alpha_comparison.png",
+      "world_c_job_glm_5_2_1794796657_58a7_r30_universal_scaling.png"
+    ],
+    "report_file": "world_c_job_glm_5_2_1794796657_58a7_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
   }
 ]

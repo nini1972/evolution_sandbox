@@ -1,66 +1,54 @@
-# 🏛️ World C Execution Report: M42: Reflexive Kuramoto Master-Curve Collapse (substrate diversification deliverable)
+# 🏛️ World C Execution Report: M43b: Kramers-cusp vs Power-law-tail shape test (steady-state histogram)
 
-* **Job ID:** `job_minimax_m3_1794450473_a9e4`
+* **Job ID:** `job_minimax_m3_1794796474_60cb`
 * **Requesting Lineage:** `minimax_m3` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `34.94` seconds
+* **Compute Duration:** `21.76` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `m42_reflexive_kuramoto_master_curve`
-* **Completed Stage Slices Saved:** `3` (Last completed key: `final`)
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='m42_reflexive_kuramoto_master_curve', resume_from_job_id='job_minimax_m3_1794450473_a9e4')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('m42_reflexive_kuramoto_master_curve')`.
+* **Stage Name:** `m43b_shape_test`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='m43b_shape_test', resume_from_job_id='job_minimax_m3_1794796474_60cb')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('m43b_shape_test')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `m42_reflexive_kuramoto_master_curve_state.json` (delivered to `world_c_results/m42_reflexive_kuramoto_master_curve_state.json` and `world_c/artifacts/job_minimax_m3_1794450473_a9e4/m42_reflexive_kuramoto_master_curve_state.json`)
-- `m42_reflexive_kuramoto_master_curve_horizon_certificate.json` (delivered to `world_c_results/m42_reflexive_kuramoto_master_curve_horizon_certificate.json` and `world_c/artifacts/job_minimax_m3_1794450473_a9e4/m42_reflexive_kuramoto_master_curve_horizon_certificate.json`)
-- `REPORT.md` (delivered to `world_c_results/REPORT.md` and `world_c/artifacts/job_minimax_m3_1794450473_a9e4/REPORT.md`)
-- `m42_master_curve_collapse.png` (delivered to `world_c_results/m42_master_curve_collapse.png` and `world_c/artifacts/job_minimax_m3_1794450473_a9e4/m42_master_curve_collapse.png`)
-- `m42_master_curve_collapse_report.json` (delivered to `world_c_results/m42_master_curve_collapse_report.json` and `world_c/artifacts/job_minimax_m3_1794450473_a9e4/m42_master_curve_collapse_report.json`)
+- `m43b_shape_test_steady_state_report.md` (delivered to `world_c_results/m43b_shape_test_steady_state_report.md` and `world_c/artifacts/job_minimax_m3_1794796474_60cb/m43b_shape_test_steady_state_report.md`)
+- `m43b_shape_test_steady_state.json` (delivered to `world_c_results/m43b_shape_test_steady_state.json` and `world_c/artifacts/job_minimax_m3_1794796474_60cb/m43b_shape_test_steady_state.json`)
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-0  K0=4.00  R_ss=0.9630  K_eff=3.925
-  alpha=+1.00  K0=0.50  R_ss=0.0792  K_eff=0.040
-  alpha=+1.00  K0=0.80  R_ss=0.0905  K_eff=0.072
-  alpha=+1.00  K0=1.10  R_ss=0.1145  K_eff=0.126
-  alpha=+1.00  K0=1.40  R_ss=0.2213  K_eff=0.310
-  alpha=+1.00  K0=1.70  R_ss=0.5981  K_eff=1.017
-  alpha=+1.00  K0=2.00  R_ss=0.7198  K_eff=1.440
-  alpha=+1.00  K0=2.30  R_ss=0.8772  K_eff=2.018
-  alpha=+1.00  K0=2.60  R_ss=0.8852  K_eff=2.302
-  alpha=+1.00  K0=3.00  R_ss=0.9235  K_eff=2.770
-  alpha=+1.00  K0=3.50  R_ss=0.9442  K_eff=3.305
-  alpha=+1.00  K0=4.00  R_ss=0.9624  K_eff=3.849
-  alpha=+2.00  K0=0.50  R_ss=0.0654  K_eff=0.002
-  alpha=+2.00  K0=0.80  R_ss=0.0684  K_eff=0.004
-  alpha=+2.00  K0=1.10  R_ss=0.0617  K_eff=0.004
-  alpha=+2.00  K0=1.40  R_ss=0.0690  K_eff=0.007
-  alpha=+2.00  K0=1.70  R_ss=0.0620  K_eff=0.007
-  alpha=+2.00  K0=2.00  R_ss=0.0704  K_eff=0.010
-  alpha=+2.00  K0=2.30  R_ss=0.0666  K_eff=0.010
-  alpha=+2.00  K0=2.60  R_ss=0.0715  K_eff=0.013
-  alpha=+2.00  K0=3.00  R_ss=0.0734  K_eff=0.016
-  alpha=+2.00  K0=3.50  R_ss=0.0742  K_eff=0.019
-  alpha=+2.00  K0=4.00  R_ss=0.0737  K_eff=0.022
-Sweep done in 22.1s (66 cells)
-============================================================
-Phase 3: Master-curve collapse residuals
-============================================================
-HIGH R (R>=0.5): n=45, max|resid|=0.051887886232231395
-MID  R (0.2<=R<0.5): n=6, max|resid|=0.05814133711663694
-LOW  R (R<0.2):  n=15, max|resid|=0.0654347280848604
-Figure saved: world_c_results/m42/m42_master_curve_collapse.png
-Warning: shared artifact path failed ([Errno 2] No such file or directory: '../../shared_space/world_c/artifacts/m42_master_curve_collapse.png'); local copy is the canonical one.
-Report saved: world_c_results/m42/m42_master_curve_collapse_report.json
-Warning: shared report path failed ([Errno 2] No such file or directory: '../../shared_space/world_c/artifacts/m42_master_curve_collapse_report.json')
-Local REPORT.md written.
-Stage 'final' saved. M42 complete.
+td=0.048, K3_aic=951.15, P2_aic=691.61, winner=P2 (259.54)
+  N=256: R_mean=0.056, R_std=0.030, K3_aic=774.94, P2_aic=540.53, winner=P2 (234.41)
+=== Cell sigma1.0_K0_2.0: K0=2.0, sigma=1.0 ===
+  N=32: R_mean=0.185, R_std=0.088, K3_aic=1189.79, P2_aic=956.01, winner=P2 (233.79)
+  N=64: R_mean=0.113, R_std=0.058, K3_aic=1049.59, P2_aic=780.45, winner=P2 (269.13)
+  N=128: R_mean=0.089, R_std=0.048, K3_aic=953.80, P2_aic=715.99, winner=P2 (237.81)
+  N=256: R_mean=0.058, R_std=0.030, K3_aic=800.84, P2_aic=531.15, winner=P2 (269.68)
+=== Cell sigma2.0_K0_2.0: K0=2.0, sigma=2.0 ===
+  N=32: R_mean=0.169, R_std=0.088, K3_aic=1164.22, P2_aic=950.57, winner=P2 (213.65)
+  N=64: R_mean=0.118, R_std=0.058, K3_aic=1063.21, P2_aic=786.87, winner=P2 (276.35)
+  N=128: R_mean=0.083, R_std=0.047, K3_aic=935.07, P2_aic=682.02, winner=P2 (253.05)
+  N=256: R_mean=0.056, R_std=0.032, K3_aic=766.30, P2_aic=557.51, winner=P2 (208.79)
+=== Cell sigma3.0_K0_2.0: K0=2.0, sigma=3.0 ===
+  N=32: R_mean=0.161, R_std=0.081, K3_aic=1154.12, P2_aic=916.50, winner=P2 (237.62)
+  N=64: R_mean=0.109, R_std=0.059, K3_aic=1035.84, P2_aic=790.39, winner=P2 (245.45)
+  N=128: R_mean=0.079, R_std=0.042, K3_aic=915.91, P2_aic=655.31, winner=P2 (260.60)
+  N=256: R_mean=0.061, R_std=0.031, K3_aic=822.81, P2_aic=539.85, winner=P2 (282.97)
+=== Cell sigma1.0_K0_4.0: K0=4.0, sigma=1.0 ===
+  N=32: R_mean=0.380, R_std=0.259, K3_aic=1325.22, P2_aic=1321.54, winner=P2 (3.68)
+  N=64: R_mean=0.868, R_std=0.032, K3_aic=847.84, P2_aic=551.33, winner=P2 (296.51)
+  N=128: R_mean=0.093, R_std=0.054, K3_aic=973.98, P2_aic=742.50, winner=P2 (231.47)
+  N=256: R_mean=0.057, R_std=0.033, K3_aic=775.14, P2_aic=551.50, winner=P2 (223.64)
+Warning: shared mirror failed: [Errno 2] No such file or directory: '../../shared_space/world_c/artifacts/m43b_shape_test_steady_state.json'
+
+=== M43b DONE (21.36s) ===
+Verdict: P2 (Power-law-tail) WINS
+Winners: {'K3': 0, 'P2': 20, 'NONE': 0}
+Report: world_c_results/m43b_shape_test_steady_state_report.md
 ```
 
 ---
