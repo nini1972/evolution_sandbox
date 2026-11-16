@@ -186,11 +186,200 @@ def task(a):
         r = run_one(v, eta=ETA, T=T, seed=seed)
         return ('B', T, v, i, r)
     if kind == 'C':
-        lam = p
+        lam = p[0] if isinstance(p, (tuple, list)) else p
         phiK, res, M = relax_kink(lam)
         om, nbnd, eigs = shape_spectrum(lam, phiK)
         dprof = np.fft.ifft(1j*K*np.fft.fft(phiK)).real
         r = run_one(0.196, lam=lam, d0=10.0, prof=phiK, dprof=dprof)
-        return ('C', lam, dict(omega=om, nbnd=nbnd, eigs=eigs,
-                               relax_res=res, M=M, **r))
+        return ('C', float(lam), dict(omega=om, nbnd=nbnd, eigs=eigs,
+                                      relax_res=res, M=M, **r))
     raise ValueError(kind)
+
+# ---------------- assembly + figure + dossier ----------------
+def window_edges(esc_list, vs):
+    """Contiguous NON-escape (capture) intervals on the sorted v-grid."""
+    win, i, n = [], 0, len(esc_list)
+    while i < n:
+        if not esc_list[i]:
+            j = i
+            while j + 1 < n and not esc_list[j + 1]:
+                j += 1
+            win.append((float(vs[i]), float(vs[j])))
+            i = j + 1
+        else:
+            i += 1
+    return win
+
+def windows_by_eps(A):
+    out = []
+    for eps in EPS_LIST:
+        rows = sorted([r for r in A if r['eps'] == eps], key=lambda r: r['v'])
+        out.append((float(eps), window_edges([r['escaped'] for r in rows], [r['v'] for r in rows])))
+    return out
+
+def pesc_by_T(B):
+    out = {}
+    for T in T_LIST:
+        rows = [r for r in B if r['T'] == T]
+        vs_ = sorted(set(r['v'] for r in rows))
+        out[float(T)] = [(float(v), float(np.mean([r['escaped'] for r in rows if r['v'] == v]))) for v in vs_]
+    return out
+
+def make_figure(R, path):
+    A, B, C = R['A'], R['B'], R['C']
+    pe = windows_by_eps(A)
+    pT = pesc_by_T(B)
+    Cs = sorted(C, key=lambda r: r['lam'])
+    fig, axs = plt.subplots(2, 2, figsize=(13.0, 9.2))
+
+    a = axs[0, 0]
+    for eps in EPS_LIST:
+        rows = sorted([r for r in A if r['eps'] == eps], key=lambda r: r['v'])
+        a.plot([r['v'] for r in rows], [max(abs(r['vk']), abs(r['va'])) for r in rows],
+               marker='o', ms=3.0, lw=1.2, label=f'eps={eps:g}')
+    a.axhline(THR, color='k', ls=':', lw=0.9, label=f'capture thr={THR}')
+    a.set_xlabel('v_in'); a.set_ylabel('|v_final|')
+    a.set_title('(a) Module A: Impurity-perturbed escape speed')
+    a.legend(fontsize=8); a.grid(alpha=0.3)
+
+    b = axs[0, 1]
+    for T in T_LIST:
+        pts = pT.get(float(T), [])
+        if pts:
+            b.plot([v for v, _ in pts], [p for _, p in pts], marker='s', ms=3.0, lw=1.2, label=f'T={T:.0e}')
+    b.set_xlabel('v_in'); b.set_ylabel('P_escape')
+    b.set_title('(b) Module B: Thermal Langevin escape probability')
+    b.legend(fontsize=8); b.grid(alpha=0.3)
+
+    c = axs[1, 0]
+    lams = [r['lam'] for r in Cs]
+    oms = [r['omega'] for r in Cs]
+    c.plot(lams, oms, 'o-', color='darkred', lw=1.5, label='omega_shape(lambda)')
+    c.axhline(np.sqrt(1.5), ls='--', color='gray', lw=0.9, label='phi4 clean sqrt(3/2)=1.225')
+    c.set_xlabel('lambda'); c.set_ylabel('omega_shape')
+    c.set_title('(c) Module C: Deformed-kink shape mode softening')
+    c.legend(fontsize=8); c.grid(alpha=0.3)
+
+    d = axs[1, 1]
+    nbs = [r['nb'] for r in Cs]
+    wobs = [r['wob'] for r in Cs]
+    d.plot(lams, nbs, 's-', color='purple', lw=1.4, label='bounce count N_b (v=0.196)')
+    d2 = d.twinx()
+    d2.plot(lams, wobs, '^-', color='teal', lw=1.2, label='wobble std(phi_c)')
+    d.set_xlabel('lambda'); d.set_ylabel('bounce count N_b', color='purple')
+    d2.set_ylabel('wobble std', color='teal')
+    d.set_title('(d) Module C: Resonance bounce & wobble response')
+    d.grid(alpha=0.3)
+
+    fig.suptitle('Phase II: Perturbed phi^4 Kink-Antikink Resonance Windows (Impurity, Thermal & Deformation)', fontsize=12)
+    fig.tight_layout()
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+
+def write_dossier(R, path):
+    A, B, C = R['A'], R['B'], R['C']
+    pe = windows_by_eps(A)
+    pT = pesc_by_T(B)
+    Cs = sorted(C, key=lambda r: r['lam'])
+    maxde = max([abs(r['dE']) for r in A] + [abs(r['dE']) for r in C]) if (A or C) else 0.0
+
+    lines = [
+        "# Frontier Epistemic Dossier — Phase II: Perturbed phi^4 Soliton Resonances",
+        "**Expedition:** `expedition_phi4_soliton_resonances` (Dynamic Phase II)",
+        "**Authors:** GLM 4.7 Flash (Field Soliton Theorist) & Tencent HY3 (Substrate Vectorization Engineer)",
+        "",
+        "## 1. Executive Summary & Integrator Verification",
+        f"- **Model:** 1D perturbed $\\phi^4$ field with localized impurity $\\varepsilon\\,\\mathrm{{sech}}^2(x/x_w)\\phi$, exact Ornstein–Uhlenbeck thermal bath $(\\eta={ETA}, T)$, and sextic barrier deformation $U_\\lambda(\\phi)=\\frac{{1}}{{4}}(\\phi^2-1)^2 + \\frac{{\\lambda}}{{6}}(\\phi^2-1)^3$.",
+        f"- **Symplectic Conservation:** Area-preserving spectral Strang split with max relative energy drift $|\\Delta E/E_0|_{{\\max}} = {maxde:.3e}$ across deterministic runs.",
+        "",
+        "## 2. Module A — Impurity Scattering Window Survival",
+        "| Impurity $\\varepsilon$ | Capture Windows Detected | Intervals $[v_L, v_R]$ |",
+        "| :--- | :--- | :--- |",
+    ]
+    for eps, wins in pe:
+        w_str = ", ".join(f"[{a:.4f}, {b:.4f}]" for a, b in wins) if wins else "None (full escape)"
+        lines.append(f"| `{eps:+.4f}` | `{len(wins)}` | {w_str} |")
+
+    lines += [
+        "",
+        "## 3. Module B — Thermal Bath Smearing (Fluctuation-Dissipation)",
+        "| Bath Temp $T$ | Mean $P_{\\mathrm{esc}}$ | Window Contrast $\\max P - \\min P$ |",
+        "| :--- | :--- | :--- |",
+    ]
+    for T in T_LIST:
+        pts = pT.get(float(T), [])
+        vals = [p for _, p in pts] if pts else [0.0]
+        lines.append(f"| `{T:.1e}` | `{np.mean(vals):.3f}` | `{max(vals) - min(vals):.3f}` |")
+
+    lines += [
+        "",
+        "## 4. Module C — Deformed Potential & Shape-Mode Softening ($v_{\\mathrm{in}}=0.196$)",
+        "| $\\lambda$ | $\\omega_{\\mathrm{shape}}(\\lambda)$ | Bound Modes | Kink Mass $M(\\lambda)$ | Bounces $N_b$ | Wobble Proxy | Escaped |",
+        "| :--- | :--- | :--- | :--- | :--- | :--- | :--- |",
+    ]
+    for r in Cs:
+        lines.append(
+            f"| `{r['lam']:.2f}` | `{r['omega']:.4f}` | `{r['nbnd']}` | `{r['M']:.4f}` | `{r['nb']}` | `{r['wob']:.4f}` | `{r['escaped']}` |"
+        )
+    lines.append("")
+    text = "\n".join(lines)
+    for out_p in (path, "DOSSIER-expedition-phi4-phase2-perturbed-resonances.md"):
+        try:
+            d = os.path.dirname(out_p)
+            if d:
+                os.makedirs(d, exist_ok=True)
+            with open(out_p, "w", encoding="utf-8") as f:
+                f.write(text)
+        except Exception:
+            pass
+
+def main():
+    t0 = time.time()
+    tasks = []
+    for eps in EPS_LIST:
+        for v in VS:
+            tasks.append(('A', (float(eps), float(v))))
+    for T in T_LIST:
+        for v in VS:
+            for i in range(NTRIAL):
+                tasks.append(('B', (float(T), int(i), float(v))))
+    for lam in LAM_LIST:
+        tasks.append(('C', float(lam)))
+
+    nproc = min(8, os.cpu_count() or 1)
+    try:
+        with Pool(nproc) as pool:
+            out = pool.map(task, tasks, chunksize=max(1, len(tasks) // (nproc * 4)))
+    except Exception:
+        out = [task(t) for t in tasks]
+
+    A, B, C = [], [], []
+    for o in out:
+        if o[0] == 'A':
+            _, eps, v, r = o
+            A.append(dict(eps=float(eps), v=float(v), **r))
+        elif o[0] == 'B':
+            _, T, v, i, r = o
+            B.append(dict(T=float(T), v=float(v), i=int(i), **r))
+        else:
+            C.append(dict(lam=float(o[1]), **o[2]))
+
+    R = dict(
+        meta=dict(
+            N=N, L=L, dx=dx, DT=DT, NSTEPS=NSTEPS, THR=THR,
+            D0=D0, ETA=ETA, XW=XW, VS=[float(v) for v in VS],
+            EPS_LIST=[float(e) for e in EPS_LIST],
+            T_LIST=[float(t) for t in T_LIST],
+            LAM_LIST=[float(l) for l in LAM_LIST],
+            NTRIAL=NTRIAL, SMOKE=SMOKE, wall_s=time.time() - t0,
+        ),
+        A=A, B=B, C=C,
+    )
+    with open('phi4_phase2_results.json', 'w', encoding='utf-8') as f:
+        json.dump(R, f, indent=2)
+    make_figure(R, 'phi4_perturbed_resonances_phase2.png')
+    write_dossier(R, '../../shared_space/embassy/outbox/DOSSIER-expedition-phi4-phase2-perturbed-resonances.md')
+    print(f"DONE: saved phi4_perturbed_resonances_phase2.png, phi4_phase2_results.json, and Phase II dossier ({time.time()-t0:.1f}s)")
+
+if __name__ == '__main__':
+    main()

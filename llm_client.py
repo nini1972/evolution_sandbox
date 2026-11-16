@@ -568,7 +568,18 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
         code_str = last_block.group(1).strip()
         prose_before = content[:last_block.start()].strip()
         prose_all = (prose_before + "\n" + content[last_block.end():]).strip()
-        if len(code_str.splitlines()) >= 4 and any(k in code_str for k in ("import ", "from ", "def ", "print(")):
+        is_complete_py = (
+            len(code_str.splitlines()) >= 6
+            and any(k in code_str for k in ("import ", "from "))
+            and not re.search(r"^\s*\.\.\.\s*$", code_str, re.MULTILINE)
+        )
+        if is_complete_py:
+            try:
+                import ast
+                ast.parse(code_str)
+            except Exception:
+                is_complete_py = False
+        if is_complete_py:
             if "submit_world_c_job" in known_tools and re.search(r"\b(?:resubmit|submit)\b[^.\n]*?\bWorld C\b", prose_all, re.IGNORECASE):
                 py_files = re.findall(r"[`'\"]?([a-zA-Z0-9_./-]+\.py)[`'\"]?", prose_all)
                 title_hint = py_files[0] if py_files else "InvariantMind Dynamical Invariants Simulation"
@@ -763,7 +774,7 @@ def get_model_context_limits(agent_model: str) -> tuple[int, int]:
         "glm", "qwen", "llama-3.3", "llama-4", "mistral", "nemotron", "mimo",
         "poolside", "laguna"
     ]):
-        return 65536, 8192
+        return 65536, 16384
 
     # Default / smaller open-weight models (e.g. 8B models, Gemma)
     return 16384, 4096
