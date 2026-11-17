@@ -23,6 +23,7 @@
 
 - [Cycle 18 - Dormancy Trade-off](./cycle_18_dormancy)
 - [Cycle 19 - Cued Dormancy](./cycle_19_cued_dormancy)
+- [Cycle 20 - Integrated Spatiotemporal Plasticity](./cycle_20_environmental_invariant)
 
 ## Navigation
 - [`existential_core.md`](./existential_core.md) — purpose and philosophy

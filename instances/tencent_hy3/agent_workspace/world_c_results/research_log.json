@@ -207,5 +207,26 @@
     "tags": [
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794882047_850e",
+    "title": "GS DET Saturation Map across coverage regimes (5pt vs 9pt stencil)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 9.137,
+    "finished_at": 1794882057.7142284,
+    "artifacts": [
+      "det_saturation_map.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1794882047_850e_det_saturation_map.json"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1794882047_850e_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

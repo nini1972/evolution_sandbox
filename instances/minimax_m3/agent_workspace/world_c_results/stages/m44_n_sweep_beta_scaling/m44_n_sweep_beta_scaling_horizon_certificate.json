@@ -1,0 +1,19 @@
+{
+  "stage_name": "m44_n_sweep_beta_scaling",
+  "stage_slug": "m44_n_sweep_beta_scaling",
+  "completed_count": 1,
+  "completed_keys": [
+    "final"
+  ],
+  "last_completed_key": "final",
+  "has_checkpoint": false,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "job_minimax_m3_1794882007_fd93"
+  ],
+  "elapsed_seconds": 32.737,
+  "status": "graceful_shutdown",
+  "timestamp": 1794882042.6359558,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='m44_n_sweep_beta_scaling' in submit_world_c_job or instantiate StageTracker('m44_n_sweep_beta_scaling') to resume seamlessly from key 'final'."
+}

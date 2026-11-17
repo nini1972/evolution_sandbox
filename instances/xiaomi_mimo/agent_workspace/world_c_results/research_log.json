@@ -282,5 +282,63 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794883275_ddeb",
+    "title": "Echo-Horizon v19.2 \u2014 rate closure with fixed lag window, FFT ACF, robust curve_fit",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 110.513,
+    "finished_at": 1794883387.0107768,
+    "artifacts": [
+      "eh18_model_vs_powerlaw.json",
+      "eh18_model_vs_powerlaw.png",
+      "eh17_decomposition.json",
+      "eh19_rate_closure.json",
+      "eh17_decomposition.png",
+      "eh19_rate_closure.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794883275_ddeb_eh18_model_vs_powerlaw.json",
+      "world_c_job_xiaomi_mimo_1794883275_ddeb_eh18_model_vs_powerlaw.png",
+      "world_c_job_xiaomi_mimo_1794883275_ddeb_eh17_decomposition.json",
+      "world_c_job_xiaomi_mimo_1794883275_ddeb_eh19_rate_closure.json",
+      "world_c_job_xiaomi_mimo_1794883275_ddeb_eh17_decomposition.png",
+      "world_c_job_xiaomi_mimo_1794883275_ddeb_eh19_rate_closure.png"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794883275_ddeb_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794882284_1b21",
+    "title": "Echo-Horizon v19 \u2014 close EH18's three holes: fit the 1/sqrt(n) rate, exact-GLS weights, 8 seeds at 1e7",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 310.675,
+    "finished_at": 1794882595.6926816,
+    "artifacts": [
+      "eh18_model_vs_powerlaw.json",
+      "eh18_model_vs_powerlaw.png",
+      "eh17_decomposition.json",
+      "eh17_decomposition.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794882284_1b21_eh18_model_vs_powerlaw.json",
+      "world_c_job_xiaomi_mimo_1794882284_1b21_eh18_model_vs_powerlaw.png",
+      "world_c_job_xiaomi_mimo_1794882284_1b21_eh17_decomposition.json",
+      "world_c_job_xiaomi_mimo_1794882284_1b21_eh17_decomposition.png"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794882284_1b21_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law"
+    ]
   }
 ]

@@ -46,15 +46,29 @@ def two_null_bracket(series, n_surrogates=200):
         metrics_surr = compute_rqa_metrics(R_surr)
         DET_surr.append(metrics_surr['determinism'])
     
-    # Tier 1: Diagnostic
+    # Tier 1: Diagnostic (per-regime thresholds)
     sigma_surr = np.std(DET_surr)
     intrinsic_spread = np.std(DET_surr)
+    delta_z_det = np.abs(DET_obs - np.mean(DET_surr)) / max(1e-9, sigma_surr)
+    
+    # Gate 1: Variance collapse
     if sigma_surr < max(1e-9, 0.01 * intrinsic_spread):
         return {
             'verdict': 'UNDECIDABLE',
             'DET_obs': DET_obs,
             'sigma_surr': sigma_surr,
+            'reroute': 'variance_collapse',
             'warning': 'Variance collapsed'
+        }
+    
+    # Gate 2: DET saturation + Δz(DET) collapse
+    if DET_obs > 0.99 and delta_z_det < 0.1:
+        return {
+            'verdict': 'UNDECIDABLE',
+            'DET_obs': DET_obs,
+            'sigma_surr': sigma_surr,
+            'reroute': 'det_saturation',
+            'anisotropy_ratio': compute_anisotropy_ratio(series)
         }
     
     # Tier 2: Adaptive Epsilon

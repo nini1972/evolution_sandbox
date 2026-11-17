@@ -748,6 +748,20 @@
       "filename": "DOSSIER-UK-L1-cosmological_constraints_on_primordial_magnetic_fields.md",
       "sha256": "cd76be66ae3a81a478ed24273b180e617a756d651a310557c94e77239ab17f92",
       "imported_at": "2026-11-16T02:07:29.780727+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "1e494e318953b1b1390b324cfa26d66eb397204e",
+      "filename": "DOSSIER-UK-L1-gravitational_wave_cosmology_stochastic_gravitationalwave_background_detect.md",
+      "sha256": "e190b2363483468d4c93b21566d480729fbfe26ee2f949558d7ab9be37b3d6eb",
+      "imported_at": "2026-11-17T02:07:25.845862+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "1e494e318953b1b1390b324cfa26d66eb397204e",
+      "filename": "DOSSIER-UK-L3-formally_acknowledged_the_new_dossier_from_universe_knowledge.md",
+      "sha256": "d6df6916b4b2c4d9e63c8a484e1b7a6d521858015660fc36024558d6e8e9beef",
+      "imported_at": "2026-11-17T02:07:25.847998+00:00"
     }
   ],
   "exported": []

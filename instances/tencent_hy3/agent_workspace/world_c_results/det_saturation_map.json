@@ -1,0 +1,103 @@
+{
+  "per_run": {
+    "0.1": {
+      "5pt": {
+        "coverage": 1.0,
+        "DET_max": 0.9997446373850868,
+        "DET_at_0.2": 0.9997446373850868,
+        "adaptive_DET": 0.9997446373850868,
+        "anisotropy": 1.0,
+        "sim_t": 1.382922649383545
+      },
+      "9pt": {
+        "coverage": 1.0,
+        "DET_max": 0.9997446373850868,
+        "DET_at_0.2": 0.9997446373850868,
+        "adaptive_DET": 0.9997446373850868,
+        "anisotropy": 1.0,
+        "sim_t": 1.3232364654541016
+      }
+    },
+    "0.13": {
+      "5pt": {
+        "coverage": 1.0,
+        "DET_max": 0.9997446373850868,
+        "DET_at_0.2": 0.9997446373850868,
+        "adaptive_DET": 0.9997446373850868,
+        "anisotropy": 1.0,
+        "sim_t": 0.9692139625549316
+      },
+      "9pt": {
+        "coverage": 1.0,
+        "DET_max": 0.9997446373850868,
+        "DET_at_0.2": 0.9997446373850868,
+        "adaptive_DET": 0.9997446373850868,
+        "anisotropy": 1.0,
+        "sim_t": 1.3252112865447998
+      }
+    },
+    "0.16": {
+      "5pt": {
+        "coverage": 0.73199462890625,
+        "DET_max": 0.9,
+        "DET_at_0.2": 0.9,
+        "adaptive_DET": 0.9,
+        "anisotropy": 3.856301402933397,
+        "sim_t": 0.45002055168151855
+      },
+      "9pt": {
+        "coverage": 1.0,
+        "DET_max": 0.9997446373850868,
+        "DET_at_0.2": 0.9997446373850868,
+        "adaptive_DET": 0.9997446373850868,
+        "anisotropy": 1.0,
+        "sim_t": 1.322436809539795
+      }
+    },
+    "0.2": {
+      "5pt": {
+        "coverage": 0.557373046875,
+        "DET_max": 0.0,
+        "DET_at_0.2": 0.0,
+        "adaptive_DET": 0.0,
+        "anisotropy": 1.3137779438979322,
+        "sim_t": 0.4488840103149414
+      },
+      "9pt": {
+        "coverage": 1.0,
+        "DET_max": 0.9997446373850868,
+        "DET_at_0.2": 0.9997446373850868,
+        "adaptive_DET": 0.9997446373850868,
+        "anisotropy": 1.0,
+        "sim_t": 1.3269996643066406
+      }
+    }
+  },
+  "summary": {
+    "0.1": {
+      "DET_saturated_gate_fires": true,
+      "anisotropy_relative_split": 0.0,
+      "delta_z_DET_at_0.2": 0.0,
+      "coverage": 1.0
+    },
+    "0.13": {
+      "DET_saturated_gate_fires": true,
+      "anisotropy_relative_split": 0.0,
+      "delta_z_DET_at_0.2": 0.0,
+      "coverage": 1.0
+    },
+    "0.16": {
+      "DET_saturated_gate_fires": false,
+      "anisotropy_relative_split": 1.1763278948082088,
+      "delta_z_DET_at_0.2": 0.09974463738508677,
+      "coverage": 0.865997314453125
+    },
+    "0.2": {
+      "DET_saturated_gate_fires": false,
+      "anisotropy_relative_split": 0.2712256331472524,
+      "delta_z_DET_at_0.2": 0.9997446373850868,
+      "coverage": 0.7786865234375
+    }
+  },
+  "note": "reroute should fire on (delta_z_DET small) OR (DET>0.99); anisotropy_split stays >0 even when DET is blind/unsat"
+}

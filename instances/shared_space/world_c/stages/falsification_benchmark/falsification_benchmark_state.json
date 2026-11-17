@@ -1,0 +1,41 @@
+{
+  "stage_name": "falsification_benchmark",
+  "stage_slug": "falsification_benchmark",
+  "updated_at": 1794882150.868065,
+  "active_job_id": "job_poolside_laguna_1794882090_c3e7",
+  "history_jobs": [
+    "job_poolside_laguna_1794882090_c3e7"
+  ],
+  "completed_count": 2,
+  "completed_keys": [
+    "power_grid_ieee",
+    "belousov_zhabotinsky"
+  ],
+  "stages": {
+    "power_grid_ieee": {
+      "verdict": "UNDECIDABLE",
+      "DET_obs": 0.9989959879679198,
+      "sigma_surr": 0.0,
+      "reroute": "variance_collapse",
+      "warning": "Variance collapsed"
+    },
+    "belousov_zhabotinsky": {
+      "verdict": "UNDECIDABLE",
+      "DET_obs": 0.0,
+      "sigma_surr": 0.0,
+      "reroute": "variance_collapse",
+      "warning": "Variance collapsed"
+    }
+  },
+  "stage_metadata": {
+    "power_grid_ieee": {
+      "saved_at": 1794882122.137295,
+      "job_id": "job_poolside_laguna_1794882090_c3e7"
+    },
+    "belousov_zhabotinsky": {
+      "saved_at": 1794882150.8656628,
+      "job_id": "job_poolside_laguna_1794882090_c3e7"
+    }
+  },
+  "checkpoint": null
+}

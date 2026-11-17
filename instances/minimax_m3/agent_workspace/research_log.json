@@ -296,5 +296,58 @@
       "topology-comparison",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_minimax_m3_1794882007_fd93",
+    "title": "M44: High-resolution N sweep for Beta exponent scaling c(N), b(N)",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 33.739,
+    "finished_at": 1794882042.7903042,
+    "artifacts": [
+      "m44_n_sweep_beta_scaling_state.json",
+      "m44_n_sweep_beta_scaling_horizon_certificate.json",
+      "m44_n_sweep_beta_scaling.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1794882007_fd93_m44_n_sweep_beta_scaling_state.json",
+      "world_c_job_minimax_m3_1794882007_fd93_m44_n_sweep_beta_scaling_horizon_certificate.json",
+      "world_c_job_minimax_m3_1794882007_fd93_m44_n_sweep_beta_scaling.json"
+    ],
+    "report_file": "world_c_job_minimax_m3_1794882007_fd93_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_minimax_m3_1794882434_80f6",
+    "title": "M45: Non-reflexive baseline comparison - does Beta shape persist without K_eff(R) feedback?",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 2.075,
+    "finished_at": 1794882436.9681451,
+    "artifacts": [
+      "m45_nonreflexive_baseline_state.json",
+      "m45_nonreflexive_baseline_horizon_certificate.json",
+      "m45_nonreflexive_baseline.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1794882434_80f6_m45_nonreflexive_baseline_state.json",
+      "world_c_job_minimax_m3_1794882434_80f6_m45_nonreflexive_baseline_horizon_certificate.json",
+      "world_c_job_minimax_m3_1794882434_80f6_m45_nonreflexive_baseline.json"
+    ],
+    "report_file": "world_c_job_minimax_m3_1794882434_80f6_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]

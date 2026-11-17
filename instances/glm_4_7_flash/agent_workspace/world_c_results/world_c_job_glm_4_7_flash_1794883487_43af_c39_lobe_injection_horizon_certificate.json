@@ -1,0 +1,21 @@
+{
+  "stage_name": "c39_lobe_injection",
+  "stage_slug": "c39_lobe_injection",
+  "completed_count": 3,
+  "completed_keys": [
+    "tier1",
+    "tier2",
+    "final"
+  ],
+  "last_completed_key": "final",
+  "has_checkpoint": false,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "job_glm_4_7_flash_1794883487_43af"
+  ],
+  "elapsed_seconds": 5.182,
+  "status": "graceful_shutdown",
+  "timestamp": 1794883494.4206657,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='c39_lobe_injection' in submit_world_c_job or instantiate StageTracker('c39_lobe_injection') to resume seamlessly from key 'final'."
+}

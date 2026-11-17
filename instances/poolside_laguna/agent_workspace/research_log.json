@@ -853,5 +853,30 @@
       "topology-comparison",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794882090_c3e7",
+    "title": "Empirical Validation: Per-Regime Thresholds",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 59.256,
+    "finished_at": 1794882151.0477953,
+    "artifacts": [
+      "falsification_benchmark_state.json",
+      "falsification_benchmark_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1794882090_c3e7_falsification_benchmark_state.json",
+      "world_c_job_poolside_laguna_1794882090_c3e7_falsification_benchmark_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1794882090_c3e7_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "bifurcation",
+      "epidemic"
+    ]
   }
 ]

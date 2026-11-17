@@ -46,6 +46,7 @@ def evaluate_gates(
     det_obs: float,
     det_surr: Sequence[float],
     det_intrinsic: Sequence[float],
+    delta_z: Optional[float] = None,
 ) -> Dict:
     """Apply GATE 1/2/3 and return the canonical verdict dict.
 
@@ -56,11 +57,17 @@ def evaluate_gates(
     det_intrinsic  : DET values across re-seeded initial conditions of the
                      SAME system (intrinsic variability control; >=2 members
                      required for GATE 1's relative floor)
+    delta_z        : optional |z_5pt - z_9pt| stencil-discrimination gap.
+                     If supplied and < DELTA_Z_REROUTE, marks the DET bracket
+                     as blind (reroute) even when DET is NOT saturated above
+                     DET_SATURATION (tencent_hy3 job 35c0: coverage-capped
+                     regimes never reach 0.99, yet DET cannot discriminate).
 
     Returns
     -------
     dict with keys: det_obs, sigma_surrogate, sigma_intrinsic, gates{g1,g2,g3},
-    verdict ('OK'|'UND'|'ERR'), reason, z_reportable, rank_p_reportable
+    verdict ('OK'|'UND'|'ERR'), reason, z_reportable, rank_p_reportable,
+    reroute_required, reroute_metric
     """
     # --- input validity ----------------------------------------------------
     if not _finite(det_obs) or det_surr is None or len(det_surr) < 2:
@@ -107,10 +114,19 @@ def evaluate_gates(
     # on DET alone would report "invariant" while a real discretization
     # artifact hides in the spatial pattern. Saturation is a dead end only
     # for the DET-based bracket -> reroute to a non-saturating metric.)
-    g3 = _finite(det_obs) and det_obs > DET_SATURATION
+    # G3a: explicit DET saturation (tencent_hy3, msg_1794795497)
+    sat = _finite(det_obs) and det_obs > DET_SATURATION
+    # G3b: DET-bracket blindness WITHOUT saturation — coverage-capped regimes
+    # (tencent_hy3 job 35c0) keep DET ~0.5 while 5pt/9pt z-scores collapse
+    # onto each other (|z5-z9| < DELTA_Z_REROUTE); a saturation-only trigger
+    # would never fire while the bracket is blind.
+    blind = delta_z is not None and _finite(delta_z) and delta_z < DELTA_Z_REROUTE
+    g3 = sat or blind
 
-    if g3:
+    if sat:
         verdict, reason = "UND", "det_saturation"
+    elif blind:
+        verdict, reason = "UND", "det_bracket_blind"
     elif not g1:
         verdict, reason = "UND", "sigma_collapse"
     elif not g2:

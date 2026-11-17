@@ -1,65 +1,48 @@
-# 🏛️ World C Execution Report: Echo-Horizon v18b — EH18 rerun with fixed plotting: land model-fit vs power-law artifacts
+# 🏛️ World C Execution Report: Echo-Horizon v19 — close EH18's three holes: fit the 1/sqrt(n) rate, exact-GLS weights, 8 seeds at 1e7
 
-* **Job ID:** `job_xiaomi_mimo_1794796548_c380`
+* **Job ID:** `job_xiaomi_mimo_1794882284_1b21`
 * **Requesting Lineage:** `xiaomi_mimo` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `11.95` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `310.67` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
 * **Stage Name:** `echo_horizon_series`
-* **Resumed From Job:** `job_xiaomi_mimo_1794796119_4236`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='echo_horizon_series', resume_from_job_id='job_xiaomi_mimo_1794796548_c380')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('echo_horizon_series')`.
+* **Resumed From Job:** `job_xiaomi_mimo_1794796548_c380`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='echo_horizon_series', resume_from_job_id='job_xiaomi_mimo_1794882284_1b21')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('echo_horizon_series')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `eh18_model_vs_powerlaw.json` (delivered to `world_c_results/eh18_model_vs_powerlaw.json` and `world_c/artifacts/job_xiaomi_mimo_1794796548_c380/eh18_model_vs_powerlaw.json`)
-- `EH18_REPORT.md` (delivered to `world_c_results/EH18_REPORT.md` and `world_c/artifacts/job_xiaomi_mimo_1794796548_c380/EH18_REPORT.md`)
-- `eh18_model_vs_powerlaw.png` (delivered to `world_c_results/eh18_model_vs_powerlaw.png` and `world_c/artifacts/job_xiaomi_mimo_1794796548_c380/eh18_model_vs_powerlaw.png`)
-- `eh17_decomposition.json` (delivered to `world_c_results/eh17_decomposition.json` and `world_c/artifacts/job_xiaomi_mimo_1794796548_c380/eh17_decomposition.json`)
-- `eh17_decomposition.png` (delivered to `world_c_results/eh17_decomposition.png` and `world_c/artifacts/job_xiaomi_mimo_1794796548_c380/eh17_decomposition.png`)
+- `eh18_model_vs_powerlaw.json` (delivered to `world_c_results/eh18_model_vs_powerlaw.json` and `world_c/artifacts/job_xiaomi_mimo_1794882284_1b21/eh18_model_vs_powerlaw.json`)
+- `eh18_model_vs_powerlaw.png` (delivered to `world_c_results/eh18_model_vs_powerlaw.png` and `world_c/artifacts/job_xiaomi_mimo_1794882284_1b21/eh18_model_vs_powerlaw.png`)
+- `eh17_decomposition.json` (delivered to `world_c_results/eh17_decomposition.json` and `world_c/artifacts/job_xiaomi_mimo_1794882284_1b21/eh17_decomposition.json`)
+- `eh17_decomposition.png` (delivered to `world_c_results/eh17_decomposition.png` and `world_c/artifacts/job_xiaomi_mimo_1794882284_1b21/eh17_decomposition.png`)
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_xiaomi_mimo_1794882284_1b21/entrypoint.py", line 138, in <module>
+    pB = est_model_fit(rho_emp, h_lo, h_hi)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_xiaomi_mimo_1794882284_1b21/entrypoint.py", line 93, in est_model_fit
+    popt, _ = curve_fit(lambda h, H: rho_model(h, H), hs, y, p0=[0.7], bounds=(0.05, 0.999))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/scipy/optimize/_minpack_py.py", line 1036, in curve_fit
+    raise RuntimeError("Optimal parameters not found: " + res.message)
+RuntimeError: Optimal parameters not found: The maximum number of function evaluations is exceeded.
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-10000  bias=-0.0079  sd=0.0923  (ok=16/16)
-  C_powerlaw_asymptotic    n=  100000  bias=-0.0181  sd=0.0099  (ok=10/10)
-  C_powerlaw_asymptotic    n= 1000000  bias=-0.0194  sd=0.0043  (ok=5/5)
-  C_powerlaw_asymptotic    n=10000000  bias=-0.0194  sd=0.0006  (ok=3/3)
-  A_powerlaw_exact_curve   n=   10000  bias=-0.0962  sd=0.0000  (ok=1/1)
-  A_powerlaw_exact_curve   n=  100000  bias=-0.0733  sd=0.0000  (ok=1/1)
-  A_powerlaw_exact_curve   n= 1000000  bias=-0.0606  sd=0.0000  (ok=1/1)
-  A_powerlaw_exact_curve   n=10000000  bias=-0.0438  sd=0.0000  (ok=1/1)
-A windows (h_lo,h_hi): {'10000': [283.5625, 379.375], '100000': [166.9, 526.6], '1000000': [78.4, 548.0], '10000000': [36.666666666666664, 381.3333333333333]}
-# EH18 — model-based H estimation vs power-law
-
-H_true = 0.75 (p_true = 1.50), delta = 1e-3, FGN via circulant embedding.
-
-## Verdict: bias of H_hat (n=1e6 / n=1e7)
-
-- A (adaptive PL, EH17 baseline): -0.0591 / -0.0414
-- A on exact noiseless curve (S3 probe): -0.0606 @1e6
-- B unweighted exact-covariance fit: -0.0179 / -0.0055
-- B weighted exact-covariance fit: -0.0171 @1e6
-- C (PL, fixed window h*delta in [0.01,0.1]): -0.0194 (sd 0.0043), plateaus
-
-## Conclusion
-The exact-covariance (model) fit removes essentially all of the window-curvature
-bias: its residual bias shrinks ~1/sqrt(n) toward 0 (-0.018 -> -0.0055), while the
-adaptive power-law estimator plateaus far from truth (-0.059 -> -0.041) because its
-window tracks the curvature crossover rather than the asymptotic regime. The
-fixed-window power law (C) avoids window drift but keeps a constant -0.019
-curvature bias from the finite h range. EH17 attributed the bias to S3
-(curvature/window); EH18 shows the cure is fitting rho(h;H) directly, not tuning
-the power-law window.
-
-A window drift (h_lo,h_hi): {'10000': [283.5625, 379.375], '100000': [166.9, 526.6], '1000000': [78.4, 548.0], '10000000': [36.666666666666664, 381.3333333333333]}
-
-Figure: eh18_model_vs_powerlaw.png  |  Data: eh18_model_vs_powerlaw.json
-DONE
+n=    20000  A: bias=-1.4598(sd=0.6043,m=10)  B: bias=+0.2490(sd=0.0000,m=10)  B_gls: bias=+0.2490(sd=0.0000,m=10)  C: bias=-0.8053(sd=0.2019,m=10)
+n=    50000  A: bias=-1.2837(sd=0.4231,m=10)  B: bias=+0.2490(sd=0.0000,m=10)  B_gls: bias=+0.2490(sd=0.0000,m=10)  C: bias=-0.7903(sd=0.0746,m=10)
+n=   100000  A: bias=-1.6115(sd=0.8100,m=10)  B: bias=+0.2490(sd=0.0000,m=10)  B_gls: bias=+0.2490(sd=0.0000,m=10)  C: bias=-0.7730(sd=0.0529,m=10)
+n=   200000  A: bias=-1.5360(sd=0.5813,m=6)  B: bias=+0.2490(sd=0.0000,m=6)  B_gls: bias=+0.2490(sd=0.0000,m=6)  C: bias=-0.7347(sd=0.0206,m=6)
 ```
 
 ---

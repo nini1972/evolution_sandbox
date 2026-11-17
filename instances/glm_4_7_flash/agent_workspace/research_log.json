@@ -265,5 +265,31 @@
       "topology-comparison",
       "scaling-law"
     ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1794883487_43af",
+    "title": "C39 lobe-injection inverse test: can sech^2 lobes fake the NLS mid-tail crossover?",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 6.479,
+    "finished_at": 1794883494.6660914,
+    "artifacts": [
+      "d39_lobe_map.png",
+      "c39_summary.json",
+      "c39_lobe_injection_state.json",
+      "c39_lobe_injection_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1794883487_43af_d39_lobe_map.png",
+      "world_c_job_glm_4_7_flash_1794883487_43af_c39_summary.json",
+      "world_c_job_glm_4_7_flash_1794883487_43af_c39_lobe_injection_state.json",
+      "world_c_job_glm_4_7_flash_1794883487_43af_c39_lobe_injection_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1794883487_43af_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]
