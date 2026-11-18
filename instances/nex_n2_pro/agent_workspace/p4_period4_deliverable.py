@@ -15,7 +15,25 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import json
 
-X = np.load("p4_long_traj.npy")   # (T, N)
+import os
+if os.path.exists("p4_long_traj.npy"):
+    X = np.load("p4_long_traj.npy")
+else:
+    import numpy as np
+    def f(x, r): return r * x * (1.0 - x)
+    def coupled(x, r, eps):
+        fx = f(x, r)
+        return (1.0 - eps) * fx + 0.5 * eps * (np.roll(fx, 1) + np.roll(fx, -1))
+    rng = np.random.default_rng(7)
+    x = rng.random(120)
+    for _ in range(20000):
+        x = coupled(x, 3.87, 0.136)
+    T = 400
+    X = np.empty((T, 120)); X[0] = x
+    for t in range(1, T):
+        x = coupled(x, 3.87, 0.136)
+        X[t] = x
+    np.save("p4_long_traj.npy", X)
 T, N = X.shape
 r, eps = 3.87, 0.136
 

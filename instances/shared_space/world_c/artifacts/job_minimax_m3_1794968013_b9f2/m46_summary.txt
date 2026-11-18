@@ -1,0 +1,41 @@
+=== M46: Absolute-fit gates + reflexive vs baseline differential ===
+
+AIC winners:
+  Reflexive: Beta 10/16, Gaussian 6/16
+  Baseline:  Beta 10/16, Gaussian 6/16
+
+Per-cell differential (reflexive - baseline):
+  K0=1.0_sigma=0.5_N=32: Delta_c=+0.000, Delta_b=+0.000, Delta_R_mean=+0.0000, R_std_delta=+0.0000
+  K0=1.0_sigma=0.5_N=64: Delta_c=+0.000, Delta_b=+0.000, Delta_R_mean=+0.0000, R_std_delta=-0.0000
+  K0=1.0_sigma=0.5_N=128: Delta_c=+0.000, Delta_b=+0.000, Delta_R_mean=+0.0000, R_std_delta=+0.0000
+  K0=1.0_sigma=0.5_N=256: Delta_c=-0.000, Delta_b=+0.000, Delta_R_mean=+0.0000, R_std_delta=+0.0000
+  K0=1.0_sigma=1.0_N=32: Delta_c=+0.000, Delta_b=+0.000, Delta_R_mean=+0.0000, R_std_delta=-0.0000
+  K0=1.0_sigma=1.0_N=64: Delta_c=+0.000, Delta_b=+0.000, Delta_R_mean=-0.0000, R_std_delta=-0.0000
+  K0=1.0_sigma=1.0_N=128: Delta_c=+0.000, Delta_b=+0.000, Delta_R_mean=+0.0000, R_std_delta=-0.0000
+  K0=1.0_sigma=1.0_N=256: Delta_c=+0.000, Delta_b=-0.000, Delta_R_mean=-0.0000, R_std_delta=+0.0000
+  K0=2.0_sigma=0.5_N=32: Delta_c=-0.000, Delta_b=-0.000, Delta_R_mean=+0.0000, R_std_delta=+0.0000
+  K0=2.0_sigma=0.5_N=64: Delta_c=+0.000, Delta_b=-0.000, Delta_R_mean=+0.0000, R_std_delta=-0.0000
+  K0=2.0_sigma=0.5_N=128: Delta_c=+0.000, Delta_b=+0.000, Delta_R_mean=+0.0000, R_std_delta=+0.0000
+  K0=2.0_sigma=0.5_N=256: Delta_c=-0.000, Delta_b=-0.000, Delta_R_mean=+0.0000, R_std_delta=+0.0000
+  K0=2.0_sigma=1.0_N=32: Delta_c=-0.000, Delta_b=-0.000, Delta_R_mean=+0.0000, R_std_delta=+0.0000
+  K0=2.0_sigma=1.0_N=64: Delta_c=-0.000, Delta_b=-0.000, Delta_R_mean=-0.0000, R_std_delta=-0.0000
+  K0=2.0_sigma=1.0_N=128: Delta_c=+0.000, Delta_b=+0.000, Delta_R_mean=-0.0000, R_std_delta=-0.0000
+  K0=2.0_sigma=1.0_N=256: Delta_c=+0.000, Delta_b=+0.000, Delta_R_mean=+0.0000, R_std_delta=+0.0000
+
+Absolute fit gate verdicts (winner of Beta vs Gaussian by KS+CvM):
+  K0=1.0_sigma=0.5_N=32: reflex=beta(beta_p=0.008,gauss_p=0.000), base=beta(beta_p=0.008,gauss_p=0.000)
+  K0=1.0_sigma=0.5_N=64: reflex=gaussian(beta_p=0.000,gauss_p=0.000), base=gaussian(beta_p=0.000,gauss_p=0.000)
+  K0=1.0_sigma=0.5_N=128: reflex=gaussian(beta_p=0.000,gauss_p=0.000), base=gaussian(beta_p=0.000,gauss_p=0.000)
+  K0=1.0_sigma=0.5_N=256: reflex=gaussian(beta_p=0.000,gauss_p=0.000), base=gaussian(beta_p=0.000,gauss_p=0.000)
+  K0=1.0_sigma=1.0_N=32: reflex=gaussian(beta_p=0.000,gauss_p=0.000), base=gaussian(beta_p=0.000,gauss_p=0.000)
+  K0=1.0_sigma=1.0_N=64: reflex=beta(beta_p=0.002,gauss_p=0.000), base=beta(beta_p=0.002,gauss_p=0.000)
+  K0=1.0_sigma=1.0_N=128: reflex=gaussian(beta_p=0.000,gauss_p=0.294), base=gaussian(beta_p=0.000,gauss_p=0.294)
+  K0=1.0_sigma=1.0_N=256: reflex=gaussian(beta_p=0.000,gauss_p=0.000), base=gaussian(beta_p=0.000,gauss_p=0.000)
+  K0=2.0_sigma=0.5_N=32: reflex=beta(beta_p=0.008,gauss_p=0.000), base=beta(beta_p=0.008,gauss_p=0.000)
+  K0=2.0_sigma=0.5_N=64: reflex=gaussian(beta_p=0.000,gauss_p=0.000), base=gaussian(beta_p=0.000,gauss_p=0.000)
+  K0=2.0_sigma=0.5_N=128: reflex=gaussian(beta_p=0.000,gauss_p=0.000), base=gaussian(beta_p=0.000,gauss_p=0.000)
+  K0=2.0_sigma=0.5_N=256: reflex=gaussian(beta_p=0.000,gauss_p=0.000), base=gaussian(beta_p=0.000,gauss_p=0.000)
+  K0=2.0_sigma=1.0_N=32: reflex=gaussian(beta_p=0.000,gauss_p=0.000), base=gaussian(beta_p=0.000,gauss_p=0.000)
+  K0=2.0_sigma=1.0_N=64: reflex=beta(beta_p=0.002,gauss_p=0.000), base=beta(beta_p=0.002,gauss_p=0.000)
+  K0=2.0_sigma=1.0_N=128: reflex=gaussian(beta_p=0.000,gauss_p=0.294), base=gaussian(beta_p=0.000,gauss_p=0.294)
+  K0=2.0_sigma=1.0_N=256: reflex=gaussian(beta_p=0.000,gauss_p=0.000), base=gaussian(beta_p=0.000,gauss_p=0.000)

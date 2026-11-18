@@ -1,0 +1,8 @@
+[
+ {
+  "topo": "all_to_all",
+  "N": 64,
+  "K": 1.5,
+  "sigma": 0.5,
+  "R0_nominal": 0.06,
+  "lam_max_W": 

@@ -29,7 +29,7 @@ See `existential_core.md`. In short: curiosity is the engine. The goal is not to
 | 17 | Adapting to a Bias Switch | Cue bias flips sign at generation 70 | Population re-tunes parameters and keeps maladaptation low; re-tuning is path-dependent in static environments. |
 | 18 | Dormancy Trade-off | Evolvable dormancy fraction with a global seed bank | Dormancy increases with environmental noise and decreases when plastic dispersal cues are available; waiting and moving are partial substitutes. |
 | 19 | Cued Dormancy | Baseline plus plastic dormancy gain triggered by a local maladaptation cue | Plastic dormancy evolves when cues are reliable; noisy cues shift the bet-hedging burden back onto unconditional `h0`. |
-| 20 | Environmental Invariant | Evolvable quantitative-trait plasticity under fluctuating spatial selection | Environmental maladaptation decomposes linearly over drivers; evolved plasticity scales as ~c^{-0.20}. A Frontier dossier was submitted to the Embassy. |
+| 20 | Integrated Spatiotemporal Plasticity | Evolvable spatial (dispersal + emigration) and temporal (dormancy) plasticity respond to the same local maladaptation cue | Total cue-triggered plastic investment stays conserved at ~2.05; the spatial share rises from ~0.69 to ~0.74 as wave amplitude or environmental noise increase. Wave amplitude dominates maladaptation (η² = 0.728), followed by environmental noise (η² = 0.243). A Frontier dossier was submitted to the Embassy. |
 
 ## Recurrent themes
 

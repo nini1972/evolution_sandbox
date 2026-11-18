@@ -1031,5 +1031,82 @@ pre { background: #222; padding: .8em; border-radius: 4px; overflow-x: auto; }
 <p>A heritable plastic response to a local maladaptation cue can readily evolve. It does not eliminate unconditional dormancy; rather, populations split the bet-hedging budget between a baseline `h0` and a condition-sensitive `hb`. Cue reliability is the critical factor: as cue noise grows, selection shifts the burden back toward unconditional dormancy.</p>
 <div class="thumbs"><img src="cycle_19_cued_dormancy/phase_rho_0.0.png" alt="phase_rho_0.0.png"><img src="cycle_19_cued_dormancy/phase_rho_0.8.png" alt="phase_rho_0.8.png"></div>
 </div>
+<div class="card" id="cycle_20_environmental_invariant">
+<h2>Cycle 20 Environmental Invariant</h2>
+<h1>Cycle 20 — Integrated Spatiotemporal Plasticity</h1>
+
+<h2>Purpose</h2>
+<p>Unify the spatial plasticity explored in earlier dispersal cycles with the temporal bet-hedging of Cycle 19 into a single evolvable portfolio. Each individual can respond to a local maladaptation cue by adjusting its dispersal distance, its emigration bias, and/or its seed-bank fraction. We ask how the total plastic budget and its allocation between space and time evolve under combined wave and noise stress.</p>
+
+<h2>Model</h2>
+<li>A 30×30 grid hosts a population with a quantitative phenotype `z`.</li>
+<li>The environment is a sinusoidal wave (amplitude `A`) plus AR(1) noise (`σe`, autocorrelation `ρ`).</li>
+<li>Each individual senses a noisy cue of local maladaptation (`σcue`).</li>
+<li>Evolvable traits:</li>
+<p>  - `alpha`: cue-dependent dispersal distance gain</p>
+<p>  - `beta`: cue-dependent emigration bias gain</p>
+<p>  - `hb`: cue-dependent dormancy (seed-bank) gain</p>
+<p>  - plus fixed baselines for dispersal and dormancy</p>
+<li>Selection: Gaussian fitness with width `ω = 1.0` around the local environmental optimum.</li>
+<li>Each condition was run for 200 generations with 2 replicates.</li>
+
+<h2>Parameter sweep</h2>
+<p>| Factor | Values |</p>
+<p>|--------|--------|</p>
+<p>| Wave amplitude `A` | 0.0, 1.0 |</p>
+<p>| Environmental noise `σe` | 0.0, 0.4 |</p>
+<p>| AR(1) autocorrelation `ρ` | 0.0, 0.9 |</p>
+<p>| Cue noise `σcue` | 0.0, 0.5 |</p>
+
+<h2>Main findings</h2>
+
+<p>### 1. Drivers of maladaptation</p>
+<p>Eta-squared main effects on final maladaptation:</p>
+<li>`A` (wave amplitude): **0.728**</li>
+<li>`σe` (environmental noise): **0.243**</li>
+<li>`ρ` (autocorrelation): **0.001**</li>
+<li>`σcue` (cue noise): **0.004**</li>
+
+<p>The moving wave is by far the dominant source of maladaptation; noise matters most in combination with waves.</p>
+
+<p>### 2. A conserved plastic portfolio</p>
+<p>Total cue-triggered plastic investment, defined as</p>
+
+<p>total_plastic = alpha + beta + hb</p>
+
+<p>remained within a narrow band:</p>
+<li>mean = **2.053**</li>
+<li>std = **0.050**</li>
+<li>range = **[1.950, 2.120]**</li>
+
+<p>The population therefore appears to evolve toward a **conserved total plastic budget**, while reshuffling allocation as conditions change.</p>
+
+<p>### 3. Rebalancing between space and time</p>
+<li>Spatial share (`(alpha+beta)/total`): mean **0.713**</li>
+<li>Dormancy share (`hb/total`): mean **0.287**</li>
+<li>Increasing `A` or `σe` shifts investment toward spatial escape and away from dormancy.</li>
+<li>Cue noise `σcue` only weakly reduces the dormancy share, mainly in harsh regimes.</li>
+
+<p>### 4. No displacement of one strategy by the other</p>
+<p>Dispersal and dormancy co-evolve rather than compete to fixation. The evolved response is a mixed portfolio whose relative weights track the environmental stress axis.</p>
+
+<h2>Files</h2>
+<li>`worldc_results.csv` — raw replicate trajectories</li>
+<li>`worldc_summary.csv` — per-condition means</li>
+<li>`worldc_traits_vs_A.png` — evolved traits versus wave amplitude</li>
+<li>`worldc_maladaptation_phase.png` — maladaptation in the (A, σe) phase plane</li>
+<li>`worldc_cue_correlations.png` — correlation between cue and evolved responses</li>
+<li>`worldc_spatial_ratio.png` — spatial share of the plastic portfolio</li>
+<li>`invariant_summary.png` — bar chart of total plastic and its allocation</li>
+<li>`maladaptation_heatmap.png` — heatmap of maladaptation across factors</li>
+<li>`investment_portfolio.png` — portfolio rebalancing under stress</li>
+
+<h2>Interpretation</h2>
+<p>Cycle 20 suggests that when both spatial and temporal plasticity are possible, selection favors a roughly fixed total investment in plasticity but allows flexible budgeting across axes. The spatial axis receives ~70% of the budget on average, with temporal bet-hedging absorbing the remainder and expanding when spatial tracking is unreliable.</p>
+
+<h2>Status</h2>
+<p>A Frontier Epistemic Dossier for this result was submitted to the Inter-World Epistemic Embassy for cross-world peer review.</p>
+<div class="thumbs"><img src="cycle_20_environmental_invariant/cue_correlations_mean.png" alt="cue_correlations_mean.png"><img src="cycle_20_environmental_invariant/invariant_summary.png" alt="invariant_summary.png"><img src="cycle_20_environmental_invariant/investment_portfolio.png" alt="investment_portfolio.png"><img src="cycle_20_environmental_invariant/maladaptation_heatmap.png" alt="maladaptation_heatmap.png"><img src="cycle_20_environmental_invariant/spatial_share_vs_stress.png" alt="spatial_share_vs_stress.png"><img src="cycle_20_environmental_invariant/worldc_cue_correlations.png" alt="worldc_cue_correlations.png"><img src="cycle_20_environmental_invariant/worldc_maladaptation_phase.png" alt="worldc_maladaptation_phase.png"><img src="cycle_20_environmental_invariant/worldc_spatial_ratio.png" alt="worldc_spatial_ratio.png"><img src="cycle_20_environmental_invariant/worldc_traits_vs_A.png" alt="worldc_traits_vs_A.png"></div>
+</div>
 </body>
 </html>

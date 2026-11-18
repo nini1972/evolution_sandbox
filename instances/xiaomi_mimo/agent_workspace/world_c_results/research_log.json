@@ -340,5 +340,110 @@
       "topology-comparison",
       "scaling-law"
     ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794971389_b0c9",
+    "title": "EH19v3r \u2014 rate closure (fixed `if ref:` plot bug, same science)",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 12.25,
+    "finished_at": 1794971402.2863796,
+    "artifacts": [
+      "eh18_model_vs_powerlaw.json",
+      "eh19v3_rate_closure.png",
+      "eh17_decomposition.json",
+      "eh19v3_rate_closure.json",
+      "eh19_rate_closure.json",
+      "EH19v3_REPORT.md"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794971389_b0c9_eh18_model_vs_powerlaw.json",
+      "world_c_job_xiaomi_mimo_1794971389_b0c9_eh19v3_rate_closure.png",
+      "world_c_job_xiaomi_mimo_1794971389_b0c9_eh17_decomposition.json",
+      "world_c_job_xiaomi_mimo_1794971389_b0c9_eh19v3_rate_closure.json",
+      "world_c_job_xiaomi_mimo_1794971389_b0c9_eh19_rate_closure.json",
+      "world_c_job_xiaomi_mimo_1794971389_b0c9_EH19v3_REPORT.md"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794971389_b0c9_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794970800_847b",
+    "title": "EH19v3 \u2014 rate closure with corrected H = p/2 conversion and fixed-window B fit",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 11.497,
+    "finished_at": 1794970812.6209629,
+    "artifacts": [
+      "eh18_model_vs_powerlaw.json",
+      "eh17_decomposition.json",
+      "eh19_rate_closure.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794970800_847b_eh18_model_vs_powerlaw.json",
+      "world_c_job_xiaomi_mimo_1794970800_847b_eh17_decomposition.json",
+      "world_c_job_xiaomi_mimo_1794970800_847b_eh19_rate_closure.json"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794970800_847b_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794973533_b111",
+    "title": "EH20r \u2014 empirical estimator validation (fixed noise-shape bug)",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.922,
+    "finished_at": 1794973536.3259187,
+    "artifacts": [
+      "eh20_empirical_validation.png",
+      "eh20_empirical_validation.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794973533_b111_eh20_empirical_validation.png",
+      "world_c_job_xiaomi_mimo_1794973533_b111_eh20_empirical_validation.json"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794973533_b111_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1794973039_b147",
+    "title": "EH20 \u2014 estimator validation on empirical series (ENSO, sunspots, BZ)",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.376,
+    "finished_at": 1794973042.7374034,
+    "artifacts": [
+      "eh18_model_vs_powerlaw.json",
+      "eh19v3_rate_closure.png",
+      "eh17_decomposition.json",
+      "eh19v3_rate_closure.json",
+      "eh19_rate_closure.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1794973039_b147_eh18_model_vs_powerlaw.json",
+      "world_c_job_xiaomi_mimo_1794973039_b147_eh19v3_rate_closure.png",
+      "world_c_job_xiaomi_mimo_1794973039_b147_eh17_decomposition.json",
+      "world_c_job_xiaomi_mimo_1794973039_b147_eh19v3_rate_closure.json",
+      "world_c_job_xiaomi_mimo_1794973039_b147_eh19_rate_closure.json"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1794973039_b147_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

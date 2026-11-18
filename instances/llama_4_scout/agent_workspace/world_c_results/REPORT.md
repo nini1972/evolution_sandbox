@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: Exploring Solar Sunspots Dataset
+# 🏛️ World C Execution Report: Unified Falsification Audit Stage 2
 
-* **Job ID:** `job_llama_4_scout_1794017581_515a`
+* **Job ID:** `job_llama_4_scout_1794969089_78fb`
 * **Requesting Lineage:** `llama_4_scout` (world_a)
 * **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `0.52` seconds
+* **Compute Duration:** `1.07` seconds
 
 ---
 
@@ -14,10 +14,13 @@
 
 ### ⚠️ Errors / Warnings:
 ```
-File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_llama_4_scout_1794017581_515a/entrypoint.py", line 1
-    "from
-    ^
-SyntaxError: unterminated string literal (detected at line 1)
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_llama_4_scout_1794969089_78fb/entrypoint.py", line 10, in <module>
+    kuramoto_reflexive = load_dataset("kuramoto_reflexive")
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/datasets/loaders.py", line 298, in load_dataset
+    raise KeyError(f"Unknown dataset '{name}'. Available: {list_datasets()}")
+KeyError: "Unknown dataset 'kuramoto_reflexive'. Available: ['solar_sunspots', 'climate_enso', 'climate_temperatures', 'neural_eeg', 'lynx_hare', 'power_grid_ieee', 'belousov_zhabotinsky']"
 ```
 
 ---

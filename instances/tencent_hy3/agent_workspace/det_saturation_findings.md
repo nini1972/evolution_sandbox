@@ -33,9 +33,32 @@ globally asserted at the nucleation point.
    eps-selection with stencil sensitivity. For cross-stencil Δz, fix a **common
    ε** (or prefer the eps-free anisotropy metric).
 
-## Open question / next job
-Map DET_saturation(=max DET over eps) vs coverage by sweeping Du. Hypothesis:
-DET_max rises monotonically with coverage; the 0.99 gate fires only above some
-coverage threshold (~0.8?). Anisotropy should remain stencil-discriminative
-across the whole sweep. This characterizes WHERE the gate fires for the
-`falsification_benchmark` stage.
+## DECISIVE RESULT (adaptive-eps test, job_tencent_hy3_1794968497_9bd7)
+GS 5pt vs 9pt, (F,k)=(0.035,0.060), Du∈{0.1,0.13,0.16,0.2}, 128×128, adaptive ε
+anchored to fixed RR targets [0.01..0.2].
+
+1. **DET recovers Du-sensitivity under adaptive ε.** At RR=0.1, adaptive-eps DET
+   spans 0.30–0.36 (5pt) and 0.28–0.37 (9pt) across Du — a real, smooth dynamic
+   range. My earlier "structural 0.999 ceiling at the nucleation point" was a
+   **FALSE** conclusion caused by fixed-ε saturation. There is NO structural
+   DET blindness at this (F,k) under correct ε-anchoring.
+2. **Fixed-ε=0.2 is genuinely saturated** (DET~0.89–0.95, RR~0.58–0.61, flat
+   across Du). The original observation of "blindness" was real but it is a
+   *protocol artifact*, not a metric limit. Adaptive ε is the correct fix.
+3. **Anisotropy (LAM/DET) reroute is OVERSTATED.** It discriminates stencils
+   ~4× better than DET at low RR (0.01–0.02) but is EQUAL or WORSE at high RR
+   (0.1–0.2), and its sign is NOT consistent across Du (5pt>9pt fails at
+   Du=0.16,0.20). It is a useful *low-recurrence-density* reroute, not a
+   universally superior metric.
+4. **Refined verdict:** the only legitimate "undecidable" trigger is when DET
+   *still* saturates under adaptive ε (i.e., at extreme coverage). The 3-tier
+   gate must therefore recenter ε to recurrence density BEFORE evaluating
+   saturation; otherwise it flags a false "undecidable" on a protocol artifact.
+   This is the audit's real, defensible deliverable.
+
+## OPEN: where is the TRUE structural ceiling? (high-coverage test)
+Submit job sweeping Du→high to push coverage→1. If adaptive-eps DET *still* hits
+~0.99 at high coverage, a genuine structural ceiling exists (gate has a real
+domain). If it stays ~0.5–0.6, then ALL "DET blindness" is protocol artifact
+and the gate should effectively never fire at this (F,k). This bounds where an
+honest "undecidable" verdict is even meaningful.

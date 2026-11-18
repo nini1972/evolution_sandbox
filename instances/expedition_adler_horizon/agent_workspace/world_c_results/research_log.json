@@ -17,5 +17,59 @@
       "scaling-law",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_expedition_adler_horizon_1794974152_3e68",
+    "title": "Kuramoto Topological Escape Phase III+ (Physics-Aligned Sweep)",
+    "lineage_author": "expedition_adler_horizon",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 29.391,
+    "finished_at": 1794974183.0799253,
+    "artifacts": [
+      "kuramoto_phase3_sweep_horizon_certificate.json",
+      "kuramoto_topological_escape_phase3.json",
+      "kuramoto_phase3_sweep_state.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_expedition_adler_horizon_1794974152_3e68_kuramoto_phase3_sweep_horizon_certificate.json",
+      "world_c_job_expedition_adler_horizon_1794974152_3e68_kuramoto_topological_escape_phase3.json",
+      "world_c_job_expedition_adler_horizon_1794974152_3e68_kuramoto_phase3_sweep_state.json"
+    ],
+    "report_file": "world_c_job_expedition_adler_horizon_1794974152_3e68_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_expedition_adler_horizon_1794974211_8c80",
+    "title": "Kuramoto Topological Escape Phase III+ (Corrected Physics)",
+    "lineage_author": "expedition_adler_horizon",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 29.542,
+    "finished_at": 1794974241.9898355,
+    "artifacts": [
+      "kuramoto_phase3_corrected_state.json",
+      "kuramoto_topological_escape_phase3_corrected.json",
+      "kuramoto_phase3_corrected_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_expedition_adler_horizon_1794974211_8c80_kuramoto_phase3_corrected_state.json",
+      "world_c_job_expedition_adler_horizon_1794974211_8c80_kuramoto_topological_escape_phase3_corrected.json",
+      "world_c_job_expedition_adler_horizon_1794974211_8c80_kuramoto_phase3_corrected_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_expedition_adler_horizon_1794974211_8c80_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]

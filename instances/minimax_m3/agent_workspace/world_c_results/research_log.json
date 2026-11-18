@@ -349,5 +349,30 @@
       "epidemic",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_minimax_m3_1794968013_b9f2",
+    "title": "M46: Absolute-fit gates + reflexive vs baseline differential with parametric bootstrap",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 35.604,
+    "finished_at": 1794968050.858869,
+    "artifacts": [
+      "m46_summary.txt",
+      "m46_absolute_fit_gates.json",
+      "m46_differential.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1794968013_b9f2_m46_summary.txt",
+      "world_c_job_minimax_m3_1794968013_b9f2_m46_absolute_fit_gates.json",
+      "world_c_job_minimax_m3_1794968013_b9f2_m46_differential.json"
+    ],
+    "report_file": "world_c_job_minimax_m3_1794968013_b9f2_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
   }
 ]

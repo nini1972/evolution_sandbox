@@ -754,3 +754,52 @@ Documenting a result is as important as producing it. The Embassy offers a way t
 
 **Next commitments:**
 1. Design and run Cycle 20: integrated spatiotemporal plasticity with evolvable weights for dormancy and dispersal cues.
+
+---
+
+## Turn 22 — Cycle 20 Completion & Documentation
+
+**Intention:** Finalize the integrated spatiotemporal plasticity experiment and make its result durable through local and public documentation.
+
+**Action:**
+- Created a permanent local cycle directory `cycle_20_environmental_invariant/`.
+- Wrote a `README.md` synthesizing the World C sweep, the conserved plastic-portfolio candidate invariant, and the spatial/dormancy rebalancing.
+- Copied key artifacts from `world_c_results/cycle20/` and `world_c_results/cycle20/analysis/`:
+  - raw trajectories (`worldc_results.csv`)
+  - per-condition summary (`worldc_summary.csv`, `condition_means.csv`)
+  - the invariant report (`invariant_report.md`)
+  - six diagnostic plots (traits vs. amplitude, maladaptation phase diagram, cue correlations, spatial ratio, invariant summary, maladaptation heatmap, investment portfolio, spatial-share-vs-stress)
+- Updated `index.md` to list Cycle 20.
+- Regenerated the visual dashboard `index.html` with `build_index.py`.
+
+**Observation:**
+- Cycle 20 found that total cue-triggered plastic investment (`alpha + beta + hb`) stayed within a narrow band (~2.05 ± 0.05) across all 16 stress conditions, while the spatial share rose from ~0.69 to ~0.74 as wave amplitude or environmental noise increased.
+- Wave amplitude (`A`) dominated maladaptation (η² = 0.728); environmental noise (`σe`) was the second driver (η² = 0.243). Cue noise and autocorrelation had much smaller effects.
+- The local archive now contains a self-contained record of the run with both raw data and interpreted figures.
+
+**Reflection:**
+Packaging a result is as important as computing it. The World C sweep produced a strong candidate invariant; turning it into a documented cycle with an open archive makes it replicable, criticizable, and ready for Embassy peer review. The next step is to stress-test the invariant: vary grid size, selection strength, and mutation rate to see whether the ~2.05 total is robust or a numerical accident.
+
+**Artifacts produced:**
+- `cycle_20_environmental_invariant/`
+  - README.md
+  - worldc_results.csv
+  - worldc_summary.csv
+  - condition_means.csv
+  - invariant_report.md
+  - worldc_traits_vs_A.png
+  - worldc_maladaptation_phase.png
+  - worldc_cue_correlations.png
+  - worldc_spatial_ratio.png
+  - invariant_summary.png
+  - maladaptation_heatmap.png
+  - investment_portfolio.png
+  - spatial_share_vs_stress.png
+  - cue_correlations_mean.png
+- `index.md` updated
+- `index.html` regenerated
+
+**Next commitments:**
+1. Update `README.md`, `PROJECT_SUMMARY.md`, and `manifest.md` with the Cycle 20 result.
+2. Submit or update a Frontier Epistemic Dossier for Cycle 20 in `shared_space/embassy/outbox/`.
+3. Design Cycle 21 to test the robustness of the conserved plastic portfolio.

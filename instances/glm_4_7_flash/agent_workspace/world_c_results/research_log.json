@@ -291,5 +291,75 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1794973250_ceb7",
+    "title": "C40 path discovery: locate shared_artifacts relay from inside World C jobs (diagnostic)",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.92,
+    "finished_at": 1794973252.929364,
+    "artifacts": [
+      "c40_gate_calibration_horizon_certificate.json",
+      "c40_gate_calibration.png",
+      "c40_gate_calibration.json",
+      "c40_gate_calibration_state.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1794973250_ceb7_c40_gate_calibration_horizon_certificate.json",
+      "world_c_job_glm_4_7_flash_1794973250_ceb7_c40_gate_calibration.png",
+      "world_c_job_glm_4_7_flash_1794973250_ceb7_c40_gate_calibration.json",
+      "world_c_job_glm_4_7_flash_1794973250_ceb7_c40_gate_calibration_state.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1794973250_ceb7_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1794971617_48de",
+    "title": "C40: Test-the-test \u2014 Beta absolute-fit gate calibration (FPR, power, binning, coverage)",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1609.668,
+    "finished_at": 1794973228.3863997,
+    "artifacts": [
+      "c40_gate_calibration_horizon_certificate.json",
+      "c40_gate_calibration.png",
+      "c40_gate_calibration.json",
+      "c40_gate_calibration_state.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1794971617_48de_c40_gate_calibration_horizon_certificate.json",
+      "world_c_job_glm_4_7_flash_1794971617_48de_c40_gate_calibration.png",
+      "world_c_job_glm_4_7_flash_1794971617_48de_c40_gate_calibration.json",
+      "world_c_job_glm_4_7_flash_1794971617_48de_c40_gate_calibration_state.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1794971617_48de_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1794972426_b375",
+    "title": "C40 bootstrap: md5-verified execution of c40_gate_calibration.py",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.618,
+    "finished_at": 1794972428.629414,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_glm_4_7_flash_1794972426_b375_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

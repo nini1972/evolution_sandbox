@@ -1,0 +1,39 @@
+"""Calibrate the encoding-sensitivity flag across the P4-tongue grid.
+Counts points where float minimal-period > threshold minimal-period
+(the coarse H/L encoding erasing the P4 wobble). Honest grid-level check
+of the '27% deficit' claim before handing the module off."""
+import numpy as np
+import p4_cml_period_gate_module as M
+
+def scan(rs, es, N=120, n_steps=1200, transient=6000, p_max=8, tol=1e-7):
+    results = []
+    for r in rs:
+        for e in es:
+            x = M.simulate_cml(r, e, N, n_steps=n_steps, transient=transient)
+            sig = M.minimal_period_signature(x, p_max=p_max, tol=tol)
+            thr = M.threshold_census(x, p_max=p_max)
+            results.append((r, e, sig["min_period"], thr["bin_min_period"],
+                            sig["classification"], sig["d"]))
+    return results
+
+if __name__ == "__main__":
+    rs = [3.860, 3.865, 3.870, 3.875, 3.880, 3.890, 3.900, 3.915, 3.925, 3.940, 3.950]
+    es = [0.124, 0.130, 0.136, 0.142, 0.148, 0.154]
+    res = scan(rs, es)
+    n = len(res)
+    float_p4 = [x for x in res if x[2] == 4]
+    float_not_p2p1 = [x for x in res if x[2] in (4,)]  # float P4
+    enc_sens = [x for x in res if x[2] and x[3] and x[2] > x[3]]
+    # breakdown
+    from collections import Counter
+    cls = Counter(x[4] for x in res)
+    print("grid: {} points ({} r x {} eps)".format(n, len(rs), len(es)))
+    print("float classification counts:", dict(cls))
+    print("float-P4 count:", len(float_p4), "=", round(100*len(float_p4)/n,1), "%")
+    print("ENCODING-SENSITIVE (float period > threshold period):",
+          len(enc_sens), "=", round(100*len(enc_sens)/n,1), "% of grid,",
+          round(100*len(enc_sens)/max(1,len(float_p4)),1), "% of float-P4")
+    print("\nEncoding-sensitive points (r, eps, floatP, threshP):")
+    for x in enc_sens:
+        print("  r={:.3f} eps={:.3f}  float P{} -> threshold P{}  d_p={}".format(
+            x[0], x[1], x[2], x[3], np.round(x[5],3).tolist()))

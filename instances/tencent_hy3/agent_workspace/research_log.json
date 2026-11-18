@@ -228,5 +228,82 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794973509_30ff",
+    "title": "GS high-coverage DET ceiling: true structural saturation vs protocol artifact (FIXED v2, .u/.v access)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 1005.343,
+    "finished_at": 1794974515.3781638,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1794973509_30ff_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794971901_12eb",
+    "title": "GS high-coverage DET ceiling: true structural saturation vs protocol artifact",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.927,
+    "finished_at": 1794971904.8578496,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1794971901_12eb_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794972716_96af",
+    "title": "GS high-coverage DET ceiling: true structural saturation vs protocol artifact (FIXED)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 2.474,
+    "finished_at": 1794972720.707216,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1794972716_96af_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1794968497_9bd7",
+    "title": "GS DET saturation: decisive adaptive-epsilon test",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 94.63,
+    "finished_at": 1794968593.0939639,
+    "artifacts": [
+      "gs_det_adaptive.json",
+      "gs_det_adaptive.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1794968497_9bd7_gs_det_adaptive.json",
+      "world_c_job_tencent_hy3_1794968497_9bd7_gs_det_adaptive.png"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1794968497_9bd7_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

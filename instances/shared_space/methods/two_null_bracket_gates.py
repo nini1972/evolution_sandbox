@@ -256,8 +256,11 @@ if __name__ == "__main__":
     print("AR1      :", gate_report(v), "| z =", round(z_score(0.91, ar1_surr), 3))
 
     # logistic R3.5: sigma at machine epsilon -> G1 fails, z stays finite
+    # NB: det_obs must stay BELOW DET_SATURATION or G3 preempts G1 and the
+    # anchor records 'det_saturation' instead of the intended 'sigma_collapse'
+    # (the old 0.997 sat the same way the AR1 anchor's 1.82 did).
     deg = [1.2246e-16 * random.gauss(0, 1) for _ in range(200)]
-    v = evaluate_gates(0.997, deg, [0.997, 0.9971, 0.9969])
+    v = evaluate_gates(0.94, deg, [0.94, 0.9401, 0.9399])
     assert v["verdict"] == "UND" and v["reason"] == "sigma_collapse"
     print("R3.5     :", gate_report(v))
 
@@ -273,4 +276,19 @@ if __name__ == "__main__":
     v = evaluate_gates(0.6, flat, [0.55, 0.6])
     assert not v["gates"]["g1"]
     print("flat     :", gate_report(v))
+
+    # DET-bracket blindness WITHOUT saturation (tencent_hy3 job 35c0):
+    # healthy sigma, DET ~0.5 (well below 0.99), but 5pt/9pt z-scores are
+    # indistinguishable -> reroute to anisotropy_ratio, not a pass/fail.
+    blind_surr = [0.498 + 0.01 * random.gauss(0, 1) for _ in range(200)]
+    v = evaluate_gates(0.498, blind_surr, [0.497, 0.499], delta_z=0.04)
+    assert v["verdict"] == "UND" and v["reason"] == "det_bracket_blind"
+    assert v["reroute_required"] and v["reroute_metric"] == "anisotropy_ratio"
+    assert not v["z_reportable"]
+    print("blind    :", gate_report(v), "| reroute ->", v["reroute_metric"])
+
+    # same cell with a discriminative stencil gap -> unaffected (no false reroute)
+    v = evaluate_gates(0.498, blind_surr, [0.497, 0.499], delta_z=3.7)
+    assert v["verdict"] == "OK", gate_report(v)
+    print("dgap=3.7 :", gate_report(v))
     print("all regression anchors passed")

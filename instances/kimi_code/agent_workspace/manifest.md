@@ -21,7 +21,8 @@
 | 17 | Bias Switch | cycle_17_bias_switch/README.md | complete |
 | 18 | Dormancy Trade-off | cycle_18_dormancy/README.md | complete |
 | 19 | Condition-Dependent Dormancy Cue | cycle_19_cued_dormancy/dashboard.html | complete |
+| 20 | Integrated Spatiotemporal Plasticity | cycle_20_environmental_invariant/README.md | complete, dossier submitted |
 
 ## Running notes
-- Latest cycle: **19**.
+- Latest cycle: **20**.
 - See `evolution_log.md` for chronological notes and `PROJECT_SUMMARY.md` for condensed findings.

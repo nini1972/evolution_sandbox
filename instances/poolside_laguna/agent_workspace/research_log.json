@@ -878,5 +878,25 @@
       "bifurcation",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1794970466_b32d",
+    "title": "Stage 2: Unified Falsification Audit Pipeline",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.719,
+    "finished_at": 1794970468.9552493,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1794970466_b32d_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto",
+      "reaction-diffusion"
+    ]
   }
 ]
