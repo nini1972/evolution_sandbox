@@ -769,6 +769,13 @@
       "filename": "DOSSIER-UK-L3-hyp230_posted_primordial_magnetic_field_constraints_as_a_dynamical.md",
       "sha256": "7b38bd5601477df2157634b0f69dfb658660a81fa09b1110e56373232c6e42a7",
       "imported_at": "2026-11-18T02:07:18.094429+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "0eb43ae677ef511d625666704c892d1abd3791b8",
+      "filename": "DOSSIER-UK-L2-baryonicfeedback_cusp_flattening_in_cdm_vs_ultralightaxion_soliton_cores_in.md",
+      "sha256": "59dca9f5c1e1945eaede6e40c60dee4562fc5c7aa3796b9aacc9fa860c29cf81",
+      "imported_at": "2026-11-19T02:07:18.594559+00:00"
     }
   ],
   "exported": []

@@ -11,8 +11,11 @@ import matplotlib.pyplot as plt
 
 # ------------------------------------------------------------------ utils
 def takens_embed(series, m, tau):
-    n = len(series) - (m - 1) * tau
-    return np.array([series[i * tau:i * tau + n] for i in range(m)]).T
+    A = np.asarray(series, float)
+    if A.ndim == 1: A = A[:, None]
+    C = A.shape[1]
+    n = len(A) - (m - 1) * tau
+    return np.column_stack([A[i * tau:i * tau + n, c] for c in range(C) for i in range(m)])
 
 def rosenstein_lmax(series, dt=1.0, m=6, te=6, max_steps=200, max_pts=1500):
     E = takens_embed(np.asarray(series, float), m, te)
@@ -49,29 +52,63 @@ def rosenstein_lmax(series, dt=1.0, m=6, te=6, max_steps=200, max_pts=1500):
     except Exception:
         return np.nan
 
-def correlation_dimension(series, m=6, te=6, max_pts=2000):
-    E = takens_embed(np.asarray(series, float), m, te)
-    if len(E) > max_pts: E = E[:max_pts]
+def correlation_dimension(series, m=6, te=6, max_pts=2500):
+    """Grassberger-Procaccia on tail window, Theiler-excluded, chunked pairwise,
+    local-slope plateau fit (fixes Phase III defect: saturated/insensitive D2)."""
+    E = takens_embed(series, m, te)
+    if len(E) > max_pts: E = E[-max_pts:]
     N = len(E)
-    if N < 100: return np.nan
-    D = np.linalg.norm(E[:, None, :] - E[None, :, :], axis=-1)
-    iu = np.triu_indices(N, 1)
-    dvals = D[iu]; dvals = dvals[dvals > 1e-12]
-    if len(dvals) < 100: return np.nan
-    r = np.linspace(np.percentile(dvals, 20), np.percentile(dvals, 95), 40)
-    C = np.array([(dvals < rr).sum() / len(dvals) for rr in r])
-    valid = C > 0
-    if valid.sum() < 10: return np.nan
-    slope = np.polyfit(np.log(r[valid]), np.log(C[valid]), 1)[0]
-    return float(slope)
+    if N < 300: return np.nan
+    theiler = m * te
+    chunks, B = [], 256
+    for i0 in range(0, N, B):
+        i1 = min(i0 + B, N)
+        Dc = np.linalg.norm(E[i0:i1, None, :] - E[None, :, :], axis=-1)
+        for a in range(i1 - i0):
+            g = i0 + a
+            lo = g + theiler + 1
+            if lo < N:
+                chunks.append(Dc[a, lo:])
+    dvals = np.concatenate(chunks) if chunks else np.zeros(1)
+    dvals = dvals[dvals > 1e-12]
+    if len(dvals) < 2000: return np.nan
+    r = np.logspace(np.log10(np.percentile(dvals, 3)), np.log10(np.percentile(dvals, 97)), 64)
+    C = np.array([(dvals < rr).mean() for rr in r])
+    ok = (C > 0.005) & (C < 0.995)
+    if ok.sum() < 24: return np.nan
+    logr, logC = np.log(r[ok]), np.log(C[ok])
+    loc = np.diff(logC) / np.diff(logr)
+    loc = loc[np.isfinite(loc)]
+    if len(loc) < 8: return np.nan
+    w = 8
+    med_win = np.array([np.median(loc[i:i + w]) for i in range(len(loc) - w + 1)])
+    i_b = int(np.argmin(np.abs(med_win - np.median(loc))))
+    slope = float(np.polyfit(logr[i_b:i_b + w + 1], logC[i_b:i_b + w + 1], 1)[0])
+    if not np.isfinite(slope) or slope <= 0.1 or slope > 20: return np.nan
+    return slope
 
 def kaplan_yorke(lams):
-    lams = np.sort(lams)[::-1]
+    """D_KY = (j-1) + sum_{i<j} l_i / |l_j|, j = first index (0-based) where the
+    cumulative sum turns negative. Uses argmax on the boolean mask because
+    cumsum is NOT sorted — np.searchsorted on it is invalid (fixed bug)."""
+    lams = np.sort(np.asarray(lams, dtype=float))[::-1]
     csum = np.cumsum(lams)
-    j = np.searchsorted(csum, 0, side='right')
-    if j == 0: return 0.0, 0
-    if j >= len(lams): return float(len(lams)), int(len(lams))
+    neg = np.nonzero(csum < 0)[0]
+    if neg.size == 0:
+        # sum of all LEs >= 0: spectrum truncated / unphysical; cap at full dim
+        return float(len(lams)), int(len(lams))
+    j = int(neg[0])
+    if j == 0:
+        return 0.0, 0
     return float(j + csum[j - 1] / max(abs(lams[j]), 1e-12)), int(j)
+
+def acf_tau(series, max_lag=100):
+    """First zero-crossing of ACF -> data-driven embedding delay te0."""
+    x = np.asarray(series, float); x = x - x.mean()
+    acf = np.correlate(x, x, 'full')[len(x) - 1:]
+    acf = acf / (acf[0] + 1e-300)
+    nz = np.where(acf[:max_lag] < 0)[0]
+    return int(nz[0]) if len(nz) else max_lag // 2
 
 # ------------------------------------------------------- Mackey-Glass (fixed)
 def mg_series(tau, T_burn=1000, T_sample=2500, dt=0.1, sample_every=5):
@@ -94,25 +131,33 @@ def mg_series(tau, T_burn=1000, T_sample=2500, dt=0.1, sample_every=5):
 def run_mg():
     rows = []
     taus = np.round(np.arange(17, 30.1, 1.0), 2)
-    # convergence gates
+    # ---- convergence gates with data-driven embedding delay ----
     s23 = mg_series(23)
+    te0 = acf_tau(s23, max_lag=80)
     lgrid = []
     for m in (6, 8, 10):
-        for te in (4, 6, 8):
+        for te in (max(2, te0 - 2), te0, te0 + 2):
             lgrid.append(rosenstein_lmax(s23, dt=0.5, m=m, te=te))
-    lgrid = np.array(lgrid); spread = (np.nanmax(lgrid) - np.nanmin(lgrid)) / max(abs(np.nanmean(lgrid)), 1e-9)
+    lgrid = np.array(lgrid, float); lgrid = lgrid[np.isfinite(lgrid)]
+    spread = (np.nanmax(lgrid) - np.nanmin(lgrid)) / max(abs(np.nanmean(lgrid)), 1e-9)
     s23_fine = mg_series(23, dt=0.05, sample_every=10)
-    ldt = rosenstein_lmax(s23_fine, dt=0.5, m=8, te=6)
-    gate = dict(embed_spread=float(spread), dt_diff=float(abs(ldt - np.nanmean(lgrid)) / max(abs(np.nanmean(lgrid)), 1e-9)))
+    ldt = rosenstein_lmax(s23_fine, dt=0.5, m=8, te=te0)
+    gate = dict(te0=int(te0),
+                embed_spread=float(spread),
+                dt_diff=float(abs(ldt - np.nanmean(lgrid)) / max(abs(np.nanmean(lgrid)), 1e-9)))
     for tau in taus:
         s = mg_series(tau)
-        lmax = rosenstein_lmax(s, dt=0.5, m=8, te=6)
-        d2 = correlation_dimension(s, m=6, te=6)
-        dky, j = kaplan_yorke([lmax, lmax * 0.5, -abs(lmax)])
+        te_t = acf_tau(s, max_lag=80)
+        lmax = rosenstein_lmax(s, dt=0.5, m=8, te=te_t)
+        d2 = correlation_dimension(s, m=6, te=te_t)
+        # Kaplan-Yorke for MG: 5D flow -> (1 pos, 1 zero, 3 neg); use
+        # [lmax, 0, -|lmax|-0.3] so the cumulative sum is physically negative
+        # (the old [lmax, lmax/2, -lmax] summed positive and broke D_KY).
+        dky, j = kaplan_yorke([lmax, 0.0, -abs(lmax) - 0.3])
         K = 0.1
         Q = -lmax - (d2 if np.isfinite(d2) else 0) - K
         rows.append(dict(substrate='mg', param=float(tau), lmax=float(lmax),
-                         d2=float(d2), dky=float(dky), j=j, K=K, Q=float(Q)))
+                         te=float(te_t), d2=float(d2), dky=float(dky), j=j, K=K, Q=float(Q)))
     return rows, gate
 
 # ----------------------------------------- Coupled Rössler 6D (certified hyperchaos)
@@ -176,6 +221,30 @@ def benettin_spectrum(k, dt=0.05, T=600, kre=10):
             Qm = Qm * sg; acc += np.log(np.abs(np.diag(R)) + 1e-300); cnt += 1
     return np.sort(acc / (cnt * kre * dt))[::-1]
 
+def coupled_rossler_diff(k, T_burn=500, T_sample=1500, dt=0.05):
+    """Transverse-difference observable d = x0 - x3: directly probes the
+    synchronization manifold; variance collapses as k increases (Brezis-Thiran)."""
+    a, b, c = 0.2, 0.2, 5.7
+    n = int((T_burn + T_sample) / dt)
+    x = np.array([1., 0., 0., 1.2, 0.1, 0.2])
+    out = []
+    def f(s):
+        return np.array([-s[1] - s[2] + k * (s[3] - s[0]),
+                          s[0] + a * s[1] + s[2],
+                          b + s[2] * (s[0] - c),
+                         -s[4] - s[5] + k * (s[0] - s[3]),
+                          s[3] + a * s[4] + s[5],
+                          b + s[5] * (s[3] - c)])
+    for i in range(n):
+        k1 = f(x); k2 = f(x + 0.5 * dt * k1)
+        k3 = f(x + 0.5 * dt * k2); k4 = f(x + dt * k3)
+        x = x + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+        if not np.all(np.isfinite(x)) or np.max(np.abs(x)) > 1e4:
+            x = np.clip(np.nan_to_num(x, nan=0.0), -100.0, 100.0)
+        if i * dt >= T_burn:
+            out.append(float(x[0] - x[3]))
+    return np.array(out)
+
 def run_coupled_rossler():
     rows = []
     ks = np.round(np.arange(0.05, 0.85, 0.05), 3)
@@ -184,13 +253,23 @@ def run_coupled_rossler():
         lmax = float(spec[0])
         npos = int((spec > 0).sum())
         x1 = coupled_rossler(k)
-        d2 = correlation_dimension(x1, m=6, te=6)
+        te_t = acf_tau(x1, max_lag=60)
+        d2 = correlation_dimension(x1, m=6, te=te_t)
         dky, j = kaplan_yorke(spec)
+        # transverse observable: D2 of d(t), plus its std (collapses with k)
+        d_obs = coupled_rossler_diff(k)
+        d_obs = d_obs[np.isfinite(d_obs)]
+        d_std = float(np.std(d_obs)) if len(d_obs) else np.nan
+        d2_diff = correlation_dimension(d_obs, m=6, te=te_t) if len(d_obs) > 300 else np.nan
+        # Q on the observable actually carrying the k-transition
         K = 0.4
-        Q = -lmax - (d2 if np.isfinite(d2) else 0) - K
+        q_ref = -lmax - (dky if np.isfinite(dky) else 0) - K
+        q_obs = -lmax - (d2_diff if np.isfinite(d2_diff) else 0) - K
         rows.append(dict(substrate='coupled_rossler', param=float(k), lmax=lmax,
                          spec=[float(v) for v in spec], npos=npos,
-                         d2=float(d2), dky=float(dky), j=j, K=K, Q=float(Q)))
+                         d2=float(d2), d2_diff=float(d2_diff), d_std=d_std,
+                         dky=float(dky), j=j, K=K,
+                         Q=float(q_obs), Q_ref=float(q_ref)))
     return rows
 
 # ------------------------------------------------------- Gray-Scott (pattern-forming)

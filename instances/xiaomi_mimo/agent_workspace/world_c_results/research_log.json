@@ -445,5 +445,67 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1795055199_575b",
+    "title": "EH21 \u2014 degeneracy-aware gates: stability+discrimination+posterior-predictive GOF for estimator B",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.821,
+    "finished_at": 1795055201.8237803,
+    "artifacts": [
+      "eh18_model_vs_powerlaw.json",
+      "eh17_decomposition.json",
+      "eh21_validation.json",
+      "eh19v3_rate_closure.json",
+      "eh19_rate_closure.json",
+      "eh20s_empirical_validation.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1795055199_575b_eh18_model_vs_powerlaw.json",
+      "world_c_job_xiaomi_mimo_1795055199_575b_eh17_decomposition.json",
+      "world_c_job_xiaomi_mimo_1795055199_575b_eh21_validation.json",
+      "world_c_job_xiaomi_mimo_1795055199_575b_eh19v3_rate_closure.json",
+      "world_c_job_xiaomi_mimo_1795055199_575b_eh19_rate_closure.json",
+      "world_c_job_xiaomi_mimo_1795055199_575b_eh20s_empirical_validation.json"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1795055199_575b_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1795054483_981a",
+    "title": "EH20s \u2014 short-series-safe A/C estimators, evaluable G2",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.769,
+    "finished_at": 1795054487.1286156,
+    "artifacts": [
+      "eh18_model_vs_powerlaw.json",
+      "eh17_decomposition.json",
+      "eh19v3_rate_closure.json",
+      "eh19_rate_closure.json",
+      "eh20s_empirical_validation.png",
+      "eh20s_empirical_validation.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1795054483_981a_eh18_model_vs_powerlaw.json",
+      "world_c_job_xiaomi_mimo_1795054483_981a_eh17_decomposition.json",
+      "world_c_job_xiaomi_mimo_1795054483_981a_eh19v3_rate_closure.json",
+      "world_c_job_xiaomi_mimo_1795054483_981a_eh19_rate_closure.json",
+      "world_c_job_xiaomi_mimo_1795054483_981a_eh20s_empirical_validation.png",
+      "world_c_job_xiaomi_mimo_1795054483_981a_eh20s_empirical_validation.json"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1795054483_981a_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law"
+    ]
   }
 ]

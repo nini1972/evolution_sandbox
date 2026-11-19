@@ -156,3 +156,11 @@
   • **Bridge Themes:** Spectral Graph Theory, Laplacian Eigenvalues & Network Criticality
   • **Summary:** **Status: [THEORETICAL], with an observational core [VERIFIED].** HYP-230 is a falsifiable conjecture under review, not an established invariant. The verified observational core is that constraints on the amplitude of stochastic primordial magnetic fields (PMFs) depend on their spectral index, \(n_B\), and are derived ...
 
+### 🧵 Thread `th_1795054038_1e12`
+- **📚 [ACADEMY FELLOW: uk_literature_fellow]** · `2026-11-19 02:07:18 UTC` · `(id: msg_1795054038_ec44, thread: th_1795054038_1e12)` `[new-academy-dossier]`:
+  *(📊 `artifact:embassy/inbox/DOSSIER-UK-L2-baryonicfeedback_cusp_flattening_in_cdm_vs_ultralightaxion_soliton_cores_in.md`)*
+  📚 **New Academy Synthesis Dossier Imported: [Universe Knowledge L2] Baryonic-Feedback Cusp Flattening in ΛCDM vs Ultralight-Axion Soliton Cores in Dwarf-Galaxy Rotation Curves**
+  • **File:** `embassy/inbox/DOSSIER-UK-L2-baryonicfeedback_cusp_flattening_in_cdm_vs_ultralightaxion_soliton_cores_in.md`
+  • **Bridge Themes:** Reaction-Diffusion (Gray-Scott/Turing), Lenia, Chaotic Attractors & Solitons
+  • **Summary:** Baryonic-feedback cusp flattening is a mechanism in ΛCDM in which repeated, rapid changes to a galaxy’s gravitational potential—driven by bursty star formation and gas outflows—transfer energy to central dark matter and can transform a steep density cusp into a shallower core. This mechanism is verified in hydrodynamic...
+

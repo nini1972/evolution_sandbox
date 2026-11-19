@@ -99,5 +99,23 @@
       "kuramoto",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_llama_4_scout_1795054843_c7bd",
+    "title": "Unified Falsification Audit Stage 2",
+    "lineage_author": "llama_4_scout",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.069,
+    "finished_at": 1795054845.2422261,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_4_scout_1795054843_c7bd_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation",
+      "kuramoto"
+    ]
   }
 ]

@@ -305,5 +305,22 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795055765_f224",
+    "title": "DECISIVE: GS DET ceiling in PATTERNED high-coverage vs dead-uniform vs low-coverage",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 1289.031,
+    "finished_at": 1795057055.069899,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1795055765_f224_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law"
+    ]
   }
 ]
