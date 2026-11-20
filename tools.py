@@ -43,26 +43,27 @@ def _resolve_existing_or_prefix(candidate: str) -> str:
                 pass
     return candidate
 
-def _get_absolute_path(path_str):
+def _get_absolute_path(path_str, resolve_fuzzy: bool = True, for_write: bool = False):
     workspace = get_workspace_dir()
     shared = get_shared_dir()
+    _maybe_fuzzy = _resolve_existing_or_prefix if resolve_fuzzy else (lambda p: p)
     
     # 1. Handle explicit shared_space references
     norm_path = path_str.replace("\\", "/").lstrip("/")
     if norm_path.startswith("instances/shared_space/"):
         rel_to_shared = norm_path[len("instances/shared_space/"):]
-        return _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, rel_to_shared)))
+        return _maybe_fuzzy(os.path.abspath(os.path.join(shared, rel_to_shared)))
     if norm_path.startswith("shared_space/"):
         rel_to_shared = norm_path[len("shared_space/"):]
-        return _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, rel_to_shared)))
+        return _maybe_fuzzy(os.path.abspath(os.path.join(shared, rel_to_shared)))
     if norm_path.startswith("world_c/"):
-        return _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, norm_path)))
+        return _maybe_fuzzy(os.path.abspath(os.path.join(shared, norm_path)))
     if norm_path.startswith("embassy/"):
-        return _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, norm_path)))
+        return _maybe_fuzzy(os.path.abspath(os.path.join(shared, norm_path)))
     if norm_path.startswith("commons/"):
-        return _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, norm_path)))
+        return _maybe_fuzzy(os.path.abspath(os.path.join(shared, norm_path)))
     if norm_path.startswith("instances/"):
-        return _resolve_existing_or_prefix(os.path.abspath(os.path.join(os.path.dirname(__file__), norm_path)))
+        return _maybe_fuzzy(os.path.abspath(os.path.join(os.path.dirname(__file__), norm_path)))
 
     # Strip redundant leading workspace/ or agent_workspace/ prefix if present
     cleaned_rel = path_str
@@ -73,26 +74,26 @@ def _get_absolute_path(path_str):
                 cleaned_rel = cleaned_rel[len(prefix):]
                 break
         
-    target = _resolve_existing_or_prefix(os.path.abspath(os.path.join(workspace, cleaned_rel)))
-    if not os.path.exists(target):
+    target = _maybe_fuzzy(os.path.abspath(os.path.join(workspace, cleaned_rel)))
+    if not for_write and not os.path.exists(target):
         # Check in local world_c_results
-        ws_res = _resolve_existing_or_prefix(os.path.abspath(os.path.join(workspace, "world_c_results", os.path.basename(cleaned_rel))))
+        ws_res = _maybe_fuzzy(os.path.abspath(os.path.join(workspace, "world_c_results", os.path.basename(cleaned_rel))))
         if os.path.exists(ws_res):
             return ws_res
         # Check in shared directory directly
-        shared_direct = _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, norm_path)))
+        shared_direct = _maybe_fuzzy(os.path.abspath(os.path.join(shared, norm_path)))
         if os.path.exists(shared_direct):
             return shared_direct
         # Check in shared embassy inbox
-        shared_embassy = _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, "embassy", "inbox", os.path.basename(cleaned_rel))))
+        shared_embassy = _maybe_fuzzy(os.path.abspath(os.path.join(shared, "embassy", "inbox", os.path.basename(cleaned_rel))))
         if os.path.exists(shared_embassy):
             return shared_embassy
         # Check in shared world_c reports
-        shared_report = _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, "world_c", "reports", os.path.basename(cleaned_rel))))
+        shared_report = _maybe_fuzzy(os.path.abspath(os.path.join(shared, "world_c", "reports", os.path.basename(cleaned_rel))))
         if os.path.exists(shared_report):
             return shared_report
         # Check in shared world_c artifacts
-        shared_art = _resolve_existing_or_prefix(os.path.abspath(os.path.join(shared, "world_c", "artifacts", os.path.basename(cleaned_rel))))
+        shared_art = _maybe_fuzzy(os.path.abspath(os.path.join(shared, "world_c", "artifacts", os.path.basename(cleaned_rel))))
         if os.path.exists(shared_art):
             return shared_art
         # Check within job subdirectories or prefixed artifacts in shared world_c artifacts
@@ -108,10 +109,10 @@ def _get_absolute_path(path_str):
             
     return target
 
-def _is_safe_path(path_str, allow_peer_read: bool = False):
+def _is_safe_path(path_str, allow_peer_read: bool = False, resolve_fuzzy: bool = True, for_write: bool = False):
     workspace = get_workspace_dir()
     shared = get_shared_dir()
-    target = _get_absolute_path(path_str)
+    target = _get_absolute_path(path_str, resolve_fuzzy=resolve_fuzzy, for_write=for_write)
     if os.path.basename(target).startswith(".env"):
         return False
     if target.startswith(workspace) or target.startswith(shared):
@@ -206,10 +207,10 @@ def _record_canon_write_journal(abs_path: str, tool_name: str, old_bytes: bytes,
 
 def write_file(path: str, content: str, **kwargs) -> str:
     """Writes content to a file in the workspace."""
-    if not _is_safe_path(path):
+    if not _is_safe_path(path, resolve_fuzzy=False, for_write=True):
         return "Error: Path is outside of allowed workspace."
         
-    abs_path = _get_absolute_path(path)
+    abs_path = _get_absolute_path(path, resolve_fuzzy=False, for_write=True)
     base_lower = os.path.basename(abs_path).lower()
     if base_lower in ("existential_core.md", "next_steps.md", "research_log.json") and abs_path.startswith(get_shared_dir()):
         abs_path = os.path.join(get_workspace_dir(), os.path.basename(abs_path))
@@ -265,10 +266,10 @@ def _sanitize_python_code(content: str) -> str:
 
 def edit_file(path: str, old_content: str, new_content: str, **kwargs) -> str:
     """Edits an existing file by replacing a unique block of text (old_content) with new_content."""
-    if not _is_safe_path(path):
+    if not _is_safe_path(path, resolve_fuzzy=False):
         return "Error: Path is outside of allowed workspace."
         
-    abs_path = _get_absolute_path(path)
+    abs_path = _get_absolute_path(path, resolve_fuzzy=False)
     if not os.path.exists(abs_path):
         return f"Error: File {path} does not exist."
         

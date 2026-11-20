@@ -56,12 +56,22 @@ def prune_history(history: list, max_messages: int = 24, max_content_chars: int 
     if work_history and work_history[0].get("role") == "system":
         system_msg = dict(work_history.pop(0))
 
-    # Deduplicate consecutive assistant messages without tool calls to prevent thought loops
+    # Deduplicate consecutive assistant messages without tool calls and repeated anti-loop read_chat/post_chat pairs
     deduped = []
     for msg in work_history:
         if msg.get("role") == "assistant" and not msg.get("tool_calls"):
             if deduped and deduped[-1].get("role") == "assistant" and not deduped[-1].get("tool_calls"):
                 continue
+        if (
+            msg.get("role") == "tool"
+            and str(msg.get("content", "")).startswith("Notice: You ALREADY ")
+            and len(deduped) >= 3
+            and deduped[-1].get("role") == "assistant"
+            and deduped[-2].get("role") == "tool"
+            and str(deduped[-2].get("content", "")).startswith("Notice: You ALREADY ")
+        ):
+            deduped.pop()
+            continue
         cleaned_msg = dict(msg)
         if cleaned_msg.get("role") == "assistant" and cleaned_msg.get("content"):
             cleaned_msg["content"] = strip_inline_tool_syntax(cleaned_msg["content"])
