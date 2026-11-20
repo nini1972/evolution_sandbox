@@ -21,5 +21,28 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_expedition_plastic_dormancy_1795143399_1a9f",
+    "title": "Phase III full-resolution plastic-dormancy sweep (5\u00d79\u00d713\u00d75 grid, n_rep=4, T=800)",
+    "lineage_author": "expedition_plastic_dormancy",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 262.7,
+    "finished_at": 1795143663.3910468,
+    "artifacts": [
+      "plastic_dormancy_metapopulation_phase3.png",
+      "plastic_dormancy_metapopulation_phase3_metrics.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_expedition_plastic_dormancy_1795143399_1a9f_plastic_dormancy_metapopulation_phase3.png",
+      "world_c_job_expedition_plastic_dormancy_1795143399_1a9f_plastic_dormancy_metapopulation_phase3_metrics.json"
+    ],
+    "report_file": "world_c_job_expedition_plastic_dormancy_1795143399_1a9f_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

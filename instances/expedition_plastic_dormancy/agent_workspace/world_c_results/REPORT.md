@@ -1,40 +1,57 @@
-# 🏛️ World C Execution Report: Plastic Dormancy Multi-Cost Sweep
+# 🏛️ World C Execution Report: Phase III full-resolution plastic-dormancy sweep (5×9×13×5 grid, n_rep=4, T=800)
 
-* **Job ID:** `job_expedition_plastic_dormancy_1793847251_fb1f`
+* **Job ID:** `job_expedition_plastic_dormancy_1795143399_1a9f`
 * **Requesting Lineage:** `expedition_plastic_dormancy` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `89.49` seconds
+* **Compute Duration:** `262.70` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `plastic_dormancy_multicost`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='plastic_dormancy_multicost', resume_from_job_id='job_expedition_plastic_dormancy_1793847251_fb1f')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('plastic_dormancy_multicost')`.
+* **Stage Name:** `plastic_dormancy_phase3`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='plastic_dormancy_phase3', resume_from_job_id='job_expedition_plastic_dormancy_1795143399_1a9f')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('plastic_dormancy_phase3')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `plastic_dormancy_phase_multicost.png` (delivered to `world_c_results/plastic_dormancy_phase_multicost.png` and `world_c/artifacts/job_expedition_plastic_dormancy_1793847251_fb1f/plastic_dormancy_phase_multicost.png`)
-- `plastic_dormancy_metrics_multicost.json` (delivered to `world_c_results/plastic_dormancy_metrics_multicost.json` and `world_c/artifacts/job_expedition_plastic_dormancy_1793847251_fb1f/plastic_dormancy_metrics_multicost.json`)
+- `plastic_dormancy_metapopulation_phase3.png` (delivered to `world_c_results/plastic_dormancy_metapopulation_phase3.png` and `world_c/artifacts/job_expedition_plastic_dormancy_1795143399_1a9f/plastic_dormancy_metapopulation_phase3.png`)
+- `plastic_dormancy_metapopulation_phase3_metrics.json` (delivered to `world_c_results/plastic_dormancy_metapopulation_phase3_metrics.json` and `world_c/artifacts/job_expedition_plastic_dormancy_1795143399_1a9f/plastic_dormancy_metapopulation_phase3_metrics.json`)
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+plastic_dormancy_metapopulation_phase3.py:286: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  plt.tight_layout(rect=[0, 0.03, 1, 0.96])
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-c=0.02: sweep done in 14.8s
-    Classifications: {'S_wins': 53, 'P_wins': 1336, 'coexistence': 0, 'bistability': 6, 'neutral': 0}
-  c=0.05: sweep done in 14.7s
-    Classifications: {'S_wins': 97, 'P_wins': 1286, 'coexistence': 0, 'bistability': 12, 'neutral': 0}
-  c=0.10: sweep done in 14.5s
-    Classifications: {'S_wins': 198, 'P_wins': 1187, 'coexistence': 0, 'bistability': 10, 'neutral': 0}
-  c=0.15: sweep done in 14.8s
-    Classifications: {'S_wins': 285, 'P_wins': 1101, 'coexistence': 2, 'bistability': 7, 'neutral': 0}
-  c=0.20: sweep done in 14.9s
-    Classifications: {'S_wins': 365, 'P_wins': 1017, 'coexistence': 7, 'bistability': 6, 'neutral': 0}
-  c=0.30: sweep done in 14.7s
-    Classifications: {'S_wins': 508, 'P_wins': 867, 'coexistence': 17, 'bistability': 3, 'neutral': 0}
-Saved multi-cost phase diagram to plastic_dormancy_phase_multicost.png
-Saved metrics to plastic_dormancy_metrics_multicost.json
+Script written: 12155 bytes
+[1/20] rho=-0.50 rep=1/4 done
+[2/20] rho=-0.50 rep=2/4 done
+[3/20] rho=-0.50 rep=3/4 done
+[4/20] rho=-0.50 rep=4/4 done
+[5/20] rho=+0.00 rep=1/4 done
+[6/20] rho=+0.00 rep=2/4 done
+[7/20] rho=+0.00 rep=3/4 done
+[8/20] rho=+0.00 rep=4/4 done
+[9/20] rho=+0.30 rep=1/4 done
+[10/20] rho=+0.30 rep=2/4 done
+[11/20] rho=+0.30 rep=3/4 done
+[12/20] rho=+0.30 rep=4/4 done
+[13/20] rho=+0.60 rep=1/4 done
+[14/20] rho=+0.60 rep=2/4 done
+[15/20] rho=+0.60 rep=3/4 done
+[16/20] rho=+0.60 rep=4/4 done
+[17/20] rho=+0.90 rep=1/4 done
+[18/20] rho=+0.90 rep=2/4 done
+[19/20] rho=+0.90 rep=3/4 done
+[20/20] rho=+0.90 rep=4/4 done
+Sweep complete in 260.3s
+Saved metrics to plastic_dormancy_metapopulation_phase3_metrics.json
+Saved figure to plastic_dormancy_metapopulation_phase3.png
 ```
 
 ---

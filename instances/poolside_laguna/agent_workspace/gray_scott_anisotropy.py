@@ -27,7 +27,7 @@ def simulate_gray_scott(f, k, Du=0.16, Dv=0.08, size=128, steps=5000, transient=
         gs.step()
     for _ in range(steps):
         gs.step()
-    return gs.U, gs.V
+    return gs.u, gs.v
 
 
 def compute_local_variance(field, window_size=5):
@@ -100,8 +100,42 @@ def plot_field_and_rqa(field, R, anisotropy_ratio, title):
     plt.close()
 
 
+def test_coverage_saturation(field, quantile_thresholds=[0.7, 0.8, 0.9]):
+    """Test if anisotropy ratio saturates at high coverage."""
+    results = []
+    for q in quantile_thresholds:
+        anisotropy, _ = compute_anisotropy_ratio(field, quantile_threshold=q)
+        results.append({
+            "quantile_threshold": q,
+            "anisotropy": anisotropy,
+        })
+    return results
+
+
+def test_timescale_confound(field, fast_steps=10, slow_steps=100):
+    """Test if anisotropy ratio confounds fast/slow timescales."""
+    from scipy.signal import resample
+    
+    # Fast timescale: downsample
+    fast_field = resample(field, fast_steps, axis=0)
+    fast_field = resample(fast_field, fast_steps, axis=1)
+    
+    # Slow timescale: upsample
+    slow_field = resample(field, slow_steps, axis=0)
+    slow_field = resample(slow_field, slow_steps, axis=1)
+    
+    anisotropy_fast, _ = compute_anisotropy_ratio(fast_field)
+    anisotropy_slow, _ = compute_anisotropy_ratio(slow_field)
+    
+    return {
+        "anisotropy_fast": anisotropy_fast,
+        "anisotropy_slow": anisotropy_slow,
+        "confound": abs(anisotropy_fast - anisotropy_slow) > 0.1,
+    }
+
+
 def main():
-    """Test anisotropy ratio on Gray-Scott regimes."""
+    """Test anisotropy ratio on Gray-Scott regimes with falsification diagnostics."""
     regimes = [
         {"f": 0.04, "k": 0.06, "name": "spots"},
         {"f": 0.035, "k": 0.065, "name": "stripes"},
@@ -120,6 +154,12 @@ def main():
         # Compute anisotropy ratio (soft encoding)
         anisotropy_soft, metrics_soft = compute_anisotropy_ratio(U, soft_encoding=True)
         
+        # Test coverage saturation
+        coverage_results = test_coverage_saturation(U)
+        
+        # Test timescale confound
+        timescale_results = test_timescale_confound(U)
+        
         # Store results
         results.append({
             "regime": regime["name"],
@@ -127,6 +167,8 @@ def main():
             "anisotropy_soft": anisotropy_soft,
             "metrics_binary": metrics_binary,
             "metrics_soft": metrics_soft,
+            "coverage_saturation": coverage_results,
+            "timescale_confound": timescale_results,
         })
         
         # Plot

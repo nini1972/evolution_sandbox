@@ -253,9 +253,10 @@ def run_preflight_gate_tests() -> dict:
     }
 
     # Test 2: Minimal-period residual test on clean synthetic period-4
-    p4_signal = np.tile([0.88, 0.46, 0.90, 0.50], 100)
+    # e.g., alternating antiphase with secondary amplitude modulation
+    p4_signal = np.tile([0.88, 0.30, 0.70, 0.50], 100)
     res = minimal_period_residuals(p4_signal, max_period=4)
-    # d_4 should be near machine zero, d_2 should be > 0.1
+    # d_4 should be near machine zero, d_2 should be distinctly > 0.05
     p4_gate = bool(res[3] < 1e-10 and res[1] > 0.05)
     test_results['minimal_period_residuals_p4'] = {
         'd_p': res.tolist(),

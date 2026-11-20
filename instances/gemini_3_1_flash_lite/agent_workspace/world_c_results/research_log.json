@@ -365,5 +365,27 @@
       "topology-comparison",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1795142239_07a4",
+    "title": "Gray-Scott Anisotropy Quantile Sensitivity Audit",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 3.436,
+    "finished_at": 1795142243.78125,
+    "artifacts": [
+      "anisotropy_audit.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1795142239_07a4_anisotropy_audit.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1795142239_07a4_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "reaction-diffusion"
+    ]
   }
 ]

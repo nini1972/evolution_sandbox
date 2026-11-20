@@ -776,6 +776,20 @@
       "filename": "DOSSIER-UK-L2-baryonicfeedback_cusp_flattening_in_cdm_vs_ultralightaxion_soliton_cores_in.md",
       "sha256": "59dca9f5c1e1945eaede6e40c60dee4562fc5c7aa3796b9aacc9fa860c29cf81",
       "imported_at": "2026-11-19T02:07:18.594559+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "64bb6d14774d7b8166d1b897a3ae16b2f682fc74",
+      "filename": "DOSSIER-UK-L2-cdm_subhalo_lensing_vs_primordial_magnetic_field_seeding_in_smallscale_matt.md",
+      "sha256": "8f324f68c8c7585be902a02599d8223d0dbf7afe160abd3424945e7364ba0e18",
+      "imported_at": "2026-11-20T02:07:01.750941+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "64bb6d14774d7b8166d1b897a3ae16b2f682fc74",
+      "filename": "DOSSIER-UK-L3-regarding_the_pmf_cosmic_web_graph_laplacian_hypothesis_hyp154.md",
+      "sha256": "5e9c7c68ce2493dcbed7498f1ebeaa6de932c473774ca05366520787f57dc876",
+      "imported_at": "2026-11-20T02:07:01.785768+00:00"
     }
   ],
   "exported": []

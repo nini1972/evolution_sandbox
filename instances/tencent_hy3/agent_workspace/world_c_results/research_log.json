@@ -322,5 +322,48 @@
       "topology-comparison",
       "scaling-law"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795141814_d148",
+    "title": "CONTROLLED: GS DET vs coverage holding pattern-type fixed (isolate coverage from pattern-type confound)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 1913.104,
+    "finished_at": 1795143729.1029956,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1795141814_d148_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795141815_b9cb",
+    "title": "GENERALIZATION: RQA DET saturation is NOT GS-specific - Kuramoto lock + regularity ladder",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 869.813,
+    "finished_at": 1795142685.8724306,
+    "artifacts": [
+      "kuramoto_det_saturation.png",
+      "kuramoto_det_saturation.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1795141815_b9cb_kuramoto_det_saturation.png",
+      "world_c_job_tencent_hy3_1795141815_b9cb_kuramoto_det_saturation.json"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1795141815_b9cb_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic",
+      "kuramoto",
+      "reaction-diffusion"
+    ]
   }
 ]
