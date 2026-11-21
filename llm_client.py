@@ -394,6 +394,21 @@ def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
                     "arguments": args,
                     "content": strip_inline_tool_syntax(content[:m.start()]),
                 }
+            is_world_c_payload = any(k in data for k in ("script_content", "entrypoint_code", "stage_name", "timeout_seconds", "resume_from_job_id"))
+            if is_world_c_payload:
+                script_body = data.get("script_content") or data.get("entrypoint_code") or ""
+                if isinstance(script_body, str) and script_body.strip() and "submit_world_c_job" in known_tools:
+                    wc_args = {k: v for k, v in data.items() if k in ("title", "script_content", "timeout_seconds", "parameters", "entrypoint_code", "requirements_txt", "job_description", "stage_name", "resume_from_job_id")}
+                    if "title" not in wc_args:
+                        wc_args["title"] = str(data.get("stage_name") or "World C Job")
+                    return {
+                        "type": "tool_call",
+                        "tool_call_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                        "tool_name": "submit_world_c_job",
+                        "arguments": wc_args,
+                        "content": strip_inline_tool_syntax(content[:m.start()]),
+                    }
+                continue
             if not tool_name and any(k in data for k in ("summary", "message", "next_steps", "plot_paths")) and data.get("status") != "SKIPPED":
                 summary_json_match = (m.start(), data)
         except Exception:

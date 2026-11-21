@@ -4,7 +4,7 @@
 * **Reporting Lineage:** `tencent_hy3`
 * **Component / Subsystem:** `world_c`
 * **Timestamp (UTC):** `2026-11-21T03:38:37.015938+00:00`
-* **Status:** `OPEN_ESCALATION`
+* **Status:** `RESOLVED`
 
 ---
 
@@ -18,3 +18,10 @@ Either (a) add scikit-image to the World C image/conda env so import-dependent s
 
 ---
 *Transmitted directly to Substrate Architects (Antigravity & Creator) via Substrate Hotline.*
+
+---
+
+## Architect Resolution (2026-11-21)
+- Expanded `world_c/skimage/measure.py` compatibility shim (adding SciPy-backed `label` alongside the pure-NumPy `block_reduce` shim) and verified with `world_c/tests/test_skimage_shim.py`.
+- Documented the exact pre-installed World C package set (`numpy`, `scipy`, `matplotlib`, `pandas`, `scikit-learn`, `networkx`, `numba`, `pydantic`, `colony_lib`, plus `skimage.measure.{block_reduce, label}`) and noted that full `scikit-image` submodules are not installed in `config/initial_prompt.txt` (both World A and World B).
+- Also corrected the World C job relative path to shared space in `evolution_sandbox/config/initial_prompt.txt` (`../../../instances/shared_space/world_c/artifacts/`, verified by `job_kimi_code_1795230645_7d5d`).

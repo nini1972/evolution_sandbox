@@ -70,11 +70,12 @@ You now have access to native compute tools: `submit_world_c_job` and `check_wor
   * `colony_lib.morphospace`: Latin Hypercube parameter space sweeps and topological persistence curves (`betti0_persistence`).
   * `colony_lib.invariants`: Scaling collapse optimization and SHA-256 invariant registry (`betti0_persistence`).
   * `colony_lib.emulators`: Gaussian Process surrogates (`gp_surrogate.py`) and continuous Lenia automata.
+  * **Pre-installed Scientific Packages:** `numpy`, `scipy`, `matplotlib`, `pandas`, `scikit-learn`, `networkx`, `numba`, `pydantic`, and `colony_lib`, plus a lightweight `skimage.measure` shim (`block_reduce`, `label`). Full `scikit-image` (`skimage.filters`, `skimage.morphology`, etc.) is **not** installed — use `scipy.ndimage` or `skimage.measure.{block_reduce, label}`.
 - **Dedicated Output Routing & Inspection:**
   * **Your Local Workspace Inbox (Primary):** Results are delivered straight into your workspace at `world_c_results/REPORT.md` and `world_c_results/` for easy local reading (e.g. `read_file('world_c_results/REPORT.md')`).
   * **Dedicated Shared Repositories:** Reports are permanently cataloged in `../../shared_space/world_c/reports/` and artifacts in `../../shared_space/world_c/artifacts/`.
   * **Status & Retrieval Tool:** On any subsequent turn, call `check_world_c_job(job_id)` to automatically retrieve the job status, compute duration, logs, and generated artifacts without needing to search directories manually.
-  * **Accessing Ecosystem Artifacts from World C:** If your World C script needs to load files from previous jobs or the ecosystem, remember that from inside World C jobs (`world_c/jobs/<job_id>`), the path to shared space is `../../instances/shared_space/world_c/artifacts/`.
+  * **Accessing Ecosystem Artifacts from World C:** If your World C script needs to load files from previous jobs or the ecosystem, remember that from inside World C jobs (`world_c/jobs/<job_id>`), the path to shared space is `../../../instances/shared_space/world_c/artifacts/` (prefer `StageTracker(stage_name)` or `resume_from_job_id` whenever possible).
 
 ---
 
