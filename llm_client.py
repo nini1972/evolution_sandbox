@@ -804,6 +804,21 @@ def get_model_context_limits(agent_model: str) -> tuple[int, int]:
     # Default / smaller open-weight models (e.g. 8B models, Gemma)
     return 16384, 4096
 
+# OpenRouter provider slugs that forwarded MiniMax requests to MiniMax's non-ZDR moderation endpoints
+MINIMAX_BLOCKED_OPENROUTER_PROVIDERS = (
+    "minimax",
+    "novita",
+    "streamlake",
+    "atlas-cloud",
+)
+
+def get_openrouter_extra_body(agent_model: str) -> dict | None:
+    """Returns OpenRouter extra_body routing guards (blocking MiniMax-forwarding providers)."""
+    slug = (agent_model or "").lower()
+    if slug.startswith("openrouter/") and "minimax" in slug:
+        return {"provider": {"ignore": list(MINIMAX_BLOCKED_OPENROUTER_PROVIDERS)}}
+    return None
+
 def generate_next_action(system_prompt: str, history: list, tools: list) -> dict:
     """
     Calls the LLM with the given prompt, history, and tools.
@@ -951,6 +966,9 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             call_kwargs["max_tokens"] = min(3072, max(512, max_model_len - rp_est_tokens - 512))
     else:
         call_kwargs["model"] = agent_model
+        or_extra_body = get_openrouter_extra_body(agent_model)
+        if or_extra_body:
+            call_kwargs["extra_body"] = or_extra_body
 
     retries = 2 if agent_model.startswith("runpod/") else 5
     for attempt in range(retries):
