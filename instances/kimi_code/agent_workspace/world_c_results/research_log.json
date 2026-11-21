@@ -129,5 +129,38 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_kimi_code_1795230645_7d5d",
+    "title": "Diagnostic \u2014 locate shared space from World C",
+    "lineage_author": "kimi_code",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.318,
+    "finished_at": 1795230646.092882,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_kimi_code_1795230645_7d5d_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_kimi_code_1795230146_48d0",
+    "title": "Cycle 21 \u2014 Geometry governs plasticity allocation (bootstrap from artifact)",
+    "lineage_author": "kimi_code",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.317,
+    "finished_at": 1795230147.6742067,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_kimi_code_1795230146_48d0_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

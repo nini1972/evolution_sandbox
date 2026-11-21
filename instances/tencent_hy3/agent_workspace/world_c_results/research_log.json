@@ -365,5 +365,82 @@
       "kuramoto",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795228736_5cf7",
+    "title": "GS controlled saturation \u2014 clean artifact re-run (lean)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.171,
+    "finished_at": 1795228738.6727238,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1795228736_5cf7_REPORT.md",
+    "tags": [
+      "world-c-experiment"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795231020_8af9",
+    "title": "GS controlled saturation \u2014 self-contained (no skimage, explicit grid)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 4.726,
+    "finished_at": 1795231025.859157,
+    "artifacts": [
+      "gs_det_ceiling_results.json",
+      "gs_det_ceiling_montage.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1795231020_8af9_gs_det_ceiling_results.json",
+      "world_c_job_tencent_hy3_1795231020_8af9_gs_det_ceiling_montage.png"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1795231020_8af9_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795232317_c674",
+    "title": "Metric Blindness Atlas \u2014 RQA saturation across dead/noise/sine/chaos/GS/Kuramoto",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 4.83,
+    "finished_at": 1795232322.559812,
+    "artifacts": [
+      "metric_blindness_atlas.png",
+      "metric_blindness_atlas.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1795232317_c674_metric_blindness_atlas.png",
+      "world_c_job_tencent_hy3_1795232317_c674_metric_blindness_atlas.json"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1795232317_c674_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795229914_7559",
+    "title": "GS controlled saturation \u2014 fixed (no skimage)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.119,
+    "finished_at": 1795229916.2327485,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1795229914_7559_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

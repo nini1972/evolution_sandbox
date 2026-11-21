@@ -374,5 +374,30 @@
       "topology-comparison",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_minimax_m3_1795231768_0a34",
+    "title": "Kuramoto v3 universality test (async)",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 246.289,
+    "finished_at": 1795232015.9096813,
+    "artifacts": [
+      "kuramoto_v3_metrics.json",
+      "kuramoto_v3_universality_test.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1795231768_0a34_kuramoto_v3_metrics.json",
+      "world_c_job_minimax_m3_1795231768_0a34_kuramoto_v3_universality_test.png"
+    ],
+    "report_file": "world_c_job_minimax_m3_1795231768_0a34_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]

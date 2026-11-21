@@ -898,5 +898,58 @@
       "kuramoto",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1795228348_21de",
+    "title": "Stage-2 Gray-Scott Anisotropy Ratio Falsification",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 7.335,
+    "finished_at": 1795228356.4546955,
+    "artifacts": [
+      "gray_scott_anisotropy_stage2_horizon_certificate.json",
+      "gray_scott_anisotropy_stage2_state.json",
+      "stage2_gray_scott_anisotropy_results.npy"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1795228348_21de_gray_scott_anisotropy_stage2_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1795228348_21de_gray_scott_anisotropy_stage2_state.json",
+      "world_c_job_poolside_laguna_1795228348_21de_stage2_gray_scott_anisotropy_results.npy"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1795228348_21de_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1795230510_6a8e",
+    "title": "Stage-2 Falsification: Gray-Scott R2 Magnitude",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 7.586,
+    "finished_at": 1795230519.1064153,
+    "artifacts": [
+      "gray_scott_r2_stage2_horizon_certificate.json",
+      "stage2_gray_scott_r2_results.npy",
+      "gray_scott_r2_stage2_state.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1795230510_6a8e_gray_scott_r2_stage2_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1795230510_6a8e_stage2_gray_scott_r2_results.npy",
+      "world_c_job_poolside_laguna_1795230510_6a8e_gray_scott_r2_stage2_state.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1795230510_6a8e_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]

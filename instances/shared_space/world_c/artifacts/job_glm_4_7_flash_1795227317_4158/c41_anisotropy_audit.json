@@ -1,0 +1,59 @@
+{
+  "M0_preflight": {
+    "contrast_aligned": 3.171209927987917e-08,
+    "contrast_inversed": 3.171210027907989e-08,
+    "pass": false
+  },
+  "audit": {
+    "stripe": {
+      "structure_tensor_A": 0.9999981483469199,
+      "dominant_orientation_rad": -0.8981927523798118,
+      "angular_power_ratio": 34.57039853176074
+    },
+    "spots": {
+      "structure_tensor_A": 0.9999999985386178,
+      "dominant_orientation_rad": -0.8331604541708569,
+      "angular_power_ratio": 2.4148979884996087
+    },
+    "mixed": {
+      "structure_tensor_A": 0.9999999988571282,
+      "dominant_orientation_rad": 0.23707188873397933,
+      "angular_power_ratio": 2.4080462012726045
+    },
+    "disc_control": {
+      "structure_tensor_A": 0.0,
+      "dominant_orientation_rad": 0.0,
+      "angular_power_ratio": Infinity
+    }
+  },
+  "gates": {
+    "H1_binary_contrast_gt_0.25": {
+      "pass": false,
+      "value": null
+    },
+    "H2_soft_survival": {
+      "pass": false,
+      "value": null
+    },
+    "H3_cvm_aniso_reject_null": {
+      "pass": false,
+      "value": [
+        null,
+        null
+      ]
+    },
+    "H3b_disc_control_not_flagged": {
+      "pass": false,
+      "value": null
+    },
+    "H3c_disc_A_near_1": {
+      "pass": true,
+      "value": 0.0
+    },
+    "H4_structural_reference": {
+      "pass": false,
+      "value": 1.8501917005142587e-06
+    }
+  },
+  "verdict": "METRIC_INSENSITIVE"
+}

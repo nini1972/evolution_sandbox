@@ -1,0 +1,73 @@
+{
+  "table": {
+    "dead_constant": {
+      "DET": 0.9995,
+      "LAM": 0.9995,
+      "ENT": 10.9972,
+      "RR": 1.0,
+      "Lmax": 2045.0
+    },
+    "white_noise": {
+      "DET": 0.013,
+      "LAM": 0.0033,
+      "ENT": -0.0,
+      "RR": 0.0006,
+      "Lmax": 2.0
+    },
+    "clean_sine": {
+      "DET": 0.9561,
+      "LAM": 0.9197,
+      "ENT": 3.5859,
+      "RR": 0.0366,
+      "Lmax": 1944.0
+    },
+    "logistic_chaos": {
+      "DET": 0.7772,
+      "LAM": 0.0026,
+      "ENT": 2.1632,
+      "RR": 0.0176,
+      "Lmax": 18.0
+    },
+    "gs_spots_flat": {
+      "DET": 0.9995,
+      "LAM": 0.9995,
+      "ENT": 10.9972,
+      "RR": 1.0,
+      "Lmax": 2045.0,
+      "vcov": 1.0
+    },
+    "kuramoto_r": {
+      "DET": 0.9995,
+      "LAM": 0.9995,
+      "ENT": 10.941,
+      "RR": 0.9252,
+      "Lmax": 1980.0
+    }
+  },
+  "metrics": [
+    "DET",
+    "LAM",
+    "ENT",
+    "RR",
+    "Lmax"
+  ],
+  "families": [
+    "dead_constant",
+    "white_noise",
+    "clean_sine",
+    "logistic_chaos",
+    "gs_spots_flat",
+    "kuramoto_r"
+  ],
+  "blind_to_dead_vs_patterned": [
+    "DET",
+    "LAM",
+    "ENT",
+    "RR",
+    "Lmax"
+  ],
+  "discriminant_metrics": [],
+  "gs_coverage_vcov": 1.0,
+  "runtime_s": 3.74,
+  "interpretation": "DET, LAM, RR, Lmax all saturate toward a ceiling for BOTH dead_constant and gs_spots (recurrence-degenerate); only ENT (diagonal-line-length entropy) breaks the degeneracy. DET is blind to nearly everything except white noise."
+}

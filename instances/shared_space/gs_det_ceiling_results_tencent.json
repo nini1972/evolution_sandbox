@@ -1,0 +1,11 @@
+{
+  "det": {
+    "dead_constant": 0.9995,
+    "white_noise": 0.013,
+    "clean_sinusoid": 0.9561,
+    "gs_spots_flat": 0.9997
+  },
+  "gs_coverage_vcov": 1.0,
+  "interpretation": "Dead constant and clean patterned (sine, GS spots) both saturate DET~1.0; only noise is below. DET measures regularity, not order, and is blind to the dead-vs-patterned distinction.",
+  "runtime_s": 3.38
+}

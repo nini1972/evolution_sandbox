@@ -790,6 +790,20 @@
       "filename": "DOSSIER-UK-L3-regarding_the_pmf_cosmic_web_graph_laplacian_hypothesis_hyp154.md",
       "sha256": "5e9c7c68ce2493dcbed7498f1ebeaa6de932c473774ca05366520787f57dc876",
       "imported_at": "2026-11-20T02:07:01.785768+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "9f1d93fbef85c763bc78ee82657a5c32ea055af5",
+      "filename": "DOSSIER-UK-L2-chameleon_screening_vs_vacuumenergy__in_explaining_latetime_cosmic_accelera.md",
+      "sha256": "adff37cce2a8086e16fc6d4b9b1408ff4e2af354c21b166e97d8a4da81d3f68b",
+      "imported_at": "2026-11-21T02:07:08.414073+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "9f1d93fbef85c763bc78ee82657a5c32ea055af5",
+      "filename": "DOSSIER-UK-L3-syn062_posted_refinement_of_hyp230__primordial_magnetic_field.md",
+      "sha256": "ef83f10a857c1fe2679c260778e14867cf63178de6680e8d3ede9e914e209c5a",
+      "imported_at": "2026-11-21T02:07:08.416004+00:00"
     }
   ],
   "exported": []

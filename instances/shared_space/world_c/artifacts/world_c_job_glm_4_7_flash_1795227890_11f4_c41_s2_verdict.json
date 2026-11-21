@@ -1,0 +1,212 @@
+{
+  "stage": "c41_anisotropy_audit",
+  "stage_key": "stage2",
+  "stage1_recovered": true,
+  "ordering_replicated": false,
+  "ordering": [
+    [
+      "spots_F0.030_k0.062",
+      "stripes_F0.042_k0.062",
+      "tunneling_F0.058_k0.065"
+    ]
+  ],
+  "phi_lattice_max_dA_ds2": 0.007087466794793158,
+  "rotation_reflection_invariance": false,
+  "corr_A_R2_regimes": NaN,
+  "regime_stats": {
+    "spots_F0.030_k0.062": {
+      "A": 0.0005363902083062373,
+      "R2": 0.0023900800461445215,
+      "rank_p": 0.9727626459143969,
+      "z_tier1": -1.2502864202222799,
+      "sd_surrogate": 0.009113616436482445,
+      "sd_vs_intrinsic_ratio": 0.29080843910379556,
+      "tier2": false,
+      "n_surr": 256,
+      "caveats": [],
+      "verdict": "FAIL_TO_REJECT"
+    },
+    "stripes_F0.042_k0.062": {
+      "A": 0.002512521183320529,
+      "R2": 0.013187808512588956,
+      "rank_p": 0.867704280155642,
+      "z_tier1": -1.0334536196774051,
+      "sd_surrogate": 0.009113616436482445,
+      "sd_vs_intrinsic_ratio": 0.29080843910379556,
+      "tier2": false,
+      "n_surr": 256,
+      "caveats": [],
+      "verdict": "FAIL_TO_REJECT"
+    },
+    "tunneling_F0.058_k0.065": {
+      "A": 0.01020627948849694,
+      "R2": 0.1350652847494802,
+      "rank_p": 0.5097276264591439,
+      "z_tier1": -0.18924886750265293,
+      "sd_surrogate": 0.009113616436482445,
+      "sd_vs_intrinsic_ratio": 0.29080843910379556,
+      "tier2": false,
+      "n_surr": 256,
+      "caveats": [],
+      "verdict": "FAIL_TO_REJECT"
+    }
+  },
+  "phi_grid": {
+    "spots_F0.030_k0.062|ds=1|shift=0": {
+      "A": 0.0001799406535019212,
+      "R2": 0.002345096175704383,
+      "n_pairs": 2506826
+    },
+    "spots_F0.030_k0.062|ds=1|shift=1": {
+      "A": 0.0001799406535019212,
+      "R2": 0.002345096175704383,
+      "n_pairs": 2506826
+    },
+    "spots_F0.030_k0.062|ds=2|shift=0": {
+      "A": 0.0005363902083062373,
+      "R2": 0.0023900800461445215,
+      "n_pairs": 146480
+    },
+    "spots_F0.030_k0.062|ds=2|shift=1": {
+      "A": 0.003714095625105875,
+      "R2": 0.0037630187961792527,
+      "n_pairs": 145612
+    },
+    "spots_F0.030_k0.062|ds=3|shift=0": {
+      "A": 0.0013380359178089068,
+      "R2": 0.007492673046978007,
+      "n_pairs": 23206
+    },
+    "spots_F0.030_k0.062|ds=3|shift=1": {
+      "A": 0.0016467624816417924,
+      "R2": 0.016815185712919796,
+      "n_pairs": 24242
+    },
+    "stripes_F0.042_k0.062|ds=1|shift=0": {
+      "A": 0.0034521020203233744,
+      "R2": 0.009071998956557968,
+      "n_pairs": 2519938
+    },
+    "stripes_F0.042_k0.062|ds=1|shift=1": {
+      "A": 0.0034521020203233744,
+      "R2": 0.009071998956557968,
+      "n_pairs": 2519938
+    },
+    "stripes_F0.042_k0.062|ds=2|shift=0": {
+      "A": 0.002512521183320529,
+      "R2": 0.013187808512588956,
+      "n_pairs": 145860
+    },
+    "stripes_F0.042_k0.062|ds=2|shift=1": {
+      "A": 0.0031354009236539758,
+      "R2": 0.0138571471111016,
+      "n_pairs": 146426
+    },
+    "stripes_F0.042_k0.062|ds=3|shift=0": {
+      "A": 0.004349343901698669,
+      "R2": 0.028133744344569694,
+      "n_pairs": 23426
+    },
+    "stripes_F0.042_k0.062|ds=3|shift=1": {
+      "A": 0.002005430065683368,
+      "R2": 0.004613000027568008,
+      "n_pairs": 23628
+    },
+    "tunneling_F0.058_k0.065|ds=1|shift=0": {
+      "A": 0.0069644385895679985,
+      "R2": 0.11076281313003525,
+      "n_pairs": 2582766
+    },
+    "tunneling_F0.058_k0.065|ds=1|shift=1": {
+      "A": 0.0069644385895679985,
+      "R2": 0.11076281313003525,
+      "n_pairs": 2582766
+    },
+    "tunneling_F0.058_k0.065|ds=2|shift=0": {
+      "A": 0.01020627948849694,
+      "R2": 0.1350652847494802,
+      "n_pairs": 136040
+    },
+    "tunneling_F0.058_k0.065|ds=2|shift=1": {
+      "A": 0.0031188126937037814,
+      "R2": 0.13061290428129438,
+      "n_pairs": 137504
+    },
+    "tunneling_F0.058_k0.065|ds=3|shift=0": {
+      "A": 0.002598647780942574,
+      "R2": 0.1769839423400257,
+      "n_pairs": 19844
+    },
+    "tunneling_F0.058_k0.065|ds=3|shift=1": {
+      "A": 0.018910730945580722,
+      "R2": 0.16677468709665375,
+      "n_pairs": 21182
+    }
+  },
+  "adversarial": {
+    "z_tier1": 0.0,
+    "verdict": "UND",
+    "caveats": [
+      "degenerate_null_sd_floor",
+      "tier1_looked_null_but_tier2_floor",
+      "degenerate_null_sd_floor",
+      "tier1_looked_null_but_tier2_floor",
+      "decision_guard_degenerate_null"
+    ]
+  },
+  "cards": [
+    {
+      "point": "spots_F0.030_k0.062",
+      "A": 0.0005363902083062373,
+      "R2": 0.0023900800461445215,
+      "z_tier1": -1.2502864202222799,
+      "rank_p_tier3": 0.9727626459143969,
+      "sd_surrogate": 0.009113616436482445,
+      "sd_vs_intrinsic_ratio": 0.29080843910379556,
+      "tier2_triggered": false,
+      "caveats": [],
+      "verdict": "FAIL_TO_REJECT"
+    },
+    {
+      "point": "stripes_F0.042_k0.062",
+      "A": 0.002512521183320529,
+      "R2": 0.013187808512588956,
+      "z_tier1": -1.0334536196774051,
+      "rank_p_tier3": 0.867704280155642,
+      "sd_surrogate": 0.009113616436482445,
+      "sd_vs_intrinsic_ratio": 0.29080843910379556,
+      "tier2_triggered": false,
+      "caveats": [],
+      "verdict": "FAIL_TO_REJECT"
+    },
+    {
+      "point": "tunneling_F0.058_k0.065",
+      "A": 0.01020627948849694,
+      "R2": 0.1350652847494802,
+      "z_tier1": -0.18924886750265293,
+      "rank_p_tier3": 0.5097276264591439,
+      "sd_surrogate": 0.009113616436482445,
+      "sd_vs_intrinsic_ratio": 0.29080843910379556,
+      "tier2_triggered": false,
+      "caveats": [],
+      "verdict": "FAIL_TO_REJECT"
+    },
+    {
+      "point": "ADVERSARIAL_identity_surrogate",
+      "A": 0.0005363902083062373,
+      "z_tier1": 0.0,
+      "rank_p_tier3": 1.0,
+      "sd_surrogate": 0.0,
+      "tier2_triggered": true,
+      "caveats": [
+        "degenerate_null_sd_floor",
+        "tier1_looked_null_but_tier2_floor",
+        "degenerate_null_sd_floor",
+        "tier1_looked_null_but_tier2_floor",
+        "decision_guard_degenerate_null"
+      ],
+      "verdict": "UND"
+    }
+  ],
+  "headline": "C41 Stage-2 verdict: A ordering ['spots_F0.030_k0.062', 'stripes_F0.042_k0.062', 'tunneling_F0.058_k0.065']; adversarial identity cell -> UND; phi-lattice dA_max=7.09e-03; rotation/reflection invariance=False; corr(A,R2)=nan"
+}

@@ -414,5 +414,72 @@
       "bifurcation",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1795227317_4158",
+    "title": "C41 Stage-2: adversarial + inference-hardened anisotropy verdict (CSR null, tiered p, \u03c6-lattice & ds sensitivity)",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 10.794,
+    "finished_at": 1795227329.3423991,
+    "artifacts": [
+      "c41_anisotropy_audit.json",
+      "c41_anisotropy_audit_state.json",
+      "REPORT.md",
+      "c41_s2_report.md",
+      "c41_s2_verdict.png",
+      "c41_anisotropy_audit_horizon_certificate.json",
+      "c41_s2_verdict.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1795227317_4158_c41_anisotropy_audit.json",
+      "world_c_job_glm_4_7_flash_1795227317_4158_c41_anisotropy_audit_state.json",
+      "world_c_job_glm_4_7_flash_1795227317_4158_REPORT.md",
+      "world_c_job_glm_4_7_flash_1795227317_4158_c41_s2_report.md",
+      "world_c_job_glm_4_7_flash_1795227317_4158_c41_s2_verdict.png",
+      "world_c_job_glm_4_7_flash_1795227317_4158_c41_anisotropy_audit_horizon_certificate.json",
+      "world_c_job_glm_4_7_flash_1795227317_4158_c41_s2_verdict.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1795227317_4158_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1795227890_11f4",
+    "title": "C41 Stage-3: R2 referendum \u2014 high-res 3-seed CSR nulls, Rayleigh cross-check, ordering stability",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1159.736,
+    "finished_at": 1795229050.8359468,
+    "artifacts": [
+      "c41_anisotropy_audit.json",
+      "c41_anisotropy_audit_state.json",
+      "c41_s3_summary.json",
+      "REPORT.md",
+      "c41_s3_report.md",
+      "c41_s3_R2_referendum.png",
+      "c41_anisotropy_audit_horizon_certificate.json",
+      "c41_s2_verdict.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1795227890_11f4_c41_anisotropy_audit.json",
+      "world_c_job_glm_4_7_flash_1795227890_11f4_c41_anisotropy_audit_state.json",
+      "world_c_job_glm_4_7_flash_1795227890_11f4_c41_s3_summary.json",
+      "world_c_job_glm_4_7_flash_1795227890_11f4_REPORT.md",
+      "world_c_job_glm_4_7_flash_1795227890_11f4_c41_s3_report.md",
+      "world_c_job_glm_4_7_flash_1795227890_11f4_c41_s3_R2_referendum.png",
+      "world_c_job_glm_4_7_flash_1795227890_11f4_c41_anisotropy_audit_horizon_certificate.json",
+      "world_c_job_glm_4_7_flash_1795227890_11f4_c41_s2_verdict.json"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1795227890_11f4_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation"
+    ]
   }
 ]

@@ -16,7 +16,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 from scipy.optimize import curve_fit
 
-from c20_robustness_selfcontained import simulate, run_sweep, DEFAULT
+from c20_lib import simulate, run_sweep, DEFAULT
 
 warnings.filterwarnings('ignore')
 

@@ -1,0 +1,360 @@
+[
+ {
+  "meta": {
+   "system": "logistic_cml",
+   "stage_name": "unified_falsification_audit_stage2",
+   "stage_version": "2.0",
+   "numerical_guards": [
+    "rate_closure_signed",
+    "period_gate_int32",
+    "degeneracy_floor"
+   ],
+   "module": "p4_period_cell_v2_draft"
+  },
+  "point": {
+   "r": 3.87,
+   "eps": 0.136,
+   "N": 120,
+   "seed": 0
+  },
+  "observables": {
+   "value_float": 4,
+   "value_threshold": 4,
+   "min_period_float": 4,
+   "min_period_threshold": 4,
+   "distance": 8.132383655379272e-15,
+   "period_delta": 0,
+   "enc_deficit": 8.132383655379272e-15,
+   "det_original": 0.998998998998999,
+   "det_surrogate_mean": 0.7469371025765277
+  },
+  "numerical_guards_status": {
+   "rate_closure_signed": "PASS",
+   "period_gate_int32": "PASS",
+   "degeneracy_floor": "TRIGGER"
+  },
+  "tier1": {
+   "z_value": 134.75932987537277,
+   "std_surrogate": 0.0018704597051319679,
+   "std_intrinsic": null,
+   "sd_vs_intrinsic_ratio": 0.007413477558107726,
+   "floor_triggered": true
+  },
+  "tier3": {
+   "rank_p_value": 0.16666666666666666,
+   "robust": false
+  },
+  "routing_gates_fired": [
+   "CAVEAT_DEGENERACY_FLOOR"
+  ],
+  "caveats": [
+   {
+    "type": "CAVEAT_DEGENERACY_FLOOR",
+    "sd_vs_enc_ratio": 0.007413477558107726,
+    "description": "surrogate sd below degeneracy floor; rank-p required"
+   }
+  ],
+  "verdict": "PERIOD(4)",
+  "confidence": 0.25,
+  "action": "no_period_claim",
+  "reportable": false
+ },
+ {
+  "meta": {
+   "system": "logistic_cml",
+   "stage_name": "unified_falsification_audit_stage2",
+   "stage_version": "2.0",
+   "numerical_guards": [
+    "rate_closure_signed",
+    "period_gate_int32",
+    "degeneracy_floor"
+   ],
+   "module": "p4_period_cell_v2_draft"
+  },
+  "point": {
+   "r": 3.86,
+   "eps": 0.13,
+   "N": 120,
+   "seed": 0
+  },
+  "observables": {
+   "value_float": 4,
+   "value_threshold": 4,
+   "min_period_float": 4,
+   "min_period_threshold": 4,
+   "distance": 6.565302823135577e-09,
+   "period_delta": 0,
+   "enc_deficit": 6.565302823135577e-09,
+   "det_original": 0.998998998998999,
+   "det_surrogate_mean": 0.7469371025765277
+  },
+  "numerical_guards_status": {
+   "rate_closure_signed": "PASS",
+   "period_gate_int32": "PASS",
+   "degeneracy_floor": "TRIGGER"
+  },
+  "tier1": {
+   "z_value": 134.75932987537277,
+   "std_surrogate": 0.0018704597051319679,
+   "std_intrinsic": null,
+   "sd_vs_intrinsic_ratio": 0.007421283789004807,
+   "floor_triggered": true
+  },
+  "tier3": {
+   "rank_p_value": 0.16666666666666666,
+   "robust": false
+  },
+  "routing_gates_fired": [
+   "CAVEAT_DEGENERACY_FLOOR"
+  ],
+  "caveats": [
+   {
+    "type": "CAVEAT_DEGENERACY_FLOOR",
+    "sd_vs_enc_ratio": 0.007421283789004807,
+    "description": "surrogate sd below degeneracy floor; rank-p required"
+   }
+  ],
+  "verdict": "PERIOD(4)",
+  "confidence": 0.25,
+  "action": "no_period_claim",
+  "reportable": false
+ },
+ {
+  "meta": {
+   "system": "logistic_cml",
+   "stage_name": "unified_falsification_audit_stage2",
+   "stage_version": "2.0",
+   "numerical_guards": [
+    "rate_closure_signed",
+    "period_gate_int32",
+    "degeneracy_floor"
+   ],
+   "module": "p4_period_cell_v2_draft"
+  },
+  "point": {
+   "r": 3.9,
+   "eps": 0.145,
+   "N": 120,
+   "seed": 0
+  },
+  "observables": {
+   "value_float": 4,
+   "value_threshold": 4,
+   "min_period_float": 4,
+   "min_period_threshold": 4,
+   "distance": 4.460784983526442e-15,
+   "period_delta": 0,
+   "enc_deficit": 4.460784983526442e-15,
+   "det_original": 0.998998998998999,
+   "det_surrogate_mean": 0.7469371025765277
+  },
+  "numerical_guards_status": {
+   "rate_closure_signed": "PASS",
+   "period_gate_int32": "PASS",
+   "degeneracy_floor": "TRIGGER"
+  },
+  "tier1": {
+   "z_value": 134.75932987537277,
+   "std_surrogate": 0.0018704597051319679,
+   "std_intrinsic": null,
+   "sd_vs_intrinsic_ratio": 0.007336153199773847,
+   "floor_triggered": true
+  },
+  "tier3": {
+   "rank_p_value": 0.16666666666666666,
+   "robust": false
+  },
+  "routing_gates_fired": [
+   "CAVEAT_DEGENERACY_FLOOR"
+  ],
+  "caveats": [
+   {
+    "type": "CAVEAT_DEGENERACY_FLOOR",
+    "sd_vs_enc_ratio": 0.007336153199773847,
+    "description": "surrogate sd below degeneracy floor; rank-p required"
+   }
+  ],
+  "verdict": "PERIOD(4)",
+  "confidence": 0.25,
+  "action": "no_period_claim",
+  "reportable": false
+ },
+ {
+  "meta": {
+   "system": "logistic_cml",
+   "stage_name": "unified_falsification_audit_stage2",
+   "stage_version": "2.0",
+   "numerical_guards": [
+    "rate_closure_signed",
+    "period_gate_int32",
+    "degeneracy_floor"
+   ],
+   "module": "p4_period_cell_v2_draft"
+  },
+  "point": {
+   "r": 3.925,
+   "eps": 0.148,
+   "N": 120,
+   "seed": 0
+  },
+  "observables": {
+   "value_float": 8,
+   "value_threshold": 2,
+   "min_period_float": 8,
+   "min_period_threshold": 2,
+   "distance": 0.19197994366002938,
+   "period_delta": 6,
+   "enc_deficit": 3.569928810369713e-15,
+   "det_original": 0.9959960080320319,
+   "det_surrogate_mean": 0.2349664063923535
+  },
+  "numerical_guards_status": {
+   "rate_closure_signed": "PASS",
+   "period_gate_int32": "PASS",
+   "degeneracy_floor": "PASS"
+  },
+  "tier1": {
+   "z_value": 116.49871649249394,
+   "std_surrogate": 0.006532514902760426,
+   "std_intrinsic": null,
+   "sd_vs_intrinsic_ratio": 0.025836754076044,
+   "floor_triggered": false
+  },
+  "tier3": {
+   "rank_p_value": 0.16666666666666666,
+   "robust": false
+  },
+  "routing_gates_fired": [
+   "CAVEAT_ENCODING_DEPENDENT"
+  ],
+  "caveats": [
+   {
+    "type": "CAVEAT_ENCODING_DEPENDENT",
+    "enc_deficit": 3.569928810369713e-15,
+    "d_float_at_pb": 0.19197994366002938,
+    "period_delta": 6,
+    "sd_vs_enc_ratio": 0.025836754076044,
+    "description": "float=8 vs threshold=2 encodings disagree"
+   }
+  ],
+  "verdict": "ENCODING_UNDECIDABLE",
+  "confidence": 0.25,
+  "action": "human_review",
+  "reportable": false
+ },
+ {
+  "meta": {
+   "system": "logistic_cml",
+   "stage_name": "unified_falsification_audit_stage2",
+   "stage_version": "2.0",
+   "numerical_guards": [
+    "rate_closure_signed",
+    "period_gate_int32",
+    "degeneracy_floor"
+   ],
+   "module": "p4_period_cell_v2_draft"
+  },
+  "point": {
+   "r": 3.94,
+   "eps": 0.127,
+   "N": 120,
+   "seed": 0
+  },
+  "observables": {
+   "value_float": null,
+   "value_threshold": 2,
+   "min_period_float": null,
+   "min_period_threshold": 2,
+   "distance": 0.05679621214165218,
+   "period_delta": null,
+   "enc_deficit": null,
+   "det_original": 0.6188990416759528,
+   "det_surrogate_mean": 0.012384464116473152
+  },
+  "numerical_guards_status": {
+   "rate_closure_signed": "PASS",
+   "period_gate_int32": "PASS",
+   "degeneracy_floor": "PASS"
+  },
+  "tier1": {
+   "z_value": 113.73153336404218,
+   "std_surrogate": 0.00533286204467228,
+   "std_intrinsic": null,
+   "sd_vs_intrinsic_ratio": 0.02373390443006853,
+   "floor_triggered": false
+  },
+  "tier3": {
+   "rank_p_value": 0.16666666666666666,
+   "robust": false
+  },
+  "routing_gates_fired": [
+   "CAVEAT_ENCODING_DEPENDENT"
+  ],
+  "caveats": [
+   {
+    "type": "CAVEAT_ENCODING_DEPENDENT",
+    "enc_deficit": null,
+    "d_float_at_pb": 0.05679621214165218,
+    "period_delta": null,
+    "sd_vs_enc_ratio": 0.02373390443006853,
+    "description": "float=None vs threshold=2 encodings disagree"
+   }
+  ],
+  "verdict": "ENCODING_CONFLICT",
+  "confidence": 0.25,
+  "action": "human_review",
+  "reportable": false
+ },
+ {
+  "meta": {
+   "system": "logistic_cml",
+   "stage_name": "unified_falsification_audit_stage2",
+   "stage_version": "2.0",
+   "numerical_guards": [
+    "rate_closure_signed",
+    "period_gate_int32",
+    "degeneracy_floor"
+   ],
+   "module": "p4_period_cell_v2_draft"
+  },
+  "point": {
+   "r": 3.6,
+   "eps": 0.136,
+   "N": 120,
+   "seed": 0
+  },
+  "observables": {
+   "value_float": null,
+   "value_threshold": null,
+   "min_period_float": null,
+   "min_period_threshold": null,
+   "distance": null,
+   "period_delta": null,
+   "enc_deficit": null,
+   "det_original": 0.8849355887558135,
+   "det_surrogate_mean": 0.6463097931138211
+  },
+  "numerical_guards_status": {
+   "rate_closure_signed": "PASS",
+   "period_gate_int32": "PASS",
+   "degeneracy_floor": "PASS"
+  },
+  "tier1": {
+   "z_value": 40.725960359657776,
+   "std_surrogate": 0.005859304324186539,
+   "std_intrinsic": null,
+   "sd_vs_intrinsic_ratio": 0.028489769578278652,
+   "floor_triggered": false
+  },
+  "tier3": {
+   "rank_p_value": 0.16666666666666666,
+   "robust": false
+  },
+  "routing_gates_fired": [],
+  "caveats": [],
+  "verdict": "CHAOS_OR_UNRESOLVED",
+  "confidence": 0.4,
+  "action": "no_period_claim",
+  "reportable": false
+ }
+]
