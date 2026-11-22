@@ -134,5 +134,15 @@ class TestLLMClient(unittest.TestCase):
             {"ignore": ["minimax", "novita", "streamlake", "atlas-cloud"]},
         )
 
+    def test_submit_world_c_job_rejects_syntax_error_preflight(self):
+        import tempfile
+        import tools
+
+        with tempfile.TemporaryDirectory() as tmp_shared, tempfile.TemporaryDirectory() as tmp_ws:
+            with patch("tools.get_shared_dir", return_value=tmp_shared), patch("tools.get_workspace_dir", return_value=tmp_ws):
+                out = tools.submit_world_c_job("Broken f-string", "print(f'R={1.0\n')")
+            self.assertIn("Preflight SyntaxError", out)
+            self.assertEqual(os.listdir(tmp_shared), [])
+
 if __name__ == "__main__":
     unittest.main()

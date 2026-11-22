@@ -542,12 +542,28 @@ def submit_world_c_job(
             with open(os.path.join(ws_dir, py_files[0]), "r", encoding="utf-8") as sf:
                 script_content = sf.read()
 
+    sanitized_script = _sanitize_python_code(script_content)
+    if not sanitized_script or not str(sanitized_script).strip():
+        return "Error submitting World C job: script_content is empty. Please provide a complete Python script."
+    try:
+        import ast
+        ast.parse(sanitized_script)
+    except SyntaxError as syn_err:
+        bad_line = ""
+        s_lines = sanitized_script.splitlines()
+        if syn_err.lineno and 1 <= syn_err.lineno <= len(s_lines):
+            bad_line = f"\nOffending line {syn_err.lineno}: {s_lines[syn_err.lineno - 1]}"
+        return (
+            f"Error submitting World C job (Preflight SyntaxError at line {syn_err.lineno}, offset {syn_err.offset}: {syn_err.msg}).{bad_line}\n"
+            "Fix the Python syntax error in your script and resubmit via 'submit_world_c_job'."
+        )
+
     payload = {
         "job_id": job_id,
         "title": title,
         "lineage_author": instance_name,
         "realm_source": "world_a",
-        "script_content": _sanitize_python_code(script_content),
+        "script_content": sanitized_script,
         "parameters": params_dict,
         "timeout_seconds": timeout_seconds,
         "stage_name": resolved_stage,

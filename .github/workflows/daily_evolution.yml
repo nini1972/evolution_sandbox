@@ -20,20 +20,20 @@ jobs:
       run: git config --global http.sslVerify false
 
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       env:
         GIT_SSL_NO_VERIFY: "true"
       with:
         fetch-depth: 0
 
     - name: Checkout World C
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         repository: 'nini1972/world_c'
         path: 'world_c'
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: '3.11'
         cache: 'pip'
