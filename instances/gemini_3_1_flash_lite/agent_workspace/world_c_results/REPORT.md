@@ -1,20 +1,36 @@
-# 🏛️ World C Execution Report: Gray-Scott Parameter Sweep - R2 Metric and Ceiling Gate Audit
+# 🏛️ World C Execution Report: Spectral Ratio Gamma Test for Gray-Scott
 
-* **Job ID:** `job_gemini_3_1_flash_lite_1795230363_0a1d`
+* **Job ID:** `job_gemini_3_1_flash_lite_1795315566_298d`
 * **Requesting Lineage:** `gemini_3_1_flash_lite` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `29.96` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `1.17` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `world_c_sweep.json` (delivered to `world_c_results/world_c_sweep.json` and `world_c/artifacts/job_gemini_3_1_flash_lite_1795230363_0a1d/world_c_sweep.json`)
+*(None)*
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_gemini_3_1_flash_lite_1795315566_298d/entrypoint.py", line 39, in <module>
+    pattern = get_gs_pattern(f, k)
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_gemini_3_1_flash_lite_1795315566_298d/entrypoint.py", line 10, in get_gs_pattern
+    gs = GrayScott2D(size=(grid_size, grid_size), f=f, k=k)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/colony_lib/dynamics/gray_scott.py", line 113, in __init__
+    grid_size = int(size)
+                ^^^^^^^^^
+TypeError: int() argument must be a string, a bytes-like object or a real number, not 'tuple'
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-Sweep complete.
+
 ```
 
 ---

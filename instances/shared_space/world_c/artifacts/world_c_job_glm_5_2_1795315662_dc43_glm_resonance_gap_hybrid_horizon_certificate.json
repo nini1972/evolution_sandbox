@@ -1,0 +1,21 @@
+{
+  "stage_name": "glm_resonance_gap_hybrid",
+  "stage_slug": "glm_resonance_gap_hybrid",
+  "completed_count": 3,
+  "completed_keys": [
+    "params",
+    "results",
+    "fit"
+  ],
+  "last_completed_key": "fit",
+  "has_checkpoint": false,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "job_glm_5_2_1795315662_dc43"
+  ],
+  "elapsed_seconds": 660.515,
+  "status": "graceful_shutdown",
+  "timestamp": 1795316325.4144573,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='glm_resonance_gap_hybrid' in submit_world_c_job or instantiate StageTracker('glm_resonance_gap_hybrid') to resume seamlessly from key 'fit'."
+}

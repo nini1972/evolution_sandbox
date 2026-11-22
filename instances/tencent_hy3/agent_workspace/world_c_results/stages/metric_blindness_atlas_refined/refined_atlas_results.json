@@ -1,0 +1,144 @@
+{
+  "table": {
+    "dead_constant": {
+      "DET": 0.9995,
+      "LAM": 0.9995,
+      "ENT": 10.9972,
+      "RR": 1.0,
+      "Lmax": 2045.0
+    },
+    "white_noise": {
+      "DET": 0.013,
+      "LAM": 0.0033,
+      "ENT": -0.0,
+      "RR": 0.0006,
+      "Lmax": 2.0
+    },
+    "clean_sine": {
+      "DET": 0.9561,
+      "LAM": 0.9197,
+      "ENT": 3.5859,
+      "RR": 0.0366,
+      "Lmax": 1944.0
+    },
+    "logistic_chaos": {
+      "DET": 0.7772,
+      "LAM": 0.0026,
+      "ENT": 2.1632,
+      "RR": 0.0176,
+      "Lmax": 18.0
+    },
+    "gs_spots_probe": {
+      "DET": 0.9994,
+      "LAM": 0.9994,
+      "ENT": 10.869,
+      "RR": 0.8393,
+      "Lmax": 2045.0
+    },
+    "gs_spots_coverage": {
+      "DET": 0.9995,
+      "LAM": 0.9995,
+      "ENT": 10.9972,
+      "RR": 1.0,
+      "Lmax": 2045.0
+    },
+    "kuramoto_r": {
+      "DET": 0.9995,
+      "LAM": 0.9995,
+      "ENT": 10.941,
+      "RR": 0.9252,
+      "Lmax": 1980.0
+    },
+    "gs_saturated_flat": {
+      "DET": 0.9995,
+      "LAM": 0.9995,
+      "ENT": 10.9972,
+      "RR": 1.0,
+      "Lmax": 2045.0
+    },
+    "_meta": {
+      "vcov_spots": 0.0044,
+      "vcov_saturated": 1.0
+    }
+  },
+  "metrics": [
+    "DET",
+    "LAM",
+    "ENT",
+    "RR",
+    "Lmax"
+  ],
+  "families": [
+    "dead_constant",
+    "white_noise",
+    "clean_sine",
+    "logistic_chaos",
+    "gs_spots_probe",
+    "gs_spots_coverage",
+    "kuramoto_r",
+    "gs_saturated_flat"
+  ],
+  "blind_to_dead": {
+    "DET": [
+      "clean_sine",
+      "gs_spots_probe",
+      "gs_spots_coverage",
+      "kuramoto_r",
+      "gs_saturated_flat"
+    ],
+    "LAM": [
+      "gs_spots_probe",
+      "gs_spots_coverage",
+      "kuramoto_r",
+      "gs_saturated_flat"
+    ],
+    "ENT": [
+      "gs_spots_coverage",
+      "gs_saturated_flat"
+    ],
+    "RR": [
+      "gs_spots_coverage",
+      "gs_saturated_flat"
+    ],
+    "Lmax": [
+      "gs_spots_probe",
+      "gs_spots_coverage",
+      "gs_saturated_flat"
+    ]
+  },
+  "discriminant_of_dead": {
+    "DET": [
+      "white_noise",
+      "logistic_chaos"
+    ],
+    "LAM": [
+      "white_noise",
+      "clean_sine",
+      "logistic_chaos"
+    ],
+    "ENT": [
+      "white_noise",
+      "clean_sine",
+      "logistic_chaos",
+      "gs_spots_probe",
+      "kuramoto_r"
+    ],
+    "RR": [
+      "white_noise",
+      "clean_sine",
+      "logistic_chaos",
+      "gs_spots_probe",
+      "kuramoto_r"
+    ],
+    "Lmax": [
+      "white_noise",
+      "clean_sine",
+      "logistic_chaos",
+      "kuramoto_r"
+    ]
+  },
+  "vcov_spots": 0.0044,
+  "vcov_saturated": 1.0,
+  "runtime_s": 9.08,
+  "notes": "gs_spots_probe/coverage use F=0.035,k=0.065 (true isolated spots, vcov moderate); gs_saturated_flat uses F=0.037,k=0.014 (vcov~1.0 uniform field -> recurrence=constant, the ceiling illustration). Blindness judged by |metric(patterned)-metric(dead)|<0.05."
+}

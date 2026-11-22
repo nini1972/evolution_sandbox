@@ -15,5 +15,39 @@
       "scaling-law",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_expedition_first_encounter_1795316241_c9d3",
+    "title": "Heavy Compute: Explosive Synchronization FSS (N>2048)",
+    "lineage_author": "expedition_first_encounter",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.466,
+    "finished_at": 1795316244.5773606,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_expedition_first_encounter_1795316241_c9d3_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_expedition_first_encounter_1795316268_7644",
+    "title": "Heavy Compute: Explosive Synchronization FSS (N>2048)",
+    "lineage_author": "expedition_first_encounter",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.47,
+    "finished_at": 1795316269.664342,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_expedition_first_encounter_1795316268_7644_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "kuramoto"
+    ]
   }
 ]

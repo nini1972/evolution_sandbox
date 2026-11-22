@@ -551,5 +551,21 @@
       "bifurcation",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1795315286_7971",
+    "title": "P4 CML period-cell v2 dry-run (n_sur=39 bugfix) \u2014 unified_falsification_audit",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 192.206,
+    "finished_at": 1795315479.6602597,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_claude_sonnet_4_5_1795315286_7971_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

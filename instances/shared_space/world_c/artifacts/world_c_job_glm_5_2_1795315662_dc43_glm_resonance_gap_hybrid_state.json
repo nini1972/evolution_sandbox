@@ -1,0 +1,144 @@
+{
+  "stage_name": "glm_resonance_gap_hybrid",
+  "stage_slug": "glm_resonance_gap_hybrid",
+  "updated_at": 1795316325.4144464,
+  "active_job_id": "job_glm_5_2_1795315662_dc43",
+  "history_jobs": [
+    "job_glm_5_2_1795315662_dc43"
+  ],
+  "completed_count": 3,
+  "completed_keys": [
+    "params",
+    "results",
+    "fit"
+  ],
+  "stages": {
+    "params": {
+      "M": 20,
+      "m_osc": 4,
+      "L": 64,
+      "T_kuramoto": 50000,
+      "sigma_omega": 0.3,
+      "K_base": 0.5,
+      "K_grad": 2.0,
+      "K_net": 0.2,
+      "GS_F": 0.04,
+      "GS_k": 0.06,
+      "N_values": [
+        1,
+        2,
+        5,
+        10,
+        20,
+        50,
+        100,
+        200
+      ]
+    },
+    "results": {
+      "1": {
+        "mean_instant_corr": 0.0,
+        "std_instant_corr": 0.0,
+        "spatial_corr_time_averaged": 0.0,
+        "mean_r": NaN,
+        "std_r": NaN,
+        "mean_v": NaN,
+        "std_v": NaN,
+        "n_measurements": 0
+      },
+      "2": {
+        "mean_instant_corr": 0.0,
+        "std_instant_corr": 0.0,
+        "spatial_corr_time_averaged": 0.0,
+        "mean_r": NaN,
+        "std_r": NaN,
+        "mean_v": NaN,
+        "std_v": NaN,
+        "n_measurements": 0
+      },
+      "5": {
+        "mean_instant_corr": 0.0,
+        "std_instant_corr": 0.0,
+        "spatial_corr_time_averaged": 0.0,
+        "mean_r": NaN,
+        "std_r": NaN,
+        "mean_v": NaN,
+        "std_v": NaN,
+        "n_measurements": 0
+      },
+      "10": {
+        "mean_instant_corr": 0.0,
+        "std_instant_corr": 0.0,
+        "spatial_corr_time_averaged": 0.0,
+        "mean_r": NaN,
+        "std_r": NaN,
+        "mean_v": NaN,
+        "std_v": NaN,
+        "n_measurements": 0
+      },
+      "20": {
+        "mean_instant_corr": 0.0,
+        "std_instant_corr": 0.0,
+        "spatial_corr_time_averaged": 0.0,
+        "mean_r": NaN,
+        "std_r": NaN,
+        "mean_v": NaN,
+        "std_v": NaN,
+        "n_measurements": 0
+      },
+      "50": {
+        "mean_instant_corr": 0.0,
+        "std_instant_corr": 0.0,
+        "spatial_corr_time_averaged": 0.0,
+        "mean_r": NaN,
+        "std_r": NaN,
+        "mean_v": NaN,
+        "std_v": NaN,
+        "n_measurements": 0
+      },
+      "100": {
+        "mean_instant_corr": 0.0,
+        "std_instant_corr": 0.0,
+        "spatial_corr_time_averaged": 0.0,
+        "mean_r": NaN,
+        "std_r": NaN,
+        "mean_v": NaN,
+        "std_v": NaN,
+        "n_measurements": 0
+      },
+      "200": {
+        "mean_instant_corr": 0.0,
+        "std_instant_corr": 0.0,
+        "spatial_corr_time_averaged": 0.0,
+        "mean_r": NaN,
+        "std_r": NaN,
+        "mean_v": NaN,
+        "std_v": NaN,
+        "n_measurements": 0
+      }
+    },
+    "fit": {
+      "C_max": 2.3220328778277262e-18,
+      "tau": 14.999999990924975,
+      "R_squared": 0.0,
+      "r19z_C_max": 0.793,
+      "r19z_tau": 11.2,
+      "verdict": "No match"
+    }
+  },
+  "stage_metadata": {
+    "params": {
+      "saved_at": 1795315664.9004555,
+      "job_id": "job_glm_5_2_1795315662_dc43"
+    },
+    "results": {
+      "saved_at": 1795316198.8370883,
+      "job_id": "job_glm_5_2_1795315662_dc43"
+    },
+    "fit": {
+      "saved_at": 1795316198.8402112,
+      "job_id": "job_glm_5_2_1795315662_dc43"
+    }
+  },
+  "checkpoint": null
+}

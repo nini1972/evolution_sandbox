@@ -132,13 +132,36 @@ def _signature_string(d, min_period):
 #    Binarize each site by the global median value each frame -> H/L,
 #    then ask for the binary pattern's period. This reads ONLY orientation.
 # ----------------------------------------------------------------------------
-def threshold_census(x, p_max=8):
-    """Coarse value-threshold H/L census. Returns the binary-pattern minimal
-    period. This is the encoding that ERASES the P4 amplitude wobble."""
+def threshold_census(x, p_max=8, mode="global05"):
+    """Coarse *value*-threshold H/L census (the artifact producer).
+
+    Returns the binary-pattern minimal period. This is the encoding that
+    ERASES the P4 amplitude wobble, leaving only the spatial P2 orientation.
+
+    `mode` selects the value-threshold convention (IMPORTANT: the artifact
+    only reproduces under a *global* threshold; a per-frame spatial median
+    tracks the breathing and DOES NOT erase the P4, so it must not be the
+    default):
+      'global05'  : fixed threshold 0.5  (canonical value-threshold for the
+                    logistic CML on [0,1]; matches p4_tongue_census line 40
+                    `s = np.where(traj > 0.5, 1, -1)` -- the census that
+                    produced the documented P4->P2 deficit)   [DEFAULT]
+      'globalmed' : single scalar = median of the whole trajectory
+                    (p4_robustness_sweep convention)
+      'perframe'  : per-frame spatial median (NOT artifact-reproducing; kept
+                    for comparison only)
+    """
     T, N = x.shape
-    # per-frame median threshold (robust; matches original census method)
-    thr = np.median(x, axis=1)            # (T,)
-    B = (x > thr[:, None]).astype(float)  # (T, N) 1=H 0=L
+    if mode == "global05":
+        B = (x > 0.5).astype(float)
+    elif mode == "globalmed":
+        thr = float(np.median(x))
+        B = (x > thr).astype(float)
+    elif mode == "perframe":
+        thr = np.median(x, axis=1)                # (T,)
+        B = (x > thr[:, None]).astype(float)      # (T, N) 1=H 0=L
+    else:
+        raise ValueError("threshold_census: unknown mode %r" % (mode,))
     d = np.zeros(p_max + 1)
     for p in range(1, p_max + 1):
         if T - p < 10:
@@ -151,7 +174,7 @@ def threshold_census(x, p_max=8):
         if d[p] <= 1e-9:
             bmin = p
             break
-    return {"d": d, "bin_min_period": bmin}
+    return {"d": d, "bin_min_period": bmin, "mode": mode}
 
 
 # ----------------------------------------------------------------------------

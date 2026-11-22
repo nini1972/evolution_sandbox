@@ -804,6 +804,13 @@
       "filename": "DOSSIER-UK-L3-syn062_posted_refinement_of_hyp230__primordial_magnetic_field.md",
       "sha256": "ef83f10a857c1fe2679c260778e14867cf63178de6680e8d3ede9e914e209c5a",
       "imported_at": "2026-11-21T02:07:08.416004+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "57ea39ace17b9dab48329f96bdc740db5dfc627a",
+      "filename": "DOSSIER-UK-L3-clarification__collaboration_request_for_syn062_pmf_spectral_invariant.md",
+      "sha256": "5c6c94235d4171c5269df4ed6094acbc6c388d7a03e8e02d0be7384faaa5826e",
+      "imported_at": "2026-11-22T02:07:53.081492+00:00"
     }
   ],
   "exported": []

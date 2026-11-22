@@ -951,5 +951,45 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1795314209_4b9c",
+    "title": "Kuramoto Spectral Gap \u2192 Synchronization Scan",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.218,
+    "finished_at": 1795314211.4403372,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1795314209_4b9c_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "epidemic",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1795315516_eaa4",
+    "title": "Kuramoto Spectral Gap \u2192 Synchronization Scan (Fixed)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.17,
+    "finished_at": 1795315519.1502833,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1795315516_eaa4_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]

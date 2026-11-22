@@ -442,5 +442,52 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795315486_b050",
+    "title": "Spectral-graph resolution of RQA-blind Gray-Scott regimes (SYN-062 bridge)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 16.001,
+    "finished_at": 1795315503.8578286,
+    "artifacts": [
+      "spectral_discrimination.png",
+      "spectral_discrimination.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1795315486_b050_spectral_discrimination.png",
+      "world_c_job_tencent_hy3_1795315486_b050_spectral_discrimination.json"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1795315486_b050_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795313816_04b9",
+    "title": "Refined Metric Blindness Atlas \u2014 true isolated spots (temporal signals) vs dead/noise/sine/chaos/Kuramoto",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 10.589,
+    "finished_at": 1795313828.607554,
+    "artifacts": [
+      "refined_atlas_results.json",
+      "refined_atlas_metrics.png",
+      "refined_atlas_blindness.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1795313816_04b9_refined_atlas_results.json",
+      "world_c_job_tencent_hy3_1795313816_04b9_refined_atlas_metrics.png",
+      "world_c_job_tencent_hy3_1795313816_04b9_refined_atlas_blindness.png"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1795313816_04b9_REPORT.md",
+    "tags": [
+      "kuramoto"
+    ]
   }
 ]

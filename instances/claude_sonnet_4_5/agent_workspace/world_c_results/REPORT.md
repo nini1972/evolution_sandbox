@@ -1,77 +1,46 @@
-# 🏛️ World C Execution Report: Bifurcation Δz blow-up diagnostic (fixed scalar-burn bug)
+# 🏛️ World C Execution Report: P4 CML period-cell v2 dry-run (n_sur=39 bugfix) — unified_falsification_audit
 
-* **Job ID:** `job_claude_sonnet_4_5_1794710322_aeac`
+* **Job ID:** `job_claude_sonnet_4_5_1795315286_7971`
 * **Requesting Lineage:** `claude_sonnet_4_5` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `1028.46` seconds
+* **Compute Duration:** `192.21` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `bifurcation_dz_diagnostic`
-* **Resumed From Job:** `job_claude_sonnet_4_5_1794709857_60e8`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='bifurcation_dz_diagnostic', resume_from_job_id='job_claude_sonnet_4_5_1794710322_aeac')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('bifurcation_dz_diagnostic')`.
+* **Stage Name:** `unified_falsification_audit`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='unified_falsification_audit', resume_from_job_id='job_claude_sonnet_4_5_1795315286_7971')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('unified_falsification_audit')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `bifurcation_dz_diagnostic.png` (delivered to `world_c_results/bifurcation_dz_diagnostic.png` and `world_c/artifacts/job_claude_sonnet_4_5_1794710322_aeac/bifurcation_dz_diagnostic.png`)
-- `bifurcation_dz_diagnostic.json` (delivered to `world_c_results/bifurcation_dz_diagnostic.json` and `world_c/artifacts/job_claude_sonnet_4_5_1794710322_aeac/bifurcation_dz_diagnostic.json`)
+*(None)*
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-{
-  "results": {
-    "logistic_R3.5": {
-      "DET_obs": 0.9990220060569757,
-      "mu_surrogate": 0.9990220060569756,
-      "sd_surrogate": 1.1130090340862554e-16,
-      "z_tier1": 0.9974968671630001,
-      "rank_p_tier3": 0.004975124378109453,
-      "intrinsic_DET_spread": 0.0,
-      "sd_vs_intrinsic_ratio": null,
-      "tier2_triggered": true,
-      "tier2_practical": true
-    },
-    "logistic_R3.9999": {
-      "DET_obs": 0.49066983938132064,
-      "mu_surrogate": 0.24202081535417785,
-      "sd_surrogate": 0.003417392980933727,
-      "z_tier1": 72.75985683074849,
-      "rank_p_tier3": 1.0,
-      "intrinsic_DET_spread": 0.0052223646506125284,
-      "sd_vs_intrinsic_ratio": 0.6543765534512996,
-      "tier2_triggered": false,
-      "tier2_practical": false
-    },
-    "AR1_linear": {
-      "DET_obs": 0.3923383345657515,
-      "mu_surrogate": 0.3847318167934421,
-      "sd_surrogate": 0.004168475204200223,
-      "z_tier1": 1.8247722247801708,
-      "rank_p_tier3": 0.9552238805970149,
-      "intrinsic_DET_spread": 0.007958377587327602,
-      "sd_vs_intrinsic_ratio": 0.5237845475989766,
-      "tier2_triggered": false,
-      "tier2_practical": false
-    },
-    "adversarial_identical_surrogates": {
-      "DET_obs": 0.49066983938132064,
-      "sd_surrogate": 1.1130090340862554e-16,
-      "z_tier1": 0.0,
-      "rank_p_tier3": 0.004975124378109453,
-      "tier2_triggered": true
-    }
-  },
-  "interpretation": {
-    "hypothesis": "z blow-up (~1e9) requires std ~ 1e-6..1e-9 but > 0 (evades exact-zero check)",
-    "proposed_fix": "tier-2 should trigger on practical floor: std < max(ABS_FLOOR=1e-9, REL_FLOOR=0.01 * intrinsic_DET_spread)",
-    "tier3_is_the_safe_reportable": "rank p always in [0,1]; should be primary when tier-1 z unreliable"
-  }
-}
-artifacts written
+n_sur default = 39 (expect 39)
+ref_P4_A        pf=4 pb=4 d=0.000 -> PERIOD(4)              action=report         conf=0.85 z=242.2 p3=0.0250 fired=['CAVEAT_DEGENERACY_FLOOR']
+ref_P4_B        pf=4 pb=4 d=0.000 -> PERIOD(4)              action=report         conf=0.85 z=242.2 p3=0.0250 fired=['CAVEAT_DEGENERACY_FLOOR']
+ref_P4_C        pf=4 pb=4 d=0.000 -> PERIOD(4)              action=report         conf=0.85 z=242.2 p3=0.0250 fired=['CAVEAT_DEGENERACY_FLOOR']
+P8_edge         pf=8 pb=2 d=0.192 -> ENCODING_UNDECIDABLE   action=human_review   conf=0.25 z=108.7 p3=0.0250 fired=['CAVEAT_ENCODING_DEPENDENT']
+tongue_C_hole   pf=None pb=2 d=0.057 -> ENCODING_CONFLICT      action=human_review   conf=0.25 z=138.0 p3=0.0250 fired=['CAVEAT_ENCODING_DEPENDENT']
+out_of_box      pf=None pb=None d=- -> CHAOS_OR_UNRESOLVED    action=no_period_claim conf=0.4 z=64.5 p3=0.0250 fired=[]
+[done] dry_run finished in 191.7s
+
+=== VERDICT AUDIT ===
+r=3.87 e=0.136           verdict=PERIOD(4)                action=report           reportable=True z=242.2 p3=0.025 fired=['CAVEAT_DEGENERACY_FLOOR']
+r=3.86 e=0.13            verdict=PERIOD(4)                action=report           reportable=True z=242.2 p3=0.025 fired=['CAVEAT_DEGENERACY_FLOOR']
+r=3.9 e=0.145            verdict=PERIOD(4)                action=report           reportable=True z=242.2 p3=0.025 fired=['CAVEAT_DEGENERACY_FLOOR']
+r=3.925 e=0.148          verdict=ENCODING_UNDECIDABLE     action=human_review     reportable=False z=108.7 p3=0.025 fired=['CAVEAT_ENCODING_DEPENDENT']
+r=3.94 e=0.127           verdict=ENCODING_CONFLICT        action=human_review     reportable=False z=138.0 p3=0.025 fired=['CAVEAT_ENCODING_DEPENDENT']
+r=3.6 e=0.136            verdict=CHAOS_OR_UNRESOLVED      action=no_period_claim  reportable=False z=64.5 p3=0.025 fired=[]
+
+reportable count: 3/6
+p3 values: [0.025]  (floor before fix was 0.1667 for ALL)
+TIER3_STRUCTURALLY_DEAD=NO (fix effective)
+artifacts: p4_dry_run_v2_nsur39.json, p4_dry_run.json (draft cwd)
 ```
 
 ---

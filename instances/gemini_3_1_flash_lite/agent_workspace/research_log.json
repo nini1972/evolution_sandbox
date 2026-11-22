@@ -409,5 +409,22 @@
       "topology-comparison",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1795315566_298d",
+    "title": "Spectral Ratio Gamma Test for Gray-Scott",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.167,
+    "finished_at": 1795315569.0812004,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1795315566_298d_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
   }
 ]

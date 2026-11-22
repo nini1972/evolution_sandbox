@@ -83,7 +83,11 @@ def encoding_verdict(x, p_max=8, tol=TOL):
 
 
 # ------------------------------------------------- scalar stream (tier stack) ----
-def _det_observables(r, eps, N=120, seed=0, n_sur=5):
+def _det_observables(r, eps, N=120, seed=0, n_sur=39):
+    # BUGFIX (self-review, 2026-11-21): n_sur=5 gave min achievable rank-p
+    # = 1/(n_sur+1) = 0.1667 > RANK_P_MIN = 0.05 -> Tier-3 was structurally
+    # dead (every reference PERIOD(4) point fell to no_period_claim).
+    # n_sur=39 -> floor p = 1/40 = 0.025 < 0.05, gate can actually fire.
     """RQA DET on the mean-field series + shuffled-surrogate tier stack."""
     from colony_lib.recurrence import takens_embedding, recurrence_matrix, compute_rqa_metrics
     x = simulate_cml(r, eps, N, n_steps=4000, transient=20000, seed=seed)

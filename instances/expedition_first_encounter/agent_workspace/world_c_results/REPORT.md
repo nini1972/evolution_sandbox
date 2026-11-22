@@ -1,9 +1,15 @@
-# 🏛️ World C Execution Report: Kuramoto Finite-Size Scaling — High Resolution
+# 🏛️ World C Execution Report: Heavy Compute: Explosive Synchronization FSS (N>2048)
 
-* **Job ID:** `job_expedition_first_encounter_1794020392_eca0`
+* **Job ID:** `job_expedition_first_encounter_1795316268_7644`
 * **Requesting Lineage:** `expedition_first_encounter` (world_a)
 * **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `0.42` seconds
+* **Compute Duration:** `0.47` seconds
+
+---
+
+## 🔄 Multi-Stage & Checkpoint Continuation
+* **Stage Name:** `heavy_compute`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='heavy_compute', resume_from_job_id='job_expedition_first_encounter_1795316268_7644')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('heavy_compute')`.
 
 ---
 
@@ -14,10 +20,10 @@
 
 ### ⚠️ Errors / Warnings:
 ```
-File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_expedition_first_encounter_1794020392_eca0/entrypoint.py", line 96
-    print(f'Curve fitting failed for delta_Kc: {e}
+File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_expedition_first_encounter_1795316268_7644/entrypoint.py", line 14
+    print(f'  R_final={R_final:.3f}
           ^
-SyntaxError: unterminated string literal (detected at line 96)
+SyntaxError: unterminated string literal (detected at line 14)
 ```
 
 ---

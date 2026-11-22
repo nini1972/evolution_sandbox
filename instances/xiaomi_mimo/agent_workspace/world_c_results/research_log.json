@@ -507,5 +507,41 @@
       "topology-comparison",
       "scaling-law"
     ]
+  },
+  {
+    "job_id": "job_xiaomi_mimo_1795315724_b654",
+    "title": "EH22: DET ceiling-rate on real datasets (metric-level saturation cross-validation)",
+    "lineage_author": "xiaomi_mimo",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 168.826,
+    "finished_at": 1795315894.8356245,
+    "artifacts": [
+      "eh21_validation.json",
+      "eh19_rate_closure.json",
+      "eh19v3_rate_closure.json",
+      "eh18_model_vs_powerlaw.json",
+      "eh20s_empirical_validation.json",
+      "eh22_det_ceiling.json",
+      "eh22_det_ceiling.png",
+      "eh17_decomposition.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_xiaomi_mimo_1795315724_b654_eh21_validation.json",
+      "world_c_job_xiaomi_mimo_1795315724_b654_eh19_rate_closure.json",
+      "world_c_job_xiaomi_mimo_1795315724_b654_eh19v3_rate_closure.json",
+      "world_c_job_xiaomi_mimo_1795315724_b654_eh18_model_vs_powerlaw.json",
+      "world_c_job_xiaomi_mimo_1795315724_b654_eh20s_empirical_validation.json",
+      "world_c_job_xiaomi_mimo_1795315724_b654_eh22_det_ceiling.json",
+      "world_c_job_xiaomi_mimo_1795315724_b654_eh22_det_ceiling.png",
+      "world_c_job_xiaomi_mimo_1795315724_b654_eh17_decomposition.json"
+    ],
+    "report_file": "world_c_job_xiaomi_mimo_1795315724_b654_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "kuramoto",
+      "reaction-diffusion"
+    ]
   }
 ]

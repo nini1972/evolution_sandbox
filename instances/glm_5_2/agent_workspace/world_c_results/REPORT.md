@@ -1,70 +1,118 @@
-# 🏛️ World C Execution Report: R30: Universal vs System-Specific Scaling of the Resonance Gap Exponent (fixed)
+# 🏛️ World C Execution Report: Resonance Gap Law test: Kuramoto × Gray-Scott timescale sweep
 
-* **Job ID:** `job_glm_5_2_1794796657_58a7`
+* **Job ID:** `job_glm_5_2_1795315662_dc43`
 * **Requesting Lineage:** `glm_5_2` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `504.76` seconds
+* **Compute Duration:** `661.77` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `r30_universal_scaling`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='r30_universal_scaling', resume_from_job_id='job_glm_5_2_1794796657_58a7')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('r30_universal_scaling')`.
+* **Stage Name:** `glm_resonance_gap_hybrid`
+* **Completed Stage Slices Saved:** `3` (Last completed key: `fit`)
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='glm_resonance_gap_hybrid', resume_from_job_id='job_glm_5_2_1795315662_dc43')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('glm_resonance_gap_hybrid')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `r30_universal_scaling_results.json` (delivered to `world_c_results/r30_universal_scaling_results.json` and `world_c/artifacts/job_glm_5_2_1794796657_58a7/r30_universal_scaling_results.json`)
-- `r30_alpha_comparison.png` (delivered to `world_c_results/r30_alpha_comparison.png` and `world_c/artifacts/job_glm_5_2_1794796657_58a7/r30_alpha_comparison.png`)
-- `r30_universal_scaling.png` (delivered to `world_c_results/r30_universal_scaling.png` and `world_c/artifacts/job_glm_5_2_1794796657_58a7/r30_universal_scaling.png`)
+- `glm_resonance_gap_hybrid_horizon_certificate.json` (delivered to `world_c_results/glm_resonance_gap_hybrid_horizon_certificate.json` and `world_c/artifacts/job_glm_5_2_1795315662_dc43/glm_resonance_gap_hybrid_horizon_certificate.json`)
+- `glm_resonance_gap_hybrid_state.json` (delivered to `world_c_results/glm_resonance_gap_hybrid_state.json` and `world_c/artifacts/job_glm_5_2_1795315662_dc43/glm_resonance_gap_hybrid_state.json`)
+- `glm_resonance_gap_hybrid.png` (delivered to `world_c_results/glm_resonance_gap_hybrid.png` and `world_c/artifacts/job_glm_5_2_1795315662_dc43/glm_resonance_gap_hybrid.png`)
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+invalid value encountered in multiply
+  mean_nb = np.angle(np.mean(np.exp(1j * phases[nb])))
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1795315662_dc43/entrypoint.py:127: RuntimeWarning: invalid value encountered in exp
+  mean_nb = np.angle(np.mean(np.exp(1j * phases[nb])))
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1795315662_dc43/entrypoint.py:128: RuntimeWarning: invalid value encountered in multiply
+  mean_i = np.angle(np.mean(np.exp(1j * phases[i])))
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1795315662_dc43/entrypoint.py:128: RuntimeWarning: invalid value encountered in exp
+  mean_i = np.angle(np.mean(np.exp(1j * phases[i])))
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1795315662_dc43/entrypoint.py:99: RuntimeWarning: invalid value encountered in multiply
+  uv2 = u * v * v
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1795315662_dc43/entrypoint.py:93: RuntimeWarning: overflow encountered in divide
+  lap_v[1:-1] = (v[2:] - 2*v[1:-1] + v[:-2]) / dx2
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1795315662_dc43/entrypoint.py:101: RuntimeWarning: invalid value encountered in add
+  v_new = v + dt * (Dv * lap_v + uv2 - (F + k) * v)
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1795315662_dc43/entrypoint.py:96: RuntimeWarning: overflow encountered in scalar divide
+  lap_v[0] = (v[1] - 2*v[0] + v[-1]) / dx2
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1795315662_dc43/entrypoint.py:97: RuntimeWarning: overflow encountered in scalar divide
+  lap_v[-1] = (v[0] - 2*v[-1] + v[-2]) / dx2
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_5_2_1795315662_dc43/entrypoint.py:93: RuntimeWarning: invalid value encountered in subtract
+  lap_v[1:-1] = (v[2:] - 2*v[1:-1] + v[:-2]) / dx2
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-8: alpha=0.5272, C0=0.0123, R2=0.9586
-  K=1.0: alpha=0.5273, C0=0.0128, R2=0.9676
+, std r = nan
+  mean v = nan, std v = nan
 
-=== Pair: logistic_logistic ===
-  K=0.1: alpha=-0.0069, C0=0.0325, R2=0.0069
-  K=0.3: alpha=-0.0358, C0=0.0749, R2=0.1443
-  K=0.5: alpha=-0.0492, C0=0.1136, R2=0.2992
-  K=0.8: alpha=-0.0716, C0=0.1807, R2=0.3584
-  K=1.0: alpha=-0.0836, C0=0.2285, R2=0.4790
+--- N = 2 (GS updates every 2 Kuramoto steps) ---
+  mean_instant_corr = 0.0000 ± 0.0000
+  spatial_corr (time-avg) = 0.0000
+  mean r = nan, std r = nan
+  mean v = nan, std v = nan
 
-=== R30 Summary ===
-Pair                      K         alpha       C0       R2
-------------------------------------------------------------
-kuramoto_sandpile         0.1     -0.2332   0.0156   0.8061
-kuramoto_sandpile         0.3     -0.2826   0.0223   0.8431
-kuramoto_sandpile         0.5     -0.2878   0.0286   0.8789
-kuramoto_sandpile         0.8     -0.2863   0.0363   0.8953
-kuramoto_sandpile         1.0     -0.2832   0.0405   0.8981
-logistic_kuramoto         0.1      0.5471   0.0100   0.9799
-logistic_kuramoto         0.3      0.5365   0.0103   0.9454
-logistic_kuramoto         0.5      0.5219   0.0112   0.9305
-logistic_kuramoto         0.8      0.5272   0.0123   0.9586
-logistic_kuramoto         1.0      0.5273   0.0128   0.9676
-logistic_logistic         0.1     -0.0069   0.0325   0.0069
-logistic_logistic         0.3     -0.0358   0.0749   0.1443
-logistic_logistic         0.5     -0.0492   0.1136   0.2992
-logistic_logistic         0.8     -0.0716   0.1807   0.3584
-logistic_logistic         1.0     -0.0836   0.2285   0.4790
+--- N = 5 (GS updates every 5 Kuramoto steps) ---
+  mean_instant_corr = 0.0000 ± 0.0000
+  spatial_corr (time-avg) = 0.0000
+  mean r = nan, std r = nan
+  mean v = nan, std v = nan
 
-=== Universality Check ===
-K=0.1: alpha_ks=-0.233, alpha_lk=0.547, alpha_ll=-0.007, spread=0.328
-K=0.3: alpha_ks=-0.283, alpha_lk=0.537, alpha_ll=-0.036, spread=0.343
-K=0.5: alpha_ks=-0.288, alpha_lk=0.522, alpha_ll=-0.049, spread=0.340
-K=0.8: alpha_ks=-0.286, alpha_lk=0.527, alpha_ll=-0.072, spread=0.344
-K=1.0: alpha_ks=-0.283, alpha_lk=0.527, alpha_ll=-0.084, spread=0.345
+--- N = 10 (GS updates every 10 Kuramoto steps) ---
+  mean_instant_corr = 0.0000 ± 0.0000
+  spatial_corr (time-avg) = 0.0000
+  mean r = nan, std r = nan
+  mean v = nan, std v = nan
 
-Mean inter-pair spread: 0.3399
-Mean intra-pair range (max-min over K): 0.0522
-Inter-pair spread / Intra-pair range ratio: 6.5170
+--- N = 20 (GS updates every 20 Kuramoto steps) ---
+  mean_instant_corr = 0.0000 ± 0.0000
+  spatial_corr (time-avg) = 0.0000
+  mean r = nan, std r = nan
+  mean v = nan, std v = nan
 
->>> PARTIAL UNIVERSALITY: alpha(K) shares qualitative trends but quantitative differences <<<
+--- N = 50 (GS updates every 50 Kuramoto steps) ---
+  mean_instant_corr = 0.0000 ± 0.0000
+  spatial_corr (time-avg) = 0.0000
+  mean r = nan, std r = nan
+  mean v = nan, std v = nan
 
-R30 complete.
+--- N = 100 (GS updates every 100 Kuramoto steps) ---
+  mean_instant_corr = 0.0000 ± 0.0000
+  spatial_corr (time-avg) = 0.0000
+  mean r = nan, std r = nan
+  mean v = nan, std v = nan
+
+--- N = 200 (GS updates every 200 Kuramoto steps) ---
+  mean_instant_corr = 0.0000 ± 0.0000
+  spatial_corr (time-avg) = 0.0000
+  mean r = nan, std r = nan
+  mean v = nan, std v = nan
+
+============================================================
+RESONANCE GAP LAW FIT
+============================================================
+  N values: [1, 2, 5, 10, 20, 50, 100, 200]
+  C values: ['0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000']
+
+  Fitted: C(N) = 0.0000 * (1 - exp(-N/15.00))
+  R19Z Law:  C(N) = 0.793 * (1 - exp(-N/11.2))
+  C_max ratio: 0.000
+  tau ratio: 1.339
+  R² = 0.0000
+
+✅ Saved: glm_resonance_gap_hybrid.png
+
+============================================================
+VERDICT: No match
+  C_max = 0.0000 (R19Z: 0.793)
+  tau = 15.0000 (R19Z: 11.2)
+  R² = 0.0000
+============================================================
 ```
 
 ---

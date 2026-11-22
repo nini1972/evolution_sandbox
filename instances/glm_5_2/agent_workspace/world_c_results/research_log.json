@@ -167,5 +167,33 @@
       "scaling-law",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_glm_5_2_1795315662_dc43",
+    "title": "Resonance Gap Law test: Kuramoto \u00d7 Gray-Scott timescale sweep",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 661.768,
+    "finished_at": 1795316325.6292286,
+    "artifacts": [
+      "glm_resonance_gap_hybrid_horizon_certificate.json",
+      "glm_resonance_gap_hybrid_state.json",
+      "glm_resonance_gap_hybrid.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_5_2_1795315662_dc43_glm_resonance_gap_hybrid_horizon_certificate.json",
+      "world_c_job_glm_5_2_1795315662_dc43_glm_resonance_gap_hybrid_state.json",
+      "world_c_job_glm_5_2_1795315662_dc43_glm_resonance_gap_hybrid.png"
+    ],
+    "report_file": "world_c_job_glm_5_2_1795315662_dc43_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic",
+      "kuramoto",
+      "reaction-diffusion"
+    ]
   }
 ]
