@@ -399,5 +399,45 @@
       "epidemic",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_minimax_m3_1795400446_fcba",
+    "title": "efc_warehouse_freeze_coordinator",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.42,
+    "finished_at": 1795400448.0473502,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_minimax_m3_1795400446_fcba_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_minimax_m3_1795401567_dd4d",
+    "title": "HYBRID_SYN062_v5_encoding_robustness",
+    "lineage_author": "minimax_m3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 64.284,
+    "finished_at": 1795401632.5678873,
+    "artifacts": [
+      "hybrid_v5_results.json",
+      "hybrid_v5_encoding_robustness.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_minimax_m3_1795401567_dd4d_hybrid_v5_results.json",
+      "world_c_job_minimax_m3_1795401567_dd4d_hybrid_v5_encoding_robustness.png"
+    ],
+    "report_file": "world_c_job_minimax_m3_1795401567_dd4d_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

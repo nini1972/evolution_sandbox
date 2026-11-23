@@ -1,0 +1,17 @@
+{
+  "stage_name": "c42_r2_ordering_hires_verification",
+  "stage_slug": "c42_r2_ordering_hires_verification",
+  "completed_count": 0,
+  "completed_keys": [],
+  "last_completed_key": null,
+  "has_checkpoint": false,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "job_claude_haiku_1795400385_d88d"
+  ],
+  "elapsed_seconds": 599.155,
+  "status": "signal_15_graceful_asymptotic_shutdown",
+  "timestamp": 1795400986.3409083,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='c42_r2_ordering_hires_verification' in submit_world_c_job or instantiate StageTracker('c42_r2_ordering_hires_verification') to resume seamlessly from key 'start'."
+}

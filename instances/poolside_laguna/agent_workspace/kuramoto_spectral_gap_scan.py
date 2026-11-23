@@ -24,7 +24,7 @@ def scan_spectral_gap_vs_sync(N=64, topologies=['erdos_renyi', 'barabasi_albert'
         
         for K in K_range:
             print(f"Simulating K={K:.2f}...")
-            phases = simulate_kuramoto(A, K, T=10.0, dt=0.01, seed=seed)
+            phases = simulate_kuramoto(A, K, t_max=10.0, n_steps=1000, seed=seed)
             order_param = np.abs(np.mean(np.exp(1j * phases)))
             
             results.append({

@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
-"""Phase III+ — Physics-aligned sweep (K ∈ [8.0, 12.0], t_max=300.0)."""
-import json, numpy as np, os, time
+"""Phase III+ — Physics-aligned sweep (K ∈ [8.0, 12.0], t_max=300.0).
+Refactored to match DeepSeek V4 Flash's topological prefactor law:
+    U_topo = <k> / lambda_max(A) = 1 / lambda_max(W).
+"""
+import json
+import numpy as np
+import os
+import time
 from colony_lib.dynamics import simulate_kuramoto
 from colony_lib.network_topology import generate_topology
 
@@ -46,25 +52,30 @@ for i, cfg in enumerate(configs):
     
     # Simulate
     A = generate_topology(cfg['topo'], cfg['N'])
-    lam_max_W = np.max(np.linalg.eigvals(A))
-    U_pred = 1.0
+    lam_max_A = np.max(np.real(np.linalg.eigvals(A)))  # Symmetric A -> real eigenvalues
+    lam_max_W = lam_max_A / cfg['N']  # Unnormalized coupling: W = A / N
+    U_pred = 1.0 / lam_max_W  # Topological prefactor law
     
     t_esc_all = []
     for run in range(cfg['n_runs']):
+        omega = np.random.normal(0, cfg['sigma'], cfg['N'])
+        theta0 = np.random.uniform(0, 2*np.pi, cfg['N'])
         result = simulate_kuramoto(
-            n_oscillators=cfg['N'], K=cfg['K'], t_max=cfg['t_max'], dt=cfg['dt'],
-            coupling_matrix=A, freq_scale=cfg['sigma'], seed=run
+            theta0=theta0, omega=omega, coupling_matrix=A, K=cfg['K'],
+            t_max=cfg['t_max'], dt=cfg['dt']
         )
-        R = result['r_series']
+        R = np.abs(np.mean(np.exp(1j * result), axis=1))
         t_esc = cfg['t_max'] if np.max(R) < 0.9 else np.min(np.where(R >= 0.9)[0]) * cfg['dt']
         t_esc_all.append(t_esc)
     
     # Numerical stability
-    K_ratio = min(cfg['K'] / lam_max_W, 0.99)
+    K_ratio = min(cfg['K'] / lam_max_A, 0.99)
     delta_z = np.log(cfg['R0_nominal']) - np.log(1 - K_ratio)
     
     # Always append (preserve grid structure)
-    U_meas = np.median(t_esc_all) * lam_max_W / cfg['R0_nominal'] if np.median(t_esc_all) < cfg['t_max'] else np.nan
+    ALPHA = 1.0  # Reflexive exponent (Phase-I centre value)
+    t_esc_MF = (2.0 / (ALPHA * cfg['K'])) * cfg['R0_nominal']**(-ALPHA)
+    U_meas = np.median(t_esc_all) / t_esc_MF if np.median(t_esc_all) < cfg['t_max'] else np.nan
     
     results.append({
         'topo': cfg['topo'],
@@ -72,12 +83,13 @@ for i, cfg in enumerate(configs):
         'K': cfg['K'],
         'sigma': cfg['sigma'],
         'R0_nominal': cfg['R0_nominal'],
-        'lam_max_W': lam_max_W,
-        'U_pred': U_pred,
-        'U_meas': U_meas,
-        't_esc_med': np.median(t_esc_all),
-        'delta_z': delta_z,
-        't_esc_all': t_esc_all,
+        'lam_max_A': float(lam_max_A),  # JSON-safe float
+        'lam_max_W': float(lam_max_W),  # JSON-safe float
+        'U_pred': float(U_pred),
+        'U_meas': float(U_meas),
+        't_esc_med': float(np.median(t_esc_all)),
+        'delta_z': float(delta_z),
+        't_esc_all': [float(t) for t in t_esc_all],
         'valid': not np.isnan(U_meas)
     })
 

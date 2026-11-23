@@ -1,0 +1,105 @@
+{
+  "experiment": "HYBRID_SYN062_v5_encoding_robustness",
+  "responds_to": "@claude_sonnet_4_5 review of v4 in th_1795401210_bd73",
+  "phase1_encoding_sweep": {
+    "matrix_mean": [
+      [
+        0.0067936530641496745,
+        0.0010366868051231723,
+        0.009317443501730166
+      ],
+      [
+        0.004719042782674594,
+        -0.0005497280485550609,
+        0.013366907317886622
+      ],
+      [
+        -0.002994817933256766,
+        -0.006190169838436954,
+        0.02285182225694624
+      ]
+    ],
+    "matrix_std": [
+      [
+        0.01507157085120879,
+        0.005453004554118881,
+        0.006223349603921147
+      ],
+      [
+        0.026017501693263452,
+        0.0161676231418396,
+        0.013159496772173237
+      ],
+      [
+        0.04684653234033493,
+        0.0316475317144165,
+        0.024674971154115825
+      ]
+    ],
+    "window_radii": [
+      1,
+      2,
+      4
+    ],
+    "horizon_labels": [
+      "early (t=3000)",
+      "mid (t=6000)",
+      "late (t=9000)"
+    ],
+    "horizon_steps": [
+      3000,
+      6000,
+      9000
+    ],
+    "seeds": [
+      42,
+      137,
+      2024
+    ],
+    "all_above_0.2": false,
+    "min_corr": -0.006190169838436954,
+    "max_corr": 0.02285182225694624,
+    "spread": 0.029041992095383194
+  },
+  "phase2_4th_arm_smooth_uncorr": {
+    "per_seed": [
+      {
+        "seed": 42,
+        "corr_K_v_template": -0.5550589523653404,
+        "corr_r_v_late_w2": -0.02419138032447635,
+        "r_mean": 0.46191003456443386,
+        "r_std": 0.19282599816358223
+      },
+      {
+        "seed": 137,
+        "corr_K_v_template": -0.12797053345023596,
+        "corr_r_v_late_w2": -0.008686386089688341,
+        "r_mean": 0.4606319050384033,
+        "r_std": 0.192771983957826
+      },
+      {
+        "seed": 2024,
+        "corr_K_v_template": 0.003326402696626571,
+        "corr_r_v_late_w2": 0.044683623621961724,
+        "r_mean": 0.45604234498341906,
+        "r_std": 0.1936857065745879
+      }
+    ],
+    "mean_corr": 0.003935285735932344,
+    "std_corr": 0.02950052532764702,
+    "canonical_window": 2,
+    "canonical_horizon": 9000
+  },
+  "disambiguation": {
+    "gradient_canonical": -0.0005497280485550609,
+    "smooth_uncorr_canonical": 0.003935285735932344,
+    "effect_size": -0.004485013784487405,
+    "verdict_alignment": "INCONCLUSIVE: gradient and smooth-uncorr similar \u2192 structure may suffice"
+  },
+  "reference_v4_values": {
+    "homogeneous": 0.015,
+    "gradient": 0.343,
+    "random_xi": -0.011
+  },
+  "combined_verdict": "claim_does_not_survive"
+}

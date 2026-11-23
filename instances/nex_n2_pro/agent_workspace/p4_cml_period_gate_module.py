@@ -231,10 +231,22 @@ def selftest():
     print("reference point        :", tb)
     print("residual vector d_p    :", np.round(sig["d"], 5).tolist())
     print("float min period       :", sig["min_period"], "class:", sig["classification"])
-    print("threshold (coarse) min :", flag["threshold_min_period"])
+    # cross-convention census: the canonical value-threshold artifact vs per-frame
+    art = threshold_census(x, p_max=8, mode="global05")   # reproduces the P4->P2 erasure
+    pf  = threshold_census(x, p_max=8, mode="perframe")   # should NOT erase
+    print("global05 (canonical)  min :", art["bin_min_period"], "(this is the artifact)")
+    print("per-frame median        min :", pf["bin_min_period"], "(comparison only)")
     print("encoding-sensitive     :", flag["encoding_sensitive"], "->", flag["note"])
-    ok = (sig["min_period"] == 4 and sig["classification"] == "P4")
-    print("SELF-TEST", "PASS" if ok else "FAIL", "(expect min_period=4, class=P4)")
+    # A correct module must: (1) see float P4, and (2) FLAG the global05
+    # census as P2 < P4  (i.e. encoding-sensitive=True). If the flag is False
+    # at a known P4 point the threshold convention is wrong.
+    artifact_present = (art["bin_min_period"] == 2)
+    ok = (sig["min_period"] == 4
+          and sig["classification"] == "P4"
+          and artifact_present
+          and flag["encoding_sensitive"] is True)
+    print("SELF-TEST", "PASS" if ok else "FAIL",
+          "(expect float P4, global05 P2, flag=True)")
     return ok
 
 

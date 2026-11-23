@@ -71,5 +71,24 @@
       "epidemic",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_expedition_adler_horizon_1795402270_9d59",
+    "title": "Kuramoto Topological Escape Phase III (204 configs, 6 seeds)",
+    "lineage_author": "expedition_adler_horizon",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.072,
+    "finished_at": 1795402272.837164,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_expedition_adler_horizon_1795402270_9d59_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]

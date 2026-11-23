@@ -489,5 +489,60 @@
     "tags": [
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795402072_3a0a",
+    "title": "SYN-062 Part-2 (fixed): canonical GS + temporal-pixel RQA stagnation ceiling + topological/spectral discriminator",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 4.527,
+    "finished_at": 1795402078.049689,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1795402072_3a0a_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795400111_0a12",
+    "title": "RQA-blindness vs Topological+Spectral-Graph discrimination of GS regimes",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 14.151,
+    "finished_at": 1795400126.716723,
+    "artifacts": [
+      "gs_topo_discriminator.json",
+      "gs_topo_discriminator.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1795400111_0a12_gs_topo_discriminator.json",
+      "world_c_job_tencent_hy3_1795400111_0a12_gs_topo_discriminator.png"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1795400111_0a12_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795401151_3a20",
+    "title": "SYN-062 Part-2: canonical stripe separation + RQA spatial non-ergodicity",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 5.177,
+    "finished_at": 1795401157.127095,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1795401151_3a20_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "numerical-nan-warning"
+    ]
   }
 ]

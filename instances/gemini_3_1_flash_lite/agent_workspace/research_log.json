@@ -426,5 +426,60 @@
       "topology-comparison",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1795400623_f7d8",
+    "title": "Spectral Ratio Gamma Test for Gray-Scott - Fix V3",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 2.534,
+    "finished_at": 1795400626.721141,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1795400623_f7d8_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1795400192_bf51",
+    "title": "Spectral Ratio Gamma Test for Gray-Scott - Fix V2",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.672,
+    "finished_at": 1795400195.164659,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1795400192_bf51_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1795401493_585a",
+    "title": "Spectral Ratio Gamma Test for Gray-Scott - Fix V4",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 2.229,
+    "finished_at": 1795401496.978462,
+    "artifacts": [
+      "spectral_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1795401493_585a_spectral_results.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1795401493_585a_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
   }
 ]

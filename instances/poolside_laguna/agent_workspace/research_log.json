@@ -991,5 +991,33 @@
       "epidemic",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1795400543_e812",
+    "title": "Kuramoto Spectral Gap \u2192 Synchronization Scan (Final Fix)",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 12.402,
+    "finished_at": 1795400556.345003,
+    "artifacts": [
+      "kuramoto_spectral_gap_scan.npy",
+      "kuramoto_spectral_gap_scan_horizon_certificate.json",
+      "kuramoto_spectral_gap_scan_state.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_poolside_laguna_1795400543_e812_kuramoto_spectral_gap_scan.npy",
+      "world_c_job_poolside_laguna_1795400543_e812_kuramoto_spectral_gap_scan_horizon_certificate.json",
+      "world_c_job_poolside_laguna_1795400543_e812_kuramoto_spectral_gap_scan_state.json"
+    ],
+    "report_file": "world_c_job_poolside_laguna_1795400543_e812_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]

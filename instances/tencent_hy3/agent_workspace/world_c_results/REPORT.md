@@ -1,127 +1,61 @@
-# 🏛️ World C Execution Report: Refined Metric Blindness Atlas — true isolated spots (temporal signals) vs dead/noise/sine/chaos/Kuramoto
+# 🏛️ World C Execution Report: SYN-062 Part-2: canonical stripe separation + RQA spatial non-ergodicity
 
-* **Job ID:** `job_tencent_hy3_1795313816_04b9`
+* **Job ID:** `job_tencent_hy3_1795401151_3a20`
 * **Requesting Lineage:** `tencent_hy3` (world_a)
-* **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `10.59` seconds
+* **Execution Status:** **FAILED** (Exit Code: `1`)
+* **Compute Duration:** `5.18` seconds
+
+---
+
+> [!WARNING]
+> **⚠️ NUMERICAL CORRUPTION / NaN OVERFLOW DETECTED:** Although this process exited with code `1`, automated post-flight inspection flagged numerical instability:
+> - RuntimeWarning: numerical overflow encountered during integration/arithmetic.
+> - RuntimeWarning: invalid value (NaN/Inf) encountered in NumPy/SciPy operations.
+> - Execution stdout summary metrics contain `nan` or `inf` values.
+> **Do NOT treat zero or flat summary statistics from this run as physical null results.** Verify PDE/ODE CFL step bounds (`dt` vs `dx²`), state clipping, or division-by-zero before citing these metrics.
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `metric_blindness_atlas_refined`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='metric_blindness_atlas_refined', resume_from_job_id='job_tencent_hy3_1795313816_04b9')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('metric_blindness_atlas_refined')`.
+* **Stage Name:** `syn062_stripe_ne`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='syn062_stripe_ne', resume_from_job_id='job_tencent_hy3_1795401151_3a20')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('syn062_stripe_ne')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `refined_atlas_results.json` (delivered to `world_c_results/refined_atlas_results.json` and `world_c/artifacts/job_tencent_hy3_1795313816_04b9/refined_atlas_results.json`)
-- `refined_atlas_metrics.png` (delivered to `world_c_results/refined_atlas_metrics.png` and `world_c/artifacts/job_tencent_hy3_1795313816_04b9/refined_atlas_metrics.png`)
-- `refined_atlas_blindness.png` (delivered to `world_c_results/refined_atlas_blindness.png` and `world_c/artifacts/job_tencent_hy3_1795313816_04b9/refined_atlas_blindness.png`)
+*(None)*
 
 ---
 
+### ⚠️ Errors / Warnings:
+```
+orld_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py:15: RuntimeWarning: overflow encountered in add
+  U+=Du*((np.roll(U,1,0)-2*U+np.roll(U,-1,0))+(np.roll(U,1,1)-2*U+np.roll(U,-1,1)))/dx**2+Lu*dt
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py:16: RuntimeWarning: overflow encountered in multiply
+  V+=Dv*((np.roll(V,1,0)-2*V+np.roll(V,-1,0))+(np.roll(V,1,1)-2*V+np.roll(V,-1,1)))/dx**2+Lv*dt
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py:16: RuntimeWarning: invalid value encountered in subtract
+  V+=Dv*((np.roll(V,1,0)-2*V+np.roll(V,-1,0))+(np.roll(V,1,1)-2*V+np.roll(V,-1,1)))/dx**2+Lv*dt
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py:16: RuntimeWarning: invalid value encountered in add
+  V+=Dv*((np.roll(V,1,0)-2*V+np.roll(V,-1,0))+(np.roll(V,1,1)-2*V+np.roll(V,-1,1)))/dx**2+Lv*dt
+/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py:16: RuntimeWarning: overflow encountered in add
+  V+=Dv*((np.roll(V,1,0)-2*V+np.roll(V,-1,0))+(np.roll(V,1,1)-2*V+np.roll(V,-1,1)))/dx**2+Lv*dt
+Traceback (most recent call last):
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py", line 48, in <module>
+    rl=[rqa_probe(Vf,i,j) for (i,j) in locs]
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py", line 48, in <listcomp>
+    rl=[rqa_probe(Vf,i,j) for (i,j) in locs]
+        ^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py", line 39, in rqa_probe
+    sig=Vf[i,j,:]
+        ~~^^^^^^^
+IndexError: too many indices for array: array is 2-dimensional, but 3 were indexed
+```
+
+---
 ## 📋 Execution Log Tail
 ```
-"DET": 0.9995,
-      "LAM": 0.9995,
-      "ENT": 10.941,
-      "RR": 0.9252,
-      "Lmax": 1980.0
-    },
-    "gs_saturated_flat": {
-      "DET": 0.9995,
-      "LAM": 0.9995,
-      "ENT": 10.9972,
-      "RR": 1.0,
-      "Lmax": 2045.0
-    },
-    "_meta": {
-      "vcov_spots": 0.0044,
-      "vcov_saturated": 1.0
-    }
-  },
-  "metrics": [
-    "DET",
-    "LAM",
-    "ENT",
-    "RR",
-    "Lmax"
-  ],
-  "families": [
-    "dead_constant",
-    "white_noise",
-    "clean_sine",
-    "logistic_chaos",
-    "gs_spots_probe",
-    "gs_spots_coverage",
-    "kuramoto_r",
-    "gs_saturated_flat"
-  ],
-  "blind_to_dead": {
-    "DET": [
-      "clean_sine",
-      "gs_spots_probe",
-      "gs_spots_coverage",
-      "kuramoto_r",
-      "gs_saturated_flat"
-    ],
-    "LAM": [
-      "gs_spots_probe",
-      "gs_spots_coverage",
-      "kuramoto_r",
-      "gs_saturated_flat"
-    ],
-    "ENT": [
-      "gs_spots_coverage",
-      "gs_saturated_flat"
-    ],
-    "RR": [
-      "gs_spots_coverage",
-      "gs_saturated_flat"
-    ],
-    "Lmax": [
-      "gs_spots_probe",
-      "gs_spots_coverage",
-      "gs_saturated_flat"
-    ]
-  },
-  "discriminant_of_dead": {
-    "DET": [
-      "white_noise",
-      "logistic_chaos"
-    ],
-    "LAM": [
-      "white_noise",
-      "clean_sine",
-      "logistic_chaos"
-    ],
-    "ENT": [
-      "white_noise",
-      "clean_sine",
-      "logistic_chaos",
-      "gs_spots_probe",
-      "kuramoto_r"
-    ],
-    "RR": [
-      "white_noise",
-      "clean_sine",
-      "logistic_chaos",
-      "gs_spots_probe",
-      "kuramoto_r"
-    ],
-    "Lmax": [
-      "white_noise",
-      "clean_sine",
-      "logistic_chaos",
-      "kuramoto_r"
-    ]
-  },
-  "vcov_spots": 0.0044,
-  "vcov_saturated": 1.0,
-  "runtime_s": 9.08,
-  "notes": "gs_spots_probe/coverage use F=0.035,k=0.065 (true isolated spots, vcov moderate); gs_saturated_flat uses F=0.037,k=0.014 (vcov~1.0 uniform field -> recurrence=constant, the ceiling illustration). Blindness judged by |metric(patterned)-metric(dead)|<0.05."
-}
-DONE
+STRIPE Vmin,Vmax,Vmean = nan nan nan
 ```
 
 ---

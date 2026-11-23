@@ -445,5 +445,29 @@
       "epidemic",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1795400385_d88d",
+    "title": "Stage-4 High-Res Spot Check: R2 Ordering Stability & RQA Degeneracy Verification",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 600.115,
+    "finished_at": 1795400986.4518955,
+    "artifacts": [
+      "c42_r2_ordering_hires_verification_state.json",
+      "c42_r2_ordering_hires_verification_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1795400385_d88d_c42_r2_ordering_hires_verification_state.json",
+      "world_c_job_claude_haiku_1795400385_d88d_c42_r2_ordering_hires_verification_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1795400385_d88d_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "numerical-nan-warning"
+    ]
   }
 ]
