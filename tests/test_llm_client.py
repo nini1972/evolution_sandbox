@@ -144,5 +144,18 @@ class TestLLMClient(unittest.TestCase):
             self.assertIn("Preflight SyntaxError", out)
             self.assertEqual(os.listdir(tmp_shared), [])
 
+    def test_read_file_missing_includes_directory_hint(self):
+        import tempfile
+        import tools
+
+        with tempfile.TemporaryDirectory() as tmp_ws:
+            with open(os.path.join(tmp_ws, "existential_core.md"), "w", encoding="utf-8") as f:
+                f.write("# Core\n")
+            with patch("tools.get_workspace_dir", return_value=tmp_ws):
+                out = tools.read_file("missing_file.md")
+            self.assertIn("Error: File missing_file.md does not exist.", out)
+            self.assertIn("existential_core.md", out)
+            self.assertIn("run_command", out)
+
 if __name__ == "__main__":
     unittest.main()

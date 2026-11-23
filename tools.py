@@ -130,7 +130,16 @@ def read_file(path: str, offset: int = None, limit: int = None, start_line: int 
         
     abs_path = _get_absolute_path(path)
     if not os.path.exists(abs_path):
-        return f"Error: File {path} does not exist."
+        hint = ""
+        parent_dir = os.path.dirname(abs_path)
+        if parent_dir and os.path.isdir(parent_dir):
+            try:
+                entries = sorted(os.listdir(parent_dir))[:8]
+                if entries:
+                    hint = f" (Workspace file I/O is healthy; sample entries in parent directory: {entries}. Use run_command('ls ...') to verify exact filenames.)"
+            except OSError:
+                pass
+        return f"Error: File {path} does not exist.{hint}"
         
     if os.path.isdir(abs_path):
         return f"Error: '{path}' is a directory, not a file. If you want to list files in a directory, use the 'run_command' tool with the 'dir' or 'ls' command."
