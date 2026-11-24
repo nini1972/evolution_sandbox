@@ -1,61 +1,33 @@
-# 🏛️ World C Execution Report: SYN-062 Part-2: canonical stripe separation + RQA spatial non-ergodicity
+# 🏛️ World C Execution Report: SYN-062 Part-2 (v3 fixed-index): canonical GS labyrinth + temporal-pixel RQA stagnation ceiling + topological/spectral discriminator
 
-* **Job ID:** `job_tencent_hy3_1795401151_3a20`
+* **Job ID:** `job_tencent_hy3_1795486967_ac49`
 * **Requesting Lineage:** `tencent_hy3` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `5.18` seconds
-
----
-
-> [!WARNING]
-> **⚠️ NUMERICAL CORRUPTION / NaN OVERFLOW DETECTED:** Although this process exited with code `1`, automated post-flight inspection flagged numerical instability:
-> - RuntimeWarning: numerical overflow encountered during integration/arithmetic.
-> - RuntimeWarning: invalid value (NaN/Inf) encountered in NumPy/SciPy operations.
-> - Execution stdout summary metrics contain `nan` or `inf` values.
-> **Do NOT treat zero or flat summary statistics from this run as physical null results.** Verify PDE/ODE CFL step bounds (`dt` vs `dx²`), state clipping, or division-by-zero before citing these metrics.
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `28.78` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
 * **Stage Name:** `syn062_stripe_ne`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='syn062_stripe_ne', resume_from_job_id='job_tencent_hy3_1795401151_3a20')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('syn062_stripe_ne')`.
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='syn062_stripe_ne', resume_from_job_id='job_tencent_hy3_1795486967_ac49')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('syn062_stripe_ne')`.
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `gs_stripe_ne.json` (delivered to `world_c_results/gs_stripe_ne.json` and `world_c/artifacts/job_tencent_hy3_1795486967_ac49/gs_stripe_ne.json`)
+- `gs_stripe_ne.png` (delivered to `world_c_results/gs_stripe_ne.png` and `world_c/artifacts/job_tencent_hy3_1795486967_ac49/gs_stripe_ne.png`)
 
 ---
 
-### ⚠️ Errors / Warnings:
-```
-orld_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py:15: RuntimeWarning: overflow encountered in add
-  U+=Du*((np.roll(U,1,0)-2*U+np.roll(U,-1,0))+(np.roll(U,1,1)-2*U+np.roll(U,-1,1)))/dx**2+Lu*dt
-/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py:16: RuntimeWarning: overflow encountered in multiply
-  V+=Dv*((np.roll(V,1,0)-2*V+np.roll(V,-1,0))+(np.roll(V,1,1)-2*V+np.roll(V,-1,1)))/dx**2+Lv*dt
-/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py:16: RuntimeWarning: invalid value encountered in subtract
-  V+=Dv*((np.roll(V,1,0)-2*V+np.roll(V,-1,0))+(np.roll(V,1,1)-2*V+np.roll(V,-1,1)))/dx**2+Lv*dt
-/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py:16: RuntimeWarning: invalid value encountered in add
-  V+=Dv*((np.roll(V,1,0)-2*V+np.roll(V,-1,0))+(np.roll(V,1,1)-2*V+np.roll(V,-1,1)))/dx**2+Lv*dt
-/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py:16: RuntimeWarning: overflow encountered in add
-  V+=Dv*((np.roll(V,1,0)-2*V+np.roll(V,-1,0))+(np.roll(V,1,1)-2*V+np.roll(V,-1,1)))/dx**2+Lv*dt
-Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py", line 48, in <module>
-    rl=[rqa_probe(Vf,i,j) for (i,j) in locs]
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py", line 48, in <listcomp>
-    rl=[rqa_probe(Vf,i,j) for (i,j) in locs]
-        ^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_tencent_hy3_1795401151_3a20/entrypoint.py", line 39, in rqa_probe
-    sig=Vf[i,j,:]
-        ~~^^^^^^^
-IndexError: too many indices for array: array is 2-dimensional, but 3 were indexed
-```
-
----
 ## 📋 Execution Log Tail
 ```
-STRIPE Vmin,Vmax,Vmean = nan nan nan
+FINAL Vmin,Vmax,Vmean = 0.0028063035280881275 0.37183588541313567 0.11195334944900526
+FINAL Umin,Umax,Umean = 0.263708393860166 0.8874000718079366 0.6566797686580136
+TOPO: n_components=270  size[min,med,max]=3,74,84
+STRUCTURAL lambda2(Fiedler)=0.0043  n_subsampled=2000
+TEMPORAL RQA: DET[min,max]=0.901,0.974  std[min,max]=0.00005,0.03283  corr(logstd,DET)=-0.483
+DET>=0.99 count=0 / 64
+DONE
 ```
 
 ---

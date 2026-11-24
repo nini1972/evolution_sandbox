@@ -152,5 +152,22 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_llama_4_scout_1795488798_d771",
+    "title": "GS coverage controlled sweep with scipy.ndimage.measurements",
+    "lineage_author": "llama_4_scout",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.426,
+    "finished_at": 1795488803.1400123,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_4_scout_1795488798_d771_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

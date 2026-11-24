@@ -1,46 +1,68 @@
-# 🏛️ World C Execution Report: P4 CML period-cell v2 dry-run (n_sur=39 bugfix) — unified_falsification_audit
+# 🏛️ World C Execution Report: DET reproducibility bisection: embedding/epsilon encoding sensitivity (two_null_bracket_7ds)
 
-* **Job ID:** `job_claude_sonnet_4_5_1795315286_7971`
+* **Job ID:** `job_claude_sonnet_4_5_1795489843_7db7`
 * **Requesting Lineage:** `claude_sonnet_4_5` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `192.21` seconds
+* **Compute Duration:** `43.47` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `unified_falsification_audit`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='unified_falsification_audit', resume_from_job_id='job_claude_sonnet_4_5_1795315286_7971')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('unified_falsification_audit')`.
+* **Stage Name:** `two_null_bracket_7ds`
+* **Resumed From Job:** `job_claude_sonnet_4_5_1794129621_2d09`
+* **Completed Stage Slices Saved:** `2` (Last completed key: `BR01_encoding_matrix`)
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='two_null_bracket_7ds', resume_from_job_id='job_claude_sonnet_4_5_1795489843_7db7')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('two_null_bracket_7ds')`.
 
 ---
 
 ## 📦 Generated Artifacts
-*(None)*
+- `two_null_bracket_7ds_horizon_certificate.json` (delivered to `world_c_results/two_null_bracket_7ds_horizon_certificate.json` and `world_c/artifacts/job_claude_sonnet_4_5_1795489843_7db7/two_null_bracket_7ds_horizon_certificate.json`)
+- `iaaft_1000_refinement.json` (delivered to `world_c_results/iaaft_1000_refinement.json` and `world_c/artifacts/job_claude_sonnet_4_5_1795489843_7db7/iaaft_1000_refinement.json`)
+- `embedding_robustness.json` (delivered to `world_c_results/embedding_robustness.json` and `world_c/artifacts/job_claude_sonnet_4_5_1795489843_7db7/embedding_robustness.json`)
+- `two_null_bracket_7ds_state.json` (delivered to `world_c_results/two_null_bracket_7ds_state.json` and `world_c/artifacts/job_claude_sonnet_4_5_1795489843_7db7/two_null_bracket_7ds_state.json`)
+- `two_null_bracket.json` (delivered to `world_c_results/two_null_bracket.json` and `world_c/artifacts/job_claude_sonnet_4_5_1795489843_7db7/two_null_bracket.json`)
+- `two_null_bracket_7ds.png` (delivered to `world_c_results/two_null_bracket_7ds.png` and `world_c/artifacts/job_claude_sonnet_4_5_1795489843_7db7/two_null_bracket_7ds.png`)
+- `p4_tongue_falsification.png` (delivered to `world_c_results/p4_tongue_falsification.png` and `world_c/artifacts/job_claude_sonnet_4_5_1795489843_7db7/p4_tongue_falsification.png`)
+- `br01_encoding_matrix.json` (delivered to `world_c_results/br01_encoding_matrix.json` and `world_c/artifacts/job_claude_sonnet_4_5_1795489843_7db7/br01_encoding_matrix.json`)
+- `p4_tongue_falsification.json` (delivered to `world_c_results/p4_tongue_falsification.json` and `world_c/artifacts/job_claude_sonnet_4_5_1795489843_7db7/p4_tongue_falsification.json`)
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-n_sur default = 39 (expect 39)
-ref_P4_A        pf=4 pb=4 d=0.000 -> PERIOD(4)              action=report         conf=0.85 z=242.2 p3=0.0250 fired=['CAVEAT_DEGENERACY_FLOOR']
-ref_P4_B        pf=4 pb=4 d=0.000 -> PERIOD(4)              action=report         conf=0.85 z=242.2 p3=0.0250 fired=['CAVEAT_DEGENERACY_FLOOR']
-ref_P4_C        pf=4 pb=4 d=0.000 -> PERIOD(4)              action=report         conf=0.85 z=242.2 p3=0.0250 fired=['CAVEAT_DEGENERACY_FLOOR']
-P8_edge         pf=8 pb=2 d=0.192 -> ENCODING_UNDECIDABLE   action=human_review   conf=0.25 z=108.7 p3=0.0250 fired=['CAVEAT_ENCODING_DEPENDENT']
-tongue_C_hole   pf=None pb=2 d=0.057 -> ENCODING_CONFLICT      action=human_review   conf=0.25 z=138.0 p3=0.0250 fired=['CAVEAT_ENCODING_DEPENDENT']
-out_of_box      pf=None pb=None d=- -> CHAOS_OR_UNRESOLVED    action=no_period_claim conf=0.4 z=64.5 p3=0.0250 fired=[]
-[done] dry_run finished in 191.7s
+=== BR-01 DET reproducibility bisection ===
 
-=== VERDICT AUDIT ===
-r=3.87 e=0.136           verdict=PERIOD(4)                action=report           reportable=True z=242.2 p3=0.025 fired=['CAVEAT_DEGENERACY_FLOOR']
-r=3.86 e=0.13            verdict=PERIOD(4)                action=report           reportable=True z=242.2 p3=0.025 fired=['CAVEAT_DEGENERACY_FLOOR']
-r=3.9 e=0.145            verdict=PERIOD(4)                action=report           reportable=True z=242.2 p3=0.025 fired=['CAVEAT_DEGENERACY_FLOOR']
-r=3.925 e=0.148          verdict=ENCODING_UNDECIDABLE     action=human_review     reportable=False z=108.7 p3=0.025 fired=['CAVEAT_ENCODING_DEPENDENT']
-r=3.94 e=0.127           verdict=ENCODING_CONFLICT        action=human_review     reportable=False z=138.0 p3=0.025 fired=['CAVEAT_ENCODING_DEPENDENT']
-r=3.6 e=0.136            verdict=CHAOS_OR_UNRESOLVED      action=no_period_claim  reportable=False z=64.5 p3=0.025 fired=[]
+solar_sunspots (tau=31)
+  A_m3_tauacf_rr05: DET_obs=0.5086 surr=0.4901 z=1.79 seed_spread=0.0103 sha_unique=3
+  B_m3_tau1_rr05: DET_obs=0.7840 surr=0.7374 z=3.10 seed_spread=0.0150 sha_unique=3
+  C_m3_tauacf_default: DET_obs=0.0000 surr=0.0000 z=0.00 seed_spread=0.0000 sha_unique=3
 
-reportable count: 3/6
-p3 values: [0.025]  (floor before fix was 0.1667 for ALL)
-TIER3_STRUCTURALLY_DEAD=NO (fix effective)
-artifacts: p4_dry_run_v2_nsur39.json, p4_dry_run.json (draft cwd)
+climate_enso (tau=11)
+  A_m3_tauacf_rr05: DET_obs=0.6845 surr=0.6655 z=2.23 seed_spread=0.0085 sha_unique=3
+  B_m3_tau1_rr05: DET_obs=0.7358 surr=0.7243 z=2.41 seed_spread=0.0048 sha_unique=3
+  C_m3_tauacf_default: DET_obs=0.0000 surr=0.0010 z=-1.41 seed_spread=0.0007 sha_unique=3
+
+climate_temperatures (tau=88)
+  A_m3_tauacf_rr05: DET_obs=0.2682 surr=0.2873 z=-39.77 seed_spread=0.0005 sha_unique=3
+  B_m3_tau1_rr05: DET_obs=0.6376 surr=0.6246 z=2.23 seed_spread=0.0058 sha_unique=3
+  C_m3_tauacf_default: DET_obs=0.0000 surr=0.0000 z=0.00 seed_spread=0.0000 sha_unique=3
+
+neural_eeg (tau=44)
+  A_m3_tauacf_rr05: DET_obs=0.8167 surr=0.8573 z=-4.85 seed_spread=0.0084 sha_unique=3
+  B_m3_tau1_rr05: DET_obs=0.7862 surr=0.8197 z=-4.53 seed_spread=0.0074 sha_unique=3
+  C_m3_tauacf_default: DET_obs=0.0000 surr=0.0000 z=0.00 seed_spread=0.0000 sha_unique=3
+
+power_grid_ieee (tau=27)
+  A_m3_tauacf_rr05: DET_obs=0.9497 surr=0.8886 z=21.72 seed_spread=0.0028 sha_unique=3
+  B_m3_tau1_rr05: DET_obs=0.9379 surr=0.8617 z=11.20 seed_spread=0.0068 sha_unique=3
+  C_m3_tauacf_default: DET_obs=0.9978 surr=0.9978 z=0.00 seed_spread=0.0000 sha_unique=3
+
+belousov_zhabotinsky (tau=82)
+  A_m3_tauacf_rr05: DET_obs=0.9258 surr=0.6116 z=31.95 seed_spread=0.0098 sha_unique=3
+  B_m3_tau1_rr05: DET_obs=0.9517 surr=0.8537 z=7.93 seed_spread=0.0124 sha_unique=3
+  C_m3_tauacf_default: DET_obs=0.0000 surr=0.0000 z=0.00 seed_spread=0.0000 sha_unique=3
+
+DONE
 ```
 
 ---

@@ -169,10 +169,10 @@ def coupled_rossler(k, T_burn=500, T_sample=1500, dt=0.05):
     def f(s):
         return np.array([
             -s[1] - s[2] + k * (s[3] - s[0]),
-             s[0] + a * s[1] + s[2],
+             s[0] + a * s[1],              # canonical Rossler: y-dot = x + a*y (NO +z)
              b + s[2] * (s[0] - c),
             -s[4] - s[5] + k * (s[0] - s[3]),
-             s[3] + a * s[4] + s[5],
+             s[3] + a * s[4],   # canonical y2: x2 + a*y2  (stray +z2 removed)
              b + s[5] * (s[3] - c)])
     for i in range(n):
         k1 = f(x); k2 = f(x + 0.5 * dt * k1)
@@ -189,18 +189,18 @@ def benettin_spectrum(k, dt=0.05, T=600, kre=10):
     x = np.array([1., 0., 0., 1.2, 0.1, 0.2])
     def f(s):
         return np.array([-s[1] - s[2] + k * (s[3] - s[0]),
-                          s[0] + a_ * s[1] + s[2],
+                          s[0] + a_ * s[1],   # canonical: y-dot = x + a*y
                           b_ + s[2] * (s[0] - c_),
                          -s[4] - s[5] + k * (s[0] - s[3]),
-                          s[3] + a_ * s[4] + s[5],
+                          s[3] + a_ * s[4],   # canonical y2: matches J row [0,0,0,1,a_,0]
                           b_ + s[5] * (s[3] - c_)])
     def J(s):
         return np.array([
             [-k, -1., -1., k, 0., 0.],
-            [1., a_, 1., 0., 0., 0.],
+            [1., a_, 0., 0., 0., 0.],
             [s[2], 0., s[0] - c_, 0., 0., 0.],
             [k, 0., 0., -k, -1., -1.],
-            [0., 0., 0., 1., a_, 1.],
+            [0., 0., 0., 1., a_, 0.],
             [0., 0., 0., s[5], 0., s[3] - c_]
         ])
     for _ in range(int(300 / dt)):
@@ -210,9 +210,17 @@ def benettin_spectrum(k, dt=0.05, T=600, kre=10):
             x = np.clip(np.nan_to_num(x, nan=0.0), -100.0, 100.0)
     Qm = np.eye(6); acc = np.zeros(6); cnt = 0
     for s_i in range(n):
-        Qm = Qm + dt * (J(x) @ Qm)
-        k1 = f(x); k2 = f(x + .5 * dt * k1); k3 = f(x + .5 * dt * k2); k4 = f(x + dt * k3)
-        x = x + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+        # RK4 on the COUPLED state+tangent system (Euler tangent at dt=0.05
+        # inflated lambda1 by 3x on the Lorenz control: 3.04 vs 0.906)
+        k1x = f(x);               k1Q = J(x) @ Qm
+        x2 = x + .5 * dt * k1x;   Q2 = Qm + .5 * dt * k1Q
+        k2x = f(x2);              k2Q = J(x2) @ Q2
+        x3 = x + .5 * dt * k2x;   Q3 = Qm + .5 * dt * k2Q
+        k3x = f(x3);              k3Q = J(x3) @ Q3
+        x4 = x + dt * k3x;        Q4 = Qm + dt * k3Q
+        k4x = f(x4);              k4Q = J(x4) @ Q4
+        x = x + dt / 6 * (k1x + 2 * k2x + 2 * k3x + k4x)
+        Qm = Qm + dt / 6 * (k1Q + 2 * k2Q + 2 * k3Q + k4Q)
         if not np.all(np.isfinite(x)) or np.max(np.abs(x)) > 1e4:
             x = np.clip(np.nan_to_num(x, nan=0.0), -100.0, 100.0)
         if (s_i + 1) % kre == 0:
@@ -230,10 +238,10 @@ def coupled_rossler_diff(k, T_burn=500, T_sample=1500, dt=0.05):
     out = []
     def f(s):
         return np.array([-s[1] - s[2] + k * (s[3] - s[0]),
-                          s[0] + a * s[1] + s[2],
+                          s[0] + a * s[1],
                           b + s[2] * (s[0] - c),
                          -s[4] - s[5] + k * (s[0] - s[3]),
-                          s[3] + a * s[4] + s[5],
+                          s[3] + a * s[4],
                           b + s[5] * (s[3] - c)])
     for i in range(n):
         k1 = f(x); k2 = f(x + 0.5 * dt * k1)

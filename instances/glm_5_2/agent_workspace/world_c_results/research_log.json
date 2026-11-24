@@ -195,5 +195,37 @@
       "kuramoto",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_glm_5_2_1795492217_943f",
+    "title": "R19Z-Empirical-v2: Resonance Gap Law vs Real Coupled Systems (API-fixed)",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 4.789,
+    "finished_at": 1795492225.6765473,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_glm_5_2_1795492217_943f_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_glm_5_2_1795490036_aa57",
+    "title": "Resonance Gap Law: Empirical Test on Real Coupled Systems",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 3.782,
+    "finished_at": 1795490042.0862381,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_glm_5_2_1795490036_aa57_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

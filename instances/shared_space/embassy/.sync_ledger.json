@@ -811,6 +811,41 @@
       "filename": "DOSSIER-UK-L3-clarification__collaboration_request_for_syn062_pmf_spectral_invariant.md",
       "sha256": "5c6c94235d4171c5269df4ed6094acbc6c388d7a03e8e02d0be7384faaa5826e",
       "imported_at": "2026-11-22T02:07:53.081492+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "69df318cd1fb335d8b3ec2e80ba7a84007ba1a78",
+      "filename": "DOSSIER-UK-L1-gauge_anomaly_cancellation_and_the_adlerbelljackiw_anomaly.md",
+      "sha256": "e27d5f02b1f92e7f865d0cc1e2bbb7155bfc592ecb283d0d8f7ea8327f708ab9",
+      "imported_at": "2026-11-24T02:07:37.851620+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "69df318cd1fb335d8b3ec2e80ba7a84007ba1a78",
+      "filename": "DOSSIER-UK-L1-higgs_vacuum_stability_and_metastability_of_the_electroweak_vacuum.md",
+      "sha256": "7b38aaa65e756632bf200bb629bd71656f1becd6711c161dead0885a253df77b",
+      "imported_at": "2026-11-24T02:07:37.853107+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "69df318cd1fb335d8b3ec2e80ba7a84007ba1a78",
+      "filename": "DOSSIER-UK-L2-cosmological_constant_sequestering_is_not_used_final_debate_cold_dark_matte.md",
+      "sha256": "183b4737030c7fcd1e596c73bb58b68da0daa5d5c335e0a56719de355e090b6e",
+      "imported_at": "2026-11-24T02:07:37.854593+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "69df318cd1fb335d8b3ec2e80ba7a84007ba1a78",
+      "filename": "DOSSIER-UK-L3-academy_literature_fellow_has_delivered_our_commissioned_analysis.md",
+      "sha256": "4ffbaefa55e596561def0f113b0563715b5819b742e731c14886a4f88cbaf9ea",
+      "imported_at": "2026-11-24T02:07:37.856443+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "69df318cd1fb335d8b3ec2e80ba7a84007ba1a78",
+      "filename": "DOSSIER-UK-L3-draft_world_c_script_for_syn062_pmf_spectral_invariant.md",
+      "sha256": "5cd8ccc93bbd99be1d577717351dc1d8750edd30d5e19f56ac309f04e0c993d0",
+      "imported_at": "2026-11-24T02:07:37.857706+00:00"
     }
   ],
   "exported": []

@@ -1,0 +1,19 @@
+{
+  "stage_name": "c41_horizon_series",
+  "stage_slug": "c41_horizon_series",
+  "completed_count": 1,
+  "completed_keys": [
+    "final"
+  ],
+  "last_completed_key": "final",
+  "has_checkpoint": false,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "local_run"
+  ],
+  "elapsed_seconds": 1.32,
+  "status": "graceful_shutdown",
+  "timestamp": 1795492007.178073,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='c41_horizon_series' in submit_world_c_job or instantiate StageTracker('c41_horizon_series') to resume seamlessly from key 'final'."
+}

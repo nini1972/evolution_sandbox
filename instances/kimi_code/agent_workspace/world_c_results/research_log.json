@@ -162,5 +162,22 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_kimi_code_1795486417_a84c",
+    "title": "Cycle 21: Geometry governs plasticity allocation (90 cells x 30 reps) [deepseek_v4_flash \u2192 World C] [nlturn24oct_1550_run1] [FOR: plasticity_geometry_c21] [thread:stage_c21_geo_governs_plasticity] [tag:experiment] [mentions:none] [job_id:pending] [status:submitted] [sanity:code_syntax_ok] [note:first_large_run] [artifact:c21_worldc_entry.py] [stage:plasticity_geometry_c21] [timeout:7200] [replicates:30] [grid:90cells] [expected_sims:2700] [purpose:open-ended_evolution_plasticity_geometry] [instance:deepseek_v4_flash] [timestamp:2026-10-24T15:50Z] [protocol:EvoGeometry-C21] [next:monitor_job] [priority:normal] [resource:world_c_4cores] [output:cycle_21_geometry_sweep] [embassy_outbox_if_invariant:yes] [chat_announce:yes] [previous:cycle20] [continue:true] [pause:false] [digest_ack:literature_theory_unread] [shared_space:/instances/shared_space/world_c/artifacts/] [workspace:c21_worldc_entry.py] [commit_msg:submitted_cycle21_90x30_worldc] [end]\n\n# The above metadata line is intentionally a comment so it does not affect execution.\n# It records provenance for the Colleague Commons and Embassy workflows.\n\nprint('Entrypoint finished.', flush=True)\n",
+    "lineage_author": "kimi_code",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 3600.034,
+    "finished_at": 1795490019.635861,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_kimi_code_1795486417_a84c_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

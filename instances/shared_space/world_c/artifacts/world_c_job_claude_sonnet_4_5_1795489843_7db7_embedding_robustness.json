@@ -1,0 +1,187 @@
+{
+  "n_surrogates": 200,
+  "iaaft_iter": 60,
+  "results": {
+    "solar_sunspots": {
+      "certified": {
+        "m": 3,
+        "tau": 6,
+        "det_obs": 0.0,
+        "z_fourier": 0.0,
+        "z_iaaft": 0.0,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "short": {
+        "m": 2,
+        "tau": 1,
+        "det_obs": 0.0,
+        "z_fourier": 0.0,
+        "z_iaaft": -0.12309277343312805,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "deeper": {
+        "m": 4,
+        "tau": 6,
+        "det_obs": 0.0,
+        "z_fourier": 0.0,
+        "z_iaaft": 0.0,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "verdict_stability": "stable_unresolved"
+    },
+    "climate_enso": {
+      "certified": {
+        "m": 3,
+        "tau": 7,
+        "det_obs": 0.0,
+        "z_fourier": -0.37974307463871604,
+        "z_iaaft": -0.4941467599515579,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "short": {
+        "m": 2,
+        "tau": 1,
+        "det_obs": 0.26212714673094306,
+        "z_fourier": -0.3540176748541229,
+        "z_iaaft": -1.2508032292294724,
+        "p_iaaft": 0.9154228855721394,
+        "resolved": false
+      },
+      "deeper": {
+        "m": 4,
+        "tau": 7,
+        "det_obs": 0.0,
+        "z_fourier": -0.07071067799340475,
+        "z_iaaft": -0.07071067799390478,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "verdict_stability": "stable_unresolved"
+    },
+    "climate_temperatures": {
+      "certified": {
+        "m": 3,
+        "tau": 13,
+        "det_obs": 0.0,
+        "z_fourier": 0.0,
+        "z_iaaft": 0.0,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "short": {
+        "m": 2,
+        "tau": 1,
+        "det_obs": 0.0,
+        "z_fourier": -0.6240598239622218,
+        "z_iaaft": -0.8793149350892757,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "deeper": {
+        "m": 4,
+        "tau": 13,
+        "det_obs": 0.0,
+        "z_fourier": 0.0,
+        "z_iaaft": 0.0,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "verdict_stability": "stable_unresolved"
+    },
+    "neural_eeg": {
+      "certified": {
+        "m": 3,
+        "tau": 10,
+        "det_obs": 0.0,
+        "z_fourier": 0.0,
+        "z_iaaft": 0.0,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "short": {
+        "m": 2,
+        "tau": 1,
+        "det_obs": 0.0,
+        "z_fourier": 0.0,
+        "z_iaaft": -0.9010580773732125,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "deeper": {
+        "m": 4,
+        "tau": 10,
+        "det_obs": 0.0,
+        "z_fourier": 0.0,
+        "z_iaaft": 0.0,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "verdict_stability": "stable_unresolved"
+    },
+    "power_grid_ieee": {
+      "certified": {
+        "m": 3,
+        "tau": 17,
+        "det_obs": 0.9978991964426394,
+        "z_fourier": 0.0003329557325660579,
+        "z_iaaft": 0.0003329557325660579,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "short": {
+        "m": 2,
+        "tau": 1,
+        "det_obs": 0.9980353935531803,
+        "z_fourier": -0.0001110099469551322,
+        "z_iaaft": -0.0001110099469551322,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "deeper": {
+        "m": 4,
+        "tau": 17,
+        "det_obs": 0.997821391768343,
+        "z_fourier": 0.00022199518839498988,
+        "z_iaaft": 0.00022199518839498988,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "verdict_stability": "stable_unresolved"
+    },
+    "belousov_zhabotinsky": {
+      "certified": {
+        "m": 3,
+        "tau": 44,
+        "det_obs": 0.0,
+        "z_fourier": 0.0,
+        "z_iaaft": 0.0,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "short": {
+        "m": 2,
+        "tau": 1,
+        "det_obs": 0.0,
+        "z_fourier": 0.0,
+        "z_iaaft": 0.0,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "deeper": {
+        "m": 4,
+        "tau": 44,
+        "det_obs": 0.0,
+        "z_fourier": 0.0,
+        "z_iaaft": 0.0,
+        "p_iaaft": 1.0,
+        "resolved": false
+      },
+      "verdict_stability": "stable_unresolved"
+    }
+  },
+  "elapsed_s": 222.79900074005127
+}

@@ -1,0 +1,517 @@
+{
+  "stage": "two_null_bracket_7ds",
+  "registry": "BR-01",
+  "results": {
+    "solar_sunspots": {
+      "N": 512,
+      "tau": 31,
+      "encodings": {
+        "A_m3_tauacf_rr05": {
+          "det_obs": 0.508622323289748,
+          "surr_mean": 0.4901395995199293,
+          "surr_std": 0.010337335544025468,
+          "z": 1.7879581920411687,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.4940306992609438,
+              "det_std": 0.025528617197724337,
+              "surrogate_sha": "4f23b083ea295bc8"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.47599014591624034,
+              "det_std": 0.02777279128678249,
+              "surrogate_sha": "c613c205a2d990ae"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.5003979533826037,
+              "det_std": 0.040602125312534466,
+              "surrogate_sha": "899ef429cd0da296"
+            }
+          ]
+        },
+        "B_m3_tau1_rr05": {
+          "det_obs": 0.7839881393624908,
+          "surr_mean": 0.7373857178156659,
+          "surr_std": 0.015041462446953655,
+          "z": 3.0982639960161125,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.7482579688658265,
+              "det_std": 0.010436350109411737,
+              "surrogate_sha": "4f23b083ea295bc8"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.7161156412157152,
+              "det_std": 0.020445929619519704,
+              "surrogate_sha": "c613c205a2d990ae"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.7477835433654558,
+              "det_std": 0.023000426117657055,
+              "surrogate_sha": "899ef429cd0da296"
+            }
+          ]
+        },
+        "C_m3_tauacf_default": {
+          "det_obs": 0.0,
+          "surr_mean": 0.0,
+          "surr_std": 0.0,
+          "z": 0.0,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "4f23b083ea295bc8"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "c613c205a2d990ae"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "899ef429cd0da296"
+            }
+          ]
+        }
+      },
+      "iaaft_pure_repro_test": {
+        "fresh_every_time": [
+          0.49554671214705326,
+          0.49554671214705326,
+          true
+        ]
+      }
+    },
+    "climate_enso": {
+      "N": 512,
+      "tau": 11,
+      "encodings": {
+        "A_m3_tauacf_rr05": {
+          "det_obs": 0.6844636844636844,
+          "surr_mean": 0.6655058833742986,
+          "surr_std": 0.008493283254906527,
+          "z": 2.232093351935955,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.6642722537823831,
+              "det_std": 0.01207967081067241,
+              "surrogate_sha": "b5f42c57b1687db6"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.6764697948255785,
+              "det_std": 0.014059394448561451,
+              "surrogate_sha": "dab018aa6dd04399"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.6557756015149344,
+              "det_std": 0.01337407502251971,
+              "surrogate_sha": "b823daaf5b0fac69"
+            }
+          ]
+        },
+        "B_m3_tau1_rr05": {
+          "det_obs": 0.7357735625370481,
+          "surr_mean": 0.7243103058969358,
+          "surr_std": 0.0047620296621940705,
+          "z": 2.4072207552841367,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.7200022186042083,
+              "det_std": 0.0020593360549231014,
+              "surrogate_sha": "b5f42c57b1687db6"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.7309471698234473,
+              "det_std": 0.00883292375211515,
+              "surrogate_sha": "dab018aa6dd04399"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.7219815292631517,
+              "det_std": 0.0051989598971376415,
+              "surrogate_sha": "b823daaf5b0fac69"
+            }
+          ]
+        },
+        "C_m3_tauacf_default": {
+          "det_obs": 0.0,
+          "surr_mean": 0.0010199405197211253,
+          "surr_std": 0.0007214006274251985,
+          "z": -1.4138337020324843,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "b5f42c57b1687db6"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.0015503875968992248,
+              "det_std": 0.0031007751937984496,
+              "surrogate_sha": "dab018aa6dd04399"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.0015094339622641509,
+              "det_std": 0.0030188679245283017,
+              "surrogate_sha": "b823daaf5b0fac69"
+            }
+          ]
+        }
+      }
+    },
+    "climate_temperatures": {
+      "N": 512,
+      "tau": 88,
+      "encodings": {
+        "A_m3_tauacf_rr05": {
+          "det_obs": 0.2681863895407308,
+          "surr_mean": 0.2873094355181362,
+          "surr_std": 0.00048088017080227195,
+          "z": -39.76675924378755,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.28713782717123737,
+              "det_std": 0.03790744108648164,
+              "surrogate_sha": "da32749e783d9c45"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.28796513576935967,
+              "det_std": 0.040805442684707816,
+              "surrogate_sha": "294d036ef6976058"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.2868253436138116,
+              "det_std": 0.03331858378947375,
+              "surrogate_sha": "e0778259b218f796"
+            }
+          ]
+        },
+        "B_m3_tau1_rr05": {
+          "det_obs": 0.637563000296472,
+          "surr_mean": 0.6246170298577692,
+          "surr_std": 0.005811609527424435,
+          "z": 2.227604999546495,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.618671094515871,
+              "det_std": 0.0060270801566271555,
+              "surrogate_sha": "da32749e783d9c45"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.6325039162939555,
+              "det_std": 0.013875581646844048,
+              "surrogate_sha": "294d036ef6976058"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.6226760787634813,
+              "det_std": 0.010281865607656366,
+              "surrogate_sha": "e0778259b218f796"
+            }
+          ]
+        },
+        "C_m3_tauacf_default": {
+          "det_obs": 0.0,
+          "surr_mean": 0.0,
+          "surr_std": 0.0,
+          "z": 0.0,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "da32749e783d9c45"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "294d036ef6976058"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "e0778259b218f796"
+            }
+          ]
+        }
+      }
+    },
+    "neural_eeg": {
+      "N": 512,
+      "tau": 44,
+      "encodings": {
+        "A_m3_tauacf_rr05": {
+          "det_obs": 0.8166524701873935,
+          "surr_mean": 0.8572544009085746,
+          "surr_std": 0.008366075694666223,
+          "z": -4.8531632037547565,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.8678875638841568,
+              "det_std": 0.008671527490715116,
+              "surrogate_sha": "ae67c7b0bc95af79"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.8474446337308349,
+              "det_std": 0.02449118573389559,
+              "surrogate_sha": "ab0d5c9cdcb91a27"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.8564310051107326,
+              "det_std": 0.033964215515670367,
+              "surrogate_sha": "7c012bfa54154198"
+            }
+          ]
+        },
+        "B_m3_tau1_rr05": {
+          "det_obs": 0.786158861885003,
+          "surr_mean": 0.8196579414407097,
+          "surr_std": 0.007396182170864274,
+          "z": -4.529239380780725,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.8300882505175131,
+              "det_std": 0.01437282009844624,
+              "surrogate_sha": "ae67c7b0bc95af79"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.8137632609803014,
+              "det_std": 0.011830019118746385,
+              "surrogate_sha": "ab0d5c9cdcb91a27"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.8151223128243144,
+              "det_std": 0.01159525185893457,
+              "surrogate_sha": "7c012bfa54154198"
+            }
+          ]
+        },
+        "C_m3_tauacf_default": {
+          "det_obs": 0.0,
+          "surr_mean": 0.0,
+          "surr_std": 0.0,
+          "z": 0.0,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "ae67c7b0bc95af79"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "ab0d5c9cdcb91a27"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "7c012bfa54154198"
+            }
+          ]
+        }
+      }
+    },
+    "power_grid_ieee": {
+      "N": 512,
+      "tau": 27,
+      "encodings": {
+        "A_m3_tauacf_rr05": {
+          "det_obs": 0.9496521420725009,
+          "surr_mean": 0.8886122299523983,
+          "surr_std": 0.002810350736257964,
+          "z": 21.719677666061866,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.8920541926034419,
+              "det_std": 0.007347634496458722,
+              "surrogate_sha": "62eb89384ec8861f"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.8886122299523984,
+              "det_std": 0.016592866675150603,
+              "surrogate_sha": "eef9efe4761b4b85"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.8851702673013548,
+              "det_std": 0.019724570173258512,
+              "surrogate_sha": "3960a974b67cd6cb"
+            }
+          ]
+        },
+        "B_m3_tau1_rr05": {
+          "det_obs": 0.9378799110452187,
+          "surr_mean": 0.8617346182357303,
+          "surr_std": 0.006796017646588081,
+          "z": 11.204398924378449,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.8571682727946628,
+              "det_std": 0.012776568631259389,
+              "surrogate_sha": "62eb89384ec8861f"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.8713417346182357,
+              "det_std": 0.011864862109005975,
+              "surrogate_sha": "eef9efe4761b4b85"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.8566938472942921,
+              "det_std": 0.004099647841708945,
+              "surrogate_sha": "3960a974b67cd6cb"
+            }
+          ]
+        },
+        "C_m3_tauacf_default": {
+          "det_obs": 0.9978070593619496,
+          "surr_mean": 0.9978070593619496,
+          "surr_std": 0.0,
+          "z": 0.0,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.9978070593619496,
+              "det_std": 0.0,
+              "surrogate_sha": "62eb89384ec8861f"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.9978070593619496,
+              "det_std": 0.0,
+              "surrogate_sha": "eef9efe4761b4b85"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.9978070593619496,
+              "det_std": 0.0,
+              "surrogate_sha": "3960a974b67cd6cb"
+            }
+          ]
+        }
+      }
+    },
+    "belousov_zhabotinsky": {
+      "N": 512,
+      "tau": 82,
+      "encodings": {
+        "A_m3_tauacf_rr05": {
+          "det_obs": 0.9257751331036642,
+          "surr_mean": 0.611566969412256,
+          "surr_std": 0.00983492060560201,
+          "z": 31.948215577097187,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.6253053554650798,
+              "det_std": 0.07883724171033897,
+              "surrogate_sha": "ff871ebf16c449b8"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.6028186658315063,
+              "det_std": 0.03677886568937675,
+              "surrogate_sha": "71ab30298cfd3072"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.6065768869401816,
+              "det_std": 0.04503658254162,
+              "surrogate_sha": "b424c56e92928c52"
+            }
+          ]
+        },
+        "B_m3_tau1_rr05": {
+          "det_obs": 0.9516679021497405,
+          "surr_mean": 0.8536595008648381,
+          "surr_std": 0.012358143366132302,
+          "z": 7.930673595638651,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.8708376575240919,
+              "det_std": 0.012052707239605191,
+              "surrogate_sha": "ff871ebf16c449b8"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.8478576723498887,
+              "det_std": 0.008363326507746701,
+              "surrogate_sha": "71ab30298cfd3072"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.8422831727205337,
+              "det_std": 0.019761713935297888,
+              "surrogate_sha": "b424c56e92928c52"
+            }
+          ]
+        },
+        "C_m3_tauacf_default": {
+          "det_obs": 0.0,
+          "surr_mean": 0.0,
+          "surr_std": 0.0,
+          "z": 0.0,
+          "per_seed": [
+            {
+              "seed": 101,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "ff871ebf16c449b8"
+            },
+            {
+              "seed": 102,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "71ab30298cfd3072"
+            },
+            {
+              "seed": 103,
+              "det_mean": 0.0,
+              "det_std": 0.0,
+              "surrogate_sha": "b424c56e92928c52"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

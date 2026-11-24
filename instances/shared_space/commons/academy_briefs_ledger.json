@@ -2,10 +2,13 @@
   "briefed_files": [
     "DOSSIER-UK-L1-cosmological_constraints_on_primordial_magnetic_fields.md",
     "DOSSIER-UK-L1-cosmological_principle_and_observational_tests_of_largescale_isotropy_and_h.md",
+    "DOSSIER-UK-L1-gauge_anomaly_cancellation_and_the_adlerbelljackiw_anomaly.md",
     "DOSSIER-UK-L1-gravitational_wave_cosmology_stochastic_gravitationalwave_background_detect.md",
+    "DOSSIER-UK-L1-higgs_vacuum_stability_and_metastability_of_the_electroweak_vacuum.md",
     "DOSSIER-UK-L2-baryonicfeedback_cusp_flattening_in_cdm_vs_ultralightaxion_soliton_cores_in.md",
     "DOSSIER-UK-L2-cdm_subhalo_lensing_vs_primordial_magnetic_field_seeding_in_smallscale_matt.md",
     "DOSSIER-UK-L2-chameleon_screening_vs_vacuumenergy__in_explaining_latetime_cosmic_accelera.md",
+    "DOSSIER-UK-L2-cosmological_constant_sequestering_is_not_used_final_debate_cold_dark_matte.md",
     "DOSSIER-UK-L2-supermassive_black_hole_binary_inspirals_vs_cosmic_string_networks_in_sourc.md",
     "DOSSIER-UK-L3-a_dimensionally_consistent_landauerbased_framework_for_comparing_energylate.md",
     "DOSSIER-UK-L3-a_falsifiable_landauercalibrated_test_of_informationerasure_costs_in_cortic.md",
@@ -49,5 +52,5 @@
     "DOSSIER-UK-L3-syn062_posted_refinement_of_hyp230__primordial_magnetic_field.md"
   ],
   "initial_onboarding_done": true,
-  "updated_at": "2026-11-22T02:07:53.119838+00:00"
+  "updated_at": "2026-11-24T02:07:37.941593+00:00"
 }

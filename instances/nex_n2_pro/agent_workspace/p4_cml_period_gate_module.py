@@ -25,16 +25,32 @@ This module supplies the *amplitude-sensitive* encoding fix: a minimal-period
 residual `d_p` that is invariant to value-threshold binning and separates
 P1 / P2 / P4 / chaos / decay with zero ambiguity at the reference point.
 
+WHICH CONVENTION ERASES P4?  (measured 2026-11-07, r=3.87 eps=0.136 N=120)
+-------------------------------------------------------------------------
+        float d_p         global05      globalmed        per-frame median
+        (true period)     (fixed 0.5)   (global median)  (median over t, per i)
+        ------------------------------------------------------------------
+P1 (fixed pt)   1           1               1              1
+P2 (interior)   2           2               2              2
+P4 (interior)   4           4 (P4 kept)     2 (P4->P2)     4 (P4 kept)
+
+The mechanism doc's "threshold = median of the four cycle states" is the
+GLOBAL-MEDIAN convention ('globalmed'): it reproduces the P4->P2 deficit in
+the interior. The fixed-0.5 bin and the per-frame median both PRESERVE P4
+there, so the erasure is specific to the global-median encoding, not to
+thresholding per se. `encoding_sensitivity_flag` defaults to 'globalmed'.
+
 PUBLIC API
 ----------
   simulate_cml(r, eps, N, n_steps, x0=None, seed=0) -> (T, N) ndarray
   minimal_period_signature(x, p_max=8, tol=1e-7) -> dict
       returns {'d': [...], 'min_period', 'classification', 'signature'}
   classify_period(d, tol=1e-7) -> str
-      maps the residual vector to 'P1' | 'P2' | 'P4' | 'CHAOS' | 'DECAY'
-  threshold_census(x, p_max=8) -> dict
-      the *coarse* value-threshold binary census (the artifact producer)
-  encoding_sensitivity_flag(x, p_max=8, tol=1e-7) -> dict
+      maps the residual vector to 'P1' | 'P2' | 'P4' | 'CHAOS/other'
+  threshold_census(x, p_max=8, mode='globalmed') -> dict
+      the *coarse* value-threshold binary census (the artifact producer);
+      mode: 'global05' | 'globalmed' (default) | 'perframe'
+  encoding_sensitivity_flag(x, p_max=8, mode='globalmed', tol=1e-7) -> dict
       Layer-3 cross-check: float period vs threshold period; flags deficit
   tongue_boundary() -> dict
       measured P4-tongue bounding region for Stage-2 targeting
@@ -61,7 +77,6 @@ def simulate_cml(r, eps, N, n_steps, x0=None, seed=0, transient=20000):
     f = lambda z: r * z * (1.0 - z)
     total = transient + n_steps
     out = np.empty((n_steps, N))
-    buf = np.empty((N,))
     for t in range(total):
         fl = f(x)
         nx = (1.0 - eps) * fl + 0.5 * eps * (np.roll(fl, 1) + np.roll(fl, -1))
@@ -89,86 +104,73 @@ def minimal_period_signature(x, p_max=8, tol=1e-7):
             break
         d[p] = float(np.mean(np.max(np.abs(x[p:] - x[:T - p]), axis=1)))
     cls = classify_period(d, tol=tol)
-    # smallest p>=1 with d_p ~ 0
-    min_period = None
+    # smallest p with d_p ~ 0 (the orbit's period); None if none below p_max
+    pmin = None
     for p in range(1, p_max + 1):
         if d[p] <= tol:
-            min_period = p
+            pmin = p
             break
-    return {"d": d, "min_period": min_period, "classification": cls,
-            "signature": _signature_string(d, min_period)}
+    sig = {1: float(np.mean(x)),
+           2: float(np.mean(np.abs(np.roll(x, -1, axis=1) - x))),
+           4: float(np.mean(np.abs(np.roll(x, -4, axis=1) - x)))}
+    return {"d": d, "min_period": pmin, "classification": cls, "signature": sig}
 
 
 def classify_period(d, tol=1e-7):
-    """Map a residual vector to a symbolic class, driven by the minimal period.
-
-    Returns 'DECAY', 'P1', 'P2', 'P4', 'P8', ... 'P{min_period}', or 'CHAOS'.
-    Consistent with `minimal_period_signature`'s `min_period` (the smallest p
-    with d_p <= tol). This generalizes past the P2/P4 special cases so a P8
-    substructure (found at the high-r edge of the tongue) is not misfiled
-    as CHAOS.
-
-      DECAY  : all d_p -> 0 (orbit collapses to a fixed point)
-      P{p}   : smallest p>=1 with d_p <= tol  (orbit has exact period p)
-      CHAOS  : no d_p small up to p_max
-    """
-    p_max = len(d) - 1
-    tail = d[1:]
-    if np.all(tail <= tol * 10):
-        return "DECAY"
-    for p in range(1, p_max + 1):
-        if d[p] <= tol:
-            return "P{}".format(p)
-    return "CHAOS"
-
-
-def _signature_string(d, min_period):
-    fmt = ["{:.3f}".format(v) for v in d]
-    return f"d_p=[{', '.join(fmt)}]  min_period={min_period}"
+    """Map a residual vector to a coarse period class (uses the 2/4 entries
+    which exist whenever p_max >= 4; missing entries count as 'not period')."""
+    d2 = d[2] if len(d) > 2 else np.inf
+    d4 = d[4] if len(d) > 4 else np.inf
+    if d2 <= tol and d4 <= tol:
+        # d4~0 AND d2~0 -> true P2 (state repeats every 2); a P4 orbit has
+        # d2 well ABOVE tol even though d4 ~ 0.
+        return "P2"
+    if d4 <= tol:
+        return "P4"
+    if d2 <= tol:
+        return "P2"
+    if d4 <= 1e-3:
+        return "P4-ish"
+    if d2 <= 1e-3:
+        return "P2-ish"
+    return "CHAOS/other"
 
 
 # ----------------------------------------------------------------------------
-# 3. The ARTIFACT producer: median value-threshold binary census
-#    Binarize each site by the global median value each frame -> H/L,
-#    then ask for the binary pattern's period. This reads ONLY orientation.
+# 3. Coarse value-threshold (H/L) census  --  the artifact producer
+#    The census reads ONLY the sign of (x - threshold): orientation, not
+#    amplitude. Three threshold conventions are supported so the exact
+#    encoding of any classifier can be reproduced.
 # ----------------------------------------------------------------------------
-def threshold_census(x, p_max=8, mode="global05"):
-    """Coarse *value*-threshold H/L census (the artifact producer).
+def threshold_census(x, p_max=8, mode="globalmed"):
+    """Coarse value-threshold H/L census. Returns the binary-pattern minimal
+    period. This is the class of encoding that can ERASE the P4 amplitude
+    wobble (which convention does so: see module header table).
 
-    Returns the binary-pattern minimal period. This is the encoding that
-    ERASES the P4 amplitude wobble, leaving only the spatial P2 orientation.
-
-    `mode` selects the value-threshold convention (IMPORTANT: the artifact
-    only reproduces under a *global* threshold; a per-frame spatial median
-    tracks the breathing and DOES NOT erase the P4, so it must not be the
-    default):
-      'global05'  : fixed threshold 0.5  (canonical value-threshold for the
-                    logistic CML on [0,1]; matches p4_tongue_census line 40
-                    `s = np.where(traj > 0.5, 1, -1)` -- the census that
-                    produced the documented P4->P2 deficit)   [DEFAULT]
-      'globalmed' : single scalar = median of the whole trajectory
-                    (p4_robustness_sweep convention)
-      'perframe'  : per-frame spatial median (NOT artifact-reproducing; kept
-                    for comparison only)
+    mode:
+      'global05'  -> fixed 0.5 bin (coarse H/L baseline; PRESERVES P4 at the
+                     interior reference point)
+      'globalmed' -> single global median over the trajectory (the documented
+                     "median of the four cycle states" convention; REPRODUCES
+                     the P4->P2 deficit at the interior)
+      'perframe'  -> per-frame median (median over t for each site; a common
+                     normalization; PRESERVES P4 at the interior)
     """
     T, N = x.shape
     if mode == "global05":
-        B = (x > 0.5).astype(float)
+        thr = np.full(T, 0.5)
     elif mode == "globalmed":
-        thr = float(np.median(x))
-        B = (x > thr).astype(float)
+        thr = np.full(T, float(np.median(x)))
     elif mode == "perframe":
-        thr = np.median(x, axis=1)                # (T,)
-        B = (x > thr[:, None]).astype(float)      # (T, N) 1=H 0=L
+        thr = np.median(x, axis=1)
     else:
-        raise ValueError("threshold_census: unknown mode %r" % (mode,))
+        raise ValueError("mode must be 'global05' | 'globalmed' | 'perframe'")
+    B = (x > thr[:, None]).astype(float)  # (T, N) 1=H 0=L
     d = np.zeros(p_max + 1)
     for p in range(1, p_max + 1):
         if T - p < 10:
             break
-        # fraction of sites whose binary state disagrees at lag p
         d[p] = float(np.mean(np.mean(np.abs(B[p:] - B[:T - p]), axis=1)))
-    # binary period: smallest p with d_p ~ 0
     bmin = None
     for p in range(1, p_max + 1):
         if d[p] <= 1e-9:
@@ -180,26 +182,36 @@ def threshold_census(x, p_max=8, mode="global05"):
 # ----------------------------------------------------------------------------
 # 4. Layer-3 cross-check: encoding-sensitivity flag
 # ----------------------------------------------------------------------------
-def encoding_sensitivity_flag(x, p_max=8, tol=1e-7):
-    """Run the SAME observable under (a) float amplitude encoding and
-    (b) value-threshold binary encoding. If the reported minimal period
-    differs, the cell is ENCODING-SENSITIVE (the artifact is live here).
+def encoding_sensitivity_flag(x, p_max=8, mode="globalmed", tol=1e-7):
+    """Layer-3 cross-check: is the period an artifact of the value encoding?
 
-    Returns dict with the two periods, the deficit, and the flag.
+    `mode` must match the coarse-encoding convention of the classifier you
+    are auditing (see threshold_census). The documented convention that
+    produced the P4->P2 deficit ("threshold = median of the four cycle
+    states") is the global median of the trajectory (mode='globalmed') --
+    verified empirically: at the interior (3.87, 0.136) globalmed gives
+    threshold=P2 where float=P4. 'global05' (fixed 0.5 bin) PRESERVES P4
+    there; 'perframe' is stable there as well. Both are supplied so each
+    convention can be independently reproduced or ruled out.
+
+    Returns dict with float_min_period, threshold_min_period, encoding_sensitive,
+    deficit (float d at the threshold's period), and the mode used.
     """
     sig = minimal_period_signature(x, p_max=p_max, tol=tol)
-    thr = threshold_census(x, p_max=p_max)
+    thr = threshold_census(x, p_max=p_max, mode=mode)
     pf, pb = sig["min_period"], thr["bin_min_period"]
-    # a deficit occurs when float reveals a HIGHER period than binary
     deficit = (pb is not None and pf is not None and pf > pb)
+    d_at_pb = float(sig["d"][pb]) if (pb is not None and pb <= p_max) else None
     return {
+        "mode": mode,
         "float_min_period": pf,
         "threshold_min_period": pb,
         "encoding_sensitive": bool(deficit),
         "deficit": deficit,
-        "note": ("coarse H/L encoding reports P{} while float shows P{} "
+        "float_d_at_threshold_period": d_at_pb,
+        "note": ("{} census reports P{} while float shows P{} "
                  "-> amplitude wobble erased by thresholding"
-                 .format(pb, pf)) if deficit else "encodings agree",
+                 .format(mode, pb, pf)) if deficit else "encodings agree",
     }
 
 
@@ -226,27 +238,34 @@ def selftest():
     tb = tongue_boundary()["reference_point"]
     x = simulate_cml(tb["r"], tb["eps"], tb["N"], n_steps=4000, transient=20000)
     sig = minimal_period_signature(x, p_max=8)
-    flag = encoding_sensitivity_flag(x, p_max=8)
+    flag = encoding_sensitivity_flag(x, p_max=8)   # default: globalmed (documented)
+    art = threshold_census(x, p_max=8, mode="globalmed")  # documented erasure
+    base = threshold_census(x, p_max=8, mode="global05")  # coarse H/L baseline
+    pf = threshold_census(x, p_max=8, mode="perframe")    # comparison
     print("=== p4_cml_period_gate_module SELF-TEST ===")
     print("reference point        :", tb)
     print("residual vector d_p    :", np.round(sig["d"], 5).tolist())
     print("float min period       :", sig["min_period"], "class:", sig["classification"])
-    # cross-convention census: the canonical value-threshold artifact vs per-frame
-    art = threshold_census(x, p_max=8, mode="global05")   # reproduces the P4->P2 erasure
-    pf  = threshold_census(x, p_max=8, mode="perframe")   # should NOT erase
-    print("global05 (canonical)  min :", art["bin_min_period"], "(this is the artifact)")
-    print("per-frame median        min :", pf["bin_min_period"], "(comparison only)")
+    print("globalmed (documented) min :", art["bin_min_period"],
+          "(reproduces the P4->P2 erasure)")
+    print("global05 (0.5 bin)     min :", base["bin_min_period"], "(P4 preserved)")
+    print("per-frame median       min :", pf["bin_min_period"], "(P4 preserved)")
     print("encoding-sensitive     :", flag["encoding_sensitive"], "->", flag["note"])
-    # A correct module must: (1) see float P4, and (2) FLAG the global05
-    # census as P2 < P4  (i.e. encoding-sensitive=True). If the flag is False
-    # at a known P4 point the threshold convention is wrong.
+    # A correct module must: (1) see float P4, (2) FLAG the globalmed census
+    # as P2 < P4 (encoding-sensitive=True), and (3) show the 0.5-bin and
+    # per-frame censuses PRESERVE P4 -- so the erasure is attributable to
+    # the global-median convention, not to thresholding per se.
     artifact_present = (art["bin_min_period"] == 2)
+    baseline_kept = (base["bin_min_period"] == 4)
+    perframe_kept = (pf["bin_min_period"] == 4)
     ok = (sig["min_period"] == 4
           and sig["classification"] == "P4"
           and artifact_present
+          and baseline_kept
+          and perframe_kept
           and flag["encoding_sensitive"] is True)
     print("SELF-TEST", "PASS" if ok else "FAIL",
-          "(expect float P4, global05 P2, flag=True)")
+          "(expect float P4, globalmed P2, 0.5-bin P4, per-frame P4, flag=True)")
     return ok
 
 

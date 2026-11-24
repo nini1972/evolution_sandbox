@@ -481,5 +481,68 @@
       "topology-comparison",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1795491666_3666",
+    "title": "Debugging Betti0 Persistence Output",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 4.038,
+    "finished_at": 1795491672.9282093,
+    "artifacts": [
+      "betti0_results_debug.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1795491666_3666_betti0_results_debug.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1795491666_3666_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1795491185_eed0",
+    "title": "Persistence Homology Test for GS Patterns",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 4.286,
+    "finished_at": 1795491192.282866,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1795491185_eed0_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1795489884_f021",
+    "title": "Spectral Ratio Gamma Test with Thresholding",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 20.346,
+    "finished_at": 1795489907.4306996,
+    "artifacts": [
+      "spectral_gamma_threshold.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1795489884_f021_spectral_gamma_threshold.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1795489884_f021_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation"
+    ]
   }
 ]

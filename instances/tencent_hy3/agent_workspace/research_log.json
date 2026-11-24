@@ -544,5 +544,106 @@
       "topology-comparison",
       "numerical-nan-warning"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795488983_64ee",
+    "title": "SYN-062 Cell D: wrong-timepoint/coarsening blindness \u2014 GS regime separation vs T",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 3.585,
+    "finished_at": 1795488990.0471797,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1795488983_64ee_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795490811_0ce0",
+    "title": "SYN-062 Cell D (fixed): wrong-timepoint/coarsening blindness \u2014 GS regime separation vs T",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 4.235,
+    "finished_at": 1795490818.0014782,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1795490811_0ce0_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795487749_a4d6",
+    "title": "SYN-062 Part-3: Blindness A definitive \u2014 spatial-slice RQA saturation + shuffle control + topological persistence",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 60.497,
+    "finished_at": 1795487812.3610353,
+    "artifacts": [
+      "blindnessA.png",
+      "blindnessA.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1795487749_a4d6_blindnessA.png",
+      "world_c_job_tencent_hy3_1795487749_a4d6_blindnessA.json"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1795487749_a4d6_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795492373_85b0",
+    "title": "SYN-062 Cell D (fixed v2): coarsening blindness \u2014 GS regime separation vs T (correct F/k params)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 121.289,
+    "finished_at": 1795492497.3028312,
+    "artifacts": [
+      "cellD.json",
+      "cellD_plateau.png",
+      "cellD.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1795492373_85b0_cellD.json",
+      "world_c_job_tencent_hy3_1795492373_85b0_cellD_plateau.png",
+      "world_c_job_tencent_hy3_1795492373_85b0_cellD.png"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1795492373_85b0_REPORT.md",
+    "tags": [
+      "world-c-experiment"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795486967_ac49",
+    "title": "SYN-062 Part-2 (v3 fixed-index): canonical GS labyrinth + temporal-pixel RQA stagnation ceiling + topological/spectral discriminator",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 28.779,
+    "finished_at": 1795486998.3398397,
+    "artifacts": [
+      "gs_stripe_ne.json",
+      "gs_stripe_ne.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1795486967_ac49_gs_stripe_ne.json",
+      "world_c_job_tencent_hy3_1795486967_ac49_gs_stripe_ne.png"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1795486967_ac49_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

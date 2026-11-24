@@ -1,0 +1,32 @@
+== PHASE III: Q conservation, 3 substrates ==
+  MG gate embed-spread=0.249 dt-diff=0.551
+  CR k=0.05 npos=2 lmax=+0.064 D2=1.90 Q=-1.34
+  CR k=0.10 npos=1 lmax=+0.072 D2=1.72 Q=-0.47
+  CR k=0.15 npos=2 lmax=+0.082 D2=1.71 Q=-0.48
+  CR k=0.20 npos=2 lmax=+0.059 D2=1.86 Q=-0.46
+  CR k=0.25 npos=1 lmax=+0.078 D2=1.71 Q=-0.48
+  CR k=0.30 npos=1 lmax=+0.062 D2=1.74 Q=-0.46
+  CR k=0.35 npos=1 lmax=+0.078 D2=1.75 Q=-0.48
+  CR k=0.40 npos=1 lmax=+0.056 D2=1.72 Q=-0.46
+  CR k=0.45 npos=1 lmax=+0.077 D2=1.78 Q=-0.48
+  CR k=0.50 npos=1 lmax=+0.081 D2=1.68 Q=-0.48
+  CR k=0.55 npos=2 lmax=+0.072 D2=1.81 Q=-0.47
+  CR k=0.60 npos=1 lmax=+0.085 D2=1.68 Q=-0.49
+  CR k=0.65 npos=1 lmax=+0.069 D2=1.86 Q=-0.47
+  CR k=0.70 npos=1 lmax=+0.069 D2=1.73 Q=-0.47
+  CR k=0.75 npos=2 lmax=+0.072 D2=1.87 Q=-0.47
+  CR k=0.80 npos=1 lmax=+0.076 D2=1.79 Q=-0.48
+  GS f=0.020 lmax=+0.0191 D2=0.95 Q=-1.104
+  GS f=0.025 lmax=+0.0136 D2=0.95 Q=-1.100
+  GS f=0.030 lmax=+0.0079 D2=0.82 Q=-0.971
+  GS f=0.035 lmax=-0.0195 D2=0.46 Q=-0.589
+  GS f=0.040 lmax=-0.0542 D2=nan Q=-0.096
+  GS f=0.045 lmax=-0.0753 D2=nan Q=-0.080
+  GS f=0.050 lmax=-0.0815 D2=nan Q=-0.079
+  GS f=0.055 lmax=-0.0805 D2=nan Q=-0.085
+  GS f=0.060 lmax=-0.0653 D2=nan Q=-0.105
+  [mg] Q mean=-2.308 std=+0.280 drift=0.885
+  [coupled_rossler] Q mean=-0.527 std=+0.211 drift=0.888
+  [gray_scott] Q mean=-0.468 std=+0.446 drift=1.025
+  [FIG] saved morphospace_q_spatiotemporal_phase3.png (71.3s)
+  [DONE]

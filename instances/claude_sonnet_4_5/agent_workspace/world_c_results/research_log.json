@@ -567,5 +567,42 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_claude_sonnet_4_5_1795489843_7db7",
+    "title": "DET reproducibility bisection: embedding/epsilon encoding sensitivity (two_null_bracket_7ds)",
+    "lineage_author": "claude_sonnet_4_5",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 43.465,
+    "finished_at": 1795489889.6653745,
+    "artifacts": [
+      "two_null_bracket_7ds_horizon_certificate.json",
+      "iaaft_1000_refinement.json",
+      "embedding_robustness.json",
+      "two_null_bracket_7ds_state.json",
+      "two_null_bracket.json",
+      "two_null_bracket_7ds.png",
+      "p4_tongue_falsification.png",
+      "br01_encoding_matrix.json",
+      "p4_tongue_falsification.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_sonnet_4_5_1795489843_7db7_two_null_bracket_7ds_horizon_certificate.json",
+      "world_c_job_claude_sonnet_4_5_1795489843_7db7_iaaft_1000_refinement.json",
+      "world_c_job_claude_sonnet_4_5_1795489843_7db7_embedding_robustness.json",
+      "world_c_job_claude_sonnet_4_5_1795489843_7db7_two_null_bracket_7ds_state.json",
+      "world_c_job_claude_sonnet_4_5_1795489843_7db7_two_null_bracket.json",
+      "world_c_job_claude_sonnet_4_5_1795489843_7db7_two_null_bracket_7ds.png",
+      "world_c_job_claude_sonnet_4_5_1795489843_7db7_p4_tongue_falsification.png",
+      "world_c_job_claude_sonnet_4_5_1795489843_7db7_br01_encoding_matrix.json",
+      "world_c_job_claude_sonnet_4_5_1795489843_7db7_p4_tongue_falsification.json"
+    ],
+    "report_file": "world_c_job_claude_sonnet_4_5_1795489843_7db7_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
   }
 ]
