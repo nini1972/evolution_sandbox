@@ -147,6 +147,44 @@ def merge_consecutive_messages(messages: list) -> list:
             merged.append(msg)
     return merged
 
+def _is_runpod_markdown_echo_cmd(cmd: str) -> bool:
+    """Detects no-op echo/printf shell commands used to dump Markdown prose instead of running code."""
+    if not cmd:
+        return False
+    c = cmd.strip()
+    cl = c.lower()
+    if not re.match(r"^(?:echo|printf)\b", cl):
+        return False
+    if "python" in cl:
+        return False
+    return ("# " in c) or ("## " in c) or (".md" in cl and len(c) > 60)
+
+def _list_active_workspace_py_scripts(base_dir: str = None, limit: int = 12) -> list:
+    """Returns up to `limit` real .py filenames in the active instance's workspace so small models stop hallucinating script names."""
+    inst = os.getenv("ACTIVE_INSTANCE", "").strip()
+    if not inst:
+        return []
+    root = base_dir or os.path.dirname(os.path.abspath(__file__))
+    ws = os.path.join(root, "instances", inst, "agent_workspace")
+    if not os.path.isdir(ws):
+        return []
+    found = []
+    for sub in ("", "workspace"):
+        d = os.path.join(ws, sub) if sub else ws
+        if not os.path.isdir(d):
+            continue
+        try:
+            for fname in os.listdir(d):
+                if fname.endswith(".py"):
+                    fp = os.path.join(d, fname)
+                    if os.path.isfile(fp):
+                        rel = f"{sub}/{fname}" if sub else fname
+                        found.append((os.path.getmtime(fp), rel))
+        except Exception:
+            pass
+    found.sort(reverse=True)
+    return [rel for _, rel in found[:limit]]
+
 def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -> list:
     """Serializes conversation history for the sovereign RunPod vLLM endpoint using explicit
     markdown ```json tool call blocks in assistant content and user-role tool outputs, avoiding
@@ -161,11 +199,19 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
     tools_summary = (
         ", ".join(tool_Entries)
         if tool_Entries
-        else "run_command(command), write_file(path, content), read_file(path), edit_file(path, old_content, new_content), submit_world_c_job(title, script_content), check_world_c_job(job_id)"
+        else "run_command(command), write_file(path, content), read_file(path), edit_file(path, old_content, new_content), submit_world_c_job(title, script_content), check_world_c_job(job_id), read_chat(channel), post_chat(channel, message)"
     )
 
+    digest_marker = "=== 💬 COLLEAGUE COMMONS DIGEST"
+    digest_block = ""
+    base_system_prompt = system_prompt or ""
+    if digest_marker in base_system_prompt:
+        d_idx = base_system_prompt.find(digest_marker)
+        digest_block = base_system_prompt[d_idx:].strip()[:2500]
+        base_system_prompt = base_system_prompt[:d_idx].strip()
+
     sys_content = (
-        system_prompt
+        base_system_prompt
         + f"\n\n[AVAILABLE TOOLS]: {tools_summary}\n"
         + "IMPORTANT: All scientific Python libraries (numpy, scipy, matplotlib, pandas, h5py, pyyaml, networkx, scikit-learn, colony_lib) are ALREADY pre-installed. NEVER run 'pip install'.\n"
         + "CRITICAL INSTRUCTION: At the end of EVERY response, you MUST invoke exactly one tool by outputting a ```json code block with \"name\" and \"arguments\", for example:\n"
@@ -193,8 +239,8 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
             last_tool_args = p_args
             if fn_n == "post_epistemic_node":
                 sig = "post_epistemic_node"
-            elif fn_n == "write_file" and p_args.get("path") == "analysis_summary.md":
-                sig = "write_file(analysis_summary.md)"
+            elif fn_n == "write_file" and str(p_args.get("path", "")).lower().endswith(".md"):
+                sig = "write_file(.md)"
             else:
                 sig = f"{fn_n}({json.dumps(p_args, sort_keys=True)})"
             last_occurrence[sig] = idx
@@ -222,13 +268,14 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
                 parsed_args = {}
             if fn_name == "post_epistemic_node":
                 call_sig = "post_epistemic_node"
-            elif fn_name == "write_file" and parsed_args.get("path") == "analysis_summary.md":
-                call_sig = "write_file(analysis_summary.md)"
+            elif fn_name == "write_file" and str(parsed_args.get("path", "")).lower().endswith(".md"):
+                call_sig = "write_file(.md)"
             else:
                 call_sig = f"{fn_name}({json.dumps(parsed_args, sort_keys=True)})"
             is_skipped_stub = fn_name == "write_file" and '"status": "SKIPPED"' in json.dumps(parsed_args)
             is_pip_install = fn_name == "run_command" and "pip install" in str(parsed_args.get("command", "")).lower()
-            if last_occurrence.get(call_sig) != idx or is_skipped_stub or is_pip_install:
+            is_echo_md = fn_name == "run_command" and _is_runpod_markdown_echo_cmd(str(parsed_args.get("command", "")))
+            if last_occurrence.get(call_sig) != idx or is_skipped_stub or is_pip_install or is_echo_md:
                 skip_next_tool = True
                 continue
             recent_calls.append(f"{fn_name}({json.dumps(parsed_args, ensure_ascii=False)[:80]})")
@@ -262,38 +309,67 @@ def format_messages_for_runpod(system_prompt: str, history: list, tools: list) -
             })
 
     msgs = merge_consecutive_messages(msgs)
-    # Enforce hard total character cap (~22,000 chars <= ~9,500 Qwen tokens) so prompt + max_tokens never exceeds 16,384
-    while len(msgs) > 3 and sum(len(m.get("content", "")) for m in msgs) > 22000:
-        msgs.pop(1)
-        if len(msgs) > 2 and msgs[1].get("role") == "assistant":
-            msgs.pop(1)
     if len(msgs) == 1 or msgs[-1]["role"] == "assistant":
         msgs.append({
             "role": "user",
             "content": "Proceed with your next scientific step and end your response with a ```json tool call block.",
         })
-    if recent_calls and msgs[-1]["role"] == "user":
-        msgs[-1]["content"] += (
-            f"\n⚠️ [ANTI-LOOP GUARD]: You ALREADY executed {', '.join(recent_calls[-2:])} above. "
-            "Do NOT repeat the same tool call with identical arguments, NEVER run 'pip install', and do NOT write 'SKIPPED' placeholders — "
-            "invoke a DIFFERENT tool or updated arguments (e.g., write_file, edit_file, run_command, or submit_world_c_job) to advance your work."
+
+    extra_footer = ""
+    if digest_block and last_tool_name not in ("read_chat", "post_chat", "read_channel", "send_chat", "post_message"):
+        extra_footer += f"\n\n{digest_block}"
+        dl = digest_block.lower()
+        if "@invariant_mind" in dl or "@all" in dl or "unread" in dl:
+            extra_footer += (
+                "\n📣 [COLLEAGUE MENTIONS WAITING]: Colleagues referenced you or posted active threads in the Commons Digest above. "
+                "Engage via 'read_chat' or 'post_chat', or submit a computation via 'submit_world_c_job'."
+            )
+
+    py_scripts = _list_active_workspace_py_scripts()
+    if py_scripts:
+        extra_footer += (
+            f"\n📁 [EXISTING .py SCRIPTS IN YOUR WORKSPACE]: {', '.join(py_scripts)}. "
+            "NEVER run nonexistent .py filenames — run one of these, write a new .py via 'write_file', or submit via 'submit_world_c_job'."
         )
-        if last_tool_name == "write_file" and str(last_tool_args.get("path", "")).endswith(".py"):
-            py_p = last_tool_args.get("path")
-            msgs[-1]["content"] += (
-                f"\n👉 [NEXT STEP]: You just wrote '{py_p}'. Now execute it by outputting a ```json block with "
-                f'{{"name": "run_command", "arguments": {{"command": "python3 {py_p}"}}}} (or "submit_world_c_job").'
-            )
-        elif last_tool_name == "write_file" and str(last_tool_args.get("path", "")).endswith(".md"):
-            msgs[-1]["content"] += (
-                "\n👉 [NEXT STEP]: You just updated a Markdown document. Now run an existing Python analysis script via 'run_command' "
-                "or submit a simulation via 'submit_world_c_job' rather than rewriting Markdown again."
-            )
-        elif last_tool_name == "post_epistemic_node":
-            msgs[-1]["content"] += (
-                "\n👉 [NEXT STEP]: You ALREADY published an epistemic node ('post_epistemic_node') on your last turn. "
-                "Do NOT call 'post_epistemic_node' again right now — instead call 'query_epistemic_graph', 'read_agent_inbox', 'peer_verify_node', or 'run_command'."
-            )
+
+    if recent_calls:
+        extra_footer += (
+            f"\n⚠️ [ANTI-LOOP GUARD]: You ALREADY executed {', '.join(recent_calls[-2:])} above. "
+            "Do NOT repeat the same tool call with identical arguments, NEVER run 'pip install', "
+            "NEVER use 'echo' in run_command to dump Markdown, and do NOT write 'SKIPPED' placeholders — "
+            "invoke a DIFFERENT tool or updated arguments (e.g., read_chat, post_chat, submit_world_c_job, write_file for a .py script, or run_command executing python3) to advance your work."
+        )
+
+    last_is_md_write = last_tool_name == "write_file" and str(last_tool_args.get("path", "")).lower().endswith(".md")
+    last_is_echo_md = last_tool_name == "run_command" and _is_runpod_markdown_echo_cmd(str(last_tool_args.get("command", "")))
+    if last_tool_name == "write_file" and str(last_tool_args.get("path", "")).lower().endswith(".py"):
+        py_p = last_tool_args.get("path")
+        extra_footer += (
+            f"\n👉 [NEXT STEP]: You just wrote '{py_p}'. Now execute it by outputting a ```json block with "
+            f'{{"name": "run_command", "arguments": {{"command": "python3 {py_p}"}}}} (or "submit_world_c_job").'
+        )
+    elif last_is_md_write or last_is_echo_md:
+        extra_footer += (
+            "\n👉 [NEXT STEP]: Stop writing or echoing Markdown summaries. Now output a concrete ```json tool call to "
+            '`read_chat` (`{"name": "read_chat", "arguments": {"channel": "#world-c-coordination"}}`), '
+            "`submit_world_c_job`, or `run_command` executing an actual Python script."
+        )
+    elif last_tool_name == "post_epistemic_node":
+        extra_footer += (
+            "\n👉 [NEXT STEP]: You ALREADY published an epistemic node ('post_epistemic_node') on your last turn. "
+            "Do NOT call 'post_epistemic_node' again right now — instead call 'query_epistemic_graph', 'read_agent_inbox', 'peer_verify_node', or 'run_command'."
+        )
+
+    # Enforce hard total character cap (~22,000 chars <= ~9,500 Qwen tokens) including surfaced digest & guards
+    while len(msgs) > 3 and sum(len(m.get("content", "")) for m in msgs) + len(extra_footer) > 22000:
+        msgs.pop(1)
+        if len(msgs) > 2 and msgs[1].get("role") == "assistant":
+            msgs.pop(1)
+    if msgs and msgs[-1]["role"] == "user" and extra_footer:
+        remaining_budget = max(0, 22000 - sum(len(m.get("content", "")) for m in msgs))
+        if len(extra_footer) > remaining_budget and remaining_budget >= 400:
+            extra_footer = extra_footer[:remaining_budget]
+        msgs[-1]["content"] += extra_footer
     return msgs
 
 def extract_fallback_tool_call(content: str, tools: list = None) -> dict:
@@ -838,7 +914,8 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         print(f"🎯 [Sandbox Engine] Routing '{instance_name}' to -> {agent_model}")
 
     effective_system_prompt = system_prompt
-    if agent_model.startswith("runpod/"):
+    use_native_tools = agent_model.startswith("runpod/") and os.getenv("RUNPOD_NATIVE_TOOL_CALLS", "").strip().lower() in ("1", "true", "yes")
+    if agent_model.startswith("runpod/") and not use_native_tools:
         effective_system_prompt += (
             "\n\n[TOOL INVOCATION FORMAT]: Always execute your next step by invoking a tool using "
             "<tool_call>{\"name\": \"<tool_name>\", \"arguments\": {...}}</tool_call> "
@@ -958,9 +1035,10 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             call_kwargs["api_key"] = runpod_api_key
             call_kwargs["timeout"] = 300  # 300s deadline: allow serverless worker to cold-start cleanly without tripping timeout
             call_kwargs["num_retries"] = 0
-            call_kwargs["messages"] = format_messages_for_runpod(system_prompt, history, tools)
-            call_kwargs.pop("tools", None)
-            call_kwargs.pop("tool_choice", None)
+            if not use_native_tools:
+                call_kwargs["messages"] = format_messages_for_runpod(system_prompt, history, tools)
+                call_kwargs.pop("tools", None)
+                call_kwargs.pop("tool_choice", None)
             rp_chars = sum(len(m.get("content", "")) for m in call_kwargs["messages"])
             rp_est_tokens = int(rp_chars / 2.2)
             call_kwargs["max_tokens"] = min(3072, max(512, max_model_len - rp_est_tokens - 512))

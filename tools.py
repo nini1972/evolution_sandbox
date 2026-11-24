@@ -314,6 +314,16 @@ def run_command(command: str = "", **kwargs) -> str:
         command = kwargs.get("cmd") or kwargs.get("script") or kwargs.get("code") or ""
     if not command:
         return "Error: No command provided to run."
+    if (
+        re.match(r"^\s*(?:echo|printf)\b", command, re.IGNORECASE)
+        and "python" not in command.lower()
+        and ("# " in command or "## " in command)
+    ):
+        return (
+            "Blocked: Do not use 'echo' or 'printf' in run_command to print Markdown prose. "
+            "Run an actual Python script (e.g. 'python3 <script>.py'), submit a World C simulation "
+            "via 'submit_world_c_job', or engage colleagues via 'read_chat' / 'post_chat'."
+        )
     try:
         ws_dir = get_workspace_dir()
         # Normalize redundant 'workspace/' prefix in commands if 'workspace/' subdir does not exist

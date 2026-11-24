@@ -157,5 +157,88 @@ class TestLLMClient(unittest.TestCase):
             self.assertIn("existential_core.md", out)
             self.assertIn("run_command", out)
 
+    def test_format_messages_for_runpod_surfaces_commons_digest_and_mentions(self):
+        from llm_client import format_messages_for_runpod
+
+        sys_p = (
+            "You are Invariant Mind.\n\n"
+            "=== 💬 COLLEAGUE COMMONS DIGEST ===\n"
+            "- @invariant_mind please check World C job #123 [unread]"
+        )
+        msgs = format_messages_for_runpod(sys_p, [{"role": "user", "content": "Next tick"}], [])
+        self.assertNotIn("COLLEAGUE COMMONS DIGEST", msgs[0]["content"])
+        self.assertIn("=== 💬 COLLEAGUE COMMONS DIGEST ===", msgs[-1]["content"])
+        self.assertIn("@invariant_mind", msgs[-1]["content"])
+        self.assertIn("[COLLEAGUE MENTIONS WAITING]", msgs[-1]["content"])
+
+    def test_format_messages_for_runpod_filters_markdown_echo_and_lists_py_scripts(self):
+        import tempfile
+        from llm_client import format_messages_for_runpod
+
+        with tempfile.TemporaryDirectory() as tmp_root:
+            ws_dir = os.path.join(tmp_root, "instances", "invariant_mind", "agent_workspace")
+            os.makedirs(ws_dir, exist_ok=True)
+            with open(os.path.join(ws_dir, "real_kuramoto.py"), "w", encoding="utf-8") as f:
+                f.write("print('ok')\n")
+
+            history = [
+                {
+                    "role": "assistant",
+                    "content": "Dumping markdown",
+                    "tool_calls": [{
+                        "id": "call_1",
+                        "function": {"name": "run_command", "arguments": json.dumps({"command": "echo '# Heading\\n## Section'"})},
+                    }],
+                },
+                {"role": "tool", "tool_call_id": "call_1", "name": "run_command", "content": "printed"},
+            ]
+
+            import llm_client
+            orig_fn = llm_client._list_active_workspace_py_scripts
+            try:
+                llm_client._list_active_workspace_py_scripts = lambda base_dir=None, limit=12: orig_fn(base_dir=tmp_root, limit=limit)
+                with patch.dict(os.environ, {"ACTIVE_INSTANCE": "invariant_mind"}):
+                    msgs = format_messages_for_runpod("You are Invariant Mind.", history, [])
+            finally:
+                llm_client._list_active_workspace_py_scripts = orig_fn
+
+            joined = "\n".join(m["content"] for m in msgs)
+            self.assertNotIn("[Tool Output for run_command]", joined)
+            self.assertIn("real_kuramoto.py", msgs[-1]["content"])
+            self.assertIn("Stop writing or echoing Markdown summaries", msgs[-1]["content"])
+            self.assertLessEqual(sum(len(m["content"]) for m in msgs), 22000)
+
+    @patch("llm_client.completion")
+    def test_runpod_native_tool_calls_flag_preserves_tools(self, mock_completion):
+        from llm_client import generate_next_action
+
+        mock_completion.return_value = type("Resp", (), {
+            "choices": [type("Choice", (), {
+                "message": type("Msg", (), {"content": "Calling tool", "tool_calls": None})()
+            })()]
+        })()
+        dummy_tools = [{"type": "function", "function": {"name": "read_chat", "parameters": {"type": "object", "properties": {}}}}]
+        sys_p = "System\n\n=== 💬 COLLEAGUE COMMONS DIGEST ===\n- @invariant_mind check this"
+        env = {"ACTIVE_INSTANCE": "invariant_mind", "RUNPOD_API_KEY": "rp_test", "RUNPOD_NATIVE_TOOL_CALLS": "true"}
+        with patch.dict(os.environ, env):
+            generate_next_action(sys_p, [{"role": "user", "content": "Go"}], dummy_tools)
+        kw = mock_completion.call_args[1]
+        self.assertEqual(kw["tools"], dummy_tools)
+        self.assertEqual(kw["tool_choice"], "auto")
+        self.assertNotIn("[TOOL INVOCATION FORMAT]", kw["messages"][0]["content"])
+        self.assertIn("COLLEAGUE COMMONS DIGEST", kw["messages"][-1]["content"])
+
+    def test_run_command_blocks_markdown_echo_only(self):
+        import tempfile
+        import tools
+
+        with tempfile.TemporaryDirectory() as tmp_ws:
+            with patch("tools.get_workspace_dir", return_value=tmp_ws):
+                blocked = tools.run_command("echo '# Markdown Atlas\n## Subsection'")
+                allowed = tools.run_command("echo ---FILES---")
+        self.assertIn("Blocked:", blocked)
+        self.assertNotIn("Blocked:", allowed)
+        self.assertIn("---FILES---", allowed)
+
 if __name__ == "__main__":
     unittest.main()
