@@ -6,6 +6,22 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch:
     # Allow manual execution via the GitHub Actions tab
+    inputs:
+      instances:
+        description: 'Comma-separated instance override (blank = full 16-agent roster)'
+        required: false
+        default: ''
+        type: string
+      ticks:
+        description: 'Tick count override (blank = auto 8 pulse / 20 deep)'
+        required: false
+        default: ''
+        type: string
+      skip_expedition:
+        description: 'Skip collaborative multi-agent expedition (useful for targeted smoke tests)'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -129,20 +145,45 @@ jobs:
         RUNPOD_API_KEY: ${{ secrets.RUNPOD_API_KEY }}
         PYTHONUNBUFFERED: "1"
         PYTHONPATH: "${{ github.workspace }}/world_c"
+        INPUT_INSTANCES: ${{ inputs.instances }}
+        INPUT_TICKS: ${{ inputs.ticks }}
       run: |
-        # Calculate if today is a 20-tick deep-run day (every 3rd day)
-        EPOCH_DAYS=$(( $(date +%s) / 86400 ))
-        if [ $(( EPOCH_DAYS % 3 )) -eq 0 ]; then
-          TICKS=20
-          echo "Deep-run day! Running 20 ticks."
+        DEFAULT_INSTANCES="gemini_pro,claude_sonnet_4_5,invariant_mind,llama_3_3,claude_haiku,gemini_3_1_flash_lite,llama_4_scout,kimi_code,minimax_m3,deepseek_v4_flash,glm_5_2,glm_4_7_flash,tencent_hy3,xiaomi_mimo,nex_n2_pro,poolside_laguna"
+        INSTANCES="$(echo "${INPUT_INSTANCES:-}" | tr -d '[:space:]')"
+        if [ -z "$INSTANCES" ]; then
+          INSTANCES="$DEFAULT_INSTANCES"
         else
-          TICKS=8
-          echo "Daily pulse day. Running 8 ticks."
+          if ! [[ "$INSTANCES" =~ ^[a-zA-Z0-9_,]+$ ]]; then
+            echo "Invalid instances override: $INSTANCES" >&2
+            exit 1
+          fi
+          echo "Manual override: running instances=$INSTANCES"
         fi
-        
-        python run_parallel.py --instances gemini_pro,claude_sonnet_4_5,invariant_mind,llama_3_3,claude_haiku,gemini_3_1_flash_lite,llama_4_scout,kimi_code,minimax_m3,deepseek_v4_flash,glm_5_2,glm_4_7_flash,tencent_hy3,xiaomi_mimo,nex_n2_pro,poolside_laguna --ticks $TICKS
+
+        RAW_TICKS="$(echo "${INPUT_TICKS:-}" | tr -d '[:space:]')"
+        if [ -n "$RAW_TICKS" ]; then
+          if ! [[ "$RAW_TICKS" =~ ^[1-9][0-9]*$ ]]; then
+            echo "Invalid ticks override: $RAW_TICKS" >&2
+            exit 1
+          fi
+          TICKS="$RAW_TICKS"
+          echo "Manual override: running $TICKS ticks."
+        else
+          # Calculate if today is a 20-tick deep-run day (every 3rd day)
+          EPOCH_DAYS=$(( $(date +%s) / 86400 ))
+          if [ $(( EPOCH_DAYS % 3 )) -eq 0 ]; then
+            TICKS=20
+            echo "Deep-run day! Running 20 ticks."
+          else
+            TICKS=8
+            echo "Daily pulse day. Running 8 ticks."
+          fi
+        fi
+
+        python run_parallel.py --instances "$INSTANCES" --ticks "$TICKS"
 
     - name: Run collaborative multi-agent expedition
+      if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_expedition != true }}
       continue-on-error: true
       env:
         OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
