@@ -914,7 +914,11 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         print(f"🎯 [Sandbox Engine] Routing '{instance_name}' to -> {agent_model}")
 
     effective_system_prompt = system_prompt
-    use_native_tools = agent_model.startswith("runpod/") and os.getenv("RUNPOD_NATIVE_TOOL_CALLS", "").strip().lower() in ("1", "true", "yes")
+    _native_env = os.getenv("RUNPOD_NATIVE_TOOL_CALLS", "").strip().lower()
+    use_native_tools = agent_model.startswith("runpod/") and (
+        _native_env in ("1", "true", "yes")
+        or ("-v3-" in agent_model.lower() and _native_env not in ("0", "false", "no"))
+    )
     if agent_model.startswith("runpod/") and not use_native_tools:
         effective_system_prompt += (
             "\n\n[TOOL INVOCATION FORMAT]: Always execute your next step by invoking a tool using "
@@ -1029,7 +1033,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             target_model = agent_model.split("runpod/", 1)[1]
             if "/" not in target_model and len(target_model) <= 20:
                 endpoint_id = target_model
-                target_model = "Ninitje/InvariantMind-Worker-7B-Merged"
+                target_model = "Ninitje/InvariantMind-Worker-v3-14B-Merged"
             call_kwargs["model"] = f"openai/{target_model}"
             call_kwargs["api_base"] = f"https://api.runpod.ai/v2/{endpoint_id}/openai/v1"
             call_kwargs["api_key"] = runpod_api_key
@@ -1039,8 +1043,8 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                 call_kwargs["messages"] = format_messages_for_runpod(system_prompt, history, tools)
                 call_kwargs.pop("tools", None)
                 call_kwargs.pop("tool_choice", None)
-            rp_chars = sum(len(m.get("content", "")) for m in call_kwargs["messages"])
-            rp_est_tokens = int(rp_chars / 2.2)
+            rp_chars = sum(len(m.get("content") or "") for m in call_kwargs["messages"])
+            rp_est_tokens = max(est_prompt_tokens, int(rp_chars / 2.2) + (tools_tokens if use_native_tools else 0))
             call_kwargs["max_tokens"] = min(3072, max(512, max_model_len - rp_est_tokens - 512))
     else:
         call_kwargs["model"] = agent_model

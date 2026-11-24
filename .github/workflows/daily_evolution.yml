@@ -143,6 +143,7 @@ jobs:
       env:
         OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         RUNPOD_API_KEY: ${{ secrets.RUNPOD_API_KEY }}
+        RUNPOD_NATIVE_TOOL_CALLS: "true"
         PYTHONUNBUFFERED: "1"
         PYTHONPATH: "${{ github.workspace }}/world_c"
         INPUT_INSTANCES: ${{ inputs.instances }}
@@ -188,6 +189,7 @@ jobs:
       env:
         OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         RUNPOD_API_KEY: ${{ secrets.RUNPOD_API_KEY }}
+        RUNPOD_NATIVE_TOOL_CALLS: "true"
         PYTHONUNBUFFERED: "1"
         PYTHONPATH: "${{ github.workspace }}/world_c"
       run: |

@@ -14,5 +14,5 @@
   "xiaomi_mimo": "openrouter/xiaomi/mimo-v2.6-flash",
   "nex_n2_pro": "openrouter/qwen/qwen3.8-27b",
   "poolside_laguna": "openrouter/mistralai/mistral-large-2512",
-  "invariant_mind": "runpod/Ninitje/InvariantMind-Worker-7B-Merged"
+  "invariant_mind": "runpod/Ninitje/InvariantMind-Worker-v3-14B-Merged"
 }
