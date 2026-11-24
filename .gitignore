@@ -43,3 +43,7 @@ instances/.expedition_state.json
 # External World C checkout (root only — do NOT ignore instances/shared_space/world_c/)
 /world_c/
 
+# Prevent redundant multi-copy checkpoint state JSON bloat (canonical copies live in shared_space/world_c/stages/ and artifacts/<job_id>/)
+instances/*/agent_workspace/*_state.json
+instances/*/agent_workspace/world_c_results/*_state.json
+instances/shared_space/world_c/artifacts/world_c_*_state.json
