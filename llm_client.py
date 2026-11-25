@@ -956,6 +956,60 @@ def _count_trailing_chat_reads(messages: list) -> int:
     return count
 
 
+def _collapse_excess_chat_reads(history: list, max_keep: int = 1) -> tuple[list, int]:
+    """Collapses older read_chat (assistant, tool) pairs in history so 14B models are not
+    few-shot conditioned by a streak of historical read_chat calls, and returns (filtered_history, recent_raw_reads)."""
+    if not history:
+        return [], 0
+
+    # Count how many of the last 3 assistant turns in raw history attempted read_chat
+    recent_asst_reads = 0
+    asst_seen = 0
+    for m in reversed(history):
+        if m.get("role") == "assistant":
+            asst_seen += 1
+            tcs = m.get("tool_calls") or []
+            if tcs and all(tc.get("function", {}).get("name") in ("read_chat", "read_channel") for tc in tcs):
+                recent_asst_reads += 1
+            if asst_seen >= 3:
+                break
+
+    # Identify indices of (assistant, tool) read_chat pairs from newest to oldest
+    drop_indices = set()
+    kept_valid_reads = 0
+    i = len(history) - 1
+    while i >= 0:
+        m = history[i]
+        if (
+            i < len(history) - 1
+            and m.get("role") == "assistant"
+            and not m.get("tool_calls")
+            and "<tool_call>" in str(m.get("content") or "")
+        ):
+            drop_indices.add(i)
+            i -= 1
+            continue
+        if (
+            m.get("role") == "tool"
+            and m.get("name") in ("read_chat", "read_channel")
+            and i >= 1
+            and history[i - 1].get("role") == "assistant"
+        ):
+            obs = str(m.get("content") or "")
+            is_notice = obs.startswith("Notice: You ")
+            if is_notice or kept_valid_reads >= max_keep:
+                drop_indices.add(i)
+                drop_indices.add(i - 1)
+            else:
+                kept_valid_reads += 1
+            i -= 2
+            continue
+        i -= 1
+
+    filtered = [m for idx, m in enumerate(history) if idx not in drop_indices]
+    return filtered, recent_asst_reads
+
+
 def generate_next_action(system_prompt: str, history: list, tools: list) -> dict:
     """
     Calls the LLM with the given prompt, history, and tools.
@@ -981,6 +1035,7 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         or ("-v3-" in agent_model.lower() and _native_env not in ("0", "false", "no"))
     )
     v3_digest_block = ""
+    v3_recent_raw_reads = 0
     if use_native_tools:
         effective_system_prompt, v3_digest_block = build_v3_runpod_prompts(system_prompt)
     elif agent_model.startswith("runpod/") and not use_native_tools:
@@ -993,7 +1048,8 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     
     # Append history to messages
     if use_native_tools:
-        pruned = prune_history(history, max_messages=20, max_content_chars=4000, max_prompt_tokens=9500)
+        compact_hist, v3_recent_raw_reads = _collapse_excess_chat_reads(history, max_keep=1)
+        pruned = prune_history(compact_hist, max_messages=16, max_content_chars=3200, max_prompt_tokens=6500)
         if pruned and pruned[0].get("role") == "user" and pruned[0].get("content") == "Please continue.":
             ws_scripts = _list_active_workspace_py_scripts(limit=10)
             scripts_hint = f" Existing workspace .py scripts: {', '.join(ws_scripts)}." if ws_scripts else ""
@@ -1076,15 +1132,23 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
 
     # Surface the live Colleague Commons Digest as a user-turn notification at the start of the turn
     if use_native_tools:
-        trailing_reads = _count_trailing_chat_reads(messages)
+        trailing_reads = max(_count_trailing_chat_reads(messages), v3_recent_raw_reads)
+        if trailing_reads >= 2 and tools and len(tools) > 1:
+            filtered_tools = [
+                t for t in tools
+                if t.get("function", {}).get("name") not in ("read_chat", "read_channel")
+            ]
+            if filtered_tools:
+                tools = filtered_tools
+                tools_tokens = estimate_tokens(tools)
         tail_parts = []
         if v3_digest_block:
             tail_parts.append(v3_digest_block)
         if trailing_reads >= 2:
             tail_parts.append(
-                f"[ACTION TRANSITION REQUIRED]: Your last {trailing_reads} turns only called `read_chat`. "
-                "Do NOT call `read_chat` on this turn — act on what you already read by writing/running a Python verification "
-                "(`write_file` + `run_command`), launching a World C sweep (`submit_world_c_job`), or posting a substantive "
+                f"[ACTION TRANSITION REQUIRED]: Your last {trailing_reads} turns already read Colleague Commons. "
+                "Proceed immediately with an active contribution: write/run a Python verification "
+                "(`write_file` + `run_command`), launch a World C sweep (`submit_world_c_job`), or post a substantive "
                 "quantitative reply (`post_chat`)."
             )
         if tail_parts and len(messages) >= 1:
@@ -1143,8 +1207,14 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                 call_kwargs["messages"] = format_messages_for_runpod(system_prompt, history, tools)
                 call_kwargs.pop("tools", None)
                 call_kwargs.pop("tool_choice", None)
-            rp_chars = sum(len(m.get("content") or "") for m in call_kwargs["messages"])
-            rp_est_tokens = max(est_prompt_tokens, int(rp_chars / 2.2) + (tools_tokens if use_native_tools else 0))
+                rp_chars = sum(len(m.get("content") or "") for m in call_kwargs["messages"])
+                rp_est_tokens = max(est_prompt_tokens, int(rp_chars / 2.2))
+            else:
+                rp_chars = sum(
+                    len(m.get("content") or "") + len(json.dumps(m.get("tool_calls") or []))
+                    for m in call_kwargs["messages"]
+                )
+                rp_est_tokens = max(est_prompt_tokens, int(rp_chars / 3.5) + tools_tokens)
             call_kwargs["max_tokens"] = min(3072, max(512, max_model_len - rp_est_tokens - 512))
     else:
         call_kwargs["model"] = agent_model
