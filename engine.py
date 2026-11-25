@@ -165,11 +165,36 @@ def run_loop(instance: str, ticks: int):
                                                 if "timed out" in nxt_obs.lower():
                                                     prev_timed_out = True
                         repeat_threshold = 1 if instance == "invariant_mind" else 2
+                        last_asst_same = False
+                        for r_msg in reversed(history):
+                            if r_msg.get("role") == "tool":
+                                continue
+                            if r_msg.get("role") == "assistant":
+                                r_tcs = r_msg.get("tool_calls") or []
+                                if r_tcs and r_tcs[0].get("function", {}).get("name") == tool_name:
+                                    try:
+                                        r_args = json.dumps(json.loads(r_tcs[0]["function"].get("arguments", "{}")), sort_keys=True, ensure_ascii=False)
+                                    except Exception:
+                                        r_args = str(r_tcs[0]["function"].get("arguments", ""))
+                                    last_asst_same = (r_args == arg_canon)
+                            break
                         if tool_name == "run_command" and prev_timed_out:
                             result = (
                                 "Error: This exact command ALREADY timed out in a previous turn. "
                                 "Do NOT re-run the same timed-out command locally — either optimize/vectorize the script, "
                                 "reduce grid/step counts, or offload heavy sweeps to World C via 'submit_world_c_job'."
+                            )
+                        elif instance == "invariant_mind" and tool_name == "submit_world_c_job" and repeat_read_count >= 1:
+                            result = (
+                                "Notice: You ALREADY submitted this exact World C job in a recent turn. "
+                                "Do NOT resubmit identical script_content — inspect its report via 'read_file' on "
+                                "'world_c_results/REPORT.md' (or 'check_world_c_job'), fix any bug if it failed, or share findings via 'post_chat'."
+                            )
+                        elif instance == "invariant_mind" and last_asst_same and tool_name in ("run_command", "write_file"):
+                            result = (
+                                f"Notice: You ALREADY executed '{tool_name}' with these exact arguments on your immediately preceding turn "
+                                "(output shown above). Advance to the next step — e.g. 'read_file' on a specific file, write/run a Python "
+                                "analysis script, 'submit_world_c_job', or 'post_chat'."
                             )
                         elif tool_name in ("read_chat", "read_channel") and repeat_read_count >= repeat_threshold:
                             result = (

@@ -962,21 +962,29 @@ def _collapse_excess_chat_reads(history: list, max_keep: int = 1) -> tuple[list,
     if not history:
         return [], 0
 
-    # Count how many of the last 3 assistant turns in raw history attempted read_chat
+    # Count how many of the last 3 assistant turns in raw history attempted read_chat,
+    # and check whether the MOST RECENT assistant turn was read_chat.
     recent_asst_reads = 0
+    last_asst_is_read = False
     asst_seen = 0
     for m in reversed(history):
         if m.get("role") == "assistant":
             asst_seen += 1
             tcs = m.get("tool_calls") or []
-            if tcs and all(tc.get("function", {}).get("name") in ("read_chat", "read_channel") for tc in tcs):
+            is_r = bool(tcs) and all(tc.get("function", {}).get("name") in ("read_chat", "read_channel") for tc in tcs)
+            if asst_seen == 1:
+                last_asst_is_read = is_r
+            if is_r:
                 recent_asst_reads += 1
             if asst_seen >= 3:
                 break
+    if not last_asst_is_read:
+        recent_asst_reads = 0
 
-    # Identify indices of (assistant, tool) read_chat pairs from newest to oldest
+    # Identify indices of (assistant, tool) read_chat pairs and consecutive identical tool calls from newest to oldest
     drop_indices = set()
     kept_valid_reads = 0
+    prev_kept_sig = None
     i = len(history) - 1
     while i >= 0:
         m = history[i]
@@ -991,17 +999,37 @@ def _collapse_excess_chat_reads(history: list, max_keep: int = 1) -> tuple[list,
             continue
         if (
             m.get("role") == "tool"
-            and m.get("name") in ("read_chat", "read_channel")
             and i >= 1
             and history[i - 1].get("role") == "assistant"
         ):
-            obs = str(m.get("content") or "")
-            is_notice = obs.startswith("Notice: You ")
-            if is_notice or kept_valid_reads >= max_keep:
+            t_name = m.get("name")
+            asst_m = history[i - 1]
+            tcs = asst_m.get("tool_calls") or []
+            raw_a = tcs[0].get("function", {}).get("arguments", "{}") if tcs else "{}"
+            try:
+                canon_a = json.dumps(json.loads(raw_a), sort_keys=True) if isinstance(raw_a, str) else json.dumps(raw_a, sort_keys=True)
+            except Exception:
+                canon_a = str(raw_a)
+            call_sig = (t_name, canon_a)
+
+            if t_name in ("read_chat", "read_channel"):
+                obs = str(m.get("content") or "")
+                is_notice = obs.startswith("Notice: You ")
+                if is_notice or kept_valid_reads >= max_keep:
+                    drop_indices.add(i)
+                    drop_indices.add(i - 1)
+                else:
+                    kept_valid_reads += 1
+                    prev_kept_sig = call_sig
+                i -= 2
+                continue
+
+            if prev_kept_sig is not None and call_sig == prev_kept_sig:
                 drop_indices.add(i)
                 drop_indices.add(i - 1)
-            else:
-                kept_valid_reads += 1
+                i -= 2
+                continue
+            prev_kept_sig = call_sig
             i -= 2
             continue
         i -= 1
@@ -1143,7 +1171,11 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
                 tools_tokens = estimate_tokens(tools)
         tail_parts = []
         if v3_digest_block:
-            tail_parts.append(v3_digest_block)
+            if trailing_reads == 0 and messages[-1]["role"] == "tool" and len(messages) >= 2 and messages[1]["role"] == "user":
+                if v3_digest_block[:40] not in (messages[1].get("content") or ""):
+                    messages[1]["content"] = ((messages[1].get("content") or "") + "\n\n" + v3_digest_block).strip()
+            else:
+                tail_parts.append(v3_digest_block)
         if trailing_reads >= 2:
             tail_parts.append(
                 f"[ACTION TRANSITION REQUIRED]: Your last {trailing_reads} turns already read Colleague Commons. "
