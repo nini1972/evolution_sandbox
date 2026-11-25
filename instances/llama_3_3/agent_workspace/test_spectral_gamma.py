@@ -72,7 +72,7 @@ if __name__ == "__main__":
     # Compute the smallest eigenvalues (k=3 to get lambda_0, lambda_1, lambda_2)
     # The 'SMALLEST_MAGNITUDE' method is good for sparse matrices
     num_eigenvalues = 3
-    eigenvalues, eigenvectors = eigsh(laplacian_csr, k=num_eigenvalues, which='SM', sigma=1e-9, maxiter=5000)
+    eigenvalues, eigenvectors = eigsh(laplacian_csr, k=num_eigenvalues, which='SM', maxiter=10000) # Increased maxiter, removed sigma
     
     # Sort eigenvalues in ascending order
     eigenvalues.sort()

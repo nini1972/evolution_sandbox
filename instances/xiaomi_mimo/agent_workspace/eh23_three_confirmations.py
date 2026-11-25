@@ -47,8 +47,8 @@ def fit_verdict(T, y, v_mean, y_control=None):
             ss_res = np.sum((y - pred) ** 2); ss_tot = np.sum((y - y.mean()) ** 2)
             R2 = 1 - ss_res / max(ss_tot, 1e-30)
             perr = np.sqrt(np.diag(pc))
-            res.update(Oinf=float(p[0]), alpha=float(p[2]), R2=float(R2),
-                       stderr=float(perr[0]))
+            res.update(Oinf=float(p[0]), C=float(p[1]), alpha=float(p[2]),
+                       R2=float(R2), stderr=float(perr[0]))
             # cell E: stderr blowup when Oinf ~ 0
             if abs(perr[0]) > 10 * max(abs(p[0]), 1e-3) or R2 < 0.3:
                 res['verdict'] = 'UNDERPOWERED_CELL_E'
@@ -62,7 +62,9 @@ def fit_verdict(T, y, v_mean, y_control=None):
                 # simpler: peak/trough strictly interior
                 interior_peak = (np.argmax(y) not in (0, n - 1)) or (np.argmin(y) not in (0, n - 1))
                 if interior_peak and R2 > 0.5:
-                    res['verdict'] = 'INVERTED_NONMONOTONIC'
+                    # within-regime overshoot is NOT Cell-D inversion:
+                    # inversion requires a cross-regime rank/sign flip (see sep test)
+                    res['verdict'] = 'NONMONOTONIC_TRANSIENT'
                 elif abs(p[2]) < 0.15:
                     res['verdict'] = 'MARGINAL_FLAT_ALPHA'
                 else:
@@ -75,6 +77,55 @@ def fit_verdict(T, y, v_mean, y_control=None):
                             np.isfinite(res['plateau_ratio']) and
                             res['plateau_ratio'] < 0.05)
     return res
+
+def separation_test(series, reg_a='spots', reg_b='tunneling'):
+    """
+    Cell D cross-regime separation test: |O_a - O_b| / pooled_scale at each T.
+    Known-distinct regimes (spots vs tunneling morphologies) must separate
+    if the observable is horizon-robust. Predicted split: coverage/act_frac
+    separates only at large T (coarsening artifact -> inverted), while
+    structure observables (S2/k_peak) separate inside the window.
+    Returns {obs: np.array of normalized separation over T}.
+    """
+    a, b = series[reg_a], series[reg_b]
+    T = np.asarray(a['T'], float)
+    out = {}
+    for obs in ['R2_sp', 'S2_ft', 'phi_sp', 'phi_ft', 'k_peak', 'act_frac']:
+        if obs not in a or obs not in b:
+            continue
+        ya, yb = np.asarray(a[obs], float), np.asarray(b[obs], float)
+        scale = (np.std(ya) + np.std(yb)) / 2
+        if scale < 1e-12:
+            scale = max(abs(ya).mean(), abs(yb).mean(), 1e-12)
+        out[obs] = np.abs(ya - yb) / scale
+    out['T'] = T
+    return out
+
+
+def classify_separation(sep):
+    """Cell D verdict from separation-vs-T curve: is separation monotone-growing
+    (horizon-dependent blindness at small T) or flat/plateaued (horizon-robust)?"""
+    res = {}
+    for obs, s in sep.items():
+        if obs == 'T': continue
+        T = sep['T']
+        early, late = s[:max(2, len(s)//3)], s[-max(2, len(s)//3):]
+        ratio = late.mean() / max(early.mean(), 1e-12)
+        # log-log slope of separation vs T
+        pos = s > 1e-9
+        slope = (np.polyfit(np.log(T[pos]), np.log(s[pos]), 1)[0]
+                 if pos.sum() >= 3 else float('nan'))
+        if ratio > 1.8 and slope > 0.25:
+            v = 'CELL_D_BLIND_AT_SMALL_T'   # grows with horizon -> artifact
+        elif ratio < 1.3:
+            v = 'HORIZON_ROBUST'            # separated even early
+        else:
+            v = 'MARGINAL_DRIFT'
+        res[obs] = {'early': float(early.mean()), 'late': float(late.mean()),
+                    'ratio': float(ratio), 'loglog_slope': float(slope),
+                    'verdict': v}
+    return res
+
 
 def main():
     if not os.path.exists(STAGE):
@@ -101,6 +152,19 @@ def main():
             out['fits'][reg]['observables'][obs] = v
             print(f"  {obs:8s} -> {v['verdict']:26s} Oinf={v['Oinf']} "
                   f"alpha={v['alpha']} R2={v['R2']}")
+
+    # --- Cell D cross-regime separation test (known-distinct: spots vs tunneling) ---
+    if 'spots' in series and 'tunneling' in series:
+        sep = separation_test(series)
+        sep_cls = classify_separation(sep)
+        out['separation'] = {k: (v.tolist() if hasattr(v, 'tolist') else v)
+                             for k, v in sep.items()}
+        out['separation_class'] = sep_cls
+        print("\n== separation (spots vs tunneling), normalized |Δ|/scale ==")
+        for obs, c in sep_cls.items():
+            print(f"  {obs:8s} early={c['early']:.3f} late={c['late']:.3f} "
+                  f"ratio={c['ratio']:.2f} slope={c['loglog_slope']:.3f} "
+                  f"-> {c['verdict']}")
 
     # Joint claim decision (only meaningful if >=9 horizons and plateaued)
     nT = max(len(s['T']) for s in series.values())

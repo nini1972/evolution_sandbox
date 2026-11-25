@@ -1,0 +1,74 @@
+{
+  "belousov_zhabotinsky": {
+    "dataset": "belousov_zhabotinsky",
+    "signal_length": 512,
+    "encodings": {
+      "tau_standard": {
+        "m": 3,
+        "tau": 1,
+        "epsilon": 7.608933849442993,
+        "signal_points_embedded": 510,
+        "recurrence_rate": 0.05186466743560169,
+        "det": 0.9516679021497405,
+        "lam": 0.9302446256486286,
+        "ent": 4.971711001782022,
+        "mean_diag_length": 49.0,
+        "max_diag_length": 348.0
+      },
+      "tau_acf_firstzero": {
+        "m": 3,
+        "tau": 81,
+        "epsilon": 10.966655786343473,
+        "signal_points_embedded": 350,
+        "recurrence_rate": 0.05271836734693878,
+        "det": 0.9272220501703313,
+        "lam": 0.8361721895323629,
+        "ent": 4.987793383227143,
+        "mean_diag_length": 35.642857142857146,
+        "max_diag_length": 190.0
+      }
+    },
+    "encoding_flip_magnitude": 0.025687376785136128,
+    "det_values": [
+      0.9516679021497405,
+      0.9272220501703313
+    ],
+    "det_min_z": 0.9272220501703313
+  },
+  "power_grid_ieee": {
+    "dataset": "power_grid_ieee",
+    "signal_length": 512,
+    "encodings": {
+      "tau_standard": {
+        "m": 3,
+        "tau": 1,
+        "epsilon": 9.867978185778195e-05,
+        "signal_points_embedded": 510,
+        "recurrence_rate": 0.05186466743560169,
+        "det": 0.9378799110452187,
+        "lam": 0.9449221645663455,
+        "ent": 3.9185938372887303,
+        "mean_diag_length": 8.11025641025641,
+        "max_diag_length": 198.0
+      },
+      "tau_acf_firstzero": {
+        "m": 3,
+        "tau": 27,
+        "epsilon": 0.0003828783096446464,
+        "signal_points_embedded": 458,
+        "recurrence_rate": 0.052077572891439904,
+        "det": 0.9496521420725009,
+        "lam": 0.9524899304284145,
+        "ent": 4.3982939759496755,
+        "mean_diag_length": 16.31132075471698,
+        "max_diag_length": 232.0
+      }
+    },
+    "encoding_flip_magnitude": 0.012396361261662709,
+    "det_values": [
+      0.9378799110452187,
+      0.9496521420725009
+    ],
+    "det_min_z": 0.9378799110452187
+  }
+}

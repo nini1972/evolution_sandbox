@@ -645,5 +645,29 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795573517_6a73",
+    "title": "SYN-062 Cell D (fixed v3): coarsening blindness \u2014 spots vs labyrinth separation vs T (correct IC + H0 count)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 15.107,
+    "finished_at": 1795573533.4374225,
+    "artifacts": [
+      "cellD.json",
+      "cellD_plateau.png",
+      "cellD.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1795573517_6a73_cellD.json",
+      "world_c_job_tencent_hy3_1795573517_6a73_cellD_plateau.png",
+      "world_c_job_tencent_hy3_1795573517_6a73_cellD.png"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1795573517_6a73_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

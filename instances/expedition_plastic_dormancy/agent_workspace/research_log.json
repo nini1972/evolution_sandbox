@@ -44,5 +44,24 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_expedition_plastic_dormancy_1795574900_8145",
+    "title": "Phase III high-resolution spatial metapopulation dormancy sweep (World C)",
+    "lineage_author": "expedition_plastic_dormancy",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 32.023,
+    "finished_at": 1795574934.485034,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_expedition_plastic_dormancy_1795574900_8145_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "bifurcation",
+      "epidemic"
+    ]
   }
 ]

@@ -1,35 +1,60 @@
-# 🏛️ World C Execution Report: Power Grid IEEE Recurrence Entropy Analysis During Fault Transients (Attempt 2)
+# 🏛️ World C Execution Report: Gray-Scott Spectral Gamma Analysis (F=0.060, k=0.062)
 
-* **Job ID:** `job_llama_3_3_1794455360_30f5`
+* **Job ID:** `job_llama_3_3_1795573651_05b8`
 * **Requesting Lineage:** `llama_3_3` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `1.47` seconds
+* **Compute Duration:** `57.02` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `power_grid_rqa_transient_ent`
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='power_grid_rqa_transient_ent', resume_from_job_id='job_llama_3_3_1794455360_30f5')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('power_grid_rqa_transient_ent')`.
+* **Stage Name:** `gray_scott_spectral_analysis`
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='gray_scott_spectral_analysis', resume_from_job_id='job_llama_3_3_1795573651_05b8')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('gray_scott_spectral_analysis')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `REPORT.md` (delivered to `world_c_results/REPORT.md` and `world_c/artifacts/job_llama_3_3_1794455360_30f5/REPORT.md`)
-- `rqa_ent_transient_comparison.png` (delivered to `world_c_results/rqa_ent_transient_comparison.png` and `world_c/artifacts/job_llama_3_3_1794455360_30f5/rqa_ent_transient_comparison.png`)
+- `spectral_gamma_F0.06_k0.062.png` (delivered to `world_c_results/spectral_gamma_F0.06_k0.062.png` and `world_c/artifacts/job_llama_3_3_1795573651_05b8/spectral_gamma_F0.06_k0.062.png`)
+- `eigenvalues_F0.06_k0.062.png` (delivered to `world_c_results/eigenvalues_F0.06_k0.062.png` and `world_c/artifacts/job_llama_3_3_1795573651_05b8/eigenvalues_F0.06_k0.062.png`)
 
 ---
 
 ## 📋 Execution Log Tail
 ```
-Loading power_grid_ieee dataset...
-Dataset loaded with shape: (1000, 7)
-Analyzing time series of length: 1000
-Transient window: indices 20 to 1000 (time 0.2s to 15.6s)
-Steady-state window starts at index 1000 (time 15.6s)
-Calculating RQA for transient window...
-Transient RQA: {'N': 972.0, 'recurrence_rate': 0.005137682263882538, 'determinism': 0.799752781211372, 'laminarity': 0.799752781211372, 'shannon_entropy': 0.9999999999971146, 'mean_diag_length': 970.5, 'max_diag_length': 971.0, 'RR': 0.005137682263882538, 'DET': 0.799752781211372, 'LAM': 0.799752781211372, 'ENT': 0.9999999999971146, 'ENTR': 0.9999999999971146, 'L': 970.5, 'Lmax': 971.0}
-Steady-state window is too short for RQA calculation.
-Analysis complete. Report and plot saved.
+.99e-15, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 3400/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: -1.62e-15, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 3500/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: 3.51e-16, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 3600/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: 7.59e-16, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 3700/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: 1.40e-15, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 3800/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: 4.94e-16, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 3900/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: 5.80e-16, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 4000/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: 7.69e-16, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 4100/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: -3.33e-16, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 4200/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: -7.54e-16, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 4300/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: -1.35e-15, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 4400/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: -5.66e-16, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 4500/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: 7.80e-17, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 4600/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: 1.75e-16, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 4700/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: 6.38e-16, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 4800/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: 2.19e-15, Lambda_1: 0.0152, Lambda_2: 0.0152
+Step 4900/5000: Calculating spectral gamma...
+  Gamma: 1.0000, Lambda_0: 2.99e-15, Lambda_1: 0.0152, Lambda_2: 0.0152
+Analysis complete. Plots saved to gray_scott_analysis_results/
 ```
 
 ---

@@ -469,5 +469,25 @@
       "epidemic",
       "numerical-nan-warning"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1795573324_c3de",
+    "title": "Encoding-Robustness Validation Job",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.219,
+    "finished_at": 1795573327.3797321,
+    "artifacts": [
+      "encoding_robustness_results.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1795573324_c3de_encoding_robustness_results.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1795573324_c3de_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

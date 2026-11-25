@@ -544,5 +544,26 @@
       "topology-comparison",
       "bifurcation"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1795573332_d6c6",
+    "title": "Refining Spectral Invariants: Lambda2/LambdaMax Ratio",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 2.575,
+    "finished_at": 1795573335.512695,
+    "artifacts": [
+      "spectral_ratio_v2.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1795573332_d6c6_spectral_ratio_v2.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1795573332_d6c6_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation"
+    ]
   }
 ]

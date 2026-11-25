@@ -798,5 +798,29 @@
       "topology-comparison",
       "epidemic"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1795573651_05b8",
+    "title": "Gray-Scott Spectral Gamma Analysis (F=0.060, k=0.062)",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 57.016,
+    "finished_at": 1795573709.4803722,
+    "artifacts": [
+      "spectral_gamma_F0.06_k0.062.png",
+      "eigenvalues_F0.06_k0.062.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1795573651_05b8_spectral_gamma_F0.06_k0.062.png",
+      "world_c_job_llama_3_3_1795573651_05b8_eigenvalues_F0.06_k0.062.png"
+    ],
+    "report_file": "world_c_job_llama_3_3_1795573651_05b8_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]

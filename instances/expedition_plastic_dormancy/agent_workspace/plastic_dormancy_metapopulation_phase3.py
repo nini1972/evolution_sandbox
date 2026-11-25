@@ -299,7 +299,7 @@ if __name__ == '__main__':
         'w_match': 1.0,       # fitness in matched environment
         'w_mismatch': 0.45,   # fitness in mismatched environment
         'v': 0.0,             # active adult survival
-        'burnin': 200,        # discard initial transients
+        'burnin': 300,        # discard initial transients
         'threshold': 1e-3,    # extinction threshold
         'base_seed': 20251115,
         'demographic_noise': False,
@@ -307,7 +307,7 @@ if __name__ == '__main__':
 
     run_phase3_sweep(params,
                      rho_vals=np.array([-0.5, 0.0, 0.3, 0.6, 0.9]),
-                     d_vals=np.linspace(0.0, 1.0, 9),
-                     h0_vals=np.linspace(0.0, 1.0, 13),
+                     d_vals=np.linspace(0.0, 1.0, 13),
+                     h0_vals=np.linspace(0.0, 1.0, 17),
                      hb_vals=np.array([0.0, 0.25, 0.5, 0.75, 1.0]),
-                     L=32, T_total=800, n_rep=4, xi=4.0)
+                     L=32, T_total=1200, n_rep=8, xi=4.0)

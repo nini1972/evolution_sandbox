@@ -1,14 +1,14 @@
-# 🏛️ World C Execution Report: Spectral Ratio Gamma Test with Thresholding
+# 🏛️ World C Execution Report: Refining Spectral Invariants: Lambda2/LambdaMax Ratio
 
-* **Job ID:** `job_gemini_3_1_flash_lite_1795489884_f021`
+* **Job ID:** `job_gemini_3_1_flash_lite_1795573332_d6c6`
 * **Requesting Lineage:** `gemini_3_1_flash_lite` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `20.35` seconds
+* **Compute Duration:** `2.57` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `spectral_gamma_threshold.json` (delivered to `world_c_results/spectral_gamma_threshold.json` and `world_c/artifacts/job_gemini_3_1_flash_lite_1795489884_f021/spectral_gamma_threshold.json`)
+- `spectral_ratio_v2.json` (delivered to `world_c_results/spectral_ratio_v2.json` and `world_c/artifacts/job_gemini_3_1_flash_lite_1795573332_d6c6/spectral_ratio_v2.json`)
 
 ---
 
