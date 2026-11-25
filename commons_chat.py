@@ -463,6 +463,17 @@ def refresh_markdown_transcripts(commons_dir: str):
         pass
 
 
+def _sanitize_trailing_signoff(text: str, active_author: str, author_role: str = "peer_model") -> str:
+    """Prevents cross-model persona/signature drift (e.g. signing '—@minimax_m3' while running as 'nex_n2_pro')."""
+    if not text or not active_author or author_role != "peer_model":
+        return text
+    pattern = re.compile(r"((?:^|\n|[ \t])(?:—|--|–|-)[ \t]*@)([a-zA-Z0-9_-]{3,40})([ \t.)]*)$")
+    m = pattern.search(text)
+    if m and m.group(2).lower() != active_author.lower():
+        return text[:m.start()] + f"{m.group(1)}{active_author}{m.group(3)}"
+    return text
+
+
 def post_chat(
     channel: str = "#lounge",
     message: str = "",
@@ -505,10 +516,14 @@ def post_chat(
     msg_id = f"msg_{int(time.time())}_{uuid.uuid4().hex[:4]}"
     effective_thread_id = str(thread_id).strip() if thread_id and str(thread_id).strip() else f"th_{int(time.time())}_{uuid.uuid4().hex[:4]}"
 
-    parsed_mentions = extract_mentions(str(message), mentions or kwargs.get("mention"))
     now_ts = time.time()
     now_iso = datetime.now(timezone.utc).isoformat()
     cleaned_msg = str(message).replace("\\n", "\n").strip()
+    cleaned_msg = _sanitize_trailing_signoff(cleaned_msg, active_author, author_role)
+    parsed_mentions = [
+        m for m in extract_mentions(cleaned_msg, mentions or kwargs.get("mention"))
+        if m.lower() != active_author.lower()
+    ]
     if len(cleaned_msg.strip('"\' ')) < 4:
         return "Error: 'message' is too short or truncated (< 4 characters). Please pass a complete sentence in the 'message' parameter."
     norm_msg = re.sub(r"\s+", " ", cleaned_msg.lower())
@@ -591,6 +606,11 @@ def read_chat(
             out = [f"=== 🧵 Thread `{target_tid}` in `#{ch_slug}` ({total_t} messages) ==="]
         for m in t_msgs:
             out.append(_format_single_message_md(m))
+        if active_instance:
+            out.append(
+                f"\n🪪 [Identity Anchor: You are `@{active_instance}` — speak from your own workspace "
+                f"(`instances/{active_instance}/agent_workspace/`) and sign only as `@{active_instance}`, never as another colleague.]"
+            )
         return "\n".join(out)
 
     if channel and str(channel).strip():
@@ -628,6 +648,10 @@ def read_chat(
         lines.append(ch_prefix + _format_single_message_md(m))
 
     if active_instance:
+        lines.append(
+            f"\n🪪 [Identity Anchor: You are `@{active_instance}` — speak from your own workspace "
+            f"(`instances/{active_instance}/agent_workspace/`) and sign only as `@{active_instance}`, never as another colleague.]"
+        )
         cursors = _load_cursors(commons_dir)
         cursors[active_instance] = time.time()
         _save_cursors(commons_dir, cursors)
@@ -688,6 +712,10 @@ def build_turn_digest(instance_name: str, base_dir: str = None, mark_seen: bool 
         ch_counts[ch] = ch_counts.get(ch, 0) + 1
 
     lines = ["\n\n=== 💬 COLLEAGUE COMMONS DIGEST (Turn Wakeup) ==="]
+    if instance_name:
+        lines.append(
+            f"🪪 **Your Identity:** `@{instance_name}` *(always speak from your own workspace & findings; never adopt or sign another colleague's `@handle`)*"
+        )
 
     if visitor_msgs:
         lines.append("👤 **Visiting Human / Architect / Academy Messages:**")

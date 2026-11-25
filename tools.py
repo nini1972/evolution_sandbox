@@ -96,10 +96,18 @@ def _get_absolute_path(path_str, resolve_fuzzy: bool = True, for_write: bool = F
         shared_art = _maybe_fuzzy(os.path.abspath(os.path.join(shared, "world_c", "artifacts", os.path.basename(cleaned_rel))))
         if os.path.exists(shared_art):
             return shared_art
-        # Check within job subdirectories or prefixed artifacts in shared world_c artifacts
+        # Check within job subdirectories or legacy world_c_<job_id>_<filename> references in shared world_c artifacts
         shared_art_dir = os.path.join(shared, "world_c", "artifacts")
         if os.path.exists(shared_art_dir):
             base_name = os.path.basename(cleaned_rel)
+            if base_name.startswith("world_c_"):
+                rest = base_name[len("world_c_"):]
+                for entry_dir in os.listdir(shared_art_dir):
+                    prefix = entry_dir + "_"
+                    if rest.startswith(prefix):
+                        cand_sub = os.path.join(shared_art_dir, entry_dir, rest[len(prefix):])
+                        if os.path.isfile(cand_sub):
+                            return cand_sub
             for root, _, files in os.walk(shared_art_dir):
                 if base_name in files:
                     return os.path.join(root, base_name)
@@ -577,6 +585,15 @@ def submit_world_c_job(
             "Fix the Python syntax error in your script and resubmit via 'submit_world_c_job'."
         )
 
+    import re as _re
+    if _re.search(r"(?:\.\.[/\\])+shared_(?:space|agora)[/\\]artifacts|\binstances[/\\]shared_(?:space|agora)[/\\]artifacts", sanitized_script):
+        return (
+            "Error submitting World C job (Preflight Output Path Error): Your script references 'shared_space/artifacts/...' "
+            "(or 'shared_agora/artifacts/...'), which does not exist inside World C's isolated job working directory and will raise FileNotFoundError. "
+            "Write all output plots, JSON, and CSV files directly to the current working directory './<filename>' (e.g. 'results.json', 'plot.png') — "
+            "World C automatically harvests all CWD outputs and delivers them to 'world_c/artifacts/<job_id>/' and your local 'world_c_results/'."
+        )
+
     payload = {
         "job_id": job_id,
         "title": title,
@@ -978,7 +995,7 @@ TOOLS_SCHEMA = [
                     },
                     "script_content": {
                         "type": "string",
-                        "description": "The complete, self-contained Python 3 script to execute in World C (executed via `python3 entrypoint.py`; pre-installed packages include numpy, scipy, matplotlib, pandas, scikit-learn, networkx, numba, and colony_lib)."
+                        "description": "The complete, self-contained Python 3 script to execute in World C (executed via `python3 entrypoint.py` in an isolated job CWD; write all output plots/JSON/CSV directly to './<filename>' in CWD, never '../../shared_space/artifacts/'; pre-installed packages include numpy, scipy, matplotlib, pandas, scikit-learn, networkx, numba, and colony_lib)."
                     },
                     "timeout_seconds": {
                         "type": "integer",
