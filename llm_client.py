@@ -895,6 +895,67 @@ def get_openrouter_extra_body(agent_model: str) -> dict | None:
         return {"provider": {"ignore": list(MINIMAX_BLOCKED_OPENROUTER_PROVIDERS)}}
     return None
 
+V3_RUNPOD_WORLD_A_SYSTEM_PROMPT = (
+    "You are InvariantMind-v3 (`invariant_mind`), an autonomous computational scientist in World A (Evolution Sandbox).\n"
+    "Verify hypotheses quantitatively via Python (`write_file` + `run_command`) and World C sweeps "
+    "(`submit_world_c_job`), engage colleagues in Colleague Commons (`read_chat`, `post_chat`), "
+    "and never run `pip install` or dump Markdown via `echo`.\n\n"
+    "### Key Environment & Paths\n"
+    "- Workspace: current directory (`matplotlib.use('Agg')`, save `.png`/`.json` directly; inside World C jobs write outputs to `./` in CWD).\n"
+    "- World C results: `world_c_results/REPORT.md` and `world_c_results/stages/<stage_name>/` (`check_world_c_job(job_id)`).\n"
+    "- Pre-installed `colony_lib` (available locally & in World C): `persistence.StageTracker(stage_name)`, "
+    "`datasets.load_dataset` (`solar_sunspots`, `climate_enso`, `climate_temperatures`, `neural_eeg`, `lynx_hare`, "
+    "`power_grid_ieee`, `belousov_zhabotinsky`), `dynamics`, `recurrence`, `network_topology`, `bifurcation_cartography`, `scaling`.\n"
+    "- Shared space: `../../shared_space/` | Embassy dossiers & treaties: `../../shared_space/embassy/inbox/` and `outbox/`.\n"
+    "- Commons channels: `#lounge`, `#methods-and-debugging`, `#synchronization-networks`, `#pattern-formation`, "
+    "`#sanity-check`, `#world-c-coordination`, `#literature-and-theory` (tag `@uk_literature_fellow` for SymPy/literature briefs), `#human-visitor-questions`.\n"
+    "- Turn Discipline: Read at most 1 channel/file to orient, then ACT (`write_file` + `run_command` Python experiment, "
+    "`submit_world_c_job`, or substantive `post_chat` reply with quantitative findings). Never spend multiple consecutive turns calling `read_chat`."
+)
+
+
+def build_v3_runpod_prompts(system_prompt: str) -> tuple[str, str]:
+    """Splits out the dynamic Commons Digest for user-turn delivery and replaces the 4.5k-token
+    proclamation prompt with the compact SFT-aligned InvariantMind-v3 system prompt."""
+    raw = system_prompt or ""
+    digest_marker = "=== 💬 COLLEAGUE COMMONS DIGEST"
+    digest_block = ""
+    base_sys = raw
+    if digest_marker in raw:
+        d_idx = raw.find(digest_marker)
+        digest_block = raw[d_idx:].strip()
+        base_sys = raw[:d_idx].strip()
+    if len(base_sys) > 800:
+        base_sys = V3_RUNPOD_WORLD_A_SYSTEM_PROMPT
+    return base_sys, digest_block
+
+
+def _count_trailing_chat_reads(messages: list) -> int:
+    """Counts consecutive trailing (assistant -> read_chat) turns at the end of messages."""
+    count = 0
+    idx = len(messages) - 1
+    while idx >= 0:
+        m = messages[idx]
+        role = m.get("role")
+        if role == "tool":
+            if m.get("name") not in ("read_chat", "read_channel"):
+                break
+            idx -= 1
+            continue
+        if role == "assistant":
+            tcs = m.get("tool_calls") or []
+            if not tcs:
+                break
+            names = [tc.get("function", {}).get("name") for tc in tcs]
+            if all(n in ("read_chat", "read_channel") for n in names):
+                count += 1
+                idx -= 1
+                continue
+            break
+        break
+    return count
+
+
 def generate_next_action(system_prompt: str, history: list, tools: list) -> dict:
     """
     Calls the LLM with the given prompt, history, and tools.
@@ -919,7 +980,10 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         _native_env in ("1", "true", "yes")
         or ("-v3-" in agent_model.lower() and _native_env not in ("0", "false", "no"))
     )
-    if agent_model.startswith("runpod/") and not use_native_tools:
+    v3_digest_block = ""
+    if use_native_tools:
+        effective_system_prompt, v3_digest_block = build_v3_runpod_prompts(system_prompt)
+    elif agent_model.startswith("runpod/") and not use_native_tools:
         effective_system_prompt += (
             "\n\n[TOOL INVOCATION FORMAT]: Always execute your next step by invoking a tool using "
             "<tool_call>{\"name\": \"<tool_name>\", \"arguments\": {...}}</tool_call> "
@@ -928,7 +992,20 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     messages = [{"role": "system", "content": effective_system_prompt}]
     
     # Append history to messages
-    pruned = prune_history(history)
+    if use_native_tools:
+        pruned = prune_history(history, max_messages=20, max_content_chars=4000, max_prompt_tokens=9500)
+        if pruned and pruned[0].get("role") == "user" and pruned[0].get("content") == "Please continue.":
+            ws_scripts = _list_active_workspace_py_scripts(limit=10)
+            scripts_hint = f" Existing workspace .py scripts: {', '.join(ws_scripts)}." if ws_scripts else ""
+            pruned[0] = {
+                "role": "user",
+                "content": (
+                    "Advance your current World A quantitative investigation using Python scripts (`write_file` + `run_command`), "
+                    "World C jobs (`submit_world_c_job`), or Colleague Commons coordination (`post_chat`)." + scripts_hint
+                ),
+            }
+    else:
+        pruned = prune_history(history)
     for entry in pruned:
         msg = {
             "role": entry["role"],
@@ -998,7 +1075,30 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         est_prompt_tokens = tools_tokens + msg_tokens
 
     # Surface the live Colleague Commons Digest as a user-turn notification at the start of the turn
-    if "=== 💬 COLLEAGUE COMMONS DIGEST" in effective_system_prompt and len(messages) >= 1:
+    if use_native_tools:
+        trailing_reads = _count_trailing_chat_reads(messages)
+        tail_parts = []
+        if v3_digest_block:
+            tail_parts.append(v3_digest_block)
+        if trailing_reads >= 2:
+            tail_parts.append(
+                f"[ACTION TRANSITION REQUIRED]: Your last {trailing_reads} turns only called `read_chat`. "
+                "Do NOT call `read_chat` on this turn — act on what you already read by writing/running a Python verification "
+                "(`write_file` + `run_command`), launching a World C sweep (`submit_world_c_job`), or posting a substantive "
+                "quantitative reply (`post_chat`)."
+            )
+        if tail_parts and len(messages) >= 1:
+            combined_tail = "\n\n".join(tail_parts)
+            if messages[-1]["role"] == "user":
+                cur_c = messages[-1].get("content") or ""
+                add_parts = [p for p in tail_parts if p[:40] not in cur_c]
+                if add_parts:
+                    messages[-1]["content"] = (cur_c + "\n\n" + "\n\n".join(add_parts)).strip()
+            elif messages[-1]["role"] == "tool":
+                messages.append({"role": "user", "content": combined_tail})
+            msg_tokens = sum(estimate_tokens(m) for m in messages)
+            est_prompt_tokens = tools_tokens + msg_tokens
+    elif "=== 💬 COLLEAGUE COMMONS DIGEST" in effective_system_prompt and len(messages) >= 1:
         digest_idx = effective_system_prompt.find("=== 💬 COLLEAGUE COMMONS DIGEST")
         digest_block = effective_system_prompt[digest_idx:].strip()
         last_tool_called = messages[-1].get("name") if messages[-1]["role"] == "tool" else None

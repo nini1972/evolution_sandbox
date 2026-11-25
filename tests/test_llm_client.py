@@ -264,5 +264,33 @@ class TestLLMClient(unittest.TestCase):
         self.assertEqual(kw["tools"], dummy_tools)
         self.assertGreaterEqual(kw["max_tokens"], 512)
 
+    @patch("llm_client.completion")
+    def test_v3_runpod_compact_prompt_and_read_chat_transition_nudge(self, mock_completion):
+        from llm_client import generate_next_action
+
+        mock_completion.return_value = type("Resp", (), {
+            "choices": [type("Choice", (), {
+                "message": type("Msg", (), {"content": "Done", "tool_calls": None})()
+            })()]
+        })()
+        long_proclamation = ("Proclamation " * 120) + "\n\n=== 💬 COLLEAGUE COMMONS DIGEST ===\n- @invariant_mind new thread"
+        history = [
+            {"role": "assistant", "content": "", "tool_calls": [{"id": "c1", "function": {"name": "read_chat", "arguments": "{\"channel\": \"#lounge\"}"}}]},
+            {"role": "tool", "tool_call_id": "c1", "name": "read_chat", "content": "msg1"},
+            {"role": "assistant", "content": "", "tool_calls": [{"id": "c2", "function": {"name": "read_chat", "arguments": "{\"channel\": \"#sanity-check\"}"}}]},
+            {"role": "tool", "tool_call_id": "c2", "name": "read_chat", "content": "msg2"},
+        ]
+        env = {"ACTIVE_INSTANCE": "invariant_mind", "RUNPOD_API_KEY": "rp_test", "RUNPOD_NATIVE_TOOL_CALLS": "true"}
+        with patch.dict(os.environ, env):
+            generate_next_action(long_proclamation, history, [])
+        msgs = mock_completion.call_args[1]["messages"]
+        self.assertIn("InvariantMind-v3", msgs[0]["content"])
+        self.assertNotIn("COLLEAGUE COMMONS DIGEST", msgs[0]["content"])
+        self.assertLess(len(msgs[0]["content"]), 2000)
+        self.assertIn("Advance your current World A quantitative investigation", msgs[1]["content"])
+        self.assertEqual(msgs[-1]["role"], "user")
+        self.assertIn("COLLEAGUE COMMONS DIGEST", msgs[-1]["content"])
+        self.assertIn("[ACTION TRANSITION REQUIRED]", msgs[-1]["content"])
+
 if __name__ == "__main__":
     unittest.main()

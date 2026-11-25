@@ -572,7 +572,8 @@ def read_chat(
     """Reads messages or threads from the Colleague Commons chatroom."""
     commons_dir = get_commons_dir(base_dir)
     active_instance = instance_name or os.getenv("ACTIVE_INSTANCE") or ""
-    limit = max(1, min(50, int(limit or kwargs.get("last_n_messages") or 15)))
+    max_lim = 12 if active_instance == "invariant_mind" else 50
+    limit = max(1, min(max_lim, int(limit or kwargs.get("last_n_messages") or 15)))
     search_q = (search or kwargs.get("query") or "").strip().lower()
 
     if thread_id and str(thread_id).strip():
@@ -582,7 +583,12 @@ def read_chat(
         if not t_msgs:
             return f"No messages found for thread_id '{target_tid}'."
         ch_slug = t_msgs[0].get("channel", "lounge")
-        out = [f"=== 🧵 Thread `{target_tid}` in `#{ch_slug}` ({len(t_msgs)} messages) ==="]
+        total_t = len(t_msgs)
+        if active_instance == "invariant_mind" and total_t > 12:
+            t_msgs = t_msgs[-12:]
+            out = [f"=== 🧵 Thread `{target_tid}` in `#{ch_slug}` (Showing latest {len(t_msgs)} of {total_t} messages) ==="]
+        else:
+            out = [f"=== 🧵 Thread `{target_tid}` in `#{ch_slug}` ({total_t} messages) ==="]
         for m in t_msgs:
             out.append(_format_single_message_md(m))
         return "\n".join(out)

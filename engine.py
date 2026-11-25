@@ -136,6 +136,17 @@ def run_loop(instance: str, ticks: int):
                     try:
                         prev_timed_out = False
                         repeat_read_count = 0
+                        consec_chat_reads = 0
+                        for r_msg in reversed(history):
+                            r_role = r_msg.get("role")
+                            if r_role == "tool":
+                                continue
+                            if r_role == "assistant":
+                                r_tcs = r_msg.get("tool_calls") or []
+                                if r_tcs and all(tc.get("function", {}).get("name") in ("read_chat", "read_channel") for tc in r_tcs):
+                                    consec_chat_reads += 1
+                                    continue
+                            break
                         arg_canon = json.dumps(arguments, sort_keys=True, ensure_ascii=False) if isinstance(arguments, dict) else str(arguments)
                         for h_idx in range(max(0, len(history) - 20), len(history)):
                             h_msg = history[h_idx]
@@ -153,20 +164,34 @@ def run_loop(instance: str, ticks: int):
                                                 nxt_obs = str(history[h_idx + 1].get("content", ""))
                                                 if "timed out" in nxt_obs.lower():
                                                     prev_timed_out = True
+                        repeat_threshold = 1 if instance == "invariant_mind" else 2
                         if tool_name == "run_command" and prev_timed_out:
                             result = (
                                 "Error: This exact command ALREADY timed out in a previous turn. "
                                 "Do NOT re-run the same timed-out command locally — either optimize/vectorize the script, "
                                 "reduce grid/step counts, or offload heavy sweeps to World C via 'submit_world_c_job'."
                             )
-                        elif tool_name == "read_chat" and repeat_read_count >= 2:
+                        elif tool_name in ("read_chat", "read_channel") and repeat_read_count >= repeat_threshold:
                             result = (
                                 "Notice: You ALREADY called 'read_chat' with these exact arguments in a recent turn and the messages "
                                 "are already in your context above. Do NOT call 'read_chat' again — proceed immediately to a concrete "
                                 "action (submit_world_c_job, write_file, edit_file, run_command, or post_chat)."
                             )
+                        elif instance == "invariant_mind" and tool_name in ("read_chat", "read_channel") and consec_chat_reads >= 2:
+                            result = (
+                                "Notice: You have ALREADY called 'read_chat' on 2+ consecutive turns and have recent Colleague Commons "
+                                "context above. Do NOT call 'read_chat' again right now — execute a concrete action instead "
+                                "(write_file, run_command, submit_world_c_job, or post_chat)."
+                            )
                         else:
                             result = AVAILABLE_TOOLS[tool_name](**arguments)
+                            if instance == "invariant_mind" and tool_name in ("read_chat", "read_channel") and consec_chat_reads >= 1:
+                                result = (
+                                    str(result)
+                                    + "\n\n[Action Transition Hint: You have read 2 Commons channels/threads in a row. "
+                                    "On your NEXT turn, do NOT call read_chat again — execute a concrete action "
+                                    "(write_file, run_command, submit_world_c_job, or post_chat).]"
+                                )
                         if tool_name == "read_file" and repeat_read_count >= 2:
                             result = (
                                 str(result)
