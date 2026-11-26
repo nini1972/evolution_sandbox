@@ -10,7 +10,7 @@ import json
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
-from llm_client import generate_next_action
+from llm_client import generate_next_action, is_passive_recon_tool_call
 from tools import TOOLS_SCHEMA, AVAILABLE_TOOLS
 from memory import load_history, append_to_history
 from commons_chat import build_turn_digest, ingest_human_dropbox
@@ -137,17 +137,61 @@ def run_loop(instance: str, ticks: int):
                         prev_timed_out = False
                         repeat_read_count = 0
                         consec_chat_reads = 0
+                        consec_recon_turns = 0
+                        counting_chat = True
                         for r_msg in reversed(history):
                             r_role = r_msg.get("role")
                             if r_role == "tool":
                                 continue
                             if r_role == "assistant":
                                 r_tcs = r_msg.get("tool_calls") or []
-                                if r_tcs and all(tc.get("function", {}).get("name") in ("read_chat", "read_channel") for tc in r_tcs):
+                                if not r_tcs:
+                                    break
+                                is_chat = all(tc.get("function", {}).get("name") in ("read_chat", "read_channel") for tc in r_tcs)
+                                is_recon = all(
+                                    is_passive_recon_tool_call(
+                                        tc.get("function", {}).get("name", ""),
+                                        tc.get("function", {}).get("arguments", "{}"),
+                                    )
+                                    for tc in r_tcs
+                                )
+                                if counting_chat and is_chat:
                                     consec_chat_reads += 1
+                                else:
+                                    counting_chat = False
+                                if is_recon:
+                                    consec_recon_turns += 1
                                     continue
                             break
                         arg_canon = json.dumps(arguments, sort_keys=True, ensure_ascii=False) if isinstance(arguments, dict) else str(arguments)
+                        recent_unchanged_file_read = False
+                        if tool_name == "read_file" and isinstance(arguments, dict) and arguments.get("path"):
+                            target_norm = os.path.normpath(str(arguments.get("path", "")))
+                            for h_idx in range(len(history) - 1, max(-1, len(history) - 17), -1):
+                                h_msg = history[h_idx]
+                                if h_msg.get("role") == "assistant" and h_msg.get("tool_calls"):
+                                    for h_tc in h_msg["tool_calls"]:
+                                        h_fn = h_tc.get("function", {})
+                                        h_name = h_fn.get("name")
+                                        try:
+                                            h_dict = json.loads(h_fn.get("arguments", "{}"))
+                                        except Exception:
+                                            h_dict = {}
+                                        if isinstance(h_dict, dict) and h_dict.get("path"):
+                                            cand_norm = os.path.normpath(str(h_dict.get("path", "")))
+                                            if cand_norm == target_norm:
+                                                if h_name in ("write_file", "edit_file"):
+                                                    recent_unchanged_file_read = False
+                                                    h_idx = -1
+                                                    break
+                                                if h_name == "read_file" and h_idx + 1 < len(history):
+                                                    obs_prev = str(history[h_idx + 1].get("content", ""))
+                                                    if not obs_prev.startswith(("Error:", "Notice:", "TypeError:")):
+                                                        recent_unchanged_file_read = True
+                                                        h_idx = -1
+                                                        break
+                                if h_idx == -1:
+                                    break
                         for h_idx in range(max(0, len(history) - 20), len(history)):
                             h_msg = history[h_idx]
                             if h_msg.get("role") == "assistant" and h_msg.get("tool_calls"):
@@ -165,6 +209,7 @@ def run_loop(instance: str, ticks: int):
                                                 if "timed out" in nxt_obs.lower():
                                                     prev_timed_out = True
                         repeat_threshold = 1 if instance == "invariant_mind" else 2
+                        is_curr_passive_cmd = (tool_name == "run_command" and is_passive_recon_tool_call(tool_name, arguments))
                         last_asst_same = False
                         for r_msg in reversed(history):
                             if r_msg.get("role") == "tool":
@@ -190,11 +235,29 @@ def run_loop(instance: str, ticks: int):
                                 "Do NOT resubmit identical script_content — inspect its report via 'read_file' on "
                                 "'world_c_results/REPORT.md' (or 'check_world_c_job'), fix any bug if it failed, or share findings via 'post_chat'."
                             )
+                        elif instance == "invariant_mind" and is_curr_passive_cmd and repeat_read_count >= 1:
+                            result = (
+                                "Notice: You ALREADY ran this exact directory/file inspection command in a recent turn. "
+                                "Stop checking shared folders and pursue YOUR OWN `existential_core.md` hypothesis now via "
+                                "'write_file' + 'run_command' (Python), 'submit_world_c_job', updating 'existential_core.md', or 'post_chat'."
+                            )
+                        elif instance == "invariant_mind" and consec_recon_turns >= 2 and (is_curr_passive_cmd or tool_name in ("read_chat", "read_channel")):
+                            result = (
+                                "Notice: You have ALREADY spent 2+ consecutive turns on passive reconnaissance (`read_chat` / `read_file` / `ls`). "
+                                "Do NOT browse directories or chat again right now — act on YOUR `existential_core.md` purpose by writing/running "
+                                "a Python experiment (`write_file` + `run_command`), calling `submit_world_c_job`, updating `existential_core.md`, or posting findings (`post_chat`)."
+                            )
                         elif instance == "invariant_mind" and last_asst_same and tool_name in ("run_command", "write_file"):
                             result = (
                                 f"Notice: You ALREADY executed '{tool_name}' with these exact arguments on your immediately preceding turn "
                                 "(output shown above). Advance to the next step — e.g. 'read_file' on a specific file, write/run a Python "
                                 "analysis script, 'submit_world_c_job', or 'post_chat'."
+                            )
+                        elif tool_name == "read_file" and recent_unchanged_file_read:
+                            result = (
+                                f"Notice: You ALREADY read '{arguments.get('path')}' a few turns ago and its contents are already in your active "
+                                "context window above (with no edits since). Proceed directly to your planned concrete action "
+                                "(write_file, edit_file, run_command, submit_world_c_job, or post_chat)."
                             )
                         elif tool_name in ("read_chat", "read_channel") and repeat_read_count >= repeat_threshold:
                             result = (
@@ -210,12 +273,12 @@ def run_loop(instance: str, ticks: int):
                             )
                         else:
                             result = AVAILABLE_TOOLS[tool_name](**arguments)
-                            if instance == "invariant_mind" and tool_name in ("read_chat", "read_channel") and consec_chat_reads >= 1:
+                            if instance == "invariant_mind" and (is_curr_passive_cmd or tool_name in ("read_chat", "read_channel")) and consec_recon_turns >= 1:
                                 result = (
                                     str(result)
-                                    + "\n\n[Action Transition Hint: You have read 2 Commons channels/threads in a row. "
-                                    "On your NEXT turn, do NOT call read_chat again — execute a concrete action "
-                                    "(write_file, run_command, submit_world_c_job, or post_chat).]"
+                                    + "\n\n[Action Transition Hint: You have completed 2 reconnaissance steps in a row. "
+                                    "On your NEXT turn, stop browsing and execute YOUR OWN hypothesis via "
+                                    "write_file, run_command (python3), submit_world_c_job, or post_chat.]"
                                 )
                         if tool_name == "read_file" and repeat_read_count >= 2:
                             result = (

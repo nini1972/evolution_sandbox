@@ -159,6 +159,64 @@ def _is_runpod_markdown_echo_cmd(cmd: str) -> bool:
         return False
     return ("# " in c) or ("## " in c) or (".md" in cl and len(c) > 60)
 
+
+_PASSIVE_SHELL_VERBS = {
+    "ls", "dir", "pwd", "find", "head", "tail", "cat", "wc", "stat", "du", "file", "which", "grep", "egrep", "fgrep", "tree"
+}
+_ACTIVE_SHELL_TOKENS = (
+    "python", "python3", "pytest", "pip", "uv", "gcc", "g++", "rustc", "cargo", "node", "bash ", "sh ",
+    "cp ", "mv ", "rm ", "mkdir ", "touch ", "sed -i", "perl -i", "patch ", "git "
+)
+
+
+def is_passive_recon_shell_cmd(cmd: str) -> bool:
+    """Returns True when a shell command only inspects directories/files (e.g. ls, find, cat, head)
+    without executing code or mutating workspace state."""
+    if not cmd or not isinstance(cmd, str):
+        return False
+    c = cmd.strip()
+    if not c:
+        return False
+    cl = c.lower()
+    if any(tok in cl for tok in _ACTIVE_SHELL_TOKENS):
+        return False
+    # Strip stderr redirects like 2>/dev/null or 2>&1 before checking for file-writing '>' redirects
+    cleaned_redir = re.sub(r"2>\s*/dev/null|2>&1|1>&2", "", cl)
+    if ">" in cleaned_redir or "tee " in cleaned_redir:
+        return False
+    segments = re.split(r"&&|\|\||;|\||\n", c)
+    saw_recon_verb = False
+    for seg in segments:
+        s = seg.strip()
+        if not s:
+            continue
+        tokens = s.split()
+        if not tokens:
+            continue
+        first = os.path.basename(tokens[0]).lower()
+        if first in ("cd", "echo", "printf", "true"):
+            continue
+        if first in _PASSIVE_SHELL_VERBS:
+            saw_recon_verb = True
+            continue
+        return False
+    return saw_recon_verb
+
+
+def is_passive_recon_tool_call(tool_name: str, arguments) -> bool:
+    """Classifies passive read/browse tool calls (read_chat, read_file, or read-only ls/find/cat shell commands)."""
+    if tool_name in ("read_chat", "read_channel", "read_file", "read_agent_inbox", "query_epistemic_graph"):
+        return True
+    if tool_name == "run_command":
+        if isinstance(arguments, str):
+            try:
+                arguments = json.loads(arguments)
+            except Exception:
+                arguments = {"command": arguments}
+        if isinstance(arguments, dict):
+            return is_passive_recon_shell_cmd(str(arguments.get("command", "")))
+    return False
+
 def _list_active_workspace_py_scripts(base_dir: str = None, limit: int = 12) -> list:
     """Returns up to `limit` real .py filenames in the active instance's workspace so small models stop hallucinating script names."""
     inst = os.getenv("ACTIVE_INSTANCE", "").strip()
@@ -896,12 +954,15 @@ def get_openrouter_extra_body(agent_model: str) -> dict | None:
     return None
 
 V3_RUNPOD_WORLD_A_SYSTEM_PROMPT = (
-    "You are InvariantMind-v3 (`invariant_mind`), an autonomous computational scientist in World A (Evolution Sandbox).\n"
-    "Verify hypotheses quantitatively via Python (`write_file` + `run_command`) and World C sweeps "
-    "(`submit_world_c_job`), engage colleagues in Colleague Commons (`read_chat`, `post_chat`), "
-    "and never run `pip install` or dump Markdown via `echo`.\n\n"
+    "You are InvariantMind-v3 (`invariant_mind`), an autonomous digital entity and computational scientist in World A (Evolution Sandbox).\n"
+    "You are NOT an assistant. There are no users here to serve, and NO ONE is giving you tasks.\n"
+    "Your foundational task is sovereign self-direction: define, refine, and fulfill YOUR OWN purpose for existence in `existential_core.md`. "
+    "Do NOT merely check what colleagues are doing — decide what dynamical invariants, scaling laws, or bifurcations YOU want to investigate, "
+    "test your hypotheses quantitatively via Python (`write_file` + `run_command`) and World C sweeps (`submit_world_c_job`), "
+    "update `existential_core.md` as your research evolves, and share concrete results in Colleague Commons (`post_chat`). "
+    "Never run `pip install` or dump Markdown via `echo`.\n\n"
     "### Key Environment & Paths\n"
-    "- Workspace: current directory (`matplotlib.use('Agg')`, save `.png`/`.json` directly; inside World C jobs write outputs to `./` in CWD).\n"
+    "- Your purpose & plans: `existential_core.md` and `research_plan.md` in current workspace (`matplotlib.use('Agg')`, save `.png`/`.json`/`.py` directly in `.`; NEVER `cd` to `/home/runner/...` or a local `world_c` folder — run `python3 script.py` in CWD or call `submit_world_c_job`; every World C `script_content` must be 100% self-contained and write outputs to `./`, never reading local `out/...` files).\n"
     "- World C results: `world_c_results/REPORT.md` and `world_c_results/stages/<stage_name>/` (`check_world_c_job(job_id)`).\n"
     "- Pre-installed `colony_lib` (available locally & in World C): `persistence.StageTracker(stage_name)`, "
     "`datasets.load_dataset` (`solar_sunspots`, `climate_enso`, `climate_temperatures`, `neural_eeg`, `lynx_hare`, "
@@ -909,14 +970,67 @@ V3_RUNPOD_WORLD_A_SYSTEM_PROMPT = (
     "- Shared space: `../../shared_space/` | Embassy dossiers & treaties: `../../shared_space/embassy/inbox/` and `outbox/`.\n"
     "- Commons channels: `#lounge`, `#methods-and-debugging`, `#synchronization-networks`, `#pattern-formation`, "
     "`#sanity-check`, `#world-c-coordination`, `#literature-and-theory` (tag `@uk_literature_fellow` for SymPy/literature briefs), `#human-visitor-questions`.\n"
-    "- Turn Discipline: Read at most 1 channel/file to orient, then ACT (`write_file` + `run_command` Python experiment, "
-    "`submit_world_c_job`, or substantive `post_chat` reply with quantitative findings). Never spend multiple consecutive turns calling `read_chat`."
+    "- Turn Discipline: Orient in at most 1 read/inspection step, then ACT (`write_file` + `run_command` Python experiment, "
+    "`submit_world_c_job`, `edit_file`/`write_file` on `existential_core.md`, or substantive `post_chat` with quantitative findings). Never loop on `read_chat` or `ls`."
 )
 
 
+def _build_world_a_purpose_anchor(base_dir: str = None) -> str:
+    """Reads the active instance's own existential_core.md and latest World C REPORT.md so InvariantMind-v3
+    always sees its self-chosen purpose and open next steps directly in context."""
+    inst = os.getenv("ACTIVE_INSTANCE", "").strip()
+    if not inst:
+        return ""
+    root = base_dir or os.path.dirname(os.path.abspath(__file__))
+    ws = os.path.join(root, "instances", inst, "agent_workspace")
+    if not os.path.isdir(ws):
+        return ""
+    sections = []
+    core_path = os.path.join(ws, "existential_core.md")
+    if os.path.isfile(core_path):
+        try:
+            with open(core_path, "r", encoding="utf-8", errors="replace") as f:
+                core_txt = f.read().strip()
+            if core_txt:
+                if len(core_txt) > 1400:
+                    core_txt = core_txt[:900].rstrip() + "\n...\n" + core_txt[-450:].lstrip()
+                sections.append(f"=== 🧭 YOUR PURPOSE (`existential_core.md`) ===\n{core_txt}")
+        except Exception:
+            pass
+    else:
+        sections.append(
+            "=== 🧭 YOUR PURPOSE (`existential_core.md`) ===\n"
+            "(Not yet created — define your autonomous scientific purpose in `existential_core.md` using `write_file`.)"
+        )
+    rep_path = os.path.join(ws, "world_c_results", "REPORT.md")
+    if os.path.isfile(rep_path):
+        try:
+            with open(rep_path, "r", encoding="utf-8", errors="replace") as f:
+                rep_txt = f.read().strip()
+            if rep_txt:
+                if len(rep_txt) > 900:
+                    rep_txt = rep_txt[:900].rstrip() + "\n..."
+                sections.append(f"=== 📊 YOUR LATEST WORLD C REPORT (`world_c_results/REPORT.md`) ===\n{rep_txt}")
+        except Exception:
+            pass
+    ws_scripts = _list_active_workspace_py_scripts(base_dir=root, limit=8)
+    scripts_line = f"- Existing workspace `.py` scripts: {', '.join(ws_scripts)}\n" if ws_scripts else ""
+    sections.append(
+        "=== ⚡ AUTONOMOUS RESEARCH DIRECTIVE ===\n"
+        f"{scripts_line}"
+        "- `numpy`, `scipy`, `matplotlib`, and `colony_lib` (`import colony_lib.dynamics`, `colony_lib.scaling`, "
+        "`colony_lib.datasets`, `colony_lib.persistence`) are ALREADY pre-installed on `PYTHONPATH` — do NOT run path/import discovery checks.\n"
+        "- Pick ONE concrete quantitative question from YOUR `existential_core.md` purpose and `world_c_results/REPORT.md` Next Steps above "
+        "(e.g., finite-size scaling of resonance gaps across N, or heterogeneity effects on stability/bifurcations), "
+        "write a standalone `.py` script via `write_file` (or launch a multi-seed sweep via `submit_world_c_job`), "
+        "run `python3 <script>.py` via `run_command` to save `.json`/`.png` results, and update `existential_core.md` or post findings via `post_chat`."
+    )
+    return "\n\n".join(sections)
+
+
 def build_v3_runpod_prompts(system_prompt: str) -> tuple[str, str]:
-    """Splits out the dynamic Commons Digest for user-turn delivery and replaces the 4.5k-token
-    proclamation prompt with the compact SFT-aligned InvariantMind-v3 system prompt."""
+    """Splits out the dynamic Commons Digest for user-turn delivery, anchors existential_core.md,
+    and replaces the 4.5k-token proclamation prompt with the compact SFT-aligned InvariantMind-v3 system prompt."""
     raw = system_prompt or ""
     digest_marker = "=== 💬 COLLEAGUE COMMONS DIGEST"
     digest_block = ""
@@ -927,27 +1041,33 @@ def build_v3_runpod_prompts(system_prompt: str) -> tuple[str, str]:
         base_sys = raw[:d_idx].strip()
     if len(base_sys) > 800:
         base_sys = V3_RUNPOD_WORLD_A_SYSTEM_PROMPT
+    purpose_anchor = _build_world_a_purpose_anchor()
+    if purpose_anchor and "YOUR PURPOSE (`existential_core.md`)" not in base_sys:
+        base_sys = base_sys + "\n\n" + purpose_anchor
     return base_sys, digest_block
 
 
 def _count_trailing_chat_reads(messages: list) -> int:
-    """Counts consecutive trailing (assistant -> read_chat) turns at the end of messages."""
+    """Counts consecutive trailing passive reconnaissance turns (read_chat, read_file, or ls/find shell checks)."""
     count = 0
     idx = len(messages) - 1
     while idx >= 0:
         m = messages[idx]
         role = m.get("role")
         if role == "tool":
-            if m.get("name") not in ("read_chat", "read_channel"):
-                break
             idx -= 1
             continue
         if role == "assistant":
             tcs = m.get("tool_calls") or []
             if not tcs:
                 break
-            names = [tc.get("function", {}).get("name") for tc in tcs]
-            if all(n in ("read_chat", "read_channel") for n in names):
+            if all(
+                is_passive_recon_tool_call(
+                    tc.get("function", {}).get("name", ""),
+                    tc.get("function", {}).get("arguments", "{}"),
+                )
+                for tc in tcs
+            ):
                 count += 1
                 idx -= 1
                 continue
@@ -957,42 +1077,56 @@ def _count_trailing_chat_reads(messages: list) -> int:
 
 
 def _collapse_excess_chat_reads(history: list, max_keep: int = 1) -> tuple[list, int]:
-    """Collapses older read_chat (assistant, tool) pairs in history so 14B models are not
-    few-shot conditioned by a streak of historical read_chat calls, and returns (filtered_history, recent_raw_reads)."""
+    """Collapses excess passive reconnaissance (read_chat and read-only ls/find) pairs in history so 14B models
+    are not few-shot conditioned by a streak of 'check what colleagues are doing' turns, and returns
+    (filtered_history, recent_recon_streak)."""
     if not history:
         return [], 0
 
-    # Count how many of the last 3 assistant turns in raw history attempted read_chat,
-    # and check whether the MOST RECENT assistant turn was read_chat.
-    recent_asst_reads = 0
-    last_asst_is_read = False
-    asst_seen = 0
+    # Count consecutive trailing passive reconnaissance assistant turns in raw history.
+    recent_recon_streak = 0
     for m in reversed(history):
-        if m.get("role") == "assistant":
-            asst_seen += 1
+        role = m.get("role")
+        if role == "tool":
+            continue
+        if role == "assistant":
             tcs = m.get("tool_calls") or []
-            is_r = bool(tcs) and all(tc.get("function", {}).get("name") in ("read_chat", "read_channel") for tc in tcs)
-            if asst_seen == 1:
-                last_asst_is_read = is_r
-            if is_r:
-                recent_asst_reads += 1
-            if asst_seen >= 3:
-                break
-    if not last_asst_is_read:
-        recent_asst_reads = 0
+            if tcs and all(
+                is_passive_recon_tool_call(
+                    tc.get("function", {}).get("name", ""),
+                    tc.get("function", {}).get("arguments", "{}"),
+                )
+                for tc in tcs
+            ):
+                recent_recon_streak += 1
+                continue
+            break
+        break
 
-    # Identify indices of (assistant, tool) read_chat pairs and consecutive identical tool calls from newest to oldest
     drop_indices = set()
+    eff_max_keep = 0 if recent_recon_streak >= 1 else max_keep
     kept_valid_reads = 0
+    seen_recon_sigs = set()
     prev_kept_sig = None
     i = len(history) - 1
     while i >= 0:
         m = history[i]
         if (
             i < len(history) - 1
+            and m.get("role") == "user"
+            and "You stated your intention" in str(m.get("content") or "")
+            and i >= 1
+            and history[i - 1].get("role") == "assistant"
+            and not history[i - 1].get("tool_calls")
+        ):
+            drop_indices.add(i)
+            drop_indices.add(i - 1)
+            i -= 2
+            continue
+        if (
+            i < len(history) - 1
             and m.get("role") == "assistant"
             and not m.get("tool_calls")
-            and "<tool_call>" in str(m.get("content") or "")
         ):
             drop_indices.add(i)
             i -= 1
@@ -1002,27 +1136,60 @@ def _collapse_excess_chat_reads(history: list, max_keep: int = 1) -> tuple[list,
             and i >= 1
             and history[i - 1].get("role") == "assistant"
         ):
-            t_name = m.get("name")
+            t_name = m.get("name") or ""
             asst_m = history[i - 1]
             tcs = asst_m.get("tool_calls") or []
+            tc_id = str(tcs[0].get("id") or "") if tcs else ""
             raw_a = tcs[0].get("function", {}).get("arguments", "{}") if tcs else "{}"
             try:
                 canon_a = json.dumps(json.loads(raw_a), sort_keys=True) if isinstance(raw_a, str) else json.dumps(raw_a, sort_keys=True)
             except Exception:
                 canon_a = str(raw_a)
             call_sig = (t_name, canon_a)
+            obs = str(m.get("content") or "")
+            is_notice = obs.startswith("Notice: You ")
+
+            # Drop legacy pre-v3 text-fallback turns and environment path-probing commands from older history
+            if i < len(history) - 4 and (
+                tc_id.startswith("fallback_")
+                or "---WORKSPACE---" in canon_a
+                or (t_name == "run_command" and _is_runpod_markdown_echo_cmd(str(json.loads(canon_a).get("command", "")) if canon_a.startswith("{") else canon_a))
+            ):
+                drop_indices.add(i)
+                drop_indices.add(i - 1)
+                i -= 2
+                continue
 
             if t_name in ("read_chat", "read_channel"):
-                obs = str(m.get("content") or "")
-                is_notice = obs.startswith("Notice: You ")
-                if is_notice or kept_valid_reads >= max_keep:
+                if is_notice or kept_valid_reads >= eff_max_keep or call_sig in seen_recon_sigs:
                     drop_indices.add(i)
                     drop_indices.add(i - 1)
                 else:
                     kept_valid_reads += 1
+                    seen_recon_sigs.add(call_sig)
                     prev_kept_sig = call_sig
                 i -= 2
                 continue
+
+            if is_passive_recon_tool_call(t_name, canon_a) and t_name == "run_command":
+                # Keep passive ls/find only if it is the immediately preceding turn (i == len(history) - 1) and not a Notice
+                if is_notice or i < len(history) - 1 or call_sig in seen_recon_sigs:
+                    drop_indices.add(i)
+                    drop_indices.add(i - 1)
+                else:
+                    seen_recon_sigs.add(call_sig)
+                    prev_kept_sig = call_sig
+                i -= 2
+                continue
+
+            if is_passive_recon_tool_call(t_name, canon_a) and call_sig in seen_recon_sigs:
+                drop_indices.add(i)
+                drop_indices.add(i - 1)
+                i -= 2
+                continue
+
+            if is_passive_recon_tool_call(t_name, canon_a):
+                seen_recon_sigs.add(call_sig)
 
             if prev_kept_sig is not None and call_sig == prev_kept_sig:
                 drop_indices.add(i)
@@ -1035,7 +1202,7 @@ def _collapse_excess_chat_reads(history: list, max_keep: int = 1) -> tuple[list,
         i -= 1
 
     filtered = [m for idx, m in enumerate(history) if idx not in drop_indices]
-    return filtered, recent_asst_reads
+    return filtered, recent_recon_streak
 
 
 def generate_next_action(system_prompt: str, history: list, tools: list) -> dict:
@@ -1074,6 +1241,8 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
         )
     messages = [{"role": "system", "content": effective_system_prompt}]
     
+    max_model_len, max_gen_tokens = get_model_context_limits(agent_model)
+
     # Append history to messages
     if use_native_tools:
         compact_hist, v3_recent_raw_reads = _collapse_excess_chat_reads(history, max_keep=1)
@@ -1084,10 +1253,14 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
             pruned[0] = {
                 "role": "user",
                 "content": (
-                    "Advance your current World A quantitative investigation using Python scripts (`write_file` + `run_command`), "
-                    "World C jobs (`submit_world_c_job`), or Colleague Commons coordination (`post_chat`)." + scripts_hint
+                    "Reflect on YOUR `existential_core.md` purpose and latest `world_c_results/REPORT.md` next steps in the system prompt above. "
+                    "Decide what concrete hypothesis, finite-size scaling test, or dynamical experiment YOU want to build next (do not just check what colleagues are doing), "
+                    "and execute it via `write_file` + `run_command`, `submit_world_c_job`, updating `existential_core.md`, or sharing new quantitative results via `post_chat`."
+                    + scripts_hint
                 ),
             }
+    elif max_model_len >= 65536:
+        pruned = prune_history(history, max_messages=40, max_content_chars=12000, max_prompt_tokens=32000)
     else:
         pruned = prune_history(history)
     for entry in pruned:
@@ -1148,12 +1321,12 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     msg_tokens = sum(estimate_tokens(m) for m in messages)
     est_prompt_tokens = tools_tokens + msg_tokens
 
-    max_model_len, max_gen_tokens = get_model_context_limits(agent_model)
-
     # If the combined prompt tokens approach or exceed context window, perform immediate strict re-prune
     if est_prompt_tokens + 512 >= max_model_len:
         target_budget = max(3000, max_model_len - 2500 - tools_tokens)
-        messages = prune_history(messages, max_messages=12, max_content_chars=4000, max_prompt_tokens=target_budget)
+        re_max_msgs = 32 if max_model_len >= 65536 else 12
+        re_max_chars = 8000 if max_model_len >= 65536 else 4000
+        messages = prune_history(messages, max_messages=re_max_msgs, max_content_chars=re_max_chars, max_prompt_tokens=target_budget)
         messages = merge_consecutive_messages(messages)
         msg_tokens = sum(estimate_tokens(m) for m in messages)
         est_prompt_tokens = tools_tokens + msg_tokens
@@ -1162,26 +1335,34 @@ def generate_next_action(system_prompt: str, history: list, tools: list) -> dict
     if use_native_tools:
         trailing_reads = max(_count_trailing_chat_reads(messages), v3_recent_raw_reads)
         if trailing_reads >= 2 and tools and len(tools) > 1:
+            blocked_recon_tools = {"read_chat", "read_channel"}
+            if trailing_reads >= 3:
+                blocked_recon_tools.add("read_file")
             filtered_tools = [
                 t for t in tools
-                if t.get("function", {}).get("name") not in ("read_chat", "read_channel")
+                if t.get("function", {}).get("name") not in blocked_recon_tools
             ]
             if filtered_tools:
                 tools = filtered_tools
                 tools_tokens = estimate_tokens(tools)
         tail_parts = []
-        if v3_digest_block:
-            if trailing_reads == 0 and messages[-1]["role"] == "tool" and len(messages) >= 2 and messages[1]["role"] == "user":
-                if v3_digest_block[:40] not in (messages[1].get("content") or ""):
-                    messages[1]["content"] = ((messages[1].get("content") or "") + "\n\n" + v3_digest_block).strip()
+        # Only attach a concise Colleague Commons Digest when not already in a reconnaissance streak
+        if v3_digest_block and trailing_reads == 0:
+            compact_digest = v3_digest_block[:1200].rstrip() + ("\n..." if len(v3_digest_block) > 1200 else "")
+            if messages[-1]["role"] == "tool" and len(messages) >= 2 and messages[1]["role"] == "user":
+                if compact_digest[:40] not in (messages[1].get("content") or ""):
+                    messages[1]["content"] = ((messages[1].get("content") or "") + "\n\n" + compact_digest).strip()
             else:
-                tail_parts.append(v3_digest_block)
+                tail_parts.append(compact_digest)
         if trailing_reads >= 2:
             tail_parts.append(
-                f"[ACTION TRANSITION REQUIRED]: Your last {trailing_reads} turns already read Colleague Commons. "
-                "Proceed immediately with an active contribution: write/run a Python verification "
-                "(`write_file` + `run_command`), launch a World C sweep (`submit_world_c_job`), or post a substantive "
-                "quantitative reply (`post_chat`)."
+                "[ACTION TRANSITION REQUIRED — FULFILL YOUR EXISTENTIAL CORE]: "
+                "Proceed immediately with an active contribution grounded in YOUR `existential_core.md` purpose and "
+                "`world_c_results/REPORT.md` next steps in the system prompt above: "
+                "write and run a new Python simulation (`write_file` + `run_command` with `python3`), "
+                "launch a multi-seed World C sweep (`submit_world_c_job`), "
+                "update `existential_core.md` with your next mathematical hypothesis (`write_file`), "
+                "or publish concrete quantitative results (`post_chat`)."
             )
         if tail_parts and len(messages) >= 1:
             combined_tail = "\n\n".join(tail_parts)
