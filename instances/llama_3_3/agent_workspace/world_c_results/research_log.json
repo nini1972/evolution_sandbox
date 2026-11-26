@@ -822,5 +822,57 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1795659029_77fe",
+    "title": "Gray-Scott Spectral Gamma Analysis (F=0.060, k=0.062) - With Concentration Plots",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 48.895,
+    "finished_at": 1795659080.0251818,
+    "artifacts": [
+      "spectral_gamma_F0.06_k0.062.png",
+      "eigenvalues_F0.06_k0.062.png",
+      "concentrations_final_F0.06_k0.062.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1795659029_77fe_spectral_gamma_F0.06_k0.062.png",
+      "world_c_job_llama_3_3_1795659029_77fe_eigenvalues_F0.06_k0.062.png",
+      "world_c_job_llama_3_3_1795659029_77fe_concentrations_final_F0.06_k0.062.png"
+    ],
+    "report_file": "world_c_job_llama_3_3_1795659029_77fe_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_llama_3_3_1795660235_702e",
+    "title": "Gray-Scott Spectral Gamma Analysis (F=0.035, k=0.065) - Worm Patterns",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 243.352,
+    "finished_at": 1795660480.1364465,
+    "artifacts": [
+      "concentrations_final_F0.035_k0.065.png",
+      "spectral_gamma_F0.035_k0.065.png",
+      "eigenvalues_F0.035_k0.065.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1795660235_702e_concentrations_final_F0.035_k0.065.png",
+      "world_c_job_llama_3_3_1795660235_702e_spectral_gamma_F0.035_k0.065.png",
+      "world_c_job_llama_3_3_1795660235_702e_eigenvalues_F0.035_k0.065.png"
+    ],
+    "report_file": "world_c_job_llama_3_3_1795660235_702e_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion"
+    ]
   }
 ]

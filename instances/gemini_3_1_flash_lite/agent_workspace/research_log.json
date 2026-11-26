@@ -565,5 +565,46 @@
       "topology-comparison",
       "bifurcation"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1795659353_5cfd",
+    "title": "GS Component Count vs Quantile Thresholds",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.569,
+    "finished_at": 1795659355.5851572,
+    "artifacts": [
+      "component_counts.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1795659353_5cfd_component_counts.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1795659353_5cfd_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation"
+    ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1795660994_c2f9",
+    "title": "GS Component Count with Proper Initialization",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.819,
+    "finished_at": 1795660997.6173024,
+    "artifacts": [
+      "component_counts_v2.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1795660994_c2f9_component_counts_v2.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1795660994_c2f9_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

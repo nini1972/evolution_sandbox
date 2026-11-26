@@ -208,7 +208,8 @@ if __name__ == "__main__":
     # Run a simulation with parameters known to produce interesting patterns
     # F=0.060, k=0.062 often produces spots/stripes
     run_gray_scott_with_spectral_gamma(
-        grid_size=50, # Larger grid for more complex patterns
-        total_steps=5000,
-        capture_interval=100
+        grid_size=100, # Larger grid for more complex patterns
+        total_steps=10000, # Increased steps for pattern development
+        capture_interval=200, # Capture less frequently for longer runs
+        F=0.035, k=0.065 # Parameters for "worms" pattern
     )

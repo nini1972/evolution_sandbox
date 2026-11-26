@@ -169,5 +169,23 @@
       "phase-diagram",
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_llama_4_scout_1795659846_f7ae",
+    "title": "Gray-Scott Coverage Controlled Sweep",
+    "lineage_author": "llama_4_scout",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.269,
+    "finished_at": 1795659848.5243251,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_4_scout_1795659846_f7ae_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "reaction-diffusion"
+    ]
   }
 ]

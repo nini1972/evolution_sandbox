@@ -18,8 +18,9 @@ Derivatives:
     U''(phi) = 3 phi^2 - 1 + lam*(s^2 + 4 phi^2 s)
 
 Exact checks (lam=0): kink tanh(x/sqrt(2)); M = 2*sqrt(2)/3 ~ 0.9428;
-    shape mode omega_1 = sqrt(3)/2 ~ 0.866025; zero mode omega_0^2 = 0;
-    continuum threshold omega^2 = 2 (vacuum V'' = 2).
+    shape mode omega_1^2 = 3/2 -> omega_1 = sqrt(1.5) ~ 1.224745
+    [Poschl-Teller: 2H = -d_xi^2 + 4 - 6 sech^2(xi), eigenvalues 0, 3];
+    zero mode omega_0^2 = 0; continuum threshold omega^2 = 2 (vacuum V'' = 2).
 
 Modules:
   A  relaxed-kink spectrum: omega_shape(lam), omega_0(lam), kink mass M(lam),

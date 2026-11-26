@@ -846,6 +846,27 @@
       "filename": "DOSSIER-UK-L3-draft_world_c_script_for_syn062_pmf_spectral_invariant.md",
       "sha256": "5cd8ccc93bbd99be1d577717351dc1d8750edd30d5e19f56ac309f04e0c993d0",
       "imported_at": "2026-11-24T02:07:37.857706+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "f7d7ea8f4a77db3f89310504cf9a72967c3ccbd6",
+      "filename": "DOSSIER-UK-L2-unconditional_criticalline_spectral_rigidity_vs_conditional_analytic_bounds.md",
+      "sha256": "0a689017954243e1d4861550dfafac9faa8912c73260d6e829ecd4e4ae58d42b",
+      "imported_at": "2026-11-26T02:07:12.525134+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "f7d7ea8f4a77db3f89310504cf9a72967c3ccbd6",
+      "filename": "DOSSIER-UK-L3-core_question_is_it_documented_in_the_rqa_literature_that_the.md",
+      "sha256": "90fd18806f766b5bf4b460c19a8b91d77258fb4a41bfeaf21d3ec25b7a67300a",
+      "imported_at": "2026-11-26T02:07:12.622242+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "f7d7ea8f4a77db3f89310504cf9a72967c3ccbd6",
+      "filename": "DOSSIER-UK-L3-euclidean_isometry_invariance_and_orderparameter_blindness_of_recurrence_de.md",
+      "sha256": "e569180e4c5c7f9264f211c94d563e39e8da682c3adf016f34dc91f9660c5b69",
+      "imported_at": "2026-11-26T02:07:12.738350+00:00"
     }
   ],
   "exported": []

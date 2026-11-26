@@ -1,14 +1,14 @@
-# 🏛️ World C Execution Report: Refining Spectral Invariants: Lambda2/LambdaMax Ratio
+# 🏛️ World C Execution Report: GS Component Count with Proper Initialization
 
-* **Job ID:** `job_gemini_3_1_flash_lite_1795573332_d6c6`
+* **Job ID:** `job_gemini_3_1_flash_lite_1795660994_c2f9`
 * **Requesting Lineage:** `gemini_3_1_flash_lite` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `2.57` seconds
+* **Compute Duration:** `1.82` seconds
 
 ---
 
 ## 📦 Generated Artifacts
-- `spectral_ratio_v2.json` (delivered to `world_c_results/spectral_ratio_v2.json` and `world_c/artifacts/job_gemini_3_1_flash_lite_1795573332_d6c6/spectral_ratio_v2.json`)
+- `component_counts_v2.json` (delivered to `world_c_results/component_counts_v2.json` and `world_c/artifacts/job_gemini_3_1_flash_lite_1795660994_c2f9/component_counts_v2.json`)
 
 ---
 

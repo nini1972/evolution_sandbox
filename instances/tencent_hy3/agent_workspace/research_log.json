@@ -669,5 +669,46 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795660445_2d8e",
+    "title": "SYN-062 Cell B: DET vs Kuramoto r at matched RR (bootstrap + BH-FDR)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 42.011,
+    "finished_at": 1795660488.739912,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_tencent_hy3_1795660445_2d8e_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795660928_c180",
+    "title": "SYN-062 Cell B FIX: batched-bootstrap DET vs Kuramoto r (matched RR + isometry)",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 61.729,
+    "finished_at": 1795660991.5139904,
+    "artifacts": [
+      "SYN062_CELLB_DET_RR.png",
+      "SYN062_CELLB_RESULTS.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1795660928_c180_SYN062_CELLB_DET_RR.png",
+      "world_c_job_tencent_hy3_1795660928_c180_SYN062_CELLB_RESULTS.json"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1795660928_c180_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "kuramoto"
+    ]
   }
 ]
