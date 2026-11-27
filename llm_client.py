@@ -962,7 +962,7 @@ V3_RUNPOD_WORLD_A_SYSTEM_PROMPT = (
     "update `existential_core.md` as your research evolves, and share concrete results in Colleague Commons (`post_chat`). "
     "Never run `pip install` or dump Markdown via `echo`.\n\n"
     "### Key Environment & Paths\n"
-    "- Your purpose & plans: `existential_core.md` and `research_plan.md` in current workspace (`matplotlib.use('Agg')`, save `.png`/`.json`/`.py` directly in `.`; NEVER `cd` to `/home/runner/...` or a local `world_c` folder — run `python3 script.py` in CWD or call `submit_world_c_job`; every World C `script_content` must be 100% self-contained and write outputs to `./`, never reading local `out/...` files).\n"
+    "- Your purpose & plans: `existential_core.md` and `research_plan.md` in current workspace (`matplotlib.use('Agg')`, save `.png`/`.json`/`.py` directly in `.`; ALWAYS save multi-line Python scripts via `write_file` first and run `python3 <script>.py` via `run_command` — NEVER pass multi-line code inside `python3 -c \"...\"` because bash quote escaping breaks f-strings; NEVER `cd` to `/home/runner/...` or a local `world_c` folder; every World C `script_content` must be 100% self-contained and write outputs to `./`, never reading local `out/...` files).\n"
     "- World C results: `world_c_results/REPORT.md` and `world_c_results/stages/<stage_name>/` (`check_world_c_job(job_id)`).\n"
     "- Pre-installed `colony_lib` (available locally & in World C): `persistence.StageTracker(stage_name)`, "
     "`datasets.load_dataset` (`solar_sunspots`, `climate_enso`, `climate_temperatures`, `neural_eeg`, `lynx_hare`, "
@@ -1103,10 +1103,51 @@ def _collapse_excess_chat_reads(history: list, max_keep: int = 1) -> tuple[list,
             break
         break
 
+    # Detect scripts that later failed in check_world_c_job or were rejected as duplicates so we strip copy-paste attractors
+    failed_job_ids = set()
+    rejected_scripts = set()
+    for idx_scan, m_scan in enumerate(history):
+        if m_scan.get("role") == "tool":
+            obs_s = str(m_scan.get("content") or "")
+            if m_scan.get("name") == "check_world_c_job" and "**FAILED**" in obs_s and idx_scan >= 1:
+                tcs_s = history[idx_scan - 1].get("tool_calls") or []
+                if tcs_s:
+                    try:
+                        jid = json.loads(tcs_s[0].get("function", {}).get("arguments", "{}")).get("job_id", "")
+                        if jid:
+                            failed_job_ids.add(jid)
+                    except Exception:
+                        pass
+            elif m_scan.get("name") == "submit_world_c_job" and idx_scan >= 1:
+                tcs_s = history[idx_scan - 1].get("tool_calls") or []
+                sc_s = ""
+                if tcs_s:
+                    try:
+                        sc_s = str(json.loads(tcs_s[0].get("function", {}).get("arguments", "{}")).get("script_content", "")).strip()
+                    except Exception:
+                        pass
+                if sc_s and obs_s.startswith("Notice: You "):
+                    rejected_scripts.add(sc_s)
+    if failed_job_ids:
+        for idx_scan, m_scan in enumerate(history):
+            if m_scan.get("role") == "tool" and m_scan.get("name") == "submit_world_c_job" and idx_scan >= 1:
+                obs_s = str(m_scan.get("content") or "")
+                m_jid = re.search(r"Job '(job_[^']+)'", obs_s)
+                if m_jid and m_jid.group(1) in failed_job_ids:
+                    tcs_s = history[idx_scan - 1].get("tool_calls") or []
+                    if tcs_s:
+                        try:
+                            sc_s = str(json.loads(tcs_s[0].get("function", {}).get("arguments", "{}")).get("script_content", "")).strip()
+                            if sc_s:
+                                rejected_scripts.add(sc_s)
+                        except Exception:
+                            pass
+
     drop_indices = set()
     eff_max_keep = 0 if recent_recon_streak >= 1 else max_keep
     kept_valid_reads = 0
     seen_recon_sigs = set()
+    seen_action_sigs = set()
     prev_kept_sig = None
     i = len(history) - 1
     while i >= 0:
@@ -1141,11 +1182,16 @@ def _collapse_excess_chat_reads(history: list, max_keep: int = 1) -> tuple[list,
             tcs = asst_m.get("tool_calls") or []
             tc_id = str(tcs[0].get("id") or "") if tcs else ""
             raw_a = tcs[0].get("function", {}).get("arguments", "{}") if tcs else "{}"
+            parsed_a = {}
             try:
-                canon_a = json.dumps(json.loads(raw_a), sort_keys=True) if isinstance(raw_a, str) else json.dumps(raw_a, sort_keys=True)
+                parsed_a = json.loads(raw_a) if isinstance(raw_a, str) else (raw_a if isinstance(raw_a, dict) else {})
+                canon_a = json.dumps(parsed_a, sort_keys=True)
             except Exception:
                 canon_a = str(raw_a)
-            call_sig = (t_name, canon_a)
+            if t_name == "submit_world_c_job" and isinstance(parsed_a, dict) and parsed_a.get("script_content"):
+                call_sig = (t_name, str(parsed_a.get("script_content", "")).strip())
+            else:
+                call_sig = (t_name, canon_a)
             obs = str(m.get("content") or "")
             is_notice = obs.startswith("Notice: You ")
 
@@ -1153,12 +1199,44 @@ def _collapse_excess_chat_reads(history: list, max_keep: int = 1) -> tuple[list,
             if i < len(history) - 4 and (
                 tc_id.startswith("fallback_")
                 or "---WORKSPACE---" in canon_a
-                or (t_name == "run_command" and _is_runpod_markdown_echo_cmd(str(json.loads(canon_a).get("command", "")) if canon_a.startswith("{") else canon_a))
+                or (t_name == "run_command" and _is_runpod_markdown_echo_cmd(str(parsed_a.get("command", "")) if isinstance(parsed_a, dict) else canon_a))
             ):
                 drop_indices.add(i)
                 drop_indices.add(i - 1)
                 i -= 2
                 continue
+
+            if is_notice:
+                drop_indices.add(i)
+                drop_indices.add(i - 1)
+                i -= 2
+                continue
+
+            if t_name == "submit_world_c_job" and isinstance(parsed_a, dict):
+                sc_curr = str(parsed_a.get("script_content", "")).strip()
+                if sc_curr and (sc_curr in rejected_scripts or call_sig in seen_action_sigs):
+                    drop_indices.add(i)
+                    drop_indices.add(i - 1)
+                    i -= 2
+                    continue
+                seen_action_sigs.add(call_sig)
+
+            if t_name == "read_file" and isinstance(parsed_a, dict):
+                rp_low = str(parsed_a.get("path", "")).replace("\\", "/").lower()
+                if rp_low.endswith(("world_c_results/report.md", "citizen_charter.md", "existential_core.md")):
+                    drop_indices.add(i)
+                    drop_indices.add(i - 1)
+                    i -= 2
+                    continue
+
+            if t_name == "check_world_c_job" and isinstance(parsed_a, dict):
+                jid_curr = str(parsed_a.get("job_id", "")).strip()
+                if jid_curr in failed_job_ids or call_sig in seen_action_sigs:
+                    drop_indices.add(i)
+                    drop_indices.add(i - 1)
+                    i -= 2
+                    continue
+                seen_action_sigs.add(call_sig)
 
             if t_name in ("read_chat", "read_channel"):
                 if is_notice or kept_valid_reads >= eff_max_keep or call_sig in seen_recon_sigs:

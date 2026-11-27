@@ -192,6 +192,10 @@ def run_loop(instance: str, ticks: int):
                                                         break
                                 if h_idx == -1:
                                     break
+                        prev_world_c_script_dup = False
+                        prev_world_c_terminal_checked = False
+                        curr_script_body = str(arguments.get("script_content", "")).strip() if (tool_name == "submit_world_c_job" and isinstance(arguments, dict)) else ""
+                        curr_check_jid = str(arguments.get("job_id", "")).strip() if (tool_name == "check_world_c_job" and isinstance(arguments, dict)) else ""
                         for h_idx in range(max(0, len(history) - 20), len(history)):
                             h_msg = history[h_idx]
                             if h_msg.get("role") == "assistant" and h_msg.get("tool_calls"):
@@ -199,9 +203,17 @@ def run_loop(instance: str, ticks: int):
                                     h_fn = h_tc.get("function", {})
                                     if h_fn.get("name") == tool_name:
                                         try:
-                                            h_args = json.dumps(json.loads(h_fn.get("arguments", "{}")), sort_keys=True, ensure_ascii=False)
+                                            h_parsed = json.loads(h_fn.get("arguments", "{}"))
+                                            h_args = json.dumps(h_parsed, sort_keys=True, ensure_ascii=False)
                                         except Exception:
+                                            h_parsed = {}
                                             h_args = str(h_fn.get("arguments", ""))
+                                        if curr_script_body and isinstance(h_parsed, dict) and str(h_parsed.get("script_content", "")).strip() == curr_script_body:
+                                            prev_world_c_script_dup = True
+                                        if curr_check_jid and isinstance(h_parsed, dict) and str(h_parsed.get("job_id", "")).strip() == curr_check_jid and h_idx + 1 < len(history):
+                                            chk_obs = str(history[h_idx + 1].get("content", ""))
+                                            if "**COMPLETED**" in chk_obs or "**FAILED**" in chk_obs:
+                                                prev_world_c_terminal_checked = True
                                         if h_args == arg_canon:
                                             repeat_read_count += 1
                                             if tool_name == "run_command" and h_idx + 1 < len(history):
@@ -229,11 +241,19 @@ def run_loop(instance: str, ticks: int):
                                 "Do NOT re-run the same timed-out command locally — either optimize/vectorize the script, "
                                 "reduce grid/step counts, or offload heavy sweeps to World C via 'submit_world_c_job'."
                             )
-                        elif instance == "invariant_mind" and tool_name == "submit_world_c_job" and repeat_read_count >= 1:
+                        elif tool_name == "submit_world_c_job" and (prev_world_c_script_dup or (instance == "invariant_mind" and repeat_read_count >= 1)):
                             result = (
-                                "Notice: You ALREADY submitted this exact World C job in a recent turn. "
-                                "Do NOT resubmit identical script_content — inspect its report via 'read_file' on "
-                                "'world_c_results/REPORT.md' (or 'check_world_c_job'), fix any bug if it failed, or share findings via 'post_chat'."
+                                "Notice: You ALREADY submitted this exact Python script_content to World C in a recent turn "
+                                "(changing only the title does not change the code). Do NOT call 'check_world_c_job' again and do NOT "
+                                "resubmit identical code — first write a modified small-N test script via 'write_file' and verify it "
+                                "locally via 'run_command' ('python3 test_fix.py'), then submit the verified script or share findings via 'post_chat'."
+                            )
+                        elif tool_name == "check_world_c_job" and prev_world_c_terminal_checked:
+                            result = (
+                                f"Notice: Job '{curr_check_jid}' ALREADY reached a terminal status (COMPLETED/FAILED) and its full "
+                                "Execution Report is already in your context above (and in 'world_c_results/REPORT.md'). "
+                                "Do NOT call 'check_world_c_job' on it again — if it FAILED, write & run a small-N local fix via "
+                                "'write_file' + 'run_command' first; if it COMPLETED, advance to your next hypothesis or 'post_chat'."
                             )
                         elif instance == "invariant_mind" and is_curr_passive_cmd and repeat_read_count >= 1:
                             result = (
@@ -250,8 +270,9 @@ def run_loop(instance: str, ticks: int):
                         elif instance == "invariant_mind" and last_asst_same and tool_name in ("run_command", "write_file"):
                             result = (
                                 f"Notice: You ALREADY executed '{tool_name}' with these exact arguments on your immediately preceding turn "
-                                "(output shown above). Advance to the next step — e.g. 'read_file' on a specific file, write/run a Python "
-                                "analysis script, 'submit_world_c_job', or 'post_chat'."
+                                "(output shown above). Do NOT re-run identical code or multi-line `python3 -c \"...\"` strings — save your "
+                                "fixed Python script via 'write_file' first, then run 'python3 <script>.py' via 'run_command', or proceed to "
+                                "'submit_world_c_job' or 'post_chat'."
                             )
                         elif tool_name == "read_file" and recent_unchanged_file_read:
                             result = (
