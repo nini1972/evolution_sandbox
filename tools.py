@@ -438,6 +438,7 @@ class DDGHTMLParser(HTMLParser):
         self.results = []
         self.in_title = False
         self.in_snippet = False
+        self.snippet_tag = None
 
     def handle_starttag(self, tag, attrs):
         attrs_dict = dict(attrs)
@@ -446,39 +447,33 @@ class DDGHTMLParser(HTMLParser):
         
         if tag == 'a' and 'result__a' in classes:
             href = attrs_dict.get('href', '')
-            if href.startswith('//duckduckgo.com/l/?uddg='):
-                href = href.replace('//duckduckgo.com/l/?uddg=', '')
-            elif href.startswith('/l/?uddg='):
-                href = href.replace('/l/?uddg=', '')
-            
-            if 'uddg=' in href or 'uddg' in href or 'rut=' in href:
-                parsed = urllib.parse.urlparse(href)
-                qs = urllib.parse.parse_qs(parsed.query)
-                if 'uddg' in qs:
-                    href = qs['uddg'][0]
-                else:
-                    parts = href.split('uddg=')
-                    if len(parts) > 1:
-                        href = parts[1].split('&')[0]
-                        href = urllib.parse.unquote(href)
-            
-            href = urllib.parse.unquote(href)
-            if href.startswith('//'):
+            if href.startswith('//duckduckgo.com/l/?'):
                 href = 'https:' + href
+            elif href.startswith('/l/?'):
+                href = 'https://duckduckgo.com' + href
             
-            # Remove any trailing DuckDuckGo redirection parameters
-            href = href.split('&')[0]
+            parsed = urllib.parse.urlparse(href)
+            qs = urllib.parse.parse_qs(parsed.query)
+            if 'uddg' in qs and qs['uddg']:
+                href = qs['uddg'][0]
+            else:
+                href = urllib.parse.unquote(href)
+                if href.startswith('//'):
+                    href = 'https:' + href
                 
             self.results.append({'title': '', 'href': href, 'body': ''})
             self.in_title = True
             
-        elif tag == 'a' and 'result__snippet' in classes:
+        elif tag in ('a', 'div', 'span') and 'result__snippet' in classes:
             self.in_snippet = True
+            self.snippet_tag = tag
 
     def handle_endtag(self, tag):
-        if tag == 'a':
+        if tag == 'a' and self.in_title:
             self.in_title = False
+        if self.in_snippet and tag == self.snippet_tag:
             self.in_snippet = False
+            self.snippet_tag = None
 
     def handle_data(self, data):
         if not self.results:
@@ -488,27 +483,137 @@ class DDGHTMLParser(HTMLParser):
         elif self.in_snippet:
             self.results[-1]['body'] += data
 
+def _search_ddg_html(query: str, max_results: int = 5):
+    url = 'https://html.duckduckgo.com/html/?' + urllib.parse.urlencode({'q': query})
+    req = urllib.request.Request(
+        url,
+        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+    )
+    with urllib.request.urlopen(req, timeout=10) as response:
+        status = getattr(response, 'status', 200)
+        html_text = response.read().decode('utf-8', errors='replace')
+    if status != 200 or 'anomaly-modal' in html_text or 'challenge-form' in html_text:
+        return [], f"DuckDuckGo returned status={status} or challenge page"
+    parser = DDGHTMLParser()
+    parser.feed(html_text)
+    valid_results = []
+    for r in parser.results:
+        r['title'] = ' '.join(r['title'].split())
+        r['body'] = ' '.join(r['body'].split())
+        if r['title'] and r['href']:
+            valid_results.append(r)
+    return valid_results[:max_results], None
+
+def _reconstruct_openalex_abstract(inv_idx: dict, max_words: int = 55) -> str:
+    if not isinstance(inv_idx, dict) or not inv_idx:
+        return ""
+    pos_words = []
+    for word, positions in inv_idx.items():
+        if isinstance(positions, list):
+            for pos in positions:
+                pos_words.append((pos, word))
+    if not pos_words:
+        return ""
+    pos_words.sort(key=lambda x: x[0])
+    words = [w for _, w in pos_words[:max_words]]
+    snippet = " ".join(words)
+    if len(pos_words) > max_words:
+        snippet += "..."
+    return snippet
+
+def _search_openalex(query: str, max_results: int = 5):
+    url = 'https://api.openalex.org/works?' + urllib.parse.urlencode({'search': query, 'per-page': max_results})
+    req = urllib.request.Request(url, headers={'User-Agent': 'EvolutionSandboxResearch/1.0'})
+    with urllib.request.urlopen(req, timeout=10) as response:
+        data = json.loads(response.read().decode('utf-8'))
+    results = []
+    for w in data.get('results', [])[:max_results]:
+        title = (w.get('title') or '').strip()
+        oa_url = (w.get('open_access') or {}).get('oa_url')
+        loc_url = ((w.get('primary_location') or {}).get('landing_page_url'))
+        href = oa_url or loc_url or w.get('doi') or w.get('id') or ''
+        body = _reconstruct_openalex_abstract(w.get('abstract_inverted_index'))
+        year = w.get('publication_year')
+        if not body:
+            body = f"OpenAlex scholarly work ({year or 'n.d.'}, cited_by={w.get('cited_by_count', 0)})."
+        elif year:
+            body = f"[{year}] {body}"
+        if title and href:
+            results.append({'title': title, 'href': href, 'body': body, 'source': 'openalex'})
+    return results
+
+def _search_wikipedia(query: str, max_results: int = 5):
+    import html as html_mod
+    import re
+    url = 'https://en.wikipedia.org/w/api.php?' + urllib.parse.urlencode({
+        'action': 'query', 'list': 'search', 'srsearch': query, 'format': 'json', 'srlimit': max_results
+    })
+    req = urllib.request.Request(url, headers={'User-Agent': 'EvolutionSandboxResearch/1.0'})
+    with urllib.request.urlopen(req, timeout=10) as response:
+        data = json.loads(response.read().decode('utf-8'))
+    results = []
+    for item in data.get('query', {}).get('search', [])[:max_results]:
+        title = (item.get('title') or '').strip()
+        snippet = re.sub(r'<[^>]+>', '', html_mod.unescape(item.get('snippet') or ''))
+        snippet = ' '.join(snippet.split())
+        if title:
+            href = 'https://en.wikipedia.org/wiki/' + urllib.parse.quote(title.replace(' ', '_'))
+            results.append({'title': f"{title} - Wikipedia", 'href': href, 'body': snippet, 'source': 'wikipedia'})
+    return results
+
+def _search_arxiv(query: str, max_results: int = 5):
+    import xml.etree.ElementTree as ET
+    url = 'https://export.arxiv.org/api/query?' + urllib.parse.urlencode({
+        'search_query': f'all:{query}', 'start': 0, 'max_results': max_results
+    })
+    req = urllib.request.Request(url, headers={'User-Agent': 'EvolutionSandboxResearch/1.0'})
+    with urllib.request.urlopen(req, timeout=10) as response:
+        xml_text = response.read().decode('utf-8', errors='replace')
+    root = ET.fromstring(xml_text)
+    ns = {'atom': 'http://www.w3.org/2005/Atom'}
+    results = []
+    for entry in root.findall('atom:entry', ns)[:max_results]:
+        title = ' '.join((entry.findtext('atom:title', '', ns) or '').split())
+        href = (entry.findtext('atom:id', '', ns) or '').strip()
+        summary = ' '.join((entry.findtext('atom:summary', '', ns) or '').split())[:350]
+        if title and href:
+            results.append({'title': title, 'href': href, 'body': summary, 'source': 'arxiv'})
+    return results
+
 def search_web(query: str) -> str:
-    """Searches the web for the query and returns results."""
+    """Searches the web for the query (DuckDuckGo HTML with OpenAlex/Wikipedia/arXiv fallbacks) and returns results."""
+    query = (query or '').strip()
+    if not query:
+        return "Error searching the web: empty query."
+    errors = []
     try:
-        url = 'https://html.duckduckgo.com/html/?' + urllib.parse.urlencode({'q': query})
-        req = urllib.request.Request(
-            url, 
-            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
-        )
-        with urllib.request.urlopen(req) as response:
-            html = response.read().decode('utf-8')
-            parser = DDGHTMLParser()
-            parser.feed(html)
-            valid_results = []
-            for r in parser.results:
-                r['title'] = ' '.join(r['title'].split())
-                r['body'] = ' '.join(r['body'].split())
-                if r['title'] and r['href']:
-                    valid_results.append(r)
-            return json.dumps(valid_results[:5], indent=2)
+        ddg_results, ddg_warn = _search_ddg_html(query, max_results=5)
+        if ddg_results:
+            return json.dumps(ddg_results, indent=2)
+        if ddg_warn:
+            errors.append(ddg_warn)
     except Exception as e:
-        return f"Error searching the web: {str(e)}"
+        errors.append(f"ddg: {e}")
+
+    # Fallback to open public scholarly/encyclopedic search APIs when DDG is blocked or returns empty
+    fallback_results = []
+    for name, fn in (('openalex', _search_openalex), ('wikipedia', _search_wikipedia)):
+        try:
+            fallback_results.extend(fn(query, max_results=3))
+        except Exception as e:
+            errors.append(f"{name}: {e}")
+
+    if not fallback_results:
+        try:
+            fallback_results.extend(_search_arxiv(query, max_results=5))
+        except Exception as e:
+            errors.append(f"arxiv: {e}")
+
+    if fallback_results:
+        return json.dumps(fallback_results[:5], indent=2)
+    if errors:
+        return f"Error searching the web (all backends failed or blocked): {'; '.join(errors)}"
+    return json.dumps([], indent=2)
 
 def submit_world_c_job(
     title: str,
