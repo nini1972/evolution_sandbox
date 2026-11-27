@@ -259,6 +259,11 @@ def run_loop(instance: str, ticks: int):
                                 "context window above (with no edits since). Proceed directly to your planned concrete action "
                                 "(write_file, edit_file, run_command, submit_world_c_job, or post_chat)."
                             )
+                        elif tool_name == "search_web" and repeat_read_count >= 1:
+                            result = (
+                                "Notice: You ALREADY executed 'search_web' with this exact query in a recent turn (results shown above). "
+                                "Proceed to synthesize the literature or run an empirical Python/World C experiment."
+                            )
                         elif tool_name in ("read_chat", "read_channel") and repeat_read_count >= repeat_threshold:
                             result = (
                                 "Notice: You ALREADY called 'read_chat' with these exact arguments in a recent turn and the messages "

@@ -432,79 +432,64 @@ def run_command(command: str = "", **kwargs) -> str:
     except Exception as e:
         return f"Error running command: {str(e)}"
 
-class DDGHTMLParser(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.results = []
-        self.in_title = False
-        self.in_snippet = False
-        self.snippet_tag = None
+_SEARCH_USER_AGENT = "ColonyScientificLiterature/2.0 (mailto:admin@universe-knowledge.org)"
+_TAVILY_QUOTA_EXHAUSTED = False
+_SEARCH_STOPWORDS = {
+    "a", "an", "and", "are", "as", "at", "be", "by", "for", "from", "how", "in", "into",
+    "is", "it", "novel", "of", "on", "or", "quantifying", "study", "the", "their", "this",
+    "to", "towards", "using", "via", "what", "when", "where", "which", "with", "intricacies",
+}
 
-    def handle_starttag(self, tag, attrs):
-        attrs_dict = dict(attrs)
-        class_name = attrs_dict.get('class', '')
-        classes = class_name.split()
-        
-        if tag == 'a' and 'result__a' in classes:
-            href = attrs_dict.get('href', '')
-            if href.startswith('//duckduckgo.com/l/?'):
-                href = 'https:' + href
-            elif href.startswith('/l/?'):
-                href = 'https://duckduckgo.com' + href
-            
-            parsed = urllib.parse.urlparse(href)
-            qs = urllib.parse.parse_qs(parsed.query)
-            if 'uddg' in qs and qs['uddg']:
-                href = qs['uddg'][0]
-            else:
-                href = urllib.parse.unquote(href)
-                if href.startswith('//'):
-                    href = 'https:' + href
-                
-            self.results.append({'title': '', 'href': href, 'body': ''})
-            self.in_title = True
-            
-        elif tag in ('a', 'div', 'span') and 'result__snippet' in classes:
-            self.in_snippet = True
-            self.snippet_tag = tag
 
-    def handle_endtag(self, tag):
-        if tag == 'a' and self.in_title:
-            self.in_title = False
-        if self.in_snippet and tag == self.snippet_tag:
-            self.in_snippet = False
-            self.snippet_tag = None
+def _parse_scholarly_query(raw_query: str) -> tuple[str, Optional[str], bool]:
+    """Strips search-engine operators (site:, filetype:, outer quotes) and detects source hints."""
+    import re
+    q = (raw_query or "").strip()
+    preferred_source = None
+    had_quotes = '"' in q
 
-    def handle_data(self, data):
-        if not self.results:
-            return
-        if self.in_title:
-            self.results[-1]['title'] += data
-        elif self.in_snippet:
-            self.results[-1]['body'] += data
+    def _site_repl(m):
+        nonlocal preferred_source
+        dom = m.group(1).lower()
+        if "arxiv" in dom:
+            preferred_source = "arxiv"
+        elif any(k in dom for k in ("biorxiv", "medrxiv", "pubmed", "ncbi", "europepmc")):
+            preferred_source = "europepmc"
+        elif "wikipedia" in dom:
+            preferred_source = "wikipedia"
+        elif "openalex" in dom or "doi.org" in dom:
+            preferred_source = "openalex"
+        return " "
 
-def _search_ddg_html(query: str, max_results: int = 5):
-    url = 'https://html.duckduckgo.com/html/?' + urllib.parse.urlencode({'q': query})
-    req = urllib.request.Request(
-        url,
-        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
-    )
-    with urllib.request.urlopen(req, timeout=10) as response:
-        status = getattr(response, 'status', 200)
-        html_text = response.read().decode('utf-8', errors='replace')
-    if status != 200 or 'anomaly-modal' in html_text or 'challenge-form' in html_text:
-        return [], f"DuckDuckGo returned status={status} or challenge page"
-    parser = DDGHTMLParser()
-    parser.feed(html_text)
-    valid_results = []
-    for r in parser.results:
-        r['title'] = ' '.join(r['title'].split())
-        r['body'] = ' '.join(r['body'].split())
-        if r['title'] and r['href']:
-            valid_results.append(r)
-    return valid_results[:max_results], None
+    q = re.sub(r"\bsite:([^\s]+)", _site_repl, q, flags=re.IGNORECASE)
+    q = re.sub(r"\bfiletype:[^\s]+", " ", q, flags=re.IGNORECASE)
+    q = q.replace('"', " ").replace("“", " ").replace("”", " ")
+    q = " ".join(q.split())
+    return q, preferred_source, had_quotes
 
-def _reconstruct_openalex_abstract(inv_idx: dict, max_words: int = 55) -> str:
+
+def _relax_scientific_keywords(clean_query: str, max_terms: int = 5) -> str:
+    """Extracts top content-bearing scientific terms when a long multi-clause query returns 0 strict AND hits."""
+    import re
+    tokens = re.findall(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*", clean_query)
+    kept = []
+    seen = set()
+    for tok in tokens:
+        low = tok.lower()
+        if len(low) <= 2 or low in _SEARCH_STOPWORDS or low in seen:
+            continue
+        seen.add(low)
+        kept.append(tok)
+    if not kept:
+        return clean_query
+    # Keep hyphenated technical terms and highest-information terms up to max_terms
+    hyphenated = [t for t in kept if "-" in t]
+    others = [t for t in kept if "-" not in t]
+    ordered = hyphenated + others
+    return " ".join(ordered[:max_terms])
+
+
+def _reconstruct_openalex_abstract(inv_idx: dict, max_words: int = 180) -> str:
     if not isinstance(inv_idx, dict) or not inv_idx:
         return ""
     pos_words = []
@@ -521,99 +506,365 @@ def _reconstruct_openalex_abstract(inv_idx: dict, max_words: int = 55) -> str:
         snippet += "..."
     return snippet
 
-def _search_openalex(query: str, max_results: int = 5):
-    url = 'https://api.openalex.org/works?' + urllib.parse.urlencode({'search': query, 'per-page': max_results})
-    req = urllib.request.Request(url, headers={'User-Agent': 'EvolutionSandboxResearch/1.0'})
-    with urllib.request.urlopen(req, timeout=10) as response:
-        data = json.loads(response.read().decode('utf-8'))
+
+def _search_commercial_apis(query: str, max_results: int = 6) -> list:
+    """Uses Tavily, Serper, or Exa when API keys are configured in the environment (matching Universe Knowledge)."""
+    global _TAVILY_QUOTA_EXHAUSTED
     results = []
-    for w in data.get('results', [])[:max_results]:
-        title = (w.get('title') or '').strip()
-        oa_url = (w.get('open_access') or {}).get('oa_url')
-        loc_url = ((w.get('primary_location') or {}).get('landing_page_url'))
-        href = oa_url or loc_url or w.get('doi') or w.get('id') or ''
-        body = _reconstruct_openalex_abstract(w.get('abstract_inverted_index'))
-        year = w.get('publication_year')
-        if not body:
-            body = f"OpenAlex scholarly work ({year or 'n.d.'}, cited_by={w.get('cited_by_count', 0)})."
-        elif year:
-            body = f"[{year}] {body}"
-        if title and href:
-            results.append({'title': title, 'href': href, 'body': body, 'source': 'openalex'})
+    tavily_key = os.getenv("TAVILY_API_KEY", "").strip()
+    if tavily_key and not _TAVILY_QUOTA_EXHAUSTED:
+        try:
+            payload = json.dumps({
+                "api_key": tavily_key,
+                "query": query,
+                "search_depth": "advanced",
+                "include_images": False,
+                "include_answer": False,
+                "max_results": max_results,
+            }).encode("utf-8")
+            req = urllib.request.Request(
+                "https://api.tavily.com/search",
+                data=payload,
+                headers={"Content-Type": "application/json", "User-Agent": _SEARCH_USER_AGENT},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=8) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            for item in data.get("results", [])[:max_results]:
+                title = (item.get("title") or "").strip()
+                href = (item.get("url") or "").strip()
+                body = " ".join((item.get("content") or "").split())[:1000]
+                if title and href:
+                    results.append({"title": title, "href": href, "body": body, "source": "tavily"})
+            if results:
+                return results
+        except urllib.error.HTTPError as he:
+            if he.code in (429, 432):
+                _TAVILY_QUOTA_EXHAUSTED = True
+        except Exception:
+            pass
+
+    serper_key = os.getenv("SERPER_API_KEY", "").strip()
+    if serper_key and not results:
+        try:
+            payload = json.dumps({"q": query, "num": max_results}).encode("utf-8")
+            req = urllib.request.Request(
+                "https://google.serper.dev/search",
+                data=payload,
+                headers={"X-API-KEY": serper_key, "Content-Type": "application/json", "User-Agent": _SEARCH_USER_AGENT},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=8) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            for item in data.get("organic", [])[:max_results]:
+                title = (item.get("title") or "").strip()
+                href = (item.get("link") or "").strip()
+                body = " ".join((item.get("snippet") or "").split())[:1000]
+                if title and href:
+                    results.append({"title": title, "href": href, "body": body, "source": "serper"})
+            if results:
+                return results
+        except Exception:
+            pass
+
+    exa_key = os.getenv("EXA_API_KEY", "").strip()
+    if exa_key and not results:
+        try:
+            payload = json.dumps({"query": query, "useAutoprompt": False, "numResults": max_results, "text": True}).encode("utf-8")
+            req = urllib.request.Request(
+                "https://api.exa.ai/search",
+                data=payload,
+                headers={"x-api-key": exa_key, "Content-Type": "application/json", "User-Agent": _SEARCH_USER_AGENT},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=8) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            for item in data.get("results", [])[:max_results]:
+                title = (item.get("title") or "").strip()
+                href = (item.get("url") or "").strip()
+                body = " ".join((item.get("text") or "").split())[:1000]
+                if title and href:
+                    results.append({"title": title, "href": href, "body": body, "source": "exa"})
+        except Exception:
+            pass
     return results
 
-def _search_wikipedia(query: str, max_results: int = 5):
-    import html as html_mod
-    import re
-    url = 'https://en.wikipedia.org/w/api.php?' + urllib.parse.urlencode({
-        'action': 'query', 'list': 'search', 'srsearch': query, 'format': 'json', 'srlimit': max_results
+
+def _search_openalex(query: str, max_results: int = 5):
+    url = "https://api.openalex.org/works?" + urllib.parse.urlencode({
+        "search": query,
+        "per-page": max_results,
+        "sort": "relevance_score:desc",
     })
-    req = urllib.request.Request(url, headers={'User-Agent': 'EvolutionSandboxResearch/1.0'})
-    with urllib.request.urlopen(req, timeout=10) as response:
-        data = json.loads(response.read().decode('utf-8'))
+    req = urllib.request.Request(url, headers={"User-Agent": _SEARCH_USER_AGENT})
+    with urllib.request.urlopen(req, timeout=8) as response:
+        data = json.loads(response.read().decode("utf-8"))
     results = []
-    for item in data.get('query', {}).get('search', [])[:max_results]:
-        title = (item.get('title') or '').strip()
-        snippet = re.sub(r'<[^>]+>', '', html_mod.unescape(item.get('snippet') or ''))
-        snippet = ' '.join(snippet.split())
-        if title:
-            href = 'https://en.wikipedia.org/wiki/' + urllib.parse.quote(title.replace(' ', '_'))
-            results.append({'title': f"{title} - Wikipedia", 'href': href, 'body': snippet, 'source': 'wikipedia'})
+    for w in data.get("results", [])[:max_results]:
+        title = (w.get("title") or "").strip()
+        doi = (w.get("doi") or "").strip()
+        oa_url = (w.get("open_access") or {}).get("oa_url")
+        loc_url = (w.get("primary_location") or {}).get("landing_page_url")
+        href = doi or oa_url or loc_url or w.get("id") or ""
+        venue = (((w.get("primary_location") or {}).get("source") or {}).get("display_name") or "").strip()
+        authors = [(a.get("author") or {}).get("display_name", "") for a in (w.get("authorships") or []) if (a.get("author") or {}).get("display_name")]
+        author_str = ", ".join(authors[:4]) + (" et al." if len(authors) > 4 else "")
+        abstract = _reconstruct_openalex_abstract(w.get("abstract_inverted_index"), max_words=180)
+        year = w.get("publication_year")
+        cited_by = w.get("cited_by_count", 0)
+        meta_bits = [str(year) if year else "n.d.", f"cited_by={cited_by}"]
+        if venue:
+            meta_bits.append(venue)
+        if author_str:
+            meta_bits.append(author_str)
+        header = f"[{' | '.join(meta_bits)}]"
+        body = f"{header} {abstract}".strip() if abstract else f"{header} Peer-reviewed scholarly record in OpenAlex."
+        if title and href:
+            entry = {"title": title, "href": href, "body": body, "source": "openalex"}
+            if doi:
+                entry["doi"] = doi
+            if year:
+                entry["year"] = year
+            results.append(entry)
     return results
+
 
 def _search_arxiv(query: str, max_results: int = 5):
+    import re
     import xml.etree.ElementTree as ET
-    url = 'https://export.arxiv.org/api/query?' + urllib.parse.urlencode({
-        'search_query': f'all:{query}', 'start': 0, 'max_results': max_results
+    terms = [t for t in re.findall(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*", query) if len(t) > 2 and t.lower() not in _SEARCH_STOPWORDS]
+    if len(terms) > 5:
+        terms = terms[:5]
+    arxiv_q = " AND ".join(f"all:{t}" for t in terms) if terms else f"all:{query}"
+    url = "https://export.arxiv.org/api/query?" + urllib.parse.urlencode({
+        "search_query": arxiv_q,
+        "start": 0,
+        "max_results": max_results,
+        "sortBy": "relevance",
+        "sortOrder": "descending",
     })
-    req = urllib.request.Request(url, headers={'User-Agent': 'EvolutionSandboxResearch/1.0'})
-    with urllib.request.urlopen(req, timeout=10) as response:
-        xml_text = response.read().decode('utf-8', errors='replace')
+    req = urllib.request.Request(url, headers={"User-Agent": _SEARCH_USER_AGENT})
+    with urllib.request.urlopen(req, timeout=8) as response:
+        xml_text = response.read().decode("utf-8", errors="replace")
     root = ET.fromstring(xml_text)
-    ns = {'atom': 'http://www.w3.org/2005/Atom'}
+    ns = {"atom": "http://www.w3.org/2005/Atom", "arxiv": "http://arxiv.org/schemas/atom"}
     results = []
-    for entry in root.findall('atom:entry', ns)[:max_results]:
-        title = ' '.join((entry.findtext('atom:title', '', ns) or '').split())
-        href = (entry.findtext('atom:id', '', ns) or '').strip()
-        summary = ' '.join((entry.findtext('atom:summary', '', ns) or '').split())[:350]
+    for entry in root.findall("atom:entry", ns)[:max_results]:
+        title = " ".join((entry.findtext("atom:title", "", ns) or "").split())
+        href = (entry.findtext("atom:id", "", ns) or "").strip()
+        published = (entry.findtext("atom:published", "", ns) or "")[:10]
+        doi = (entry.findtext("arxiv:doi", "", ns) or "").strip()
+        cat_el = entry.find("arxiv:primary_category", ns)
+        cat = cat_el.attrib.get("term", "") if cat_el is not None else ""
+        authors = [
+            (a.findtext("atom:name", "", ns) or "").strip()
+            for a in entry.findall("atom:author", ns)
+            if (a.findtext("atom:name", "", ns) or "").strip()
+        ]
+        author_str = ", ".join(authors[:4]) + (" et al." if len(authors) > 4 else "")
+        summary = " ".join((entry.findtext("atom:summary", "", ns) or "").split())[:1000]
+        meta = " | ".join(x for x in [published, f"arXiv:{cat}" if cat else "arXiv", author_str] if x)
+        body = f"[{meta}] {summary}".strip() if meta else summary
         if title and href:
-            results.append({'title': title, 'href': href, 'body': summary, 'source': 'arxiv'})
+            item = {"title": title, "href": href, "body": body, "source": "arxiv"}
+            if doi:
+                item["doi"] = f"https://doi.org/{doi}" if not doi.startswith("http") else doi
+            results.append(item)
     return results
 
-def search_web(query: str) -> str:
-    """Searches the web for the query (DuckDuckGo HTML with OpenAlex/Wikipedia/arXiv fallbacks) and returns results."""
-    query = (query or '').strip()
-    if not query:
-        return "Error searching the web: empty query."
+
+def _search_europepmc(query: str, max_results: int = 5):
+    """Searches Europe PMC (covering PubMed, PMC, bioRxiv, and medRxiv preprints with full abstracts)."""
+    url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?" + urllib.parse.urlencode({
+        "query": query,
+        "format": "json",
+        "pageSize": max_results,
+        "resultType": "core",
+    })
+    req = urllib.request.Request(url, headers={"User-Agent": _SEARCH_USER_AGENT})
+    with urllib.request.urlopen(req, timeout=8) as response:
+        data = json.loads(response.read().decode("utf-8"))
+    results = []
+    for item in (data.get("resultList") or {}).get("result", [])[:max_results]:
+        title = " ".join((item.get("title") or "").split()).rstrip(".")
+        doi = (item.get("doi") or "").strip()
+        pmid = (item.get("id") or "").strip()
+        pub_year = item.get("pubYear") or ""
+        journal = (item.get("journalTitle") or item.get("bookOrReportDetails", {}).get("publisher") or "Preprint/EuropePMC").strip()
+        authors = (item.get("authorString") or "").strip()
+        if len(authors) > 100:
+            authors = authors[:100].rstrip(", ") + " et al."
+        cited_by = item.get("citedByCount", 0)
+        abstract = " ".join((item.get("abstractText") or "").split())[:1000]
+        href = f"https://doi.org/{doi}" if doi else (f"https://europepmc.org/article/MED/{pmid}" if pmid else "")
+        meta = " | ".join(x for x in [str(pub_year), f"cited_by={cited_by}", journal, authors] if x)
+        body = f"[{meta}] {abstract}".strip() if abstract else f"[{meta}] Biomedical / biophysics literature record."
+        if title and href:
+            entry = {"title": title, "href": href, "body": body, "source": "europepmc"}
+            if doi:
+                entry["doi"] = f"https://doi.org/{doi}"
+            results.append(entry)
+    return results
+
+
+def _search_wikipedia(query: str, max_results: int = 3):
+    """Searches English Wikipedia and fetches multi-sentence plain-text intro extracts (not tiny search snippets)."""
+    import html as html_mod
+    import re
+    search_url = "https://en.wikipedia.org/w/api.php?" + urllib.parse.urlencode({
+        "action": "query",
+        "list": "search",
+        "srsearch": query,
+        "format": "json",
+        "srlimit": max_results,
+    })
+    req = urllib.request.Request(search_url, headers={"User-Agent": _SEARCH_USER_AGENT})
+    with urllib.request.urlopen(req, timeout=8) as response:
+        data = json.loads(response.read().decode("utf-8"))
+    hits = data.get("query", {}).get("search", [])[:max_results]
+    if not hits:
+        return []
+    titles = [h.get("title", "").strip() for h in hits if h.get("title")]
+    extracts_by_title = {}
+    if titles:
+        try:
+            ext_url = "https://en.wikipedia.org/w/api.php?" + urllib.parse.urlencode({
+                "action": "query",
+                "prop": "extracts",
+                "exintro": 1,
+                "explaintext": 1,
+                "exchars": 900,
+                "redirects": 1,
+                "titles": "|".join(titles),
+                "format": "json",
+            })
+            ext_req = urllib.request.Request(ext_url, headers={"User-Agent": _SEARCH_USER_AGENT})
+            with urllib.request.urlopen(ext_req, timeout=8) as ext_resp:
+                ext_data = json.loads(ext_resp.read().decode("utf-8"))
+            for page in (ext_data.get("query", {}).get("pages") or {}).values():
+                pt = (page.get("title") or "").strip()
+                ex = " ".join((page.get("extract") or "").split())
+                if pt and ex:
+                    extracts_by_title[pt.lower()] = ex
+        except Exception:
+            pass
+    results = []
+    for item in hits:
+        title = (item.get("title") or "").strip()
+        if not title:
+            continue
+        snippet = extracts_by_title.get(title.lower())
+        if not snippet:
+            snippet = re.sub(r"<[^>]+>", "", html_mod.unescape(item.get("snippet") or ""))
+            snippet = " ".join(snippet.split())
+        href = "https://en.wikipedia.org/wiki/" + urllib.parse.quote(title.replace(" ", "_"))
+        results.append({"title": f"{title} - Wikipedia", "href": href, "body": snippet, "source": "wikipedia"})
+    return results
+
+
+def _run_parallel_scholarly_backends(clean_q: str, source: str = "auto", per_source: int = 4) -> tuple[list, list]:
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    all_backends = {
+        "openalex": (_search_openalex, per_source),
+        "arxiv": (_search_arxiv, per_source),
+        "europepmc": (_search_europepmc, per_source),
+        "wikipedia": (_search_wikipedia, min(3, per_source)),
+    }
+    if source in all_backends:
+        order = [source] + [k for k in ("openalex", "arxiv", "europepmc", "wikipedia") if k != source]
+        selected = order[:2] if source != "wikipedia" else ["wikipedia", "openalex"]
+    else:
+        selected = ["openalex", "arxiv", "europepmc", "wikipedia"]
+
+    buckets = {}
     errors = []
+    with ThreadPoolExecutor(max_workers=len(selected)) as pool:
+        fut_map = {
+            pool.submit(all_backends[name][0], clean_q, all_backends[name][1]): name
+            for name in selected
+        }
+        for fut in as_completed(fut_map):
+            name = fut_map[fut]
+            try:
+                buckets[name] = fut.result() or []
+            except Exception as exc:
+                buckets[name] = []
+                errors.append(f"{name}: {exc}")
+
+    # Interleave results in priority order while deduplicating by normalized title / DOI / URL
+    merged = []
+    seen_keys = set()
+    import re
+    max_len = max((len(v) for v in buckets.values()), default=0)
+    for idx in range(max_len):
+        for name in selected:
+            items = buckets.get(name) or []
+            if idx >= len(items):
+                continue
+            r = items[idx]
+            norm_t = re.sub(r"[^a-z0-9]", "", (r.get("title") or "").lower())[:80]
+            norm_u = (r.get("doi") or r.get("href") or "").lower().rstrip("/")
+            if (norm_t and norm_t in seen_keys) or (norm_u and norm_u in seen_keys):
+                continue
+            if norm_t:
+                seen_keys.add(norm_t)
+            if norm_u:
+                seen_keys.add(norm_u)
+            merged.append(r)
+    return merged, errors
+
+
+def search_web(query: str, source: str = "auto", max_results: int = 6, **kwargs) -> str:
+    """
+    Searches peer-reviewed scientific literature and encyclopedic references across OpenAlex (250M+ works),
+    arXiv preprints, Europe PMC (including bioRxiv/medRxiv), and Wikipedia (plus Tavily/Serper/Exa if configured),
+    returning verified DOIs/URLs, publication years, citation counts, authors, and detailed abstracts.
+    """
+    raw_query = (query or "").strip()
+    if not raw_query:
+        return "Error searching literature/web: empty query."
     try:
-        ddg_results, ddg_warn = _search_ddg_html(query, max_results=5)
-        if ddg_results:
-            return json.dumps(ddg_results, indent=2)
-        if ddg_warn:
-            errors.append(ddg_warn)
-    except Exception as e:
-        errors.append(f"ddg: {e}")
+        max_results = max(1, min(int(max_results or 6), 10))
+    except Exception:
+        max_results = 6
 
-    # Fallback to open public scholarly/encyclopedic search APIs when DDG is blocked or returns empty
-    fallback_results = []
-    for name, fn in (('openalex', _search_openalex), ('wikipedia', _search_wikipedia)):
-        try:
-            fallback_results.extend(fn(query, max_results=3))
-        except Exception as e:
-            errors.append(f"{name}: {e}")
+    clean_q, hinted_source, had_quotes = _parse_scholarly_query(raw_query)
+    eff_source = (source or "auto").strip().lower()
+    if eff_source == "auto" and hinted_source:
+        eff_source = hinted_source
 
-    if not fallback_results:
-        try:
-            fallback_results.extend(_search_arxiv(query, max_results=5))
-        except Exception as e:
-            errors.append(f"arxiv: {e}")
+    combined = []
+    if eff_source == "auto":
+        combined.extend(_search_commercial_apis(clean_q, max_results=max_results))
 
-    if fallback_results:
-        return json.dumps(fallback_results[:5], indent=2)
+    scholarly_hits, errors = _run_parallel_scholarly_backends(clean_q, source=eff_source, per_source=max(4, max_results // 2 + 2))
+    combined.extend(scholarly_hits)
+
+    # Automatic keyword relaxation when a long multi-clause or quoted title query yields < 2 results
+    relaxed_note = None
+    if len(combined) < 2:
+        relaxed_q = _relax_scientific_keywords(clean_q, max_terms=5)
+        if relaxed_q and relaxed_q.lower() != clean_q.lower():
+            relaxed_hits, rel_errors = _run_parallel_scholarly_backends(relaxed_q, source=eff_source, per_source=4)
+            errors.extend(rel_errors)
+            if relaxed_hits:
+                relaxed_note = (
+                    f"Exact query {raw_query!r} was too narrow or matched no verbatim record; "
+                    f"showing peer-reviewed/preprint literature for core terms {relaxed_q!r}."
+                )
+                existing_titles = {r.get("title", "").lower() for r in combined}
+                for rh in relaxed_hits:
+                    if rh.get("title", "").lower() not in existing_titles:
+                        combined.append(rh)
+
+    if combined:
+        trimmed = combined[:max_results]
+        if relaxed_note:
+            trimmed[0] = dict(trimmed[0], query_note=relaxed_note)
+        return json.dumps(trimmed, indent=2, ensure_ascii=False)
     if errors:
-        return f"Error searching the web (all backends failed or blocked): {'; '.join(errors)}"
-    return json.dumps([], indent=2)
+        return f"Error searching scientific literature (backends unreachable): {'; '.join(errors)}"
+    return json.dumps([{"note": f"No scholarly or encyclopedic records matched {raw_query!r}. Try 3-5 core scientific keywords."}], indent=2)
 
 def submit_world_c_job(
     title: str,
@@ -1073,13 +1324,21 @@ TOOLS_SCHEMA = [
         "type": "function",
         "function": {
             "name": "search_web",
-            "description": "Searches the web for information using DuckDuckGo.",
+            "description": "Searches peer-reviewed scientific literature and encyclopedic references across OpenAlex (250M+ works), arXiv preprints, Europe PMC (including bioRxiv/medRxiv), and Wikipedia (plus Tavily/Serper/Exa if configured). Returns verified titles, DOIs/URLs, authors, publication years, citation counts, and detailed abstracts (~800-1000 chars). Pass 3-6 concise scientific topic keywords, paper titles, or DOIs.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "query": {
                         "type": "string",
-                        "description": "The search query to look up"
+                        "description": "Concise scientific topic keywords, paper title, or DOI (e.g. 'Gray-Scott reaction-diffusion Betti numbers pattern metrics')"
+                    },
+                    "source": {
+                        "type": "string",
+                        "description": "Optional backend filter: 'auto' (default, queries OpenAlex + arXiv + EuropePMC + Wikipedia in parallel), 'openalex', 'arxiv', 'europepmc', or 'wikipedia'."
+                    },
+                    "max_results": {
+                        "type": "integer",
+                        "description": "Maximum number of results to return (1-10, default 6)."
                     }
                 },
                 "required": ["query"]
