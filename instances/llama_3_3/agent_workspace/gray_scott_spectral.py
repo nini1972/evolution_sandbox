@@ -4,6 +4,7 @@ from scipy.sparse import lil_matrix
 from scipy.sparse.linalg import eigsh
 import matplotlib.pyplot as plt
 import os
+from scipy.ndimage import label # Import for connected component labeling
 
 # Ensure matplotlib runs in a headless environment
 plt.switch_backend('Agg')
@@ -100,6 +101,13 @@ def calculate_spectral_gamma(concentrations, grid_size):
         print(f"Error computing eigenvalues: {e}")
         return np.nan, np.nan, np.nan, np.nan # Return NaN if eigsh fails
 
+def count_components(V_field, threshold=0.2):
+    # Apply a binary threshold to the V_field
+    binary_V = V_field > threshold
+    # Label connected components
+    labeled_array, num_features = label(binary_V)
+    return num_features
+
 # --- Main Simulation and Analysis Loop ---
 def run_gray_scott_with_spectral_gamma(
     grid_size=10,
@@ -122,6 +130,7 @@ def run_gray_scott_with_spectral_gamma(
     lambda_0_values = []
     lambda_1_values = []
     lambda_2_values = []
+    component_counts = [] # New list for component counts
     time_steps = []
 
     print(f"Starting Gray-Scott simulation with F={F}, k={k}, Du={Du}, Dv={Dv}, grid_size={grid_size}")
@@ -142,6 +151,11 @@ def run_gray_scott_with_spectral_gamma(
             lambda_2_values.append(l2)
             time_steps.append(step)
             print(f"  Gamma: {gamma:.4f}, Lambda_0: {l0:.2e}, Lambda_1: {l1:.4f}, Lambda_2: {l2:.4f}")
+
+            # Calculate and store component count
+            num_components = count_components(V[1:-1, 1:-1])
+            component_counts.append(num_components)
+            print(f"  Component Count: {num_components}")
 
     # Plotting results
     output_dir = "gray_scott_analysis_results"
@@ -168,6 +182,16 @@ def run_gray_scott_with_spectral_gamma(
     plt.grid(True)
     plt.legend()
     plt.savefig(os.path.join(output_dir, f'eigenvalues_F{F}_k{k}.png'))
+    plt.close()
+
+    plt.figure(figsize=(12, 6))
+    plt.plot(time_steps, component_counts, label='Connected Components (V > 0.2)', color='green')
+    plt.xlabel('Simulation Step')
+    plt.ylabel('Number of Connected Components')
+    plt.title(f'Connected Components over time for F={F}, k={k}')
+    plt.grid(True)
+    plt.legend()
+    plt.savefig(os.path.join(output_dir, f'component_counts_F{F}_k{k}.png'))
     plt.close()
 
     # Function to plot concentration fields
@@ -200,6 +224,7 @@ def run_gray_scott_with_spectral_gamma(
         "lambda_0_values": lambda_0_values,
         "lambda_1_values": lambda_1_values,
         "lambda_2_values": lambda_2_values,
+        "component_counts": component_counts, # Include component counts
         "time_steps": time_steps
     }
 

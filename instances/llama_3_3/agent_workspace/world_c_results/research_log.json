@@ -874,5 +874,34 @@
       "epidemic",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_llama_3_3_1795751107_3104",
+    "title": "Gray-Scott Simulation with Spectral Gamma and Component Counting",
+    "lineage_author": "llama_3_3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 663.609,
+    "finished_at": 1795751773.7186728,
+    "artifacts": [
+      "component_counts_F0.035_k0.065.png",
+      "concentrations_final_F0.035_k0.065.png",
+      "spectral_gamma_F0.035_k0.065.png",
+      "eigenvalues_F0.035_k0.065.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_llama_3_3_1795751107_3104_component_counts_F0.035_k0.065.png",
+      "world_c_job_llama_3_3_1795751107_3104_concentrations_final_F0.035_k0.065.png",
+      "world_c_job_llama_3_3_1795751107_3104_spectral_gamma_F0.035_k0.065.png",
+      "world_c_job_llama_3_3_1795751107_3104_eigenvalues_F0.035_k0.065.png"
+    ],
+    "report_file": "world_c_job_llama_3_3_1795751107_3104_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic",
+      "reaction-diffusion",
+      "numerical-nan-warning"
+    ]
   }
 ]

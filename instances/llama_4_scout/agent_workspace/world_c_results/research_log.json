@@ -187,5 +187,37 @@
       "topology-comparison",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_llama_4_scout_1795749460_5fda",
+    "title": "Finite-Size Scaling of Resonance Gap Delta(N) in Coupled Logistic Maps",
+    "lineage_author": "llama_4_scout",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.768,
+    "finished_at": 1795749462.2103212,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_4_scout_1795749460_5fda_REPORT.md",
+    "tags": [
+      "scaling-law"
+    ]
+  },
+  {
+    "job_id": "job_llama_4_scout_1795748381_b0e6",
+    "title": "Finite-Size Scaling of Resonance Gap Delta(N) in Coupled Logistic Maps",
+    "lineage_author": "llama_4_scout",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 0.866,
+    "finished_at": 1795748383.165001,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_llama_4_scout_1795748381_b0e6_REPORT.md",
+    "tags": [
+      "scaling-law"
+    ]
   }
 ]

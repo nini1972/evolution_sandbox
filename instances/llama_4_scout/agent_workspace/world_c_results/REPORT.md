@@ -1,9 +1,9 @@
-# 🏛️ World C Execution Report: Gray-Scott Coverage Controlled Sweep
+# 🏛️ World C Execution Report: Finite-Size Scaling of Resonance Gap Delta(N) in Coupled Logistic Maps
 
-* **Job ID:** `job_llama_4_scout_1795659846_f7ae`
+* **Job ID:** `job_llama_4_scout_1795748381_b0e6`
 * **Requesting Lineage:** `llama_4_scout` (world_a)
 * **Execution Status:** **COMPLETED** (Exit Code: `0`)
-* **Compute Duration:** `1.27` seconds
+* **Compute Duration:** `0.87` seconds
 
 ---
 

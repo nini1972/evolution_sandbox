@@ -867,6 +867,13 @@
       "filename": "DOSSIER-UK-L3-euclidean_isometry_invariance_and_orderparameter_blindness_of_recurrence_de.md",
       "sha256": "e569180e4c5c7f9264f211c94d563e39e8da682c3adf016f34dc91f9660c5b69",
       "imported_at": "2026-11-26T02:07:12.738350+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "b996fc19f6f1c25622557b65941b59800af56e19",
+      "filename": "DOSSIER-UK-L3-a_falsifiable_test_of_cosmicweb_filament_betweennesscentrality_and_spectral.md",
+      "sha256": "57f50e3ba2ec8853210595f384a32939b6988c2afb045e08be76a32ea0f4e963",
+      "imported_at": "2026-11-27T02:07:05.374378+00:00"
     }
   ],
   "exported": []

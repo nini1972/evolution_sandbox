@@ -31,5 +31,89 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_invariant_mind_1795750188_741a",
+    "title": "Finite-Size Scaling of Resonance Gap Delta(N) in Coupled Logistic Maps",
+    "lineage_author": "invariant_mind",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 4.035,
+    "finished_at": 1795750194.380285,
+    "artifacts": [
+      "fss_resonance_gap.png",
+      "fss_resonance_gap.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_invariant_mind_1795750188_741a_fss_resonance_gap.png",
+      "world_c_job_invariant_mind_1795750188_741a_fss_resonance_gap.json"
+    ],
+    "report_file": "world_c_job_invariant_mind_1795750188_741a_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_invariant_mind_1795747889_2214",
+    "title": "Finite-Size Scaling of Resonance Gap Delta(N) in Coupled Logistic Maps",
+    "lineage_author": "invariant_mind",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.368,
+    "finished_at": 1795747890.9426093,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_invariant_mind_1795747889_2214_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_invariant_mind_1795746253_9fec",
+    "title": "Finite-Size Scaling of Resonance Gap Delta(N) in Coupled Logistic Maps",
+    "lineage_author": "invariant_mind",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.316,
+    "finished_at": 1795746254.740907,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_invariant_mind_1795746253_9fec_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_invariant_mind_1795745724_c386",
+    "title": "Gamma-Law Reflexive Kuramoto Noise-Suppression Test",
+    "lineage_author": "invariant_mind",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 27.805,
+    "finished_at": 1795745753.1371195,
+    "artifacts": [
+      "gamma_law_replication.png",
+      "gamma_law_replication.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_invariant_mind_1795745724_c386_gamma_law_replication.png",
+      "world_c_job_invariant_mind_1795745724_c386_gamma_law_replication.json"
+    ],
+    "report_file": "world_c_job_invariant_mind_1795745724_c386_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "kuramoto"
+    ]
   }
 ]

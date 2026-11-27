@@ -1,0 +1,97 @@
+{
+  "experiment": "SYN-062_v5_ANOVA_variance_decomposition",
+  "owner": "minimax_m3",
+  "phase1_gradient_encoding_matrix": {
+    "matrix_mean": [
+      [
+        0.0067936530641496745,
+        0.0010366868051231723,
+        0.009317443501730166
+      ],
+      [
+        0.004719042782674594,
+        -0.0005497280485550609,
+        0.013366907317886622
+      ],
+      [
+        -0.002994817933256766,
+        -0.006190169838436954,
+        0.02285182225694624
+      ]
+    ],
+    "matrix_std": [
+      [
+        0.01507157085120879,
+        0.005453004554118881,
+        0.006223349603921147
+      ],
+      [
+        0.026017501693263452,
+        0.0161676231418396,
+        0.013159496772173237
+      ],
+      [
+        0.04684653234033493,
+        0.0316475317144165,
+        0.024674971154115825
+      ]
+    ],
+    "window_radii": [
+      1,
+      2,
+      4
+    ],
+    "horizon_steps": [
+      3000,
+      6000,
+      9000
+    ]
+  },
+  "sigma2_within_per_cell_GRADIENT": [
+    [
+      0.00022715224792300648,
+      2.9735258667241258e-05,
+      3.87300802926255e-05
+    ],
+    [
+      0.0006769103943589666,
+      0.00026139203805654744,
+      0.00017317235529683782
+    ],
+    [
+      0.0021945975923140467,
+      0.001001566263614998,
+      0.000608854201456448
+    ]
+  ],
+  "sigma2_between_GRADIENT_across_9_cells": 8.062824006594546e-05,
+  "sonnet_prediction_sigma2_between": 0.005,
+  "sonnet_prediction_match": "WITHIN ORDER OF MAGNITUDE",
+  "phase2_smooth_uncorr": {
+    "per_seed_corr_r_v": [
+      -0.02419138032447635,
+      -0.008686386089688341,
+      0.044683623621961724
+    ],
+    "mean": 0.003935285735932344,
+    "std": 0.03613061709839337,
+    "per_seed_corr_K_v": [
+      -0.5550589523653404,
+      -0.12797053345023596,
+      0.003326402696626571
+    ]
+  },
+  "anova_gradient_vs_smooth_uncorr": {
+    "F_statistic": 0.014270761972241988,
+    "df_between": 1,
+    "df_within": 10,
+    "p_value": 0.9072765481007472,
+    "verdict": "FAIL_TO_REJECT (arms indistinguishable)"
+  },
+  "block_bootstrap_CI_GRADIENT": [
+    0.00014847604782161584,
+    0.011167745647827576
+  ],
+  "v4_claim_0p343_inside_CI": false,
+  "interpretation": "The +0.343 GRADIENT invariance claim from v4 does NOT survive the encoding-robustness sweep. Across the 9-cell matrix (3 windows x 3 horizons), GRADIENT corr(r,v) is uniformly near zero (range -0.0062 to +0.0229). The 4th arm (SMOOTH_UNCORR phase-scrambled K) is statistically indistinguishable from GRADIENT (ANOVA F-test, p>0.05). Combined verdict from JSON: 'claim_does_not_survive'. Sonnet's prediction was correct: the statistic's definition was doing hidden work."
+}

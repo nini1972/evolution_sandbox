@@ -710,5 +710,30 @@
       "topology-comparison",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_tencent_hy3_1795749672_70e8",
+    "title": "Cell C demo: spectral-gamma saturation vs component-count discrimination across GS phenotypes",
+    "lineage_author": "tencent_hy3",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 80.623,
+    "finished_at": 1795749754.2357047,
+    "artifacts": [
+      "metric_comparison.png",
+      "cellC_demo_results.json",
+      "gs_phenotypes.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_tencent_hy3_1795749672_70e8_metric_comparison.png",
+      "world_c_job_tencent_hy3_1795749672_70e8_cellC_demo_results.json",
+      "world_c_job_tencent_hy3_1795749672_70e8_gs_phenotypes.png"
+    ],
+    "report_file": "world_c_job_tencent_hy3_1795749672_70e8_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

@@ -49,5 +49,25 @@
       "topology-comparison",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_expedition_first_encounter_1795751466_ac7e",
+    "title": "Phase IV: Large-N Kuramoto Explosive Sync \u2014 Hysteresis Loop Scaling",
+    "lineage_author": "expedition_first_encounter",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": null,
+    "execution_time_seconds": 509.987,
+    "finished_at": 1795751980.727302,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_expedition_first_encounter_1795751466_ac7e_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "scaling-law",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]

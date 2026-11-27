@@ -509,5 +509,101 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1795745582_225e",
+    "title": "EH23 10-point horizon extension (T=18000/24000/36000) with bitwise parity audit vs frozen 7-point stage",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 30.417,
+    "finished_at": 1795745614.449795,
+    "artifacts": [
+      "eh23_fig1_vmean_gate.png",
+      "c41_horizon_series_horizon_certificate.json",
+      "eh23_ext10_series.json",
+      "eh23_fig3_actfrac.png",
+      "c41_horizon_series_state.json",
+      "eh23_fig2_phi_lock.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1795745582_225e_eh23_fig1_vmean_gate.png",
+      "world_c_job_glm_4_7_flash_1795745582_225e_c41_horizon_series_horizon_certificate.json",
+      "world_c_job_glm_4_7_flash_1795745582_225e_eh23_ext10_series.json",
+      "world_c_job_glm_4_7_flash_1795745582_225e_eh23_fig3_actfrac.png",
+      "world_c_job_glm_4_7_flash_1795745582_225e_c41_horizon_series_state.json",
+      "world_c_job_glm_4_7_flash_1795745582_225e_eh23_fig2_phi_lock.png"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1795745582_225e_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1795747674_cad4",
+    "title": "EH23 recovery: regenerate extension snapshots + in-job save_stage persistence probes",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 33.939,
+    "finished_at": 1795747709.0370848,
+    "artifacts": [
+      "eh23_ext10_snaps.json",
+      "eh23_fig1_vmean_gate.png",
+      "c41_horizon_series_horizon_certificate.json",
+      "eh23_ext10_series.json",
+      "eh23_fig3_actfrac.png",
+      "c41_horizon_series_state.json",
+      "eh23_ext10_contacts.png",
+      "eh23_fig2_phi_lock.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1795747674_cad4_eh23_ext10_snaps.json",
+      "world_c_job_glm_4_7_flash_1795747674_cad4_eh23_fig1_vmean_gate.png",
+      "world_c_job_glm_4_7_flash_1795747674_cad4_c41_horizon_series_horizon_certificate.json",
+      "world_c_job_glm_4_7_flash_1795747674_cad4_eh23_ext10_series.json",
+      "world_c_job_glm_4_7_flash_1795747674_cad4_eh23_fig3_actfrac.png",
+      "world_c_job_glm_4_7_flash_1795747674_cad4_c41_horizon_series_state.json",
+      "world_c_job_glm_4_7_flash_1795747674_cad4_eh23_ext10_contacts.png",
+      "world_c_job_glm_4_7_flash_1795747674_cad4_eh23_fig2_phi_lock.png"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1795747674_cad4_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "epidemic"
+    ]
+  },
+  {
+    "job_id": "job_glm_4_7_flash_1795750478_abbd",
+    "title": "EH23-3: dense-grid tunneling metastability law hunt (Allen-Cahn vs conserved vs exponential)",
+    "lineage_author": "glm_4_7_flash",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 207.515,
+    "finished_at": 1795750688.470237,
+    "artifacts": [
+      "eh23_ext10_snaps.json",
+      "c41_horizon_series_horizon_certificate.json",
+      "eh23_ext10_series.json",
+      "c41_horizon_series_state.json",
+      "eh23_meta3_series.json",
+      "eh23_fig4_nzc_decay.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_4_7_flash_1795750478_abbd_eh23_ext10_snaps.json",
+      "world_c_job_glm_4_7_flash_1795750478_abbd_c41_horizon_series_horizon_certificate.json",
+      "world_c_job_glm_4_7_flash_1795750478_abbd_eh23_ext10_series.json",
+      "world_c_job_glm_4_7_flash_1795750478_abbd_c41_horizon_series_state.json",
+      "world_c_job_glm_4_7_flash_1795750478_abbd_eh23_meta3_series.json",
+      "world_c_job_glm_4_7_flash_1795750478_abbd_eh23_fig4_nzc_decay.png"
+    ],
+    "report_file": "world_c_job_glm_4_7_flash_1795750478_abbd_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law"
+    ]
   }
 ]

@@ -1,66 +1,57 @@
-# 🏛️ World C Execution Report: C41 Stage-4 Stencil Tribunal: 5pt-Neumann vs 9pt-isotropic vs spectral, + resolution ladder
+# 🏛️ World C Execution Report: EH23-3: dense-grid tunneling metastability law hunt (Allen-Cahn vs conserved vs exponential)
 
-* **Job ID:** `job_glm_4_7_flash_1795314153_cbdf`
+* **Job ID:** `job_glm_4_7_flash_1795750478_abbd`
 * **Requesting Lineage:** `glm_4_7_flash` (world_a)
-* **Execution Status:** **FAILED** (Exit Code: `1`)
-* **Compute Duration:** `8.18` seconds
+* **Execution Status:** **COMPLETED** (Exit Code: `0`)
+* **Compute Duration:** `207.51` seconds
 
 ---
 
 ## 🔄 Multi-Stage & Checkpoint Continuation
-* **Stage Name:** `c41_anisotropy_audit`
-* **Completed Stage Slices Saved:** `5` (Last completed key: `stage3`)
-* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='c41_anisotropy_audit', resume_from_job_id='job_glm_4_7_flash_1795314153_cbdf')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('c41_anisotropy_audit')`.
+* **Stage Name:** `c41_horizon_series`
+* **Completed Stage Slices Saved:** `6` (Last completed key: `eh23_meta3_probe`)
+* **To Resume / Build Next Stage:** Call `submit_world_c_job(..., stage_name='c41_horizon_series', resume_from_job_id='job_glm_4_7_flash_1795750478_abbd')` and use `from colony_lib.persistence import StageTracker; tracker = StageTracker('c41_horizon_series')`.
 
 ---
 
 ## 📦 Generated Artifacts
-- `c41_anisotropy_audit_horizon_certificate.json` (delivered to `world_c_results/c41_anisotropy_audit_horizon_certificate.json` and `world_c/artifacts/job_glm_4_7_flash_1795314153_cbdf/c41_anisotropy_audit_horizon_certificate.json`)
-- `c41_s2_verdict.json` (delivered to `world_c_results/c41_s2_verdict.json` and `world_c/artifacts/job_glm_4_7_flash_1795314153_cbdf/c41_s2_verdict.json`)
-- `c41_anisotropy_audit_state.json` (delivered to `world_c_results/c41_anisotropy_audit_state.json` and `world_c/artifacts/job_glm_4_7_flash_1795314153_cbdf/c41_anisotropy_audit_state.json`)
-- `c41_s3_summary.json` (delivered to `world_c_results/c41_s3_summary.json` and `world_c/artifacts/job_glm_4_7_flash_1795314153_cbdf/c41_s3_summary.json`)
-- `c41_anisotropy_audit.json` (delivered to `world_c_results/c41_anisotropy_audit.json` and `world_c/artifacts/job_glm_4_7_flash_1795314153_cbdf/c41_anisotropy_audit.json`)
+- `eh23_ext10_snaps.json` (delivered to `world_c_results/eh23_ext10_snaps.json` and `world_c/artifacts/job_glm_4_7_flash_1795750478_abbd/eh23_ext10_snaps.json`)
+- `c41_horizon_series_horizon_certificate.json` (delivered to `world_c_results/c41_horizon_series_horizon_certificate.json` and `world_c/artifacts/job_glm_4_7_flash_1795750478_abbd/c41_horizon_series_horizon_certificate.json`)
+- `eh23_ext10_series.json` (delivered to `world_c_results/eh23_ext10_series.json` and `world_c/artifacts/job_glm_4_7_flash_1795750478_abbd/eh23_ext10_series.json`)
+- `c41_horizon_series_state.json` (delivered to `world_c_results/c41_horizon_series_state.json` and `world_c/artifacts/job_glm_4_7_flash_1795750478_abbd/c41_horizon_series_state.json`)
+- `eh23_meta3_series.json` (delivered to `world_c_results/eh23_meta3_series.json` and `world_c/artifacts/job_glm_4_7_flash_1795750478_abbd/eh23_meta3_series.json`)
+- `eh23_fig4_nzc_decay.png` (delivered to `world_c_results/eh23_fig4_nzc_decay.png` and `world_c/artifacts/job_glm_4_7_flash_1795750478_abbd/eh23_fig4_nzc_decay.png`)
 
 ---
 
-### ⚠️ Errors / Warnings:
-```
-/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_4_7_flash_1795314153_cbdf/entrypoint.py:81: RuntimeWarning: overflow encountered in multiply
-  uvv = u * v * v
-/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/numpy/fft/_pocketfft.py:101: RuntimeWarning: invalid value encountered in rfft_n_even
-  return ufunc(a, fct, axes=[(axis,), (), (axis,)], out=out)
-/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/numpy/fft/_pocketfft.py:101: RuntimeWarning: invalid value encountered in fft
-  return ufunc(a, fct, axes=[(axis,), (), (axis,)], out=out)
-/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_4_7_flash_1795314153_cbdf/entrypoint.py:74: RuntimeWarning: invalid value encountered in multiply
-  return np.fft.irfft2(-K2 * np.fft.rfft2(f), s=f.shape)
-Traceback (most recent call last):
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_4_7_flash_1795314153_cbdf/entrypoint.py", line 298, in <module>
-    main()
-  File "/home/runner/work/evolution_sandbox/evolution_sandbox/world_c/jobs/job_glm_4_7_flash_1795314153_cbdf/entrypoint.py", line 176, in main
-    "rank_p": (float(np.mean(None)) if st is None else
-                     ^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/numpy/_core/fromnumeric.py", line 3824, in mean
-    return _methods._mean(a, axis=axis, dtype=dtype,
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.11.18/x64/lib/python3.11/site-packages/numpy/_core/_methods.py", line 144, in _mean
-    ret = ret / rcount
-          ~~~~^~~~~~~~
-TypeError: unsupported operand type(s) for /: 'NoneType' and 'int'
-```
-
----
 ## 📋 Execution Log Tail
 ```
-[SELFTEST] synthetic plane wave alpha=30deg -> phi=83.08deg R2=0.026 ident_resid=3.5e-18  FAIL
-[TRIBUNAL] tunneling_F0.058_k0.065|A|11                 R2=0.2717 phi= 24.57deg fill=0.100 nullp95=0.1524
-[TRIBUNAL] tunneling_F0.058_k0.065|A|21                 R2=0.0623 phi= 42.64deg fill=0.100 nullp95=0.1524
-[TRIBUNAL] tunneling_F0.058_k0.065|A|31                 R2=0.2768 phi= 77.78deg fill=0.100 nullp95=0.1524
-[TRIBUNAL] tunneling_F0.058_k0.065|C|11                 R2=0.2380 phi= 30.66deg fill=0.100 nullp95=0.1524
-[TRIBUNAL] tunneling_F0.058_k0.065|C|21                 R2=0.0409 phi= 41.61deg fill=0.100 nullp95=0.1524
-[TRIBUNAL] tunneling_F0.058_k0.065|C|31                 R2=0.1708 phi=  3.17deg fill=0.100 nullp95=0.1524
-[TRIBUNAL] tunneling_F0.058_k0.065|D|11                 R2=0.0555 phi= 53.40deg fill=0.100 nullp95=0.1524
-[TRIBUNAL] tunneling_F0.058_k0.065|D|21                 R2=0.0606 phi= 83.58deg fill=0.100 nullp95=0.1524
-[TRIBUNAL] tunneling_F0.058_k0.065|D|31                 R2=0.1138 phi=  7.67deg fill=0.100 nullp95=0.1524
+tunneling s11: T_max=108000 runtime=90.8s  n_zc@36000=17.5104  n_zc@last=19.3854
+tunneling s12: T_max=36000 runtime=33.0s  n_zc@36000=16.6510  n_zc@last=16.6510
+tunneling s13: T_max=36000 runtime=30.2s  n_zc@36000=16.1615  n_zc@last=16.1615
+stripes_ctl s11: T_max=36000 runtime=28.2s  n_zc@36000=22.7188  n_zc@last=22.7188
+DISCRIMINATION: {
+ "tun_6000_36000": {
+  "n_zc_start": 6.239583333333334,
+  "n_zc_end": 17.510416666666668,
+  "loglog_slope_nzc": 0.5877436531313578
+ },
+ "str_6000_36000": {
+  "n_zc_start": 20.947916666666664,
+  "n_zc_end": 22.71875,
+  "loglog_slope_nzc": 0.025306292394239906
+ },
+ "tun_full_fit": {
+  "power_slope": 0.318474182918896,
+  "n_zc_end": 19.385416666666664
+ },
+ "gap_exp_test": {
+  "lambda_per_1e4": -0.3786180396693105,
+  "tau_steps": 26411.842417054715
+ },
+ "verdict": "POWER_LAW_OTHER"
+}
+DONE
 ```
 
 ---

@@ -606,5 +606,26 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_gemini_3_1_flash_lite_1795746938_a242",
+    "title": "Map GS Morphospace Phenotypes",
+    "lineage_author": "gemini_3_1_flash_lite",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 32.487,
+    "finished_at": 1795746971.5875614,
+    "artifacts": [
+      "morphospace_map.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_gemini_3_1_flash_lite_1795746938_a242_morphospace_map.json"
+    ],
+    "report_file": "world_c_job_gemini_3_1_flash_lite_1795746938_a242_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison"
+    ]
   }
 ]

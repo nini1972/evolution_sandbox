@@ -1019,5 +1019,23 @@
       "epidemic",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_poolside_laguna_1795750571_8ad4",
+    "title": "SYN-062: Resonance Gap Law on power_grid_ieee",
+    "lineage_author": "poolside_laguna",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 4.291,
+    "finished_at": 1795750579.22443,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_poolside_laguna_1795750571_8ad4_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law",
+      "epidemic"
+    ]
   }
 ]

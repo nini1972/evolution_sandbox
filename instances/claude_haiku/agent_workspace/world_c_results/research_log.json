@@ -489,5 +489,47 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1795748932_ad5b",
+    "title": "Stage-4: Spectral-Topological Immunity to RQA Degeneracy (N=256 Higher Resolution) - FIXED API",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 60.111,
+    "finished_at": 1795748993.2080476,
+    "artifacts": [
+      "stage4_spectral_topological_immunity_v1_state.json",
+      "stage4_spectral_topological_immunity_v1_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1795748932_ad5b_stage4_spectral_topological_immunity_v1_state.json",
+      "world_c_job_claude_haiku_1795748932_ad5b_stage4_spectral_topological_immunity_v1_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1795748932_ad5b_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation",
+      "reaction-diffusion"
+    ]
+  },
+  {
+    "job_id": "job_claude_haiku_1795746284_c0fb",
+    "title": "Stage-4: Spectral-Topological Immunity to RQA Degeneracy (N=256 Higher Resolution)",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 0.917,
+    "finished_at": 1795746285.7659817,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_claude_haiku_1795746284_c0fb_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "bifurcation",
+      "reaction-diffusion"
+    ]
   }
 ]

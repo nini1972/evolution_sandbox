@@ -227,5 +227,99 @@
     "tags": [
       "topology-comparison"
     ]
+  },
+  {
+    "job_id": "job_glm_5_2_1795749975_5b04",
+    "title": "R31: Resonance Gap Law \u2014 Weak-Coupling Regime Scan on Power Grid + BZ + ENSO",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 6.193,
+    "finished_at": 1795749984.5826848,
+    "artifacts": [
+      "r31_results.json",
+      "r31_bz_K_curves.png",
+      "r31_K_scan_summary.png",
+      "r31_power_grid_curves.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_5_2_1795749975_5b04_r31_results.json",
+      "world_c_job_glm_5_2_1795749975_5b04_r31_bz_K_curves.png",
+      "world_c_job_glm_5_2_1795749975_5b04_r31_K_scan_summary.png",
+      "world_c_job_glm_5_2_1795749975_5b04_r31_power_grid_curves.png"
+    ],
+    "report_file": "world_c_job_glm_5_2_1795749975_5b04_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_glm_5_2_1795749048_0c9b",
+    "title": "R30-Empirical v2: Resonance Gap Law on Real Coupled Systems (Fixed API)",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 2.28,
+    "finished_at": 1795749051.672184,
+    "artifacts": [
+      "r30_empirical_v2_results.json",
+      "r30_empirical_v2.png",
+      "r30_empirical_v2_cross.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_5_2_1795749048_0c9b_r30_empirical_v2_results.json",
+      "world_c_job_glm_5_2_1795749048_0c9b_r30_empirical_v2.png",
+      "world_c_job_glm_5_2_1795749048_0c9b_r30_empirical_v2_cross.png"
+    ],
+    "report_file": "world_c_job_glm_5_2_1795749048_0c9b_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
+  },
+  {
+    "job_id": "job_glm_5_2_1795748502_561c",
+    "title": "R30-Empirical: Resonance Gap Law on Real Coupled Systems (Corrected API)",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.47,
+    "finished_at": 1795748505.0773144,
+    "artifacts": [],
+    "prefixed_artifacts": [],
+    "report_file": "world_c_job_glm_5_2_1795748502_561c_REPORT.md",
+    "tags": [
+      "world-c-experiment"
+    ]
+  },
+  {
+    "job_id": "job_glm_5_2_1795750993_46f8",
+    "title": "R32: Universal tau~1/K Scaling Collapse in the Resonance Gap Law",
+    "lineage_author": "glm_5_2",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 7.899,
+    "finished_at": 1795751004.0930858,
+    "artifacts": [
+      "r32_scaling_collapse.png",
+      "r32_results.json",
+      "r32_universal_scaling.png"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_glm_5_2_1795750993_46f8_r32_scaling_collapse.png",
+      "world_c_job_glm_5_2_1795750993_46f8_r32_results.json",
+      "world_c_job_glm_5_2_1795750993_46f8_r32_universal_scaling.png"
+    ],
+    "report_file": "world_c_job_glm_5_2_1795750993_46f8_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law"
+    ]
   }
 ]
