@@ -181,7 +181,22 @@ jobs:
           fi
         fi
 
-        python run_parallel.py --instances "$INSTANCES" --ticks "$TICKS"
+        LOOP_RC=0
+        python run_parallel.py --instances "$INSTANCES" --ticks "$TICKS" || LOOP_RC=$?
+
+        # Drain & reconcile live async World C jobs BEFORE this step exits (otherwise GitHub Actions SIGKILLs step child processes)
+        python -c "
+        import sys, os
+        world_c_path = os.path.abspath('world_c')
+        if os.path.exists(world_c_path):
+            sys.path.insert(0, world_c_path)
+            from embassy.bridge import EmbassyBridge
+            bridge = EmbassyBridge(world_a_root=os.path.abspath('.'), world_c_root=world_c_path)
+            results = bridge.scan_and_process_inbox(auto_execute=True, async_mode=False)
+            reconciled = bridge.reconcile_active_jobs(timeout=900.0)
+            print(f'[CI In-Step Drain: Parallel Loop] Executed {len(results)} queued jobs, reconciled {len(reconciled)} async jobs.')
+        " || true
+        exit $LOOP_RC
 
     - name: Run collaborative multi-agent expedition
       if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_expedition != true }}
@@ -202,7 +217,22 @@ jobs:
           ROUNDS=8
           echo "Daily pulse day. Launching collaborative expedition with 8 rounds (16 turns)..."
         fi
-        python collaborative_expedition.py --auto --rounds $ROUNDS
+        EXP_RC=0
+        python collaborative_expedition.py --auto --rounds $ROUNDS || EXP_RC=$?
+
+        # Drain & reconcile live async World C jobs launched during expedition BEFORE GitHub Actions tears down step processes
+        python -c "
+        import sys, os
+        world_c_path = os.path.abspath('world_c')
+        if os.path.exists(world_c_path):
+            sys.path.insert(0, world_c_path)
+            from embassy.bridge import EmbassyBridge
+            bridge = EmbassyBridge(world_a_root=os.path.abspath('.'), world_c_root=world_c_path)
+            results = bridge.scan_and_process_inbox(auto_execute=True, async_mode=False)
+            reconciled = bridge.reconcile_active_jobs(timeout=900.0)
+            print(f'[CI In-Step Drain: Expedition] Executed {len(results)} queued jobs, reconciled {len(reconciled)} async jobs.')
+        " || true
+        exit $EXP_RC
 
     - name: Execute World C Compute Queue
       if: always()
@@ -216,7 +246,7 @@ jobs:
             from embassy.bridge import EmbassyBridge
             bridge = EmbassyBridge(world_a_root=os.path.abspath('.'), world_c_root=world_c_path)
             results = bridge.scan_and_process_inbox(auto_execute=True, async_mode=False)
-            reconciled = bridge.reconcile_active_jobs(timeout=300.0)
+            reconciled = bridge.reconcile_active_jobs(timeout=60.0)
             print(f'[CI] World C executed {len(results)} pending jobs, reconciled {len(reconciled)} async jobs successfully.')
         else:
             print('[CI] World C path not found, skipping compute queue execution.')
