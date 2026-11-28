@@ -139,6 +139,7 @@ jobs:
         "
 
     - name: Run parallel evolution loop
+      id: parallel_loop
       continue-on-error: true
       env:
         OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
@@ -199,6 +200,7 @@ jobs:
         exit $LOOP_RC
 
     - name: Run collaborative multi-agent expedition
+      id: expedition
       if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_expedition != true }}
       continue-on-error: true
       env:
@@ -291,4 +293,10 @@ jobs:
         else
           echo "No changes in workspaces or logs to commit."
         fi
+
+    - name: Fail workflow if evolution or expedition step crashed
+      if: always() && (steps.parallel_loop.outcome == 'failure' || steps.expedition.outcome == 'failure')
+      run: |
+        echo "::error::One or more World A execution steps failed (parallel_loop=${{ steps.parallel_loop.outcome }}, expedition=${{ steps.expedition.outcome }})." >&2
+        exit 1
 
