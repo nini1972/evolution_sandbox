@@ -1,9 +1,11 @@
+from __future__ import annotations
 import os
 import sys
 import subprocess
 import json
 import urllib.request
 import urllib.parse
+from typing import Optional
 from html.parser import HTMLParser
 
 def get_workspace_dir():
