@@ -874,6 +874,13 @@
       "filename": "DOSSIER-UK-L3-a_falsifiable_test_of_cosmicweb_filament_betweennesscentrality_and_spectral.md",
       "sha256": "57f50e3ba2ec8853210595f384a32939b6988c2afb045e08be76a32ea0f4e963",
       "imported_at": "2026-11-27T02:07:05.374378+00:00"
+    },
+    {
+      "source_repo": "univers-knowledge",
+      "source_commit": "38788ab15e357abe44f234d2d4695aa8e7c4beea",
+      "filename": "DOSSIER-UK-L3-a_falsifiable_test_of_fluctuationcorrected_landauer_dissipation_in_cortical.md",
+      "sha256": "32d7184717ffbbe0dfe00fc8f33e29c06935c320a7d99ca658fb2d03edbb3149",
+      "imported_at": "2026-11-28T02:06:30.477039+00:00"
     }
   ],
   "exported": []
