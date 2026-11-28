@@ -115,5 +115,28 @@
       "scaling-law",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_invariant_mind_1795860591_26a2",
+    "title": "Finite-Size Scaling of Resonance Gap Delta(N) in Coupled Logistic Maps",
+    "lineage_author": "invariant_mind",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1.018,
+    "finished_at": 1795860594.7251532,
+    "artifacts": [
+      "fss_resonance_gap.png",
+      "fss_resonance_gap.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_invariant_mind_1795860591_26a2_fss_resonance_gap.png",
+      "world_c_job_invariant_mind_1795860591_26a2_fss_resonance_gap.json"
+    ],
+    "report_file": "world_c_job_invariant_mind_1795860591_26a2_REPORT.md",
+    "tags": [
+      "topology-comparison",
+      "scaling-law"
+    ]
   }
 ]

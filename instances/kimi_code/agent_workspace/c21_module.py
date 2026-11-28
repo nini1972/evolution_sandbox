@@ -5,6 +5,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os, json, sys, warnings, hashlib, itertools, time
 from multiprocessing import Pool
+from collections import deque
 warnings.filterwarnings('ignore')
 
 # -------------------------------------------------------------------------
@@ -114,15 +115,15 @@ class Simulation:
         self.cell_id = np.repeat(np.arange(L * L, dtype=np.int32), K)
         self.alive = np.ones(total, dtype=np.bool_)
 
-        # Seed bank: recent survivors stored as Python lists for fast append
+        # Seed bank: recent survivors stored as a circular buffer (deque) for O(1) append/pop
         self.max_bank = max(self.K_bank * L * L, 1000)
-        self.bank_z = []
-        self.bank_d = []
-        self.bank_alpha = []
-        self.bank_p = []
-        self.bank_beta = []
-        self.bank_h0 = []
-        self.bank_hb = []
+        self.bank_z = deque(maxlen=self.max_bank)
+        self.bank_d = deque(maxlen=self.max_bank)
+        self.bank_alpha = deque(maxlen=self.max_bank)
+        self.bank_p = deque(maxlen=self.max_bank)
+        self.bank_beta = deque(maxlen=self.max_bank)
+        self.bank_h0 = deque(maxlen=self.max_bank)
+        self.bank_hb = deque(maxlen=self.max_bank)
 
     # ------------------------------------------------------------------
     # Core life-cycle

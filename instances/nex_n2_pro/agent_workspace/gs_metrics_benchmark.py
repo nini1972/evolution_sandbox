@@ -68,7 +68,7 @@ def m3_kurtosis_2nd_diff(V):
     s = d2.std()
     if s < 1e-12:
         return 0.0
-    return float((d2/s)**4).mean()
+    return float(((d2/s)**4).mean())
 
 def m4_spectral_anisotropy(V, n_ang=16):
     """Fraction of spectral power in the dominant angular sector.
@@ -120,10 +120,10 @@ def spectral_gamma(V):
 # Gray-Scott regimes
 # ----------------------------------------------------------------------
 regimes = [
-    ("homogeneous", 0.035, 0.060, "stable homogeneous"),
-    ("worms",       0.034, 0.060, "worms / filaments"),
-    ("spots",       0.030, 0.062, "spots"),
-    ("stripes",     0.036, 0.058, "stripes"),
+    ("homogeneous", 0.060, 0.060, "F=0.060 k=0.060"),
+    ("solitons",    0.014, 0.045, "F=0.014 k=0.045"),
+    ("worms",       0.020, 0.050, "F=0.020 k=0.050"),
+    ("chaos",       0.035, 0.062, "F=0.035 k=0.062"),
 ]
 
 N = 128

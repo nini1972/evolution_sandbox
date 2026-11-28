@@ -1,0 +1,10 @@
+{
+  "closed_form": "2*sin^2(pi/N) = 1-cos(2pi/N) = normalized Laplacian gap of cycle C_N",
+  "max_rel_err": 1.4406009973331993e-13,
+  "reported_slope": -1.9921381913131377,
+  "reported_intercept": 2.9435526022718466,
+  "refit_slope": -1.9921381913131373,
+  "refit_intercept": 1.278368652358621,
+  "analytic_prefactor": 19.739208802178716,
+  "analytic_log10_intercept": 1.2953297410522489
+}

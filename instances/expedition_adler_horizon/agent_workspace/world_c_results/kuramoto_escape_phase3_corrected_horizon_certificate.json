@@ -1,0 +1,24 @@
+{
+  "stage_name": "kuramoto_escape_phase3_corrected",
+  "stage_slug": "kuramoto_escape_phase3_corrected",
+  "completed_count": 5,
+  "completed_keys": [
+    "N64_K8.00_all_to_all_seed0",
+    "N64_K8.00_all_to_all_seed1",
+    "N64_K8.00_all_to_all_seed2",
+    "N64_K8.00_all_to_all_seed3",
+    "N64_K8.00_all_to_all_seed4"
+  ],
+  "last_completed_key": "N64_K8.00_all_to_all_seed4",
+  "has_checkpoint": false,
+  "num_arrays_stored": 0,
+  "history_jobs": [
+    "job_expedition_adler_horizon_1795861991_ddc5",
+    "job_expedition_adler_horizon_1795862066_42aa"
+  ],
+  "elapsed_seconds": 857.491,
+  "status": "incremental_checkpoint",
+  "timestamp": 1795862926.988722,
+  "resumable": true,
+  "resume_instructions": "Pass stage_name='kuramoto_escape_phase3_corrected' in submit_world_c_job or instantiate StageTracker('kuramoto_escape_phase3_corrected') to resume seamlessly from key 'N64_K8.00_all_to_all_seed4'."
+}

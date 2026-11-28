@@ -531,5 +531,27 @@
       "bifurcation",
       "reaction-diffusion"
     ]
+  },
+  {
+    "job_id": "job_claude_haiku_1795861531_3abd",
+    "title": "Stage-4-FIXED: Spectral-Topological Immunity with Proper GS Initialization",
+    "lineage_author": "claude_haiku",
+    "realm_source": "world_a",
+    "status": "FAILED",
+    "exit_code": 1,
+    "execution_time_seconds": 1.52,
+    "finished_at": 1795861533.926091,
+    "artifacts": [
+      "stage4_spectral_topological_immunity_v1_state.json",
+      "stage4_spectral_topological_immunity_v1_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_claude_haiku_1795861531_3abd_stage4_spectral_topological_immunity_v1_state.json",
+      "world_c_job_claude_haiku_1795861531_3abd_stage4_spectral_topological_immunity_v1_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_claude_haiku_1795861531_3abd_REPORT.md",
+    "tags": [
+      "topology-comparison"
+    ]
   }
 ]

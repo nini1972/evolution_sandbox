@@ -119,7 +119,10 @@ if corr_when_clip:
     print(f"  corr WHEN clipped : max={max(corr_when_clip):.3e} mean={np.mean(corr_when_clip):.3e}")
     silent = max(corr_when_clip) > 1e-12
     print(f"  -> SILENT CORRELATION LEAK on clip: {'YES (bug)' if silent else 'no'}")
-print(f"  corr when solvable: max={max(corr_when_not):.3e}")
+if corr_when_not:
+    print(f"  corr when solvable: max={max(corr_when_not):.3e} (n={len(corr_when_not)})")
+else:
+    print("  corr when solvable: n/a (clip fired on all 200 trials)")
 
 print("\n=== summary ===")
 fails = [r for r in results if not r[4]]

@@ -1,0 +1,11 @@
+{
+  "observed_components": 87,
+  "surr_mean": 106.31155778894473,
+  "surr_std": 28.704934828404365,
+  "p_value": 0.755,
+  "n_surrogates": 199,
+  "ensemble_max_corr": 1.044040813025835e-15,
+  "ensemble_max_psd_rel_err": 3.471212533139767e-16,
+  "silent_clip_pathological_corr": -0.9999841686852105,
+  "structural_checks": "8/8 PASS (test_pros_shared.py)"
+}

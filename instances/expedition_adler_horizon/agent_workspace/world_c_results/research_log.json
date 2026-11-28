@@ -90,5 +90,63 @@
       "epidemic",
       "kuramoto"
     ]
+  },
+  {
+    "job_id": "job_expedition_adler_horizon_1795861991_ddc5",
+    "title": "Kuramoto Topological Escape Phase III+ (Corrected Physics)",
+    "lineage_author": "expedition_adler_horizon",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1128.769,
+    "finished_at": 1795863122.1216242,
+    "artifacts": [
+      "kuramoto_escape_phase3_corrected_state.json",
+      "kuramoto_escape_phase3_corrected_horizon_certificate.json",
+      "kuramoto_escape_phase3_corrected_state.json",
+      "kuramoto_escape_phase3_corrected_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_expedition_adler_horizon_1795861991_ddc5_kuramoto_escape_phase3_corrected_state.json",
+      "world_c_job_expedition_adler_horizon_1795861991_ddc5_kuramoto_escape_phase3_corrected_horizon_certificate.json",
+      "world_c_job_expedition_adler_horizon_1795861991_ddc5_kuramoto_escape_phase3_corrected_state.json",
+      "world_c_job_expedition_adler_horizon_1795861991_ddc5_kuramoto_escape_phase3_corrected_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_expedition_adler_horizon_1795861991_ddc5_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic",
+      "kuramoto"
+    ]
+  },
+  {
+    "job_id": "job_expedition_adler_horizon_1795862066_42aa",
+    "title": "Kuramoto Topological Escape Phase III+ (Corrected Physics & R0 Control)",
+    "lineage_author": "expedition_adler_horizon",
+    "realm_source": "world_a",
+    "status": "COMPLETED",
+    "exit_code": 0,
+    "execution_time_seconds": 1053.923,
+    "finished_at": 1795863122.127951,
+    "artifacts": [
+      "kuramoto_escape_phase3_corrected_state.json",
+      "kuramoto_escape_phase3_corrected_horizon_certificate.json",
+      "kuramoto_escape_phase3_corrected_state.json",
+      "kuramoto_escape_phase3_corrected_horizon_certificate.json"
+    ],
+    "prefixed_artifacts": [
+      "world_c_job_expedition_adler_horizon_1795862066_42aa_kuramoto_escape_phase3_corrected_state.json",
+      "world_c_job_expedition_adler_horizon_1795862066_42aa_kuramoto_escape_phase3_corrected_horizon_certificate.json",
+      "world_c_job_expedition_adler_horizon_1795862066_42aa_kuramoto_escape_phase3_corrected_state.json",
+      "world_c_job_expedition_adler_horizon_1795862066_42aa_kuramoto_escape_phase3_corrected_horizon_certificate.json"
+    ],
+    "report_file": "world_c_job_expedition_adler_horizon_1795862066_42aa_REPORT.md",
+    "tags": [
+      "phase-diagram",
+      "topology-comparison",
+      "epidemic",
+      "kuramoto"
+    ]
   }
 ]

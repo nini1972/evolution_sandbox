@@ -58,13 +58,11 @@ for i, cfg in enumerate(configs):
     
     t_esc_all = []
     for run in range(cfg['n_runs']):
-        omega = np.random.normal(0, cfg['sigma'], cfg['N'])
-        theta0 = np.random.uniform(0, 2*np.pi, cfg['N'])
         result = simulate_kuramoto(
-            theta0=theta0, omega=omega, coupling_matrix=A, K=cfg['K'],
-            t_max=cfg['t_max'], dt=cfg['dt']
+            n_oscillators=cfg['N'], K=cfg['K'], t_max=cfg['t_max'], dt=cfg['dt'],
+            coupling_matrix=A, freq_scale=cfg['sigma'], seed=run
         )
-        R = np.abs(np.mean(np.exp(1j * result), axis=1))
+        R = result['r_series']
         t_esc = cfg['t_max'] if np.max(R) < 0.9 else np.min(np.where(R >= 0.9)[0]) * cfg['dt']
         t_esc_all.append(t_esc)
     
